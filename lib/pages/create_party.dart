@@ -1,53 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CreateParty extends StatefulWidget {
-  @override
-  _CreatePartyState createState() => _CreatePartyState();
-}
+import '../controller/party.dart';
+import '../controller/player.dart';
 
-class _CreatePartyState extends State<CreateParty> {
+class CreateParty extends StatelessWidget {
+  static const int _NB_PLAYERS_MIN = 4;
+  static const int _NB_PLAYERS_MAX = 6;
+
   /// Form key used to validate the form
   final _formKey = GlobalKey<FormState>();
 
-  /// Number of players for the party
-  int _nbPlayers = 4;
+  /// The players for the party
+  final PartyController party = Get.put(PartyController());
 
-  List<Row> _buildFields() {
-    List<Row> rows = [];
-    for (int index = 1; index <= _nbPlayers; index++) {
-      rows.add(Row(
-        children: [
-          Flexible(
-            child: TextFormField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                hintText: "Nom du joueur",
-                labelText: "Joueur $index",
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Veuillez renseigner un nom pour le joueur $index.";
-                }
-                return null;
+  /// Removes the player at the given index
+  void _removePlayer(int index) {
+    party.removePlayer(index);
+  }
+
+  /// Builds the field to modify the player's name
+  _buildPlayerField(int index) {
+    PlayerController player = party.players[index];
+    TextEditingController txtCtrl = TextEditingController(text: player.name);
+    return Dismissible(
+      key: UniqueKey(),
+      child: ListTile(
+        title: TextFormField(
+          controller: txtCtrl,
+          onChanged: (value) => player.name = value,
+          maxLength: 35,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Veuillez renseigner un nom pour le joueur ${index + 1}.";
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            hintText: "Nom du joueur",
+            labelText: "Joueur ${index + 1}",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {
+                txtCtrl.clear();
+                player.name = "";
               },
             ),
           ),
-          Visibility(
-            visible: _nbPlayers > 4,
-            child: TextButton(
-              onPressed: () => setState(() => _nbPlayers--),
-              child: Icon(
-                Icons.delete,
-                color: Colors.red,
-              ),
-            ),
+        ),
+        trailing: Visibility(
+          visible: party.nbPlayers > _NB_PLAYERS_MIN,
+          child: IconButton(
+            icon: Icon(Icons.delete, color: Colors.red),
+            onPressed: () => _removePlayer(index),
           ),
-        ],
-      ));
-    }
-    return rows;
+        ),
+      ),
+      confirmDismiss: (confirm) =>
+          Future.value(party.nbPlayers > _NB_PLAYERS_MIN),
+      onDismissed: (_) => _removePlayer(index),
+    );
   }
 
   @override
@@ -56,14 +71,25 @@ class _CreatePartyState extends State<CreateParty> {
       key: _formKey,
       child: Column(
         children: [
-          ..._buildFields(),
-          Visibility(
-            visible: _nbPlayers < 8,
-            child: TextButton(
-              onPressed: () => setState(() => _nbPlayers++),
-              child: Icon(
-                Icons.add_circle,
-                color: Colors.green,
+          Expanded(
+            child: Obx(
+              () => ListView.builder(
+                itemCount: party.nbPlayers,
+                itemBuilder: (_, index) {
+                  return _buildPlayerField(index);
+                },
+              ),
+            ),
+          ),
+          Obx(
+            () => Visibility(
+              visible: party.nbPlayers < _NB_PLAYERS_MAX,
+              child: TextButton(
+                onPressed: () => party.addPlayer(),
+                child: Icon(
+                  Icons.add_circle,
+                  color: Colors.green,
+                ),
               ),
             ),
           ),

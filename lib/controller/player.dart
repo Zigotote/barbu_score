@@ -1,14 +1,25 @@
+import 'package:get/get.dart';
+
 import 'contract.dart';
 
 /// A player for a party
-class Player {
-  /// The name of the player
-  final String name;
+class PlayerController extends GetxController {
+  /// The id of the player
+  final int id;
 
-  /// The contracts he has finished
+  /// The observable name of the player
+  RxString _name;
+
+  /// The contracts the player has finished
   List<Contract> contracts;
 
-  Player(this.name);
+  PlayerController(this.id) {
+    this._name = "".obs;
+  }
+
+  String get name => _name.value;
+
+  set name(value) => _name.value = value;
 
   /// Returns the list of the contracts the player can choose
   List<ContractsNames> get availableContracts => ContractsNames.values

@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 import 'player.dart';
 
 /// List the names of the contracts for a party
@@ -34,10 +36,10 @@ extension ContractsInfos on ContractsNames {
 }
 
 /// A specific contract scores
-class Contract {
+class Contract extends GetxController {
   /// The name of the contract
   ContractsNames name;
 
   /// The scores of all the players for this contract
-  Map<Player, int> scores;
+  Map<PlayerController, int> scores;
 }
