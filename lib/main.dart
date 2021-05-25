@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import './bindings/party.dart';
 import './pages/create_party.dart';
 
 void main() {
@@ -13,12 +14,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Barbu Score',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Barbu scores"),
+      initialRoute: "/home",
+      getPages: [
+        GetPage(
+          name: "/home",
+          page: () => CreateParty(),
+          binding: PartyBinding(),
         ),
-        body: CreateParty(),
-      ),
+      ],
     );
   }
 }

@@ -3,22 +3,21 @@ import 'package:get/get.dart';
 
 import '../controller/party.dart';
 import '../controller/player.dart';
+import '../pages/choose_contract.dart';
 
-class CreateParty extends StatelessWidget {
+/// A page to create a party by filling the names of the players
+class CreateParty extends GetView<PartyController> {
   /// Form key used to validate the form
   final _formKey = GlobalKey<FormState>();
 
-  /// The players for the party
-  final PartyController party = Get.put(PartyController());
-
   /// Removes the player at the given index
   void _removePlayer(int index) {
-    party.removePlayer(index);
+    controller.removePlayer(index);
   }
 
   /// Builds the field to modify the player's name
   _buildPlayerField(int index) {
-    PlayerController player = party.players[index];
+    PlayerController player = controller.players[index];
     TextEditingController txtCtrl = TextEditingController(text: player.name);
     return Dismissible(
       key: UniqueKey(),
@@ -49,7 +48,7 @@ class CreateParty extends StatelessWidget {
           ),
         ),
         trailing: Visibility(
-          visible: party.nbPlayers > PartyController.NB_PLAYERS_MIN,
+          visible: controller.nbPlayers > PartyController.NB_PLAYERS_MIN,
           child: IconButton(
             icon: Icon(Icons.delete, color: Colors.red),
             onPressed: () => _removePlayer(index),
@@ -57,42 +56,46 @@ class CreateParty extends StatelessWidget {
         ),
       ),
       confirmDismiss: (confirm) =>
-          Future.value(party.nbPlayers > PartyController.NB_PLAYERS_MIN),
+          Future.value(controller.nbPlayers > PartyController.NB_PLAYERS_MIN),
       onDismissed: (_) => _removePlayer(index),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          Expanded(
-            child: Obx(
-              () => ListView.builder(
-                itemCount: party.nbPlayers,
-                itemBuilder: (_, index) {
-                  return _buildPlayerField(index);
-                },
-              ),
-            ),
-          ),
-          Obx(
-            () => Visibility(
-              visible: party.nbPlayers < PartyController.NB_PLAYERS_MAX,
-              child: TextButton(
-                onPressed: () => party.addPlayer(),
-                child: Icon(
-                  Icons.add_circle,
-                  color: Colors.green,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Barbu scores"),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: controller.nbPlayers,
+                  itemBuilder: (_, index) {
+                    return _buildPlayerField(index);
+                  },
                 ),
               ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
+            Obx(
+              () => Visibility(
+                visible: controller.nbPlayers < PartyController.NB_PLAYERS_MAX,
+                child: TextButton(
+                  onPressed: () => controller.addPlayer(),
+                  child: Icon(
+                    Icons.add_circle,
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text("OK"),
