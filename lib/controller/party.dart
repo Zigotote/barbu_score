@@ -6,6 +6,9 @@ import 'player.dart';
 
 /// A party with some players
 class PartyController extends GetxController {
+  static const int NB_PLAYERS_MIN = 4;
+  static const int NB_PLAYERS_MAX = 6;
+
   /// The list of the players for this party
   RxList<PlayerController> _players;
 

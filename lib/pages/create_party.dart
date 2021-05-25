@@ -5,9 +5,6 @@ import '../controller/party.dart';
 import '../controller/player.dart';
 
 class CreateParty extends StatelessWidget {
-  static const int _NB_PLAYERS_MIN = 4;
-  static const int _NB_PLAYERS_MAX = 6;
-
   /// Form key used to validate the form
   final _formKey = GlobalKey<FormState>();
 
@@ -52,7 +49,7 @@ class CreateParty extends StatelessWidget {
           ),
         ),
         trailing: Visibility(
-          visible: party.nbPlayers > _NB_PLAYERS_MIN,
+          visible: party.nbPlayers > PartyController.NB_PLAYERS_MIN,
           child: IconButton(
             icon: Icon(Icons.delete, color: Colors.red),
             onPressed: () => _removePlayer(index),
@@ -60,7 +57,7 @@ class CreateParty extends StatelessWidget {
         ),
       ),
       confirmDismiss: (confirm) =>
-          Future.value(party.nbPlayers > _NB_PLAYERS_MIN),
+          Future.value(party.nbPlayers > PartyController.NB_PLAYERS_MIN),
       onDismissed: (_) => _removePlayer(index),
     );
   }
@@ -83,7 +80,7 @@ class CreateParty extends StatelessWidget {
           ),
           Obx(
             () => Visibility(
-              visible: party.nbPlayers < _NB_PLAYERS_MAX,
+              visible: party.nbPlayers < PartyController.NB_PLAYERS_MAX,
               child: TextButton(
                 onPressed: () => party.addPlayer(),
                 child: Icon(
