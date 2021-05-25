@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import './bindings/party.dart';
+import './pages/choose_contract.dart';
 import './pages/create_party.dart';
 
 void main() {
@@ -14,14 +15,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Barbu Score',
-      initialRoute: "/home",
+      initialRoute: Routes.HOME,
       getPages: [
         GetPage(
-          name: "/home",
+          name: Routes.HOME,
           page: () => CreateParty(),
           binding: PartyBinding(),
+        ),
+        GetPage(
+          name: Routes.CHOOSE_CONTRACT,
+          page: () => ChooseContract(),
         ),
       ],
     );
   }
+}
+
+/// Names of the routes for the app
+class Routes {
+  static const HOME = "/";
+  static const CHOOSE_CONTRACT = "/choose_contract";
 }

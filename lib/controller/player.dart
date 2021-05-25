@@ -28,4 +28,7 @@ class PlayerController extends GetxController {
   /// Returns the list of the contracts the player has already selected
   List<ContractsNames> get choosenContracts =>
       contracts.map((contract) => contract.name);
+
+  @override
+  String toString() => _name.value;
 }

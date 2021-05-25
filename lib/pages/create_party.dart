@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../controller/party.dart';
 import '../controller/player.dart';
-import '../pages/choose_contract.dart';
+import '../main.dart';
 
 /// A page to create a party by filling the names of the players
 class CreateParty extends GetView<PartyController> {
@@ -96,16 +96,16 @@ class CreateParty extends GetView<PartyController> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("OK"),
-                  ),
-                );
-              }
-            },
-            child: Text("Valider"),
-          )
-        ],
+                  Get.toNamed(
+                    Routes.CHOOSE_CONTRACT,
+                    arguments: controller.players.first,
+                  );
+                }
+              },
+              child: Text("Valider"),
+            )
+          ],
+        ),
       ),
     );
   }
