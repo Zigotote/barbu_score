@@ -11,10 +11,11 @@ class PlayerController extends GetxController {
   RxString _name;
 
   /// The contracts the player has finished
-  List<Contract> contracts;
+  List<ContractController> contracts;
 
   PlayerController(this.id) {
     this._name = "".obs;
+    this.contracts = [];
   }
 
   String get name => _name.value;
@@ -23,11 +24,12 @@ class PlayerController extends GetxController {
 
   /// Returns the list of the contracts the player can choose
   List<ContractsNames> get availableContracts => ContractsNames.values
-      .where((contractName) => !choosenContracts.contains(contractName));
+      .where((contractName) => !choosenContracts.contains(contractName))
+      .toList();
 
   /// Returns the list of the contracts the player has already selected
   List<ContractsNames> get choosenContracts =>
-      contracts.map((contract) => contract.name);
+      contracts.map((contract) => contract.name).toList();
 
   @override
   String toString() => _name.value;

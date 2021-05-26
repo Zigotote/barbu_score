@@ -102,7 +102,7 @@ class CreateParty extends GetView<PartyController> {
                   );
                 }
               },
-              child: Text("Valider"),
+              child: Text("Démarrer la partie"),
             )
           ],
         ),

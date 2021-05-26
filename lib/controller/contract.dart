@@ -33,10 +33,31 @@ extension ContractsInfos on ContractsNames {
     }
     return 0;
   }
+
+  /// Returns the name to display for the different contracts
+  String displayName() {
+    switch (this) {
+      case ContractsNames.Barbu:
+        return "Barbu";
+      case ContractsNames.NoHearts:
+        return "Sans coeurs";
+      case ContractsNames.NoQueens:
+        return "Sans dames";
+      case ContractsNames.NoTricks:
+        return "Sans plis";
+      case ContractsNames.NoLastTrick:
+        return "Dernier";
+      case ContractsNames.Trumps:
+        return "Salade";
+      case ContractsNames.Domino:
+        return "Réussite";
+    }
+    return "";
+  }
 }
 
 /// A specific contract scores
-class Contract extends GetxController {
+class ContractController extends GetxController {
   /// The name of the contract
   ContractsNames name;
 
