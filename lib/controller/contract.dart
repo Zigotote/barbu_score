@@ -59,8 +59,10 @@ extension ContractsInfos on ContractsNames {
 /// A specific contract scores
 class ContractController extends GetxController {
   /// The name of the contract
-  ContractsNames name;
+  final ContractsNames name;
 
   /// The scores of all the players for this contract
-  Map<PlayerController, int> scores;
+  final Map<PlayerController, int> scores;
+
+  ContractController(this.name, this.scores);
 }

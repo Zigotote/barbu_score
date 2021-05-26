@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import './bindings/party.dart';
 import './pages/choose_contract.dart';
+import './pages/contract_scores.dart';
 import './pages/create_party.dart';
 
 void main() {
@@ -26,6 +27,10 @@ class MyApp extends StatelessWidget {
           name: Routes.CHOOSE_CONTRACT,
           page: () => ChooseContract(),
         ),
+        GetPage(
+          name: Routes.CONTRACT_SCORES,
+          page: () => ContractScores(),
+        ),
       ],
     );
   }
@@ -35,4 +40,5 @@ class MyApp extends StatelessWidget {
 class Routes {
   static const HOME = "/";
   static const CHOOSE_CONTRACT = "/choose_contract";
+  static const CONTRACT_SCORES = "/contract_scores";
 }

@@ -3,13 +3,12 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 import '../controller/contract.dart';
+import '../controller/party.dart';
 import '../controller/player.dart';
+import '../main.dart';
 
 /// A page for a player to choose his contract
-class ChooseContract extends StatelessWidget {
-  /// The player who needs to choose a contract
-  final PlayerController player = Get.arguments;
-
+class ChooseContract extends GetView<PartyController> {
   /// Builds the list of contracts to display
   List<Widget> _buildContractsList(String title, List<ContractsNames> list) {
     return [
@@ -24,7 +23,10 @@ class ChooseContract extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               child: OutlinedButton(
-                onPressed: () => null,
+                onPressed: () => Get.toNamed(
+                  Routes.CONTRACT_SCORES,
+                  arguments: contract,
+                ),
                 child: Text(contract.displayName()),
               ),
             );
@@ -36,6 +38,7 @@ class ChooseContract extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PlayerController player = controller.currentPlayer;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

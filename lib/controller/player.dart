@@ -31,6 +31,11 @@ class PlayerController extends GetxController {
   List<ContractsNames> get choosenContracts =>
       contracts.map((contract) => contract.name).toList();
 
+  /// Adds a contract for the player, with the scores of each players
+  void addContract(ContractsNames contract, Map<PlayerController, int> scores) {
+    contracts.add(ContractController(contract, scores));
+  }
+
   @override
   String toString() => _name.value;
 }

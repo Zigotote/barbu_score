@@ -96,10 +96,7 @@ class CreateParty extends GetView<PartyController> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  Get.toNamed(
-                    Routes.CHOOSE_CONTRACT,
-                    arguments: controller.players.first,
-                  );
+                  Get.toNamed(Routes.CHOOSE_CONTRACT);
                 }
               },
               child: Text("Démarrer la partie"),
