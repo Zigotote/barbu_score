@@ -5,6 +5,8 @@ import './bindings/party.dart';
 import './pages/choose_contract.dart';
 import './pages/contract_scores.dart';
 import './pages/create_party.dart';
+import './pages/my_home.dart';
+import './theme/my_themes.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,10 +18,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Barbu Score',
+      theme: MyThemes.light,
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
       initialRoute: Routes.HOME,
       getPages: [
         GetPage(
           name: Routes.HOME,
+          page: () => MyHome(),
+        ),
+        GetPage(
+          name: Routes.CREATE_PARTY,
           page: () => CreateParty(),
           binding: PartyBinding(),
         ),
@@ -39,6 +48,7 @@ class MyApp extends StatelessWidget {
 /// Names of the routes for the app
 class Routes {
   static const HOME = "/";
+  static const CREATE_PARTY = "/start_party";
   static const CHOOSE_CONTRACT = "/choose_contract";
   static const CONTRACT_SCORES = "/contract_scores";
 }
