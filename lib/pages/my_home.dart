@@ -19,7 +19,10 @@ class MyHome extends GetView {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            MyAppBar("Le Barbu"),
+            MyAppBar(
+              "Le Barbu",
+              isHome: true,
+            ),
             ElevatedButtonFullWidth(
               text: "Démarrer une partie",
               onPressed: () => Get.toNamed(Routes.CREATE_PARTY),
