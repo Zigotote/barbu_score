@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'contract.dart';
@@ -7,13 +8,19 @@ class PlayerController extends GetxController {
   /// The id of the player
   final int id;
 
+  /// The color of the player
+  final Color color;
+
+  /// The image of the player
+  final String image;
+
   /// The observable name of the player
   RxString _name;
 
   /// The contracts the player has finished
   List<ContractController> contracts;
 
-  PlayerController(this.id) {
+  PlayerController(this.id, this.color, this.image) {
     this._name = "".obs;
     this.contracts = [];
   }
