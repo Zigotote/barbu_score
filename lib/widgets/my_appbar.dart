@@ -9,9 +9,7 @@ class MyAppBar extends AppBar {
           title: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              Divider(
-                color: Get.theme.colorScheme.onSurface,
-              ),
+              Divider(),
               Container(
                 decoration: BoxDecoration(
                   color: Get.theme.scaffoldBackgroundColor,

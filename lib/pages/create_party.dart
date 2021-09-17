@@ -1,6 +1,8 @@
+import 'package:barbu_score/widgets/player_icon.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sprintf/sprintf.dart';
 
 import '../controller/create_players.dart';
 import '../controller/player.dart';
@@ -102,7 +104,7 @@ class CreateParty extends GetView<CreatePlayersController> {
       front: OutlinedButton(
         onPressed: () {
           _unflipCard();
-          print("change perso");
+          Get.dialog(DialogChangePlayerInfo(player: player));
         },
         onLongPress: () {
           _unfocusTextField();
@@ -112,12 +114,12 @@ class CreateParty extends GetView<CreatePlayersController> {
           _flippedCard = cardKey.currentState;
           _flippedCard.toggleCard();
         },
-        child: Image(
-          width: Get.width * 0.25,
-          image: AssetImage(player.image),
+        child: PlayerIcon(
+          image: player.image,
+          color: player.color,
+          size: Get.width * 0.25,
         ),
         style: OutlinedButton.styleFrom(
-          backgroundColor: player.color,
           padding: EdgeInsets.zero,
         ),
       ),
@@ -145,6 +147,12 @@ class CreateParty extends GetView<CreatePlayersController> {
         child: Icon(
           Icons.add,
           size: Get.width * 0.1,
+        ),
+        style: OutlinedButton.styleFrom(
+          side: BorderSide(
+            style: BorderStyle.solid,
+            width: 2,
+          ),
         ),
       ),
     );
@@ -218,6 +226,108 @@ class CreateParty extends GetView<CreatePlayersController> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// A dialog to change a player's informations
+class DialogChangePlayerInfo extends GetWidget {
+  /// The player to change the infos
+  final PlayerController player;
+
+  DialogChangePlayerInfo({this.player});
+
+  /// Builds the title and list of items the player can modify
+  List<Widget> _buildPropertySelection(String text, List items) {
+    return [
+      Text(text, style: Get.theme.textTheme.headline6),
+      SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: items,
+        ),
+      )
+    ];
+  }
+
+  /// Builds a button to display in the action part. It has a text, an icon and a foreground color
+  ElevatedButton _buildActionButton(IconData icon, String text, Color color) {
+    return ElevatedButton(
+      onPressed: null,
+      child: Row(
+        children: [
+          Icon(icon, color: color),
+          Text(text, style: TextStyle(color: color)),
+        ],
+      ),
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(horizontal: Get.width * 0.03),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: PlayerIcon(
+        image: player.image,
+        color: player.color,
+        size: Get.width * 0.25,
+      ),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          ..._buildPropertySelection(
+            "Couleur",
+            CreatePlayersController.colors
+                .map(
+                  (color) => Padding(
+                    padding: EdgeInsets.only(right: Get.width * 0.02),
+                    child: OutlinedButton(
+                      onPressed: null,
+                      child: Text(""),
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: color,
+                        minimumSize: Size(Get.width * 0.15, Get.width * 0.15),
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+          ..._buildPropertySelection(
+            "Avatar",
+            List.generate(
+              CreatePlayersController.NB_PLAYERS_MAX,
+              (index) =>
+                  sprintf(CreatePlayersController.playerImage, [index + 1]),
+            )
+                .map(
+                  (image) => OutlinedButton(
+                    onPressed: null,
+                    child: PlayerIcon(image: image, size: Get.width * 0.16),
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      ),
+      actions: [
+        _buildActionButton(
+          Icons.delete_forever_outlined,
+          "Supprimer",
+          Get.theme.errorColor,
+        ),
+        _buildActionButton(
+          Icons.done,
+          "Valider",
+          Get.theme.highlightColor,
+        ),
+      ],
     );
   }
 }

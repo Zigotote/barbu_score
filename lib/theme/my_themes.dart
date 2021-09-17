@@ -6,6 +6,8 @@ class MyThemes {
     textTheme: ThemeData.light().textTheme.apply(
           fontFamily: "QuickSand",
         ),
+    dividerColor: ThemeData.light().colorScheme.onSurface,
+    highlightColor: Colors.green,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(
@@ -42,12 +44,6 @@ class MyThemes {
             MaterialStateProperty.all(ThemeData.light().colorScheme.onSurface),
         padding: MaterialStateProperty.all(EdgeInsets.all(Get.width * 0.04)),
         shape: MaterialStateProperty.all(CircleBorder()),
-        side: MaterialStateProperty.all(
-          BorderSide(
-            style: BorderStyle.solid,
-            width: 2,
-          ),
-        ),
       ),
     ),
   );
