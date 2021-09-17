@@ -1,8 +1,8 @@
 import 'dart:collection';
 
-import 'package:sprintf/sprintf.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sprintf/sprintf.dart';
 
 import 'player.dart';
 
@@ -55,7 +55,7 @@ class CreatePlayersController extends GetxController {
   }
 
   /// Removes the player at the given index from the party
-  void removePlayer(int index) {
-    _players.removeAt(index);
+  void removePlayer(PlayerController player) {
+    _players.remove(player);
   }
 }

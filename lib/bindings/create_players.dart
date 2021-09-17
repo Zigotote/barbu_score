@@ -1,5 +1,6 @@
-import '../controller/create_players.dart';
 import 'package:get/get.dart';
+
+import '../controller/create_players.dart';
 
 class PartyBinding implements Bindings {
   @override
