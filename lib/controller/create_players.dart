@@ -45,11 +45,17 @@ class CreatePlayersController extends GetxController {
   /// Returns the number of players for the party
   int get nbPlayers => _players.length;
 
+  /// Returns the list of color not picked by a user
+  UnmodifiableListView<Color> get availableColors =>
+      UnmodifiableListView(colors.where(
+        (color) => !_players.any((player) => player.color == color),
+      ));
+
   /// Adds a player to the party
   void addPlayer() {
     _players.add(PlayerController(
       _players.last.id + 1,
-      colors[this.nbPlayers],
+      availableColors.first,
       sprintf(playerImage, [this.nbPlayers + 1]),
     ));
   }
@@ -57,5 +63,18 @@ class CreatePlayersController extends GetxController {
   /// Removes the player at the given index from the party
   void removePlayer(PlayerController player) {
     _players.remove(player);
+  }
+
+  /// Returns the first letter of the player who choose this color
+  String getPlayerWithColor(Color color) {
+    PlayerController player = _players
+        .firstWhere((player) => player.color == color, orElse: () => null);
+    if (player == null) {
+      return "";
+    }
+    if (player.name.isEmpty) {
+      return "X";
+    }
+    return player.name.characters.first;
   }
 }

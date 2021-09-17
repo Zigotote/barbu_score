@@ -29,7 +29,7 @@ class PlayerController extends GetxController {
 
   String get name => _name.value;
 
-  set name(value) => _name.value = value;
+  set name(value) => _name.value = value.trim();
 
   Color get color => _color.value;
 

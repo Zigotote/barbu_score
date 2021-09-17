@@ -261,7 +261,7 @@ class CreateParty extends GetView<CreatePlayersController> {
 }
 
 /// A dialog to change a player's informations
-class DialogChangePlayerInfo extends GetWidget {
+class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   /// The player to change the infos
   final PlayerController player;
 
@@ -279,7 +279,7 @@ class DialogChangePlayerInfo extends GetWidget {
   /// Builds the title and list of items the player can modify
   List<Widget> _buildPropertySelection(String text, List items) {
     return [
-      Text(text, style: Get.theme.textTheme.headline6),
+      Text(text, style: Get.textTheme.headline6),
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -326,12 +326,20 @@ class DialogChangePlayerInfo extends GetWidget {
                 .map(
                   (color) => Padding(
                     padding: EdgeInsets.only(right: Get.width * 0.02),
-                    child: OutlinedButton(
-                      onPressed: () => player.color = color,
-                      child: Text(""),
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: color,
-                        minimumSize: Size(Get.width * 0.15, Get.width * 0.15),
+                    child: Obx(
+                      () => OutlinedButton(
+                        onPressed: controller.availableColors.contains(color)
+                            ? () => player.color = color
+                            : null,
+                        child: Text(
+                          controller.getPlayerWithColor(color),
+                          style: Get.textTheme.headline5.copyWith(
+                              color: Get.theme.scaffoldBackgroundColor),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: color,
+                          minimumSize: Size(Get.width * 0.15, Get.width * 0.15),
+                        ),
                       ),
                     ),
                   ),
