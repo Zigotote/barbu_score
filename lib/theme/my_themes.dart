@@ -44,6 +44,11 @@ class MyThemes {
             MaterialStateProperty.all(ThemeData.light().colorScheme.onSurface),
         padding: MaterialStateProperty.all(EdgeInsets.all(Get.width * 0.04)),
         shape: MaterialStateProperty.all(CircleBorder()),
+        side: MaterialStateProperty.all(
+          BorderSide(
+            style: BorderStyle.none,
+          ),
+        ),
       ),
     ),
   );
