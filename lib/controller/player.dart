@@ -9,10 +9,10 @@ class PlayerController extends GetxController {
   final int id;
 
   /// The color of the player
-  final Color color;
+  Rx<Color> _color;
 
   /// The image of the player
-  final String image;
+  RxString _image;
 
   /// The observable name of the player
   RxString _name;
@@ -20,14 +20,24 @@ class PlayerController extends GetxController {
   /// The contracts the player has finished
   List<ContractController> contracts;
 
-  PlayerController(this.id, this.color, this.image) {
+  PlayerController(this.id, Color color, String image) {
     this._name = "".obs;
+    this._color = color.obs;
+    this._image = image.obs;
     this.contracts = [];
   }
 
   String get name => _name.value;
 
   set name(value) => _name.value = value;
+
+  Color get color => _color.value;
+
+  set color(value) => _color.value = value;
+
+  String get image => _image.value;
+
+  set image(value) => _image.value = value;
 
   /// Returns the list of the contracts the player can choose
   List<ContractsNames> get availableContracts => ContractsNames.values

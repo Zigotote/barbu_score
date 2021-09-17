@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: Routes.CREATE_PARTY,
           page: () => CreateParty(),
-          binding: PartyBinding(),
+          binding: CreatePlayersBinding(),
         ),
         GetPage(
           name: Routes.CHOOSE_CONTRACT,

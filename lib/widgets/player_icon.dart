@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// An icon for the player
-class PlayerIcon extends GetWidget {
+class PlayerIcon extends GetView {
   /// The image of the player
   final String image;
 
@@ -20,7 +20,6 @@ class PlayerIcon extends GetWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(this.color);
     return Container(
       width: this.size,
       height: this.size,

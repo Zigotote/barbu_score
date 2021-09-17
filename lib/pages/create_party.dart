@@ -48,19 +48,21 @@ class CreateParty extends GetView<CreatePlayersController> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Container(
-          height: Get.height * 0.19,
-          alignment: Alignment.bottomCenter,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
+        Obx(
+          () => Container(
+            height: Get.height * 0.19,
+            alignment: Alignment.bottomCenter,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+              border: Border.all(
+                color: player.color,
+                width: 2,
+              ),
             ),
-            border: Border.all(
-              color: player.color,
-              width: 2,
-            ),
+            child: _buildPlayerTextField(player),
           ),
-          child: _buildPlayerTextField(player),
         ),
         Positioned(
           top: 0,
@@ -104,7 +106,7 @@ class CreateParty extends GetView<CreatePlayersController> {
       front: OutlinedButton(
         onPressed: () {
           _unflipCard();
-          Get.dialog(DialogChangePlayerInfo(player: player));
+          _displayDialog(player);
         },
         onLongPress: () {
           _unfocusTextField();
@@ -114,10 +116,12 @@ class CreateParty extends GetView<CreatePlayersController> {
           _flippedCard = cardKey.currentState;
           _flippedCard.toggleCard();
         },
-        child: PlayerIcon(
-          image: player.image,
-          color: player.color,
-          size: Get.width * 0.25,
+        child: Obx(
+          () => PlayerIcon(
+            image: player.image,
+            color: player.color,
+            size: Get.width * 0.25,
+          ),
         ),
         style: OutlinedButton.styleFrom(
           padding: EdgeInsets.zero,
@@ -136,6 +140,32 @@ class CreateParty extends GetView<CreatePlayersController> {
         ),
       ),
     );
+  }
+
+  /// Displays a dialog to change the player's properties
+  /// Changes are reverted if they are not validated
+  void _displayDialog(PlayerController player) {
+    bool changesValidated = false;
+    Color previousColor = player.color;
+    String previousImage = player.image;
+    Get.dialog(
+      DialogChangePlayerInfo(
+        player: player,
+        onValidate: () {
+          Get.back();
+          changesValidated = true;
+        },
+        onDelete: () {
+          controller.removePlayer(player);
+          Get.back();
+        },
+      ),
+    ).then((_) {
+      if (!changesValidated) {
+        player.color = previousColor;
+        player.image = previousImage;
+      }
+    });
   }
 
   /// Builds the button to add a player
@@ -235,7 +265,16 @@ class DialogChangePlayerInfo extends GetWidget {
   /// The player to change the infos
   final PlayerController player;
 
-  DialogChangePlayerInfo({this.player});
+  /// The function to call on changes validated
+  final Function onValidate;
+
+  /// The function to call on deleted button pressed
+  final Function onDelete;
+
+  DialogChangePlayerInfo(
+      {@required this.player,
+      @required this.onValidate,
+      @required this.onDelete});
 
   /// Builds the title and list of items the player can modify
   List<Widget> _buildPropertySelection(String text, List items) {
@@ -251,9 +290,10 @@ class DialogChangePlayerInfo extends GetWidget {
   }
 
   /// Builds a button to display in the action part. It has a text, an icon and a foreground color
-  ElevatedButton _buildActionButton(IconData icon, String text, Color color) {
+  ElevatedButton _buildActionButton(
+      IconData icon, String text, Color color, Function onPressed) {
     return ElevatedButton(
-      onPressed: null,
+      onPressed: onPressed,
       child: Row(
         children: [
           Icon(icon, color: color),
@@ -269,10 +309,12 @@ class DialogChangePlayerInfo extends GetWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: PlayerIcon(
-        image: player.image,
-        color: player.color,
-        size: Get.width * 0.25,
+      title: Obx(
+        () => PlayerIcon(
+          image: player.image,
+          color: player.color,
+          size: Get.width * 0.25,
+        ),
       ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,7 +327,7 @@ class DialogChangePlayerInfo extends GetWidget {
                   (color) => Padding(
                     padding: EdgeInsets.only(right: Get.width * 0.02),
                     child: OutlinedButton(
-                      onPressed: null,
+                      onPressed: () => player.color = color,
                       child: Text(""),
                       style: OutlinedButton.styleFrom(
                         backgroundColor: color,
@@ -305,7 +347,7 @@ class DialogChangePlayerInfo extends GetWidget {
             )
                 .map(
                   (image) => OutlinedButton(
-                    onPressed: null,
+                    onPressed: () => player.image = image,
                     child: PlayerIcon(image: image, size: Get.width * 0.16),
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -317,15 +359,13 @@ class DialogChangePlayerInfo extends GetWidget {
         ],
       ),
       actions: [
-        _buildActionButton(
-          Icons.delete_forever_outlined,
-          "Supprimer",
-          Get.theme.errorColor,
-        ),
+        _buildActionButton(Icons.delete_forever_outlined, "Supprimer",
+            Get.theme.errorColor, this.onDelete),
         _buildActionButton(
           Icons.done,
           "Valider",
           Get.theme.highlightColor,
+          this.onValidate,
         ),
       ],
     );
