@@ -17,7 +17,6 @@ class PartyController extends GetxController {
     this._players = List.generate(
       4,
       (index) => PlayerController(
-        index,
         Colors.black,
         "",
       ),

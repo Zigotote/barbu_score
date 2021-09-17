@@ -30,7 +30,6 @@ class CreatePlayersController extends GetxController {
     this._players = List.generate(
       4,
       (index) => PlayerController(
-        index,
         colors[index],
         sprintf(playerImage, [index + 1]),
       ),
@@ -54,7 +53,6 @@ class CreatePlayersController extends GetxController {
   /// Adds a player to the party
   void addPlayer() {
     _players.add(PlayerController(
-      _players.last.id + 1,
       availableColors.first,
       sprintf(playerImage, [this.nbPlayers + 1]),
     ));

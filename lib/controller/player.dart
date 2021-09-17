@@ -5,9 +5,6 @@ import 'contract.dart';
 
 /// A player for a party
 class PlayerController extends GetxController {
-  /// The id of the player
-  final int id;
-
   /// The color of the player
   Rx<Color> _color;
 
@@ -20,7 +17,7 @@ class PlayerController extends GetxController {
   /// The contracts the player has finished
   List<ContractController> contracts;
 
-  PlayerController(this.id, Color color, String image) {
+  PlayerController(Color color, String image) {
     this._name = "".obs;
     this._color = color.obs;
     this._image = image.obs;
