@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import './bindings/create_players.dart';
+import './bindings/party.dart';
 import './pages/choose_contract.dart';
 import './pages/contract_scores.dart';
 import './pages/create_party.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: Routes.CHOOSE_CONTRACT,
           page: () => ChooseContract(),
+          binding: PartyBinding(),
         ),
         GetPage(
           name: Routes.CONTRACT_SCORES,

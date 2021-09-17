@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'player.dart';
@@ -13,15 +12,8 @@ class PartyController extends GetxController {
   /// The index of the current player
   int _currentPlayerIndex;
 
-  PartyController() {
-    this._players = List.generate(
-      4,
-      (index) => PlayerController(
-        Colors.black,
-        "",
-      ),
-      growable: true,
-    ).obs;
+  PartyController(List players) {
+    this._players = List<PlayerController>.from(players).obs;
     _currentPlayerIndex = 0;
   }
 
@@ -30,7 +22,7 @@ class PartyController extends GetxController {
       UnmodifiableListView(_players);
 
   /// Returns the number of players for the party
-  int get nbPlayers => _players.length;
+  int get _nbPlayers => _players.length;
 
   /// Returns the current player
   PlayerController get currentPlayer => _players[_currentPlayerIndex];
@@ -39,7 +31,7 @@ class PartyController extends GetxController {
   /// Returns true if the player has successly been changed, false if it is the end of the party
   bool nextPlayer() {
     _currentPlayerIndex++;
-    if (_currentPlayerIndex == this.nbPlayers) {
+    if (_currentPlayerIndex == this._nbPlayers) {
       _currentPlayerIndex = 0;
     }
     return this.currentPlayer.availableContracts.length > 0;

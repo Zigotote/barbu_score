@@ -83,7 +83,7 @@ class CreateParty extends GetView<CreatePlayersController> {
       },
       onChanged: (value) => player.name = value,
       validator: (value) {
-        if (value == null || value.isEmpty) {
+        if (value == null || value.trim().isEmpty) {
           return "Indiquer le nom du joueur.";
         }
         return null;
