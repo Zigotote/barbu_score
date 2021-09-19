@@ -3,7 +3,15 @@ import 'package:get/get.dart';
 
 class MyThemes {
   static final light = ThemeData.light().copyWith(
-    textTheme: ThemeData.light().textTheme.apply(
+    textTheme: ThemeData.light()
+        .textTheme
+        .copyWith(
+          subtitle2: TextStyle(
+            fontSize: 18,
+            color: ThemeData.light().colorScheme.onSurface,
+          ),
+        )
+        .apply(
           fontFamily: "QuickSand",
         ),
     dividerColor: ThemeData.light().colorScheme.onSurface,

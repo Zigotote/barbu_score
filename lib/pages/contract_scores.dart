@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../controller/contract.dart';
 import '../controller/party.dart';
 import '../main.dart';
+import '../widgets/my_appbar.dart';
 
 /// A page to fill the scores for a contract
 class ContractScores extends GetView<PartyController> {
@@ -54,12 +55,15 @@ class ContractScores extends GetView<PartyController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Tour de ${controller.currentPlayer.name}"),
-      ),
+      appBar: MyAppBar("Tour de ${controller.currentPlayer.name}"),
       body: Column(
         children: [
-          Center(child: Text(contract.displayName())),
+          Center(
+            child: Text(
+              contract.displayName(),
+              style: Get.textTheme.subtitle2,
+            ),
+          ),
           ..._buildFields(),
           OutlinedButton(
             onPressed: () => _nextPlayer(),
