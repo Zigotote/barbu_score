@@ -77,6 +77,7 @@ class CreateParty extends GetView<CreatePlayersController> {
     FocusNode focusNode = FocusNode();
     return TextFormField(
       textAlign: TextAlign.center,
+      initialValue: player.name,
       onTap: () {
         _unflipCard();
         _focusedTextField = focusNode;
