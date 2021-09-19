@@ -15,13 +15,13 @@ class PlayerController extends GetxController {
   RxString _name;
 
   /// The contracts the player has finished
-  List<ContractController> contracts;
+  List<ContractController> _contracts;
 
   PlayerController(Color color, String image) {
     this._name = "".obs;
     this._color = color.obs;
     this._image = image.obs;
-    this.contracts = [];
+    this._contracts = [];
   }
 
   String get name => _name.value;
@@ -38,16 +38,21 @@ class PlayerController extends GetxController {
 
   /// Returns the list of the contracts the player can choose
   List<ContractsNames> get availableContracts => ContractsNames.values
-      .where((contractName) => !choosenContracts.contains(contractName))
+      .where((contractName) => !_choosenContracts.contains(contractName))
       .toList();
 
   /// Returns the list of the contracts the player has already selected
-  List<ContractsNames> get choosenContracts =>
-      contracts.map((contract) => contract.name).toList();
+  List<ContractsNames> get _choosenContracts =>
+      _contracts.map((contract) => contract.name).toList();
 
   /// Adds a contract for the player, with the scores of each players
   void addContract(ContractsNames contract, Map<PlayerController, int> scores) {
-    contracts.add(ContractController(contract, scores));
+    _contracts.add(ContractController(contract, scores));
+  }
+
+  /// Returns true if the player has played the contract
+  bool hasPlayedContract(ContractsNames contractName) {
+    return !availableContracts.contains(contractName);
   }
 
   @override

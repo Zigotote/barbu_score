@@ -1,54 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 import '../controller/contract.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
 import '../main.dart';
+import '../widgets/button_full_width.dart';
+import '../widgets/my_appbar.dart';
 
 /// A page for a player to choose his contract
 class ChooseContract extends GetView<PartyController> {
-  /// Builds the list of contracts to display
-  List<Widget> _buildContractsList(String title, List<ContractsNames> list) {
-    return [
-      Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: Text(title),
+  /// Builds a button for a contract the player can choose
+  ElevatedButton _buildAvailableButton(ContractsNames contract) {
+    return ElevatedButton(
+      onPressed: () => Get.toNamed(
+        Routes.CONTRACT_SCORES,
+        arguments: contract,
       ),
-      Wrap(
-        alignment: WrapAlignment.center,
-        children: list.map(
-          (contract) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              child: OutlinedButton(
-                onPressed: () => Get.toNamed(
-                  Routes.CONTRACT_SCORES,
-                  arguments: contract,
-                ),
-                child: Text(contract.displayName()),
-              ),
-            );
-          },
-        ).toList(),
-      )
-    ];
+      child: Text(contract.displayName()),
+    );
+  }
+
+  /// Builds a button for a contract which has already been played
+  ElevatedButton _buildUnavailableButton(ContractsNames contract) {
+    Color buttonColor = Colors.grey;
+    return ElevatedButton(
+      onPressed: null,
+      child: Text(
+        contract.displayName(),
+        style: TextStyle(color: buttonColor),
+      ),
+      style: ElevatedButton.styleFrom(
+        side: BorderSide(color: buttonColor, width: 2),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     PlayerController player = controller.currentPlayer;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("Tour de ${player.name}"),
+      appBar: MyAppBar("Tour de ${player.name}"),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: Get.width * 0.05,
+          vertical: Get.height * 0.015,
+        ),
+        child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: Get.width * 0.1,
+              mainAxisSpacing: Get.width * 0.1,
+              childAspectRatio: 2,
+            ),
+            itemCount: ContractsNames.values.length,
+            itemBuilder: (_, index) {
+              ContractsNames contract = ContractsNames.values[index];
+              return player.hasPlayedContract(contract)
+                  ? _buildUnavailableButton(contract)
+                  : _buildAvailableButton(contract);
+            }),
       ),
-      body: Column(children: [
-        ..._buildContractsList(
-            "Contrats disponibles :", player.availableContracts),
-        ..._buildContractsList("Contrats déjà pris :", player.choosenContracts),
-      ]),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(Get.width * 0.05),
+        child: ElevatedButtonFullWidth(
+          onPressed: null,
+          text: "Scores",
+        ),
+      ),
     );
   }
 }
