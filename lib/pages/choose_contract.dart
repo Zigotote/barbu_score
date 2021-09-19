@@ -41,31 +41,47 @@ class ChooseContract extends GetView<PartyController> {
     PlayerController player = controller.currentPlayer;
     return Scaffold(
       appBar: MyAppBar("Tour de ${player.name}"),
-      body: Padding(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.fitWidth,
+            alignment: Alignment.bottomCenter,
+          ),
+        ),
         padding: EdgeInsets.symmetric(
           horizontal: Get.width * 0.05,
           vertical: Get.height * 0.015,
         ),
-        child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: Get.width * 0.1,
-              mainAxisSpacing: Get.width * 0.1,
-              childAspectRatio: 2,
+        child: CustomScrollView(
+          slivers: [
+            SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: Get.width * 0.1,
+                mainAxisSpacing: Get.width * 0.1,
+                childAspectRatio: 2,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (_, index) {
+                  ContractsNames contract = ContractsNames.values[index];
+                  return player.hasPlayedContract(contract)
+                      ? _buildUnavailableButton(contract)
+                      : _buildAvailableButton(contract);
+                },
+                childCount: ContractsNames.values.length,
+              ),
             ),
-            itemCount: ContractsNames.values.length,
-            itemBuilder: (_, index) {
-              ContractsNames contract = ContractsNames.values[index];
-              return player.hasPlayedContract(contract)
-                  ? _buildUnavailableButton(contract)
-                  : _buildAvailableButton(contract);
-            }),
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(Get.width * 0.05),
-        child: ElevatedButtonFullWidth(
-          onPressed: null,
-          text: "Scores",
+            SliverPadding(
+              padding: EdgeInsets.only(top: Get.height * 0.05),
+              sliver: SliverToBoxAdapter(
+                child: ElevatedButtonFullWidth(
+                  onPressed: null,
+                  text: "Scores",
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
