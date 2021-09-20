@@ -22,7 +22,7 @@ class PartyController extends GetxController {
       UnmodifiableListView(_players);
 
   /// Returns the number of players for the party
-  int get _nbPlayers => _players.length;
+  int get nbPlayers => _players.length;
 
   /// Returns the current player
   PlayerController get currentPlayer => _players[_currentPlayerIndex];
@@ -31,7 +31,7 @@ class PartyController extends GetxController {
   /// Returns true if the player has successly been changed, false if it is the end of the party
   bool nextPlayer() {
     _currentPlayerIndex++;
-    if (_currentPlayerIndex == this._nbPlayers) {
+    if (_currentPlayerIndex == this.nbPlayers) {
       _currentPlayerIndex = 0;
     }
     return this.currentPlayer.availableContracts.length > 0;

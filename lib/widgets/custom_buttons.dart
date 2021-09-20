@@ -7,7 +7,7 @@ class ElevatedButtonFullWidth extends GetWidget {
   final String text;
 
   /// The function to call on pressed action
-  final Function onPressed;
+  final Function() onPressed;
 
   ElevatedButtonFullWidth({@required this.text, @required this.onPressed});
 

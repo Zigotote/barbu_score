@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../controller/create_players.dart';
 import '../controller/player.dart';
 import '../main.dart';
-import '../widgets/button_full_width.dart';
+import '../widgets/custom_buttons.dart';
 import '../widgets/dialog_player_properties.dart';
 import '../widgets/my_appbar.dart';
 import '../widgets/player_icon.dart';

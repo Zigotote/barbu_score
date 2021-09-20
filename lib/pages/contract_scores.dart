@@ -4,41 +4,22 @@ import 'package:get/get.dart';
 import '../controller/contract.dart';
 import '../controller/party.dart';
 import '../main.dart';
-import '../widgets/my_appbar.dart';
+import '../widgets/custom_buttons.dart';
+import '../widgets/my_page.dart';
+import '../widgets/select_player.dart';
 
 /// A page to fill the scores for a contract
 class ContractScores extends GetView<PartyController> {
   /// The contract the player choose
   final ContractsNames contract = Get.arguments;
 
-  List<Widget> _buildFields() {
-    return controller.players.map((player) {
-      if (contract == ContractsNames.Barbu ||
-          contract == ContractsNames.NoLastTrick) {
-        return Row(
-          children: [
-            Text(player.name),
-            Checkbox(value: false, onChanged: (value) => null)
-          ],
-        );
-      } else {
-        int score = 0;
-        return Row(
-          children: [
-            Text(player.name),
-            IconButton(
-              icon: Icon(Icons.remove),
-              onPressed: () => score--,
-            ),
-            Text(score.toString()),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => score++,
-            ),
-          ],
-        );
-      }
-    }).toList();
+  Widget _buildFields() {
+    if (contract == ContractsNames.Barbu ||
+        contract == ContractsNames.NoLastTrick) {
+      return SelectPlayer();
+    } else {
+      return Text("Not yet implemented");
+    }
   }
 
   /// Navigates to the next player or ends the party if no round left
@@ -54,9 +35,9 @@ class ContractScores extends GetView<PartyController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar("Tour de ${controller.currentPlayer.name}"),
-      body: Column(
+    return MyPage(
+      title: "Tour de ${controller.currentPlayer.name}",
+      content: Column(
         children: [
           Center(
             child: Text(
@@ -64,12 +45,15 @@ class ContractScores extends GetView<PartyController> {
               style: Get.textTheme.subtitle2,
             ),
           ),
-          ..._buildFields(),
-          OutlinedButton(
-            onPressed: () => _nextPlayer(),
-            child: Text("Joueur suivant"),
-          )
+          Padding(
+            padding: EdgeInsets.only(top: Get.height * 0.05),
+            child: _buildFields(),
+          ),
         ],
+      ),
+      buttomNavigationButton: ElevatedButtonFullWidth(
+        text: "Joueur suivant",
+        onPressed: () => _nextPlayer(),
       ),
     );
   }

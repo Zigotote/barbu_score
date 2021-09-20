@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../main.dart';
-import '../widgets/button_full_width.dart';
+import '../widgets/custom_buttons.dart';
 import '../widgets/my_appbar.dart';
 
 class MyHome extends GetView {

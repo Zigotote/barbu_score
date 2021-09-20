@@ -12,10 +12,10 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   final PlayerController player;
 
   /// The function to call on changes validated
-  final Function onValidate;
+  final Function() onValidate;
 
   /// The function to call on deleted button pressed
-  final Function onDelete;
+  final Function() onDelete;
 
   DialogChangePlayerInfo(
       {@required this.player,
