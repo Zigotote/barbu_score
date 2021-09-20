@@ -14,6 +14,7 @@ class MyThemes {
         .apply(
           fontFamily: "QuickSand",
         ),
+    disabledColor: Colors.grey,
     dividerColor: ThemeData.light().colorScheme.onSurface,
     highlightColor: Colors.green,
     elevatedButtonTheme: ElevatedButtonThemeData(

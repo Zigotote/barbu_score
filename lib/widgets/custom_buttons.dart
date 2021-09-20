@@ -14,12 +14,42 @@ class ElevatedButtonFullWidth extends GetWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: this.onPressed,
       child: Text(this.text),
-      style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all(
-          Size(Get.width * 0.9, Get.height * 0.08),
-        ),
+      onPressed: this.onPressed,
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(Get.width * 0.9, Get.height * 0.08),
+      ),
+    );
+  }
+}
+
+/// A button with a custom border and text color
+class ElevatedButtonCustomColor extends GetWidget {
+  /// The text of the button
+  final String text;
+
+  /// The color of the button
+  final Color color;
+
+  /// The function to call on button's pressed
+  final Function() onPressed;
+
+  ElevatedButtonCustomColor({
+    @required this.text,
+    @required this.color,
+    @required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      child: Text(
+        this.text,
+        style: TextStyle(color: this.color),
+      ),
+      onPressed: this.onPressed,
+      style: ElevatedButton.styleFrom(
+        side: BorderSide(color: this.color, width: 2),
       ),
     );
   }

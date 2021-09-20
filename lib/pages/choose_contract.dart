@@ -14,26 +14,20 @@ class ChooseContract extends GetView<PartyController> {
   /// Builds a button for a contract the player can choose
   ElevatedButton _buildAvailableButton(ContractsNames contract) {
     return ElevatedButton(
+      child: Text(contract.displayName()),
       onPressed: () => Get.toNamed(
         Routes.CONTRACT_SCORES,
         arguments: contract,
       ),
-      child: Text(contract.displayName()),
     );
   }
 
   /// Builds a button for a contract which has already been played
-  ElevatedButton _buildUnavailableButton(ContractsNames contract) {
-    Color buttonColor = Colors.grey;
-    return ElevatedButton(
+  ElevatedButtonCustomColor _buildUnavailableButton(ContractsNames contract) {
+    return ElevatedButtonCustomColor(
+      text: contract.displayName(),
+      color: Get.theme.disabledColor,
       onPressed: null,
-      child: Text(
-        contract.displayName(),
-        style: TextStyle(color: buttonColor),
-      ),
-      style: ElevatedButton.styleFrom(
-        side: BorderSide(color: buttonColor, width: 2),
-      ),
     );
   }
 

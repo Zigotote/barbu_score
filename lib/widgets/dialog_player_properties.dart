@@ -63,13 +63,13 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   ElevatedButton _buildActionButton(
       IconData icon, String text, Color color, Function onPressed) {
     return ElevatedButton(
-      onPressed: onPressed,
       child: Row(
         children: [
           Icon(icon, color: color),
           Text(text, style: TextStyle(color: color)),
         ],
       ),
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(horizontal: Get.width * 0.03),
       ),
