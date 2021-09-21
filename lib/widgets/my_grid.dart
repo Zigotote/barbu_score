@@ -21,7 +21,10 @@ class MyGrid extends GetWidget {
         childAspectRatio: 2,
       ),
       shrinkWrap: true,
-      padding: EdgeInsets.only(bottom: Get.height * 0.04),
+      padding: EdgeInsets.symmetric(
+        vertical: Get.height * 0.04,
+        horizontal: Get.width * 0.02,
+      ),
       itemCount: this.itemCount,
       itemBuilder: this.itemBuilder,
     );

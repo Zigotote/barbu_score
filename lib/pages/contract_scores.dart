@@ -1,8 +1,10 @@
+import 'package:barbu_score/controller/player.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/contract.dart';
 import '../controller/party.dart';
+import '../controller/select_player.dart';
 import '../main.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/my_page.dart';
@@ -16,6 +18,7 @@ class ContractScores extends GetView<PartyController> {
   Widget _buildFields() {
     if (contract == ContractsNames.Barbu ||
         contract == ContractsNames.NoLastTrick) {
+      Get.put(SelectPlayerController());
       return SelectPlayer();
     } else {
       return Text("Not yet implemented");
@@ -24,12 +27,42 @@ class ContractScores extends GetView<PartyController> {
 
   /// Navigates to the next player or ends the party if no round left
   void _nextPlayer() {
-    controller.currentPlayer
-        .addContract(contract, {controller.currentPlayer: 0});
-    if (controller.nextPlayer()) {
-      Get.toNamed(Routes.CHOOSE_CONTRACT);
+    if (contract == ContractsNames.Barbu ||
+        contract == ContractsNames.NoLastTrick) {
+      SelectPlayerController selectPlayerController =
+          Get.find<SelectPlayerController>();
+      PlayerController playerWithScore =
+          controller.players[selectPlayerController.selectedPlayerIndex];
+      Get.delete<SelectPlayerController>();
+      controller.currentPlayer.addContract(
+        contract,
+        Map.fromIterable(
+          controller.players,
+          key: (player) => player,
+          value: (player) {
+            if (player == playerWithScore) {
+              return contract.maximumScore(controller.nbPlayers);
+            } else {
+              return 0;
+            }
+          },
+        ),
+      );
+      //TODO TO IMPROVE
+      if (controller.nextPlayer()) {
+        Get.toNamed(Routes.CHOOSE_CONTRACT);
+      } else {
+        Get.toNamed(Routes.HOME);
+      }
     } else {
-      Get.toNamed(Routes.HOME);
+      print("Not yet implemented");
+      controller.currentPlayer
+          .addContract(contract, {controller.currentPlayer: 0});
+      if (controller.nextPlayer()) {
+        Get.toNamed(Routes.CHOOSE_CONTRACT);
+      } else {
+        Get.toNamed(Routes.HOME);
+      }
     }
   }
 
@@ -45,10 +78,7 @@ class ContractScores extends GetView<PartyController> {
               style: Get.textTheme.subtitle2,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: Get.height * 0.05),
-            child: _buildFields(),
-          ),
+          _buildFields(),
         ],
       ),
       buttomNavigationButton: ElevatedButtonFullWidth(
