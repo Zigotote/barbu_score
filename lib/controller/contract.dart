@@ -1,3 +1,4 @@
+import 'package:barbu_score/controller/party.dart';
 import 'package:get/get.dart';
 
 import 'player.dart';
@@ -14,7 +15,9 @@ enum ContractsNames {
 }
 
 extension ContractsInfos on ContractsNames {
-  int maximumScore(int nbPlayers) {
+  /// Returns the maximal score for a contract
+  int maximalScore() {
+    int nbPlayers = Get.find<PartyController>().nbPlayers;
     switch (this) {
       case ContractsNames.Barbu:
         return 50;

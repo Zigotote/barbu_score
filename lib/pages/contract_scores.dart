@@ -25,7 +25,7 @@ class ContractScores extends GetView<PartyController> {
     }
   }
 
-  /// Navigates to the next player or ends the party if no round left
+  /// Saves the score and navigates to the next player or ends the party if no round left
   void _nextPlayer() {
     if (contract == ContractsNames.Barbu ||
         contract == ContractsNames.NoLastTrick) {
@@ -33,7 +33,6 @@ class ContractScores extends GetView<PartyController> {
           Get.find<SelectPlayerController>();
       PlayerController playerWithScore =
           controller.players[selectPlayerController.selectedPlayerIndex];
-      Get.delete<SelectPlayerController>();
       controller.currentPlayer.addContract(
         contract,
         Map.fromIterable(
@@ -41,28 +40,23 @@ class ContractScores extends GetView<PartyController> {
           key: (player) => player,
           value: (player) {
             if (player == playerWithScore) {
-              return contract.maximumScore(controller.nbPlayers);
+              return contract.maximalScore();
             } else {
               return 0;
             }
           },
         ),
       );
-      //TODO TO IMPROVE
-      if (controller.nextPlayer()) {
-        Get.toNamed(Routes.CHOOSE_CONTRACT);
-      } else {
-        Get.toNamed(Routes.HOME);
-      }
+      Get.delete<SelectPlayerController>();
     } else {
       print("Not yet implemented");
       controller.currentPlayer
           .addContract(contract, {controller.currentPlayer: 0});
-      if (controller.nextPlayer()) {
-        Get.toNamed(Routes.CHOOSE_CONTRACT);
-      } else {
-        Get.toNamed(Routes.HOME);
-      }
+    }
+    if (controller.nextPlayer()) {
+      Get.toNamed(Routes.CHOOSE_CONTRACT);
+    } else {
+      Get.toNamed(Routes.HOME);
     }
   }
 
