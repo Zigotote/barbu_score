@@ -24,7 +24,7 @@ class ElevatedButtonFullWidth extends GetWidget {
 }
 
 /// A button with a custom border and text color
-class ElevatedButtonCustomColor extends GetWidget {
+class ElevatedButtonCustomColor extends GetView {
   /// The text of the button
   final String text;
 

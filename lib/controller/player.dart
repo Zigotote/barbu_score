@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'contract.dart';
+import '../models/contract.dart';
 
 /// A player for a party
 class PlayerController extends GetxController {
@@ -15,7 +15,7 @@ class PlayerController extends GetxController {
   RxString _name;
 
   /// The contracts the player has finished
-  List<ContractController> _contracts;
+  List<ContractModel> _contracts;
 
   PlayerController(Color color, String image) {
     this._name = "test".obs;
@@ -47,7 +47,7 @@ class PlayerController extends GetxController {
 
   /// Adds a contract for the player, with the scores of each players
   void addContract(ContractsNames contract, Map<PlayerController, int> scores) {
-    _contracts.add(ContractController(contract, scores));
+    _contracts.add(ContractModel(contract, scores));
   }
 
   /// Returns true if the player has played the contract

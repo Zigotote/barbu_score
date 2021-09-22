@@ -45,6 +45,12 @@ class MyThemes {
             width: 2,
           ),
         ),
+        padding: MaterialStateProperty.all(
+          EdgeInsets.symmetric(
+            vertical: Get.height * 0.02,
+            horizontal: Get.width * 0.02,
+          ),
+        ),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(

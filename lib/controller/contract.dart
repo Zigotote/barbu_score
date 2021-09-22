@@ -1,71 +1,46 @@
-import 'package:barbu_score/controller/party.dart';
 import 'package:get/get.dart';
 
-import 'player.dart';
-
-/// List the names of the contracts for a party
-enum ContractsNames {
-  Barbu,
-  NoHearts,
-  NoQueens,
-  NoTricks,
-  NoLastTrick,
-  Trumps,
-  Domino
+/// An abstract controller for the contracts
+abstract class ContractController extends GetxController {
+  /// Returns true if the score is valid, false otherwise
+  bool get isValid;
 }
 
-extension ContractsInfos on ContractsNames {
-  /// Returns the maximal score for a contract
-  int maximalScore() {
-    int nbPlayers = Get.find<PartyController>().nbPlayers;
-    switch (this) {
-      case ContractsNames.Barbu:
-        return 50;
-      case ContractsNames.NoHearts:
-        return nbPlayers * 2 * 5;
-      case ContractsNames.NoQueens:
-        return 40;
-      case ContractsNames.NoTricks:
-        return 40;
-      case ContractsNames.NoLastTrick:
-        return 40;
-      case ContractsNames.Trumps:
-        return 50 + 40 * 3 + (nbPlayers * 2 * 5);
-      case ContractsNames.Domino:
-        return 0;
-    }
-    return 0;
+/// A controller to manage box position to show which item is selected
+class SelectPlayerController extends ContractController {
+  /// The top position of the selection box
+  RxDouble _topPositionSelectionBox;
+
+  /// The left position of the selection box
+  RxDouble _leftPositionSelectionBox;
+
+  /// The index of the selected player
+  RxInt _selectedPlayerIndex;
+
+  SelectPlayerController() {
+    this._selectedPlayerIndex = (-1).obs;
+    this._topPositionSelectionBox = (0.0).obs;
+    this._leftPositionSelectionBox = (0.0).obs;
   }
 
-  /// Returns the name to display for the different contracts
-  String displayName() {
-    switch (this) {
-      case ContractsNames.Barbu:
-        return "Barbu";
-      case ContractsNames.NoHearts:
-        return "Sans coeurs";
-      case ContractsNames.NoQueens:
-        return "Sans dames";
-      case ContractsNames.NoTricks:
-        return "Sans plis";
-      case ContractsNames.NoLastTrick:
-        return "Dernier";
-      case ContractsNames.Trumps:
-        return "Salade";
-      case ContractsNames.Domino:
-        return "Réussite";
+  @override
+  bool get isValid => _selectedPlayerIndex.value != -1;
+
+  double get topPositionSelectionBox => _topPositionSelectionBox.value;
+
+  double get leftPositionSelectionBox => _leftPositionSelectionBox.value;
+
+  int get selectedPlayerIndex => _selectedPlayerIndex.value;
+
+  /// Sets the selected player index and adapts the box position depending on it
+  set selectedPlayerIndex(int index) {
+    _selectedPlayerIndex.value = index;
+    if (index % 2 == 0) {
+      _leftPositionSelectionBox.value = 0.0;
+    } else {
+      _leftPositionSelectionBox.value = Get.width * 0.48;
     }
-    return "";
+    _topPositionSelectionBox.value =
+        Get.height * 0.021 + (Get.height * 0.178) * (index ~/ 2);
   }
-}
-
-/// A specific contract scores
-class ContractController extends GetxController {
-  /// The name of the contract
-  final ContractsNames name;
-
-  /// The scores of all the players for this contract
-  final Map<PlayerController, int> scores;
-
-  ContractController(this.name, this.scores);
 }

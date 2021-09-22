@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:get/get.dart';
 
+import '../main.dart';
 import 'player.dart';
 
 /// A party with some players
@@ -28,12 +29,16 @@ class PartyController extends GetxController {
   PlayerController get currentPlayer => _players[_currentPlayerIndex];
 
   /// Changes the current player to the next one
-  /// Returns true if the player has successly been changed, false if it is the end of the party
-  bool nextPlayer() {
+  /// Navigates to the next page (choose contract if their is at least one left, lefts the party otherwise)
+  void nextPlayer() {
     _currentPlayerIndex++;
     if (_currentPlayerIndex == this.nbPlayers) {
       _currentPlayerIndex = 0;
     }
-    return this.currentPlayer.availableContracts.length > 0;
+    if (this.currentPlayer.availableContracts.length > 0) {
+      Get.toNamed(Routes.CHOOSE_CONTRACT);
+    } else {
+      Get.toNamed(Routes.HOME);
+    }
   }
 }

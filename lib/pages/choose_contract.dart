@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/contract.dart';
+import '../models/contract.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
-import '../main.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/my_grid.dart';
-import '../widgets/my_page.dart';
+import '../widgets/page_layouts.dart';
 
 /// A page for a player to choose his contract
 class ChooseContract extends GetView<PartyController> {
   /// Builds a button for a contract the player can choose
   ElevatedButton _buildAvailableButton(ContractsNames contract) {
     return ElevatedButton(
-      child: Text(contract.displayName()),
+      child: Text(contract.displayName),
       onPressed: () => Get.toNamed(
-        Routes.CONTRACT_SCORES,
+        contract.route,
         arguments: contract,
       ),
     );
@@ -25,7 +24,7 @@ class ChooseContract extends GetView<PartyController> {
   /// Builds a button for a contract which has already been played
   ElevatedButtonCustomColor _buildUnavailableButton(ContractsNames contract) {
     return ElevatedButtonCustomColor(
-      text: contract.displayName(),
+      text: contract.displayName,
       color: Get.theme.disabledColor,
       onPressed: null,
     );
@@ -34,7 +33,7 @@ class ChooseContract extends GetView<PartyController> {
   @override
   Widget build(BuildContext context) {
     PlayerController player = controller.currentPlayer;
-    return MyPage(
+    return DefaultPage(
       title: "Tour de ${player.name}",
       hasBackground: true,
       content: MyGrid(
@@ -46,8 +45,8 @@ class ChooseContract extends GetView<PartyController> {
               : _buildAvailableButton(contract);
         },
       ),
-      buttomNavigationButton: ElevatedButtonFullWidth(
-        text: "Scores",
+      bottomWidget: ElevatedButton(
+        child: Text("Scores"),
         onPressed: null,
       ),
     );
