@@ -20,6 +20,7 @@ class MyGrid extends GetWidget {
         mainAxisSpacing: Get.width * 0.1,
         childAspectRatio: 2,
       ),
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       padding: EdgeInsets.symmetric(
         vertical: Get.height * 0.04,

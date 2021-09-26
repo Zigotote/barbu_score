@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../controller/player.dart';
+
 /// An abstract controller for the contracts
 abstract class ContractController extends GetxController {
   /// Returns true if the score is valid, false otherwise
@@ -42,5 +44,24 @@ class SelectPlayerController extends ContractController {
     }
     _topPositionSelectionBox.value =
         Get.height * 0.021 + (Get.height * 0.178) * (index ~/ 2);
+  }
+}
+
+/// A controller to manage box position to show which item is selected
+class OrderPlayersController extends ContractController {
+  /// The ordered list of players
+  RxList<PlayerController> orderedPlayers;
+
+  OrderPlayersController(List players) {
+    this.orderedPlayers = List<PlayerController>.from(players).obs;
+  }
+
+  @override
+  bool get isValid => orderedPlayers.length > 0;
+
+  /// Moves a player from oldIndex to newIndex
+  void movePlayer(int oldIndex, int newIndex) {
+    PlayerController player = orderedPlayers.removeAt(oldIndex);
+    orderedPlayers.insert(newIndex, player);
   }
 }

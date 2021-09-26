@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 
 import './bindings/create_players.dart';
 import './bindings/party.dart';
-import './bindings/select_player.dart';
+import './bindings/contract.dart';
 import './pages/choose_contract.dart';
 import './pages/contract_scores.dart';
 import './pages/create_party.dart';
+import './pages/domino_scores.dart';
 import './pages/my_home.dart';
 import './pages/select_player_who_scored.dart';
 import './theme/my_themes.dart';
@@ -46,8 +47,14 @@ class MyApp extends StatelessWidget {
           binding: SelectPlayerBinding(),
         ),
         GetPage(
+          name: Routes.DOMINO_SCORES,
+          page: () => DominoScores(),
+          binding: OrderPlayerBinding(),
+        ),
+        GetPage(
           name: Routes.CONTRACT_SCORES,
           page: () => ContractScores(),
+          binding: SelectPlayerBinding(), //TODO To remove
         ),
       ],
     );
@@ -60,5 +67,6 @@ class Routes {
   static const CREATE_PARTY = "/start_party";
   static const CHOOSE_CONTRACT = "/choose_contract";
   static const BARBU_OR_NOLASTTRICK_SCORES = "/player_who_scored";
+  static const DOMINO_SCORES = "/domino_scores";
   static const CONTRACT_SCORES = "/contract_scores";
 }

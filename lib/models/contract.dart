@@ -66,6 +66,8 @@ extension ContractsInfos on ContractsNames {
         return Routes.BARBU_OR_NOLASTTRICK_SCORES;
       case ContractsNames.NoLastTrick:
         return Routes.BARBU_OR_NOLASTTRICK_SCORES;
+      case ContractsNames.Domino:
+        return Routes.DOMINO_SCORES;
       default:
         return Routes.CONTRACT_SCORES;
     }

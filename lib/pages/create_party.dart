@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../controller/create_players.dart';
 import '../controller/player.dart';
 import '../main.dart';
+import '../widgets/colored_container.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/dialog_player_properties.dart';
 import '../widgets/my_appbar.dart';
@@ -49,18 +50,9 @@ class CreateParty extends GetView<CreatePlayersController> {
       alignment: Alignment.center,
       children: [
         Obx(
-          () => Container(
+          () => ColoredContainer(
             height: Get.height * 0.19,
-            alignment: Alignment.bottomCenter,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-              border: Border.all(
-                color: player.color,
-                width: 2,
-              ),
-            ),
+            color: player.color,
             child: _buildPlayerTextField(player),
           ),
         ),
