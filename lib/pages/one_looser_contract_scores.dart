@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/contract.dart';
+import '../models/contract_names.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
 import '../controller/contract.dart';
@@ -10,7 +10,7 @@ import '../widgets/my_grid.dart';
 import '../widgets/page_layouts.dart';
 
 /// A page to fill the scores for a barbu or no last trick contract
-class SelectPlayerWhoScored extends GetView<SelectPlayerController> {
+class OneLooserContractScores extends GetView<SelectPlayerController> {
   /// The current party
   final PartyController party = Get.find<PartyController>();
 
@@ -58,20 +58,7 @@ class SelectPlayerWhoScored extends GetView<SelectPlayerController> {
   void _saveScore() {
     PlayerController playerWithScore =
         party.players[controller.selectedPlayerIndex];
-    party.currentPlayer.addContract(
-      contract,
-      Map.fromIterable(
-        party.players,
-        key: (player) => player,
-        value: (player) {
-          if (player == playerWithScore) {
-            return contract.maximalScore;
-          } else {
-            return 0;
-          }
-        },
-      ),
-    );
+    party.currentPlayer.addContract(contract, {playerWithScore: 1});
     Get.delete<SelectPlayerController>();
     party.nextPlayer();
   }

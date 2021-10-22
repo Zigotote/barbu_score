@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controller/contract.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
-import '../models/contract.dart';
+import '../models/contract_names.dart';
 import '../widgets/colored_container.dart';
 import '../widgets/page_layouts.dart';
 

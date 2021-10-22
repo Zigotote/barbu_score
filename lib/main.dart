@@ -9,7 +9,7 @@ import './pages/contract_scores.dart';
 import './pages/create_party.dart';
 import './pages/domino_scores.dart';
 import './pages/my_home.dart';
-import './pages/select_player_who_scored.dart';
+import 'pages/one_looser_contract_scores.dart';
 import './theme/my_themes.dart';
 
 void main() {
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: Routes.BARBU_OR_NOLASTTRICK_SCORES,
-          page: () => SelectPlayerWhoScored(),
+          page: () => OneLooserContractScores(),
           binding: SelectPlayerBinding(),
         ),
         GetPage(
@@ -66,7 +66,7 @@ class Routes {
   static const HOME = "/";
   static const CREATE_PARTY = "/start_party";
   static const CHOOSE_CONTRACT = "/choose_contract";
-  static const BARBU_OR_NOLASTTRICK_SCORES = "/player_who_scored";
+  static const BARBU_OR_NOLASTTRICK_SCORES = "/one_looser_contract_scores";
   static const DOMINO_SCORES = "/domino_scores";
   static const CONTRACT_SCORES = "/contract_scores";
 }

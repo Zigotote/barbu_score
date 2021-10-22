@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/contract.dart';
+import '../models/contract_names.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
 import '../widgets/custom_buttons.dart';

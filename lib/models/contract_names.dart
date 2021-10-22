@@ -1,8 +1,5 @@
-import 'package:get/get.dart';
-
-import '../controller/party.dart';
 import '../main.dart';
-import '../controller/player.dart';
+import '../models/contract_models.dart';
 
 /// List the names of the contracts for a party
 enum ContractsNames {
@@ -16,28 +13,6 @@ enum ContractsNames {
 }
 
 extension ContractsInfos on ContractsNames {
-  /// Returns the maximal score for a contract
-  int get maximalScore {
-    int nbPlayers = Get.find<PartyController>().nbPlayers;
-    switch (this) {
-      case ContractsNames.Barbu:
-        return 50;
-      case ContractsNames.NoHearts:
-        return nbPlayers * 2 * 5;
-      case ContractsNames.NoQueens:
-        return 40;
-      case ContractsNames.NoTricks:
-        return 40;
-      case ContractsNames.NoLastTrick:
-        return 40;
-      case ContractsNames.Trumps:
-        return 50 + 40 * 3 + (nbPlayers * 2 * 5);
-      case ContractsNames.Domino:
-        return 0;
-    }
-    return 0;
-  }
-
   /// Returns the name to display for the different contracts
   String get displayName {
     switch (this) {
@@ -72,15 +47,25 @@ extension ContractsInfos on ContractsNames {
         return Routes.CONTRACT_SCORES;
     }
   }
-}
 
-/// A specific contract scores
-class ContractModel {
-  /// The name of the contract
-  final ContractsNames name;
-
-  /// The scores of all the players for this contract
-  final Map<PlayerController, int> scores;
-
-  ContractModel(this.name, this.scores);
+  /// Returns the ContractModel object to save the scores of the contract
+  AbstractContractModel get contract {
+    switch (this) {
+      case ContractsNames.Barbu:
+        return BarbuContractModel();
+      case ContractsNames.NoHearts:
+        return NoHeartsContractModel();
+      case ContractsNames.NoQueens:
+        return NoQueensContractModel();
+      case ContractsNames.NoTricks:
+        return NoTricksContractModel();
+      case ContractsNames.NoLastTrick:
+        return NoLastTrickContractModel();
+      case ContractsNames.Trumps:
+        return TrumpsContractModel();
+      case ContractsNames.Domino:
+        return DominoContractModel();
+    }
+    return null;
+  }
 }
