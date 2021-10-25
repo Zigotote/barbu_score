@@ -129,16 +129,33 @@ class DominoContractModel extends AbstractContractModel {
   /// Sets the score of each player from a Map wich links each player with its rank
   @override
   bool setScores(Map<PlayerController, int> rankOfPlayer) {
+    if (rankOfPlayer.length != Get.find<PartyController>().nbPlayers) {
+      return false;
+    }
     List<MapEntry<PlayerController, int>> orderedPlayers =
         rankOfPlayer.entries.toList();
     orderedPlayers.sort(
       (element1, element2) => element1.value - element2.value,
     );
-    return false;
 
-    ///3 : -20,0,20
-    ///4: -40,-20,10,20
-    ///5: -40,-20,0,20,40
-    ///6: -40,-20,-10,10,20,40
+    /// The scores the player can have (it is a symmetric array)
+    List<int> scores = [40, 20, 10];
+    double middleIndex = orderedPlayers.length / 2;
+    orderedPlayers.forEach((player) {
+      int score = 0;
+      int playerIndex = orderedPlayers.indexOf(player);
+
+      /// If the number of players is odd, and the player is in the middle rank, he has 0 points. Else it is calculated
+      if (orderedPlayers.length % 2 == 0 || middleIndex - 0.5 != playerIndex) {
+        /// The firsts players have a negative score, other have a positive score
+        if (playerIndex < middleIndex) {
+          score -= scores[playerIndex];
+        } else {
+          score = scores[orderedPlayers.length - playerIndex - 1];
+        }
+      }
+      this._scores[player.key] = score;
+    });
+    return true;
   }
 }

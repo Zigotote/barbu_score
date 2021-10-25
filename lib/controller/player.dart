@@ -19,7 +19,7 @@ class PlayerController extends GetxController {
   List<AbstractContractModel> _contracts;
 
   PlayerController(Color color, String image) {
-    this._name = "test".obs;
+    this._name = "test $image".obs;
     this._color = color.obs;
     this._image = image.obs;
     this._contracts = [];

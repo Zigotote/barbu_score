@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -82,7 +84,14 @@ class DominoScores extends GetView<OrderPlayersController> {
 
   /// Saves the score for this contract
   void _saveScore() {
-    party.currentPlayer.addContract(ContractsNames.Domino, Map());
+    party.currentPlayer.addContract(
+      ContractsNames.Domino,
+      Map.fromIterable(
+        controller.orderedPlayers,
+        key: (player) => player,
+        value: (player) => controller.orderedPlayers.indexOf(player),
+      ),
+    );
     Get.delete<OrderPlayersController>();
     party.nextPlayer();
   }
