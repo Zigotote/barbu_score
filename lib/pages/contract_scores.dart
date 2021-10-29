@@ -20,7 +20,7 @@ class ContractScores extends GetView<PartyController> {
   @override
   Widget build(BuildContext context) {
     return ContractPage(
-      contractName: contract.displayName,
+      subtitle: contract.displayName,
       child: Text("Not yet implemented"),
       onNextPlayer: () => _nextPlayer(),
     );

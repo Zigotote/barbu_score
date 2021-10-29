@@ -35,15 +35,19 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
             child: AnimatedPositioned(
               top: controller.topPositionSelectionBox,
               left: controller.leftPositionSelectionBox,
-              child: Container(
-                width: Get.width * 0.42,
-                height: Get.height * 0.15,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Get.theme.colorScheme.onSurface,
-                    width: 2,
+              child: Opacity(
+                opacity: 0.3,
+                child: Container(
+                  width: Get.width * 0.42,
+                  height: Get.height * 0.15,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    border: Border.all(
+                      color: Get.theme.colorScheme.onSurface,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  borderRadius: BorderRadius.circular(5),
                 ),
               ),
               duration: Duration(milliseconds: 400),
@@ -66,7 +70,7 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
   @override
   Widget build(BuildContext context) {
     return ContractPage(
-      contractName: contract.displayName,
+      subtitle: "Qui a remporté le ${contract.displayName} ?",
       child: _buildFields(),
       contractController: controller,
       onNextPlayer: _saveScore,

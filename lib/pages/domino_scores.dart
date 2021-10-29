@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -99,7 +97,7 @@ class DominoScores extends GetView<OrderPlayersController> {
   @override
   Widget build(BuildContext context) {
     return ContractPage(
-      contractName: ContractsNames.Domino.displayName,
+      subtitle: "Quel est l'ordre des joueurs ?",
       child: Expanded(child: _buildFields()),
       contractController: controller,
       onNextPlayer: _saveScore,

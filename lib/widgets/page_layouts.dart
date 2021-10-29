@@ -62,8 +62,8 @@ class ContractPage extends GetWidget<PartyController> {
   /// The controller for the contract, to know if the selected score is valid
   final ContractController contractController;
 
-  /// The name of the current contract
-  final String contractName;
+  /// The subtitle to explain the action that needs to be done
+  final String subtitle;
 
   /// The widgets to fill the scores
   final Widget child;
@@ -72,7 +72,7 @@ class ContractPage extends GetWidget<PartyController> {
   final Function() onNextPlayer;
 
   ContractPage({
-    @required this.contractName,
+    @required this.subtitle,
     @required this.child,
     @required this.onNextPlayer,
     this.contractController,
@@ -86,7 +86,7 @@ class ContractPage extends GetWidget<PartyController> {
         children: [
           Center(
             child: Text(
-              this.contractName,
+              this.subtitle,
               style: Get.textTheme.subtitle2,
             ),
           ),
