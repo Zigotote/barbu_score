@@ -95,7 +95,7 @@ class ContractPage extends GetWidget<PartyController> {
       ),
       bottomWidget: Obx(
         () => ElevatedButtonCustomColor(
-          text: "Joueur suivant",
+          text: "Valider les scores",
           color: contractController.isValid
               ? Get.theme.colorScheme.onSurface
               : Get.theme.disabledColor,
