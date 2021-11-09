@@ -80,9 +80,8 @@ class DominoScores extends GetView<OrderPlayersController> {
     );
   }
 
-  /// Saves the score for this contract
   void _saveScore() {
-    party.currentPlayer.addContract(
+    party.finishContract(
       ContractsNames.Domino,
       Map.fromIterable(
         controller.orderedPlayers,
@@ -91,7 +90,6 @@ class DominoScores extends GetView<OrderPlayersController> {
       ),
     );
     Get.delete<OrderPlayersController>();
-    party.nextPlayer();
   }
 
   @override

@@ -60,11 +60,19 @@ abstract class AbstractMultipleLooserContractModel
     this._expectedItems,
   ) : super(name);
 
+  /// Returns the maximal score for the contract
+  int get expectedItems => _expectedItems;
+
   @override
   bool setScores(Map<PlayerController, int> trickByPlayer) {
     final int declaredItems = trickByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
     if (declaredItems != this._expectedItems) {
+      Get.snackbar(
+        "Validation impossible",
+        "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Il devrait y en avoir $_expectedItems.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return false;
     }
     if (trickByPlayer.keys.length == 1) {

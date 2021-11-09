@@ -9,7 +9,7 @@ import '../widgets/custom_buttons.dart';
 import '../widgets/my_grid.dart';
 import '../widgets/page_layouts.dart';
 
-/// A page to fill the scores for a barbu or no last trick contract
+/// A page to fill the scores for a contract where only one player can loose
 class OneLooserContractScores extends GetView<SelectPlayerController> {
   /// The current party
   final PartyController party = Get.find<PartyController>();
@@ -62,9 +62,8 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
   void _saveScore() {
     PlayerController playerWithScore =
         party.players[controller.selectedPlayerIndex];
-    party.currentPlayer.addContract(contract, {playerWithScore: 1});
+    party.finishContract(contract, {playerWithScore: 1});
     Get.delete<SelectPlayerController>();
-    party.nextPlayer();
   }
 
   @override

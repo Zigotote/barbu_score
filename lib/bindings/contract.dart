@@ -17,3 +17,11 @@ class OrderPlayerBinding implements Bindings {
     Get.lazyPut(() => OrderPlayersController(c.players));
   }
 }
+
+class IndividualScoresBinding implements Bindings {
+  @override
+  void dependencies() {
+    PartyController c = Get.find();
+    Get.lazyPut(() => IndividualScoresController(c.players));
+  }
+}

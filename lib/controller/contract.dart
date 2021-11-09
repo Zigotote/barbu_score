@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:get/get.dart';
 
 import '../controller/player.dart';
@@ -63,5 +65,52 @@ class OrderPlayersController extends ContractController {
   void movePlayer(int oldIndex, int newIndex) {
     PlayerController player = orderedPlayers.removeAt(oldIndex);
     orderedPlayers.insert(newIndex, player);
+  }
+}
+
+/// A controller to manage the score of each player, for a particular contract
+class IndividualScoresController extends ContractController {
+  /// The map which links each player to his score
+  RxMap<PlayerController, int> _playerScores;
+
+  /// The maximal score for the current contract
+  int maximalScore;
+
+  IndividualScoresController(List players) {
+    this._playerScores = Map<PlayerController, int>.fromIterable(
+      players,
+      key: (player) => player,
+      value: (_) => 0,
+    ).obs;
+  }
+
+  @override
+  bool get isValid {
+    final int currentScore = _playerScores.values
+        .fold(0, (previousValue, element) => previousValue + element);
+    return currentScore == maximalScore;
+  }
+
+  UnmodifiableMapView<PlayerController, int> get playerScores =>
+      UnmodifiableMapView(_playerScores);
+
+  /// Increases the score of the player, only if the total score is less than the contract max score
+  void increaseScore(PlayerController player) {
+    if (this.isValid) {
+      Get.snackbar(
+        "Ajout de points impossible",
+        "Le nombre d'items dépasse le nombre d'éléments pouvant être remporté, fixé à $maximalScore.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      _playerScores[player]++;
+    }
+  }
+
+  /// Decreases the score of the player. It cant't go behind 0
+  void decreaseScore(PlayerController player) {
+    if (_playerScores[player] >= 1) {
+      _playerScores[player]--;
+    }
   }
 }

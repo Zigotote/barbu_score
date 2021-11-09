@@ -43,8 +43,10 @@ extension ContractsInfos on ContractsNames {
         return Routes.BARBU_OR_NOLASTTRICK_SCORES;
       case ContractsNames.Domino:
         return Routes.DOMINO_SCORES;
-      default:
+      case ContractsNames.Trumps:
         return Routes.CONTRACT_SCORES;
+      default:
+        return Routes.NO_SOMETHING_SCORES;
     }
   }
 

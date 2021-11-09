@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import './bindings/contract.dart';
 import './bindings/create_players.dart';
 import './bindings/party.dart';
-import './bindings/contract.dart';
 import './pages/choose_contract.dart';
 import './pages/contract_scores.dart';
 import './pages/create_party.dart';
 import './pages/domino_scores.dart';
+import './pages/individual_scores_contract.dart';
 import './pages/my_home.dart';
-import 'pages/one_looser_contract_scores.dart';
+import './pages/one_looser_contract_scores.dart';
 import './theme/my_themes.dart';
 
 void main() {
@@ -52,6 +53,11 @@ class MyApp extends StatelessWidget {
           binding: OrderPlayerBinding(),
         ),
         GetPage(
+          name: Routes.NO_SOMETHING_SCORES,
+          page: () => IndividualScoresContract(),
+          binding: IndividualScoresBinding(),
+        ),
+        GetPage(
           name: Routes.CONTRACT_SCORES,
           page: () => ContractScores(),
           binding: SelectPlayerBinding(), //TODO To remove
@@ -68,5 +74,6 @@ class Routes {
   static const CHOOSE_CONTRACT = "/choose_contract";
   static const BARBU_OR_NOLASTTRICK_SCORES = "/one_looser_contract_scores";
   static const DOMINO_SCORES = "/domino_scores";
+  static const NO_SOMETHING_SCORES = "/individual_scores";
   static const CONTRACT_SCORES = "/contract_scores";
 }

@@ -19,7 +19,7 @@ class PlayerController extends GetxController {
   List<AbstractContractModel> _contracts;
 
   PlayerController(Color color, String image) {
-    this._name = "test $image".obs;
+    this._name = image.obs;
     this._color = color.obs;
     this._image = image.obs;
     this._contracts = [];
@@ -48,11 +48,15 @@ class PlayerController extends GetxController {
 
   /// Adds a contract played by a player, created from its name.
   /// The score is calculated from the Map wich links the number of card or trick each player won.
-  void addContract(
+  /// Returns true if the score has been added, false otherwise
+  bool addContract(
       ContractsNames contractName, Map<PlayerController, int> trickByPlayer) {
     AbstractContractModel contract = contractName.contract;
-    contract.setScores(trickByPlayer);
-    _contracts.add(contract);
+    final bool isValidScore = contract.setScores(trickByPlayer);
+    if (isValidScore) {
+      _contracts.add(contract);
+    }
+    return isValidScore;
   }
 
   /// Returns true if the player has played the contract

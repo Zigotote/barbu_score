@@ -14,7 +14,7 @@ class ContractScores extends GetView<PartyController> {
   void _nextPlayer() {
     controller.currentPlayer
         .addContract(contract, {controller.currentPlayer: 0});
-    controller.nextPlayer();
+    Get.find<PartyController>().finishContract(ContractsNames.Trumps, null);
   }
 
   @override
