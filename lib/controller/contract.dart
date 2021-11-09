@@ -101,6 +101,7 @@ class IndividualScoresController extends ContractController {
         "Ajout de points impossible",
         "Le nombre d'items dépasse le nombre d'éléments pouvant être remporté, fixé à $maximalScore.",
         snackPosition: SnackPosition.BOTTOM,
+        dismissDirection: SnackDismissDirection.HORIZONTAL,
       );
     } else {
       _playerScores[player]++;

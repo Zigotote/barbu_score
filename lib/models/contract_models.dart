@@ -72,6 +72,7 @@ abstract class AbstractMultipleLooserContractModel
         "Validation impossible",
         "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Il devrait y en avoir $_expectedItems.",
         snackPosition: SnackPosition.BOTTOM,
+        dismissDirection: SnackDismissDirection.HORIZONTAL,
       );
       return false;
     }

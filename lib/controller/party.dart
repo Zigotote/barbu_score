@@ -41,6 +41,7 @@ class PartyController extends GetxController {
         "Scores incorrects",
         "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
         snackPosition: SnackPosition.BOTTOM,
+        dismissDirection: SnackDismissDirection.HORIZONTAL,
       );
     }
   }
