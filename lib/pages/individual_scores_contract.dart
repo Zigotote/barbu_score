@@ -40,7 +40,7 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButtonCustomColor(
-                text: "-",
+                icon: Icons.remove,
                 color: player.color,
                 onPressed: () => controller.decreaseScore(player),
               ),
@@ -51,7 +51,7 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
                 ],
               ),
               ElevatedButtonCustomColor(
-                text: "+",
+                icon: Icons.add,
                 color: player.color,
                 onPressed: () => controller.increaseScore(player),
               )

@@ -28,6 +28,9 @@ class ElevatedButtonCustomColor extends GetView {
   /// The text of the button
   final String text;
 
+  /// The icon of the button
+  final IconData icon;
+
   /// The color of the button
   final Color color;
 
@@ -35,18 +38,26 @@ class ElevatedButtonCustomColor extends GetView {
   final Function() onPressed;
 
   ElevatedButtonCustomColor({
-    @required this.text,
+    this.text,
+    this.icon,
     @required this.color,
     @required this.onPressed,
-  });
+  }) : assert(
+            ((text != null || icon != null) && (text == null || icon == null)),
+            "You have to provide an icon or a text for the button");
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: Text(
-        this.text,
-        style: TextStyle(color: this.color),
-      ),
+      child: this.text != null
+          ? Text(
+              this.text,
+              style: TextStyle(color: this.color),
+            )
+          : Icon(
+              this.icon,
+              color: this.color,
+            ),
       onPressed: this.onPressed,
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: this.color, width: 2),
