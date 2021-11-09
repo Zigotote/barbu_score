@@ -10,9 +10,6 @@ import '../widgets/page_layouts.dart';
 
 /// A page to fill the scores for a domino contract
 class DominoScores extends GetView<OrderPlayersController> {
-  /// The current party
-  final PartyController party = Get.find<PartyController>();
-
   /// Build each player's button and the box to show which one is currently selected
   Widget _buildFields() {
     return ReorderableListView.builder(
@@ -81,7 +78,7 @@ class DominoScores extends GetView<OrderPlayersController> {
   }
 
   void _saveScore() {
-    party.finishContract(
+    Get.find<PartyController>().finishContract(
       ContractsNames.Domino,
       Map.fromIterable(
         controller.orderedPlayers,

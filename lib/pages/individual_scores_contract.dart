@@ -11,9 +11,6 @@ import '../widgets/page_layouts.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
 class IndividualScoresContract extends GetView<IndividualScoresController> {
-  /// The current party
-  final PartyController party = Get.find<PartyController>();
-
   /// The contract the player choose
   final ContractsNames contract = Get.arguments;
 
@@ -64,7 +61,8 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
 
   /// Saves the score for this contract
   void _saveScore() {
-    party.finishContract(contract, controller.playerScores);
+    Get.find<PartyController>()
+        .finishContract(contract, controller.playerScores);
     Get.delete<IndividualScoresController>();
   }
 
