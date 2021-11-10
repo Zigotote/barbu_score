@@ -16,6 +16,8 @@ abstract class AbstractContractModel {
     this._scores = {};
   }
 
+  Map<PlayerController, int> get scores => _scores;
+
   /// Sets the score of each player from a Map wich links all players with the number of tricks/cards they won.
   /// The players not present in the list have a score of 0.
   /// Returns true if the score has been set correctly, false if the trickByPlayer Map is not correctly filled
@@ -126,8 +128,9 @@ class TrumpsContractModel extends AbstractContractModel {
   TrumpsContractModel() : super(ContractsNames.Trumps);
 
   @override
-  bool setScores(Map<PlayerController, int> rankOfPlayer) {
-    return false;
+  bool setScores(Map<PlayerController, int> playerScores) {
+    this._scores = playerScores;
+    return true;
   }
 }
 

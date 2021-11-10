@@ -44,7 +44,7 @@ extension ContractsInfos on ContractsNames {
       case ContractsNames.Domino:
         return Routes.DOMINO_SCORES;
       case ContractsNames.Trumps:
-        return Routes.CONTRACT_SCORES;
+        return Routes.TRUMPS_SCORES;
       default:
         return Routes.NO_SOMETHING_SCORES;
     }

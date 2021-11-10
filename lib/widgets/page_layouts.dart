@@ -5,6 +5,7 @@ import './custom_buttons.dart';
 import './my_appbar.dart';
 import '../controller/contract.dart';
 import '../controller/party.dart';
+import '../main.dart';
 import '../models/contract_names.dart';
 
 /// A page with a beautiful layout
@@ -59,7 +60,7 @@ class DefaultPage extends GetWidget {
 }
 
 /// A page for a contract scores
-class ContractPage<T extends AbstractContractController> extends GetView<T> {
+class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
   final PartyController party = Get.find<PartyController>();
 
   /// The contract actually displayed
@@ -78,7 +79,14 @@ class ContractPage<T extends AbstractContractController> extends GetView<T> {
   });
 
   void _saveScore() {
-    party.finishContract(contract, controller.playerScores);
+    final TrumpsScoresController trumpsController =
+        Get.find<TrumpsScoresController>();
+    if (trumpsController != null && controller != trumpsController) {
+      trumpsController.addContract(this.contract, controller.playerScores);
+      Get.toNamed(Routes.TRUMPS_SCORES);
+    } else {
+      party.finishContract(contract, controller.playerScores);
+    }
     Get.delete<T>();
   }
 

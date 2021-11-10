@@ -25,3 +25,10 @@ class IndividualScoresBinding implements Bindings {
     Get.lazyPut(() => IndividualScoresController(c.players));
   }
 }
+
+class TrumpsScoresBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => TrumpsScoresController());
+  }
+}

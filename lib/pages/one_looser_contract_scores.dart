@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/contract_names.dart';
-import '../controller/party.dart';
 import '../controller/contract.dart';
+import '../controller/party.dart';
+import '../models/contract_names.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/my_grid.dart';
 import '../widgets/page_layouts.dart';
@@ -55,7 +55,6 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
   @override
   Widget build(BuildContext context) {
     final ContractsNames contract = Get.arguments;
-    print("rebuild");
     return ContractPage<SelectPlayerController>(
       subtitle: "Qui a remporté le ${contract.displayName} ?",
       contract: contract,

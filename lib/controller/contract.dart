@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import '../controller/party.dart';
 import '../controller/player.dart';
+import '../models/contract_models.dart';
+import '../models/contract_names.dart';
 
 /// An abstract controller for the contracts
 abstract class AbstractContractController extends GetxController {
@@ -128,5 +130,55 @@ class IndividualScoresController extends AbstractContractController {
     if (_playerScores[player] >= 1) {
       _playerScores[player]--;
     }
+  }
+}
+
+/// A controller for the trump contract
+class TrumpsScoresController extends AbstractContractController {
+  /// The list of contracts to fill for a trump contract
+  final List<ContractsNames> trumpContracts = ContractsNames.values
+      .where((contractName) =>
+          contractName != ContractsNames.Trumps &&
+          contractName != ContractsNames.Domino)
+      .toList();
+
+  /// The contracts the player has filled
+  RxList<AbstractContractModel> _filledContracts;
+
+  TrumpsScoresController() {
+    this._filledContracts = <AbstractContractModel>[].obs;
+  }
+
+  @override
+  bool get isValid => _filledContracts.length == this.trumpContracts.length;
+
+  /// Returns true if the contract has been filled
+  bool isFilled(ContractsNames contractName) {
+    return _filledContracts.any((contract) => contract.name == contractName);
+  }
+
+  /// Adds a contract to the filledContracts list
+  addContract(
+      ContractsNames contractName, Map<PlayerController, int> playerScores) {
+    AbstractContractModel contract = contractName.contract;
+    contract.setScores(playerScores);
+    _filledContracts.add(contract);
+  }
+
+  @override
+  Map<PlayerController, int> get playerScores {
+    Map<PlayerController, int> playerScores = {};
+    _filledContracts.forEach((contract) {
+      contract.scores.entries.forEach((playerScore) {
+        PlayerController player = playerScore.key;
+        int score = playerScore.value;
+        if (playerScores.containsKey(player)) {
+          playerScores[player] += score;
+        } else {
+          playerScores[player] = score;
+        }
+      });
+    });
+    return playerScores;
   }
 }

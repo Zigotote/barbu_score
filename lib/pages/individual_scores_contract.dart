@@ -11,11 +11,11 @@ import '../widgets/page_layouts.dart';
 /// A page to fill the scores for a contract where each player has a different score
 class IndividualScoresContract extends GetView<IndividualScoresController> {
   /// The contract the player choose
-  final ContractsNames contract = Get.arguments;
+  final ContractsNames _contract = Get.arguments;
 
   IndividualScoresContract() {
     controller.maximalScore =
-        (contract.contract as AbstractMultipleLooserContractModel)
+        (_contract.contract as AbstractMultipleLooserContractModel)
             .expectedItems;
   }
 
@@ -62,8 +62,8 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
   Widget build(BuildContext context) {
     return ContractPage<IndividualScoresController>(
       subtitle:
-          "Nombre de ${contract.displayName.replaceFirst("Sans ", "")} par joueur",
-      contract: this.contract,
+          "Nombre de ${_contract.displayName.replaceFirst("Sans ", "")} par joueur",
+      contract: _contract,
       child: _buildFields(),
     );
   }
