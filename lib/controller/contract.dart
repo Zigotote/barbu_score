@@ -2,16 +2,20 @@ import 'dart:collection';
 
 import 'package:get/get.dart';
 
+import '../controller/party.dart';
 import '../controller/player.dart';
 
 /// An abstract controller for the contracts
-abstract class ContractController extends GetxController {
+abstract class AbstractContractController extends GetxController {
   /// Returns true if the score is valid, false otherwise
   bool get isValid;
+
+  /// Returns the map to calculate the scores for the contract
+  Map<PlayerController, int> get playerScores;
 }
 
 /// A controller to manage box position to show which item is selected
-class SelectPlayerController extends ContractController {
+class SelectPlayerController extends AbstractContractController {
   /// The top position of the selection box
   RxDouble _topPositionSelectionBox;
 
@@ -47,10 +51,14 @@ class SelectPlayerController extends ContractController {
     _topPositionSelectionBox.value =
         Get.height * 0.021 + (Get.height * 0.178) * (index ~/ 2);
   }
+
+  @override
+  Map<PlayerController, int> get playerScores =>
+      {Get.find<PartyController>().players[this.selectedPlayerIndex]: 1};
 }
 
 /// A controller to manage box position to show which item is selected
-class OrderPlayersController extends ContractController {
+class OrderPlayersController extends AbstractContractController {
   /// The ordered list of players
   RxList<PlayerController> orderedPlayers;
 
@@ -66,10 +74,17 @@ class OrderPlayersController extends ContractController {
     PlayerController player = orderedPlayers.removeAt(oldIndex);
     orderedPlayers.insert(newIndex, player);
   }
+
+  @override
+  Map<PlayerController, int> get playerScores => Map.fromIterable(
+        this.orderedPlayers,
+        key: (player) => player,
+        value: (player) => this.orderedPlayers.indexOf(player),
+      );
 }
 
 /// A controller to manage the score of each player, for a particular contract
-class IndividualScoresController extends ContractController {
+class IndividualScoresController extends AbstractContractController {
   /// The map which links each player to his score
   RxMap<PlayerController, int> _playerScores;
 

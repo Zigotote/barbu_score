@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../models/contract_names.dart';
 import '../controller/party.dart';
-import '../controller/player.dart';
 import '../controller/contract.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/my_grid.dart';
@@ -11,14 +10,9 @@ import '../widgets/page_layouts.dart';
 
 /// A page to fill the scores for a contract where only one player can loose
 class OneLooserContractScores extends GetView<SelectPlayerController> {
-  /// The current party
-  final PartyController party = Get.find<PartyController>();
-
-  /// The contract the player choose
-  final ContractsNames contract = Get.arguments;
-
   /// Build each player's button and the box to show which one is currently selected
   Widget _buildFields() {
+    final PartyController party = Get.find<PartyController>();
     return Stack(
       children: [
         MyGrid(
@@ -58,21 +52,14 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
     );
   }
 
-  /// Saves the score for this contract
-  void _saveScore() {
-    PlayerController playerWithScore =
-        party.players[controller.selectedPlayerIndex];
-    party.finishContract(contract, {playerWithScore: 1});
-    Get.delete<SelectPlayerController>();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ContractPage(
+    final ContractsNames contract = Get.arguments;
+    print("rebuild");
+    return ContractPage<SelectPlayerController>(
       subtitle: "Qui a remporté le ${contract.displayName} ?",
+      contract: contract,
       child: _buildFields(),
-      contractController: controller,
-      onNextPlayer: _saveScore,
     );
   }
 }

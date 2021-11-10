@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/party.dart';
+import './custom_buttons.dart';
+import './my_appbar.dart';
 import '../controller/contract.dart';
-import 'custom_buttons.dart';
-import 'my_appbar.dart';
+import '../controller/party.dart';
+import '../models/contract_names.dart';
 
 /// A page with a beautiful layout
 class DefaultPage extends GetWidget {
@@ -58,9 +59,11 @@ class DefaultPage extends GetWidget {
 }
 
 /// A page for a contract scores
-class ContractPage extends GetWidget<PartyController> {
-  /// The controller for the contract, to know if the selected score is valid
-  final ContractController contractController;
+class ContractPage<T extends AbstractContractController> extends GetView<T> {
+  final PartyController party = Get.find<PartyController>();
+
+  /// The contract actually displayed
+  final ContractsNames contract;
 
   /// The subtitle to explain the action that needs to be done
   final String subtitle;
@@ -68,20 +71,21 @@ class ContractPage extends GetWidget<PartyController> {
   /// The widgets to fill the scores
   final Widget child;
 
-  /// The function to call on next player button pressed
-  final Function() onNextPlayer;
-
   ContractPage({
     @required this.subtitle,
     @required this.child,
-    @required this.onNextPlayer,
-    this.contractController,
+    @required this.contract,
   });
+
+  void _saveScore() {
+    party.finishContract(contract, controller.playerScores);
+    Get.delete<T>();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultPage(
-      title: "Tour de ${controller.currentPlayer.name}",
+      title: "Tour de ${party.currentPlayer.name}",
       content: Column(
         children: [
           Center(
@@ -96,10 +100,10 @@ class ContractPage extends GetWidget<PartyController> {
       bottomWidget: Obx(
         () => ElevatedButtonCustomColor(
           text: "Valider les scores",
-          color: contractController.isValid
+          color: controller.isValid
               ? Get.theme.colorScheme.onSurface
               : Get.theme.disabledColor,
-          onPressed: contractController.isValid ? this.onNextPlayer : null,
+          onPressed: controller.isValid ? _saveScore : null,
         ),
       ),
     );

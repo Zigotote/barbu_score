@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/contract.dart';
-import '../controller/party.dart';
 import '../controller/player.dart';
 import '../models/contract_names.dart';
 import '../widgets/colored_container.dart';
@@ -77,25 +76,12 @@ class DominoScores extends GetView<OrderPlayersController> {
     );
   }
 
-  void _saveScore() {
-    Get.find<PartyController>().finishContract(
-      ContractsNames.Domino,
-      Map.fromIterable(
-        controller.orderedPlayers,
-        key: (player) => player,
-        value: (player) => controller.orderedPlayers.indexOf(player),
-      ),
-    );
-    Get.delete<OrderPlayersController>();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ContractPage(
+    return ContractPage<OrderPlayersController>(
       subtitle: "Quel est l'ordre des joueurs ?",
+      contract: ContractsNames.Domino,
       child: Expanded(child: _buildFields()),
-      contractController: controller,
-      onNextPlayer: _saveScore,
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/contract.dart';
-import '../controller/party.dart';
 import '../controller/player.dart';
 import '../models/contract_models.dart';
 import '../models/contract_names.dart';
@@ -59,21 +58,13 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
     );
   }
 
-  /// Saves the score for this contract
-  void _saveScore() {
-    Get.find<PartyController>()
-        .finishContract(contract, controller.playerScores);
-    Get.delete<IndividualScoresController>();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ContractPage(
+    return ContractPage<IndividualScoresController>(
       subtitle:
           "Nombre de ${contract.displayName.replaceFirst("Sans ", "")} par joueur",
+      contract: this.contract,
       child: _buildFields(),
-      contractController: controller,
-      onNextPlayer: _saveScore,
     );
   }
 }
