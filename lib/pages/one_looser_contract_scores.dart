@@ -5,7 +5,7 @@ import '../controller/contract.dart';
 import '../controller/party.dart';
 import '../models/contract_names.dart';
 import '../widgets/custom_buttons.dart';
-import '../widgets/my_grid.dart';
+import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 
 /// A page to fill the scores for a contract where only one player can loose

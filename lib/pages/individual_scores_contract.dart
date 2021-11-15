@@ -6,6 +6,7 @@ import '../controller/player.dart';
 import '../models/contract_models.dart';
 import '../models/contract_names.dart';
 import '../widgets/custom_buttons.dart';
+import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
@@ -20,12 +21,7 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
   }
 
   Widget _buildFields() {
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(
-        vertical: Get.height * 0.04,
-        horizontal: Get.width * 0.02,
-      ),
-      shrinkWrap: true,
+    return MyList(
       itemCount: controller.playerScores.length,
       itemBuilder: (_, index) {
         PlayerController player =

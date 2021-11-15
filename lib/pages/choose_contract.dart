@@ -5,7 +5,7 @@ import '../models/contract_names.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
 import '../widgets/custom_buttons.dart';
-import '../widgets/my_grid.dart';
+import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 
 /// A page for a player to choose his contract
