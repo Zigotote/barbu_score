@@ -19,7 +19,8 @@ class PlayerController extends GetxController {
   List<AbstractContractModel> _contracts;
 
   PlayerController(Color color, String image) {
-    this._name = image.obs;
+    this._name =
+        image.substring(image.indexOf("player"), image.indexOf(".")).obs;
     this._color = color.obs;
     this._image = image.obs;
     this._contracts = [];
@@ -45,6 +46,10 @@ class PlayerController extends GetxController {
   /// Returns the list of the contracts the player has already selected
   List<ContractsNames> get _choosenContracts =>
       _contracts.map((contract) => contract.name).toList();
+
+  /// Returns the scores of each player, for the contracts of this player
+  Map<PlayerController, int> get playerScores =>
+      AbstractContractModel.calculateTotalScore(_contracts);
 
   /// Adds a contract played by a player, created from its name.
   /// The score is calculated from the Map wich links the number of card or trick each player won.

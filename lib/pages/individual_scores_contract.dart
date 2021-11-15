@@ -24,8 +24,7 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
     return MyList(
       itemCount: controller.playerScores.length,
       itemBuilder: (_, index) {
-        PlayerController player =
-            controller.playerScores.entries.toList()[index].key;
+        PlayerController player = controller.playerScores.keys.elementAt(index);
         return Padding(
           padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
           child: Row(

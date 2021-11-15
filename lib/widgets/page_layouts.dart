@@ -25,7 +25,7 @@ class DefaultPage extends GetWidget {
   DefaultPage(
       {@required this.title,
       @required this.content,
-      @required this.bottomWidget,
+      this.bottomWidget,
       this.hasBackground = false});
 
   @override

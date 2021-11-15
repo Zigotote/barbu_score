@@ -3,21 +3,24 @@ import 'package:get/get.dart';
 
 /// An ElevatedButton with a full width
 class ElevatedButtonFullWidth extends GetWidget {
-  /// The text of the button
-  final String text;
+  /// The child of the button
+  final Widget child;
 
   /// The function to call on pressed action
   final Function() onPressed;
 
-  ElevatedButtonFullWidth({@required this.text, @required this.onPressed});
+  ElevatedButtonFullWidth({@required this.child, @required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      child: Text(this.text),
-      onPressed: this.onPressed,
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size(Get.width * 0.9, Get.height * 0.08),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: ElevatedButton(
+        child: this.child,
+        onPressed: this.onPressed,
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size(Get.width - 24, Get.height * 0.08),
+        ),
       ),
     );
   }
@@ -52,6 +55,7 @@ class ElevatedButtonCustomColor extends GetView {
       child: this.text != null
           ? Text(
               this.text,
+              textAlign: TextAlign.center,
               style: TextStyle(color: this.color),
             )
           : Icon(

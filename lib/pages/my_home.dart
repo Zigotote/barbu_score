@@ -24,11 +24,11 @@ class MyHome extends GetView {
               isHome: true,
             ),
             ElevatedButtonFullWidth(
-              text: "Démarrer une partie",
+              child: Text("Démarrer une partie"),
               onPressed: () => Get.toNamed(Routes.CREATE_PARTY),
             ),
             ElevatedButtonFullWidth(
-              text: "Charger une partie",
+              child: Text("Charger une partie"),
               onPressed: () => Get.toNamed(Routes.CREATE_PARTY),
             ),
             ElevatedButton(

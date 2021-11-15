@@ -12,6 +12,7 @@ import './pages/my_home.dart';
 import './pages/one_looser_contract_scores.dart';
 import './pages/trump_scores.dart';
 import './theme/my_themes.dart';
+import '../pages/my_scores.dart';
 
 void main() {
   runApp(MyApp());
@@ -62,6 +63,11 @@ class MyApp extends StatelessWidget {
           page: () => TrumpsScores(),
           binding: TrumpsScoresBinding(),
         ),
+        GetPage(
+          name: Routes.SCORES,
+          page: () => MyScores(),
+          binding: PartyBinding(),
+        ),
       ],
     );
   }
@@ -76,4 +82,5 @@ class Routes {
   static const DOMINO_SCORES = "/domino_scores";
   static const NO_SOMETHING_SCORES = "/individual_scores";
   static const TRUMPS_SCORES = "/trumps_scores";
+  static const SCORES = "/scores";
 }

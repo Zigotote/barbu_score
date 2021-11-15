@@ -2,9 +2,9 @@ import 'dart:collection';
 
 import 'package:get/get.dart';
 
+import './player.dart';
 import '../main.dart';
 import '../models/contract_names.dart';
-import 'player.dart';
 
 /// A party with some players
 class PartyController extends GetxController {
@@ -28,6 +28,21 @@ class PartyController extends GetxController {
 
   /// Returns the current player
   PlayerController get currentPlayer => _players[_currentPlayerIndex];
+
+  /// Returns the total score of each player for the party
+  Map<PlayerController, int> get playerScores {
+    Map<PlayerController, int> playerScores = Map.fromIterable(
+      _players,
+      key: (player) => player,
+      value: (_) => 0,
+    );
+    _players.forEach((p) {
+      p.playerScores.forEach((player, score) {
+        playerScores[player] += score;
+      });
+    });
+    return playerScores;
+  }
 
   /// Saves the score for the contract and changes the current player to the next one
   void finishContract(

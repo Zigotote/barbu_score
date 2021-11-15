@@ -6,6 +6,22 @@ import 'contract_names.dart';
 
 /// An abstract class to fill the scores for a contract
 abstract class AbstractContractModel {
+  /// Calculates the total score of each player, from a list of contracts
+  static Map<PlayerController, int> calculateTotalScore(
+      List<AbstractContractModel> contracts) {
+    Map<PlayerController, int> playerScores = {};
+    contracts.forEach((contract) {
+      contract.scores.forEach((player, score) {
+        if (playerScores.containsKey(player)) {
+          playerScores[player] += score;
+        } else {
+          playerScores[player] = score;
+        }
+      });
+    });
+    return playerScores;
+  }
+
   /// The name of the contract
   final ContractsNames name;
 
@@ -66,8 +82,8 @@ abstract class AbstractMultipleLooserContractModel
   int get expectedItems => _expectedItems;
 
   @override
-  bool setScores(Map<PlayerController, int> trickByPlayer) {
-    final int declaredItems = trickByPlayer.values
+  bool setScores(Map<PlayerController, int> itemsByPlayer) {
+    final int declaredItems = itemsByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
     if (declaredItems != this._expectedItems) {
       Get.snackbar(
@@ -78,17 +94,14 @@ abstract class AbstractMultipleLooserContractModel
       );
       return false;
     }
-    if (trickByPlayer.keys.length == 1) {
-      this._scores[trickByPlayer.entries.first.key] =
+    if (itemsByPlayer.values.any((score) => score == this._expectedItems)) {
+      this._scores[itemsByPlayer.entries.first.key] =
           0 - (this._expectedItems * this._pointsByItem);
     } else {
-      trickByPlayer.forEach((player, value) {
+      itemsByPlayer.forEach((player, value) {
         this._scores[player] = value * this._pointsByItem;
       });
     }
-    Get.find<PartyController>().players.forEach(
-          (player) => this._scores.putIfAbsent(player, () => 0),
-        );
     return true;
   }
 }

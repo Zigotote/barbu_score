@@ -167,18 +167,6 @@ class TrumpsScoresController extends AbstractContractController {
 
   @override
   Map<PlayerController, int> get playerScores {
-    Map<PlayerController, int> playerScores = {};
-    _filledContracts.forEach((contract) {
-      contract.scores.entries.forEach((playerScore) {
-        PlayerController player = playerScore.key;
-        int score = playerScore.value;
-        if (playerScores.containsKey(player)) {
-          playerScores[player] += score;
-        } else {
-          playerScores[player] = score;
-        }
-      });
-    });
-    return playerScores;
+    return AbstractContractModel.calculateTotalScore(_filledContracts);
   }
 }
