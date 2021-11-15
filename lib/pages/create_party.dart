@@ -183,22 +183,23 @@ class CreateParty extends GetView<CreatePlayersController> {
 
   /// Builds the button to validate the form
   Widget _buildValidateButton() {
-    return Stack(
-      alignment: AlignmentDirectional.center,
-      children: [
-        ElevatedButtonFullWidth(
-          text: "C'est parti",
-          onPressed: () {
-            if (_formKey.currentState.validate()) {
-              Get.toNamed(Routes.CHOOSE_CONTRACT);
-            }
-          },
-        ),
-        Positioned(
-          right: Get.width * 0.1,
-          child: Icon(Icons.arrow_forward_ios),
-        )
-      ],
+    return ElevatedButtonFullWidth(
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              "C'est parti !",
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Icon(Icons.arrow_forward_ios)
+        ],
+      ),
+      onPressed: () {
+        if (_formKey.currentState.validate()) {
+          Get.toNamed(Routes.CHOOSE_CONTRACT);
+        }
+      },
     );
   }
 
