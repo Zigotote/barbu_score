@@ -78,16 +78,23 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
     @required this.contract,
   });
 
+  /// Saves the score for this contract and moves to the next player round
   void _saveScore() {
-    final TrumpsScoresController trumpsController =
-        Get.find<TrumpsScoresController>();
-    if (trumpsController != null && controller != trumpsController) {
-      trumpsController.addContract(this.contract, controller.playerScores);
-      Get.toNamed(Routes.TRUMPS_SCORES);
-    } else {
+    try {
+      final TrumpsScoresController trumpsController =
+          Get.find<TrumpsScoresController>();
+      if (controller != trumpsController) {
+        trumpsController.addContract(this.contract, controller.playerScores);
+        Get.toNamed(Routes.TRUMPS_SCORES);
+      } else {
+        party.finishContract(contract, controller.playerScores);
+      }
+    } on String catch (_) {
+      // When their is no TrumpsScoresController, which means it is a regular contract that needs to be finished
       party.finishContract(contract, controller.playerScores);
+    } finally {
+      Get.delete<T>();
     }
-    Get.delete<T>();
   }
 
   @override
