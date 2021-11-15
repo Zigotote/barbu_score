@@ -62,17 +62,13 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   /// Builds a button to display in the action part. It has a text, an icon and a foreground color
   ElevatedButton _buildActionButton(
       IconData icon, String text, Color color, Function onPressed) {
-    return ElevatedButton(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: color),
-          Text(text, style: TextStyle(color: color)),
-        ],
-      ),
+    return ElevatedButton.icon(
+      icon: Icon(icon),
+      label: Text(text),
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        side: BorderSide(color: color, width: 2),
+        onPrimary: color,
       ),
     );
   }
