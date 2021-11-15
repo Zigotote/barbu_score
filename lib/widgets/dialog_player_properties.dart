@@ -64,6 +64,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
       IconData icon, String text, Color color, Function onPressed) {
     return ElevatedButton(
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, color: color),
           Text(text, style: TextStyle(color: color)),
@@ -71,7 +72,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
       ),
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: Get.width * 0.03),
+        padding: EdgeInsets.symmetric(horizontal: 16),
       ),
     );
   }
@@ -131,8 +132,12 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
         ],
       ),
       actions: [
-        _buildActionButton(Icons.delete_forever_outlined, "Supprimer",
-            Get.theme.errorColor, this.onDelete),
+        _buildActionButton(
+          Icons.delete_forever_outlined,
+          "Supprimer",
+          Get.theme.errorColor,
+          this.onDelete,
+        ),
         _buildActionButton(
           Icons.done,
           "Valider",
