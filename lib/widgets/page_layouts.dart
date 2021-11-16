@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import './custom_buttons.dart';
 import './my_appbar.dart';
 import '../controller/contract.dart';
 import '../controller/party.dart';
@@ -120,11 +119,8 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
         ],
       ),
       bottomWidget: Obx(
-        () => ElevatedButtonCustomColor(
-          text: "Valider les scores",
-          color: controller.isValid
-              ? Get.theme.colorScheme.onSurface
-              : Get.theme.disabledColor,
+        () => ElevatedButton(
+          child: Text("Valider les scores"),
           onPressed: controller.isValid ? _saveScore : null,
         ),
       ),
