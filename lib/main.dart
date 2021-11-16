@@ -10,6 +10,7 @@ import './pages/domino_scores.dart';
 import './pages/individual_scores_contract.dart';
 import './pages/my_home.dart';
 import './pages/one_looser_contract_scores.dart';
+import './pages/scores_by_player.dart';
 import './pages/trump_scores.dart';
 import './theme/my_themes.dart';
 import '../pages/my_scores.dart';
@@ -68,6 +69,11 @@ class MyApp extends StatelessWidget {
           page: () => MyScores(),
           binding: PartyBinding(),
         ),
+        GetPage(
+          name: Routes.SCORES_BY_PLAYER,
+          page: () => ScoresByPlayer(),
+          binding: PartyBinding(),
+        ),
       ],
     );
   }
@@ -83,4 +89,5 @@ class Routes {
   static const NO_SOMETHING_SCORES = "/individual_scores";
   static const TRUMPS_SCORES = "/trumps_scores";
   static const SCORES = "/scores";
+  static const SCORES_BY_PLAYER = "/scores/player";
 }

@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 
 import '../controller/party.dart';
 import '../controller/player.dart';
+import '../main.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 import '../widgets/player_icon.dart';
 
+/// A page to display the scores of each player for the party
 class MyScores extends GetView<PartyController> {
   /// Builds the button to see the score of a player
   Widget _buildPlayerButton(PlayerController player) {
@@ -30,7 +32,7 @@ class MyScores extends GetView<PartyController> {
           Icon(Icons.arrow_forward_ios)
         ],
       ),
-      onPressed: () => print("Scores détaillés"),
+      onPressed: () => Get.toNamed(Routes.SCORES_BY_PLAYER, arguments: player),
     );
   }
 

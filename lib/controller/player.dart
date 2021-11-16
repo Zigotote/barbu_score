@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controller/party.dart';
 import '../models/contract_models.dart';
 import '../models/contract_names.dart';
 
@@ -48,8 +49,12 @@ class PlayerController extends GetxController {
       _contracts.map((contract) => contract.name).toList();
 
   /// Returns the scores of each player, for the contracts of this player
-  Map<PlayerController, int> get playerScores =>
-      AbstractContractModel.calculateTotalScore(_contracts);
+  Map<PlayerController, int> get playerScores {
+    if (_contracts.isEmpty) {
+      return this.contractScores(null);
+    }
+    return AbstractContractModel.calculateTotalScore(_contracts);
+  }
 
   /// Adds a contract played by a player, created from its name.
   /// The score is calculated from the Map wich links the number of card or trick each player won.
@@ -67,6 +72,22 @@ class PlayerController extends GetxController {
   /// Returns true if the player has played the contract
   bool hasPlayedContract(ContractsNames contractName) {
     return !availableContracts.contains(contractName);
+  }
+
+  /// Returns the scores for the contract. If it has not been played, all player have a score of 0
+  Map<PlayerController, int> contractScores(ContractsNames contractName) {
+    AbstractContractModel contract = _contracts.firstWhere(
+      (contract) => contract.name == contractName,
+      orElse: () => null,
+    );
+    if (contract == null) {
+      return Map.fromIterable(
+        Get.find<PartyController>().players,
+        key: (player) => player,
+        value: (_) => 0,
+      );
+    }
+    return contract.scores;
   }
 
   @override
