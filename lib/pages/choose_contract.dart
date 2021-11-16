@@ -5,7 +5,6 @@ import '../controller/party.dart';
 import '../controller/player.dart';
 import '../main.dart';
 import '../models/contract_names.dart';
-import '../widgets/custom_buttons.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 
@@ -23,10 +22,9 @@ class ChooseContract extends GetView<PartyController> {
   }
 
   /// Builds a button for a contract which has already been played
-  ElevatedButtonCustomColor _buildUnavailableButton(ContractsNames contract) {
-    return ElevatedButtonCustomColor(
-      text: contract.displayName,
-      color: Get.theme.disabledColor,
+  Widget _buildUnavailableButton(ContractsNames contract) {
+    return ElevatedButton(
+      child: Text(contract.displayName),
       onPressed: null,
     );
   }

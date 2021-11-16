@@ -19,9 +19,13 @@ class MyThemes {
     highlightColor: Colors.green,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(
-          ThemeData.light().colorScheme.onSurface,
-        ),
+        foregroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return Colors.grey;
+          }
+          return ThemeData.light().colorScheme.onSurface;
+        }),
         textStyle: MaterialStateProperty.all(
           Get.textTheme.button.copyWith(
             fontSize: Get.width * 0.05,
@@ -31,6 +35,7 @@ class MyThemes {
         backgroundColor: MaterialStateProperty.all(
           ThemeData.light().scaffoldBackgroundColor,
         ),
+        overlayColor: MaterialStateProperty.all(Colors.grey),
         elevation: MaterialStateProperty.all(10),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
@@ -39,12 +44,17 @@ class MyThemes {
             ),
           ),
         ),
-        side: MaterialStateProperty.all(
-          BorderSide(
+        side: MaterialStateProperty.resolveWith<BorderSide>(
+            (Set<MaterialState> states) {
+          BorderSide border = BorderSide(
             style: BorderStyle.solid,
             width: 2,
-          ),
-        ),
+          );
+          if (states.contains(MaterialState.disabled)) {
+            border = border.copyWith(color: Colors.grey);
+          }
+          return border;
+        }),
         padding: MaterialStateProperty.all(
           EdgeInsets.symmetric(
             vertical: Get.height * 0.02,
