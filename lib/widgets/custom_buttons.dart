@@ -53,18 +53,12 @@ class ElevatedButtonCustomColor extends GetView {
   Widget build(BuildContext context) {
     return ElevatedButton(
       child: this.text != null
-          ? Text(
-              this.text,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: this.color),
-            )
-          : Icon(
-              this.icon,
-              color: this.color,
-            ),
+          ? Text(this.text, textAlign: TextAlign.center)
+          : Icon(this.icon),
       onPressed: this.onPressed,
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: this.color, width: 2),
+        onPrimary: this.color,
       ),
     );
   }

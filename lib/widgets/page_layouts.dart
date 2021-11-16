@@ -22,16 +22,23 @@ class DefaultPage extends GetWidget {
   /// True if the background has to be drawn
   final bool hasBackground;
 
+  /// True if a go back leading should be displayed before the title of the page
+  final bool hasLeading;
+
   DefaultPage(
       {@required this.title,
       @required this.content,
       this.bottomWidget,
-      this.hasBackground = false});
+      this.hasBackground = false,
+      this.hasLeading = false});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(this.title),
+      appBar: MyAppBar(
+        this.title,
+        hasLeading: this.hasLeading,
+      ),
       body: Container(
         decoration: this.hasBackground
             ? BoxDecoration(

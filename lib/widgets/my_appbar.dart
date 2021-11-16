@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyAppBar extends AppBar {
-  final bool isHome;
-
-  MyAppBar(String title, {this.isHome = false})
+  MyAppBar(String title, {bool isHome = false, bool hasLeading = false})
       : super(
+          leading: hasLeading
+              ? IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Get.theme.colorScheme.onSurface,
+                  ),
+                  onPressed: Get.back,
+                )
+              : null,
+          leadingWidth: hasLeading ? 32 : 0,
           title: Stack(
             alignment: AlignmentDirectional.center,
             children: [
@@ -29,6 +37,5 @@ class MyAppBar extends AppBar {
           ),
           elevation: 0,
           backgroundColor: Get.theme.scaffoldBackgroundColor,
-          leadingWidth: 0,
         );
 }
