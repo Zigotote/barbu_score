@@ -44,6 +44,10 @@ class CreatePlayersController extends GetxController {
   /// Returns the number of players for the party
   int get nbPlayers => _players.length;
 
+  /// Returns if the number of player is valid to start a party
+  bool get isValid =>
+      nbPlayers >= NB_PLAYERS_MIN && nbPlayers <= NB_PLAYERS_MAX;
+
   /// Returns the list of color not picked by a user
   UnmodifiableListView<Color> get availableColors =>
       UnmodifiableListView(colors.where(

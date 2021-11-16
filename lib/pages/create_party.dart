@@ -77,7 +77,7 @@ class CreateParty extends GetView<CreatePlayersController> {
       onChanged: (value) => player.name = value,
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          return "Indiquer le nom du joueur.";
+          return "Indiquer un nom.";
         }
         return null;
       },
@@ -183,23 +183,27 @@ class CreateParty extends GetView<CreatePlayersController> {
 
   /// Builds the button to validate the form
   Widget _buildValidateButton() {
-    return ElevatedButtonFullWidth(
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              "C'est parti !",
-              textAlign: TextAlign.center,
+    return Obx(
+      () => ElevatedButtonFullWidth(
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                "C'est parti !",
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-          Icon(Icons.arrow_forward_ios)
-        ],
+            Icon(Icons.arrow_forward_ios)
+          ],
+        ),
+        onPressed: controller.isValid
+            ? () {
+                if (_formKey.currentState.validate()) {
+                  Get.toNamed(Routes.CHOOSE_CONTRACT);
+                }
+              }
+            : null,
       ),
-      onPressed: () {
-        if (_formKey.currentState.validate()) {
-          Get.toNamed(Routes.CHOOSE_CONTRACT);
-        }
-      },
     );
   }
 

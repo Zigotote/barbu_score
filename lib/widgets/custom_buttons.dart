@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// An ElevatedButton with a full width
-class ElevatedButtonFullWidth extends GetWidget {
+class ElevatedButtonFullWidth extends GetView {
   /// The child of the button
   final Widget child;
 
