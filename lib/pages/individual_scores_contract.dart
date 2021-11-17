@@ -25,26 +25,29 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
       itemCount: controller.playerScores.length,
       itemBuilder: (_, index) {
         PlayerController player = controller.playerScores.keys.elementAt(index);
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButtonCustomColor(
-              icon: Icons.remove,
-              color: player.color,
-              onPressed: () => controller.decreaseScore(player),
-            ),
-            Column(
-              children: [
-                Text(player.name),
-                Obx(() => Text(controller.playerScores[player].toString()))
-              ],
-            ),
-            ElevatedButtonCustomColor(
-              icon: Icons.add,
-              color: player.color,
-              onPressed: () => controller.increaseScore(player),
-            )
-          ],
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButtonCustomColor(
+                icon: Icons.remove,
+                color: player.color,
+                onPressed: () => controller.decreaseScore(player),
+              ),
+              Column(
+                children: [
+                  Text(player.name),
+                  Obx(() => Text(controller.playerScores[player].toString()))
+                ],
+              ),
+              ElevatedButtonCustomColor(
+                icon: Icons.add,
+                color: player.color,
+                onPressed: () => controller.increaseScore(player),
+              )
+            ],
+          ),
         );
       },
     );
