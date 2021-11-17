@@ -94,9 +94,16 @@ abstract class AbstractMultipleLooserContractModel
       );
       return false;
     }
-    if (itemsByPlayer.values.any((score) => score == this._expectedItems)) {
-      this._scores[itemsByPlayer.entries.first.key] =
+    MapEntry<PlayerController, int> playerWithNegativeScore = itemsByPlayer
+        .entries
+        .firstWhere((playerItems) => playerItems.value == this._expectedItems,
+            orElse: () => null);
+    if (playerWithNegativeScore != null) {
+      this._scores[playerWithNegativeScore.key] =
           0 - (this._expectedItems * this._pointsByItem);
+      itemsByPlayer.forEach(
+        (player, items) => this._scores.putIfAbsent(player, () => 0),
+      );
     } else {
       itemsByPlayer.forEach((player, value) {
         this._scores[player] = value * this._pointsByItem;

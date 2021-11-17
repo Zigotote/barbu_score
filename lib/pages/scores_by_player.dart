@@ -72,11 +72,11 @@ class ScoresByPlayer extends GetView<PartyController> {
   /// Builds the cells to display the score of each player
   List<DataCell> _buildScoresCells(Map<PlayerController, int> playerScores,
       {bool isBold = false}) {
-    return playerScores.values
-        .map((score) => DataCell(
+    return controller.players
+        .map((player) => DataCell(
               Center(
                 child: Text(
-                  score.toString(),
+                  playerScores[player].toString(),
                   style: isBold
                       ? Get.textTheme.bodyText2.copyWith(
                           fontWeight: FontWeight.w900,
