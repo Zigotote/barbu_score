@@ -32,7 +32,7 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
               child: Opacity(
                 opacity: 0.3,
                 child: Container(
-                  width: Get.width * 0.42,
+                  width: Get.width * 0.43,
                   height: Get.height * 0.15,
                   decoration: BoxDecoration(
                     color: Colors.grey,

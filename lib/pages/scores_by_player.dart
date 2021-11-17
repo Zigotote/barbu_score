@@ -4,27 +4,13 @@ import 'package:get/get.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
 import '../models/contract_names.dart';
+import '../widgets/my_subtitle.dart';
 import '../widgets/page_layouts.dart';
 import '../widgets/player_icon.dart';
 
 /// A page to display the scores for the contracts of a player
 class ScoresByPlayer extends GetView<PartyController> {
   final PlayerController player = Get.arguments as PlayerController;
-
-  /// Builds the subtitle of the page
-  Widget _buildSubtitle() {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: Get.height * 0.04,
-      ),
-      child: Center(
-        child: Text(
-          "Contrats de ${player.name}",
-          style: Get.textTheme.subtitle2,
-        ),
-      ),
-    );
-  }
 
   /// Builds the table to display the scores of the players in a matrix
   DataTable _buildTable() {
@@ -95,7 +81,7 @@ class ScoresByPlayer extends GetView<PartyController> {
       title: "Scores",
       content: Column(
         children: [
-          _buildSubtitle(),
+          MySubtitle("Contrats de ${player.name}"),
           SingleChildScrollView(
             child: _buildTable(),
             scrollDirection: Axis.horizontal,

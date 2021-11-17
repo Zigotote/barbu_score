@@ -46,12 +46,12 @@ class SelectPlayerController extends AbstractContractController {
   set selectedPlayerIndex(int index) {
     _selectedPlayerIndex.value = index;
     if (index % 2 == 0) {
-      _leftPositionSelectionBox.value = 0.0;
+      _leftPositionSelectionBox.value = 2.0;
     } else {
-      _leftPositionSelectionBox.value = Get.width * 0.48;
+      _leftPositionSelectionBox.value = Get.width * 0.43 + 24;
     }
     _topPositionSelectionBox.value =
-        Get.height * 0.021 + (Get.height * 0.178) * (index ~/ 2);
+        6 + ((Get.height * 0.15 + 20) * (index ~/ 2));
   }
 
   @override

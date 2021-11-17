@@ -28,7 +28,7 @@ class MyThemes {
         }),
         textStyle: MaterialStateProperty.all(
           Get.textTheme.button.copyWith(
-            fontSize: Get.width * 0.05,
+            fontSize: 22,
             fontFamily: "QuickSand",
           ),
         ),
@@ -57,8 +57,8 @@ class MyThemes {
         }),
         padding: MaterialStateProperty.all(
           EdgeInsets.symmetric(
-            vertical: Get.height * 0.02,
-            horizontal: Get.width * 0.02,
+            vertical: 16,
+            horizontal: 16,
           ),
         ),
       ),
@@ -67,7 +67,7 @@ class MyThemes {
       style: ButtonStyle(
         foregroundColor:
             MaterialStateProperty.all(ThemeData.light().colorScheme.onSurface),
-        padding: MaterialStateProperty.all(EdgeInsets.all(Get.width * 0.04)),
+        padding: MaterialStateProperty.all(EdgeInsets.all(16)),
         shape: MaterialStateProperty.all(CircleBorder()),
         side: MaterialStateProperty.all(
           BorderSide(

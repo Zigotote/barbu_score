@@ -22,7 +22,7 @@ class MyAppBar extends AppBar {
                 decoration: BoxDecoration(
                   color: Get.theme.scaffoldBackgroundColor,
                 ),
-                padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   title,
                   textAlign: TextAlign.center,

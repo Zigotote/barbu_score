@@ -2,29 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// A grid which takes all the available space in the layout
-class MyGrid extends GetWidget {
+class MyGrid extends GetView {
+  /// The height of each element in the grid. Default value is Get.height*0.12
+  final double mainAxisExtent;
+
   /// The number of items in the grid
   final int itemCount;
 
   /// The function to build each item
   final Function(BuildContext, int) itemBuilder;
 
-  MyGrid({@required this.itemCount, @required this.itemBuilder});
+  MyGrid(
+      {this.mainAxisExtent,
+      @required this.itemCount,
+      @required this.itemBuilder});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: Get.width * 0.1,
-        mainAxisSpacing: Get.width * 0.1,
-        childAspectRatio: 2,
+        crossAxisSpacing: 32,
+        mainAxisSpacing: 40,
+        mainAxisExtent: this.mainAxisExtent == null
+            ? Get.height * 0.12
+            : this.mainAxisExtent,
       ),
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       padding: EdgeInsets.symmetric(
-        vertical: Get.height * 0.04,
-        horizontal: Get.width * 0.02,
+        vertical: 16,
+        horizontal: 8,
       ),
       itemCount: this.itemCount,
       itemBuilder: this.itemBuilder,
@@ -46,13 +54,13 @@ class MyList extends GetWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.symmetric(
-        vertical: Get.height * 0.04,
+        vertical: 16,
       ),
       shrinkWrap: true,
       itemCount: this.itemCount,
       itemBuilder: this.itemBuilder,
       separatorBuilder: (_, __) => SizedBox(
-        height: 16,
+        height: 24,
       ),
     );
   }

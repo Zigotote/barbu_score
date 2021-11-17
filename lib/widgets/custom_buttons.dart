@@ -58,6 +58,7 @@ class ElevatedButtonCustomColor extends GetView {
       onPressed: this.onPressed,
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: this.color, width: 2),
+        padding: EdgeInsets.all(8),
         onPrimary: this.color,
       ),
     );

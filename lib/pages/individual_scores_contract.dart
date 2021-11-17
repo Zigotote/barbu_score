@@ -25,29 +25,26 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
       itemCount: controller.playerScores.length,
       itemBuilder: (_, index) {
         PlayerController player = controller.playerScores.keys.elementAt(index);
-        return Padding(
-          padding: EdgeInsets.symmetric(vertical: Get.height * 0.02),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButtonCustomColor(
-                icon: Icons.remove,
-                color: player.color,
-                onPressed: () => controller.decreaseScore(player),
-              ),
-              Column(
-                children: [
-                  Text(player.name),
-                  Obx(() => Text(controller.playerScores[player].toString()))
-                ],
-              ),
-              ElevatedButtonCustomColor(
-                icon: Icons.add,
-                color: player.color,
-                onPressed: () => controller.increaseScore(player),
-              )
-            ],
-          ),
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButtonCustomColor(
+              icon: Icons.remove,
+              color: player.color,
+              onPressed: () => controller.decreaseScore(player),
+            ),
+            Column(
+              children: [
+                Text(player.name),
+                Obx(() => Text(controller.playerScores[player].toString()))
+              ],
+            ),
+            ElevatedButtonCustomColor(
+              icon: Icons.add,
+              color: player.color,
+              onPressed: () => controller.increaseScore(player),
+            )
+          ],
         );
       },
     );
@@ -59,7 +56,7 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
       subtitle:
           "Nombre de ${_contract.displayName.replaceFirst("Sans ", "")} par joueur",
       contract: _contract,
-      child: _buildFields(),
+      child: Expanded(child: _buildFields()),
     );
   }
 }

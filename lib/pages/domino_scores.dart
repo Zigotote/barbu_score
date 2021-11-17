@@ -19,9 +19,9 @@ class DominoScores extends GetView<OrderPlayersController> {
         PlayerController player = controller.orderedPlayers[index];
         return Padding(
           key: ValueKey(index),
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.symmetric(vertical: 16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
                 (index + 1).toString(),
@@ -43,9 +43,6 @@ class DominoScores extends GetView<OrderPlayersController> {
         }
         controller.movePlayer(oldIndex, newIndex);
       },
-      padding: EdgeInsets.symmetric(
-        vertical: Get.height * 0.02,
-      ),
     );
   }
 

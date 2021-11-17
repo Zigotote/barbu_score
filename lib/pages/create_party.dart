@@ -6,9 +6,9 @@ import '../controller/create_players.dart';
 import '../controller/player.dart';
 import '../main.dart';
 import '../widgets/colored_container.dart';
-import '../widgets/custom_buttons.dart';
 import '../widgets/dialog_player_properties.dart';
-import '../widgets/my_appbar.dart';
+import '../widgets/list_layouts.dart';
+import '../widgets/page_layouts.dart';
 import '../widgets/player_icon.dart';
 
 /// A page to create a party by filling the names of the players
@@ -44,7 +44,7 @@ class CreateParty extends GetView<CreatePlayersController> {
   }
 
   /// Builds the field to modify the player's infos
-  _buildPlayerField(int index) {
+  Widget _buildPlayerField(int index) {
     PlayerController player = controller.players[index];
     return Stack(
       alignment: Alignment.center,
@@ -164,7 +164,7 @@ class CreateParty extends GetView<CreatePlayersController> {
   /// Builds the button to add a player
   Widget _buildAddPlayerButton() {
     return Container(
-      margin: EdgeInsets.all(Get.width * 0.12),
+      margin: EdgeInsets.all(32),
       child: OutlinedButton(
         onPressed: () => controller.addPlayer(),
         child: Icon(
@@ -184,7 +184,7 @@ class CreateParty extends GetView<CreatePlayersController> {
   /// Builds the button to validate the form
   Widget _buildValidateButton() {
     return Obx(
-      () => ElevatedButtonFullWidth(
+      () => ElevatedButton(
         child: Row(
           children: [
             Expanded(
@@ -214,45 +214,30 @@ class CreateParty extends GetView<CreatePlayersController> {
         _unflipCard();
         _unfocusTextField();
       },
-      child: Scaffold(
-        appBar: MyAppBar("Créer les joueurs"),
-        body: Form(
+      child: DefaultPage(
+        title: "Créer les joueurs",
+        content: Form(
           key: _formKey,
-          child: CustomScrollView(
-            slivers: [
-              SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
-                sliver: Obx(
-                  () => SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: Get.width * 0.05,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (_, index) {
-                        if (index < controller.nbPlayers) {
-                          return _buildPlayerField(index);
-                        } else {
-                          return _buildAddPlayerButton();
-                        }
-                      },
-                      childCount: controller.nbPlayers <
-                              CreatePlayersController.NB_PLAYERS_MAX
-                          ? controller.nbPlayers + 1
-                          : controller.nbPlayers,
-                    ),
-                  ),
-                ),
+          child: SingleChildScrollView(
+            child: Obx(
+              () => MyGrid(
+                mainAxisExtent: Get.height * 0.2,
+                itemCount: controller.nbPlayers <
+                        CreatePlayersController.NB_PLAYERS_MAX
+                    ? controller.nbPlayers + 1
+                    : controller.nbPlayers,
+                itemBuilder: (_, index) {
+                  if (index < controller.nbPlayers) {
+                    return _buildPlayerField(index);
+                  } else {
+                    return _buildAddPlayerButton();
+                  }
+                },
               ),
-              SliverPadding(
-                padding: EdgeInsets.only(bottom: Get.height * 0.02),
-                sliver: SliverToBoxAdapter(
-                  child: _buildValidateButton(),
-                ),
-              )
-            ],
+            ),
           ),
         ),
+        bottomWidget: _buildValidateButton(),
       ),
     );
   }

@@ -29,7 +29,7 @@ class ColoredContainer extends GetView {
       width: this?.width,
       alignment: Alignment.bottomCenter,
       padding: EdgeInsets.symmetric(
-        horizontal: Get.width * 0.05,
+        horizontal: 16,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(

@@ -39,8 +39,8 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
       children: [
         _buildContractButton(contract),
         Positioned(
-          right: Get.width * 0.02,
-          top: Get.height * 0.01,
+          right: 8,
+          top: 8,
           child: Icon(
             Icons.task_alt_outlined,
             color: Get.theme.highlightColor,

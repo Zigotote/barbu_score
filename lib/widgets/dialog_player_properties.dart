@@ -35,8 +35,8 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
           ),
         ),
         Positioned(
-          right: -Get.width * 0.05,
-          top: -Get.width * 0.05,
+          right: -24,
+          top: -16,
           child: OutlinedButton(
             onPressed: () => Get.back(),
             child: Icon(Icons.close),
@@ -47,16 +47,22 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   }
 
   /// Builds the title and list of items the player can modify
-  List<Widget> _buildPropertySelection(String text, List items) {
-    return [
-      Text(text, style: Get.textTheme.headline6),
-      SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: items,
+  Widget _buildPropertySelection(String text, List items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(bottom: 16),
+          child: Text(text, style: Get.textTheme.headline6),
         ),
-      )
-    ];
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: items,
+          ),
+        ),
+      ],
+    );
   }
 
   /// Builds a button to display in the action part. It has a text, an icon and a foreground color
@@ -68,6 +74,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: color, width: 2),
+        padding: EdgeInsets.all(8),
         onPrimary: color,
       ),
     );
@@ -79,14 +86,14 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
       title: _buildTitle(),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ..._buildPropertySelection(
+          _buildPropertySelection(
             "Couleur",
             CreatePlayersController.colors
                 .map(
                   (color) => Padding(
-                    padding: EdgeInsets.only(right: Get.width * 0.02),
+                    padding: EdgeInsets.only(right: 8),
                     child: Obx(
                       () => OutlinedButton(
                         onPressed: controller.availableColors.contains(color)
@@ -107,7 +114,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
                 )
                 .toList(),
           ),
-          ..._buildPropertySelection(
+          _buildPropertySelection(
             "Avatar",
             List.generate(
               CreatePlayersController.NB_PLAYERS_MAX,

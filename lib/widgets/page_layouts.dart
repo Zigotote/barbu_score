@@ -6,6 +6,7 @@ import '../controller/contract.dart';
 import '../controller/party.dart';
 import '../main.dart';
 import '../models/contract_names.dart';
+import '../widgets/my_subtitle.dart';
 
 /// A page with a beautiful layout
 class DefaultPage extends GetWidget {
@@ -49,15 +50,15 @@ class DefaultPage extends GetWidget {
               )
             : null,
         padding: EdgeInsets.symmetric(
-          horizontal: Get.width * 0.05,
-          vertical: Get.height * 0.015,
+          horizontal: 16,
+          vertical: 16,
         ),
         child: this.content,
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: Get.width * 0.05,
-          vertical: Get.height * 0.015,
+          horizontal: 16,
+          vertical: 16,
         ),
         child: this.bottomWidget,
       ),
@@ -109,12 +110,7 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
       title: "Tour de ${party.currentPlayer.name}",
       content: Column(
         children: [
-          Center(
-            child: Text(
-              this.subtitle,
-              style: Get.textTheme.subtitle2,
-            ),
-          ),
+          MySubtitle(this.subtitle),
           this.child,
         ],
       ),
