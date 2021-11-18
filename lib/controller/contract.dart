@@ -27,10 +27,13 @@ class SelectPlayerController extends AbstractContractController {
   /// The index of the selected player
   RxInt _selectedPlayerIndex;
 
-  SelectPlayerController() {
-    this._selectedPlayerIndex = (-1).obs;
+  SelectPlayerController({int defaultIndex = -1}) {
+    this._selectedPlayerIndex = defaultIndex.obs;
     this._topPositionSelectionBox = (0.0).obs;
     this._leftPositionSelectionBox = (0.0).obs;
+    if (defaultIndex >= 0) {
+      this.selectedPlayerIndex = defaultIndex;
+    }
   }
 
   @override
@@ -93,12 +96,8 @@ class IndividualScoresController extends AbstractContractController {
   /// The maximal score for the current contract
   int maximalScore;
 
-  IndividualScoresController(List players) {
-    this._playerScores = Map<PlayerController, int>.fromIterable(
-      players,
-      key: (player) => player,
-      value: (_) => 0,
-    ).obs;
+  IndividualScoresController(Map<PlayerController, int> players) {
+    this._playerScores = players.obs;
   }
 
   @override
@@ -152,14 +151,23 @@ class TrumpsScoresController extends AbstractContractController {
   @override
   bool get isValid => _filledContracts.length == this.trumpContracts.length;
 
+  /// Returns the filled contract which matches the contractName. If there is none, returns null
+  AbstractContractModel getFilledContract(ContractsNames contractName) {
+    return _filledContracts.firstWhere(
+      (contract) => contract.name == contractName,
+      orElse: () => null,
+    );
+  }
+
   /// Returns true if the contract has been filled
   bool isFilled(ContractsNames contractName) {
-    return _filledContracts.any((contract) => contract.name == contractName);
+    return this.getFilledContract(contractName) != null;
   }
 
   /// Adds a contract to the filledContracts list
   addContract(
       ContractsNames contractName, Map<PlayerController, int> playerScores) {
+    _filledContracts.removeWhere((contract) => contract.name == contractName);
     AbstractContractModel contract = contractName.contract;
     contract.setScores(playerScores);
     _filledContracts.add(contract);

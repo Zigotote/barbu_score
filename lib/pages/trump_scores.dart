@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controller/contract.dart';
 import '../models/contract_names.dart';
+import '../models/route_argument.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 
@@ -24,10 +25,15 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
   ElevatedButton _buildContractButton(ContractsNames contract) {
     return ElevatedButton(
       child: Text(contract.displayName),
-      onPressed: () => Get.toNamed(
-        contract.route,
-        arguments: contract,
-      ),
+      onPressed: () {
+        return Get.toNamed(
+          contract.route,
+          arguments: RouteArgument(
+            contractName: contract,
+            contractValues: controller.getFilledContract(contract),
+          ),
+        );
+      },
     );
   }
 

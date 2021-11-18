@@ -5,6 +5,7 @@ import '../controller/contract.dart';
 import '../controller/player.dart';
 import '../models/contract_models.dart';
 import '../models/contract_names.dart';
+import '../models/route_argument.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
@@ -12,7 +13,8 @@ import '../widgets/page_layouts.dart';
 /// A page to fill the scores for a contract where each player has a different score
 class IndividualScoresContract extends GetView<IndividualScoresController> {
   /// The contract the player choose
-  final ContractsNames _contract = Get.arguments;
+  final ContractsNames _contract =
+      (Get.arguments as RouteArgument).contractName;
 
   IndividualScoresContract() {
     controller.maximalScore =

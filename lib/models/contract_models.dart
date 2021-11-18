@@ -28,16 +28,25 @@ abstract class AbstractContractModel {
   /// The scores of all the players for this contract
   Map<PlayerController, int> _scores;
 
+  /// The number of item (or rank) of the players. Used to calculate the player scores.
+  Map<PlayerController, int> _playerItems;
+
   AbstractContractModel(this.name) {
     this._scores = {};
+    this._playerItems = {};
   }
 
   Map<PlayerController, int> get scores => _scores;
 
+  Map<PlayerController, int> get playerItems => _playerItems;
+
   /// Sets the score of each player from a Map wich links all players with the number of tricks/cards they won.
   /// The players not present in the list have a score of 0.
   /// Returns true if the score has been set correctly, false if the trickByPlayer Map is not correctly filled
-  bool setScores(Map<PlayerController, int> trickByPlayer);
+  bool setScores(Map<PlayerController, int> playerItems) {
+    this._playerItems = playerItems;
+    return false;
+  }
 }
 
 /// An abstract class to fill the scores for a contract which has only one looser
@@ -52,6 +61,7 @@ abstract class AbstractOneLooserContractModel extends AbstractContractModel {
   /// Returns true if the score has been set correctly, false otherwise (less or more than 1 player in the Map)
   @override
   bool setScores(Map<PlayerController, int> trickByPlayer) {
+    super.setScores(trickByPlayer);
     if (trickByPlayer.entries.length != 1) {
       return false;
     }
@@ -83,6 +93,7 @@ abstract class AbstractMultipleLooserContractModel
 
   @override
   bool setScores(Map<PlayerController, int> itemsByPlayer) {
+    super.setScores(itemsByPlayer);
     final int declaredItems = itemsByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
     if (declaredItems != this._expectedItems) {
@@ -161,6 +172,7 @@ class DominoContractModel extends AbstractContractModel {
   /// Sets the score of each player from a Map wich links each player with its rank
   @override
   bool setScores(Map<PlayerController, int> rankOfPlayer) {
+    super.setScores(rankOfPlayer);
     if (rankOfPlayer.length != Get.find<PartyController>().nbPlayers) {
       return false;
     }
