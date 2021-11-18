@@ -26,8 +26,15 @@ class SelectPlayerBinding implements Bindings {
 class OrderPlayerBinding implements Bindings {
   @override
   void dependencies() {
-    PartyController c = Get.find();
-    Get.lazyPut(() => OrderPlayersController(c.players));
+    PartyController party = Get.find();
+    List<PlayerController> orderedPlayers = party.players.toList();
+    final RouteArgument routeArgument = Get.arguments;
+    if (routeArgument.isForModification) {
+      routeArgument.contractValues.playerItems.entries.forEach((playerRank) {
+        orderedPlayers[playerRank.value] = playerRank.key;
+      });
+    }
+    Get.lazyPut(() => OrderPlayersController(orderedPlayers));
   }
 }
 

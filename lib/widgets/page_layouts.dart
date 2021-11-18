@@ -116,7 +116,7 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
     String title = "Tour de ${party.currentPlayer.name}";
     String validateText = "Valider les scores";
     if ((Get.arguments as RouteArgument).isForModification) {
-      title = "Modification du ${this.contract.displayName}";
+      title = "Modification ${this.contract.displayName}";
       validateText = "Modifier les scores";
     }
     return DefaultPage(
