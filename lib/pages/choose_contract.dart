@@ -6,6 +6,7 @@ import '../controller/player.dart';
 import '../main.dart';
 import '../models/contract_names.dart';
 import '../models/route_argument.dart';
+import '../widgets/custom_buttons.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 
@@ -27,8 +28,24 @@ class ChooseContract extends GetView<PartyController> {
 
   /// Builds a button for a contract which has already been played
   Widget _buildUnavailableButton(ContractsNames contract) {
-    return ElevatedButton(
-      child: Text(contract.displayName),
+    return ElevatedButtonTopRightWidget(
+      text: contract.displayName,
+      topRightChild: IconButton(
+        tooltip: "Consulter ou modifier le score rentré pour le contrat",
+        icon: Icon(
+          Icons.edit,
+          color: Get.theme.colorScheme.onSurface.withOpacity(0.8),
+        ),
+        onPressed: () => Get.toNamed(
+          contract.route,
+          arguments: RouteArgument(
+            contractName: contract,
+            contractValues: controller.currentPlayer.getContract(contract),
+          ),
+        ),
+        padding: EdgeInsets.zero,
+        constraints: BoxConstraints(),
+      ),
       onPressed: null,
     );
   }

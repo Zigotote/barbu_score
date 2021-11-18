@@ -64,3 +64,40 @@ class ElevatedButtonCustomColor extends GetView {
     );
   }
 }
+
+/// A button with an widget in the top right corner
+class ElevatedButtonTopRightWidget extends GetView {
+  /// The text of the button
+  final String text;
+
+  /// The function to call on button pressed action
+  final Function() onPressed;
+
+  /// The widget to display in the top right corner
+  final Widget topRightChild;
+
+  ElevatedButtonTopRightWidget({
+    @required this.text,
+    @required this.topRightChild,
+    @required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      fit: StackFit.expand,
+      children: [
+        ElevatedButton(
+          child: Text(this.text),
+          onPressed: this.onPressed,
+        ),
+        Positioned(
+          right: 8,
+          top: 8,
+          child: this.topRightChild,
+        )
+      ],
+    );
+  }
+}

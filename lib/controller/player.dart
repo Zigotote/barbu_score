@@ -64,22 +64,28 @@ class PlayerController extends GetxController {
     AbstractContractModel contract = contractName.contract;
     final bool isValidScore = contract.setScores(trickByPlayer);
     if (isValidScore) {
+      _contracts.removeWhere((contract) => contract.name == contractName);
       _contracts.add(contract);
     }
     return isValidScore;
   }
 
+  /// Returns the filled contract model for this contract name. Returns null if there is no contract
+  AbstractContractModel getContract(ContractsNames contractName) {
+    return _contracts.firstWhere(
+      (contract) => contract.name == contractName,
+      orElse: () => null,
+    );
+  }
+
   /// Returns true if the player has played the contract
   bool hasPlayedContract(ContractsNames contractName) {
-    return !availableContracts.contains(contractName);
+    return _choosenContracts.contains(contractName);
   }
 
   /// Returns the scores for the contract. If it has not been played, all player have a score of 0
   Map<PlayerController, int> contractScores(ContractsNames contractName) {
-    AbstractContractModel contract = _contracts.firstWhere(
-      (contract) => contract.name == contractName,
-      orElse: () => null,
-    );
+    AbstractContractModel contract = this.getContract(contractName);
     if (contract == null) {
       return Map.fromIterable(
         Get.find<PartyController>().players,

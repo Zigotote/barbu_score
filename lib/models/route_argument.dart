@@ -12,4 +12,7 @@ class RouteArgument {
   final AbstractContractModel contractValues;
 
   RouteArgument({@required this.contractName, @required this.contractValues});
+
+  /// Returns true if the route is made to modify a contract, false if it is a new one
+  bool get isForModification => contractValues != null;
 }

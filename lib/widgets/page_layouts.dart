@@ -6,6 +6,7 @@ import '../controller/contract.dart';
 import '../controller/party.dart';
 import '../main.dart';
 import '../models/contract_names.dart';
+import '../models/route_argument.dart';
 import '../widgets/my_subtitle.dart';
 
 /// A page with a beautiful layout
@@ -92,7 +93,13 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
           Get.find<TrumpsScoresController>();
       if (controller != trumpsController) {
         trumpsController.addContract(this.contract, controller.playerScores);
-        Get.toNamed(Routes.TRUMPS_SCORES);
+        Get.toNamed(
+          Routes.TRUMPS_SCORES,
+          arguments: RouteArgument(
+            contractName: ContractsNames.Trumps,
+            contractValues: null,
+          ),
+        );
       } else {
         party.finishContract(contract, controller.playerScores);
       }
@@ -106,8 +113,14 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
 
   @override
   Widget build(BuildContext context) {
+    String title = "Tour de ${party.currentPlayer.name}";
+    String validateText = "Valider les scores";
+    if ((Get.arguments as RouteArgument).isForModification) {
+      title = "Modification du ${this.contract.displayName}";
+      validateText = "Modifier les scores";
+    }
     return DefaultPage(
-      title: "Tour de ${party.currentPlayer.name}",
+      title: title,
       content: Column(
         children: [
           MySubtitle(this.subtitle),
@@ -116,7 +129,7 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
       ),
       bottomWidget: Obx(
         () => ElevatedButton(
-          child: Text("Valider les scores"),
+          child: Text(validateText),
           onPressed: controller.isValid ? _saveScore : null,
         ),
       ),
