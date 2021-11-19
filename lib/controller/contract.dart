@@ -6,6 +6,7 @@ import '../controller/party.dart';
 import '../controller/player.dart';
 import '../models/contract_models.dart';
 import '../models/contract_names.dart';
+import '../utils/snackbar.dart';
 
 /// An abstract controller for the contracts
 abstract class AbstractContractController extends GetxController {
@@ -113,11 +114,9 @@ class IndividualScoresController extends AbstractContractController {
   /// Increases the score of the player, only if the total score is less than the contract max score
   void increaseScore(PlayerController player) {
     if (this.isValid) {
-      Get.snackbar(
+      SnackbarUtils.openSnackbar(
         "Ajout de points impossible",
         "Le nombre d'items dépasse le nombre d'éléments pouvant être remporté, fixé à $maximalScore.",
-        snackPosition: SnackPosition.BOTTOM,
-        dismissDirection: SnackDismissDirection.HORIZONTAL,
       );
     } else {
       _playerScores[player]++;

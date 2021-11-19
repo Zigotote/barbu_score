@@ -6,6 +6,7 @@ import './player.dart';
 import '../main.dart';
 import '../models/contract_names.dart';
 import '../models/route_argument.dart';
+import '../utils/snackbar.dart';
 
 /// A party with some players
 class PartyController extends GetxController {
@@ -68,11 +69,9 @@ class PartyController extends GetxController {
         this._nextPlayer();
       }
     } else {
-      Get.snackbar(
+      SnackbarUtils.openSnackbar(
         "Scores incorrects",
         "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
-        snackPosition: SnackPosition.BOTTOM,
-        dismissDirection: SnackDismissDirection.HORIZONTAL,
       );
     }
   }

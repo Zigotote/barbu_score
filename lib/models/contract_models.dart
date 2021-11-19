@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../controller/party.dart';
 import '../controller/player.dart';
+import '../utils/snackbar.dart';
 import 'contract_names.dart';
 
 /// An abstract class to fill the scores for a contract
@@ -104,11 +105,9 @@ abstract class AbstractMultipleLooserContractModel
     final int declaredItems = itemsByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
     if (declaredItems != this._expectedItems) {
-      Get.snackbar(
+      SnackbarUtils.openSnackbar(
         "Validation impossible",
         "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Il devrait y en avoir $_expectedItems.",
-        snackPosition: SnackPosition.BOTTOM,
-        dismissDirection: SnackDismissDirection.HORIZONTAL,
       );
       return false;
     }
