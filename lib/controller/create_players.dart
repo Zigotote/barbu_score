@@ -79,4 +79,11 @@ class CreatePlayersController extends GetxController {
     }
     return player.name.characters.first;
   }
+
+  /// Returns true if the player has the same name as another
+  bool isDuplicateName(PlayerController player) {
+    return this
+        ._players
+        .any((p) => p != player && p.name.trim() == player.name);
+  }
 }

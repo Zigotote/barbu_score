@@ -78,6 +78,8 @@ class CreateParty extends GetView<CreatePlayersController> {
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return "Indiquer un nom.";
+        } else if (controller.isDuplicateName(player)) {
+          return "Ce nom est déjà pris.";
         }
         return null;
       },
