@@ -14,6 +14,7 @@ import './pages/scores_by_player.dart';
 import './pages/trump_scores.dart';
 import './theme/my_themes.dart';
 import '../pages/my_scores.dart';
+import './controller/contract.dart';
 
 void main() {
   runApp(MyApp());
@@ -90,4 +91,15 @@ class Routes {
   static const TRUMPS_SCORES = "/trumps_scores";
   static const SCORES = "/scores";
   static const SCORES_BY_PLAYER = "/scores/player";
+  static const FINISH_PARTY = "/end_party";
+
+  /// Returns true if the contract of this route is part of a trumps contract
+  static bool isPartOfTrumpsContract() {
+    try {
+      Get.find<TrumpsScoresController>();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 }
