@@ -24,6 +24,15 @@ class PartyController extends GetxController {
   UnmodifiableListView<PlayerController> get players =>
       UnmodifiableListView(_players);
 
+  /// Returns the player list ordered by score
+  UnmodifiableListView<PlayerController> get orderedPlayers {
+    List<MapEntry<PlayerController, int>> orderedPlayers =
+        playerScores.entries.toList();
+    orderedPlayers
+        .sort((player1, player2) => player1.value.compareTo(player2.value));
+    return UnmodifiableListView(orderedPlayers.map((player) => player.key));
+  }
+
   /// Returns the number of players for the party
   int get nbPlayers => _players.length;
 
@@ -68,6 +77,31 @@ class PartyController extends GetxController {
     }
   }
 
+  /// Finds the player's best friend
+  PlayerController bestFriend(PlayerController player) {
+    return this._findPlayerWhere(player, (score1, score2) => score1 > score2);
+  }
+
+  /// Finds the player's worst ennemy
+  PlayerController worstEnnemy(PlayerController player) {
+    return this._findPlayerWhere(player, (score1, score2) => score1 < score2);
+  }
+
+  /// Finds the player's best friend
+  PlayerController _findPlayerWhere(
+      PlayerController player, Function(int, int) condition) {
+    int score = player.playerScores[player];
+    PlayerController playerFound = player;
+    this._players.forEach((p) {
+      final int playerScore = p.playerScores[player];
+      if (condition(score, playerScore)) {
+        playerFound = p;
+        score = playerScore;
+      }
+    });
+    return playerFound;
+  }
+
   /// Changes the current player to the next one
   /// Navigates to the next page (choose contract if their is at least one left, lefts the party otherwise)
   void _nextPlayer() {
@@ -78,7 +112,7 @@ class PartyController extends GetxController {
     if (this.currentPlayer.availableContracts.length > 0) {
       Get.toNamed(Routes.CHOOSE_CONTRACT);
     } else {
-      Get.toNamed(Routes.HOME);
+      Get.toNamed(Routes.FINISH_PARTY);
     }
   }
 }

@@ -13,6 +13,7 @@ import './pages/one_looser_contract_scores.dart';
 import './pages/scores_by_player.dart';
 import './pages/trump_scores.dart';
 import './theme/my_themes.dart';
+import '../pages/finish_party.dart';
 import '../pages/my_scores.dart';
 import './controller/contract.dart';
 
@@ -73,6 +74,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: Routes.SCORES_BY_PLAYER,
           page: () => ScoresByPlayer(),
+          binding: PartyBinding(),
+        ),
+        GetPage(
+          name: Routes.FINISH_PARTY,
+          page: () => FinishParty(),
           binding: PartyBinding(),
         ),
       ],
