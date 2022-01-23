@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SnackbarUtils {
@@ -7,7 +8,7 @@ class SnackbarUtils {
         title,
         text,
         snackPosition: SnackPosition.BOTTOM,
-        dismissDirection: SnackDismissDirection.HORIZONTAL,
+        dismissDirection: DismissDirection.horizontal,
       );
     }
   }
