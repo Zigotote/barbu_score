@@ -117,6 +117,7 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
     }
     return DefaultPage(
       title: title,
+      hasLeading: true,
       content: Column(
         children: [
           MySubtitle(this.subtitle),
