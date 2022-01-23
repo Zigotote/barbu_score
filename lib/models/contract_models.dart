@@ -168,7 +168,7 @@ class TrumpsContractModel extends AbstractContractModel {
   Map<PlayerController, int> get playerItems => {};
 
   @override
-  bool setScores(Map<PlayerController, int> playerScores, {int a}) {
+  bool setScores(Map<PlayerController, int> playerScores) {
     this._scores = playerScores;
     return true;
   }
