@@ -27,6 +27,21 @@ class PlayerController extends GetxController {
     this._contracts = [];
   }
 
+  PlayerController.fromJson(Map<String, dynamic> json)
+      : _name = json["name"],
+        _color = json["color"],
+        _image = json["image"],
+        _contracts = json["contract"];
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "color": color,
+      "image": image,
+      "contracts": _contracts.map((contract) => contract.toJson())
+    };
+  }
+
   String get name => _name.value;
 
   set name(value) => _name.value = value.trim();

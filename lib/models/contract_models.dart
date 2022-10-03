@@ -33,6 +33,17 @@ abstract class AbstractContractModel {
     this._scores = {};
   }
 
+  AbstractContractModel.fromJson(Map<String, dynamic> json)
+      : name = json["name"],
+        _scores = json["scores"];
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "scores": _scores,
+    };
+  }
+
   Map<PlayerController, int> get scores => _scores;
 
   /// The number of item (or rank) of the players, calculated from _scores. Used to modify the contract.

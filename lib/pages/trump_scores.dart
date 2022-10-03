@@ -8,7 +8,7 @@ import '../widgets/custom_buttons.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 
-/// A page to fill the scores for a domino contract
+/// A page to fill the scores for a trump contract
 class TrumpsScores extends GetView<TrumpsScoresController> {
   Widget _buildFields() {
     return MyGrid(

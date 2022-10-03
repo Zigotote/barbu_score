@@ -21,6 +21,17 @@ class PartyController extends GetxController {
     _currentPlayerIndex = 0;
   }
 
+  PartyController.fromJson(Map<String, dynamic> json)
+      : _players = json["players"],
+        _currentPlayerIndex = json["currentPlayerIndex"];
+
+  Map<String, dynamic> toJson() {
+    return {
+      "players": _players.map((player) => player.toJson()),
+      "currentPlayerIndex": _currentPlayerIndex
+    };
+  }
+
   /// Returns the player list
   UnmodifiableListView<PlayerController> get players =>
       UnmodifiableListView(_players);
@@ -54,6 +65,9 @@ class PartyController extends GetxController {
     });
     return playerScores;
   }
+
+  /// Returns the names of the players, separated with a comma
+  String get playerNames => _players.join(", ");
 
   /// Saves the score for the contract and changes the current player to the next one
   void finishContract(

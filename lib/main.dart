@@ -1,3 +1,4 @@
+import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +19,7 @@ import '../pages/my_scores.dart';
 import './controller/contract.dart';
 
 void main() {
+  Get.put(MyStorage());
   runApp(MyApp());
 }
 

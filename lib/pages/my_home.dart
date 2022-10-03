@@ -1,3 +1,5 @@
+import 'package:barbu_score/utils/snackbar.dart';
+import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,6 +8,41 @@ import '../widgets/custom_buttons.dart';
 import '../widgets/my_appbar.dart';
 
 class MyHome extends GetView {
+  _confirmLoadParty(BuildContext context) {
+    String previousPlayers = MyStorage().getStoredPartyPlayers();
+    if (previousPlayers.length == 0) {
+      SnackbarUtils.openSnackbar(
+        "Aucune partie trouvée",
+        "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
+      );
+      Get.toNamed(Routes.CREATE_PARTY);
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext buildContext) {
+            return AlertDialog(
+              title: Text("Charger une partie"),
+              content: Text(
+                  "Reprendre la partie précédente avec $previousPlayers ?"),
+              actions: [
+                ElevatedButtonCustomColor(
+                  color: Get.theme.errorColor,
+                  textSize: 16,
+                  text: "Non, nouvelle partie",
+                  onPressed: () => Get.toNamed(Routes.CREATE_PARTY),
+                ),
+                ElevatedButtonCustomColor(
+                  color: Get.theme.highlightColor,
+                  textSize: 16,
+                  text: "Oui",
+                  onPressed: () => MyStorage().loadParty(),
+                ),
+              ],
+            );
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +66,7 @@ class MyHome extends GetView {
             ),
             ElevatedButtonFullWidth(
               child: Text("Charger une partie"),
-              onPressed: () => Get.toNamed(Routes.CREATE_PARTY),
+              onPressed: () => _confirmLoadParty(context),
             ),
             ElevatedButton(
               child: Text("Règles du jeu"),

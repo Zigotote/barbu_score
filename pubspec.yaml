@@ -30,6 +30,7 @@ dependencies:
   get: ^4.1.4
   flip_card: ^0.5.0
   sprintf: ^6.0.0
+  get_storage: ^2.0.3
 
 dev_dependencies:
   flutter_test:

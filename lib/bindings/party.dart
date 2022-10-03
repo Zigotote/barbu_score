@@ -6,7 +6,11 @@ import '../controller/party.dart';
 class PartyBinding implements Bindings {
   @override
   void dependencies() {
-    CreatePlayersController c = Get.find();
-    Get.lazyPut(() => PartyController(c.players));
+    try {
+      Get.find<PartyController>();
+    } catch (_) {
+      CreatePlayersController c = Get.find();
+      Get.lazyPut(() => PartyController(c.players));
+    }
   }
 }
