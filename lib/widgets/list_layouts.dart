@@ -25,7 +25,7 @@ class MyGrid extends GetView {
         crossAxisSpacing: 32,
         mainAxisSpacing: 40,
         mainAxisExtent: this.mainAxisExtent == null
-            ? Get.height * 0.12
+            ? Get.height * 0.15
             : this.mainAxisExtent,
       ),
       shrinkWrap: true,
