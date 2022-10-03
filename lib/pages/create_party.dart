@@ -201,22 +201,20 @@ class CreateParty extends GetView<CreatePlayersController> {
         title: "Créer les joueurs",
         content: Form(
           key: _formKey,
-          child: SingleChildScrollView(
-            child: Obx(
-              () => MyGrid(
-                mainAxisExtent: Get.height * 0.2,
-                itemCount: controller.nbPlayers <
-                        CreatePlayersController.NB_PLAYERS_MAX
-                    ? controller.nbPlayers + 1
-                    : controller.nbPlayers,
-                itemBuilder: (_, index) {
-                  if (index < controller.nbPlayers) {
-                    return _buildPlayerField(index);
-                  } else {
-                    return _buildAddPlayerButton();
-                  }
-                },
-              ),
+          child: Obx(
+            () => MyGrid(
+              mainAxisExtent: Get.height * 0.2,
+              itemCount:
+                  controller.nbPlayers < CreatePlayersController.NB_PLAYERS_MAX
+                      ? controller.nbPlayers + 1
+                      : controller.nbPlayers,
+              itemBuilder: (_, index) {
+                if (index < controller.nbPlayers) {
+                  return _buildPlayerField(index);
+                } else {
+                  return _buildAddPlayerButton();
+                }
+              },
             ),
           ),
         ),

@@ -28,7 +28,6 @@ class MyGrid extends GetView {
             ? Get.height * 0.12
             : this.mainAxisExtent,
       ),
-      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       padding: EdgeInsets.symmetric(
         vertical: 16,

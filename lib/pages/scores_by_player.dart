@@ -79,14 +79,16 @@ class ScoresByPlayer extends GetView<PartyController> {
     return DefaultPage(
       hasLeading: true,
       title: "Scores",
-      content: Column(
-        children: [
-          MySubtitle("Contrats de ${player.name}"),
-          SingleChildScrollView(
-            child: _buildTable(),
-            scrollDirection: Axis.horizontal,
-          ),
-        ],
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            MySubtitle("Contrats de ${player.name}"),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: _buildTable(),
+            ),
+          ],
+        ),
       ),
     );
   }
