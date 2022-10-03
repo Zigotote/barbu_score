@@ -153,10 +153,7 @@ class CreateParty extends GetView<CreatePlayersController> {
       margin: EdgeInsets.all(32),
       child: OutlinedButton(
         onPressed: () => controller.addPlayer(),
-        child: Icon(
-          Icons.add,
-          size: Get.width * 0.1,
-        ),
+        child: Icon(Icons.add),
         style: OutlinedButton.styleFrom(
           side: BorderSide(
             style: BorderStyle.solid,
