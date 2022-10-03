@@ -19,9 +19,6 @@ class CreateParty extends GetView<CreatePlayersController> {
   /// The card that has been flipped
   FlipCardState _flippedCard;
 
-  /// The text field focused by the user
-  FocusNode _focusedTextField;
-
   /// Removes the player at the given index
   void _removePlayer(PlayerController player) {
     _flippedCard = null;
@@ -33,13 +30,6 @@ class CreateParty extends GetView<CreatePlayersController> {
     if (_flippedCard != null) {
       _flippedCard.toggleCard();
       _flippedCard = null;
-    }
-  }
-
-  /// Unfocuses the previously focused text field
-  void _unfocusTextField() {
-    if (_focusedTextField != null) {
-      _focusedTextField.unfocus();
     }
   }
 
@@ -66,14 +56,10 @@ class CreateParty extends GetView<CreatePlayersController> {
 
   /// Build the text field to change player's name
   Widget _buildPlayerTextField(PlayerController player) {
-    FocusNode focusNode = FocusNode();
     return TextFormField(
       textAlign: TextAlign.center,
       initialValue: player.name,
-      onTap: () {
-        _unflipCard();
-        _focusedTextField = focusNode;
-      },
+      onTap: () => _unflipCard(),
       onChanged: (value) => player.name = value,
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
@@ -83,7 +69,6 @@ class CreateParty extends GetView<CreatePlayersController> {
         }
         return null;
       },
-      focusNode: focusNode,
       decoration: InputDecoration(
         hintText: "Nom du joueur",
         border: InputBorder.none,
@@ -104,7 +89,6 @@ class CreateParty extends GetView<CreatePlayersController> {
           _displayDialog(player);
         },
         onLongPress: () {
-          _unfocusTextField();
           if (_flippedCard != null) {
             _flippedCard.toggleCard();
           }
@@ -212,10 +196,7 @@ class CreateParty extends GetView<CreatePlayersController> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        _unflipCard();
-        _unfocusTextField();
-      },
+      onTap: () => _unflipCard(),
       child: DefaultPage(
         title: "Créer les joueurs",
         content: Form(

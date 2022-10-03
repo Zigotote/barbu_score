@@ -1,4 +1,3 @@
-import 'package:barbu_score/controller/party.dart';
 import 'package:get/get.dart';
 
 import '../controller/create_players.dart';
