@@ -1,3 +1,4 @@
+import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +22,7 @@ class FinishParty extends GetView<PartyController> {
           return PlayerScoreButton(
             player: player,
             score: controller.playerScores[player],
+            isFirst: index == 0,
             bestFriend: controller.bestFriend(player),
             worstEnnemy: controller.worstEnnemy(player),
           );
@@ -29,6 +31,7 @@ class FinishParty extends GetView<PartyController> {
       bottomWidget: ElevatedButton(
         child: Text("Retour à l'accueil"),
         onPressed: () {
+          MyStorage().delete();
           Get.toNamed(Routes.HOME);
           Get.deleteAll();
         },

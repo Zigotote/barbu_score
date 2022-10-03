@@ -14,6 +14,9 @@ class PlayerScoreButton extends GetWidget {
   /// The score of the player
   final int score;
 
+  /// The indicator for the winner
+  final bool isFirst;
+
   /// The best friend of the player
   final PlayerController bestFriend;
 
@@ -23,6 +26,7 @@ class PlayerScoreButton extends GetWidget {
   PlayerScoreButton(
       {@required this.player,
       @required this.score,
+      this.isFirst,
       this.bestFriend,
       this.worstEnnemy});
 
@@ -67,6 +71,7 @@ class PlayerScoreButton extends GetWidget {
         children: [
           PlayerIcon(
             image: player.image,
+            hasMedal: isFirst,
             color: player.color,
             size: Get.width * 0.15,
           ),

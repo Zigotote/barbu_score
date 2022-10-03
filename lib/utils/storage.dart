@@ -35,6 +35,11 @@ class MyStorage extends SuperController {
     }
   }
 
+  /// Deletes the data saved in the store
+  delete() {
+    _storage.erase();
+  }
+
   @override
   void onInactive() {
     try {
