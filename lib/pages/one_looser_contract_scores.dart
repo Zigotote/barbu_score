@@ -14,42 +14,22 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
   /// Build each player's button and the box to show which one is currently selected
   Widget _buildFields() {
     final PartyController party = Get.find<PartyController>();
-    return Stack(
-      children: [
-        MyGrid(
-          itemCount: party.nbPlayers,
-          itemBuilder: (_, index) => ElevatedButtonCustomColor(
+    return MyGrid(
+      itemCount: party.nbPlayers,
+      itemBuilder: (_, index) => Obx(
+        () {
+          Color playerColor = party.players[index].color;
+          bool isPlayerSelected = controller.selectedPlayerIndex == index;
+          return ElevatedButtonCustomColor(
             text: party.players[index].name,
-            color: party.players[index].color,
+            color: isPlayerSelected
+                ? Get.theme.scaffoldBackgroundColor
+                : playerColor,
             onPressed: () => controller.selectedPlayerIndex = index,
-          ),
-        ),
-        Obx(
-          () => Visibility(
-            visible: controller.isValid,
-            child: AnimatedPositioned(
-              top: controller.topPositionSelectionBox,
-              left: controller.leftPositionSelectionBox,
-              child: Opacity(
-                opacity: 0.3,
-                child: Container(
-                  width: Get.width * 0.43,
-                  height: Get.height * 0.15,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    border: Border.all(
-                      color: Get.theme.colorScheme.onSurface,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-              ),
-              duration: Duration(milliseconds: 400),
-            ),
-          ),
-        )
-      ],
+            backgroundColor: isPlayerSelected ? playerColor : null,
+          );
+        },
+      ),
     );
   }
 

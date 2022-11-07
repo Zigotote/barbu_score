@@ -34,13 +34,17 @@ class ElevatedButtonCustomColor extends GetView {
   /// The icon of the button
   final IconData? icon;
 
-  /// The color of the button
+  /// The color of the button's text and border
   final Color color;
 
   /// The function to call on button's pressed
   final Function() onPressed;
 
+  /// The size of the text inside the button
   final double textSize;
+
+  /// The background color of the button
+  final Color? backgroundColor;
 
   ElevatedButtonCustomColor({
     this.text,
@@ -48,6 +52,7 @@ class ElevatedButtonCustomColor extends GetView {
     required this.color,
     required this.onPressed,
     this.textSize = 22,
+    this.backgroundColor,
   }) : assert(
             ((text != null || icon != null) && (text == null || icon == null)),
             "You have to provide an icon or a text for the button");
@@ -67,6 +72,7 @@ class ElevatedButtonCustomColor extends GetView {
         side: BorderSide(color: this.color, width: 2),
         padding: EdgeInsets.all(8),
         foregroundColor: this.color,
+        backgroundColor: backgroundColor ?? Get.theme.scaffoldBackgroundColor,
       ),
     );
   }

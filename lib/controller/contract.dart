@@ -19,19 +19,11 @@ abstract class AbstractContractController extends GetxController {
 
 /// A controller to manage box position to show which item is selected
 class SelectPlayerController extends AbstractContractController {
-  /// The top position of the selection box
-  late RxDouble _topPositionSelectionBox;
-
-  /// The left position of the selection box
-  late RxDouble _leftPositionSelectionBox;
-
   /// The index of the selected player
   late RxInt _selectedPlayerIndex;
 
   SelectPlayerController({int defaultIndex = -1}) {
     this._selectedPlayerIndex = defaultIndex.obs;
-    this._topPositionSelectionBox = (0.0).obs;
-    this._leftPositionSelectionBox = (0.0).obs;
     if (defaultIndex >= 0) {
       this.selectedPlayerIndex = defaultIndex;
     }
@@ -40,22 +32,11 @@ class SelectPlayerController extends AbstractContractController {
   @override
   bool get isValid => _selectedPlayerIndex.value != -1;
 
-  double get topPositionSelectionBox => _topPositionSelectionBox.value;
-
-  double get leftPositionSelectionBox => _leftPositionSelectionBox.value;
-
   int get selectedPlayerIndex => _selectedPlayerIndex.value;
 
   /// Sets the selected player index and adapts the box position depending on it
   set selectedPlayerIndex(int index) {
     _selectedPlayerIndex.value = index;
-    if (index % 2 == 0) {
-      _leftPositionSelectionBox.value = 2.0;
-    } else {
-      _leftPositionSelectionBox.value = Get.width * 0.43 + 24;
-    }
-    _topPositionSelectionBox.value =
-        6 + ((Get.height * 0.15 + 20) * (index ~/ 2));
   }
 
   @override
