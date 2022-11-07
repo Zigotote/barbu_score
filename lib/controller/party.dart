@@ -22,12 +22,15 @@ class PartyController extends GetxController {
   }
 
   PartyController.fromJson(Map<String, dynamic> json)
-      : _players = json["players"],
+      : _players = (json["players"] as List)
+            .map((playerData) => PlayerController.fromJson(playerData))
+            .toList()
+            .obs,
         _currentPlayerIndex = json["currentPlayerIndex"];
 
   Map<String, dynamic> toJson() {
     return {
-      "players": _players.map((player) => player.toJson()),
+      "players": _players.map((player) => player.toJson()).toList(),
       "currentPlayerIndex": _currentPlayerIndex
     };
   }
@@ -38,11 +41,11 @@ class PartyController extends GetxController {
 
   /// Returns the player list ordered by score
   UnmodifiableListView<PlayerController> get orderedPlayers {
-    List<MapEntry<PlayerController, int>> orderedPlayers =
-        playerScores.entries.toList();
+    List<MapEntry<String, int>> orderedPlayers = playerScores.entries.toList();
     orderedPlayers
         .sort((player1, player2) => player1.value.compareTo(player2.value));
-    return UnmodifiableListView(orderedPlayers.map((player) => player.key));
+    return UnmodifiableListView(orderedPlayers.map((playerName) =>
+        _players.firstWhere((player) => player.name == playerName.key)));
   }
 
   /// Returns the number of players for the party
@@ -52,19 +55,19 @@ class PartyController extends GetxController {
   PlayerController get currentPlayer => _players[_currentPlayerIndex];
 
   /// Returns the total score of each player for the party
-  Map<PlayerController, int> get playerScores {
-    Map<PlayerController, int> playerScores = Map.fromIterable(
+  Map<String, int> get playerScores {
+    Map<String, int> playerScores = Map.fromIterable(
       _players,
-      key: (player) => player,
+      key: (player) => player.name,
       value: (_) => 0,
     );
-    _players.forEach((p) {
-      p.playerScores.forEach((player, score) {
-        int? playerScore = playerScores[player];
+    _players.forEach((player) {
+      player.playerScores.forEach((playerName, score) {
+        int? playerScore = playerScores[playerName];
         if (playerScore != null) {
-          playerScores[player] = playerScore + score;
+          playerScores[playerName] = playerScore + score;
         } else {
-          playerScores[player] = score;
+          playerScores[playerName] = score;
         }
       });
     });
@@ -75,8 +78,7 @@ class PartyController extends GetxController {
   String get playerNames => _players.join(", ");
 
   /// Saves the score for the contract and changes the current player to the next one
-  void finishContract(
-      ContractsNames contract, Map<PlayerController, int> playerScores) {
+  void finishContract(ContractsNames contract, Map<String, int> playerScores) {
     final bool isValidScore =
         this.currentPlayer.addContract(contract, playerScores);
     if (isValidScore) {
@@ -108,10 +110,10 @@ class PartyController extends GetxController {
   /// Finds the player's best friend
   PlayerController _findPlayerWhere(
       PlayerController player, Function(int, int) condition) {
-    int score = player.playerScores[player]!;
+    int score = player.playerScores[player.name]!;
     PlayerController playerFound = player;
     this._players.forEach((p) {
-      final int playerScore = p.playerScores[player]!;
+      final int playerScore = p.playerScores[player.name]!;
       if (condition(score, playerScore)) {
         playerFound = p;
         score = playerScore;

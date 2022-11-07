@@ -21,7 +21,7 @@ class FinishParty extends GetView<PartyController> {
           PlayerController player = controller.orderedPlayers[index];
           return PlayerScoreButton(
             player: player,
-            score: controller.playerScores[player]!,
+            score: controller.playerScores[player.name]!,
             isFirst: index == 0,
             bestFriend: controller.bestFriend(player),
             worstEnnemy: controller.worstEnnemy(player),

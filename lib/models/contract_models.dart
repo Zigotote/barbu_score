@@ -1,16 +1,18 @@
+import 'dart:convert';
+
+import 'package:barbu_score/utils/storage.dart';
 import 'package:get/get.dart';
 
 import '../controller/party.dart';
-import '../controller/player.dart';
 import '../utils/snackbar.dart';
 import 'contract_names.dart';
 
 /// An abstract class to fill the scores for a contract
 abstract class AbstractContractModel {
   /// Calculates the total score of each player, from a list of contracts
-  static Map<PlayerController, int> calculateTotalScore(
+  static Map<String, int> calculateTotalScore(
       List<AbstractContractModel> contracts) {
-    Map<PlayerController, int> playerScores = {};
+    Map<String, int> playerScores = {};
     contracts.forEach((contract) {
       contract.scores.forEach((player, score) {
         int? playerScore = playerScores[player];
@@ -28,32 +30,35 @@ abstract class AbstractContractModel {
   final ContractsNames name;
 
   /// The scores of all the players for this contract
-  late Map<PlayerController, int> _scores;
+  late Map<String, int> _scores;
 
   AbstractContractModel(this.name) {
     this._scores = {};
   }
 
-  AbstractContractModel.fromJson(Map<String, dynamic> json)
-      : name = json["name"],
-        _scores = json["scores"];
+  factory AbstractContractModel.fromJson(Map<String, dynamic> json) {
+    AbstractContractModel abstractContractModel =
+        ContractsNames.getContractFromToString(json["name"]);
+    abstractContractModel._scores = Map.castFrom(jsonDecode(json["scores"]));
+    return abstractContractModel;
+  }
 
   Map<String, dynamic> toJson() {
     return {
-      "name": name,
-      "scores": _scores,
+      "name": name.toString(),
+      "scores": jsonEncode(_scores),
     };
   }
 
-  Map<PlayerController, int> get scores => _scores;
+  Map<String, int> get scores => _scores;
 
   /// The number of item (or rank) of the players, calculated from _scores. Used to modify the contract.
-  Map<PlayerController, int> get playerItems;
+  Map<String, int> get playerItems;
 
-  /// Sets the score of each player from a Map wich links all players with the number of tricks/cards they won.
+  /// Sets the score of each player from a Map wich links all player's names with the number of tricks/cards they won.
   /// The players not present in the list have a score of 0.
   /// Returns true if the score has been set correctly, false if the trickByPlayer Map is not correctly filled
-  bool setScores(Map<PlayerController, int> playerItems);
+  bool setScores(Map<String, int> playerItems);
 }
 
 /// An abstract class to fill the scores for a contract which has only one looser
@@ -65,7 +70,7 @@ abstract class AbstractOneLooserContractModel extends AbstractContractModel {
       : super(name);
 
   @override
-  Map<PlayerController, int> get playerItems => Map.fromIterable(
+  Map<String, int> get playerItems => Map.fromIterable(
         scores.entries,
         key: (playerScore) => playerScore.key,
         value: (playerScore) => playerScore.value == _points ? 1 : 0,
@@ -74,13 +79,13 @@ abstract class AbstractOneLooserContractModel extends AbstractContractModel {
   /// Sets the score of the player in the Map at the value of this.points. Other players have a score of 0.
   /// Returns true if the score has been set correctly, false otherwise (less or more than 1 player in the Map)
   @override
-  bool setScores(Map<PlayerController, int> trickByPlayer) {
+  bool setScores(Map<String, int> trickByPlayer) {
     if (trickByPlayer.entries.length != 1) {
       return false;
     }
     this._scores[trickByPlayer.entries.first.key] = this._points;
     Get.find<PartyController>().players.forEach(
-          (player) => this._scores.putIfAbsent(player, () => 0),
+          (player) => this._scores.putIfAbsent(player.name, () => 0),
         );
     return true;
   }
@@ -105,7 +110,7 @@ abstract class AbstractMultipleLooserContractModel
   int get expectedItems => _expectedItems;
 
   @override
-  Map<PlayerController, int> get playerItems => Map.fromIterable(
+  Map<String, int> get playerItems => Map.fromIterable(
         scores.entries,
         key: (playerScore) => playerScore.key,
         value: (playerScore) =>
@@ -113,7 +118,7 @@ abstract class AbstractMultipleLooserContractModel
       );
 
   @override
-  bool setScores(Map<PlayerController, int> itemsByPlayer) {
+  bool setScores(Map<String, int> itemsByPlayer) {
     final int declaredItems = itemsByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
     if (declaredItems != this._expectedItems) {
@@ -124,8 +129,8 @@ abstract class AbstractMultipleLooserContractModel
       return false;
     }
     try {
-      MapEntry<PlayerController, int> playerWithNegativeScore =
-          itemsByPlayer.entries.firstWhere(
+      MapEntry<String, int> playerWithNegativeScore = itemsByPlayer.entries
+          .firstWhere(
               (playerItems) => playerItems.value == this._expectedItems);
       this._scores[playerWithNegativeScore.key] =
           0 - (this._expectedItems * this._pointsByItem);
@@ -152,7 +157,7 @@ class NoHeartsContractModel extends AbstractMultipleLooserContractModel {
       : super(
           ContractsNames.NoHearts,
           5,
-          Get.find<PartyController>().nbPlayers * 2,
+          MyStorage().getNbPlayers() * 2,
         );
 }
 
@@ -176,10 +181,10 @@ class TrumpsContractModel extends AbstractContractModel {
   TrumpsContractModel() : super(ContractsNames.Trumps);
 
   @override
-  Map<PlayerController, int> get playerItems => {};
+  Map<String, int> get playerItems => {};
 
   @override
-  bool setScores(Map<PlayerController, int> playerScores) {
+  bool setScores(Map<String, int> playerScores) {
     this._scores = playerScores;
     return true;
   }
@@ -193,8 +198,8 @@ class DominoContractModel extends AbstractContractModel {
   DominoContractModel() : super(ContractsNames.Domino);
 
   @override
-  Map<PlayerController, int> get playerItems {
-    List<MapEntry<PlayerController, int>> sortedList = scores.entries.toList();
+  Map<String, int> get playerItems {
+    List<MapEntry<String, int>> sortedList = scores.entries.toList();
     sortedList.sort((a, b) => a.value.compareTo(b.value));
     return Map.fromIterable(
       sortedList,
@@ -205,12 +210,11 @@ class DominoContractModel extends AbstractContractModel {
 
   /// Sets the score of each player from a Map wich links each player with its rank
   @override
-  bool setScores(Map<PlayerController, int> rankOfPlayer) {
+  bool setScores(Map<String, int> rankOfPlayer) {
     if (rankOfPlayer.length != Get.find<PartyController>().nbPlayers) {
       return false;
     }
-    List<MapEntry<PlayerController, int>> orderedPlayers =
-        rankOfPlayer.entries.toList();
+    List<MapEntry<String, int>> orderedPlayers = rankOfPlayer.entries.toList();
     orderedPlayers.sort(
       (element1, element2) => element1.value - element2.value,
     );

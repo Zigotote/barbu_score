@@ -11,12 +11,12 @@ class SelectPlayerBinding implements Bindings {
     SelectPlayerController controller = SelectPlayerController();
     final RouteArgument routeArgument = Get.arguments;
     if (routeArgument.isForModification) {
-      PlayerController playerWithItem = routeArgument
-          .contractValues!.playerItems.entries
+      String playerWithItem = routeArgument.contractValues!.playerItems.entries
           .firstWhere((playerItem) => playerItem.value == 1)
           .key;
-      int selectedPlayer =
-          Get.find<PartyController>().players.indexOf(playerWithItem);
+      int selectedPlayer = Get.find<PartyController>()
+          .players
+          .indexWhere((player) => player.name == playerWithItem);
       controller = SelectPlayerController(defaultIndex: selectedPlayer);
     }
     Get.lazyPut(() => controller);
@@ -31,7 +31,8 @@ class OrderPlayerBinding implements Bindings {
     final RouteArgument routeArgument = Get.arguments;
     if (routeArgument.isForModification) {
       routeArgument.contractValues!.playerItems.entries.forEach((playerRank) {
-        orderedPlayers[playerRank.value] = playerRank.key;
+        orderedPlayers[playerRank.value] =
+            party.players.firstWhere((player) => player.name == playerRank.key);
       });
     }
     Get.lazyPut(() => OrderPlayersController(orderedPlayers));
@@ -42,14 +43,14 @@ class IndividualScoresBinding implements Bindings {
   @override
   void dependencies() {
     PartyController party = Get.find();
-    Map<PlayerController, int> itemsValues;
+    Map<String, int> itemsValues;
     final RouteArgument routeArgument = Get.arguments;
     if (routeArgument.isForModification) {
       itemsValues = routeArgument.contractValues!.playerItems;
     } else {
       itemsValues = Map.fromIterable(
         party.players,
-        key: (player) => player,
+        key: (player) => player.name,
         value: (_) => 0,
       );
     }

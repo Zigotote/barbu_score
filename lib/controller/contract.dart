@@ -14,7 +14,7 @@ abstract class AbstractContractController extends GetxController {
   bool get isValid;
 
   /// Returns the map to calculate the scores for the contract
-  Map<PlayerController, int> get playerScores;
+  Map<String, int> get playerScores;
 }
 
 /// A controller to manage box position to show which item is selected
@@ -59,8 +59,8 @@ class SelectPlayerController extends AbstractContractController {
   }
 
   @override
-  Map<PlayerController, int> get playerScores =>
-      {Get.find<PartyController>().players[this.selectedPlayerIndex]: 1};
+  Map<String, int> get playerScores =>
+      {Get.find<PartyController>().players[this.selectedPlayerIndex].name: 1};
 }
 
 /// A controller to manage box position to show which item is selected
@@ -82,22 +82,22 @@ class OrderPlayersController extends AbstractContractController {
   }
 
   @override
-  Map<PlayerController, int> get playerScores => Map.fromIterable(
+  Map<String, int> get playerScores => Map.fromIterable(
         this.orderedPlayers,
-        key: (player) => player,
+        key: (player) => player.name,
         value: (player) => this.orderedPlayers.indexOf(player),
       );
 }
 
 /// A controller to manage the score of each player, for a particular contract
 class IndividualScoresController extends AbstractContractController {
-  /// The map which links each player to his score
-  late RxMap<PlayerController, int> _playerScores;
+  /// The map which links each player name to his score
+  late RxMap<String, int> _playerScores;
 
   /// The maximal score for the current contract
   late int maximalScore;
 
-  IndividualScoresController(Map<PlayerController, int> players) {
+  IndividualScoresController(Map<String, int> players) {
     this._playerScores = players.obs;
   }
 
@@ -108,7 +108,8 @@ class IndividualScoresController extends AbstractContractController {
     return currentScore == maximalScore;
   }
 
-  UnmodifiableMapView<PlayerController, int> get playerScores =>
+  @override
+  UnmodifiableMapView<String, int> get playerScores =>
       UnmodifiableMapView(_playerScores);
 
   /// Increases the score of the player, only if the total score is less than the contract max score
@@ -119,18 +120,18 @@ class IndividualScoresController extends AbstractContractController {
         "Le nombre d'items dépasse le nombre d'éléments pouvant être remporté, fixé à $maximalScore.",
       );
     } else {
-      int? playerScore = _playerScores[player];
+      int? playerScore = _playerScores[player.name];
       if (playerScore != null) {
-        _playerScores[player] = playerScore + 1;
+        _playerScores[player.name] = playerScore + 1;
       }
     }
   }
 
   /// Decreases the score of the player. It cant't go behind 0
   void decreaseScore(PlayerController player) {
-    int? playerScore = _playerScores[player];
+    int? playerScore = _playerScores[player.name];
     if (playerScore != null && playerScore >= 1) {
-      _playerScores[player] = playerScore - 1;
+      _playerScores[player.name] = playerScore - 1;
     }
   }
 }
@@ -166,8 +167,7 @@ class TrumpsScoresController extends AbstractContractController {
   }
 
   /// Adds a contract to the filledContracts list
-  addContract(
-      ContractsNames contractName, Map<PlayerController, int> playerScores) {
+  addContract(ContractsNames contractName, Map<String, int> playerScores) {
     _filledContracts.removeWhere((contract) => contract.name == contractName);
     AbstractContractModel contract = contractName.contract;
     contract.setScores(playerScores);
@@ -175,7 +175,7 @@ class TrumpsScoresController extends AbstractContractController {
   }
 
   @override
-  Map<PlayerController, int> get playerScores {
+  Map<String, int> get playerScores {
     return AbstractContractModel.calculateTotalScore(_filledContracts);
   }
 }

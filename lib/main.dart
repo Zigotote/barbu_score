@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import './bindings/contract.dart';
 import './bindings/create_players.dart';
 import './bindings/party.dart';
+import './controller/contract.dart';
 import './pages/choose_contract.dart';
 import './pages/create_party.dart';
 import './pages/domino_scores.dart';
@@ -16,7 +17,6 @@ import './pages/trump_scores.dart';
 import './theme/my_themes.dart';
 import '../pages/finish_party.dart';
 import '../pages/my_scores.dart';
-import './controller/contract.dart';
 
 void main() {
   Get.put(MyStorage());

@@ -1,3 +1,4 @@
+import 'package:barbu_score/utils/storage.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -178,6 +179,7 @@ class CreateParty extends GetView<CreatePlayersController> {
         onPressed: controller.isValid
             ? () {
                 if (_formKey.currentState!.validate()) {
+                  MyStorage().saveNbPlayers(controller.nbPlayers);
                   Get.toNamed(Routes.CHOOSE_CONTRACT);
                 }
               }

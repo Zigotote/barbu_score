@@ -23,7 +23,7 @@ class MyScores extends GetView<PartyController> {
             PlayerController player = controller.players[index];
             return PlayerScoreButton(
               player: player,
-              score: controller.playerScores[player]!,
+              score: controller.playerScores[player.name]!,
             );
           } else {
             return ElevatedButton(

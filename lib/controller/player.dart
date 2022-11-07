@@ -28,17 +28,19 @@ class PlayerController extends GetxController {
   }
 
   PlayerController.fromJson(Map<String, dynamic> json)
-      : _name = json["name"],
-        _color = json["color"],
-        _image = json["image"],
-        _contracts = json["contract"];
+      : _name = _dynamicToString(json["name"]).obs,
+        _color = Color(json["color"]).obs,
+        _image = _dynamicToString(json["image"]).obs,
+        _contracts = ((json["contracts"] as List)
+            .map((contractData) => AbstractContractModel.fromJson(contractData))
+            .toList());
 
   Map<String, dynamic> toJson() {
     return {
       "name": name,
-      "color": color,
+      "color": color.value,
       "image": image,
-      "contracts": _contracts.map((contract) => contract.toJson())
+      "contracts": _contracts.map((contract) => contract.toJson()).toList()
     };
   }
 
@@ -64,11 +66,11 @@ class PlayerController extends GetxController {
       _contracts.map((contract) => contract.name).toList();
 
   /// Returns the scores of each player, for the contracts of this player
-  Map<PlayerController, int> get playerScores {
+  Map<String, int> get playerScores {
     if (_contracts.isEmpty) {
       return Map.fromIterable(
         Get.find<PartyController>().players,
-        key: (player) => player,
+        key: (player) => player.name,
         value: (_) => 0,
       );
     }
@@ -79,7 +81,7 @@ class PlayerController extends GetxController {
   /// The score is calculated from the Map wich links the number of card or trick each player won.
   /// Returns true if the score has been added, false otherwise
   bool addContract(
-      ContractsNames contractName, Map<PlayerController, int> trickByPlayer) {
+      ContractsNames contractName, Map<String, int> trickByPlayer) {
     AbstractContractModel contract = contractName.contract;
     final bool isValidScore = contract.setScores(trickByPlayer);
     if (isValidScore) {
@@ -102,12 +104,12 @@ class PlayerController extends GetxController {
   }
 
   /// Returns the scores for the contract. If it has not been played, all player have a score of 0
-  Map<PlayerController, int> contractScores(ContractsNames contractName) {
+  Map<String, int> contractScores(ContractsNames contractName) {
     AbstractContractModel? contract = this.getContract(contractName);
     if (contract == null) {
       return Map.fromIterable(
         Get.find<PartyController>().players,
-        key: (player) => player,
+        key: (player) => player.name,
         value: (_) => 0,
       );
     }
@@ -116,4 +118,8 @@ class PlayerController extends GetxController {
 
   @override
   String toString() => _name.value;
+
+  static String _dynamicToString(dynamic str) {
+    return str as String;
+  }
 }

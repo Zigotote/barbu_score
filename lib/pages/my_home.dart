@@ -1,3 +1,4 @@
+import 'package:barbu_score/controller/party.dart';
 import 'package:barbu_score/utils/snackbar.dart';
 import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ import '../widgets/my_appbar.dart';
 
 class MyHome extends GetView {
   _confirmLoadParty(BuildContext context) {
-    String previousPlayers = MyStorage().getStoredPartyPlayers();
-    if (previousPlayers.length == 0) {
+    PartyController? previousParty = MyStorage().getStoredParty();
+    if (previousParty == null) {
       SnackbarUtils.openSnackbar(
         "Aucune partie trouvée",
         "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
@@ -23,7 +24,7 @@ class MyHome extends GetView {
             return AlertDialog(
               title: Text("Charger une partie"),
               content: Text(
-                  "Reprendre la partie précédente avec $previousPlayers ?"),
+                  "Reprendre la partie précédente avec ${previousParty.playerNames} ?"),
               actions: [
                 ElevatedButtonCustomColor(
                   color: Get.theme.errorColor,
@@ -35,7 +36,11 @@ class MyHome extends GetView {
                   color: Get.theme.highlightColor,
                   textSize: 16,
                   text: "Oui",
-                  onPressed: () => MyStorage().loadParty(),
+                  onPressed: () {
+                    Get.deleteAll();
+                    Get.put(previousParty);
+                    Get.toNamed(Routes.CHOOSE_CONTRACT);
+                  },
                 ),
               ],
             );

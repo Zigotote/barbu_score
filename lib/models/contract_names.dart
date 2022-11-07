@@ -3,54 +3,19 @@ import '../models/contract_models.dart';
 
 /// List the names of the contracts for a party
 enum ContractsNames {
-  Barbu,
-  NoHearts,
-  NoQueens,
-  NoTricks,
-  NoLastTrick,
-  Trumps,
-  Domino
-}
+  Barbu("Barbu", Routes.BARBU_OR_NOLASTTRICK_SCORES),
+  NoHearts("Sans coeurs", Routes.NO_SOMETHING_SCORES),
+  NoQueens("Sans dames", Routes.NO_SOMETHING_SCORES),
+  NoTricks("Sans plis", Routes.NO_SOMETHING_SCORES),
+  NoLastTrick("Dernier", Routes.BARBU_OR_NOLASTTRICK_SCORES),
+  Trumps("Salade", Routes.TRUMPS_SCORES),
+  Domino("Réussite", Routes.DOMINO_SCORES);
 
-extension ContractsInfos on ContractsNames {
-  /// Returns the name to display for the different contracts
-  String get displayName {
-    switch (this) {
-      case ContractsNames.Barbu:
-        return "Barbu";
-      case ContractsNames.NoHearts:
-        return "Sans coeurs";
-      case ContractsNames.NoQueens:
-        return "Sans dames";
-      case ContractsNames.NoTricks:
-        return "Sans plis";
-      case ContractsNames.NoLastTrick:
-        return "Dernier";
-      case ContractsNames.Trumps:
-        return "Salade";
-      case ContractsNames.Domino:
-        return "Réussite";
-    }
-    return "";
-  }
+  const ContractsNames(this.displayName, this.route);
 
-  /// Returns the route to fill the scores of the contract
-  String get route {
-    switch (this) {
-      case ContractsNames.Barbu:
-        return Routes.BARBU_OR_NOLASTTRICK_SCORES;
-      case ContractsNames.NoLastTrick:
-        return Routes.BARBU_OR_NOLASTTRICK_SCORES;
-      case ContractsNames.Domino:
-        return Routes.DOMINO_SCORES;
-      case ContractsNames.Trumps:
-        return Routes.TRUMPS_SCORES;
-      default:
-        return Routes.NO_SOMETHING_SCORES;
-    }
-  }
+  final String displayName;
+  final String route;
 
-  /// Returns the ContractModel object to save the scores of the contract
   AbstractContractModel get contract {
     switch (this) {
       case ContractsNames.Barbu:
@@ -68,6 +33,12 @@ extension ContractsInfos on ContractsNames {
       case ContractsNames.Domino:
         return DominoContractModel();
     }
-    return null;
+  }
+
+  // Returns the contract associated with the enum value obtained with toString()
+  static AbstractContractModel getContractFromToString(String enumName) {
+    return ContractsNames.values
+        .firstWhere((contract) => contract.toString() == enumName)
+        .contract;
   }
 }

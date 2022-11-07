@@ -30,16 +30,14 @@ class ScoresByPlayer extends GetView<PartyController> {
             .toList()
       ],
       rows: [
-        ...ContractsNames.values
-            .map(
-              (contractName) => DataRow(
-                cells: [
-                  DataCell(Text(contractName.displayName)),
-                  ..._buildScoresCells(player.contractScores(contractName)),
-                ],
-              ),
-            )
-            .toList(),
+        ...ContractsNames.values.map((contractName) {
+          return DataRow(
+            cells: [
+              DataCell(Text(contractName.displayName)),
+              ..._buildScoresCells(player.contractScores(contractName)),
+            ],
+          );
+        }).toList(),
         DataRow(
           cells: [
             DataCell(Text(
@@ -56,13 +54,13 @@ class ScoresByPlayer extends GetView<PartyController> {
   }
 
   /// Builds the cells to display the score of each player
-  List<DataCell> _buildScoresCells(Map<PlayerController, int> playerScores,
+  List<DataCell> _buildScoresCells(Map<String, int> playerScores,
       {bool isBold = false}) {
     return controller.players
         .map((player) => DataCell(
               Center(
                 child: Text(
-                  playerScores[player].toString(),
+                  playerScores[player.name].toString(),
                   style: isBold
                       ? Get.textTheme.bodyText2!.copyWith(
                           fontWeight: FontWeight.w900,
