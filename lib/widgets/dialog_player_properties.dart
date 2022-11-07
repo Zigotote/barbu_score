@@ -18,9 +18,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   final Function() onDelete;
 
   DialogChangePlayerInfo(
-      {@required this.player,
-      @required this.onValidate,
-      @required this.onDelete});
+      {required this.player, required this.onValidate, required this.onDelete});
 
   /// Builds the title of the widget
   Widget _buildTitle() {
@@ -47,7 +45,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   }
 
   /// Builds the title and list of items the player can modify
-  Widget _buildPropertySelection(String text, List items) {
+  Widget _buildPropertySelection(String text, List<Widget> items) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -67,7 +65,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
 
   /// Builds a button to display in the action part. It has a text, an icon and a foreground color
   ElevatedButton _buildActionButton(
-      IconData icon, String text, Color color, Function onPressed) {
+      IconData icon, String text, Color color, Function() onPressed) {
     return ElevatedButton.icon(
       icon: Icon(icon),
       label: Text(text),
@@ -75,7 +73,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: color, width: 2),
         padding: EdgeInsets.all(8),
-        onPrimary: color,
+        foregroundColor: color,
       ),
     );
   }
@@ -101,7 +99,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
                             : null,
                         child: Text(
                           controller.getPlayerWithColor(color),
-                          style: Get.textTheme.headline5.copyWith(
+                          style: Get.textTheme.headline5!.copyWith(
                               color: Get.theme.scaffoldBackgroundColor),
                         ),
                         style: OutlinedButton.styleFrom(

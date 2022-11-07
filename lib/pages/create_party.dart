@@ -17,7 +17,7 @@ class CreateParty extends GetView<CreatePlayersController> {
   final _formKey = GlobalKey<FormState>();
 
   /// The card that has been flipped
-  FlipCardState _flippedCard;
+  FlipCardState? _flippedCard;
 
   /// Removes the player at the given index
   void _removePlayer(PlayerController player) {
@@ -27,10 +27,8 @@ class CreateParty extends GetView<CreatePlayersController> {
 
   /// Unflips the current flipped button
   void _unflipCard() {
-    if (_flippedCard != null) {
-      _flippedCard.toggleCard();
-      _flippedCard = null;
-    }
+    _flippedCard?.toggleCard();
+    _flippedCard = null;
   }
 
   /// Builds the field to modify the player's infos
@@ -89,11 +87,9 @@ class CreateParty extends GetView<CreatePlayersController> {
           _displayDialog(player);
         },
         onLongPress: () {
-          if (_flippedCard != null) {
-            _flippedCard.toggleCard();
-          }
+          _flippedCard?.toggleCard();
           _flippedCard = cardKey.currentState;
-          _flippedCard.toggleCard();
+          _flippedCard!.toggleCard();
         },
         child: Obx(
           () => PlayerIcon(
@@ -181,7 +177,7 @@ class CreateParty extends GetView<CreatePlayersController> {
         ),
         onPressed: controller.isValid
             ? () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState!.validate()) {
                   Get.toNamed(Routes.CHOOSE_CONTRACT);
                 }
               }

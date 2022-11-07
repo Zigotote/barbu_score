@@ -16,9 +16,9 @@ class PlayerIcon extends GetView {
   final double size;
 
   PlayerIcon({
-    @required this.image,
-    @required this.size,
-    this.hasMedal,
+    required this.image,
+    required this.size,
+    this.hasMedal = false,
     this.color = const Color(0xFFBDBDBD),
   });
 

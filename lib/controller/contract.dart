@@ -20,13 +20,13 @@ abstract class AbstractContractController extends GetxController {
 /// A controller to manage box position to show which item is selected
 class SelectPlayerController extends AbstractContractController {
   /// The top position of the selection box
-  RxDouble _topPositionSelectionBox;
+  late RxDouble _topPositionSelectionBox;
 
   /// The left position of the selection box
-  RxDouble _leftPositionSelectionBox;
+  late RxDouble _leftPositionSelectionBox;
 
   /// The index of the selected player
-  RxInt _selectedPlayerIndex;
+  late RxInt _selectedPlayerIndex;
 
   SelectPlayerController({int defaultIndex = -1}) {
     this._selectedPlayerIndex = defaultIndex.obs;
@@ -66,7 +66,7 @@ class SelectPlayerController extends AbstractContractController {
 /// A controller to manage box position to show which item is selected
 class OrderPlayersController extends AbstractContractController {
   /// The ordered list of players
-  RxList<PlayerController> orderedPlayers;
+  late RxList<PlayerController> orderedPlayers;
 
   OrderPlayersController(List players) {
     this.orderedPlayers = List<PlayerController>.from(players).obs;
@@ -92,10 +92,10 @@ class OrderPlayersController extends AbstractContractController {
 /// A controller to manage the score of each player, for a particular contract
 class IndividualScoresController extends AbstractContractController {
   /// The map which links each player to his score
-  RxMap<PlayerController, int> _playerScores;
+  late RxMap<PlayerController, int> _playerScores;
 
   /// The maximal score for the current contract
-  int maximalScore;
+  late int maximalScore;
 
   IndividualScoresController(Map<PlayerController, int> players) {
     this._playerScores = players.obs;
@@ -119,14 +119,18 @@ class IndividualScoresController extends AbstractContractController {
         "Le nombre d'items dépasse le nombre d'éléments pouvant être remporté, fixé à $maximalScore.",
       );
     } else {
-      _playerScores[player]++;
+      int? playerScore = _playerScores[player];
+      if (playerScore != null) {
+        _playerScores[player] = playerScore + 1;
+      }
     }
   }
 
   /// Decreases the score of the player. It cant't go behind 0
   void decreaseScore(PlayerController player) {
-    if (_playerScores[player] >= 1) {
-      _playerScores[player]--;
+    int? playerScore = _playerScores[player];
+    if (playerScore != null && playerScore >= 1) {
+      _playerScores[player] = playerScore - 1;
     }
   }
 }
@@ -141,7 +145,7 @@ class TrumpsScoresController extends AbstractContractController {
       .toList();
 
   /// The contracts the player has filled
-  RxList<AbstractContractModel> _filledContracts;
+  late RxList<AbstractContractModel> _filledContracts;
 
   TrumpsScoresController() {
     this._filledContracts = <AbstractContractModel>[].obs;
@@ -151,11 +155,9 @@ class TrumpsScoresController extends AbstractContractController {
   bool get isValid => _filledContracts.length == this.trumpContracts.length;
 
   /// Returns the filled contract which matches the contractName. If there is none, returns null
-  AbstractContractModel getFilledContract(ContractsNames contractName) {
-    return _filledContracts.firstWhere(
-      (contract) => contract.name == contractName,
-      orElse: () => null,
-    );
+  AbstractContractModel? getFilledContract(ContractsNames contractName) {
+    return _filledContracts
+        .firstWhereOrNull((contract) => contract.name == contractName);
   }
 
   /// Returns true if the contract has been filled

@@ -4,18 +4,18 @@ import 'package:get/get.dart';
 /// A grid which takes all the available space in the layout
 class MyGrid extends GetView {
   /// The height of each element in the grid. Default value is Get.height*0.12
-  final double mainAxisExtent;
+  final double? mainAxisExtent;
 
   /// The number of items in the grid
   final int itemCount;
 
   /// The function to build each item
-  final Function(BuildContext, int) itemBuilder;
+  final Widget Function(BuildContext, int) itemBuilder;
 
   MyGrid(
       {this.mainAxisExtent,
-      @required this.itemCount,
-      @required this.itemBuilder});
+      required this.itemCount,
+      required this.itemBuilder});
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +45,9 @@ class MyList extends GetWidget {
   final int itemCount;
 
   /// The function to build each item
-  final Function(BuildContext, int) itemBuilder;
+  final Widget Function(BuildContext, int) itemBuilder;
 
-  MyList({@required this.itemCount, @required this.itemBuilder});
+  MyList({required this.itemCount, required this.itemBuilder});
 
   @override
   Widget build(BuildContext context) {

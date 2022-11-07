@@ -12,7 +12,7 @@ class SelectPlayerBinding implements Bindings {
     final RouteArgument routeArgument = Get.arguments;
     if (routeArgument.isForModification) {
       PlayerController playerWithItem = routeArgument
-          .contractValues.playerItems.entries
+          .contractValues!.playerItems.entries
           .firstWhere((playerItem) => playerItem.value == 1)
           .key;
       int selectedPlayer =
@@ -30,7 +30,7 @@ class OrderPlayerBinding implements Bindings {
     List<PlayerController> orderedPlayers = party.players.toList();
     final RouteArgument routeArgument = Get.arguments;
     if (routeArgument.isForModification) {
-      routeArgument.contractValues.playerItems.entries.forEach((playerRank) {
+      routeArgument.contractValues!.playerItems.entries.forEach((playerRank) {
         orderedPlayers[playerRank.value] = playerRank.key;
       });
     }
@@ -45,7 +45,7 @@ class IndividualScoresBinding implements Bindings {
     Map<PlayerController, int> itemsValues;
     final RouteArgument routeArgument = Get.arguments;
     if (routeArgument.isForModification) {
-      itemsValues = routeArgument.contractValues.playerItems;
+      itemsValues = routeArgument.contractValues!.playerItems;
     } else {
       itemsValues = Map.fromIterable(
         party.players,

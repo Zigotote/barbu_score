@@ -27,7 +27,7 @@ class MyThemes {
           return ThemeData.light().colorScheme.onSurface;
         }),
         textStyle: MaterialStateProperty.all(
-          Get.textTheme.button.copyWith(
+          Get.textTheme.button!.copyWith(
             fontSize: 22,
             fontFamily: "QuickSand",
           ),

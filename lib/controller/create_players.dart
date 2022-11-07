@@ -24,7 +24,7 @@ class CreatePlayersController extends GetxController {
   static final String playerImage = "assets/players/player%s.png";
 
   /// The list of the players for this party
-  RxList<PlayerController> _players;
+  late RxList<PlayerController> _players;
 
   CreatePlayersController() {
     this._players = List.generate(
@@ -69,8 +69,8 @@ class CreatePlayersController extends GetxController {
 
   /// Returns the first letter of the player who choose this color
   String getPlayerWithColor(Color color) {
-    PlayerController player = _players
-        .firstWhere((player) => player.color == color, orElse: () => null);
+    PlayerController? player =
+        _players.firstWhereOrNull((player) => player.color == color);
     if (player == null) {
       return "";
     }

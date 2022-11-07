@@ -9,7 +9,7 @@ class ElevatedButtonFullWidth extends GetView {
   /// The function to call on pressed action
   final Function() onPressed;
 
-  ElevatedButtonFullWidth({@required this.child, @required this.onPressed});
+  ElevatedButtonFullWidth({required this.child, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,10 @@ class ElevatedButtonFullWidth extends GetView {
 /// A button with a custom border and text color
 class ElevatedButtonCustomColor extends GetView {
   /// The text of the button
-  final String text;
+  final String? text;
 
   /// The icon of the button
-  final IconData icon;
+  final IconData? icon;
 
   /// The color of the button
   final Color color;
@@ -45,8 +45,8 @@ class ElevatedButtonCustomColor extends GetView {
   ElevatedButtonCustomColor({
     this.text,
     this.icon,
-    @required this.color,
-    @required this.onPressed,
+    required this.color,
+    required this.onPressed,
     this.textSize = 22,
   }) : assert(
             ((text != null || icon != null) && (text == null || icon == null)),
@@ -57,7 +57,7 @@ class ElevatedButtonCustomColor extends GetView {
     return ElevatedButton(
       child: this.text != null
           ? Text(
-              this.text,
+              this.text!,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: this.textSize),
             )
@@ -66,7 +66,7 @@ class ElevatedButtonCustomColor extends GetView {
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: this.color, width: 2),
         padding: EdgeInsets.all(8),
-        onPrimary: this.color,
+        foregroundColor: this.color,
       ),
     );
   }
@@ -78,15 +78,15 @@ class ElevatedButtonTopRightWidget extends GetView {
   final String text;
 
   /// The function to call on button pressed action
-  final Function() onPressed;
+  final Function()? onPressed;
 
   /// The widget to display in the top right corner
   final Widget topRightChild;
 
   ElevatedButtonTopRightWidget({
-    @required this.text,
-    @required this.topRightChild,
-    @required this.onPressed,
+    required this.text,
+    required this.topRightChild,
+    this.onPressed,
   });
 
   @override

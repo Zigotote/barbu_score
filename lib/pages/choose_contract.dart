@@ -46,7 +46,6 @@ class ChooseContract extends GetView<PartyController> {
         padding: EdgeInsets.zero,
         constraints: BoxConstraints(),
       ),
-      onPressed: null,
     );
   }
 

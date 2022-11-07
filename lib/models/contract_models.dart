@@ -13,8 +13,9 @@ abstract class AbstractContractModel {
     Map<PlayerController, int> playerScores = {};
     contracts.forEach((contract) {
       contract.scores.forEach((player, score) {
-        if (playerScores.containsKey(player)) {
-          playerScores[player] += score;
+        int? playerScore = playerScores[player];
+        if (playerScore != null) {
+          playerScores[player] = playerScore + score;
         } else {
           playerScores[player] = score;
         }
@@ -27,7 +28,7 @@ abstract class AbstractContractModel {
   final ContractsNames name;
 
   /// The scores of all the players for this contract
-  Map<PlayerController, int> _scores;
+  late Map<PlayerController, int> _scores;
 
   AbstractContractModel(this.name) {
     this._scores = {};
@@ -122,17 +123,16 @@ abstract class AbstractMultipleLooserContractModel
       );
       return false;
     }
-    MapEntry<PlayerController, int> playerWithNegativeScore = itemsByPlayer
-        .entries
-        .firstWhere((playerItems) => playerItems.value == this._expectedItems,
-            orElse: () => null);
-    if (playerWithNegativeScore != null) {
+    try {
+      MapEntry<PlayerController, int> playerWithNegativeScore =
+          itemsByPlayer.entries.firstWhere(
+              (playerItems) => playerItems.value == this._expectedItems);
       this._scores[playerWithNegativeScore.key] =
           0 - (this._expectedItems * this._pointsByItem);
       itemsByPlayer.forEach(
         (player, items) => this._scores.putIfAbsent(player, () => 0),
       );
-    } else {
+    } catch (_) {
       itemsByPlayer.forEach((player, value) {
         this._scores[player] = value * this._pointsByItem;
       });

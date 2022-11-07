@@ -44,7 +44,7 @@ class ScoresByPlayer extends GetView<PartyController> {
           cells: [
             DataCell(Text(
               "Total",
-              style: Get.textTheme.bodyText2.copyWith(
+              style: Get.textTheme.bodyText2!.copyWith(
                 fontWeight: FontWeight.w900,
               ),
             )),
@@ -64,7 +64,7 @@ class ScoresByPlayer extends GetView<PartyController> {
                 child: Text(
                   playerScores[player].toString(),
                   style: isBold
-                      ? Get.textTheme.bodyText2.copyWith(
+                      ? Get.textTheme.bodyText2!.copyWith(
                           fontWeight: FontWeight.w900,
                         )
                       : null,

@@ -8,16 +8,16 @@ import '../models/contract_names.dart';
 /// A player for a party
 class PlayerController extends GetxController {
   /// The color of the player
-  Rx<Color> _color;
+  late Rx<Color> _color;
 
   /// The image of the player
-  RxString _image;
+  late RxString _image;
 
   /// The observable name of the player
-  RxString _name;
+  late RxString _name;
 
   /// The contracts the player has finished
-  List<AbstractContractModel> _contracts;
+  late List<AbstractContractModel> _contracts;
 
   PlayerController(Color color, String image) {
     this._name =
@@ -66,7 +66,11 @@ class PlayerController extends GetxController {
   /// Returns the scores of each player, for the contracts of this player
   Map<PlayerController, int> get playerScores {
     if (_contracts.isEmpty) {
-      return this.contractScores(null);
+      return Map.fromIterable(
+        Get.find<PartyController>().players,
+        key: (player) => player,
+        value: (_) => 0,
+      );
     }
     return AbstractContractModel.calculateTotalScore(_contracts);
   }
@@ -86,10 +90,9 @@ class PlayerController extends GetxController {
   }
 
   /// Returns the filled contract model for this contract name. Returns null if there is no contract
-  AbstractContractModel getContract(ContractsNames contractName) {
-    return _contracts.firstWhere(
+  AbstractContractModel? getContract(ContractsNames contractName) {
+    return _contracts.firstWhereOrNull(
       (contract) => contract.name == contractName,
-      orElse: () => null,
     );
   }
 
@@ -100,7 +103,7 @@ class PlayerController extends GetxController {
 
   /// Returns the scores for the contract. If it has not been played, all player have a score of 0
   Map<PlayerController, int> contractScores(ContractsNames contractName) {
-    AbstractContractModel contract = this.getContract(contractName);
+    AbstractContractModel? contract = this.getContract(contractName);
     if (contract == null) {
       return Map.fromIterable(
         Get.find<PartyController>().players,

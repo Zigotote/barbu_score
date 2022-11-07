@@ -11,10 +11,10 @@ import '../utils/snackbar.dart';
 /// A party with some players
 class PartyController extends GetxController {
   /// The list of the players for this party
-  RxList<PlayerController> _players;
+  late RxList<PlayerController> _players;
 
   /// The index of the current player
-  int _currentPlayerIndex;
+  late int _currentPlayerIndex;
 
   PartyController(List players) {
     this._players = List<PlayerController>.from(players).obs;
@@ -60,7 +60,12 @@ class PartyController extends GetxController {
     );
     _players.forEach((p) {
       p.playerScores.forEach((player, score) {
-        playerScores[player] += score;
+        int? playerScore = playerScores[player];
+        if (playerScore != null) {
+          playerScores[player] = playerScore + score;
+        } else {
+          playerScores[player] = score;
+        }
       });
     });
     return playerScores;
@@ -103,10 +108,10 @@ class PartyController extends GetxController {
   /// Finds the player's best friend
   PlayerController _findPlayerWhere(
       PlayerController player, Function(int, int) condition) {
-    int score = player.playerScores[player];
+    int score = player.playerScores[player]!;
     PlayerController playerFound = player;
     this._players.forEach((p) {
-      final int playerScore = p.playerScores[player];
+      final int playerScore = p.playerScores[player]!;
       if (condition(score, playerScore)) {
         playerFound = p;
         score = playerScore;

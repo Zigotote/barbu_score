@@ -7,7 +7,7 @@ class ColoredContainer extends GetView {
   final double height;
 
   /// The width of the container, if not specified the width of the parent is used
-  final double width;
+  final double? width;
 
   /// The color to use for the border
   final Color color;
@@ -16,17 +16,17 @@ class ColoredContainer extends GetView {
   final Widget child;
 
   ColoredContainer({
-    @required this.height,
+    required this.height,
     this.width,
-    @required this.color,
-    @required this.child,
+    required this.color,
+    required this.child,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: this.height,
-      width: this?.width,
+      width: this.width,
       alignment: Alignment.bottomCenter,
       padding: EdgeInsets.symmetric(
         horizontal: 16,

@@ -27,9 +27,9 @@ class MyAppBar extends AppBar {
                   title,
                   textAlign: TextAlign.center,
                   style: isHome
-                      ? Get.textTheme.headline3
+                      ? Get.textTheme.headline3!
                           .copyWith(color: Get.theme.colorScheme.onSurface)
-                      : Get.textTheme.headline5
+                      : Get.textTheme.headline5!
                           .copyWith(color: Get.theme.colorScheme.onSurface),
                 ),
               ),

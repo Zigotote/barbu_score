@@ -1,4 +1,5 @@
 import 'package:barbu_score/controller/party.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -42,18 +43,35 @@ class MyStorage extends SuperController {
 
   @override
   void onInactive() {
-    try {
-      final PartyController party = Get.find<PartyController>();
-      _storage.write(_PARTY_KEY, party);
-    } catch (_) {}
+    _saveParty();
   }
 
   @override
-  void onDetached() {}
+  void onDetached() {
+    _saveParty();
+  }
 
   @override
-  void onPaused() {}
+  void onPaused() {
+    _saveParty();
+  }
 
   @override
   void onResumed() {}
+
+  @override
+  void onClose() {
+    _saveParty();
+    super.onClose();
+  }
+
+  _saveParty() {
+    try {
+      final PartyController party = Get.find<PartyController>();
+      _storage.write(_PARTY_KEY,
+          party); // This is throwing an error, TODO Océane to correct
+      print(party);
+      print(_storage.read(_PARTY_KEY));
+    } catch (_) {}
+  }
 }

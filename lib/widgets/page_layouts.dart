@@ -18,7 +18,7 @@ class DefaultPage extends GetWidget {
   final Widget content;
 
   /// The widget to display at the bottom of the page
-  final Widget bottomWidget;
+  final Widget? bottomWidget;
 
   /// True if the background has to be drawn
   final bool hasBackground;
@@ -27,8 +27,8 @@ class DefaultPage extends GetWidget {
   final bool hasLeading;
 
   DefaultPage(
-      {@required this.title,
-      @required this.content,
+      {required this.title,
+      required this.content,
       this.bottomWidget,
       this.hasBackground = false,
       this.hasLeading = false});
@@ -81,9 +81,9 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
   final Widget child;
 
   ContractPage({
-    @required this.subtitle,
-    @required this.child,
-    @required this.contract,
+    required this.subtitle,
+    required this.child,
+    required this.contract,
   });
 
   /// Saves the score for this contract and moves to the next player round

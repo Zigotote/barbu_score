@@ -18,15 +18,15 @@ class PlayerScoreButton extends GetWidget {
   final bool isFirst;
 
   /// The best friend of the player
-  final PlayerController bestFriend;
+  final PlayerController? bestFriend;
 
   /// The worst ennemy of the player
-  final PlayerController worstEnnemy;
+  final PlayerController? worstEnnemy;
 
   PlayerScoreButton(
-      {@required this.player,
-      @required this.score,
-      this.isFirst,
+      {required this.player,
+      required this.score,
+      this.isFirst = false,
       this.bestFriend,
       this.worstEnnemy});
 
@@ -46,8 +46,8 @@ class PlayerScoreButton extends GetWidget {
           size: badgesSize,
         ),
         PlayerIcon(
-          image: worstEnnemy.image,
-          color: worstEnnemy.color,
+          image: worstEnnemy!.image,
+          color: worstEnnemy!.color,
           size: badgesSize,
         ),
         Padding(padding: EdgeInsets.only(left: 16)),
@@ -56,8 +56,8 @@ class PlayerScoreButton extends GetWidget {
           size: badgesSize,
         ),
         PlayerIcon(
-          image: bestFriend.image,
-          color: bestFriend.color,
+          image: bestFriend!.image,
+          color: bestFriend!.color,
           size: badgesSize,
         ),
       ],
