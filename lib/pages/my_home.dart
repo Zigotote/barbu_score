@@ -9,6 +9,19 @@ import '../widgets/custom_buttons.dart';
 import '../widgets/my_appbar.dart';
 
 class MyHome extends GetView {
+  /// Loads a previous party and resumes it
+  _loadParty(PartyController previousParty) {
+    Get.deleteAll();
+    Get.put(previousParty);
+    Get.toNamed(Routes.CHOOSE_CONTRACT);
+  }
+
+  /// Starts a new party
+  _startParty() {
+    Get.toNamed(Routes.CREATE_PARTY);
+  }
+
+  /// Builds the widgets to load a saved party
   _confirmLoadParty(BuildContext context) {
     PartyController? previousParty = MyStorage().getStoredParty();
     if (previousParty == null) {
@@ -16,7 +29,7 @@ class MyHome extends GetView {
         "Aucune partie trouvée",
         "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
       );
-      Get.toNamed(Routes.CREATE_PARTY);
+      _startParty();
     } else {
       showDialog(
           context: context,
@@ -27,24 +40,51 @@ class MyHome extends GetView {
                   "Reprendre la partie précédente avec ${previousParty.playerNames} ?"),
               actions: [
                 ElevatedButtonCustomColor(
+                    color: Get.theme.errorColor,
+                    textSize: 16,
+                    text: "Non, nouvelle partie",
+                    onPressed: _startParty),
+                ElevatedButtonCustomColor(
+                  color: Get.theme.highlightColor,
+                  textSize: 16,
+                  text: "Oui",
+                  onPressed: () => _loadParty(previousParty),
+                ),
+              ],
+            );
+          });
+    }
+  }
+
+  /// Builds the widgets to start a new party
+  _confirmStartParty(BuildContext context) {
+    PartyController? previousParty = MyStorage().getStoredParty();
+    if (previousParty != null) {
+      showDialog(
+          context: context,
+          builder: (BuildContext buildContext) {
+            return AlertDialog(
+              title: Text("Une partie sauvegardée existe"),
+              content: Text(
+                  "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${previousParty.playerNames} sera perdue."),
+              actions: [
+                ElevatedButtonCustomColor(
                   color: Get.theme.errorColor,
                   textSize: 16,
-                  text: "Non, nouvelle partie",
-                  onPressed: () => Get.toNamed(Routes.CREATE_PARTY),
+                  text: "Non, reprendre la partie",
+                  onPressed: () => _loadParty(previousParty),
                 ),
                 ElevatedButtonCustomColor(
                   color: Get.theme.highlightColor,
                   textSize: 16,
                   text: "Oui",
-                  onPressed: () {
-                    Get.deleteAll();
-                    Get.put(previousParty);
-                    Get.toNamed(Routes.CHOOSE_CONTRACT);
-                  },
+                  onPressed: _startParty,
                 ),
               ],
             );
           });
+    } else {
+      _startParty();
     }
   }
 
@@ -67,7 +107,7 @@ class MyHome extends GetView {
             ),
             ElevatedButtonFullWidth(
               child: Text("Démarrer une partie"),
-              onPressed: () => Get.toNamed(Routes.CREATE_PARTY),
+              onPressed: () => _confirmStartParty(context),
             ),
             ElevatedButtonFullWidth(
               child: Text("Charger une partie"),
