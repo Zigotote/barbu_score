@@ -19,14 +19,17 @@ class ScoresByPlayer extends GetView<PartyController> {
       columns: [
         DataColumn(label: Text("")),
         ...controller.players
-            .map((player) => DataColumn(
-                  label: PlayerIcon(
-                    image: player.image,
-                    color: player.color,
-                    size: Get.width * 0.1,
-                  ),
-                  numeric: true,
-                ))
+            .map(
+              (player) => DataColumn(
+                label: PlayerIcon(
+                  image: player.image,
+                  color: player.color,
+                  size: Get.width * 0.1,
+                ),
+                numeric: true,
+                tooltip: player.name,
+              ),
+            )
             .toList()
       ],
       rows: [
