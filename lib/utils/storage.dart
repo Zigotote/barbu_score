@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 /// A class to handle local storage objects
-class MyStorage extends SuperController {
+class MyStorage {
   /// The object to manipulate local storage
   final GetStorage _storage = GetStorage();
 
@@ -27,6 +27,13 @@ class MyStorage extends SuperController {
     return null;
   }
 
+  void saveParty() {
+    try {
+      final PartyController party = Get.find<PartyController>();
+      _storage.write(_PARTY_KEY, party);
+    } catch (_) {}
+  }
+
   /// Get the number of players in the party
   int getNbPlayers() {
     return _storage.read(_NB_PLAYERS);
@@ -38,38 +45,7 @@ class MyStorage extends SuperController {
   }
 
   /// Deletes the data saved in the store
-  delete() {
+  void delete() {
     _storage.erase();
-  }
-
-  @override
-  void onInactive() {
-    _saveParty();
-  }
-
-  @override
-  void onDetached() {
-    _saveParty();
-  }
-
-  @override
-  void onPaused() {
-    _saveParty();
-  }
-
-  @override
-  void onResumed() {}
-
-  @override
-  void onClose() {
-    _saveParty();
-    super.onClose();
-  }
-
-  _saveParty() {
-    try {
-      final PartyController party = Get.find<PartyController>();
-      _storage.write(_PARTY_KEY, party);
-    } catch (_) {}
   }
 }

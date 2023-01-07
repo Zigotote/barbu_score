@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:barbu_score/utils/storage.dart';
 import 'package:get/get.dart';
 
 import './player.dart';
@@ -130,8 +131,10 @@ class PartyController extends GetxController {
       _currentPlayerIndex = 0;
     }
     if (this.currentPlayer.availableContracts.length > 0) {
+      MyStorage().saveParty();
       Get.toNamed(Routes.CHOOSE_CONTRACT);
     } else {
+      MyStorage().delete();
       Get.toNamed(Routes.FINISH_PARTY);
     }
   }
