@@ -37,7 +37,8 @@ class ScoresByPlayer extends GetView<PartyController> {
           return DataRow(
             cells: [
               DataCell(Text(contractName.displayName)),
-              ..._buildScoresCells(player.contractScores(contractName)),
+              ..._buildScoresCells(player.contractScores(contractName),
+                  contractName: contractName),
             ],
           );
         }).toList(),
@@ -49,7 +50,7 @@ class ScoresByPlayer extends GetView<PartyController> {
                 fontWeight: FontWeight.w900,
               ),
             )),
-            ..._buildScoresCells(player.playerScores, isBold: true)
+            ..._buildScoresCells(player.playerScores)
           ],
         ),
       ],
@@ -58,13 +59,19 @@ class ScoresByPlayer extends GetView<PartyController> {
 
   /// Builds the cells to display the score of each player
   List<DataCell> _buildScoresCells(Map<String, int> playerScores,
-      {bool isBold = false}) {
+      {contractName: ContractsNames}) {
+    bool contractHasBeenPlayed = true;
+    if (player.availableContracts.contains(contractName)) {
+      contractHasBeenPlayed = false;
+    }
     return controller.players
         .map((player) => DataCell(
               Center(
                 child: Text(
-                  playerScores[player.name].toString(),
-                  style: isBold
+                  contractHasBeenPlayed
+                      ? playerScores[player.name].toString()
+                      : '/',
+                  style: contractName == null
                       ? Get.textTheme.bodyText2!.copyWith(
                           fontWeight: FontWeight.w900,
                         )
