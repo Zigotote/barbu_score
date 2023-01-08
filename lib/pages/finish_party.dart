@@ -1,10 +1,10 @@
-import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/party.dart';
 import '../controller/player.dart';
 import '../main.dart';
+import '../utils/storage.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 import '../widgets/player_score_button.dart';

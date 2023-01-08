@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:barbu_score/utils/storage.dart';
 import 'package:get/get.dart';
 
 import './player.dart';
@@ -8,6 +7,7 @@ import '../main.dart';
 import '../models/contract_names.dart';
 import '../models/route_argument.dart';
 import '../utils/snackbar.dart';
+import '../utils/storage.dart';
 
 /// A party with some players
 class PartyController extends GetxController {

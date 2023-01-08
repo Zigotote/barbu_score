@@ -25,7 +25,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
   /// Builds a button to fill a contract
   ElevatedButton _buildContractButton(ContractsNames contract) {
     return ElevatedButton(
-      child: Text(contract.displayName),
+      child: Text(contract.displayName, textAlign: TextAlign.center),
       onPressed: () => Get.toNamed(
         contract.route,
         arguments: RouteArgument(

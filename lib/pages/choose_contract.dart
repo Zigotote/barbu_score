@@ -15,7 +15,7 @@ class ChooseContract extends GetView<PartyController> {
   /// Builds a button for a contract the player can choose
   ElevatedButton _buildAvailableButton(ContractsNames contract) {
     return ElevatedButton(
-      child: Text(contract.displayName),
+      child: Text(contract.displayName, textAlign: TextAlign.center),
       onPressed: () => Get.toNamed(
         contract.route,
         arguments: RouteArgument(
