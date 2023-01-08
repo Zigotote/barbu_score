@@ -53,11 +53,13 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
           padding: EdgeInsets.only(bottom: 16),
           child: Text(text, style: Get.textTheme.headline6),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: items,
-          ),
+        GridView.count(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          crossAxisCount: 4,
+          children: items,
         ),
       ],
     );
@@ -82,17 +84,16 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: _buildTitle(),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildPropertySelection(
-            "Couleur",
-            CreatePlayersController.colors
-                .map(
-                  (color) => Padding(
-                    padding: EdgeInsets.only(right: 8),
-                    child: Obx(
+      content: Scaffold(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildPropertySelection(
+              "Couleur",
+              CreatePlayersController.colors
+                  .map(
+                    (color) => Obx(
                       () => OutlinedButton(
                         onPressed: controller.availableColors.contains(color)
                             ? () => player.color = color
@@ -104,33 +105,32 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
                         ),
                         style: OutlinedButton.styleFrom(
                           backgroundColor: color,
-                          minimumSize: Size(Get.width * 0.15, Get.width * 0.15),
                         ),
                       ),
                     ),
-                  ),
-                )
-                .toList(),
-          ),
-          _buildPropertySelection(
-            "Avatar",
-            List.generate(
-              CreatePlayersController.NB_PLAYERS_MAX,
-              (index) =>
-                  sprintf(CreatePlayersController.playerImage, [index + 1]),
-            )
-                .map(
-                  (image) => OutlinedButton(
-                    onPressed: () => player.image = image,
-                    child: PlayerIcon(image: image, size: Get.width * 0.16),
-                    style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.zero,
+                  )
+                  .toList(),
+            ),
+            _buildPropertySelection(
+              "Avatar",
+              List.generate(
+                CreatePlayersController.NB_PLAYERS_MAX,
+                (index) =>
+                    sprintf(CreatePlayersController.playerImage, [index + 1]),
+              )
+                  .map(
+                    (image) => OutlinedButton(
+                      onPressed: () => player.image = image,
+                      child: PlayerIcon(image: image, size: Get.width * 0.16),
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-          ),
-        ],
+                  )
+                  .toList(),
+            )
+          ],
+        ),
       ),
       actions: [
         _buildActionButton(
