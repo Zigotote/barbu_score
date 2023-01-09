@@ -8,7 +8,7 @@ import 'player.dart';
 
 /// A party with some players
 class CreatePlayersController extends GetxController {
-  static const int NB_PLAYERS_MIN = 4;
+  static const int NB_PLAYERS_MIN = 3;
   static const int NB_PLAYERS_MAX = 6;
 
   /// Available colors for the players

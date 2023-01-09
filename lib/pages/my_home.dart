@@ -115,7 +115,7 @@ class MyHome extends GetView {
             ),
             ElevatedButton(
               child: Text("Règles du jeu"),
-              onPressed: () => print("rules"),
+              onPressed: () => Get.toNamed(Routes.RULES),
             ),
             IconButton(
               onPressed: null,

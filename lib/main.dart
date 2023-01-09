@@ -1,3 +1,4 @@
+import 'package:barbu_score/pages/my_rules.dart';
 import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,6 +38,10 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: Routes.HOME,
           page: () => MyHome(),
+        ),
+        GetPage(
+          name: Routes.RULES,
+          page: () => MyRules(),
         ),
         GetPage(
           name: Routes.CREATE_PARTY,
@@ -91,6 +96,7 @@ class MyApp extends StatelessWidget {
 /// Names of the routes for the app
 class Routes {
   static const HOME = "/";
+  static const RULES = "/rules";
   static const CREATE_PARTY = "/start_party";
   static const CHOOSE_CONTRACT = "/choose_contract";
   static const BARBU_OR_NOLASTTRICK_SCORES = "/one_looser_contract_scores";
