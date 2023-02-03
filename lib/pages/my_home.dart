@@ -104,6 +104,7 @@ class MyHome extends GetView {
             MyAppBar(
               "Le Barbu",
               isHome: true,
+              hasLeading: false,
             ),
             ElevatedButtonFullWidth(
               child: Text("Démarrer une partie"),
@@ -118,7 +119,7 @@ class MyHome extends GetView {
               onPressed: () => Get.toNamed(Routes.RULES),
             ),
             IconButton(
-              onPressed: null,
+              onPressed: () => Get.toNamed(Routes.SETTINGS),
               padding: EdgeInsets.zero,
               icon: Icon(
                 Icons.settings,

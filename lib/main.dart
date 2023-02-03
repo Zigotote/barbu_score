@@ -45,6 +45,10 @@ class MyApp extends StatelessWidget {
           page: () => MyRules(),
         ),
         GetPage(
+          name: Routes.SETTINGS,
+          page: () => MySettings(),
+        ),
+        GetPage(
           name: Routes.CREATE_PARTY,
           page: () => CreateParty(),
           binding: CreatePlayersBinding(),
@@ -98,6 +102,7 @@ class MyApp extends StatelessWidget {
 class Routes {
   static const HOME = "/";
   static const RULES = "/rules";
+  static const SETTINGS = "/settings";
   static const CREATE_PARTY = "/start_party";
   static const CHOOSE_CONTRACT = "/choose_contract";
   static const BARBU_OR_NOLASTTRICK_SCORES = "/one_looser_contract_scores";
