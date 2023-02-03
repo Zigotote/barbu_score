@@ -150,9 +150,14 @@ class CreateParty extends GetView<CreatePlayersController> {
       margin: EdgeInsets.all(32),
       child: OutlinedButton(
         onPressed: () => controller.addPlayer(),
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          size: Get.width * 0.1,
+          semanticLabel: "Ajouter un joueur",
+        ),
         style: OutlinedButton.styleFrom(
           side: BorderSide(
+            color: Get.theme.colorScheme.onSurface,
             style: BorderStyle.solid,
             width: 2,
           ),

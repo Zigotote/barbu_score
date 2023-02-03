@@ -1,4 +1,5 @@
 import 'package:barbu_score/pages/my_rules.dart';
+import 'package:barbu_score/pages/my_settings.dart';
 import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Barbu Score',
       theme: MyThemes.light,
-      darkTheme: ThemeData.dark(),
+      darkTheme: MyThemes.dark,
       themeMode: ThemeMode.system,
       initialRoute: Routes.HOME,
       getPages: [
