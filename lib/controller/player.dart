@@ -20,8 +20,7 @@ class PlayerController extends GetxController {
   late List<AbstractContractModel> _contracts;
 
   PlayerController(Color color, String image) {
-    this._name =
-        image.substring(image.indexOf("player"), image.indexOf(".")).obs;
+    this._name = "".obs;
     this._color = color.obs;
     this._image = image.obs;
     this._contracts = [];

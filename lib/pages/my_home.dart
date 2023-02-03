@@ -119,7 +119,7 @@ class MyHome extends GetView {
               onPressed: () => Get.toNamed(Routes.RULES),
             ),
             IconButton(
-              onPressed: () => Get.toNamed(Routes.SETTINGS),
+              onPressed: () => SnackbarUtils.openSnackbar("Patience...", "Cette page arrivera dans une future version."),
               padding: EdgeInsets.zero,
               icon: Icon(
                 Icons.settings,
