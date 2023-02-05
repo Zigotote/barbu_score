@@ -5,11 +5,8 @@ class MyAppBar extends AppBar {
   MyAppBar(String title, {bool isHome = false, bool hasLeading = false})
       : super(
           leading: Visibility(
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Get.theme.colorScheme.onSurface,
-              ),
+            child: BackButton(
+              color: Get.theme.colorScheme.onSurface,
               onPressed: Get.back,
             ),
             visible: hasLeading,

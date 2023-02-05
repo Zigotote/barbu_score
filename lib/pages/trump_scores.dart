@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../controller/contract.dart';
 import '../models/contract_names.dart';
 import '../models/route_argument.dart';
+import '../theme/my_themes.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
@@ -42,7 +43,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
       text: contract.displayName,
       topRightChild: Icon(
         Icons.task_alt_outlined,
-        color: Get.theme.highlightColor,
+        color: MyThemes.successColor,
       ),
       onPressed: () => Get.toNamed(
         contract.route,

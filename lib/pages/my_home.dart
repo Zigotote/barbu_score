@@ -1,4 +1,5 @@
 import 'package:barbu_score/controller/party.dart';
+import 'package:barbu_score/theme/my_themes.dart';
 import 'package:barbu_score/utils/snackbar.dart';
 import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class MyHome extends GetView {
                     text: "Non, nouvelle partie",
                     onPressed: _startParty),
                 ElevatedButtonCustomColor(
-                  color: Get.theme.highlightColor,
+                  color: MyThemes.successColor,
                   textSize: 16,
                   text: "Oui",
                   onPressed: () => _loadParty(previousParty),
@@ -75,7 +76,7 @@ class MyHome extends GetView {
                   onPressed: () => _loadParty(previousParty),
                 ),
                 ElevatedButtonCustomColor(
-                  color: Get.theme.highlightColor,
+                  color: MyThemes.successColor,
                   textSize: 16,
                   text: "Oui",
                   onPressed: _startParty,
@@ -119,12 +120,13 @@ class MyHome extends GetView {
               onPressed: () => Get.toNamed(Routes.RULES),
             ),
             IconButton(
-              onPressed: () => SnackbarUtils.openSnackbar("Patience...", "Cette page arrivera dans une future version."),
+              onPressed: () => SnackbarUtils.openSnackbar("Patience...",
+                  "Cette page arrivera dans une future version."),
               padding: EdgeInsets.zero,
+              iconSize: Get.width * 0.15,
               icon: Icon(
                 Icons.settings,
                 color: Get.theme.colorScheme.onSurface,
-                size: Get.width * 0.15,
               ),
             )
           ],

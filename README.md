@@ -1,10 +1,5 @@
 # Liste des fonctionnalités à ajouter
 
-## Sur toute l'appli
-
-- voir le responsive du texte
-- dark theme : supprimer l'overlay vert au click sur les boutons icons
-
 ## Page accueil
 
 - pouvoir sauvegarder plusieurs parties en même temps

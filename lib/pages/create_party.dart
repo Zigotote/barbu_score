@@ -161,6 +161,7 @@ class CreateParty extends GetView<CreatePlayersController> {
             style: BorderStyle.solid,
             width: 2,
           ),
+          fixedSize: Size(Get.width * 0.1, Get.width * 0.1),
         ),
       ),
     );

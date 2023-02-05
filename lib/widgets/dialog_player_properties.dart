@@ -4,6 +4,7 @@ import 'package:sprintf/sprintf.dart';
 
 import '../controller/create_players.dart';
 import '../controller/player.dart';
+import '../theme/my_themes.dart';
 import 'player_icon.dart';
 
 /// A dialog to change a player's informations
@@ -142,7 +143,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
         _buildActionButton(
           Icons.done,
           "Valider",
-          Get.theme.highlightColor,
+          MyThemes.successColor,
           this.onValidate,
         ),
       ],
