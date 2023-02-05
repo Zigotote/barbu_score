@@ -4,15 +4,16 @@ import 'package:get/get.dart';
 class MyAppBar extends AppBar {
   MyAppBar(String title, {bool isHome = false, bool hasLeading = false})
       : super(
-          leading: hasLeading
-              ? IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Get.theme.colorScheme.onSurface,
-                  ),
-                  onPressed: Get.back,
-                )
-              : null,
+          leading: Visibility(
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Get.theme.colorScheme.onSurface,
+              ),
+              onPressed: Get.back,
+            ),
+            visible: hasLeading,
+          ),
           leadingWidth: hasLeading ? 32 : 0,
           title: Stack(
             alignment: AlignmentDirectional.center,
