@@ -37,7 +37,7 @@
 ## Page règles
 
 - faire un accordéon avec les règles de chaque contrat, pour pouvoir les déplier + mettre des images
-  +
+    +
 - changer l'ordre : remonter le déroulement des manches pour que ça soit avant les contrats +
 
 ## Page scores final
@@ -53,7 +53,6 @@
 
 ## Page Réussite
 
-- essayer de changer le longPress en short press +++
 - mettre des petites flèches en haut et en bas de chaque carré de joueur, au milieu, pour faire haut
   et bas ++
 

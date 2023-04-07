@@ -14,26 +14,30 @@ class DominoScores extends GetView<OrderPlayersController> {
     return ReorderableListView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
+      buildDefaultDragHandles: false,
       itemCount: controller.orderedPlayers.length,
       itemBuilder: (_, index) {
         PlayerController player = controller.orderedPlayers[index];
-        return Padding(
+        return ReorderableDragStartListener(
           key: ValueKey(index),
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                (index + 1).toString(),
-                style: Get.textTheme.headline5,
-              ),
-              ColoredContainer(
-                height: Get.height * 0.08,
-                width: Get.width * 0.75,
-                color: player.color,
-                child: _buildPlayerTile(player),
-              ),
-            ],
+          index: index,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  (index + 1).toString(),
+                  style: Get.textTheme.headline5,
+                ),
+                ColoredContainer(
+                  height: Get.height * 0.08,
+                  width: Get.width * 0.75,
+                  color: player.color,
+                  child: _buildPlayerTile(player),
+                ),
+              ],
+            ),
           ),
         );
       },
