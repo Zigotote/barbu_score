@@ -1,9 +1,5 @@
 # Liste des fonctionnalités à ajouter
 
-## Au global
-
-- bloquer le verrouillage de l'écran ++++
-
 ## Page accueil
 
 - pouvoir sauvegarder plusieurs parties en même temps ++
@@ -41,7 +37,7 @@
 ## Page règles
 
 - faire un accordéon avec les règles de chaque contrat, pour pouvoir les déplier + mettre des images
-    +
+  +
 - changer l'ordre : remonter le déroulement des manches pour que ça soit avant les contrats +
 
 ## Page scores final

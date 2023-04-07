@@ -4,6 +4,7 @@ import 'package:barbu_score/utils/snackbar.dart';
 import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../main.dart';
 import '../widgets/custom_buttons.dart';
@@ -15,11 +16,13 @@ class MyHome extends GetView {
     Get.deleteAll();
     Get.put(previousParty);
     Get.toNamed(Routes.CHOOSE_CONTRACT);
+    Wakelock.enable();
   }
 
   /// Starts a new party
   _startParty() {
     Get.toNamed(Routes.CREATE_PARTY);
+    Wakelock.enable();
   }
 
   /// Builds the widgets to load a saved party
@@ -91,6 +94,7 @@ class MyHome extends GetView {
 
   @override
   Widget build(BuildContext context) {
+    Wakelock.disable();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
