@@ -8,29 +8,28 @@ class MyThemes {
 
   static final successColor = Colors.green;
 
-  static final _baseTheme = (ThemeData baseTheme) =>
-      baseTheme.copyWith(
+  static final _baseTheme = (ThemeData baseTheme) => baseTheme.copyWith(
         textTheme: baseTheme.textTheme
             .copyWith(
-          subtitle2: TextStyle(
-            fontSize: 18,
-            color: baseTheme.colorScheme.onSurface,
-          ),
-        )
+              subtitle2: TextStyle(
+                fontSize: 20,
+                color: baseTheme.colorScheme.onSurface,
+              ),
+            )
             .apply(
-          fontFamily: "QuickSand",
-        ),
+              fontFamily: "QuickSand",
+            ),
         disabledColor: Colors.grey,
         dividerColor: baseTheme.colorScheme.onSurface,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.disabled)) {
-                    return Colors.grey;
-                  }
-                  return baseTheme.colorScheme.onSurface;
-                }),
+                (Set<MaterialState> states) {
+              if (states.contains(MaterialState.disabled)) {
+                return Colors.grey;
+              }
+              return baseTheme.colorScheme.onSurface;
+            }),
             textStyle: MaterialStateProperty.all(
               Get.textTheme.button!.copyWith(
                 fontSize: 22,
@@ -50,17 +49,17 @@ class MyThemes {
               ),
             ),
             side: MaterialStateProperty.resolveWith<BorderSide>(
-                    (Set<MaterialState> states) {
-                  BorderSide border = BorderSide(
-                    style: BorderStyle.solid,
-                    width: 2,
-                    color: baseTheme.colorScheme.onSurface,
-                  );
-                  if (states.contains(MaterialState.disabled)) {
-                    border = border.copyWith(color: Colors.grey);
-                  }
-                  return border;
-                }),
+                (Set<MaterialState> states) {
+              BorderSide border = BorderSide(
+                style: BorderStyle.solid,
+                width: 2,
+                color: baseTheme.colorScheme.onSurface,
+              );
+              if (states.contains(MaterialState.disabled)) {
+                border = border.copyWith(color: Colors.grey);
+              }
+              return border;
+            }),
             padding: MaterialStateProperty.all(
               EdgeInsets.symmetric(
                 vertical: 16,
@@ -72,7 +71,7 @@ class MyThemes {
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
             foregroundColor:
-            MaterialStateProperty.all(baseTheme.colorScheme.onSurface),
+                MaterialStateProperty.all(baseTheme.colorScheme.onSurface),
             padding: MaterialStateProperty.all(EdgeInsets.all(16)),
             shape: MaterialStateProperty.all(CircleBorder()),
             side: MaterialStateProperty.all(

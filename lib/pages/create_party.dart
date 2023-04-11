@@ -171,22 +171,12 @@ class CreateParty extends GetView<CreatePlayersController> {
   Widget _buildValidateButton() {
     return Obx(
       () => ElevatedButton(
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                "C'est parti !",
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Icon(Icons.arrow_forward_ios)
-          ],
-        ),
+        child: Text("Suivant"),
         onPressed: controller.isValid
             ? () {
                 if (_formKey.currentState!.validate()) {
                   MyStorage().saveNbPlayers(controller.nbPlayers);
-                  Get.toNamed(Routes.CHOOSE_CONTRACT);
+                  Get.toNamed(Routes.PREPARE_PARTY);
                 }
               }
             : null,

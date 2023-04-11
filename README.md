@@ -4,7 +4,6 @@
 
 - pouvoir sauvegarder plusieurs parties en même temps ++
 - pouvoir sauvegarder des joueurs et garder leurs statistiques
-- indiquer l'ordre dans lequel les joueurs doivent se placer au chargement d'une partie +++
 - bug : bouton paramètre ne s'affiche pas toujours au chargement de l'appli (problème de couleur)
   +++
 
@@ -13,7 +12,6 @@
 - pour la modale de personnalisation, valider automatiquement quand on clique sur la croix +
   Supprimer le bouton de validation en bas du coup
 - ajouter un mode "aléatoire" pour la partie
-- indiquer le nombre de carte à retirer au début de la partie +++
 - ajouter une flèche de retour pour retourner sur l'accueil +++
 
 ## Page choix contrat

@@ -1,5 +1,6 @@
 import 'package:barbu_score/pages/my_rules.dart';
 import 'package:barbu_score/pages/my_settings.dart';
+import 'package:barbu_score/pages/prepare_party.dart';
 import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,6 +55,11 @@ class MyApp extends StatelessWidget {
           binding: CreatePlayersBinding(),
         ),
         GetPage(
+          name: Routes.PREPARE_PARTY,
+          page: () => PrepareParty(),
+          binding: PartyBinding(),
+        ),
+        GetPage(
           name: Routes.CHOOSE_CONTRACT,
           page: () => ChooseContract(),
           binding: PartyBinding(),
@@ -103,7 +109,8 @@ class Routes {
   static const HOME = "/";
   static const RULES = "/rules";
   static const SETTINGS = "/settings";
-  static const CREATE_PARTY = "/start_party";
+  static const CREATE_PARTY = "/create_party";
+  static const PREPARE_PARTY = "/prepare_party";
   static const CHOOSE_CONTRACT = "/choose_contract";
   static const BARBU_OR_NOLASTTRICK_SCORES = "/one_looser_contract_scores";
   static const DOMINO_SCORES = "/domino_scores";

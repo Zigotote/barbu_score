@@ -32,6 +32,7 @@ dependencies:
   sprintf: ^6.0.0
   get_storage: ^2.0.3
   wakelock: ^0.6.2
+  flutter_circular_text: ^0.3.1
 
 dev_dependencies:
   flutter_launcher_icons: ^0.10.0

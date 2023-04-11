@@ -15,14 +15,12 @@ class MyHome extends GetView {
   _loadParty(PartyController previousParty) {
     Get.deleteAll();
     Get.put(previousParty);
-    Get.toNamed(Routes.CHOOSE_CONTRACT);
-    Wakelock.enable();
+    Get.toNamed(Routes.PREPARE_PARTY);
   }
 
   /// Starts a new party
   _startParty() {
     Get.toNamed(Routes.CREATE_PARTY);
-    Wakelock.enable();
   }
 
   /// Builds the widgets to load a saved party
