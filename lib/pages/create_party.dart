@@ -111,7 +111,7 @@ class CreateParty extends GetView<CreatePlayersController> {
           color: Get.theme.scaffoldBackgroundColor,
         ),
         style: OutlinedButton.styleFrom(
-          backgroundColor: Get.theme.errorColor,
+          backgroundColor: Get.theme.colorScheme.error,
           padding: EdgeInsets.all(8),
         ),
       ),

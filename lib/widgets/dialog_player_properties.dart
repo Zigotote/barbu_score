@@ -52,7 +52,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
       children: [
         Padding(
           padding: EdgeInsets.only(bottom: 16),
-          child: Text(text, style: Get.textTheme.headline6),
+          child: Text(text, style: Get.textTheme.titleLarge),
         ),
         GridView.count(
           physics: NeverScrollableScrollPhysics(),
@@ -101,7 +101,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
                             : null,
                         child: Text(
                           controller.getPlayerWithColor(color),
-                          style: Get.textTheme.headline5!.copyWith(
+                          style: Get.textTheme.headlineSmall!.copyWith(
                               color: Get.theme.scaffoldBackgroundColor),
                         ),
                         style: OutlinedButton.styleFrom(
@@ -137,7 +137,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
         _buildActionButton(
           Icons.delete_forever_outlined,
           "Supprimer",
-          Get.theme.errorColor,
+          Get.theme.colorScheme.error,
           this.onDelete,
         ),
         _buildActionButton(

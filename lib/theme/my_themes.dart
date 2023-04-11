@@ -11,7 +11,7 @@ class MyThemes {
   static final _baseTheme = (ThemeData baseTheme) => baseTheme.copyWith(
         textTheme: baseTheme.textTheme
             .copyWith(
-              subtitle2: TextStyle(
+              titleSmall: TextStyle(
                 fontSize: 20,
                 color: baseTheme.colorScheme.onSurface,
               ),
@@ -31,7 +31,7 @@ class MyThemes {
               return baseTheme.colorScheme.onSurface;
             }),
             textStyle: MaterialStateProperty.all(
-              Get.textTheme.button!.copyWith(
+              Get.textTheme.labelLarge!.copyWith(
                 fontSize: 22,
                 fontFamily: "QuickSand",
               ),

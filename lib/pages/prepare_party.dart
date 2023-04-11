@@ -42,7 +42,7 @@ class PrepareParty extends GetView<PartyController> {
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   _getCardsToTakeOut().join(", "),
-                  style: Get.textTheme.subtitle2,
+                  style: Get.textTheme.titleSmall,
                 ),
               ),
               Text("du paquet."),
@@ -76,7 +76,7 @@ class PrepareParty extends GetView<PartyController> {
               TextItem(
                 text: Text(
                   "La table",
-                  style: Get.textTheme.subtitle2!.copyWith(
+                  style: Get.textTheme.titleSmall!.copyWith(
                     color: Get.theme.colorScheme.onSurface,
                   ),
                 ),

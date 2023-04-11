@@ -8,7 +8,7 @@ class MyRules extends GetView {
       padding: EdgeInsets.only(top: 16, bottom: 8),
       child: Text(
         title,
-        style: Get.textTheme.headline5!
+        style: Get.textTheme.headlineSmall!
             .copyWith(color: Get.theme.colorScheme.onSurface),
       ),
     );
@@ -19,7 +19,7 @@ class MyRules extends GetView {
       padding: EdgeInsets.symmetric(vertical: 8),
       child: Text(
         title,
-        style: Get.textTheme.headline6!
+        style: Get.textTheme.titleLarge!
             .copyWith(color: Get.theme.colorScheme.onSurface),
       ),
     );

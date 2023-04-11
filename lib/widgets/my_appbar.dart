@@ -15,7 +15,7 @@ class MyAppBar extends AppBar {
           title: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              Divider(),
+              Divider(thickness: 1),
               Container(
                 decoration: BoxDecoration(
                   color: Get.theme.scaffoldBackgroundColor,
@@ -25,9 +25,9 @@ class MyAppBar extends AppBar {
                   title,
                   textAlign: TextAlign.center,
                   style: isHome
-                      ? Get.textTheme.headline3!
+                      ? Get.textTheme.displaySmall!
                           .copyWith(color: Get.theme.colorScheme.onSurface)
-                      : Get.textTheme.headline5!
+                      : Get.textTheme.headlineSmall!
                           .copyWith(color: Get.theme.colorScheme.onSurface),
                 ),
               ),

@@ -28,7 +28,7 @@ class DominoScores extends GetView<OrderPlayersController> {
               children: [
                 Text(
                   (index + 1).toString(),
-                  style: Get.textTheme.headline5,
+                  style: Get.textTheme.headlineSmall,
                 ),
                 ColoredContainer(
                   height: Get.height * 0.08,

@@ -42,7 +42,7 @@ class MyHome extends GetView {
                   "Reprendre la partie précédente avec ${previousParty.playerNames} ?"),
               actions: [
                 ElevatedButtonCustomColor(
-                    color: Get.theme.errorColor,
+                    color: Get.theme.colorScheme.error,
                     textSize: 16,
                     text: "Non, nouvelle partie",
                     onPressed: _startParty),
@@ -71,7 +71,7 @@ class MyHome extends GetView {
                   "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${previousParty.playerNames} sera perdue."),
               actions: [
                 ElevatedButtonCustomColor(
-                  color: Get.theme.errorColor,
+                  color: Get.theme.colorScheme.error,
                   textSize: 16,
                   text: "Non, reprendre la partie",
                   onPressed: () => _loadParty(previousParty),
