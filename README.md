@@ -27,11 +27,6 @@
 
 - mettre un "?" sur la droite du titre pour afficher les règles du contrat ++
 
-## Page score en cours de partie
-
-- ajouter le nom des joueurs en dessous ou au dessus de leur perso (faire une ellipse si c'est trop
-  long) +++
-
 ## Page règles
 
 - faire un accordéon avec les règles de chaque contrat, pour pouvoir les déplier + mettre des images
