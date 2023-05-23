@@ -6,49 +6,11 @@ import '../controller/player.dart';
 import '../main.dart';
 import '../models/contract_names.dart';
 import '../models/route_argument.dart';
-import '../widgets/custom_buttons.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 
 /// A page for a player to choose his contract
 class ChooseContract extends GetView<PartyController> {
-  /// Builds a button for a contract the player can choose
-  ElevatedButton _buildAvailableButton(ContractsNames contract) {
-    return ElevatedButton(
-      child: Text(contract.displayName, textAlign: TextAlign.center),
-      onPressed: () => Get.toNamed(
-        contract.route,
-        arguments: RouteArgument(
-          contractName: contract,
-          contractValues: null,
-        ),
-      ),
-    );
-  }
-
-  /// Builds a button for a contract which has already been played
-  Widget _buildUnavailableButton(ContractsNames contract) {
-    return ElevatedButtonTopRightWidget(
-      text: contract.displayName,
-      topRightChild: IconButton(
-        tooltip: "Consulter ou modifier le score rentré pour le contrat",
-        icon: Icon(
-          Icons.edit,
-          color: Get.theme.colorScheme.onSurface.withOpacity(0.8),
-        ),
-        onPressed: () => Get.toNamed(
-          contract.route,
-          arguments: RouteArgument(
-            contractName: contract,
-            contractValues: controller.currentPlayer.getContract(contract),
-          ),
-        ),
-        padding: EdgeInsets.zero,
-        constraints: BoxConstraints(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     PlayerController player = controller.currentPlayer;
@@ -59,9 +21,18 @@ class ChooseContract extends GetView<PartyController> {
         itemCount: ContractsNames.values.length,
         itemBuilder: (_, index) {
           ContractsNames contract = ContractsNames.values[index];
-          return player.hasPlayedContract(contract)
-              ? _buildUnavailableButton(contract)
-              : _buildAvailableButton(contract);
+          return ElevatedButton(
+            child: Text(contract.displayName, textAlign: TextAlign.center),
+            onPressed: player.hasPlayedContract(contract)
+                ? null
+                : () => Get.toNamed(
+                      contract.route,
+                      arguments: RouteArgument(
+                        contractName: contract,
+                        contractValues: null,
+                      ),
+                    ),
+          );
         },
       ),
       bottomWidget: ElevatedButton(

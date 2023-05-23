@@ -19,7 +19,6 @@
 - couper le trait du titre sur la droite et mettre un "?" qui affiche toutes les règles ++
 - diminuer la taille des boutons (les mettre tous dans un Expanded, avec une min et Max value pour
   qu'ils prennent toujours la taille de l'écran) #design
-- supprimer la possibilité d'éditer un score
 - bug : centrer tous les textes de boutons contrat (problème en mode disabled) ++
 
 ## Page contrat
