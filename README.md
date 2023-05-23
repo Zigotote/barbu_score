@@ -16,7 +16,6 @@
 
 ## Page choix contrat
 
-- augmenter l'espace au dessus du titre et en dessus du bouton score #design
 - couper le trait du titre sur la droite et mettre un "?" qui affiche toutes les règles ++
 - diminuer la taille des boutons (les mettre tous dans un Expanded, avec une min et Max value pour
   qu'ils prennent toujours la taille de l'écran) #design

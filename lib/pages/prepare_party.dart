@@ -31,7 +31,7 @@ class PrepareParty extends GetView<PartyController> {
       title: "Préparer la partie",
       hasLeading: true,
       content: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [

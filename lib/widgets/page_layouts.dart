@@ -50,17 +50,11 @@ class DefaultPage extends GetWidget {
                 ),
               )
             : null,
-        padding: EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: this.content,
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
+        padding: EdgeInsets.fromLTRB(16, 16, 16, 24),
         child: this.bottomWidget,
       ),
     );
