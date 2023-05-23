@@ -7,7 +7,7 @@ class SnackbarUtils {
       Get.snackbar(
         title,
         text,
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         dismissDirection: DismissDirection.horizontal,
       );
     }
