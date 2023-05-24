@@ -22,27 +22,17 @@ class PlayerIcon extends GetView {
     this.color = const Color(0xFFBDBDBD),
   });
 
-  Widget _buildPlayerIcon() {
-    return Container(
-      width: this.size,
-      height: this.size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: this.color,
-        image: DecorationImage(
-          fit: BoxFit.contain,
-          image: AssetImage(this.image),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final CircleAvatar playerIcon = CircleAvatar(
+      child: Image.asset(this.image),
+      backgroundColor: this.color,
+      radius: this.size / 2,
+    );
     if (this.hasMedal == true) {
       return Stack(
         children: [
-          _buildPlayerIcon(),
+          playerIcon,
           Container(
             width: this.size,
             height: this.size,
@@ -57,6 +47,6 @@ class PlayerIcon extends GetView {
         ],
       );
     }
-    return _buildPlayerIcon();
+    return playerIcon;
   }
 }

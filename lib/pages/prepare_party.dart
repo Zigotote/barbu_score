@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:barbu_score/controller/party.dart';
 import 'package:barbu_score/controller/player.dart';
-import 'package:barbu_score/widgets/player_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
@@ -11,11 +10,12 @@ import 'package:wakelock/wakelock.dart';
 
 import '../main.dart';
 import '../widgets/page_layouts.dart';
+import '../widgets/player_icon.dart';
 
 /// A page to be sure the players and the cards are ready to start
 class PrepareParty extends GetView<PartyController> {
   final double _circleDiameter = Get.width * 0.5;
-  final double _playerIconSize = Get.width * 0.125;
+  final double _playerIconSize = Get.width * 0.16;
 
   double get _circleRadius => _circleDiameter / 2;
 
