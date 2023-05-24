@@ -9,6 +9,9 @@ class MyThemes {
   static final successColor = Colors.green;
 
   static final _baseTheme = (ThemeData baseTheme) => baseTheme.copyWith(
+        useMaterial3: true,
+        colorScheme: baseTheme.colorScheme
+            .copyWith(surfaceTint: baseTheme.scaffoldBackgroundColor),
         textTheme: baseTheme.textTheme
             .copyWith(
               titleSmall: TextStyle(
@@ -30,22 +33,19 @@ class MyThemes {
               }
               return baseTheme.colorScheme.onSurface;
             }),
-            textStyle: MaterialStateProperty.all(
+            textStyle: MaterialStatePropertyAll(
               Get.textTheme.labelLarge!.copyWith(
                 fontSize: 22,
                 fontFamily: "QuickSand",
               ),
             ),
-            backgroundColor: MaterialStateProperty.all(
-              baseTheme.scaffoldBackgroundColor,
-            ),
-            overlayColor: MaterialStateProperty.all(Colors.grey),
-            elevation: MaterialStateProperty.all(10),
-            shape: MaterialStateProperty.all(
+            backgroundColor:
+                MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
+            overlayColor: MaterialStatePropertyAll(Colors.grey),
+            elevation: MaterialStatePropertyAll(10),
+            shape: MaterialStatePropertyAll(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.elliptical(8, 5),
-                ),
+                borderRadius: BorderRadius.all(Radius.elliptical(8, 5)),
               ),
             ),
             side: MaterialStateProperty.resolveWith<BorderSide>(
@@ -60,7 +60,7 @@ class MyThemes {
               }
               return border;
             }),
-            padding: MaterialStateProperty.all(
+            padding: MaterialStatePropertyAll(
               EdgeInsets.symmetric(
                 vertical: 16,
                 horizontal: 16,
@@ -71,14 +71,16 @@ class MyThemes {
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
             foregroundColor:
-                MaterialStateProperty.all(baseTheme.colorScheme.onSurface),
-            padding: MaterialStateProperty.all(EdgeInsets.all(16)),
-            shape: MaterialStateProperty.all(CircleBorder()),
-            side: MaterialStateProperty.all(
-              BorderSide(
-                style: BorderStyle.none,
-              ),
-            ),
+                MaterialStatePropertyAll(baseTheme.colorScheme.onSurface),
+            padding: MaterialStatePropertyAll(EdgeInsets.all(16)),
+            shape: MaterialStatePropertyAll(CircleBorder()),
+            side: MaterialStatePropertyAll(BorderSide(style: BorderStyle.none)),
+          ),
+        ),
+        iconButtonTheme: IconButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor:
+                MaterialStatePropertyAll(baseTheme.colorScheme.onSurface),
           ),
         ),
       );

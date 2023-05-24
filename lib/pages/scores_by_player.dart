@@ -18,6 +18,9 @@ class ScoresByPlayer extends GetView<PartyController> {
       headingRowHeight: 64,
       headingTextStyle: Get.textTheme.labelLarge,
       columnSpacing: 8,
+      border: TableBorder(
+        horizontalInside: BorderSide(color: Get.theme.colorScheme.onSurface),
+      ),
       columns: [
         DataColumn(label: Text("")),
         ...controller.players

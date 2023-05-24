@@ -124,7 +124,6 @@ class MyHome extends GetView {
             IconButton(
               onPressed: () => SnackbarUtils.openSnackbar("Patience...",
                   "Cette page arrivera dans une future version."),
-              padding: EdgeInsets.zero,
               iconSize: Get.width * 0.15,
               icon: Icon(
                 Icons.settings,

@@ -89,7 +89,7 @@ class PrepareParty extends GetView<PartyController> {
           ),
         ),
         Positioned(
-          top: _playerIconSize,
+          top: _playerIconSize * 0.75,
           child: Container(
             width: _circleDiameter,
             height: _circleDiameter,

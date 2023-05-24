@@ -4,18 +4,16 @@ import 'package:get/get.dart';
 class MyAppBar extends AppBar {
   MyAppBar(String title, {bool isHome = false, bool hasLeading = false})
       : super(
-          leading: Visibility(
-            child: BackButton(
-              color: Get.theme.colorScheme.onSurface,
-              onPressed: Get.back,
-            ),
-            visible: hasLeading,
-          ),
-          leadingWidth: hasLeading ? 32 : 0,
+          automaticallyImplyLeading: false,
+          leadingWidth: 0,
+          titleSpacing: 0,
           title: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              Divider(thickness: 1),
+              Divider(
+                thickness: 1,
+                color: Get.theme.colorScheme.onSurface,
+              ),
               Container(
                 decoration: BoxDecoration(
                   color: Get.theme.scaffoldBackgroundColor,
@@ -31,9 +29,29 @@ class MyAppBar extends AppBar {
                           .copyWith(color: Get.theme.colorScheme.onSurface),
                 ),
               ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Visibility(
+                  child: IconButton.outlined(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: Get.back,
+                    style: Get.theme.iconButtonTheme.style?.copyWith(
+                      backgroundColor: MaterialStatePropertyAll(
+                          Get.theme.scaffoldBackgroundColor),
+                      side: MaterialStatePropertyAll(
+                        BorderSide(
+                          style: BorderStyle.solid,
+                          color: Get.theme.colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                  ),
+                  visible: hasLeading,
+                ),
+              ),
             ],
           ),
+          forceMaterialTransparency: true,
           elevation: 0,
-          backgroundColor: Get.theme.scaffoldBackgroundColor,
         );
 }
