@@ -9,8 +9,6 @@
 
 ## Page choix des joueurs
 
-- pour la modale de personnalisation, valider automatiquement quand on clique sur la croix +
-  Supprimer le bouton de validation en bas du coup
 - ajouter un mode "aléatoire" pour la partie
 - ajouter une flèche de retour pour retourner sur l'accueil +++
 

@@ -77,7 +77,7 @@ class CreatePlayersController extends GetxController {
     if (player.name.isEmpty) {
       return "X";
     }
-    return player.name.characters.first;
+    return player.name.characters.first.toUpperCase();
   }
 
   /// Returns true if the player has the same name as another

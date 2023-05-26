@@ -22,6 +22,7 @@ class MyThemes {
             .apply(
               fontFamily: "QuickSand",
             ),
+        dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
         disabledColor: Colors.grey,
         dividerColor: baseTheme.colorScheme.onSurface,
         elevatedButtonTheme: ElevatedButtonThemeData(

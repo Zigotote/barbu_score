@@ -121,27 +121,15 @@ class CreateParty extends GetView<CreatePlayersController> {
   /// Displays a dialog to change the player's properties
   /// Changes are reverted if they are not validated
   void _displayDialog(PlayerController player) {
-    bool changesValidated = false;
-    Color previousColor = player.color;
-    String previousImage = player.image;
     Get.dialog(
       DialogChangePlayerInfo(
         player: player,
-        onValidate: () {
-          Get.back();
-          changesValidated = true;
-        },
         onDelete: () {
           controller.removePlayer(player);
           Get.back();
         },
       ),
-    ).then((_) {
-      if (!changesValidated) {
-        player.color = previousColor;
-        player.image = previousImage;
-      }
-    });
+    );
   }
 
   /// Builds the button to add a player

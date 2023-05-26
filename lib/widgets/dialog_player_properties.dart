@@ -4,7 +4,6 @@ import 'package:sprintf/sprintf.dart';
 
 import '../controller/create_players.dart';
 import '../controller/player.dart';
-import '../theme/my_themes.dart';
 import 'player_icon.dart';
 
 /// A dialog to change a player's informations
@@ -12,14 +11,10 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   /// The player to change the infos
   final PlayerController player;
 
-  /// The function to call on changes validated
-  final Function() onValidate;
-
   /// The function to call on deleted button pressed
   final Function() onDelete;
 
-  DialogChangePlayerInfo(
-      {required this.player, required this.onValidate, required this.onDelete});
+  DialogChangePlayerInfo({required this.player, required this.onDelete});
 
   /// Builds the title of the widget
   Widget _buildTitle() {
@@ -47,37 +42,23 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
 
   /// Builds the title and list of items the player can modify
   Widget _buildPropertySelection(String text, List<Widget> items) {
+    final double buttonSpacing = Get.width * 0.05;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(bottom: 16),
+          padding: EdgeInsets.only(bottom: 8),
           child: Text(text, style: Get.textTheme.titleLarge),
         ),
         GridView.count(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          crossAxisCount: 4,
+          mainAxisSpacing: buttonSpacing,
+          crossAxisSpacing: buttonSpacing,
+          crossAxisCount: 3,
           children: items,
         ),
       ],
-    );
-  }
-
-  /// Builds a button to display in the action part. It has a text, an icon and a foreground color
-  ElevatedButton _buildActionButton(
-      IconData icon, String text, Color color, Function() onPressed) {
-    return ElevatedButton.icon(
-      icon: Icon(icon),
-      label: Text(text),
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        side: BorderSide(color: color, width: 2),
-        padding: EdgeInsets.all(8),
-        foregroundColor: color,
-      ),
     );
   }
 
@@ -85,67 +66,69 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: _buildTitle(),
-      content: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildPropertySelection(
-              "Couleur",
-              CreatePlayersController.colors
-                  .map(
-                    (color) => Obx(
-                      () => OutlinedButton(
-                        onPressed: controller.availableColors.contains(color)
-                            ? () => player.color = color
-                            : null,
-                        child: Text(
-                          controller.getPlayerWithColor(color),
-                          style: Get.textTheme.headlineSmall!.copyWith(
-                              color: Get.theme.scaffoldBackgroundColor),
+      content: SingleChildScrollView(
+        child: Container(
+          width: double.maxFinite,
+          height: Get.height * 0.643,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildPropertySelection(
+                "Couleur",
+                CreatePlayersController.colors
+                    .map(
+                      (color) => Obx(
+                        () => OutlinedButton(
+                          onPressed: controller.availableColors.contains(color)
+                              ? () => player.color = color
+                              : null,
+                          child: Text(
+                            controller.getPlayerWithColor(color),
+                            style: Get.textTheme.labelLarge!.copyWith(
+                                color: Get.theme.scaffoldBackgroundColor),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: color,
+                          ),
                         ),
+                      ),
+                    )
+                    .toList(),
+              ),
+              SizedBox(height: 16),
+              _buildPropertySelection(
+                "Avatar",
+                List.generate(
+                  CreatePlayersController.NB_PLAYERS_MAX,
+                  (index) =>
+                      sprintf(CreatePlayersController.playerImage, [index + 1]),
+                )
+                    .map(
+                      (image) => OutlinedButton(
+                        onPressed: () => player.image = image,
+                        child: PlayerIcon(image: image, size: double.maxFinite),
                         style: OutlinedButton.styleFrom(
-                          backgroundColor: color,
+                          padding: EdgeInsets.zero,
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
-            ),
-            _buildPropertySelection(
-              "Avatar",
-              List.generate(
-                CreatePlayersController.NB_PLAYERS_MAX,
-                (index) =>
-                    sprintf(CreatePlayersController.playerImage, [index + 1]),
+                    )
+                    .toList(),
               )
-                  .map(
-                    (image) => OutlinedButton(
-                      onPressed: () => player.image = image,
-                      child: PlayerIcon(image: image, size: Get.width * 0.16),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                    ),
-                  )
-                  .toList(),
-            )
-          ],
+            ],
+          ),
         ),
       ),
       actions: [
-        _buildActionButton(
-          Icons.delete_forever_outlined,
-          "Supprimer",
-          Get.theme.colorScheme.error,
-          this.onDelete,
-        ),
-        _buildActionButton(
-          Icons.done,
-          "Valider",
-          MyThemes.successColor,
-          this.onValidate,
-        ),
+        ElevatedButton.icon(
+          icon: Icon(Icons.delete_forever_outlined),
+          label: Text("Supprimer"),
+          onPressed: this.onDelete,
+          style: ElevatedButton.styleFrom(
+            side: BorderSide(color: Get.theme.colorScheme.error, width: 2),
+            padding: EdgeInsets.all(8),
+            foregroundColor: Get.theme.colorScheme.error,
+          ),
+        )
       ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
