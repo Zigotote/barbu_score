@@ -42,8 +42,9 @@ class PlayerScoreButton extends GetWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Icon(
-          Icons.sentiment_very_dissatisfied_outlined,
+          Icons.heart_broken_outlined,
           size: badgesSize,
+          semanticLabel: "Pire ennemi",
         ),
         PlayerIcon(
           image: worstEnnemy!.image,
@@ -52,8 +53,9 @@ class PlayerScoreButton extends GetWidget {
         ),
         Padding(padding: EdgeInsets.only(left: 16)),
         Icon(
-          Icons.sentiment_very_satisfied_outlined,
+          Icons.favorite_outline,
           size: badgesSize,
+          semanticLabel: "Meilleur ami",
         ),
         PlayerIcon(
           image: bestFriend!.image,

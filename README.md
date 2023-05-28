@@ -38,7 +38,6 @@
 - scores par contrat = équivalent du score d'un joueur mais avec un select en haut pour choisir le
   type de contrat
 - médailles : le meilleur et le plus nul pour chaque contrat
-- remplacer le smiley meilleur ami par un coeur et le pire ennemi par un diable +
 
 ## Page Réussite
 
