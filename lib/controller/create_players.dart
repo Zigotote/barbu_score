@@ -11,17 +11,31 @@ class CreatePlayersController extends GetxController {
   static const int NB_PLAYERS_MIN = 3;
   static const int NB_PLAYERS_MAX = 6;
 
-  /// Available colors for the players
-  static final List<Color> colors = [
+  /// Available colors for the players in light theme
+  static final List<Color> _lightColors = [
     Colors.brown.shade700,
-    Colors.lightGreen.shade700,
+    Colors.lightGreen.shade900,
     Colors.yellow.shade800,
     Colors.orange.shade800,
     Colors.deepOrange.shade900,
     Colors.teal.shade900,
   ];
 
+  /// Available colors for the players in dark theme
+  static final List<Color> _darkColors = [
+    Colors.brown.shade400,
+    Colors.lightGreen.shade800,
+    Colors.yellow.shade700,
+    Colors.orange.shade800,
+    Colors.deepOrange.shade700,
+    Colors.teal.shade400
+  ];
+
   static final String playerImage = "assets/players/player%s.png";
+
+  /// Returns the available colors for the players, depending on app theme
+  static List<Color> get colors =>
+      Get.theme.brightness == Brightness.dark ? _darkColors : _lightColors;
 
   /// The list of the players for this party
   late RxList<PlayerController> _players;

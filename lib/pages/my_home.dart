@@ -47,7 +47,7 @@ class MyHome extends GetView {
                     text: "Non, nouvelle partie",
                     onPressed: _startParty),
                 ElevatedButtonCustomColor(
-                  color: MyThemes.successColor,
+                  color: Get.theme.colorScheme.successColor,
                   textSize: 16,
                   text: "Oui",
                   onPressed: () => _loadParty(previousParty),
@@ -77,7 +77,7 @@ class MyHome extends GetView {
                   onPressed: () => _loadParty(previousParty),
                 ),
                 ElevatedButtonCustomColor(
-                  color: MyThemes.successColor,
+                  color: Get.theme.colorScheme.successColor,
                   textSize: 16,
                   text: "Oui",
                   onPressed: _startParty,

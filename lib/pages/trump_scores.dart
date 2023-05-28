@@ -43,7 +43,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
       text: contract.displayName,
       topRightChild: Icon(
         Icons.task_alt_outlined,
-        color: MyThemes.successColor,
+        color: Get.theme.colorScheme.successColor,
       ),
       onPressed: () => Get.toNamed(
         contract.route,

@@ -6,12 +6,14 @@ class MyThemes {
 
   static final dark = _baseTheme(ThemeData.dark());
 
-  static final successColor = Colors.green;
-
   static final _baseTheme = (ThemeData baseTheme) => baseTheme.copyWith(
         useMaterial3: true,
-        colorScheme: baseTheme.colorScheme
-            .copyWith(surfaceTint: baseTheme.scaffoldBackgroundColor),
+        colorScheme: baseTheme.colorScheme.copyWith(
+          surfaceTint: baseTheme.scaffoldBackgroundColor,
+          error: baseTheme.brightness == Brightness.dark
+              ? Colors.red
+              : Colors.red.shade900,
+        ),
         textTheme: baseTheme.textTheme
             .copyWith(
               titleSmall: TextStyle(
@@ -85,4 +87,9 @@ class MyThemes {
           ),
         ),
       );
+}
+
+extension CustomThemeValues on ColorScheme {
+  Color get successColor =>
+      this.brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
 }
