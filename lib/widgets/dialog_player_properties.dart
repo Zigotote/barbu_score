@@ -79,11 +79,11 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
                     .map(
                       (color) => Obx(
                         () => OutlinedButton(
-                          onPressed: controller.availableColors.contains(color)
-                              ? () => player.color = color
-                              : null,
+                          onPressed: () => player.color = color,
                           child: Text(
-                            controller.getPlayerWithColor(color),
+                            controller.getPlayersWithColor(color),
+                            overflow: TextOverflow.fade,
+                            textAlign: TextAlign.center,
                             style: Get.textTheme.labelLarge!.copyWith(
                                 color: Get.theme.scaffoldBackgroundColor),
                           ),

@@ -64,16 +64,13 @@ class CreateParty extends GetView<CreatePlayersController> {
         if (value == null || value.trim().isEmpty) {
           return "Indiquer un nom.";
         } else if (controller.isDuplicateName(player)) {
-          return "Ce nom est déjà pris.";
+          return "Nom déjà pris.";
+        } else if (controller.isDuplicateColor(player)) {
+          return "Couleur déjà prise.";
         }
         return null;
       },
-      decoration: InputDecoration(
-        hintText: "Nom du joueur",
-        border: InputBorder.none,
-        isDense: true,
-        contentPadding: EdgeInsets.zero,
-      ),
+      decoration: InputDecoration.collapsed(hintText: "Nom du joueur"),
     );
   }
 

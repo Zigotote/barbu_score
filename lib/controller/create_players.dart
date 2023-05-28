@@ -67,23 +67,23 @@ class CreatePlayersController extends GetxController {
     _players.remove(player);
   }
 
-  /// Returns the first letter of the player who choose this color
-  String getPlayerWithColor(Color color) {
-    PlayerController? player =
-        _players.firstWhereOrNull((player) => player.color == color);
-    if (player == null) {
-      return "";
-    }
-    if (player.name.isEmpty) {
-      return "X";
-    }
-    return player.name.characters.first.toUpperCase();
+  /// Returns the first letter of each player who choose this color
+  String getPlayersWithColor(Color color) {
+    return _players
+        .where((player) => player.color == color)
+        .map((player) => player.name.isEmpty
+            ? "X"
+            : player.name.characters.first.toUpperCase())
+        .join("/");
   }
 
-  /// Returns true if the player has the same name as another
+  /// Returns true if the player has the same name than another
   bool isDuplicateName(PlayerController player) {
-    return this
-        ._players
-        .any((p) => p != player && p.name.trim() == player.name);
+    return _players.any((p) => p != player && p.name.trim() == player.name);
+  }
+
+  /// Returns true if the player has the color name than another
+  bool isDuplicateColor(PlayerController player) {
+    return this._players.any((p) => p != player && p.color == player.color);
   }
 }
