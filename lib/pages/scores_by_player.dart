@@ -14,8 +14,9 @@ class ScoresByPlayer extends GetView<PartyController> {
 
   /// Builds the table to display the scores of the players in a matrix
   DataTable _buildTable() {
+    final double headingHeight = Get.width * 0.17;
     return DataTable(
-      headingRowHeight: 64,
+      headingRowHeight: headingHeight,
       headingTextStyle: Get.textTheme.labelLarge,
       columnSpacing: 8,
       border: TableBorder(
@@ -27,7 +28,7 @@ class ScoresByPlayer extends GetView<PartyController> {
             .map(
               (player) => DataColumn(
                 label: Container(
-                  width: 56,
+                  width: headingHeight,
                   child: Column(
                     children: [
                       PlayerIcon(
@@ -98,17 +99,19 @@ class ScoresByPlayer extends GetView<PartyController> {
   @override
   Widget build(BuildContext context) {
     return DefaultPage(
-      hasLeading: true,
-      title: "Scores",
-      content: Column(
-        children: [
-          MySubtitle("Contrats de ${player.name}"),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: _buildTable(),
+        hasLeading: true,
+        title: "Scores",
+        content: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              MySubtitle("Contrats de ${player.name}"),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: _buildTable(),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }

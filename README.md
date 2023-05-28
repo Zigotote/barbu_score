@@ -11,6 +11,7 @@
 
 - ajouter un mode "aléatoire" pour la partie
 - ajouter une flèche de retour pour retourner sur l'accueil +++
+- ajouter la possibilité de changer l'ordre des joueurs
 
 ## Page choix contrat
 
