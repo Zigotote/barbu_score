@@ -10,7 +10,6 @@
 ## Page choix des joueurs
 
 - ajouter un mode "aléatoire" pour la partie
-- ajouter la possibilité de changer l'ordre des joueurs
 
 ## Page choix contrat
 

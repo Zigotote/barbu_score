@@ -80,6 +80,12 @@ class CreatePlayersController extends GetxController {
     _players.remove(player);
   }
 
+  /// Moves a player from oldIndex to newIndex
+  void movePlayer(int oldIndex, int newIndex) {
+    PlayerController player = _players.removeAt(oldIndex);
+    _players.insert(newIndex, player);
+  }
+
   /// Returns the first letter of each player who choose this color
   String getPlayersWithColor(Color color) {
     return _players

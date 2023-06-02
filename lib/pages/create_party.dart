@@ -2,6 +2,7 @@ import 'package:barbu_score/utils/storage.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../controller/create_players.dart';
 import '../controller/player.dart';
@@ -34,6 +35,7 @@ class CreateParty extends GetView<CreatePlayersController> {
   /// Builds the field to modify the player's infos
   Widget _buildPlayerField(PlayerController player) {
     return Stack(
+      key: ObjectKey(player),
       alignment: Alignment.center,
       children: [
         Obx(
@@ -174,16 +176,16 @@ class CreateParty extends GetView<CreatePlayersController> {
         content: Form(
           key: _formKey,
           child: Obx(
-            () => GridView.extent(
-              maxCrossAxisExtent: Get.width * 0.5,
+            () => ReorderableGridView.count(
+              crossAxisCount: 2,
               crossAxisSpacing: 16,
-              children: [
-                ...controller.players
-                    .map((player) => _buildPlayerField(player)),
+              children: controller.players.map(_buildPlayerField).toList(),
+              footer: [
                 if (controller.nbPlayers <
                     CreatePlayersController.NB_PLAYERS_MAX)
                   _buildAddPlayerButton()
               ],
+              onReorder: controller.movePlayer,
             ),
           ),
         ),
