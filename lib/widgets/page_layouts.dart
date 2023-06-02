@@ -102,6 +102,7 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
       party.finishContract(contract, controller.playerScores);
     }
     Get.delete<T>();
+    Get.closeAllSnackbars();
   }
 
   @override
