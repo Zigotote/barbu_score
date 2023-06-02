@@ -95,44 +95,47 @@ class MyHome extends GetView {
   @override
   Widget build(BuildContext context) {
     Wakelock.disable();
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background.png"),
-            fit: BoxFit.fitWidth,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/background.png"),
+              fit: BoxFit.fitWidth,
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            MyAppBar(
-              "Le Barbu",
-              isHome: true,
-              hasLeading: false,
-            ),
-            ElevatedButtonFullWidth(
-              child: Text("Démarrer une partie"),
-              onPressed: () => _confirmStartParty(context),
-            ),
-            ElevatedButtonFullWidth(
-              child: Text("Charger une partie"),
-              onPressed: () => _confirmLoadParty(context),
-            ),
-            ElevatedButton(
-              child: Text("Règles du jeu"),
-              onPressed: () => Get.toNamed(Routes.RULES),
-            ),
-            IconButton(
-              onPressed: () => SnackbarUtils.openSnackbar("Patience...",
-                  "Cette page arrivera dans une future version."),
-              iconSize: Get.width * 0.15,
-              icon: Icon(
-                Icons.settings,
-                color: Get.theme.colorScheme.onSurface,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MyAppBar(
+                "Le Barbu",
+                isHome: true,
+                hasLeading: false,
               ),
-            )
-          ],
+              ElevatedButtonFullWidth(
+                child: Text("Démarrer une partie"),
+                onPressed: () => _confirmStartParty(context),
+              ),
+              ElevatedButtonFullWidth(
+                child: Text("Charger une partie"),
+                onPressed: () => _confirmLoadParty(context),
+              ),
+              ElevatedButton(
+                child: Text("Règles du jeu"),
+                onPressed: () => Get.toNamed(Routes.RULES),
+              ),
+              IconButton(
+                onPressed: () => SnackbarUtils.openSnackbar("Patience...",
+                    "Cette page arrivera dans une future version."),
+                iconSize: Get.width * 0.15,
+                icon: Icon(
+                  Icons.settings,
+                  color: Get.theme.colorScheme.onSurface,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

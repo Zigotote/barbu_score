@@ -35,7 +35,7 @@ class DefaultPage extends GetWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final Widget page = Scaffold(
       appBar: MyAppBar(
         this.title,
         hasLeading: this.hasLeading,
@@ -58,6 +58,9 @@ class DefaultPage extends GetWidget {
         child: this.bottomWidget,
       ),
     );
+    return this.hasLeading
+        ? page
+        : WillPopScope(onWillPop: () async => false, child: page);
   }
 }
 
