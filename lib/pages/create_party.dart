@@ -170,6 +170,7 @@ class CreateParty extends GetView<CreatePlayersController> {
       onTap: () => _unflipCard(),
       child: DefaultPage(
         title: "Créer les joueurs",
+        hasLeading: true,
         content: Form(
           key: _formKey,
           child: Obx(

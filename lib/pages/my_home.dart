@@ -13,6 +13,7 @@ import '../widgets/my_appbar.dart';
 class MyHome extends GetView {
   /// Loads a previous party and resumes it
   _loadParty(PartyController previousParty) {
+    Navigator.of(Get.overlayContext!).pop();
     Get.deleteAll();
     Get.put(previousParty);
     Get.toNamed(Routes.PREPARE_PARTY);
@@ -20,6 +21,7 @@ class MyHome extends GetView {
 
   /// Starts a new party
   _startParty() {
+    Navigator.of(Get.overlayContext!).pop();
     Get.toNamed(Routes.CREATE_PARTY);
   }
 

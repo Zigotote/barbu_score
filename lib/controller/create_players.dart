@@ -34,8 +34,7 @@ class CreatePlayersController extends GetxController {
   static final String playerImage = "assets/players/player%s.png";
 
   /// Returns the available colors for the players, depending on app theme
-  static List<Color> get colors =>
-      Get.theme.brightness == Brightness.dark ? _darkColors : _lightColors;
+  static List<Color> get colors => Get.isDarkMode ? _darkColors : _lightColors;
 
   /// The list of the players for this party
   late RxList<PlayerController> _players;
