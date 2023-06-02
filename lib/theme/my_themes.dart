@@ -73,6 +73,8 @@ class MyThemes {
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
+            backgroundColor:
+                MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
             foregroundColor:
                 MaterialStatePropertyAll(baseTheme.colorScheme.onSurface),
             padding: MaterialStatePropertyAll(EdgeInsets.all(16)),
@@ -82,8 +84,14 @@ class MyThemes {
         ),
         iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
+            backgroundColor:
+                MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
             foregroundColor:
                 MaterialStatePropertyAll(baseTheme.colorScheme.onSurface),
+            overlayColor: MaterialStatePropertyAll(Colors.grey),
+            side: MaterialStatePropertyAll(
+              BorderSide(color: baseTheme.colorScheme.onSurface),
+            ),
           ),
         ),
       );

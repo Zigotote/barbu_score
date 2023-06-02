@@ -1,5 +1,6 @@
 import 'package:barbu_score/utils/storage.dart';
-import 'package:flip_card/flip_card.dart';
+import 'package:barbu_score/widgets/custom_buttons.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
@@ -17,19 +18,9 @@ class CreateParty extends GetView<CreatePlayersController> {
   /// Form key used to validate the form
   final _formKey = GlobalKey<FormState>();
 
-  /// The card that has been flipped
-  FlipCardState? _flippedCard;
-
   /// Removes the player at the given index
   void _removePlayer(PlayerController player) {
-    _flippedCard = null;
     controller.removePlayer(player);
-  }
-
-  /// Unflips the current flipped button
-  void _unflipCard() {
-    _flippedCard?.toggleCard();
-    _flippedCard = null;
   }
 
   /// Builds the field to modify the player's infos
@@ -49,6 +40,17 @@ class CreateParty extends GetView<CreatePlayersController> {
           top: 0,
           child: _buildPlayerIcon(player),
         ),
+        Positioned(
+          top: Get.height * 0.03,
+          right: 0,
+          width: Get.width * 0.08,
+          height: Get.width * 0.08,
+          child: IconButton.outlined(
+            onPressed: () => _removePlayer(player),
+            icon: Icon(Icons.close),
+            padding: EdgeInsets.zero,
+          ),
+        ),
       ],
     );
   }
@@ -58,7 +60,6 @@ class CreateParty extends GetView<CreatePlayersController> {
     return TextFormField(
       textAlign: TextAlign.center,
       initialValue: player.name,
-      onTap: () => _unflipCard(),
       onChanged: (value) => player.name = value,
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
@@ -76,40 +77,13 @@ class CreateParty extends GetView<CreatePlayersController> {
 
   /// Builds player icon
   Widget _buildPlayerIcon(PlayerController player) {
-    GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-    return FlipCard(
-      key: cardKey,
-      front: OutlinedButton(
-        onPressed: () {
-          _unflipCard();
-          _displayDialog(player);
-        },
-        onLongPress: () {
-          _flippedCard?.toggleCard();
-          _flippedCard = cardKey.currentState;
-          _flippedCard!.toggleCard();
-        },
-        child: Obx(
-          () => PlayerIcon(
-            image: player.image,
-            color: player.color,
-            size: Get.width * 0.25,
-          ),
-        ),
-        style: OutlinedButton.styleFrom(
-          padding: EdgeInsets.zero,
-        ),
-      ),
-      back: OutlinedButton(
-        onPressed: () => _removePlayer(player),
-        child: Icon(
-          Icons.delete_forever_outlined,
-          size: Get.width * 0.2,
-          color: Get.theme.scaffoldBackgroundColor,
-        ),
-        style: OutlinedButton.styleFrom(
-          backgroundColor: Get.theme.colorScheme.error,
-          padding: EdgeInsets.all(8),
+    return OutlinedButtonNoBorder(
+      onPressed: () => _displayDialog(player),
+      child: Obx(
+        () => PlayerIcon(
+          image: player.image,
+          color: player.color,
+          size: Get.width * 0.25,
         ),
       ),
     );
@@ -121,6 +95,7 @@ class CreateParty extends GetView<CreatePlayersController> {
     Get.dialog(
       DialogChangePlayerInfo(
         player: player,
+        onValidate: Get.back,
         onDelete: () {
           controller.removePlayer(player);
           Get.back();
@@ -140,11 +115,6 @@ class CreateParty extends GetView<CreatePlayersController> {
           semanticLabel: "Ajouter un joueur",
         ),
         iconSize: Get.width * 0.1,
-        style: Get.theme.iconButtonTheme.style?.copyWith(
-          side: MaterialStatePropertyAll(
-            BorderSide(color: Get.theme.colorScheme.onSurface, width: 2),
-          ),
-        ),
       ),
     );
   }
@@ -168,29 +138,26 @@ class CreateParty extends GetView<CreatePlayersController> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _unflipCard(),
-      child: DefaultPage(
-        title: "Créer les joueurs",
-        hasLeading: true,
-        content: Form(
-          key: _formKey,
-          child: Obx(
-            () => ReorderableGridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              children: controller.players.map(_buildPlayerField).toList(),
-              footer: [
-                if (controller.nbPlayers <
-                    CreatePlayersController.NB_PLAYERS_MAX)
-                  _buildAddPlayerButton()
-              ],
-              onReorder: controller.movePlayer,
-            ),
+    return DefaultPage(
+      title: "Créer les joueurs",
+      hasLeading: true,
+      content: Form(
+        key: _formKey,
+        child: Obx(
+          () => ReorderableGridView.count(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            children: controller.players.map(_buildPlayerField).toList(),
+            dragStartDelay: kPressTimeout,
+            footer: [
+              if (controller.nbPlayers < CreatePlayersController.NB_PLAYERS_MAX)
+                _buildAddPlayerButton()
+            ],
+            onReorder: controller.movePlayer,
           ),
         ),
-        bottomWidget: _buildValidateButton(),
       ),
+      bottomWidget: _buildValidateButton(),
     );
   }
 }

@@ -35,16 +35,6 @@ class MyAppBar extends AppBar {
                   child: IconButton.outlined(
                     icon: Icon(Icons.arrow_back),
                     onPressed: Get.back,
-                    style: Get.theme.iconButtonTheme.style?.copyWith(
-                      backgroundColor: MaterialStatePropertyAll(
-                          Get.theme.scaffoldBackgroundColor),
-                      side: MaterialStatePropertyAll(
-                        BorderSide(
-                          style: BorderStyle.solid,
-                          color: Get.theme.colorScheme.onSurface,
-                        ),
-                      ),
-                    ),
                   ),
                   visible: hasLeading,
                 ),

@@ -133,6 +133,7 @@ class MyHome extends GetView {
                   Icons.settings,
                   color: Get.theme.colorScheme.onSurface,
                 ),
+                style: IconButton.styleFrom(side: BorderSide.none),
               )
             ],
           ),

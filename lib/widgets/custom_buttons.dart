@@ -114,3 +114,31 @@ class ElevatedButtonTopRightWidget extends GetView {
     );
   }
 }
+
+/// An outlinedButton without border
+class OutlinedButtonNoBorder extends GetView {
+  /// The content of the button
+  final Widget child;
+
+  /// The function to call on button pressed action
+  final Function()? onPressed;
+
+  /// The color of the button background
+  final Color? backgroundColor;
+
+  OutlinedButtonNoBorder(
+      {required this.child, this.onPressed, this.backgroundColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      child: child,
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        padding: EdgeInsets.zero,
+        side: BorderSide.none,
+      ),
+    );
+  }
+}

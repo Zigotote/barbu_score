@@ -1,3 +1,5 @@
+import 'package:barbu_score/theme/my_themes.dart';
+import 'package:barbu_score/widgets/custom_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sprintf/sprintf.dart';
@@ -11,10 +13,14 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   /// The player to change the infos
   final PlayerController player;
 
+  /// The function to call on validated button pressed
+  final Function() onValidate;
+
   /// The function to call on deleted button pressed
   final Function() onDelete;
 
-  DialogChangePlayerInfo({required this.player, required this.onDelete});
+  DialogChangePlayerInfo(
+      {required this.player, required this.onValidate, required this.onDelete});
 
   /// Builds the title of the widget
   Widget _buildTitle() {
@@ -31,7 +37,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
         Positioned(
           right: -24,
           top: -16,
-          child: OutlinedButton(
+          child: OutlinedButtonNoBorder(
             onPressed: () => Get.back(),
             child: Icon(Icons.close),
           ),
@@ -62,6 +68,20 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
     );
   }
 
+  ElevatedButton _buildActionButton(
+      IconData icon, String text, Color color, Function() action) {
+    return ElevatedButton.icon(
+      icon: Icon(icon),
+      label: Text(text),
+      onPressed: action,
+      style: ElevatedButton.styleFrom(
+        side: BorderSide(color: color, width: 2),
+        padding: EdgeInsets.all(8),
+        foregroundColor: color,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -78,7 +98,8 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
                 CreatePlayersController.colors
                     .map(
                       (color) => Obx(
-                        () => OutlinedButton(
+                        () => OutlinedButtonNoBorder(
+                          backgroundColor: color,
                           onPressed: () => player.color = color,
                           child: Text(
                             controller.getPlayersWithColor(color),
@@ -86,9 +107,6 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
                             textAlign: TextAlign.center,
                             style: Get.textTheme.labelLarge!.copyWith(
                                 color: Get.theme.scaffoldBackgroundColor),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: color,
                           ),
                         ),
                       ),
@@ -104,12 +122,9 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
                       sprintf(CreatePlayersController.playerImage, [index + 1]),
                 )
                     .map(
-                      (image) => OutlinedButton(
+                      (image) => OutlinedButtonNoBorder(
                         onPressed: () => player.image = image,
                         child: PlayerIcon(image: image, size: double.maxFinite),
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
                       ),
                     )
                     .toList(),
@@ -119,15 +134,17 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
         ),
       ),
       actions: [
-        ElevatedButton.icon(
-          icon: Icon(Icons.delete_forever_outlined),
-          label: Text("Supprimer"),
-          onPressed: this.onDelete,
-          style: ElevatedButton.styleFrom(
-            side: BorderSide(color: Get.theme.colorScheme.error, width: 2),
-            padding: EdgeInsets.all(8),
-            foregroundColor: Get.theme.colorScheme.error,
-          ),
+        _buildActionButton(
+          Icons.done,
+          "Vaider",
+          Get.theme.colorScheme.successColor,
+          this.onValidate,
+        ),
+        _buildActionButton(
+          Icons.delete_forever_outlined,
+          "Supprimer",
+          Get.theme.colorScheme.error,
+          this.onDelete,
         )
       ],
       shape: RoundedRectangleBorder(
