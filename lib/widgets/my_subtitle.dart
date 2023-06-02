@@ -16,6 +16,7 @@ class MySubtitle extends GetWidget {
         child: Text(
           this.subtitle,
           style: Get.textTheme.titleSmall,
+          textAlign: TextAlign.center,
         ),
       ),
     );

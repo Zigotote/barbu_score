@@ -15,21 +15,27 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
   Widget _buildFields() {
     final PartyController party = Get.find<PartyController>();
     return MyGrid(
-      itemCount: party.nbPlayers,
-      itemBuilder: (_, index) => Obx(
-        () {
-          Color playerColor = party.players[index].color;
-          bool isPlayerSelected = controller.selectedPlayerIndex == index;
-          return ElevatedButtonCustomColor(
-            text: party.players[index].name,
-            color: isPlayerSelected
-                ? Get.theme.scaffoldBackgroundColor
-                : playerColor,
-            onPressed: () => controller.selectedPlayerIndex = index,
-            backgroundColor: isPlayerSelected ? playerColor : null,
-          );
-        },
-      ),
+      children: party.players
+          .asMap()
+          .entries
+          .map(
+            (entry) => Obx(
+              () {
+                Color playerColor = entry.value.color;
+                bool isPlayerSelected =
+                    controller.selectedPlayerIndex == entry.key;
+                return ElevatedButtonCustomColor(
+                  text: entry.value.name,
+                  color: isPlayerSelected
+                      ? Get.theme.scaffoldBackgroundColor
+                      : playerColor,
+                  onPressed: () => controller.selectedPlayerIndex = entry.key,
+                  backgroundColor: isPlayerSelected ? playerColor : null,
+                );
+              },
+            ),
+          )
+          .toList(),
     );
   }
 
@@ -40,7 +46,7 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
     return ContractPage<SelectPlayerController>(
       subtitle: "Qui a remporté le ${contract.displayName} ?",
       contract: contract,
-      child: _buildFields(),
+      child: Expanded(child: _buildFields()),
     );
   }
 }

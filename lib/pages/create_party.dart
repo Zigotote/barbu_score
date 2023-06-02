@@ -8,7 +8,6 @@ import '../controller/player.dart';
 import '../main.dart';
 import '../widgets/colored_container.dart';
 import '../widgets/dialog_player_properties.dart';
-import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
 import '../widgets/player_icon.dart';
 
@@ -33,14 +32,13 @@ class CreateParty extends GetView<CreatePlayersController> {
   }
 
   /// Builds the field to modify the player's infos
-  Widget _buildPlayerField(int index) {
-    PlayerController player = controller.players[index];
+  Widget _buildPlayerField(PlayerController player) {
     return Stack(
       alignment: Alignment.center,
       children: [
         Obx(
           () => ColoredContainer(
-            height: Get.height * 0.19,
+            height: Get.height * 0.15,
             color: player.color,
             child: _buildPlayerTextField(player),
           ),
@@ -175,19 +173,16 @@ class CreateParty extends GetView<CreatePlayersController> {
         content: Form(
           key: _formKey,
           child: Obx(
-            () => MyGrid(
-              mainAxisExtent: Get.height * 0.2,
-              itemCount:
-                  controller.nbPlayers < CreatePlayersController.NB_PLAYERS_MAX
-                      ? controller.nbPlayers + 1
-                      : controller.nbPlayers,
-              itemBuilder: (_, index) {
-                if (index < controller.nbPlayers) {
-                  return _buildPlayerField(index);
-                } else {
-                  return _buildAddPlayerButton();
-                }
-              },
+            () => GridView.extent(
+              maxCrossAxisExtent: Get.width * 0.5,
+              crossAxisSpacing: 16,
+              children: [
+                ...controller.players
+                    .map((player) => _buildPlayerField(player)),
+                if (controller.nbPlayers <
+                    CreatePlayersController.NB_PLAYERS_MAX)
+                  _buildAddPlayerButton()
+              ],
             ),
           ),
         ),

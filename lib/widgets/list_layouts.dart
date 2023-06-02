@@ -3,38 +3,19 @@ import 'package:get/get.dart';
 
 /// A grid which takes all the available space in the layout
 class MyGrid extends GetView {
-  /// The height of each element in the grid. Default value is Get.height*0.12
-  final double? mainAxisExtent;
-
-  /// The number of items in the grid
-  final int itemCount;
-
   /// The function to build each item
-  final Widget Function(BuildContext, int) itemBuilder;
+  final List<Widget> children;
 
-  MyGrid(
-      {this.mainAxisExtent,
-      required this.itemCount,
-      required this.itemBuilder});
+  MyGrid({required this.children});
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 32,
-        mainAxisSpacing: 40,
-        mainAxisExtent: this.mainAxisExtent == null
-            ? Get.height * 0.15
-            : this.mainAxisExtent,
-      ),
-      shrinkWrap: true,
-      padding: EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: 8,
-      ),
-      itemCount: this.itemCount,
-      itemBuilder: this.itemBuilder,
+    return GridView.extent(
+      maxCrossAxisExtent: Get.width * 0.5,
+      crossAxisSpacing: 16,
+      mainAxisSpacing: 16,
+      childAspectRatio: 1.6,
+      children: this.children,
     );
   }
 }

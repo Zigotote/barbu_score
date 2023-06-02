@@ -17,23 +17,30 @@ class ChooseContract extends GetView<PartyController> {
     return DefaultPage(
       title: "Tour de ${player.name}",
       hasBackground: true,
-      content: MyGrid(
-        itemCount: ContractsNames.values.length,
-        itemBuilder: (_, index) {
-          ContractsNames contract = ContractsNames.values[index];
-          return ElevatedButton(
-            child: Text(contract.displayName, textAlign: TextAlign.center),
-            onPressed: player.hasPlayedContract(contract)
-                ? null
-                : () => Get.toNamed(
-                      contract.route,
-                      arguments: RouteArgument(
-                        contractName: contract,
-                        contractValues: null,
-                      ),
-                    ),
-          );
-        },
+      content: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: 16,
+          horizontal: 8,
+        ),
+        child: MyGrid(
+          children: ContractsNames.values
+              .map(
+                (contract) => ElevatedButton(
+                  child:
+                      Text(contract.displayName, textAlign: TextAlign.center),
+                  onPressed: player.hasPlayedContract(contract)
+                      ? null
+                      : () => Get.toNamed(
+                            contract.route,
+                            arguments: RouteArgument(
+                              contractName: contract,
+                              contractValues: null,
+                            ),
+                          ),
+                ),
+              )
+              .toList(),
+        ),
       ),
       bottomWidget: ElevatedButton(
         child: Text("Scores"),

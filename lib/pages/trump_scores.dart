@@ -13,13 +13,11 @@ import '../widgets/page_layouts.dart';
 class TrumpsScores extends GetView<TrumpsScoresController> {
   Widget _buildFields() {
     return MyGrid(
-      itemCount: controller.trumpContracts.length,
-      itemBuilder: (_, index) {
-        ContractsNames contract = controller.trumpContracts[index];
-        return controller.isFilled(contract)
-            ? _buildFilledContract(contract)
-            : _buildContractButton(contract);
-      },
+      children: controller.trumpContracts
+          .map((contract) => controller.isFilled(contract)
+              ? _buildFilledContract(contract)
+              : _buildContractButton(contract))
+          .toList(),
     );
   }
 
