@@ -57,11 +57,11 @@ class PlayerController extends GetxController {
 
   /// Returns the list of the contracts the player can choose
   List<ContractsNames> get availableContracts => ContractsNames.values
-      .where((contractName) => !_choosenContracts.contains(contractName))
+      .where((contract) => !_choosenContracts.contains(contract.name))
       .toList();
 
   /// Returns the list of the contracts the player has already selected
-  List<ContractsNames> get _choosenContracts =>
+  List<String> get _choosenContracts =>
       _contracts.map((contract) => contract.name).toList();
 
   /// Returns the scores of each player, for the contracts of this player
@@ -84,26 +84,26 @@ class PlayerController extends GetxController {
     AbstractContractModel contract = contractName.contract;
     final bool isValidScore = contract.setScores(trickByPlayer);
     if (isValidScore) {
-      _contracts.removeWhere((contract) => contract.name == contractName);
+      _contracts.removeWhere((c) => c.name == contractName.name);
       _contracts.add(contract);
     }
     return isValidScore;
   }
 
   /// Returns the filled contract model for this contract name. Returns null if there is no contract
-  AbstractContractModel? getContract(ContractsNames contractName) {
+  AbstractContractModel? getContract(String contractName) {
     return _contracts.firstWhereOrNull(
       (contract) => contract.name == contractName,
     );
   }
 
   /// Returns true if the player has played the contract
-  bool hasPlayedContract(ContractsNames contractName) {
-    return _choosenContracts.contains(contractName);
+  bool hasPlayedContract(ContractsNames contract) {
+    return _choosenContracts.contains(contract.name);
   }
 
   /// Returns the scores for the contract. If it has not been played, all player have a score of 0
-  Map<String, int> contractScores(ContractsNames contractName) {
+  Map<String, int> contractScores(String contractName) {
     AbstractContractModel? contract = this.getContract(contractName);
     if (contract == null) {
       return Map.fromIterable(
