@@ -27,7 +27,7 @@ abstract class AbstractContractModel {
   }
 
   /// The name of the contract
-  final ContractsNames name;
+  final String name;
 
   /// The scores of all the players for this contract
   late Map<String, int> _scores;
@@ -66,8 +66,7 @@ abstract class AbstractOneLooserContractModel extends AbstractContractModel {
   /// The number of points the looser will have for this contract
   final int _points;
 
-  AbstractOneLooserContractModel(ContractsNames name, this._points)
-      : super(name);
+  AbstractOneLooserContractModel(String name, this._points) : super(name);
 
   @override
   Map<String, int> get playerItems => Map.fromIterable(
@@ -101,7 +100,7 @@ abstract class AbstractMultipleLooserContractModel
   final int _expectedItems;
 
   AbstractMultipleLooserContractModel(
-    ContractsNames name,
+    String name,
     this._pointsByItem,
     this._expectedItems,
   ) : super(name);
@@ -148,14 +147,14 @@ abstract class AbstractMultipleLooserContractModel
 
 /// A barbu contract scores
 class BarbuContractModel extends AbstractOneLooserContractModel {
-  BarbuContractModel() : super(ContractsNames.Barbu, 50);
+  BarbuContractModel() : super(ContractsNames.Barbu.name, 50);
 }
 
 /// A no hearts contract scores
 class NoHeartsContractModel extends AbstractMultipleLooserContractModel {
   NoHeartsContractModel()
       : super(
-          ContractsNames.NoHearts,
+          ContractsNames.NoHearts.name,
           5,
           MyStorage().getNbPlayers() * 2,
         );
@@ -163,22 +162,22 @@ class NoHeartsContractModel extends AbstractMultipleLooserContractModel {
 
 /// A no queens contract scores
 class NoQueensContractModel extends AbstractMultipleLooserContractModel {
-  NoQueensContractModel() : super(ContractsNames.NoQueens, 10, 4);
+  NoQueensContractModel() : super(ContractsNames.NoQueens.name, 10, 4);
 }
 
 /// A no tricks contract scores
 class NoTricksContractModel extends AbstractMultipleLooserContractModel {
-  NoTricksContractModel() : super(ContractsNames.NoTricks, 5, 8);
+  NoTricksContractModel() : super(ContractsNames.NoTricks.name, 5, 8);
 }
 
 /// A no last trick contract scores
 class NoLastTrickContractModel extends AbstractOneLooserContractModel {
-  NoLastTrickContractModel() : super(ContractsNames.NoLastTrick, 40);
+  NoLastTrickContractModel() : super(ContractsNames.NoLastTrick.name, 40);
 }
 
 /// A trumps contract scores
 class TrumpsContractModel extends AbstractContractModel {
-  TrumpsContractModel() : super(ContractsNames.Trumps);
+  TrumpsContractModel() : super(ContractsNames.Trumps.name);
 
   @override
   Map<String, int> get playerItems => {};
@@ -195,7 +194,7 @@ class DominoContractModel extends AbstractContractModel {
   /// The scores the player can have (it is a symmetric array)
   final List<int> _rankScores = [40, 20, 10];
 
-  DominoContractModel() : super(ContractsNames.Domino);
+  DominoContractModel() : super(ContractsNames.Domino.name);
 
   @override
   Map<String, int> get playerItems {

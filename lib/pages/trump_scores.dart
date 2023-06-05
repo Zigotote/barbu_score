@@ -14,7 +14,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
   Widget _buildFields(BuildContext context) {
     return MyGrid(
       children: controller.trumpContracts
-          .map((contract) => controller.isFilled(contract)
+          .map((contract) => controller.isFilled(contract.name)
               ? _buildFilledContract(context, contract)
               : _buildContractButton(contract))
           .toList(),
@@ -29,7 +29,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
         contract.route,
         arguments: RouteArgument(
           contractName: contract,
-          contractValues: controller.getFilledContract(contract),
+          contractValues: controller.getFilledContract(contract.name),
         ),
       ),
     );
@@ -47,7 +47,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
         contract.route,
         arguments: RouteArgument(
           contractName: contract,
-          contractValues: controller.getFilledContract(contract),
+          contractValues: controller.getFilledContract(contract.name),
         ),
       ),
     );

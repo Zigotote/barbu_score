@@ -38,7 +38,7 @@ enum ContractsNames {
   // Returns the contract associated with the enum value obtained with toString()
   static AbstractContractModel getContractFromToString(String enumName) {
     return ContractsNames.values
-        .firstWhere((contract) => contract.toString() == enumName)
+        .firstWhere((contract) => contract.name == enumName)
         .contract;
   }
 }

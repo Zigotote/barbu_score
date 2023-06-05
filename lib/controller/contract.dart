@@ -137,19 +137,20 @@ class TrumpsScoresController extends AbstractContractController {
   bool get isValid => _filledContracts.length == this.trumpContracts.length;
 
   /// Returns the filled contract which matches the contractName. If there is none, returns null
-  AbstractContractModel? getFilledContract(ContractsNames contractName) {
+  AbstractContractModel? getFilledContract(String contractName) {
     return _filledContracts
         .firstWhereOrNull((contract) => contract.name == contractName);
   }
 
   /// Returns true if the contract has been filled
-  bool isFilled(ContractsNames contractName) {
+  bool isFilled(String contractName) {
     return this.getFilledContract(contractName) != null;
   }
 
   /// Adds a contract to the filledContracts list
   addContract(ContractsNames contractName, Map<String, int> playerScores) {
-    _filledContracts.removeWhere((contract) => contract.name == contractName);
+    _filledContracts
+        .removeWhere((contract) => contract.name == contractName.name);
     AbstractContractModel contract = contractName.contract;
     contract.setScores(playerScores);
     _filledContracts.add(contract);

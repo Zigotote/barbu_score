@@ -47,12 +47,12 @@ class ScoresByPlayer extends GetView<PartyController> {
             .toList()
       ],
       rows: [
-        ...ContractsNames.values.map((contractName) {
+        ...ContractsNames.values.map((contract) {
           return DataRow(
             cells: [
-              DataCell(Text(contractName.displayName)),
-              ..._buildScoresCells(player.contractScores(contractName),
-                  contractName: contractName),
+              DataCell(Text(contract.displayName)),
+              ..._buildScoresCells(player.contractScores(contract.name),
+                  contractName: contract),
             ],
           );
         }).toList(),
