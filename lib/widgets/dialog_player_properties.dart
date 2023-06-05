@@ -136,7 +136,7 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
       actions: [
         _buildActionButton(
           Icons.done,
-          "Vaider",
+          "Valider",
           Get.theme.colorScheme.successColor,
           this.onValidate,
         ),
