@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:barbu_score/models/contract_names.dart';
+import 'package:barbu_score/models/contract_info.dart';
 import 'package:get/get.dart';
 
 import './player.dart';
@@ -79,10 +79,9 @@ class PartyController extends GetxController {
   String get playerNames => _players.join(", ");
 
   /// Saves the score for the contract and changes the current player to the next one
-  void finishContract(
-      ContractsNames contractName, Map<String, int> playerScores) {
+  void finishContract(ContractsInfo contract, Map<String, int> playerScores) {
     final bool isValidScore =
-        this.currentPlayer.addContract(contractName, playerScores);
+        this.currentPlayer.addContract(contract, playerScores);
     if (isValidScore) {
       /// If the contract scores has been modified, we got back to the choose contract score
       /// Else, it goes to the next player

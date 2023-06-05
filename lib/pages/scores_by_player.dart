@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../controller/party.dart';
 import '../controller/player.dart';
-import '../models/contract_names.dart';
+import '../models/contract_info.dart';
 import '../widgets/my_subtitle.dart';
 import '../widgets/page_layouts.dart';
 import '../widgets/player_icon.dart';
@@ -47,12 +47,12 @@ class ScoresByPlayer extends GetView<PartyController> {
             .toList()
       ],
       rows: [
-        ...ContractsNames.values.map((contract) {
+        ...ContractsInfo.values.map((contract) {
           return DataRow(
             cells: [
               DataCell(Text(contract.displayName)),
               ..._buildScoresCells(player.contractScores(contract.name),
-                  contractName: contract),
+                  contract: contract),
             ],
           );
         }).toList(),
@@ -73,9 +73,9 @@ class ScoresByPlayer extends GetView<PartyController> {
 
   /// Builds the cells to display the score of each player
   List<DataCell> _buildScoresCells(Map<String, int> playerScores,
-      {ContractsNames? contractName}) {
+      {ContractsInfo? contract}) {
     bool contractHasBeenPlayed = true;
-    if (player.availableContracts.contains(contractName)) {
+    if (player.availableContracts.contains(contract)) {
       contractHasBeenPlayed = false;
     }
     return controller.players
@@ -85,7 +85,7 @@ class ScoresByPlayer extends GetView<PartyController> {
                   contractHasBeenPlayed
                       ? playerScores[player.name].toString()
                       : '/',
-                  style: contractName == null
+                  style: contract == null
                       ? Get.textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w900,
                         )

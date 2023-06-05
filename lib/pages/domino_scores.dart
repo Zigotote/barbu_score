@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../controller/contract.dart';
 import '../controller/player.dart';
-import '../models/contract_names.dart';
+import '../models/contract_info.dart';
 import '../widgets/colored_container.dart';
 import '../widgets/page_layouts.dart';
 
@@ -81,7 +81,7 @@ class DominoScores extends GetView<OrderPlayersController> {
   Widget build(BuildContext context) {
     return ContractPage<OrderPlayersController>(
       subtitle: "Quel est l'ordre des joueurs ?",
-      contract: ContractsNames.Domino,
+      contract: ContractsInfo.Domino,
       child: Expanded(child: _buildFields()),
     );
   }

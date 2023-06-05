@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 
 import '../controller/party.dart';
 import '../controller/player.dart';
+import '../models/contract_info.dart';
 import '../models/contract_models.dart';
-import '../models/contract_names.dart';
 import '../utils/snackbar.dart';
 
 /// An abstract controller for the contracts
@@ -120,10 +120,10 @@ class IndividualScoresController extends AbstractContractController {
 /// A controller for the trump contract
 class TrumpsScoresController extends AbstractContractController {
   /// The list of contracts to fill for a trump contract
-  final List<ContractsNames> trumpContracts = ContractsNames.values
-      .where((contractName) =>
-          contractName != ContractsNames.Trumps &&
-          contractName != ContractsNames.Domino)
+  final List<ContractsInfo> trumpContracts = ContractsInfo.values
+      .where((contractInfo) =>
+          contractInfo != ContractsInfo.Trumps &&
+          contractInfo != ContractsInfo.Domino)
       .toList();
 
   /// The contracts the player has filled
@@ -148,10 +148,10 @@ class TrumpsScoresController extends AbstractContractController {
   }
 
   /// Adds a contract to the filledContracts list
-  addContract(ContractsNames contractName, Map<String, int> playerScores) {
+  addContract(ContractsInfo contractInfo, Map<String, int> playerScores) {
     _filledContracts
-        .removeWhere((contract) => contract.name == contractName.name);
-    AbstractContractModel contract = contractName.contract;
+        .removeWhere((contract) => contract.name == contractInfo.name);
+    AbstractContractModel contract = contractInfo.contract;
     contract.setScores(playerScores);
     _filledContracts.add(contract);
   }

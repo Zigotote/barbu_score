@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
 import '../main.dart';
-import '../models/contract_names.dart';
+import '../models/contract_info.dart';
 import '../models/route_argument.dart';
 import '../widgets/list_layouts.dart';
 import '../widgets/page_layouts.dart';
@@ -23,7 +23,7 @@ class ChooseContract extends GetView<PartyController> {
           horizontal: 8,
         ),
         child: MyGrid(
-          children: ContractsNames.values
+          children: ContractsInfo.values
               .map(
                 (contract) => ElevatedButton(
                   child:
@@ -33,7 +33,7 @@ class ChooseContract extends GetView<PartyController> {
                       : () => Get.toNamed(
                             contract.route,
                             arguments: RouteArgument(
-                              contractName: contract,
+                              contractInfo: contract,
                               contractValues: null,
                             ),
                           ),

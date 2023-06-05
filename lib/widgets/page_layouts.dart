@@ -6,7 +6,7 @@ import './my_appbar.dart';
 import '../controller/contract.dart';
 import '../controller/party.dart';
 import '../main.dart';
-import '../models/contract_names.dart';
+import '../models/contract_info.dart';
 import '../models/route_argument.dart';
 import '../widgets/my_subtitle.dart';
 
@@ -76,7 +76,7 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
   final PartyController party = Get.find<PartyController>();
 
   /// The contract actually displayed
-  final ContractsNames contract;
+  final ContractsInfo contract;
 
   /// The subtitle to explain the action that needs to be done
   final String subtitle;
@@ -100,7 +100,7 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
       Get.toNamed(
         Routes.TRUMPS_SCORES,
         arguments: RouteArgument(
-          contractName: ContractsNames.Trumps,
+          contractInfo: ContractsInfo.Trumps,
           contractValues: null,
         ),
       );
