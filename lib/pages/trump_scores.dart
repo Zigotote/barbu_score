@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/contract.dart';
-import '../models/contract_names.dart';
+import '../models/contract_info.dart';
 import '../models/route_argument.dart';
 import '../theme/my_themes.dart';
 import '../widgets/custom_buttons.dart';
@@ -22,13 +22,13 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
   }
 
   /// Builds a button to fill a contract
-  ElevatedButton _buildContractButton(ContractsNames contract) {
+  ElevatedButton _buildContractButton(ContractsInfo contract) {
     return ElevatedButton(
       child: Text(contract.displayName, textAlign: TextAlign.center),
       onPressed: () => Get.toNamed(
         contract.route,
         arguments: RouteArgument(
-          contractName: contract,
+          contractInfo: contract,
           contractValues: controller.getFilledContract(contract.name),
         ),
       ),
@@ -36,7 +36,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
   }
 
   /// Builds a Widget for a filled contract, with the button and a tick to know that it has been filled
-  Widget _buildFilledContract(BuildContext context, ContractsNames contract) {
+  Widget _buildFilledContract(BuildContext context, ContractsInfo contract) {
     return ElevatedButtonTopRightWidget(
       text: contract.displayName,
       topRightChild: Icon(
@@ -46,7 +46,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
       onPressed: () => Get.toNamed(
         contract.route,
         arguments: RouteArgument(
-          contractName: contract,
+          contractInfo: contract,
           contractValues: controller.getFilledContract(contract.name),
         ),
       ),
@@ -57,7 +57,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
   Widget build(BuildContext context) {
     return ContractPage<TrumpsScoresController>(
       subtitle: "Quel est le score de chaque contrat ?",
-      contract: ContractsNames.Trumps,
+      contract: ContractsInfo.Trumps,
       child: Expanded(child: _buildFields(context)),
     );
   }

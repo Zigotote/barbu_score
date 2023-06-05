@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../controller/contract.dart';
 import '../controller/party.dart';
-import '../models/contract_names.dart';
+import '../models/contract_info.dart';
 import '../models/route_argument.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/list_layouts.dart';
@@ -39,8 +39,8 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
 
   @override
   Widget build(BuildContext context) {
-    final ContractsNames contract =
-        (Get.arguments as RouteArgument).contractName;
+    final ContractsInfo contract =
+        (Get.arguments as RouteArgument).contractInfo;
     return ContractPage<SelectPlayerController>(
       subtitle: "Qui a remporté le ${contract.displayName} ?",
       contract: contract,

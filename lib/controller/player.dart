@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/party.dart';
+import '../models/contract_info.dart';
 import '../models/contract_models.dart';
-import '../models/contract_names.dart';
 
 /// A player for a party
 class PlayerController extends GetxController {
@@ -56,7 +56,7 @@ class PlayerController extends GetxController {
   set image(value) => _image.value = value;
 
   /// Returns the list of the contracts the player can choose
-  List<ContractsNames> get availableContracts => ContractsNames.values
+  List<ContractsInfo> get availableContracts => ContractsInfo.values
       .where((contract) => !_choosenContracts.contains(contract.name))
       .toList();
 
@@ -79,8 +79,7 @@ class PlayerController extends GetxController {
   /// Adds a contract played by a player, created from its name.
   /// The score is calculated from the Map wich links the number of card or trick each player won.
   /// Returns true if the score has been added, false otherwise
-  bool addContract(
-      ContractsNames contractName, Map<String, int> trickByPlayer) {
+  bool addContract(ContractsInfo contractName, Map<String, int> trickByPlayer) {
     AbstractContractModel contract = contractName.contract;
     final bool isValidScore = contract.setScores(trickByPlayer);
     if (isValidScore) {
@@ -98,7 +97,7 @@ class PlayerController extends GetxController {
   }
 
   /// Returns true if the player has played the contract
-  bool hasPlayedContract(ContractsNames contract) {
+  bool hasPlayedContract(ContractsInfo contract) {
     return _choosenContracts.contains(contract.name);
   }
 

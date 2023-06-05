@@ -2,7 +2,7 @@ import '../main.dart';
 import '../models/contract_models.dart';
 
 /// List the names of the contracts for a party
-enum ContractsNames {
+enum ContractsInfo {
   Barbu("Barbu", Routes.BARBU_OR_NOLASTTRICK_SCORES),
   NoHearts("Sans coeurs", Routes.NO_SOMETHING_SCORES),
   NoQueens("Sans dames", Routes.NO_SOMETHING_SCORES),
@@ -11,33 +11,33 @@ enum ContractsNames {
   Trumps("Salade", Routes.TRUMPS_SCORES),
   Domino("Réussite", Routes.DOMINO_SCORES);
 
-  const ContractsNames(this.displayName, this.route);
+  const ContractsInfo(this.displayName, this.route);
 
   final String displayName;
   final String route;
 
   AbstractContractModel get contract {
     switch (this) {
-      case ContractsNames.Barbu:
+      case ContractsInfo.Barbu:
         return BarbuContractModel();
-      case ContractsNames.NoHearts:
+      case ContractsInfo.NoHearts:
         return NoHeartsContractModel();
-      case ContractsNames.NoQueens:
+      case ContractsInfo.NoQueens:
         return NoQueensContractModel();
-      case ContractsNames.NoTricks:
+      case ContractsInfo.NoTricks:
         return NoTricksContractModel();
-      case ContractsNames.NoLastTrick:
+      case ContractsInfo.NoLastTrick:
         return NoLastTrickContractModel();
-      case ContractsNames.Trumps:
+      case ContractsInfo.Trumps:
         return TrumpsContractModel();
-      case ContractsNames.Domino:
+      case ContractsInfo.Domino:
         return DominoContractModel();
     }
   }
 
   // Returns the contract associated with the enum value obtained with toString()
   static AbstractContractModel getContractFromToString(String enumName) {
-    return ContractsNames.values
+    return ContractsInfo.values
         .firstWhere((contract) => contract.name == enumName)
         .contract;
   }

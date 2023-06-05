@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 
 import '../controller/contract.dart';
 import '../controller/player.dart';
+import '../models/contract_info.dart';
 import '../models/contract_models.dart';
-import '../models/contract_names.dart';
 import '../models/route_argument.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/list_layouts.dart';
@@ -16,8 +16,7 @@ class IndividualScoresContract extends GetView<IndividualScoresController> {
   final List<PlayerController> players = Get.find<PartyController>().players;
 
   /// The contract the player choose
-  final ContractsNames _contract =
-      (Get.arguments as RouteArgument).contractName;
+  final ContractsInfo _contract = (Get.arguments as RouteArgument).contractInfo;
 
   IndividualScoresContract() {
     controller.maximalScore =
