@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'Barbu Score',
       theme: MyThemes.light,
       darkTheme: MyThemes.dark,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
       initialRoute: Routes.HOME,
       getPages: [
         GetPage(
