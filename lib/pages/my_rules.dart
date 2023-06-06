@@ -6,22 +6,14 @@ class MyRules extends GetView {
   _buildTitle(String title) {
     return Padding(
       padding: EdgeInsets.only(top: 16, bottom: 8),
-      child: Text(
-        title,
-        style: Get.textTheme.headlineSmall!
-            .copyWith(color: Get.theme.colorScheme.onSurface),
-      ),
+      child: Text(title, style: Get.textTheme.headlineSmall),
     );
   }
 
   _buildSubtitle(String title) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
-      child: Text(
-        title,
-        style: Get.textTheme.titleLarge!
-            .copyWith(color: Get.theme.colorScheme.onSurface),
-      ),
+      child: Text(title, style: Get.textTheme.titleLarge),
     );
   }
 

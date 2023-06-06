@@ -106,7 +106,8 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
                             overflow: TextOverflow.fade,
                             textAlign: TextAlign.center,
                             style: Get.textTheme.labelLarge!.copyWith(
-                                color: Get.theme.scaffoldBackgroundColor),
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
                           ),
                         ),
                       ),
@@ -137,13 +138,13 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
         _buildActionButton(
           Icons.delete_forever_outlined,
           "Supprimer",
-          Get.theme.colorScheme.error,
+          Theme.of(context).colorScheme.error,
           this.onDelete,
         ),
         _buildActionButton(
           Icons.done,
           "Valider",
-          Get.theme.colorScheme.successColor,
+          Theme.of(context).colorScheme.successColor,
           this.onValidate,
         ),
       ],

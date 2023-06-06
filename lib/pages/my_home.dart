@@ -44,12 +44,12 @@ class MyHome extends GetView {
                   "Reprendre la partie précédente avec ${previousParty.playerNames} ?"),
               actions: [
                 ElevatedButtonCustomColor(
-                    color: Get.theme.colorScheme.error,
+                    color: Theme.of(context).colorScheme.error,
                     textSize: 16,
                     text: "Non, nouvelle partie",
                     onPressed: _startParty),
                 ElevatedButtonCustomColor(
-                  color: Get.theme.colorScheme.successColor,
+                  color: Theme.of(context).colorScheme.successColor,
                   textSize: 16,
                   text: "Oui",
                   onPressed: () => _loadParty(previousParty),
@@ -73,13 +73,13 @@ class MyHome extends GetView {
                   "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${previousParty.playerNames} sera perdue."),
               actions: [
                 ElevatedButtonCustomColor(
-                  color: Get.theme.colorScheme.error,
+                  color: Theme.of(context).colorScheme.error,
                   textSize: 16,
                   text: "Non, reprendre la partie",
                   onPressed: () => _loadParty(previousParty),
                 ),
                 ElevatedButtonCustomColor(
-                  color: Get.theme.colorScheme.successColor,
+                  color: Theme.of(context).colorScheme.successColor,
                   textSize: 16,
                   text: "Oui",
                   onPressed: _startParty,
@@ -109,6 +109,7 @@ class MyHome extends GetView {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               MyAppBar(
+                context,
                 "Le Barbu",
                 isHome: true,
                 hasLeading: false,
@@ -131,7 +132,7 @@ class MyHome extends GetView {
                 iconSize: Get.width * 0.15,
                 icon: Icon(
                   Icons.settings,
-                  color: Get.theme.colorScheme.onSurface,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 style: IconButton.styleFrom(side: BorderSide.none),
               )

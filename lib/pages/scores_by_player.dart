@@ -13,14 +13,14 @@ class ScoresByPlayer extends GetView<PartyController> {
   final PlayerController player = Get.arguments as PlayerController;
 
   /// Builds the table to display the scores of the players in a matrix
-  DataTable _buildTable() {
+  DataTable _buildTable(Color textColor) {
     final double headingHeight = Get.width * 0.17;
     return DataTable(
       headingRowHeight: headingHeight,
       headingTextStyle: Get.textTheme.labelLarge,
       columnSpacing: 8,
       border: TableBorder(
-        horizontalInside: BorderSide(color: Get.theme.colorScheme.onSurface),
+        horizontalInside: BorderSide(color: textColor),
       ),
       columns: [
         DataColumn(label: Text("")),
@@ -108,7 +108,7 @@ class ScoresByPlayer extends GetView<PartyController> {
               MySubtitle("Contrats de ${player.name}"),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: _buildTable(),
+                child: _buildTable(Theme.of(context).colorScheme.onSurface),
               ),
             ],
           ),

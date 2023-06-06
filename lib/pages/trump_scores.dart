@@ -11,11 +11,11 @@ import '../widgets/page_layouts.dart';
 
 /// A page to fill the scores for a trump contract
 class TrumpsScores extends GetView<TrumpsScoresController> {
-  Widget _buildFields() {
+  Widget _buildFields(BuildContext context) {
     return MyGrid(
       children: controller.trumpContracts
           .map((contract) => controller.isFilled(contract)
-              ? _buildFilledContract(contract)
+              ? _buildFilledContract(context, contract)
               : _buildContractButton(contract))
           .toList(),
     );
@@ -36,12 +36,12 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
   }
 
   /// Builds a Widget for a filled contract, with the button and a tick to know that it has been filled
-  Widget _buildFilledContract(ContractsNames contract) {
+  Widget _buildFilledContract(BuildContext context, ContractsNames contract) {
     return ElevatedButtonTopRightWidget(
       text: contract.displayName,
       topRightChild: Icon(
         Icons.task_alt_outlined,
-        color: Get.theme.colorScheme.successColor,
+        color: Theme.of(context).colorScheme.successColor,
       ),
       onPressed: () => Get.toNamed(
         contract.route,
@@ -58,7 +58,7 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
     return ContractPage<TrumpsScoresController>(
       subtitle: "Quel est le score de chaque contrat ?",
       contract: ContractsNames.Trumps,
-      child: Expanded(child: _buildFields()),
+      child: Expanded(child: _buildFields(context)),
     );
   }
 }

@@ -37,6 +37,7 @@ class DefaultPage extends GetWidget {
   Widget build(BuildContext context) {
     final Widget page = Scaffold(
       appBar: MyAppBar(
+        context,
         this.title,
         hasLeading: this.hasLeading,
       ),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyAppBar extends AppBar {
-  MyAppBar(String title, {bool isHome = false, bool hasLeading = false})
+  MyAppBar(BuildContext context, String title,
+      {bool isHome = false, bool hasLeading = false})
       : super(
           automaticallyImplyLeading: false,
           leadingWidth: 0,
@@ -12,21 +13,21 @@ class MyAppBar extends AppBar {
             children: [
               Divider(
                 thickness: 1,
-                color: Get.theme.colorScheme.onSurface,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: Get.theme.scaffoldBackgroundColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
                   style: isHome
-                      ? Get.textTheme.displaySmall!
-                          .copyWith(color: Get.theme.colorScheme.onSurface)
-                      : Get.textTheme.headlineSmall!
-                          .copyWith(color: Get.theme.colorScheme.onSurface),
+                      ? Theme.of(context).textTheme.displaySmall!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface)
+                      : Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface),
                 ),
               ),
               Align(

@@ -12,7 +12,7 @@ import '../widgets/page_layouts.dart';
 /// A page to fill the scores for a contract where only one player can loose
 class OneLooserContractScores extends GetView<SelectPlayerController> {
   /// Build each player's button and the box to show which one is currently selected
-  Widget _buildFields() {
+  Widget _buildFields(Color defaultTextColor) {
     final PartyController party = Get.find<PartyController>();
     return MyGrid(
       children: party.players
@@ -26,9 +26,7 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
                     controller.selectedPlayerIndex == entry.key;
                 return ElevatedButtonCustomColor(
                   text: entry.value.name,
-                  color: isPlayerSelected
-                      ? Get.theme.scaffoldBackgroundColor
-                      : playerColor,
+                  color: isPlayerSelected ? defaultTextColor : playerColor,
                   onPressed: () => controller.selectedPlayerIndex = entry.key,
                   backgroundColor: isPlayerSelected ? playerColor : null,
                 );
@@ -46,7 +44,9 @@ class OneLooserContractScores extends GetView<SelectPlayerController> {
     return ContractPage<SelectPlayerController>(
       subtitle: "Qui a remporté le ${contract.displayName} ?",
       contract: contract,
-      child: Expanded(child: _buildFields()),
+      child: Expanded(
+        child: _buildFields(Theme.of(context).scaffoldBackgroundColor),
+      ),
     );
   }
 }

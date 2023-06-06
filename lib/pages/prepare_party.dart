@@ -51,7 +51,7 @@ class PrepareParty extends GetView<PartyController> {
           Container(
             width: double.infinity,
             height: _circleDiameter + _playerIconSize * 2,
-            child: _buildTable(),
+            child: _buildTable(context),
           ),
         ],
       ),
@@ -65,7 +65,7 @@ class PrepareParty extends GetView<PartyController> {
     );
   }
 
-  Stack _buildTable() {
+  Stack _buildTable(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -74,12 +74,7 @@ class PrepareParty extends GetView<PartyController> {
           child: CircularText(
             children: [
               TextItem(
-                text: Text(
-                  "La table",
-                  style: Get.textTheme.titleSmall!.copyWith(
-                    color: Get.theme.colorScheme.onSurface,
-                  ),
-                ),
+                text: Text("La table", style: Get.textTheme.titleSmall),
                 space: 6,
                 startAngle: 270,
                 startAngleAlignment: StartAngleAlignment.center,
@@ -96,7 +91,7 @@ class PrepareParty extends GetView<PartyController> {
             margin: EdgeInsets.all(_playerIconSize / 2),
             decoration: new BoxDecoration(
               border: Border.all(
-                color: Get.theme.colorScheme.onSurface,
+                color: Theme.of(context).colorScheme.onSurface,
                 width: 2,
               ),
               shape: BoxShape.circle,
@@ -137,9 +132,7 @@ class PrepareParty extends GetView<PartyController> {
                 Text(
                   player.name,
                   textAlign: TextAlign.center,
-                  style: Get.textTheme.bodyMedium?.copyWith(
-                    backgroundColor: Get.theme.scaffoldBackgroundColor,
-                  ),
+                  style: Get.textTheme.bodyMedium,
                 ),
               ],
             ),

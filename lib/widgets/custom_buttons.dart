@@ -72,7 +72,8 @@ class ElevatedButtonCustomColor extends GetView {
         side: BorderSide(color: this.color, width: 2),
         padding: EdgeInsets.all(8),
         foregroundColor: this.color,
-        backgroundColor: backgroundColor ?? Get.theme.scaffoldBackgroundColor,
+        backgroundColor:
+            backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       ),
     );
   }

@@ -14,16 +14,10 @@ class MyThemes {
               ? Colors.red
               : Colors.red.shade900,
         ),
-        textTheme: baseTheme.textTheme
-            .copyWith(
-              titleSmall: TextStyle(
-                fontSize: 20,
-                color: baseTheme.colorScheme.onSurface,
-              ),
-            )
-            .apply(
-              fontFamily: "QuickSand",
-            ),
+        textTheme: baseTheme.textTheme.apply(
+          fontFamily: "QuickSand",
+          displayColor: baseTheme.colorScheme.onSurface,
+        ),
         dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
         disabledColor: Colors.grey,
         dividerColor: baseTheme.colorScheme.onSurface,

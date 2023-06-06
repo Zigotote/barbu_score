@@ -4,8 +4,6 @@
 
 - pouvoir sauvegarder plusieurs parties en même temps ++
 - pouvoir sauvegarder des joueurs et garder leurs statistiques
-- bug : bouton paramètre ne s'affiche pas toujours au chargement de l'appli (problème de couleur)
-  +++
 
 ## Page choix des joueurs
 
