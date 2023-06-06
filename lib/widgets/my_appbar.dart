@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../main.dart';
+
 class MyAppBar extends AppBar {
   MyAppBar(BuildContext context, String title,
       {bool isHome = false, bool hasLeading = false})
@@ -35,7 +37,13 @@ class MyAppBar extends AppBar {
                 child: Visibility(
                   child: IconButton.outlined(
                     icon: Icon(Icons.arrow_back),
-                    onPressed: Get.back,
+                    onPressed: () {
+                      try {
+                        Get.back();
+                      } catch (_) {
+                        Get.toNamed(Routes.HOME);
+                      }
+                    },
                   ),
                   visible: hasLeading,
                 ),
