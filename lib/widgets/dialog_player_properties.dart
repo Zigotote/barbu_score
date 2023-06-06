@@ -135,17 +135,17 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
       ),
       actions: [
         _buildActionButton(
+          Icons.delete_forever_outlined,
+          "Supprimer",
+          Get.theme.colorScheme.error,
+          this.onDelete,
+        ),
+        _buildActionButton(
           Icons.done,
           "Valider",
           Get.theme.colorScheme.successColor,
           this.onValidate,
         ),
-        _buildActionButton(
-          Icons.delete_forever_outlined,
-          "Supprimer",
-          Get.theme.colorScheme.error,
-          this.onDelete,
-        )
       ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
