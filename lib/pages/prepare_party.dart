@@ -42,7 +42,7 @@ class PrepareParty extends GetView<PartyController> {
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   _getCardsToTakeOut().join(", "),
-                  style: Get.textTheme.titleSmall,
+                  style: Get.textTheme.headlineSmall,
                 ),
               ),
               Text("du paquet."),
@@ -74,8 +74,8 @@ class PrepareParty extends GetView<PartyController> {
           child: CircularText(
             children: [
               TextItem(
-                text: Text("La table", style: Get.textTheme.titleSmall),
-                space: 6,
+                text: Text("La table", style: Get.textTheme.headlineSmall),
+                space: 8,
                 startAngle: 270,
                 startAngleAlignment: StartAngleAlignment.center,
               )
@@ -99,7 +99,7 @@ class PrepareParty extends GetView<PartyController> {
             child: Stack(
               alignment: Alignment.center,
               clipBehavior: Clip.none,
-              children: _buildPlayers(),
+              children: _buildPlayers(context),
             ),
           ),
         ),
@@ -107,7 +107,7 @@ class PrepareParty extends GetView<PartyController> {
     );
   }
 
-  List<Widget> _buildPlayers() {
+  List<Widget> _buildPlayers(BuildContext context) {
     final theta = ((pi * 2) / (controller.nbPlayers * 2));
     return List.generate(
       controller.nbPlayers * 2,
@@ -129,10 +129,13 @@ class PrepareParty extends GetView<PartyController> {
                   color: player.color,
                   size: _playerIconSize,
                 ),
-                Text(
-                  player.name,
-                  textAlign: TextAlign.center,
-                  style: Get.textTheme.bodyMedium,
+                Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: Text(
+                    player.name,
+                    textAlign: TextAlign.center,
+                    style: Get.textTheme.bodyMedium,
+                  ),
                 ),
               ],
             ),

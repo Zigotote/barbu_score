@@ -12,9 +12,9 @@ class MyGrid extends GetView {
   Widget build(BuildContext context) {
     return GridView.extent(
       maxCrossAxisExtent: Get.width * 0.5,
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      childAspectRatio: 1.6,
+      crossAxisSpacing: 24,
+      mainAxisSpacing: 24,
+      childAspectRatio: 1.4,
       children: this.children,
     );
   }

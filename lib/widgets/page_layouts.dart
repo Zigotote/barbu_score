@@ -120,6 +120,7 @@ class ContractPage<T extends AbstractContractController> extends GetWidget<T> {
       content: Column(
         children: [
           MySubtitle(this.subtitle),
+          SizedBox(height: 8),
           this.child,
         ],
       ),

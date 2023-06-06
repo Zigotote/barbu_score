@@ -41,7 +41,7 @@ class CreateParty extends GetView<CreatePlayersController> {
           child: _buildPlayerIcon(player),
         ),
         Positioned(
-          top: Get.height * 0.03,
+          top: Get.height * 0.025,
           right: 0,
           width: Get.width * 0.08,
           height: Get.width * 0.08,
