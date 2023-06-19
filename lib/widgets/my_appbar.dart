@@ -1,12 +1,17 @@
+import 'package:barbu_score/widgets/my_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../main.dart';
 
 class MyAppBar extends AppBar {
-  MyAppBar(BuildContext context, String title,
-      {bool isHome = false, bool hasLeading = false})
-      : super(
+  MyAppBar(
+    BuildContext context,
+    String title, {
+    bool isHome = false,
+    bool hasLeading = false,
+    MyTabBar? tabBar,
+  }) : super(
           automaticallyImplyLeading: false,
           leadingWidth: 0,
           titleSpacing: 0,
@@ -52,5 +57,6 @@ class MyAppBar extends AppBar {
           ),
           forceMaterialTransparency: true,
           elevation: 0,
+          bottom: tabBar,
         );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:non_uniform_border/non_uniform_border.dart';
 
 class MyThemes {
   static final light = _baseTheme(ThemeData.light());
@@ -87,6 +88,27 @@ class MyThemes {
               BorderSide(color: baseTheme.colorScheme.onSurface),
             ),
           ),
+        ),
+        tabBarTheme: TabBarTheme(
+          indicator: ShapeDecoration(
+            color: baseTheme.scaffoldBackgroundColor,
+            shape: NonUniformBorder(
+              leftWidth: 2,
+              topWidth: 2,
+              rightWidth: 2,
+              bottomWidth: 0,
+              color: baseTheme.colorScheme.onSurface,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.elliptical(8, 5),
+                topRight: Radius.elliptical(8, 5),
+              ),
+            ),
+          ),
+          indicatorColor: baseTheme.colorScheme.onSurface,
+          indicatorSize: TabBarIndicatorSize.tab,
+          labelColor: baseTheme.colorScheme.onSurface,
+          unselectedLabelColor: Colors.grey,
+          overlayColor: MaterialStatePropertyAll(Colors.grey),
         ),
       );
 }

@@ -30,6 +30,7 @@ dependencies:
   wakelock: ^0.6.2
   flutter_circular_text: ^0.3.1
   reorderable_grid_view: ^2.2.6
+  non_uniform_border: ^1.0.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
