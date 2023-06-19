@@ -1,3 +1,4 @@
+import 'package:barbu_score/widgets/my_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +15,9 @@ class DefaultPage extends GetWidget {
   /// The title of the page
   final String title;
 
+  /// The tab bar of the page
+  final MyTabBar? tabBar;
+
   /// The widget for the content of the page
   final Widget content;
 
@@ -28,6 +32,7 @@ class DefaultPage extends GetWidget {
 
   DefaultPage(
       {required this.title,
+      this.tabBar,
       required this.content,
       this.bottomWidget,
       this.hasBackground = false,
@@ -38,6 +43,7 @@ class DefaultPage extends GetWidget {
     final Widget page = Scaffold(
       appBar: MyAppBar(
         context,
+        tabBar: tabBar,
         this.title,
         hasLeading: this.hasLeading,
       ),
