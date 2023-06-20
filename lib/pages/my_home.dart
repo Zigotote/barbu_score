@@ -12,22 +12,30 @@ import '../widgets/my_appbar.dart';
 
 class MyHome extends GetView {
   /// Loads a previous party and resumes it
-  _loadParty(PartyController previousParty) {
-    Navigator.of(Get.overlayContext!).pop();
+  _loadParty(PartyController previousParty, {bool closeDialog = false}) {
+    if (closeDialog) {
+      Navigator.of(Get.overlayContext!).pop();
+    }
     Get.deleteAll();
     Get.put(previousParty);
     Get.toNamed(Routes.PREPARE_PARTY);
   }
 
   /// Starts a new party
-  _startParty() {
-    Navigator.of(Get.overlayContext!).pop();
+  _startParty({bool closeDialog = false}) {
+    if (closeDialog) {
+      Navigator.of(Get.overlayContext!).pop();
+    }
     Get.toNamed(Routes.CREATE_PARTY);
   }
 
   /// Builds the widgets to load a saved party
   _confirmLoadParty(BuildContext context) {
-    PartyController? previousParty = MyStorage().getStoredParty();
+    PartyController? previousParty;
+    try {
+      previousParty = MyStorage().getStoredParty();
+    } catch (_) {}
+
     if (previousParty == null) {
       SnackbarUtils.openSnackbar(
         "Aucune partie trouvée",
@@ -41,18 +49,19 @@ class MyHome extends GetView {
             return AlertDialog(
               title: Text("Charger une partie"),
               content: Text(
-                  "Reprendre la partie précédente avec ${previousParty.playerNames} ?"),
+                  "Reprendre la partie précédente avec ${previousParty!.playerNames} ?"),
               actions: [
                 ElevatedButtonCustomColor(
                     color: Theme.of(context).colorScheme.error,
                     textSize: 16,
                     text: "Non, nouvelle partie",
-                    onPressed: _startParty),
+                    onPressed: () => _startParty(closeDialog: true)),
                 ElevatedButtonCustomColor(
                   color: Theme.of(context).colorScheme.successColor,
                   textSize: 16,
                   text: "Oui",
-                  onPressed: () => _loadParty(previousParty),
+                  onPressed: () =>
+                      _loadParty(previousParty!, closeDialog: true),
                 ),
               ],
             );
@@ -62,32 +71,37 @@ class MyHome extends GetView {
 
   /// Builds the widgets to start a new party
   _confirmStartParty(BuildContext context) {
-    PartyController? previousParty = MyStorage().getStoredParty();
-    if (previousParty != null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext buildContext) {
-            return AlertDialog(
-              title: Text("Une partie sauvegardée existe"),
-              content: Text(
-                  "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${previousParty.playerNames} sera perdue."),
-              actions: [
-                ElevatedButtonCustomColor(
-                  color: Theme.of(context).colorScheme.error,
-                  textSize: 16,
-                  text: "Non, reprendre la partie",
-                  onPressed: () => _loadParty(previousParty),
-                ),
-                ElevatedButtonCustomColor(
-                  color: Theme.of(context).colorScheme.successColor,
-                  textSize: 16,
-                  text: "Oui",
-                  onPressed: _startParty,
-                ),
-              ],
-            );
-          });
-    } else {
+    try {
+      PartyController? previousParty = MyStorage().getStoredParty();
+      if (previousParty != null) {
+        showDialog(
+            context: context,
+            builder: (BuildContext buildContext) {
+              return AlertDialog(
+                title: Text("Une partie sauvegardée existe"),
+                content: Text(
+                    "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${previousParty.playerNames} sera perdue."),
+                actions: [
+                  ElevatedButtonCustomColor(
+                    color: Theme.of(context).colorScheme.error,
+                    textSize: 16,
+                    text: "Non, reprendre la partie",
+                    onPressed: () =>
+                        _loadParty(previousParty, closeDialog: true),
+                  ),
+                  ElevatedButtonCustomColor(
+                    color: Theme.of(context).colorScheme.successColor,
+                    textSize: 16,
+                    text: "Oui",
+                    onPressed: () => _startParty(closeDialog: true),
+                  ),
+                ],
+              );
+            });
+      } else {
+        _startParty();
+      }
+    } catch (_) {
       _startParty();
     }
   }
