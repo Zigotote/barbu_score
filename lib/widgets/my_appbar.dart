@@ -10,7 +10,7 @@ class MyAppBar extends AppBar {
     String title, {
     bool isHome = false,
     bool hasLeading = false,
-    MyTabBar? tabBar,
+    List<Tab>? tabs,
   }) : super(
           automaticallyImplyLeading: false,
           leadingWidth: 0,
@@ -57,6 +57,6 @@ class MyAppBar extends AppBar {
           ),
           forceMaterialTransparency: true,
           elevation: 0,
-          bottom: tabBar,
+          bottom: tabs == null ? null : MyTabBar(tabs),
         );
 }
