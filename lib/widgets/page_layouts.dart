@@ -1,4 +1,3 @@
-import 'package:barbu_score/widgets/my_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,8 +14,8 @@ class DefaultPage extends GetWidget {
   /// The title of the page
   final String title;
 
-  /// The tab bar of the page
-  final MyTabBar? tabBar;
+  /// The tabs of the page
+  final List<Tab>? tabs;
 
   /// The widget for the content of the page
   final Widget content;
@@ -32,7 +31,7 @@ class DefaultPage extends GetWidget {
 
   DefaultPage(
       {required this.title,
-      this.tabBar,
+      this.tabs,
       required this.content,
       this.bottomWidget,
       this.hasBackground = false,
@@ -40,10 +39,10 @@ class DefaultPage extends GetWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget page = Scaffold(
+    Widget page = Scaffold(
       appBar: MyAppBar(
         context,
-        tabBar: tabBar,
+        tabs: tabs,
         this.title,
         hasLeading: this.hasLeading,
       ),
@@ -65,6 +64,9 @@ class DefaultPage extends GetWidget {
         child: this.bottomWidget,
       ),
     );
+    page = this.tabs == null
+        ? page
+        : DefaultTabController(length: tabs!.length, child: page);
     return this.hasLeading
         ? page
         : WillPopScope(onWillPop: () async => false, child: page);
