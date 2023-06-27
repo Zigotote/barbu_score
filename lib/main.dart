@@ -1,9 +1,5 @@
 import 'package:barbu_score/pages/create_game/create_game.dart';
-import 'package:barbu_score/pages/my_rules.dart';
-import 'package:barbu_score/pages/my_settings.dart';
-import 'package:barbu_score/pages/prepare_party.dart';
-import 'package:barbu_score/theme/theme_provider.dart';
-import 'package:barbu_score/utils/storage.dart';
+import 'package:barbu_score/pages/prepare_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -14,10 +10,14 @@ import './pages/choose_contract.dart';
 import './pages/domino_scores.dart';
 import './pages/individual_scores_contract.dart';
 import './pages/my_home.dart';
+import './pages/my_rules.dart';
+import './pages/my_settings.dart';
 import './pages/one_looser_contract_scores.dart';
 import './pages/scores_by_player.dart';
 import './pages/trump_scores.dart';
 import './theme/my_themes.dart';
+import './theme/theme_provider.dart';
+import './utils/storage.dart';
 import '../pages/finish_party.dart';
 import '../pages/my_scores.dart';
 
@@ -54,8 +54,8 @@ class MyApp extends ConsumerWidget {
           //binding: CreatePlayersBinding(),
         ),
         GoRoute(
-          path: Routes.PREPARE_PARTY,
-          builder: (_, __) => PrepareParty(),
+          path: Routes.PREPARE_GAME,
+          builder: (_, __) => PrepareGame(),
           //binding: PartyBinding(),
         ),
         GoRoute(
@@ -109,7 +109,7 @@ class Routes {
   static const RULES = "/rules";
   static const SETTINGS = "/settings";
   static const CREATE_GAME = "/create_game";
-  static const PREPARE_PARTY = "/prepare_game";
+  static const PREPARE_GAME = "/prepare_game";
   static const CHOOSE_CONTRACT = "/choose_contract";
   static const BARBU_OR_NOLASTTRICK_SCORES = "/one_looser_contract_scores";
   static const DOMINO_SCORES = "/domino_scores";

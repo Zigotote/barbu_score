@@ -1,32 +1,36 @@
 import 'dart:math';
 
-import 'package:barbu_score/controller/party.dart';
-import 'package:barbu_score/controller/player.dart';
+import 'package:barbu_score/pages/create_game/notifiers/create_game.dart';
+import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../main.dart';
+import '../models/player.dart';
 import '../widgets/page_layouts.dart';
 import '../widgets/player_icon.dart';
 
 /// A page to be sure the players and the cards are ready to start
-class PrepareParty extends GetView<PartyController> {
-  final double _circleDiameter = Get.width * 0.5;
-  final double _playerIconSize = Get.width * 0.16;
+class PrepareGame extends ConsumerWidget {
+  final double _circleDiameter = ScreenHelper.width * 0.5;
+  final double _playerIconSize = ScreenHelper.width * 0.16;
+  late List<Player> players;
 
   double get _circleRadius => _circleDiameter / 2;
 
   /// Returns the values of the cards to take out for the party
   List<int> _getCardsToTakeOut() {
-    return List.generate(
-        (52 - controller.nbPlayers * 8) ~/ 4, (index) => 2 + index);
+    return List.generate((52 - players.length * 8) ~/ 4, (index) => 2 + index);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    players = ref.read(createGameProvider).players;
     return DefaultPage(
       title: "Préparer la partie",
       hasLeading: true,
@@ -42,7 +46,7 @@ class PrepareParty extends GetView<PartyController> {
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   _getCardsToTakeOut().join(", "),
-                  style: Get.textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
               Text("du paquet."),
@@ -59,7 +63,7 @@ class PrepareParty extends GetView<PartyController> {
         child: Text("C'est parti !"),
         onPressed: () {
           Wakelock.enable();
-          Get.toNamed(Routes.CHOOSE_CONTRACT);
+          context.push(Routes.CHOOSE_CONTRACT);
         },
       ),
     );
@@ -108,15 +112,15 @@ class PrepareParty extends GetView<PartyController> {
   }
 
   List<Widget> _buildPlayers(BuildContext context) {
-    final theta = ((pi * 2) / (controller.nbPlayers * 2));
+    final theta = ((pi * 2) / (players.length * 2));
     return List.generate(
-      controller.nbPlayers * 2,
+      players.length * 2,
       (index) {
         final angle = (theta * index);
         final topPosition = _circleRadius * -cos(angle) + _circleRadius;
         final leftPosition = _circleRadius * sin(angle) + _circleRadius;
         if (index % 2 == 0) {
-          PlayerController player = controller.players[index ~/ 2];
+          Player player = players[index ~/ 2];
           return Positioned(
             top: topPosition - _playerIconSize / 2,
             left: leftPosition - _playerIconSize,
@@ -132,9 +136,9 @@ class PrepareParty extends GetView<PartyController> {
                 Container(
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: Text(
-                    player.name,
+                    player.name!,
                     textAlign: TextAlign.center,
-                    style: Get.textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ],

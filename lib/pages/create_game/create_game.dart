@@ -1,4 +1,3 @@
-import 'package:barbu_score/pages/create_game/create_game_props.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +7,7 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import '../../../utils/screen.dart';
 import '../../main.dart';
 import '../../widgets/page_layouts.dart';
+import 'create_game_props.dart';
 import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';
 
@@ -41,7 +41,7 @@ class CreateGame extends ConsumerWidget {
           ? () {
               if (_formKey.currentState!.validate()) {
                 //MyStorage().saveNbPlayers(_players.length);
-                context.push(Routes.PREPARE_PARTY);
+                context.push(Routes.PREPARE_GAME);
               }
             }
           : null,

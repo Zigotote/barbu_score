@@ -9,7 +9,8 @@ import 'package:sprintf/sprintf.dart';
 import '../../../models/player.dart';
 import '../create_game_props.dart';
 
-final createGameProvider = ChangeNotifierProvider<CreateGameNotifier>(
+final createGameProvider =
+    ChangeNotifierProvider.autoDispose<CreateGameNotifier>(
   (ref) => CreateGameNotifier(
       ref.watch(appThemeProvider).theme.colorScheme.playerColors),
 );

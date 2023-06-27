@@ -17,7 +17,7 @@ class MyHome extends StatelessWidget {
   _loadParty(PartyController previousParty) {
     Get.deleteAll();
     Get.put(previousParty);
-    Get.toNamed(Routes.PREPARE_PARTY);
+    Get.toNamed(Routes.PREPARE_GAME);
   }
 
   /// Starts a new party
