@@ -10,7 +10,7 @@ import '../models/route_argument.dart';
 import '../widgets/my_subtitle.dart';
 
 /// A page with a beautiful layout
-class DefaultPage extends GetWidget {
+class DefaultPage extends StatelessWidget {
   /// The title of the page
   final String title;
 
@@ -40,6 +40,7 @@ class DefaultPage extends GetWidget {
   @override
   Widget build(BuildContext context) {
     Widget page = Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
         context,
         tabs: tabs,

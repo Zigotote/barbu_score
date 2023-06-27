@@ -1,32 +1,28 @@
 import 'package:barbu_score/controller/party.dart';
 import 'package:barbu_score/theme/my_themes.dart';
+import 'package:barbu_score/utils/screen.dart';
 import 'package:barbu_score/utils/snackbar.dart';
 import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../main.dart';
 import '../widgets/custom_buttons.dart';
 import '../widgets/my_appbar.dart';
 
-class MyHome extends GetView {
+class MyHome extends StatelessWidget {
   /// Loads a previous party and resumes it
-  _loadParty(PartyController previousParty, {bool closeDialog = false}) {
-    if (closeDialog) {
-      Navigator.of(Get.overlayContext!).pop();
-    }
+  _loadParty(PartyController previousParty) {
     Get.deleteAll();
     Get.put(previousParty);
     Get.toNamed(Routes.PREPARE_PARTY);
   }
 
   /// Starts a new party
-  _startParty({bool closeDialog = false}) {
-    if (closeDialog) {
-      Navigator.of(Get.overlayContext!).pop();
-    }
-    Get.toNamed(Routes.CREATE_PARTY);
+  _startParty(BuildContext context) {
+    context.go(Routes.CREATE_GAME);
   }
 
   /// Builds the widgets to load a saved party
@@ -41,7 +37,7 @@ class MyHome extends GetView {
         "Aucune partie trouvée",
         "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
       );
-      _startParty();
+      _startParty(context);
     } else {
       showDialog(
           context: context,
@@ -55,13 +51,12 @@ class MyHome extends GetView {
                     color: Theme.of(context).colorScheme.error,
                     textSize: 16,
                     text: "Non, nouvelle partie",
-                    onPressed: () => _startParty(closeDialog: true)),
+                    onPressed: () => _startParty(context)),
                 ElevatedButtonCustomColor(
                   color: Theme.of(context).colorScheme.successColor,
                   textSize: 16,
                   text: "Oui",
-                  onPressed: () =>
-                      _loadParty(previousParty!, closeDialog: true),
+                  onPressed: () => _loadParty(previousParty!),
                 ),
               ],
             );
@@ -86,72 +81,68 @@ class MyHome extends GetView {
                     color: Theme.of(context).colorScheme.error,
                     textSize: 16,
                     text: "Non, reprendre la partie",
-                    onPressed: () =>
-                        _loadParty(previousParty, closeDialog: true),
+                    onPressed: () => _loadParty(previousParty),
                   ),
                   ElevatedButtonCustomColor(
                     color: Theme.of(context).colorScheme.successColor,
                     textSize: 16,
                     text: "Oui",
-                    onPressed: () => _startParty(closeDialog: true),
+                    onPressed: () => _startParty(context),
                   ),
                 ],
               );
             });
       } else {
-        _startParty();
+        _startParty(context);
       }
     } catch (_) {
-      _startParty();
+      _startParty(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Wakelock.disable();
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/background.png"),
-              fit: BoxFit.fitWidth,
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            MyAppBar(
+              context,
+              "Le Barbu",
+              isHome: true,
+              hasLeading: false,
             ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              MyAppBar(
-                context,
-                "Le Barbu",
-                isHome: true,
-                hasLeading: false,
+            ElevatedButtonFullWidth(
+              child: Text("Démarrer une partie"),
+              onPressed: () => _confirmStartParty(context),
+            ),
+            ElevatedButtonFullWidth(
+              child: Text("Charger une partie"),
+              onPressed: () => _confirmLoadParty(context),
+            ),
+            ElevatedButton(
+              child: Text("Règles du jeu"),
+              onPressed: () => context.push(Routes.RULES),
+            ),
+            IconButton(
+              onPressed: () => SnackbarUtils.openSnackbar("Patience...",
+                  "Cette page arrivera dans une future version."),
+              iconSize: ScreenHelper.width * 0.15,
+              icon: Icon(
+                Icons.settings,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
-              ElevatedButtonFullWidth(
-                child: Text("Démarrer une partie"),
-                onPressed: () => _confirmStartParty(context),
-              ),
-              ElevatedButtonFullWidth(
-                child: Text("Charger une partie"),
-                onPressed: () => _confirmLoadParty(context),
-              ),
-              ElevatedButton(
-                child: Text("Règles du jeu"),
-                onPressed: () => Get.toNamed(Routes.RULES),
-              ),
-              IconButton(
-                onPressed: () => SnackbarUtils.openSnackbar("Patience...",
-                    "Cette page arrivera dans une future version."),
-                iconSize: Get.width * 0.15,
-                icon: Icon(
-                  Icons.settings,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                style: IconButton.styleFrom(side: BorderSide.none),
-              )
-            ],
-          ),
+              style: IconButton.styleFrom(side: BorderSide.none),
+            ),
+          ],
         ),
       ),
     );

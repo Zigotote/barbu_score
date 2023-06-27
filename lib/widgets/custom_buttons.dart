@@ -1,8 +1,8 @@
+import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 /// An ElevatedButton with a full width
-class ElevatedButtonFullWidth extends GetView {
+class ElevatedButtonFullWidth extends StatelessWidget {
   /// The child of the button
   final Widget child;
 
@@ -19,7 +19,10 @@ class ElevatedButtonFullWidth extends GetView {
         child: this.child,
         onPressed: this.onPressed,
         style: ElevatedButton.styleFrom(
-          minimumSize: Size(Get.width - 24, Get.height * 0.08),
+          minimumSize: Size(
+            ScreenHelper.width - 24,
+            ScreenHelper.height * 0.08,
+          ),
         ),
       ),
     );
@@ -27,7 +30,7 @@ class ElevatedButtonFullWidth extends GetView {
 }
 
 /// A button with a custom border and text color
-class ElevatedButtonCustomColor extends GetView {
+class ElevatedButtonCustomColor extends StatelessWidget {
   /// The text of the button
   final String? text;
 
@@ -80,7 +83,7 @@ class ElevatedButtonCustomColor extends GetView {
 }
 
 /// A button with an widget in the top right corner
-class ElevatedButtonTopRightWidget extends GetView {
+class ElevatedButtonTopRightWidget extends StatelessWidget {
   /// The text of the button
   final String text;
 
@@ -117,7 +120,7 @@ class ElevatedButtonTopRightWidget extends GetView {
 }
 
 /// An outlinedButton without border
-class OutlinedButtonNoBorder extends GetView {
+class OutlinedButtonNoBorder extends StatelessWidget {
   /// The content of the button
   final Widget child;
 

@@ -1,16 +1,16 @@
+import 'package:barbu_score/pages/create_game/create_game.dart';
 import 'package:barbu_score/pages/my_rules.dart';
 import 'package:barbu_score/pages/my_settings.dart';
 import 'package:barbu_score/pages/prepare_party.dart';
+import 'package:barbu_score/theme/theme_provider.dart';
 import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
-import './bindings/contract.dart';
-import './bindings/create_players.dart';
-import './bindings/party.dart';
 import './controller/contract.dart';
 import './pages/choose_contract.dart';
-import './pages/create_party.dart';
 import './pages/domino_scores.dart';
 import './pages/individual_scores_contract.dart';
 import './pages/my_home.dart';
@@ -23,83 +23,82 @@ import '../pages/my_scores.dart';
 
 void main() {
   Get.put(MyStorage());
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp.router(
       title: 'Barbu Score',
       theme: MyThemes.light,
       darkTheme: MyThemes.dark,
-      themeMode: ThemeMode.system,
-      initialRoute: Routes.HOME,
-      getPages: [
-        GetPage(
-          name: Routes.HOME,
-          page: () => MyHome(),
+      themeMode:
+          ref.watch(appThemeProvider).state ? ThemeMode.dark : ThemeMode.light,
+      routerConfig: GoRouter(routes: [
+        GoRoute(
+          path: Routes.HOME,
+          builder: (_, __) => MyHome(),
         ),
-        GetPage(
-          name: Routes.RULES,
-          page: () => MyRules(),
+        GoRoute(
+          path: Routes.RULES,
+          builder: (_, __) => MyRules(),
         ),
-        GetPage(
-          name: Routes.SETTINGS,
-          page: () => MySettings(),
+        GoRoute(
+          path: Routes.SETTINGS,
+          builder: (_, __) => MySettings(),
         ),
-        GetPage(
-          name: Routes.CREATE_PARTY,
-          page: () => CreateParty(),
-          binding: CreatePlayersBinding(),
+        GoRoute(
+          path: Routes.CREATE_GAME,
+          builder: (_, __) => CreateGame(),
+          //binding: CreatePlayersBinding(),
         ),
-        GetPage(
-          name: Routes.PREPARE_PARTY,
-          page: () => PrepareParty(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.PREPARE_PARTY,
+          builder: (_, __) => PrepareParty(),
+          //binding: PartyBinding(),
         ),
-        GetPage(
-          name: Routes.CHOOSE_CONTRACT,
-          page: () => ChooseContract(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.CHOOSE_CONTRACT,
+          builder: (_, __) => ChooseContract(),
+          //binding: PartyBinding(),
         ),
-        GetPage(
-          name: Routes.BARBU_OR_NOLASTTRICK_SCORES,
-          page: () => OneLooserContractScores(),
-          binding: SelectPlayerBinding(),
+        GoRoute(
+          path: Routes.BARBU_OR_NOLASTTRICK_SCORES,
+          builder: (_, __) => OneLooserContractScores(),
+          //binding: SelectPlayerBinding(),
         ),
-        GetPage(
-          name: Routes.DOMINO_SCORES,
-          page: () => DominoScores(),
-          binding: OrderPlayerBinding(),
+        GoRoute(
+          path: Routes.DOMINO_SCORES,
+          builder: (_, __) => DominoScores(),
+          //binding: OrderPlayerBinding(),
         ),
-        GetPage(
-          name: Routes.NO_SOMETHING_SCORES,
-          page: () => IndividualScoresContract(),
-          binding: IndividualScoresBinding(),
+        GoRoute(
+          path: Routes.NO_SOMETHING_SCORES,
+          builder: (_, __) => IndividualScoresContract(),
+          //binding: IndividualScoresBinding(),
         ),
-        GetPage(
-          name: Routes.TRUMPS_SCORES,
-          page: () => TrumpsScores(),
-          binding: TrumpsScoresBinding(),
+        GoRoute(
+          path: Routes.TRUMPS_SCORES,
+          builder: (_, __) => TrumpsScores(),
+          //binding: TrumpsScoresBinding(),
         ),
-        GetPage(
-          name: Routes.SCORES,
-          page: () => MyScores(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.SCORES,
+          builder: (_, __) => MyScores(),
+          //binding: PartyBinding(),
         ),
-        GetPage(
-          name: Routes.SCORES_BY_PLAYER,
-          page: () => ScoresByPlayer(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.SCORES_BY_PLAYER,
+          builder: (_, __) => ScoresByPlayer(),
+          //binding: PartyBinding(),
         ),
-        GetPage(
-          name: Routes.FINISH_PARTY,
-          page: () => FinishParty(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.FINISH_PARTY,
+          builder: (_, __) => FinishParty(),
+          //binding: PartyBinding(),
         ),
-      ],
+      ]),
     );
   }
 }
@@ -109,8 +108,8 @@ class Routes {
   static const HOME = "/";
   static const RULES = "/rules";
   static const SETTINGS = "/settings";
-  static const CREATE_PARTY = "/create_party";
-  static const PREPARE_PARTY = "/prepare_party";
+  static const CREATE_GAME = "/create_game";
+  static const PREPARE_PARTY = "/prepare_game";
   static const CHOOSE_CONTRACT = "/choose_contract";
   static const BARBU_OR_NOLASTTRICK_SCORES = "/one_looser_contract_scores";
   static const DOMINO_SCORES = "/domino_scores";

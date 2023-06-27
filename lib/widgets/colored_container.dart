@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 /// A container with a colored border
-class ColoredContainer extends GetView {
+class ColoredContainer extends StatelessWidget {
   /// The height of the container
   final double height;
 

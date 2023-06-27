@@ -1,6 +1,6 @@
 import 'package:barbu_score/widgets/my_tabbar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 import '../main.dart';
 
@@ -44,9 +44,9 @@ class MyAppBar extends AppBar {
                     icon: Icon(Icons.arrow_back),
                     onPressed: () {
                       try {
-                        Get.back();
+                        context.pop();
                       } catch (_) {
-                        Get.toNamed(Routes.HOME);
+                        context.go(Routes.HOME);
                       }
                     },
                   ),

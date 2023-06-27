@@ -1,8 +1,8 @@
+import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 /// A grid which takes all the available space in the layout
-class MyGrid extends GetView {
+class MyGrid extends StatelessWidget {
   /// The function to build each item
   final List<Widget> children;
 
@@ -11,7 +11,7 @@ class MyGrid extends GetView {
   @override
   Widget build(BuildContext context) {
     return GridView.extent(
-      maxCrossAxisExtent: Get.width * 0.5,
+      maxCrossAxisExtent: ScreenHelper.width * 0.5,
       crossAxisSpacing: 24,
       mainAxisSpacing: 24,
       childAspectRatio: 1.4,
@@ -21,7 +21,7 @@ class MyGrid extends GetView {
 }
 
 /// A list which takes all the available space in the layout
-class MyList extends GetWidget {
+class MyList extends StatelessWidget {
   /// The number of items in the list
   final int itemCount;
 

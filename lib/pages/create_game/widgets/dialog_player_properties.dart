@@ -1,17 +1,20 @@
+import 'package:barbu_score/models/player.dart';
+import 'package:barbu_score/pages/create_game/create_game_props.dart';
+import 'package:barbu_score/pages/create_game/notifiers/create_game.dart';
 import 'package:barbu_score/theme/my_themes.dart';
+import 'package:barbu_score/utils/screen.dart';
 import 'package:barbu_score/widgets/custom_buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sprintf/sprintf.dart';
 
-import '../controller/create_players.dart';
-import '../controller/player.dart';
-import 'player_icon.dart';
+import '../../../widgets/player_icon.dart';
 
 /// A dialog to change a player's informations
-class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
+class DialogChangePlayerInfo extends ConsumerWidget {
   /// The player to change the infos
-  final PlayerController player;
+  final Player player;
 
   /// The function to call on validated button pressed
   final Function() onValidate;
@@ -19,26 +22,27 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   /// The function to call on deleted button pressed
   final Function() onDelete;
 
-  DialogChangePlayerInfo(
-      {required this.player, required this.onValidate, required this.onDelete});
+  const DialogChangePlayerInfo(
+      {super.key,
+      required this.player,
+      required this.onValidate,
+      required this.onDelete});
 
   /// Builds the title of the widget
-  Widget _buildTitle() {
+  Widget _buildTitle(BuildContext context) {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        Obx(
-          () => PlayerIcon(
-            image: player.image,
-            color: player.color,
-            size: Get.width * 0.25,
-          ),
+        PlayerIcon(
+          image: player.image,
+          color: player.color,
+          size: ScreenHelper.width * 0.25,
         ),
         Positioned(
           right: -24,
           top: -16,
           child: OutlinedButtonNoBorder(
-            onPressed: () => Get.back(),
+            onPressed: context.pop,
             child: Icon(Icons.close),
           ),
         )
@@ -47,14 +51,15 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   }
 
   /// Builds the title and list of items the player can modify
-  Widget _buildPropertySelection(String text, List<Widget> items) {
-    final double buttonSpacing = Get.width * 0.05;
+  Widget _buildPropertySelection(
+      BuildContext context, String text, List<Widget> items) {
+    final double buttonSpacing = ScreenHelper.width * 0.05;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.only(bottom: 8),
-          child: Text(text, style: Get.textTheme.titleLarge),
+          child: Text(text, style: Theme.of(context).textTheme.titleLarge),
         ),
         GridView.count(
           physics: NeverScrollableScrollPhysics(),
@@ -83,31 +88,33 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(createGameProvider);
+    final ThemeData theme = Theme.of(context);
     return AlertDialog(
-      title: _buildTitle(),
+      title: _buildTitle(context),
       content: SingleChildScrollView(
         child: Container(
           width: double.maxFinite,
-          height: Get.height * 0.643,
+          height: ScreenHelper.height * 0.643,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildPropertySelection(
+                context,
                 "Couleur",
-                CreatePlayersController.colors
+                provider.playerColors
                     .map(
-                      (color) => Obx(
-                        () => OutlinedButtonNoBorder(
-                          backgroundColor: color,
-                          onPressed: () => player.color = color,
-                          child: Text(
-                            controller.getPlayersWithColor(color),
-                            overflow: TextOverflow.fade,
-                            textAlign: TextAlign.center,
-                            style: Get.textTheme.labelLarge!.copyWith(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
+                      (color) => OutlinedButtonNoBorder(
+                        backgroundColor: color,
+                        onPressed: () =>
+                            provider.changePlayerColor(player, color),
+                        child: Text(
+                          provider.getPlayersWithColor(color),
+                          overflow: TextOverflow.fade,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.labelLarge!.copyWith(
+                            color: theme.scaffoldBackgroundColor,
                           ),
                         ),
                       ),
@@ -116,15 +123,16 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
               ),
               SizedBox(height: 16),
               _buildPropertySelection(
+                context,
                 "Avatar",
                 List.generate(
-                  CreatePlayersController.NB_PLAYERS_MAX,
-                  (index) =>
-                      sprintf(CreatePlayersController.playerImage, [index + 1]),
+                  kNbPlayersMax,
+                  (index) => sprintf(kPlayerImageFolder, [index + 1]),
                 )
                     .map(
                       (image) => OutlinedButtonNoBorder(
-                        onPressed: () => player.image = image,
+                        onPressed: () =>
+                            provider.changePlayerImage(player, image),
                         child: PlayerIcon(image: image, size: double.maxFinite),
                       ),
                     )
@@ -138,14 +146,14 @@ class DialogChangePlayerInfo extends GetWidget<CreatePlayersController> {
         _buildActionButton(
           Icons.delete_forever_outlined,
           "Supprimer",
-          Theme.of(context).colorScheme.error,
-          this.onDelete,
+          theme.colorScheme.error,
+          onDelete,
         ),
         _buildActionButton(
           Icons.done,
           "Valider",
-          Theme.of(context).colorScheme.successColor,
-          this.onValidate,
+          theme.colorScheme.successColor,
+          onValidate,
         ),
       ],
       shape: RoundedRectangleBorder(

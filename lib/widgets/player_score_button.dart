@@ -1,5 +1,6 @@
+import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 import './custom_buttons.dart';
 import './player_icon.dart';
@@ -7,7 +8,7 @@ import '../controller/player.dart';
 import '../main.dart';
 
 /// A button to display the score of a player
-class PlayerScoreButton extends GetWidget {
+class PlayerScoreButton extends StatelessWidget {
   /// The infos of the player
   final PlayerController player;
 
@@ -36,8 +37,8 @@ class PlayerScoreButton extends GetWidget {
   }
 
   /// Returns the widget with the friend and the ennemy of the player
-  Widget _buildFriendStatus() {
-    double badgesSize = Get.width * 0.075;
+  Widget _buildFriendStatus(double screenWidth) {
+    double badgesSize = screenWidth * 0.075;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -68,6 +69,7 @@ class PlayerScoreButton extends GetWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = ScreenHelper.width;
     return ElevatedButtonFullWidth(
       child: Row(
         children: [
@@ -75,21 +77,24 @@ class PlayerScoreButton extends GetWidget {
             image: player.image,
             hasMedal: isFirst,
             color: player.color,
-            size: Get.width * 0.15,
+            size: screenWidth * 0.15,
           ),
           Expanded(
             child: Column(
               children: [
                 Text(player.name),
                 Text("$score points"),
-                this._showFriendStatus() ? _buildFriendStatus() : Container(),
+                this._showFriendStatus()
+                    ? _buildFriendStatus(screenWidth)
+                    : Container(),
               ],
             ),
           ),
           Icon(Icons.arrow_forward_ios)
         ],
       ),
-      onPressed: () => Get.toNamed(Routes.SCORES_BY_PLAYER, arguments: player),
+      onPressed: () =>
+          context.push(Routes.SCORES_BY_PLAYER), //, arguments: player
     );
   }
 }
