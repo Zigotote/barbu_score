@@ -65,18 +65,20 @@ class _IndividualScoresContractState
             "Le nombre d'items dépasse le nombre d'éléments pouvant être remporté, fixé à ${widget.itemsMax}.",
       );
     } else {
-      int? playerScore = _playerItems[player.name];
-      if (playerScore != null) {
+      int playerScore = _playerItems[player.name]!;
+      setState(() {
         _playerItems[player.name] = playerScore + 1;
-      }
+      });
     }
   }
 
   /// Decreases the score of the player. It can't go behind 0
   void _decreaseScore(Player player) {
-    int? playerScore = _playerItems[player.name];
-    if (playerScore != null && playerScore >= 1) {
-      _playerItems[player.name] = playerScore - 1;
+    int playerScore = _playerItems[player.name]!;
+    if (playerScore >= 1) {
+      setState(() {
+        _playerItems[player.name] = playerScore - 1;
+      });
     }
   }
 
