@@ -1,23 +1,47 @@
+import 'package:barbu_score/models/player.dart';
+import 'package:barbu_score/pages/play_game/contracts/widgets/contract_page.dart';
+import 'package:barbu_score/pages/play_game/notifiers/play_game.dart';
+import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controller/contract.dart';
-import '../controller/player.dart';
+import '../../../../widgets/colored_container.dart';
 import '../models/contract_info.dart';
-import '../widgets/colored_container.dart';
-import '../widgets/page_layouts.dart';
 
 /// A page to fill the scores for a domino contract
-class DominoScores extends GetView<OrderPlayersController> {
+class DominoScores extends ConsumerStatefulWidget {
+  @override
+  ConsumerState<DominoScores> createState() => _DominoScoresState();
+}
+
+class _DominoScoresState extends ConsumerState<DominoScores> {
+  /// The ordered list of players
+  late List<Player> orderedPlayers;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(
+        () => orderedPlayers = List.from(ref.read(playGameProvider).players));
+  }
+
+  /// Moves a player from oldIndex to newIndex
+  void _movePlayer(int oldIndex, int newIndex) {
+    setState(() {
+      Player player = orderedPlayers.removeAt(oldIndex);
+      orderedPlayers.insert(newIndex, player);
+    });
+  }
+
   /// Build each player's button and the box to show which one is currently selected
   Widget _buildFields() {
     return ReorderableListView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       buildDefaultDragHandles: false,
-      itemCount: controller.orderedPlayers.length,
+      itemCount: orderedPlayers.length,
       itemBuilder: (_, index) {
-        PlayerController player = controller.orderedPlayers[index];
+        Player player = orderedPlayers[index];
         return ReorderableDragStartListener(
           key: ValueKey(index),
           index: index,
@@ -28,11 +52,11 @@ class DominoScores extends GetView<OrderPlayersController> {
               children: [
                 Text(
                   (index + 1).toString(),
-                  style: Get.textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 ColoredContainer(
-                  height: Get.height * 0.08,
-                  width: Get.width * 0.75,
+                  height: ScreenHelper.height * 0.08,
+                  width: ScreenHelper.width * 0.75,
                   color: player.color,
                   child: _buildPlayerTile(player),
                 ),
@@ -45,13 +69,13 @@ class DominoScores extends GetView<OrderPlayersController> {
         if (oldIndex < newIndex) {
           newIndex -= 1;
         }
-        controller.movePlayer(oldIndex, newIndex);
+        _movePlayer(oldIndex, newIndex);
       },
     );
   }
 
   /// Builds a stack with the name of a player and a drag icon as a leading
-  Widget _buildPlayerTile(PlayerController player) {
+  Widget _buildPlayerTile(Player player) {
     return Stack(
       alignment: Alignment.center,
       fit: StackFit.expand,
@@ -79,10 +103,17 @@ class DominoScores extends GetView<OrderPlayersController> {
 
   @override
   Widget build(BuildContext context) {
-    return ContractPage<OrderPlayersController>(
+    return ContractPage(
       subtitle: "Quel est l'ordre des joueurs ?",
       contract: ContractsInfo.Domino,
-      child: Expanded(child: _buildFields()),
+      isValid: orderedPlayers.length > 0,
+      // Not really items by players, it's more player's rank
+      itemsByPlayer: Map.fromIterable(
+        this.orderedPlayers,
+        key: (player) => player.name,
+        value: (player) => this.orderedPlayers.indexOf(player),
+      ),
+      child: _buildFields(),
     );
   }
 }

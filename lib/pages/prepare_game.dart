@@ -12,7 +12,7 @@ import 'package:wakelock/wakelock.dart';
 
 import '../main.dart';
 import '../models/player.dart';
-import '../widgets/page_layouts.dart';
+import '../widgets/default_page.dart';
 import '../widgets/player_icon.dart';
 
 /// A page to be sure the players and the cards are ready to start
@@ -136,7 +136,7 @@ class PrepareGame extends ConsumerWidget {
                 Container(
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: Text(
-                    player.name!,
+                    player.name,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),

@@ -4,9 +4,8 @@ import 'package:get/get.dart';
 
 import '../controller/party.dart';
 import '../controller/player.dart';
-import '../models/contract_info.dart';
-import '../models/contract_models.dart';
-import '../utils/snackbar.dart';
+import '../pages/play_game/models/contract_info.dart';
+import '../pages/play_game/models/contract_models.dart';
 
 /// An abstract controller for the contracts
 abstract class AbstractContractController extends GetxController {
@@ -96,10 +95,10 @@ class IndividualScoresController extends AbstractContractController {
   /// Increases the score of the player, only if the total score is less than the contract max score
   void increaseScore(PlayerController player) {
     if (this.isValid) {
-      SnackbarUtils.openSnackbar(
+      /*SnackbarUtils.openSnackBar(
         "Ajout de points impossible",
         "Le nombre d'items dépasse le nombre d'éléments pouvant être remporté, fixé à $maximalScore.",
-      );
+      );*/
     } else {
       int? playerScore = _playerScores[player.name];
       if (playerScore != null) {
@@ -152,7 +151,7 @@ class TrumpsScoresController extends AbstractContractController {
     _filledContracts
         .removeWhere((contract) => contract.name == contractInfo.name);
     AbstractContractModel contract = contractInfo.contract;
-    contract.setScores(playerScores);
+    contract.calculateScores(playerScores);
     _filledContracts.add(contract);
   }
 

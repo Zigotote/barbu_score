@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/party.dart';
-import '../models/contract_info.dart';
-import '../models/contract_models.dart';
+import '../pages/play_game/models/contract_info.dart';
+import '../pages/play_game/models/contract_models.dart';
 
 /// A player for a party
 class PlayerController extends GetxController {
@@ -81,7 +81,7 @@ class PlayerController extends GetxController {
   /// Returns true if the score has been added, false otherwise
   bool addContract(ContractsInfo contractName, Map<String, int> trickByPlayer) {
     AbstractContractModel contract = contractName.contract;
-    final bool isValidScore = contract.setScores(trickByPlayer);
+    final bool isValidScore = contract.calculateScores(trickByPlayer);
     if (isValidScore) {
       _contracts.removeWhere((c) => c.name == contractName.name);
       _contracts.add(contract);

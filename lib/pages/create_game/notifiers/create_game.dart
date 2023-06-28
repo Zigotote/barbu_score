@@ -60,9 +60,9 @@ class CreateGameNotifier with ChangeNotifier {
   String getPlayersWithColor(Color color) {
     return _players
         .where((player) => player.color == color)
-        .map((player) => player.name == null || player.name!.trim().isEmpty
+        .map((player) => player.name.trim().isEmpty
             ? "X"
-            : player.name!.trim().characters.first.toUpperCase())
+            : player.name.trim().characters.first.toUpperCase())
         .join("/");
   }
 
@@ -81,7 +81,7 @@ class CreateGameNotifier with ChangeNotifier {
       _players.length >= kNbPlayersMin && _players.length <= kNbPlayersMax;
 
   String? playerValidator(Player player) {
-    if (player.name == null || player.name!.trim().isEmpty) {
+    if (player.name.trim().isEmpty) {
       return "Indiquer un nom.";
     } else if (_isDuplicateName(player)) {
       return "Nom déjà pris.";
@@ -93,7 +93,7 @@ class CreateGameNotifier with ChangeNotifier {
 
   /// Returns true if the player has the same name than another
   bool _isDuplicateName(Player player) {
-    return _players.any((p) => p != player && p.name?.trim() == player.name);
+    return _players.any((p) => p != player && p.name.trim() == player.name);
   }
 
   /// Returns true if the player has the color name than another

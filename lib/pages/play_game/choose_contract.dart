@@ -1,19 +1,20 @@
+import 'package:barbu_score/pages/play_game/notifiers/play_game.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../controller/party.dart';
-import '../controller/player.dart';
-import '../main.dart';
-import '../models/contract_info.dart';
-import '../models/route_argument.dart';
-import '../widgets/list_layouts.dart';
-import '../widgets/page_layouts.dart';
+import '../../main.dart';
+import '../../models/player.dart';
+import '../../widgets/default_page.dart';
+import '../../widgets/list_layouts.dart';
+import 'models/contract_info.dart';
+import 'models/route_argument.dart';
 
 /// A page for a player to choose his contract
-class ChooseContract extends GetView<PartyController> {
+class ChooseContract extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    PlayerController player = controller.currentPlayer;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Player player = ref.watch(playGameProvider).currentPlayer;
     return DefaultPage(
       title: "Tour de ${player.name}",
       hasBackground: true,
@@ -30,12 +31,9 @@ class ChooseContract extends GetView<PartyController> {
                       Text(contract.displayName, textAlign: TextAlign.center),
                   onPressed: player.hasPlayedContract(contract)
                       ? null
-                      : () => Get.toNamed(
+                      : () => context.push(
                             contract.route,
-                            arguments: RouteArgument(
-                              contractInfo: contract,
-                              contractValues: null,
-                            ),
+                            extra: RouteArgument(contractInfo: contract),
                           ),
                 ),
               )
@@ -44,7 +42,7 @@ class ChooseContract extends GetView<PartyController> {
       ),
       bottomWidget: ElevatedButton(
         child: Text("Scores"),
-        onPressed: () => Get.toNamed(Routes.SCORES),
+        onPressed: () => context.push(Routes.SCORES),
       ),
     );
   }

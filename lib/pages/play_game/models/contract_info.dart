@@ -1,5 +1,5 @@
-import '../main.dart';
-import '../models/contract_models.dart';
+import '../../../main.dart';
+import 'contract_models.dart';
 
 /// List the names of the contracts for a party
 enum ContractsInfo {

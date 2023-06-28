@@ -2,13 +2,13 @@ import 'package:barbu_score/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/party.dart';
-import '../controller/player.dart';
-import '../main.dart';
-import '../utils/storage.dart';
-import '../widgets/list_layouts.dart';
-import '../widgets/page_layouts.dart';
-import '../widgets/player_score_button.dart';
+import '../../../controller/party.dart';
+import '../../../controller/player.dart';
+import '../../../main.dart';
+import '../../../utils/storage.dart';
+import '../../../widgets/default_page.dart';
+import '../../../widgets/list_layouts.dart';
+import '../../../widgets/player_score_button.dart';
 
 /// A page to display the scores of each player for the party
 class MyScores extends GetView<PartyController> {
@@ -32,9 +32,10 @@ class MyScores extends GetView<PartyController> {
           onPressed: () {
             MyStorage().saveParty();
             Get.toNamed(Routes.HOME);
-            SnackbarUtils.openSnackbar(
-              "Partie sauvegardée",
-              "Sélectionnez 'Charger une partie' pour la poursuivre.",
+            SnackbarUtils.instance.openSnackBar(
+              context: context,
+              title: "Partie sauvegardée",
+              text: "Sélectionnez 'Charger une partie' pour la poursuivre.",
             );
           }),
     );

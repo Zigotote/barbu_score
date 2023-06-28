@@ -6,7 +6,7 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../../utils/screen.dart';
 import '../../main.dart';
-import '../../widgets/page_layouts.dart';
+import '../../widgets/default_page.dart';
 import 'create_game_props.dart';
 import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';

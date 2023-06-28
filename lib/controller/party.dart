@@ -1,12 +1,11 @@
 import 'dart:collection';
 
-import 'package:barbu_score/models/contract_info.dart';
+import 'package:barbu_score/pages/play_game/models/contract_info.dart';
 import 'package:get/get.dart';
 
 import './player.dart';
 import '../main.dart';
-import '../models/route_argument.dart';
-import '../utils/snackbar.dart';
+import '../pages/play_game/models/route_argument.dart';
 import '../utils/storage.dart';
 
 /// A party with some players
@@ -91,10 +90,10 @@ class PartyController extends GetxController {
         this._nextPlayer();
       }
     } else {
-      SnackbarUtils.openSnackbar(
+      /*SnackbarUtils.openSnackBar(
         "Scores incorrects",
         "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
-      );
+      );*/
     }
   }
 
@@ -135,7 +134,7 @@ class PartyController extends GetxController {
       Get.toNamed(Routes.CHOOSE_CONTRACT);
     } else {
       MyStorage().delete();
-      Get.toNamed(Routes.FINISH_PARTY);
+      Get.toNamed(Routes.FINISH_GAME);
     }
   }
 }

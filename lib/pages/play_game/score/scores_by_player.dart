@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/party.dart';
-import '../controller/player.dart';
+import '../../../controller/party.dart';
+import '../../../controller/player.dart';
+import '../../../widgets/default_page.dart';
+import '../../../widgets/my_subtitle.dart';
+import '../../../widgets/player_icon.dart';
 import '../models/contract_info.dart';
-import '../widgets/my_subtitle.dart';
-import '../widgets/page_layouts.dart';
-import '../widgets/player_icon.dart';
 
 /// A page to display the scores for the contracts of a player
 class ScoresByPlayer extends GetView<PartyController> {

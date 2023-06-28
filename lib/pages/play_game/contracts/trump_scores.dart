@@ -1,13 +1,13 @@
+import 'package:barbu_score/pages/play_game/contracts/widgets/contract_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/contract.dart';
+import '../../../controller/contract.dart';
+import '../../../theme/my_themes.dart';
+import '../../../widgets/custom_buttons.dart';
+import '../../../widgets/list_layouts.dart';
 import '../models/contract_info.dart';
 import '../models/route_argument.dart';
-import '../theme/my_themes.dart';
-import '../widgets/custom_buttons.dart';
-import '../widgets/list_layouts.dart';
-import '../widgets/page_layouts.dart';
 
 /// A page to fill the scores for a trump contract
 class TrumpsScores extends GetView<TrumpsScoresController> {
@@ -55,9 +55,11 @@ class TrumpsScores extends GetView<TrumpsScoresController> {
 
   @override
   Widget build(BuildContext context) {
-    return ContractPage<TrumpsScoresController>(
+    return ContractPage(
       subtitle: "Quel est le score de chaque contrat ?",
       contract: ContractsInfo.Trumps,
+      isValid: false,
+      itemsByPlayer: {},
       child: Expanded(child: _buildFields(context)),
     );
   }

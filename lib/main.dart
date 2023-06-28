@@ -1,25 +1,26 @@
-import 'package:barbu_score/pages/create_game/create_game.dart';
-import 'package:barbu_score/pages/prepare_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-import './controller/contract.dart';
-import './pages/choose_contract.dart';
-import './pages/domino_scores.dart';
-import './pages/individual_scores_contract.dart';
-import './pages/my_home.dart';
-import './pages/my_rules.dart';
-import './pages/my_settings.dart';
-import './pages/one_looser_contract_scores.dart';
-import './pages/scores_by_player.dart';
-import './pages/trump_scores.dart';
-import './theme/my_themes.dart';
-import './theme/theme_provider.dart';
-import './utils/storage.dart';
 import '../pages/finish_party.dart';
-import '../pages/my_scores.dart';
+import 'controller/contract.dart';
+import 'pages/create_game/create_game.dart';
+import 'pages/my_home.dart';
+import 'pages/my_rules.dart';
+import 'pages/my_settings.dart';
+import 'pages/play_game/choose_contract.dart';
+import 'pages/play_game/contracts/domino_scores.dart';
+import 'pages/play_game/contracts/individual_scores_contract.dart';
+import 'pages/play_game/contracts/one_looser_contract_scores.dart';
+import 'pages/play_game/contracts/trump_scores.dart';
+import 'pages/play_game/models/route_argument.dart';
+import 'pages/play_game/score/my_scores.dart';
+import 'pages/play_game/score/scores_by_player.dart';
+import 'pages/prepare_game.dart';
+import 'theme/my_themes.dart';
+import 'theme/theme_provider.dart';
+import 'utils/storage.dart';
 
 void main() {
   Get.put(MyStorage());
@@ -65,7 +66,9 @@ class MyApp extends ConsumerWidget {
         ),
         GoRoute(
           path: Routes.BARBU_OR_NOLASTTRICK_SCORES,
-          builder: (_, __) => OneLooserContractScores(),
+          builder: (_, state) => OneLooserContractScores(
+            (state.extra as RouteArgument).contractInfo,
+          ),
           //binding: SelectPlayerBinding(),
         ),
         GoRoute(
@@ -75,7 +78,9 @@ class MyApp extends ConsumerWidget {
         ),
         GoRoute(
           path: Routes.NO_SOMETHING_SCORES,
-          builder: (_, __) => IndividualScoresContract(),
+          builder: (_, state) => IndividualScoresContract(
+            (state.extra as RouteArgument).contractInfo,
+          ),
           //binding: IndividualScoresBinding(),
         ),
         GoRoute(
@@ -94,7 +99,7 @@ class MyApp extends ConsumerWidget {
           //binding: PartyBinding(),
         ),
         GoRoute(
-          path: Routes.FINISH_PARTY,
+          path: Routes.FINISH_GAME,
           builder: (_, __) => FinishParty(),
           //binding: PartyBinding(),
         ),
@@ -117,7 +122,7 @@ class Routes {
   static const TRUMPS_SCORES = "/trumps_scores";
   static const SCORES = "/scores";
   static const SCORES_BY_PLAYER = "/scores/player";
-  static const FINISH_PARTY = "/end_party";
+  static const FINISH_GAME = "/end_party";
 
   /// Returns true if the contract of this route is part of a trumps contract
   static bool isPartOfTrumpsContract() {

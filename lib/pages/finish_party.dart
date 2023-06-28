@@ -5,8 +5,8 @@ import '../controller/party.dart';
 import '../controller/player.dart';
 import '../main.dart';
 import '../utils/storage.dart';
+import '../widgets/default_page.dart';
 import '../widgets/list_layouts.dart';
-import '../widgets/page_layouts.dart';
 import '../widgets/player_score_button.dart';
 
 /// A page to display the scores of each player at the end of the party

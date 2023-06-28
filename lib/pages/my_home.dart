@@ -33,9 +33,11 @@ class MyHome extends StatelessWidget {
     } catch (_) {}
 
     if (previousParty == null) {
-      SnackbarUtils.openSnackbar(
-        "Aucune partie trouvée",
-        "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
+      SnackbarUtils.instance.openSnackBar(
+        context: context,
+        title: "Aucune partie trouvée",
+        text:
+            "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
       );
       _startParty(context);
     } else {
@@ -133,8 +135,10 @@ class MyHome extends StatelessWidget {
               onPressed: () => context.push(Routes.RULES),
             ),
             IconButton(
-              onPressed: () => SnackbarUtils.openSnackbar("Patience...",
-                  "Cette page arrivera dans une future version."),
+              onPressed: () => SnackbarUtils.instance.openSnackBar(
+                  context: context,
+                  title: "Patience...",
+                  text: "Cette page arrivera dans une future version."),
               iconSize: ScreenHelper.width * 0.15,
               icon: Icon(
                 Icons.settings,
