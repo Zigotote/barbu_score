@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../pages/play_game/models/contract_info.dart';
-import '../pages/play_game/models/contract_models.dart';
+import 'contract_info.dart';
+import 'contract_models.dart';
 
 class Player {
   /// The color of the player

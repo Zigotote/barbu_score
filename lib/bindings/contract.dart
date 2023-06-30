@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../controller/contract.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
-import '../pages/play_game/models/contract_route_argument.dart';
+import '../pages/contract_scores/models/contract_route_argument.dart';
 
 class SelectPlayerBinding implements Bindings {
   @override

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../models/player.dart';
-import '../../../utils/screen.dart';
-import '../../../widgets/colored_container.dart';
-import '../../../widgets/player_icon.dart';
+import '../../../commons/models/player.dart';
+import '../../../commons/utils/screen.dart';
+import '../../../commons/widgets/colored_container.dart';
+import '../../../commons/widgets/player_icon.dart';
 import 'dialog_player_properties.dart';
 
 /// Builds the field to modify the player's infos

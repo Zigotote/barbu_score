@@ -1,14 +1,14 @@
-import 'package:barbu_score/pages/play_game/notifiers/play_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../main.dart';
-import '../../models/player.dart';
-import '../../widgets/default_page.dart';
-import '../../widgets/list_layouts.dart';
-import 'models/contract_info.dart';
-import 'models/contract_route_argument.dart';
+import '../commons/models/contract_info.dart';
+import '../commons/models/player.dart';
+import '../commons/notifiers/play_game.dart';
+import '../commons/widgets/default_page.dart';
+import '../commons/widgets/list_layouts.dart';
+import '../main.dart';
+import 'contract_scores/models/contract_route_argument.dart';
 
 /// A page for a player to choose his contract
 class ChooseContract extends ConsumerWidget {

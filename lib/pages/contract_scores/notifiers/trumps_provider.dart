@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/contract_info.dart';
-import '../../models/contract_models.dart';
+import '../../../../commons/models/contract_info.dart';
+import '../../../../commons/models/contract_models.dart';
 
 final trumpsProvider = ChangeNotifierProvider.autoDispose<TrumpsNotifier>(
   (ref) => TrumpsNotifier(),

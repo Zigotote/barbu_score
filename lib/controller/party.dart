@@ -1,12 +1,12 @@
 import 'dart:collection';
 
-import 'package:barbu_score/pages/play_game/models/contract_info.dart';
+import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:get/get.dart';
 
 import './player.dart';
+import '../commons/utils/storage.dart';
 import '../main.dart';
-import '../pages/play_game/models/contract_route_argument.dart';
-import '../utils/storage.dart';
+import '../pages/contract_scores/models/contract_route_argument.dart';
 
 /// A party with some players
 class PartyController extends GetxController {

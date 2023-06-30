@@ -1,14 +1,14 @@
-import 'package:barbu_score/models/player.dart';
-import 'package:barbu_score/pages/play_game/contracts/widgets/contract_page.dart';
-import 'package:barbu_score/pages/play_game/models/contract_route_argument.dart';
-import 'package:barbu_score/pages/play_game/notifiers/play_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../utils/snackbar.dart';
-import '../../../widgets/custom_buttons.dart';
-import '../../../widgets/list_layouts.dart';
-import '../models/contract_models.dart';
+import '../../commons/models/contract_models.dart';
+import '../../commons/models/player.dart';
+import '../../commons/notifiers/play_game.dart';
+import '../../commons/utils/snackbar.dart';
+import '../../commons/widgets/custom_buttons.dart';
+import '../../commons/widgets/list_layouts.dart';
+import 'models/contract_route_argument.dart';
+import 'widgets/contract_page.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
 class IndividualScoresContract extends ConsumerStatefulWidget {

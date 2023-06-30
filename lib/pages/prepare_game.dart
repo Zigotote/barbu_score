@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:barbu_score/pages/create_game/notifiers/create_game.dart';
-import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
@@ -10,10 +8,12 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wakelock/wakelock.dart';
 
+import '../commons/models/player.dart';
+import '../commons/utils/screen.dart';
+import '../commons/widgets/default_page.dart';
+import '../commons/widgets/player_icon.dart';
 import '../main.dart';
-import '../models/player.dart';
-import '../widgets/default_page.dart';
-import '../widgets/player_icon.dart';
+import 'create_game/notifiers/create_game.dart';
 
 /// A page to be sure the players and the cards are ready to start
 class PrepareGame extends ConsumerWidget {

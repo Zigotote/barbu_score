@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
-import '../../../utils/screen.dart';
+import '../../commons/utils/screen.dart';
+import '../../commons/widgets/default_page.dart';
 import '../../main.dart';
-import '../../widgets/default_page.dart';
 import 'create_game_props.dart';
 import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';

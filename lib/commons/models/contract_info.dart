@@ -1,4 +1,4 @@
-import '../../../main.dart';
+import '../../main.dart';
 import 'contract_models.dart';
 
 /// List the names of the contracts for a party

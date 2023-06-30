@@ -1,5 +1,6 @@
-import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/screen.dart';
 
 /// An ElevatedButton with a full width
 class ElevatedButtonFullWidth extends StatelessWidget {

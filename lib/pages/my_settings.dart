@@ -1,6 +1,7 @@
-import 'package:barbu_score/widgets/default_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../commons/widgets/default_page.dart';
 
 class MySettings extends GetView {
   @override

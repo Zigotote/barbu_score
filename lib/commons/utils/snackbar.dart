@@ -1,5 +1,6 @@
-import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
+
+import 'screen.dart';
 
 class SnackbarUtils {
   /// Indicates if a snackbar is currently open

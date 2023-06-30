@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../models/player.dart';
-import '../../../widgets/custom_buttons.dart';
-import '../../../widgets/list_layouts.dart';
-import '../models/contract_route_argument.dart';
-import '../notifiers/play_game.dart';
+import '../../commons/models/player.dart';
+import '../../commons/notifiers/play_game.dart';
+import '../../commons/widgets/custom_buttons.dart';
+import '../../commons/widgets/list_layouts.dart';
+import 'models/contract_route_argument.dart';
 import 'widgets/contract_page.dart';
 
 /// A page to fill the scores for a contract where only one player can loose

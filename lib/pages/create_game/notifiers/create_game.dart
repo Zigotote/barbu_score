@@ -1,12 +1,12 @@
 import 'dart:collection';
 
-import 'package:barbu_score/theme/my_themes.dart';
-import 'package:barbu_score/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sprintf/sprintf.dart';
 
-import '../../../models/player.dart';
+import '../../../commons/models/player.dart';
+import '../../../theme/my_themes.dart';
+import '../../../theme/theme_provider.dart';
 import '../create_game_props.dart';
 
 final createGameProvider =

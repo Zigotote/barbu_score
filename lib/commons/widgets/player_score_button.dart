@@ -1,11 +1,11 @@
-import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import './custom_buttons.dart';
 import './player_icon.dart';
-import '../controller/player.dart';
-import '../main.dart';
+import '../../controller/player.dart';
+import '../../main.dart';
+import '../utils/screen.dart';
 
 /// A button to display the score of a player
 class PlayerScoreButton extends StatelessWidget {

@@ -1,7 +1,5 @@
 import 'dart:convert';
-
-import 'package:barbu_score/utils/storage.dart';
-
+import '../utils/storage.dart';
 import 'contract_info.dart';
 
 /// An abstract class to fill the scores for a contract

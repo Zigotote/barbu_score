@@ -3,9 +3,9 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../models/player.dart';
-import '../../create_game/notifiers/create_game.dart';
-import '../models/contract_info.dart';
+import '../../../commons/models/contract_info.dart';
+import '../../../commons/models/player.dart';
+import '../../pages/create_game/notifiers/create_game.dart';
 
 final playGameProvider = ChangeNotifierProvider.autoDispose<PlayGameNotifier>(
   (ref) => PlayGameNotifier(ref.read(createGameProvider).players),

@@ -1,12 +1,12 @@
-import 'package:barbu_score/models/player.dart';
-import 'package:barbu_score/pages/play_game/contracts/widgets/contract_page.dart';
-import 'package:barbu_score/pages/play_game/notifiers/play_game.dart';
-import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../widgets/colored_container.dart';
-import '../models/contract_info.dart';
+import '../../commons/models/contract_info.dart';
+import '../../commons/models/player.dart';
+import '../../commons/notifiers/play_game.dart';
+import '../../commons/utils/screen.dart';
+import '../../commons/widgets/colored_container.dart';
+import 'widgets/contract_page.dart';
 
 /// A page to fill the scores for a domino contract
 class DominoScores extends ConsumerStatefulWidget {

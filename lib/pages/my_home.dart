@@ -1,16 +1,16 @@
-import 'package:barbu_score/controller/party.dart';
 import 'package:barbu_score/theme/my_themes.dart';
-import 'package:barbu_score/utils/screen.dart';
-import 'package:barbu_score/utils/snackbar.dart';
-import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wakelock/wakelock.dart';
 
+import '../commons/utils/screen.dart';
+import '../commons/utils/snackbar.dart';
+import '../commons/utils/storage.dart';
+import '../commons/widgets/custom_buttons.dart';
+import '../commons/widgets/my_appbar.dart';
+import '../controller/party.dart';
 import '../main.dart';
-import '../widgets/custom_buttons.dart';
-import '../widgets/my_appbar.dart';
 
 class MyHome extends StatelessWidget {
   /// Loads a previous party and resumes it

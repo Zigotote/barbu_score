@@ -1,5 +1,6 @@
-import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/screen.dart';
 
 /// A grid which takes all the available space in the layout
 class MyGrid extends StatelessWidget {

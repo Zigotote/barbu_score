@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../commons/models/contract_info.dart';
+import '../commons/models/contract_models.dart';
 import '../controller/party.dart';
-import '../pages/play_game/models/contract_info.dart';
-import '../pages/play_game/models/contract_models.dart';
 
 /// A player for a party
 class PlayerController extends GetxController {

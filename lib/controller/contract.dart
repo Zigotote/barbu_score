@@ -2,10 +2,10 @@ import 'dart:collection';
 
 import 'package:get/get.dart';
 
+import '../commons/models/contract_info.dart';
+import '../commons/models/contract_models.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
-import '../pages/play_game/models/contract_info.dart';
-import '../pages/play_game/models/contract_models.dart';
 
 /// An abstract controller for the contracts
 abstract class AbstractContractController extends GetxController {

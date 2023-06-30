@@ -4,23 +4,23 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 import '../pages/finish_party.dart';
+import 'commons/utils/storage.dart';
 import 'controller/contract.dart';
+import 'pages/choose_contract.dart';
+import 'pages/contract_scores/domino_scores.dart';
+import 'pages/contract_scores/individual_scores_contract.dart';
+import 'pages/contract_scores/models/contract_route_argument.dart';
+import 'pages/contract_scores/one_looser_contract_scores.dart';
+import 'pages/contract_scores/trumps_scores.dart';
 import 'pages/create_game/create_game.dart';
 import 'pages/my_home.dart';
 import 'pages/my_rules.dart';
+import 'pages/my_scores.dart';
 import 'pages/my_settings.dart';
-import 'pages/play_game/choose_contract.dart';
-import 'pages/play_game/contracts/domino_scores.dart';
-import 'pages/play_game/contracts/individual_scores_contract.dart';
-import 'pages/play_game/contracts/one_looser_contract_scores.dart';
-import 'pages/play_game/contracts/trumps_scores.dart';
-import 'pages/play_game/models/contract_route_argument.dart';
-import 'pages/play_game/score/my_scores.dart';
-import 'pages/play_game/score/scores_by_player.dart';
 import 'pages/prepare_game.dart';
+import 'pages/scores_by_player.dart';
 import 'theme/my_themes.dart';
 import 'theme/theme_provider.dart';
-import 'utils/storage.dart';
 
 void main() {
   Get.put(MyStorage());

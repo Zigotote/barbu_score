@@ -1,13 +1,13 @@
 import 'package:barbu_score/theme/my_themes.dart';
-import 'package:barbu_score/utils/screen.dart';
-import 'package:barbu_score/widgets/custom_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sprintf/sprintf.dart';
 
-import '../../../models/player.dart';
-import '../../../widgets/player_icon.dart';
+import '../../../commons/models/player.dart';
+import '../../../commons/utils/screen.dart';
+import '../../../commons/widgets/custom_buttons.dart';
+import '../../../commons/widgets/player_icon.dart';
 import '../create_game_props.dart';
 import '../notifiers/create_game.dart';
 

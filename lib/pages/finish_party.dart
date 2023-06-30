@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../commons/utils/storage.dart';
+import '../commons/widgets/default_page.dart';
+import '../commons/widgets/list_layouts.dart';
+import '../commons/widgets/player_score_button.dart';
 import '../controller/party.dart';
 import '../controller/player.dart';
 import '../main.dart';
-import '../utils/storage.dart';
-import '../widgets/default_page.dart';
-import '../widgets/list_layouts.dart';
-import '../widgets/player_score_button.dart';
 
 /// A page to display the scores of each player at the end of the party
 class FinishParty extends GetView<PartyController> {

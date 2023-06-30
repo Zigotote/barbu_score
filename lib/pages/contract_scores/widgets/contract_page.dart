@@ -1,14 +1,14 @@
-import 'package:barbu_score/pages/play_game/contracts/notifiers/trumps_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../commons/models/contract_info.dart';
 import '../../../../main.dart';
-import '../../../../utils/snackbar.dart';
-import '../../../../widgets/default_page.dart';
-import '../../../../widgets/my_subtitle.dart';
-import '../../models/contract_info.dart';
-import '../../notifiers/play_game.dart';
+import '../../../commons/notifiers/play_game.dart';
+import '../../../commons/utils/snackbar.dart';
+import '../../../commons/widgets/default_page.dart';
+import '../../../commons/widgets/my_subtitle.dart';
+import '../notifiers/trumps_provider.dart';
 
 class ContractPage extends ConsumerWidget {
   /// The contract actually displayed

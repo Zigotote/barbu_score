@@ -1,5 +1,5 @@
-import 'contract_info.dart';
-import 'contract_models.dart';
+import '../../../commons/models/contract_info.dart';
+import '../../../commons/models/contract_models.dart';
 
 /// A class to specify arguments to navigate to a route contract
 class ContractRouteArgument {

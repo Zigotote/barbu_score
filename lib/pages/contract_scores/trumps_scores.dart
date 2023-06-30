@@ -1,13 +1,13 @@
-import 'package:barbu_score/pages/play_game/models/contract_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../theme/my_themes.dart';
-import '../../../widgets/custom_buttons.dart';
-import '../../../widgets/list_layouts.dart';
-import '../models/contract_info.dart';
-import '../models/contract_route_argument.dart';
+import '../../commons/models/contract_info.dart';
+import '../../commons/models/contract_models.dart';
+import '../../commons/widgets/custom_buttons.dart';
+import '../../commons/widgets/list_layouts.dart';
+import '../../theme/my_themes.dart';
+import 'models/contract_route_argument.dart';
 import 'notifiers/trumps_provider.dart';
 import 'widgets/contract_page.dart';
 

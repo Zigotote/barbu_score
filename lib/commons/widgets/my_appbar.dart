@@ -1,8 +1,8 @@
-import 'package:barbu_score/widgets/my_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../main.dart';
+import '../../main.dart';
+import 'my_tabbar.dart';
 
 class MyAppBar extends AppBar {
   MyAppBar(
