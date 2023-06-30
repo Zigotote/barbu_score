@@ -6,7 +6,6 @@ import 'package:sprintf/sprintf.dart';
 
 import '../../../commons/models/player.dart';
 import '../../../commons/utils/screen.dart';
-import '../../../commons/widgets/custom_buttons.dart';
 import '../../../commons/widgets/player_icon.dart';
 import '../create_game_props.dart';
 import '../notifiers/create_game.dart';
@@ -39,11 +38,12 @@ class DialogChangePlayerInfo extends ConsumerWidget {
           size: ScreenHelper.width * 0.25,
         ),
         Positioned(
-          right: -24,
+          right: 0,
           top: -16,
-          child: OutlinedButtonNoBorder(
+          child: IconButton(
             onPressed: context.pop,
-            child: Icon(Icons.close),
+            icon: Icon(Icons.close),
+            style: IconButton.styleFrom(side: BorderSide.none),
           ),
         )
       ],
@@ -105,10 +105,10 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                 "Couleur",
                 provider.playerColors
                     .map(
-                      (color) => OutlinedButtonNoBorder(
-                        backgroundColor: color,
+                      (color) => TextButton(
                         onPressed: () =>
                             provider.changePlayerColor(player, color),
+                        style: TextButton.styleFrom(backgroundColor: color),
                         child: Text(
                           provider.getPlayersWithColor(color),
                           overflow: TextOverflow.fade,
@@ -130,7 +130,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                   (index) => sprintf(kPlayerImageFolder, [index + 1]),
                 )
                     .map(
-                      (image) => OutlinedButtonNoBorder(
+                      (image) => TextButton(
                         onPressed: () =>
                             provider.changePlayerImage(player, image),
                         child: PlayerIcon(image: image, size: double.maxFinite),

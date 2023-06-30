@@ -86,7 +86,8 @@ class CreatePlayer extends StatelessWidget {
           child: IconButton.outlined(
             onPressed: onRemove,
             icon: Icon(Icons.close),
-            padding: EdgeInsets.zero,
+            tooltip: "Supprimer le joueur",
+            iconSize: ScreenHelper.width * 0.04,
           ),
         ),
       ],

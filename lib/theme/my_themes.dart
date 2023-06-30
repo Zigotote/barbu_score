@@ -7,13 +7,14 @@ class MyThemes {
 
   static final dark = _baseTheme(ThemeData.dark());
 
-  static final _baseTheme = (ThemeData baseTheme) => baseTheme.copyWith(
+  static _baseTheme(ThemeData baseTheme) => baseTheme.copyWith(
         useMaterial3: true,
         colorScheme: baseTheme.colorScheme.copyWith(
           surfaceTint: baseTheme.scaffoldBackgroundColor,
           error: baseTheme.brightness == Brightness.dark
               ? Colors.red
               : Colors.red.shade900,
+          outline: baseTheme.colorScheme.onSurface,
         ),
         textTheme: baseTheme.textTheme.apply(
           fontFamily: "QuickSand",
@@ -39,9 +40,9 @@ class MyThemes {
             ),
             backgroundColor:
                 MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
-            overlayColor: MaterialStatePropertyAll(Colors.grey),
-            elevation: MaterialStatePropertyAll(10),
-            shape: MaterialStatePropertyAll(
+            overlayColor: const MaterialStatePropertyAll(Colors.grey),
+            elevation: const MaterialStatePropertyAll(10),
+            shape: const MaterialStatePropertyAll(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.elliptical(8, 5)),
               ),
@@ -58,23 +59,12 @@ class MyThemes {
               }
               return border;
             }),
-            padding: MaterialStatePropertyAll(
+            padding: const MaterialStatePropertyAll(
               EdgeInsets.symmetric(
                 vertical: 16,
                 horizontal: 16,
               ),
             ),
-          ),
-        ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
-            foregroundColor:
-                MaterialStatePropertyAll(baseTheme.colorScheme.onSurface),
-            padding: MaterialStatePropertyAll(EdgeInsets.all(16)),
-            shape: MaterialStatePropertyAll(CircleBorder()),
-            side: MaterialStatePropertyAll(BorderSide(style: BorderStyle.none)),
           ),
         ),
         iconButtonTheme: IconButtonThemeData(
@@ -83,7 +73,7 @@ class MyThemes {
                 MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
             foregroundColor:
                 MaterialStatePropertyAll(baseTheme.colorScheme.onSurface),
-            overlayColor: MaterialStatePropertyAll(Colors.grey),
+            overlayColor: const MaterialStatePropertyAll(Colors.grey),
             side: MaterialStatePropertyAll(
               BorderSide(color: baseTheme.colorScheme.onSurface),
             ),
@@ -91,10 +81,15 @@ class MyThemes {
         ),
         snackBarTheme: SnackBarThemeData(
           backgroundColor: baseTheme.scaffoldBackgroundColor.withOpacity(0.8),
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
-          insetPadding: EdgeInsets.all(0),
+          insetPadding: const EdgeInsets.all(0),
+        ),
+        textButtonTheme: const TextButtonThemeData(
+          style: ButtonStyle(
+            padding: MaterialStatePropertyAll(EdgeInsets.zero),
+          ),
         ),
         tabBarTheme: TabBarTheme(
           indicator: ShapeDecoration(
@@ -105,7 +100,7 @@ class MyThemes {
               rightWidth: 2,
               bottomWidth: 0,
               color: baseTheme.colorScheme.onSurface,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.elliptical(8, 5),
                 topRight: Radius.elliptical(8, 5),
               ),
@@ -122,9 +117,9 @@ class MyThemes {
 
 extension CustomThemeValues on ColorScheme {
   Color get successColor =>
-      this.brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
+      brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
 
-  List<Color> get playerColors => this.brightness == Brightness.dark
+  List<Color> get playerColors => brightness == Brightness.dark
       ? [
           Colors.brown.shade400,
           Colors.lightGreen.shade800,

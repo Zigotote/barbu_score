@@ -140,10 +140,7 @@ class MyHome extends StatelessWidget {
                   title: "Patience...",
                   text: "Cette page arrivera dans une future version."),
               iconSize: ScreenHelper.width * 0.15,
-              icon: Icon(
-                Icons.settings,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+              icon: Icon(Icons.settings),
               style: IconButton.styleFrom(side: BorderSide.none),
             ),
           ],
