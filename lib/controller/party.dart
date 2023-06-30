@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import './player.dart';
 import '../main.dart';
-import '../pages/play_game/models/route_argument.dart';
+import '../pages/play_game/models/contract_route_argument.dart';
 import '../utils/storage.dart';
 
 /// A party with some players
@@ -84,7 +84,7 @@ class PartyController extends GetxController {
     if (isValidScore) {
       /// If the contract scores has been modified, we got back to the choose contract score
       /// Else, it goes to the next player
-      if ((Get.arguments as RouteArgument).isForModification) {
+      if ((Get.arguments as ContractRouteArgument).isForModification) {
         Get.toNamed(Routes.CHOOSE_CONTRACT);
       } else {
         this._nextPlayer();

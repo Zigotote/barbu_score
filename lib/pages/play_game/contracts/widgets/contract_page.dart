@@ -1,8 +1,8 @@
+import 'package:barbu_score/pages/play_game/contracts/notifiers/trumps_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../controller/contract.dart';
 import '../../../../main.dart';
 import '../../../../utils/snackbar.dart';
 import '../../../../widgets/default_page.dart';
@@ -17,6 +17,9 @@ class ContractPage extends ConsumerWidget {
   /// The subtitle to explain the action that needs to be done
   final String subtitle;
 
+  /// The indicator to know if the contract is being modified
+  final bool isModification;
+
   /// The widgets to fill the scores
   final Widget child;
 
@@ -27,55 +30,59 @@ class ContractPage extends ConsumerWidget {
   final Map<String, int> itemsByPlayer;
 
   ContractPage({
-    required this.subtitle,
-    required this.child,
     required this.contract,
+    required this.subtitle,
+    this.isModification = false,
     required this.isValid,
     required this.itemsByPlayer,
+    required this.child,
   });
 
   /// Saves the score for this contract and moves to the next player round
-  void _saveScore(BuildContext context, PlayGameNotifier provider) {
-    if (Routes.isPartOfTrumpsContract() &&
-        !(contract is TrumpsScoresController)) {
-      // TODO Océane to correct to be able to modify score during trump contract
+  void _saveScore(
+      BuildContext context, WidgetRef ref, PlayGameNotifier provider) {
+    final bool isPartOfTrumpsContract =
+        ref.exists(trumpsProvider) && !(contract == ContractsInfo.Trumps);
+    bool isFinished;
+    if (isPartOfTrumpsContract) {
       /// Adds the contract to the trumps contract
-      /*Get.find<TrumpsScoresController>()
-          .addContract(this.contract, controller.playerScores);
-      Get.toNamed(
-        Routes.TRUMPS_SCORES,
-        arguments: RouteArgument(
-          contractInfo: ContractsInfo.Trumps,
-          contractValues: null,
-        ),
-      );*/
+      isFinished =
+          ref.read(trumpsProvider).addContract(contract, itemsByPlayer);
     } else {
       /// Finishes the contract
-      final bool isFinished = provider.finishContract(contract, itemsByPlayer);
-      if (!isFinished) {
-        SnackbarUtils.instance.openSnackBar(
-          context: context,
-          title: "Scores incorrects",
-          text:
-              "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
-        );
-        return;
-      }
+      isFinished = provider.finishContract(contract, itemsByPlayer);
+    }
+    if (isFinished) {
       SnackbarUtils.instance.closeSnackBar(context);
-      context.go(
-          provider.nextPlayer() ? Routes.CHOOSE_CONTRACT : Routes.FINISH_GAME);
+      if (isPartOfTrumpsContract) {
+        context.pop();
+      } else {
+        context.go(provider.nextPlayer()
+            ? Routes.CHOOSE_CONTRACT
+            : Routes.FINISH_GAME);
+      }
+    } else {
+      SnackbarUtils.instance.openSnackBar(
+        context: context,
+        title: "Scores incorrects",
+        text:
+            "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
+      );
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.read(playGameProvider);
-    String title = "Tour de ${provider.currentPlayer.name}";
-    String validateText = "Valider les scores";
-    /*if ((Get.arguments as RouteArgument).isForModification) {
+    String title;
+    String validateText;
+    if (isModification) {
       title = "Modification ${this.contract.displayName}";
       validateText = "Modifier les scores";
-    }*/
+    } else {
+      title = "Tour de ${provider.currentPlayer.name}";
+      validateText = "Valider les scores";
+    }
     return DefaultPage(
       title: title,
       hasLeading: true,
@@ -88,7 +95,7 @@ class ContractPage extends ConsumerWidget {
       ),
       bottomWidget: ElevatedButton(
         child: Text(validateText),
-        onPressed: isValid ? () => _saveScore(context, provider) : null,
+        onPressed: isValid ? () => _saveScore(context, ref, provider) : null,
       ),
     );
   }

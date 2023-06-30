@@ -13,8 +13,8 @@ import 'pages/play_game/choose_contract.dart';
 import 'pages/play_game/contracts/domino_scores.dart';
 import 'pages/play_game/contracts/individual_scores_contract.dart';
 import 'pages/play_game/contracts/one_looser_contract_scores.dart';
-import 'pages/play_game/contracts/trump_scores.dart';
-import 'pages/play_game/models/route_argument.dart';
+import 'pages/play_game/contracts/trumps_scores.dart';
+import 'pages/play_game/models/contract_route_argument.dart';
 import 'pages/play_game/score/my_scores.dart';
 import 'pages/play_game/score/scores_by_player.dart';
 import 'pages/prepare_game.dart';
@@ -66,9 +66,8 @@ class MyApp extends ConsumerWidget {
         ),
         GoRoute(
           path: Routes.BARBU_OR_NOLASTTRICK_SCORES,
-          builder: (_, state) => OneLooserContractScores(
-            (state.extra as RouteArgument).contractInfo,
-          ),
+          builder: (_, state) =>
+              OneLooserContractScores(state.extra as ContractRouteArgument),
           //binding: SelectPlayerBinding(),
         ),
         GoRoute(
@@ -78,9 +77,8 @@ class MyApp extends ConsumerWidget {
         ),
         GoRoute(
           path: Routes.NO_SOMETHING_SCORES,
-          builder: (_, state) => IndividualScoresContract(
-            (state.extra as RouteArgument).contractInfo,
-          ),
+          builder: (_, state) =>
+              IndividualScoresContract(state.extra as ContractRouteArgument),
           //binding: IndividualScoresBinding(),
         ),
         GoRoute(

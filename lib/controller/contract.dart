@@ -151,7 +151,7 @@ class TrumpsScoresController extends AbstractContractController {
     _filledContracts
         .removeWhere((contract) => contract.name == contractInfo.name);
     AbstractContractModel contract = contractInfo.contract;
-    contract.calculateScores(playerScores);
+    contract.setScores(playerScores);
     _filledContracts.add(contract);
   }
 

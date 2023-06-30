@@ -1,13 +1,11 @@
 import 'dart:collection';
 
-import 'package:barbu_score/pages/create_game/notifiers/create_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../main.dart';
 import '../../../models/player.dart';
+import '../../create_game/notifiers/create_game.dart';
 import '../models/contract_info.dart';
-import '../models/contract_models.dart';
 
 final playGameProvider = ChangeNotifierProvider.autoDispose<PlayGameNotifier>(
   (ref) => PlayGameNotifier(ref.read(createGameProvider).players),

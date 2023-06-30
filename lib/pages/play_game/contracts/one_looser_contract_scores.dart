@@ -4,16 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../models/player.dart';
 import '../../../widgets/custom_buttons.dart';
 import '../../../widgets/list_layouts.dart';
-import '../models/contract_info.dart';
+import '../models/contract_route_argument.dart';
 import '../notifiers/play_game.dart';
 import 'widgets/contract_page.dart';
 
 /// A page to fill the scores for a contract where only one player can loose
 class OneLooserContractScores extends ConsumerStatefulWidget {
-  /// The contract the player choose
-  final ContractsInfo contract;
+  /// The contract the player choose and the previous values, if it needs to be modified
+  final ContractRouteArgument routeArgument;
 
-  OneLooserContractScores(this.contract);
+  OneLooserContractScores(this.routeArgument);
 
   @override
   ConsumerState<OneLooserContractScores> createState() =>
@@ -25,19 +25,31 @@ class _OneLooserContractScoresState
   /// The selected player
   Player? _selectedPlayer;
 
+  /// The players of the game
+  late List<Player> _players;
+
   /// The selected player has 1 item, other have 0
   late Map<String, int> _itemsByPlayer;
 
   @override
   initState() {
     super.initState();
-    setState(() {
+    _players = ref.read(playGameProvider).players;
+    if (widget.routeArgument.isForModification) {
+      String playerNameWithItem = widget
+          .routeArgument.contractValues!.playerItems.entries
+          .firstWhere((player) => player.value == 1)
+          .key;
+      _selectedPlayer =
+          _players.firstWhere((player) => player.name == playerNameWithItem);
+      _itemsByPlayer = widget.routeArgument.contractValues!.playerItems;
+    } else {
       _itemsByPlayer = Map.fromIterable(
         ref.read(playGameProvider).players,
         key: (player) => player.name,
         value: (_) => 0,
       );
-    });
+    }
   }
 
   /// Selects the given player
@@ -49,10 +61,10 @@ class _OneLooserContractScoresState
   }
 
   /// Build each player's button and the box to show which one is currently selected
-  Widget _buildFields(List<Player> players) {
+  Widget _buildFields() {
     final Color defaultTextColor = Theme.of(context).scaffoldBackgroundColor;
     return MyGrid(
-      children: players.map(
+      children: _players.map(
         (player) {
           Color playerColor = player.color;
           bool isPlayerSelected = _selectedPlayer == player;
@@ -69,13 +81,14 @@ class _OneLooserContractScoresState
 
   @override
   Widget build(BuildContext context) {
-    final players = ref.read(playGameProvider).players;
     return ContractPage(
-      subtitle: "Qui a remporté le ${widget.contract.displayName} ?",
-      contract: widget.contract,
+      subtitle:
+          "Qui a remporté le ${widget.routeArgument.contractInfo.displayName} ?",
+      contract: widget.routeArgument.contractInfo,
+      isModification: widget.routeArgument.isForModification,
       isValid: _selectedPlayer != null,
       itemsByPlayer: _itemsByPlayer,
-      child: _buildFields(players),
+      child: _buildFields(),
     );
   }
 }

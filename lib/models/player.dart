@@ -38,7 +38,7 @@ class Player {
   /// Returns true if the score has been added, false otherwise
   bool addContract(ContractsInfo contractName, Map<String, int> trickByPlayer) {
     AbstractContractModel contract = contractName.contract;
-    final bool isValidScore = contract.calculateScores(trickByPlayer);
+    final bool isValidScore = contract.setScores(trickByPlayer);
     if (isValidScore) {
       _contracts.removeWhere((c) => c.name == contractName.name);
       _contracts.add(contract);

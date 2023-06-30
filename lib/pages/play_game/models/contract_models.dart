@@ -54,7 +54,7 @@ abstract class AbstractContractModel {
 
   /// Sets the score of each player from a Map wich links all player's names with the number of tricks/cards they won.
   /// Returns true if the score has been set correctly, false if the trickByPlayer Map is not correctly filled
-  bool calculateScores(Map<String, int> itemsByPlayer);
+  bool setScores(Map<String, int> itemsByPlayer);
 }
 
 /// An abstract class to fill the scores for a contract which has only one looser
@@ -74,7 +74,7 @@ abstract class AbstractOneLooserContractModel extends AbstractContractModel {
   /// Sets the score of the player in the Map at the value of this.points. Other players have a score of 0.
   /// Returns true if the score has been set correctly, false otherwise (less or more than 1 player in the Map)
   @override
-  bool calculateScores(Map<String, int> itemsByPlayer) {
+  bool setScores(Map<String, int> itemsByPlayer) {
     if (itemsByPlayer.entries.length == 0) {
       return false;
     }
@@ -112,7 +112,7 @@ abstract class AbstractMultipleLooserContractModel
       );
 
   @override
-  bool calculateScores(Map<String, int> itemsByPlayer) {
+  bool setScores(Map<String, int> itemsByPlayer) {
     final int declaredItems = itemsByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
     if (declaredItems != this._expectedItems) {
@@ -174,7 +174,7 @@ class TrumpsContractModel extends AbstractContractModel {
   Map<String, int> get playerItems => {};
 
   @override
-  bool calculateScores(Map<String, int> playerScores) {
+  bool setScores(Map<String, int> playerScores) {
     this._scores = playerScores;
     return true;
   }
@@ -200,7 +200,7 @@ class DominoContractModel extends AbstractContractModel {
 
   /// Sets the score of each player from a Map wich links each player with its rank
   @override
-  bool calculateScores(Map<String, int> rankOfPlayer) {
+  bool setScores(Map<String, int> rankOfPlayer) {
     if (rankOfPlayer.length == 0) {
       return false;
     }

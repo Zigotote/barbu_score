@@ -8,7 +8,7 @@ import '../../models/player.dart';
 import '../../widgets/default_page.dart';
 import '../../widgets/list_layouts.dart';
 import 'models/contract_info.dart';
-import 'models/route_argument.dart';
+import 'models/contract_route_argument.dart';
 
 /// A page for a player to choose his contract
 class ChooseContract extends ConsumerWidget {
@@ -33,7 +33,8 @@ class ChooseContract extends ConsumerWidget {
                       ? null
                       : () => context.push(
                             contract.route,
-                            extra: RouteArgument(contractInfo: contract),
+                            extra:
+                                ContractRouteArgument(contractInfo: contract),
                           ),
                 ),
               )

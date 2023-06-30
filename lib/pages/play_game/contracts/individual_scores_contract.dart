@@ -1,5 +1,6 @@
 import 'package:barbu_score/models/player.dart';
 import 'package:barbu_score/pages/play_game/contracts/widgets/contract_page.dart';
+import 'package:barbu_score/pages/play_game/models/contract_route_argument.dart';
 import 'package:barbu_score/pages/play_game/notifiers/play_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,19 +8,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../utils/snackbar.dart';
 import '../../../widgets/custom_buttons.dart';
 import '../../../widgets/list_layouts.dart';
-import '../models/contract_info.dart';
 import '../models/contract_models.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
 class IndividualScoresContract extends ConsumerStatefulWidget {
-  /// The contract the player choose
-  final ContractsInfo contract;
+  /// The contract the player choose and the previous values, if it needs to be modified
+  final ContractRouteArgument routeArgument;
 
   /// The maximal number of item that can be gained during the contract
   final int itemsMax;
 
-  IndividualScoresContract(this.contract)
-      : itemsMax = (contract.contract as AbstractMultipleLooserContractModel)
+  IndividualScoresContract(this.routeArgument)
+      : itemsMax = (routeArgument.contractInfo.contract
+                as AbstractMultipleLooserContractModel)
             .expectedItems;
 
   @override
@@ -38,14 +39,16 @@ class _IndividualScoresContractState
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _players = ref.read(playGameProvider).players;
+    _players = ref.read(playGameProvider).players;
+    if (widget.routeArgument.isForModification) {
+      _playerItems = widget.routeArgument.contractValues!.playerItems;
+    } else {
       _playerItems = Map.fromIterable(
         _players,
         key: (player) => player.name,
         value: (_) => 0,
       );
-    });
+    }
   }
 
   ///Returns true if the score is valid, false otherwise
@@ -119,8 +122,9 @@ class _IndividualScoresContractState
   Widget build(BuildContext context) {
     return ContractPage(
       subtitle:
-          "Nombre de ${widget.contract.displayName.replaceFirst("Sans ", "")} par joueur",
-      contract: widget.contract,
+          "Nombre de ${widget.routeArgument.contractInfo.displayName.replaceFirst("Sans ", "")} par joueur",
+      contract: widget.routeArgument.contractInfo,
+      isModification: widget.routeArgument.isForModification,
       isValid: _isValid,
       itemsByPlayer: _playerItems,
       child: _buildFields(),
