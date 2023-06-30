@@ -3,13 +3,13 @@ import 'contract_models.dart';
 
 /// List the names of the contracts for a party
 enum ContractsInfo {
-  Barbu("Barbu", Routes.BARBU_OR_NOLASTTRICK_SCORES),
-  NoHearts("Sans coeurs", Routes.NO_SOMETHING_SCORES),
-  NoQueens("Sans dames", Routes.NO_SOMETHING_SCORES),
-  NoTricks("Sans plis", Routes.NO_SOMETHING_SCORES),
-  NoLastTrick("Dernier", Routes.BARBU_OR_NOLASTTRICK_SCORES),
-  Trumps("Salade", Routes.TRUMPS_SCORES),
-  Domino("Réussite", Routes.DOMINO_SCORES);
+  barbu("Barbu", Routes.barbuOrNoLastTrickScores),
+  noHearts("Sans coeurs", Routes.noSomethingScores),
+  noQueens("Sans dames", Routes.noSomethingScores),
+  noTricks("Sans plis", Routes.noSomethingScores),
+  noLastTrick("Dernier", Routes.barbuOrNoLastTrickScores),
+  trumps("Salade", Routes.trumpsScores),
+  domino("Réussite", Routes.dominoScores);
 
   const ContractsInfo(this.displayName, this.route);
 
@@ -18,19 +18,19 @@ enum ContractsInfo {
 
   AbstractContractModel get contract {
     switch (this) {
-      case ContractsInfo.Barbu:
+      case ContractsInfo.barbu:
         return BarbuContractModel();
-      case ContractsInfo.NoHearts:
+      case ContractsInfo.noHearts:
         return NoHeartsContractModel();
-      case ContractsInfo.NoQueens:
+      case ContractsInfo.noQueens:
         return NoQueensContractModel();
-      case ContractsInfo.NoTricks:
+      case ContractsInfo.noTricks:
         return NoTricksContractModel();
-      case ContractsInfo.NoLastTrick:
+      case ContractsInfo.noLastTrick:
         return NoLastTrickContractModel();
-      case ContractsInfo.Trumps:
+      case ContractsInfo.trumps:
         return TrumpsContractModel();
-      case ContractsInfo.Domino:
+      case ContractsInfo.domino:
         return DominoContractModel();
     }
   }

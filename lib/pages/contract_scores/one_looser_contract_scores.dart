@@ -13,7 +13,7 @@ class OneLooserContractScores extends ConsumerStatefulWidget {
   /// The contract the player choose and the previous values, if it needs to be modified
   final ContractRouteArgument routeArgument;
 
-  OneLooserContractScores(this.routeArgument);
+  const OneLooserContractScores(this.routeArgument, {super.key});
 
   @override
   ConsumerState<OneLooserContractScores> createState() =>
@@ -44,11 +44,9 @@ class _OneLooserContractScoresState
           _players.firstWhere((player) => player.name == playerNameWithItem);
       _itemsByPlayer = widget.routeArgument.contractValues!.playerItems;
     } else {
-      _itemsByPlayer = Map.fromIterable(
-        ref.read(playGameProvider).players,
-        key: (player) => player.name,
-        value: (_) => 0,
-      );
+      _itemsByPlayer = {
+        for (var player in ref.read(playGameProvider).players) player.name: 0
+      };
     }
   }
 

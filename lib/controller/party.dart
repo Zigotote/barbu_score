@@ -85,7 +85,7 @@ class PartyController extends GetxController {
       /// If the contract scores has been modified, we got back to the choose contract score
       /// Else, it goes to the next player
       if ((Get.arguments as ContractRouteArgument).isForModification) {
-        Get.toNamed(Routes.CHOOSE_CONTRACT);
+        Get.toNamed(Routes.chooseContract);
       } else {
         this._nextPlayer();
       }
@@ -131,10 +131,10 @@ class PartyController extends GetxController {
     }
     if (this.currentPlayer.availableContracts.length > 0) {
       MyStorage().saveParty();
-      Get.toNamed(Routes.CHOOSE_CONTRACT);
+      Get.toNamed(Routes.chooseContract);
     } else {
       MyStorage().delete();
-      Get.toNamed(Routes.FINISH_GAME);
+      Get.toNamed(Routes.finishGame);
     }
   }
 }

@@ -12,6 +12,8 @@ import 'contract_scores/models/contract_route_argument.dart';
 
 /// A page for a player to choose his contract
 class ChooseContract extends ConsumerWidget {
+  const ChooseContract({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Player player = ref.watch(playGameProvider).currentPlayer;
@@ -19,7 +21,7 @@ class ChooseContract extends ConsumerWidget {
       title: "Tour de ${player.name}",
       hasBackground: true,
       content: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           vertical: 16,
           horizontal: 8,
         ),
@@ -27,8 +29,6 @@ class ChooseContract extends ConsumerWidget {
           children: ContractsInfo.values
               .map(
                 (contract) => ElevatedButton(
-                  child:
-                      Text(contract.displayName, textAlign: TextAlign.center),
                   onPressed: player.hasPlayedContract(contract)
                       ? null
                       : () => context.push(
@@ -36,14 +36,18 @@ class ChooseContract extends ConsumerWidget {
                             extra:
                                 ContractRouteArgument(contractInfo: contract),
                           ),
+                  child: Text(
+                    contract.displayName,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               )
               .toList(),
         ),
       ),
       bottomWidget: ElevatedButton(
-        child: Text("Scores"),
-        onPressed: () => context.push(Routes.SCORES),
+        child: const Text("Scores"),
+        onPressed: () => context.push(Routes.scores),
       ),
     );
   }

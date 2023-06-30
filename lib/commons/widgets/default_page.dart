@@ -22,8 +22,9 @@ class DefaultPage extends StatelessWidget {
   /// True if a go back leading should be displayed before the title of the page
   final bool hasLeading;
 
-  DefaultPage(
-      {required this.title,
+  const DefaultPage(
+      {super.key,
+      required this.title,
       this.tabs,
       required this.content,
       this.bottomWidget,
@@ -37,12 +38,12 @@ class DefaultPage extends StatelessWidget {
       appBar: MyAppBar(
         context,
         tabs: tabs,
-        this.title,
-        hasLeading: this.hasLeading,
+        title,
+        hasLeading: hasLeading,
       ),
       body: Container(
-        decoration: this.hasBackground
-            ? BoxDecoration(
+        decoration: hasBackground
+            ? const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/background.png"),
                   fit: BoxFit.fitWidth,
@@ -50,18 +51,18 @@ class DefaultPage extends StatelessWidget {
                 ),
               )
             : null,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: this.content,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: content,
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.fromLTRB(16, 16, 16, 24),
-        child: this.bottomWidget,
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+        child: bottomWidget,
       ),
     );
-    page = this.tabs == null
+    page = tabs == null
         ? page
         : DefaultTabController(length: tabs!.length, child: page);
-    return this.hasLeading
+    return hasLeading
         ? page
         : WillPopScope(onWillPop: () async => false, child: page);
   }

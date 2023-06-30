@@ -24,8 +24,9 @@ class PlayerScoreButton extends StatelessWidget {
   /// The worst ennemy of the player
   final PlayerController? worstEnnemy;
 
-  PlayerScoreButton(
-      {required this.player,
+  const PlayerScoreButton(
+      {super.key,
+      required this.player,
       required this.score,
       this.isFirst = false,
       this.bestFriend,
@@ -52,7 +53,7 @@ class PlayerScoreButton extends StatelessWidget {
           color: worstEnnemy!.color,
           size: badgesSize,
         ),
-        Padding(padding: EdgeInsets.only(left: 16)),
+        const SizedBox(width: 16),
         Icon(
           Icons.favorite_outline,
           size: badgesSize,
@@ -84,17 +85,17 @@ class PlayerScoreButton extends StatelessWidget {
               children: [
                 Text(player.name),
                 Text("$score points"),
-                this._showFriendStatus()
+                _showFriendStatus()
                     ? _buildFriendStatus(screenWidth)
                     : Container(),
               ],
             ),
           ),
-          Icon(Icons.arrow_forward_ios)
+          const Icon(Icons.arrow_forward_ios)
         ],
       ),
       onPressed: () =>
-          context.push(Routes.SCORES_BY_PLAYER), //, arguments: player
+          context.push(Routes.scoresByPlayer), //, arguments: player
     );
   }
 }

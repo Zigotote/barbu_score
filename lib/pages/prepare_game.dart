@@ -19,18 +19,19 @@ import 'create_game/notifiers/create_game.dart';
 class PrepareGame extends ConsumerWidget {
   final double _circleDiameter = ScreenHelper.width * 0.5;
   final double _playerIconSize = ScreenHelper.width * 0.16;
-  late List<Player> players;
+
+  PrepareGame({super.key});
 
   double get _circleRadius => _circleDiameter / 2;
 
   /// Returns the values of the cards to take out for the party
-  List<int> _getCardsToTakeOut() {
-    return List.generate((52 - players.length * 8) ~/ 4, (index) => 2 + index);
+  List<int> _getCardsToTakeOut(int nbPlayers) {
+    return List.generate((52 - nbPlayers * 8) ~/ 4, (index) => 2 + index);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    players = ref.read(createGameProvider).players;
+    final List<Player> players = ref.read(createGameProvider).players;
     return DefaultPage(
       title: "Préparer la partie",
       hasLeading: true,
@@ -41,35 +42,35 @@ class PrepareGame extends ConsumerWidget {
         children: [
           Column(
             children: [
-              Text("Retirer toutes les cartes"),
+              const Text("Retirer toutes les cartes"),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  _getCardsToTakeOut().join(", "),
+                  _getCardsToTakeOut(players.length).join(", "),
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
-              Text("du paquet."),
+              const Text("du paquet."),
             ],
           ),
-          Container(
+          SizedBox(
             width: double.infinity,
             height: _circleDiameter + _playerIconSize * 2,
-            child: _buildTable(context),
+            child: _buildTable(context, players),
           ),
         ],
       ),
       bottomWidget: ElevatedButton(
-        child: Text("C'est parti !"),
+        child: const Text("C'est parti !"),
         onPressed: () {
           Wakelock.enable();
-          context.push(Routes.CHOOSE_CONTRACT);
+          context.push(Routes.chooseContract);
         },
       ),
     );
   }
 
-  Stack _buildTable(BuildContext context) {
+  Stack _buildTable(BuildContext context, List<Player> players) {
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -93,7 +94,7 @@ class PrepareGame extends ConsumerWidget {
             width: _circleDiameter,
             height: _circleDiameter,
             margin: EdgeInsets.all(_playerIconSize / 2),
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               border: Border.all(
                 color: Theme.of(context).colorScheme.onSurface,
                 width: 2,
@@ -103,7 +104,7 @@ class PrepareGame extends ConsumerWidget {
             child: Stack(
               alignment: Alignment.center,
               clipBehavior: Clip.none,
-              children: _buildPlayers(context),
+              children: _buildPlayers(context, players),
             ),
           ),
         ),
@@ -111,7 +112,7 @@ class PrepareGame extends ConsumerWidget {
     );
   }
 
-  List<Widget> _buildPlayers(BuildContext context) {
+  List<Widget> _buildPlayers(BuildContext context, List<Player> players) {
     final theta = ((pi * 2) / (players.length * 2));
     return List.generate(
       players.length * 2,
@@ -152,7 +153,7 @@ class PrepareGame extends ConsumerWidget {
             height: _playerIconSize / 2,
             child: Transform.rotate(
               angle: angle,
-              child: Icon(Icons.arrow_forward_ios_rounded),
+              child: const Icon(Icons.arrow_forward_ios_rounded),
             ),
           );
         }

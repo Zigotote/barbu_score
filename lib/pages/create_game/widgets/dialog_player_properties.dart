@@ -42,7 +42,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
           top: -16,
           child: IconButton(
             onPressed: context.pop,
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
             style: IconButton.styleFrom(side: BorderSide.none),
           ),
         )
@@ -58,11 +58,11 @@ class DialogChangePlayerInfo extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(bottom: 8),
+          padding: const EdgeInsets.only(bottom: 8),
           child: Text(text, style: Theme.of(context).textTheme.titleLarge),
         ),
         GridView.count(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           mainAxisSpacing: buttonSpacing,
           crossAxisSpacing: buttonSpacing,
@@ -81,7 +81,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
       onPressed: action,
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: color, width: 2),
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         foregroundColor: color,
       ),
     );
@@ -94,7 +94,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
     return AlertDialog(
       title: _buildTitle(context),
       content: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: double.maxFinite,
           height: ScreenHelper.height * 0.643,
           child: Column(
@@ -121,7 +121,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                     )
                     .toList(),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildPropertySelection(
                 context,
                 "Avatar",
@@ -158,7 +158,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
       ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
+        side: const BorderSide(
           style: BorderStyle.solid,
           width: 2,
         ),

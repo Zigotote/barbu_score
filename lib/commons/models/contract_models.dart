@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import '../utils/storage.dart';
 import 'contract_info.dart';
 
@@ -8,7 +9,7 @@ abstract class AbstractContractModel {
   static Map<String, int> calculateTotalScore(
       List<AbstractContractModel> contracts) {
     Map<String, int> playerScores = {};
-    contracts.forEach((contract) {
+    for (var contract in contracts) {
       contract.scores.forEach((player, score) {
         int? playerScore = playerScores[player];
         if (playerScore != null) {
@@ -17,7 +18,7 @@ abstract class AbstractContractModel {
           playerScores[player] = score;
         }
       });
-    });
+    }
     return playerScores;
   }
 
@@ -63,20 +64,19 @@ abstract class AbstractOneLooserContractModel extends AbstractContractModel {
   AbstractOneLooserContractModel(String name, this._points) : super(name);
 
   @override
-  Map<String, int> get playerItems => Map.fromIterable(
-        scores.entries,
-        key: (playerScore) => playerScore.key,
-        value: (playerScore) => playerScore.value == _points ? 1 : 0,
-      );
+  Map<String, int> get playerItems => {
+        for (var playerScore in scores.entries)
+          playerScore.key: playerScore.value == _points ? 1 : 0
+      };
 
   /// Sets the score of the player in the Map at the value of this.points. Other players have a score of 0.
   /// Returns true if the score has been set correctly, false otherwise (less or more than 1 player in the Map)
   @override
   bool setScores(Map<String, int> itemsByPlayer) {
-    if (itemsByPlayer.entries.length == 0) {
+    if (itemsByPlayer.entries.isEmpty) {
       return false;
     }
-    this._scores = itemsByPlayer.map(
+    _scores = itemsByPlayer.map(
       (playerName, nbItems) => MapEntry(playerName, nbItems * _points),
     );
     return true;
@@ -102,32 +102,29 @@ abstract class AbstractMultipleLooserContractModel
   int get expectedItems => _expectedItems;
 
   @override
-  Map<String, int> get playerItems => Map.fromIterable(
-        scores.entries,
-        key: (playerScore) => playerScore.key,
-        value: (playerScore) =>
-            ((playerScore.value as int) ~/ this._pointsByItem).abs(),
-      );
+  Map<String, int> get playerItems => {
+        for (var playerScore in scores.entries)
+          playerScore.key: ((playerScore.value) ~/ _pointsByItem).abs()
+      };
 
   @override
   bool setScores(Map<String, int> itemsByPlayer) {
     final int declaredItems = itemsByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
-    if (declaredItems != this._expectedItems) {
+    if (declaredItems != _expectedItems) {
       return false;
     }
     try {
       MapEntry<String, int> playerWithNegativeScore = itemsByPlayer.entries
-          .firstWhere(
-              (playerItems) => playerItems.value == this._expectedItems);
-      this._scores[playerWithNegativeScore.key] =
-          0 - (this._expectedItems * this._pointsByItem);
+          .firstWhere((playerItems) => playerItems.value == _expectedItems);
+      _scores[playerWithNegativeScore.key] =
+          0 - (_expectedItems * _pointsByItem);
       itemsByPlayer.forEach(
-        (player, items) => this._scores.putIfAbsent(player, () => 0),
+        (player, items) => _scores.putIfAbsent(player, () => 0),
       );
     } catch (_) {
       itemsByPlayer.forEach((player, value) {
-        this._scores[player] = value * this._pointsByItem;
+        _scores[player] = value * _pointsByItem;
       });
     }
     return true;
@@ -136,14 +133,14 @@ abstract class AbstractMultipleLooserContractModel
 
 /// A barbu contract scores
 class BarbuContractModel extends AbstractOneLooserContractModel {
-  BarbuContractModel() : super(ContractsInfo.Barbu.name, 50);
+  BarbuContractModel() : super(ContractsInfo.barbu.name, 50);
 }
 
 /// A no hearts contract scores
 class NoHeartsContractModel extends AbstractMultipleLooserContractModel {
   NoHeartsContractModel()
       : super(
-          ContractsInfo.NoHearts.name,
+          ContractsInfo.noHearts.name,
           5,
           MyStorage().getNbPlayers() * 2,
         );
@@ -151,29 +148,29 @@ class NoHeartsContractModel extends AbstractMultipleLooserContractModel {
 
 /// A no queens contract scores
 class NoQueensContractModel extends AbstractMultipleLooserContractModel {
-  NoQueensContractModel() : super(ContractsInfo.NoQueens.name, 10, 4);
+  NoQueensContractModel() : super(ContractsInfo.noQueens.name, 10, 4);
 }
 
 /// A no tricks contract scores
 class NoTricksContractModel extends AbstractMultipleLooserContractModel {
-  NoTricksContractModel() : super(ContractsInfo.NoTricks.name, 5, 8);
+  NoTricksContractModel() : super(ContractsInfo.noTricks.name, 5, 8);
 }
 
 /// A no last trick contract scores
 class NoLastTrickContractModel extends AbstractOneLooserContractModel {
-  NoLastTrickContractModel() : super(ContractsInfo.NoLastTrick.name, 40);
+  NoLastTrickContractModel() : super(ContractsInfo.noLastTrick.name, 40);
 }
 
 /// A trumps contract scores
 class TrumpsContractModel extends AbstractContractModel {
-  TrumpsContractModel() : super(ContractsInfo.Trumps.name);
+  TrumpsContractModel() : super(ContractsInfo.trumps.name);
 
   @override
   Map<String, int> get playerItems => {};
 
   @override
-  bool setScores(Map<String, int> playerScores) {
-    this._scores = playerScores;
+  bool setScores(Map<String, int> itemsByPlayer) {
+    _scores = itemsByPlayer;
     return true;
   }
 }
@@ -183,23 +180,22 @@ class DominoContractModel extends AbstractContractModel {
   /// The scores the player can have (it is a symmetric array)
   final List<int> _rankScores = [40, 20, 10];
 
-  DominoContractModel() : super(ContractsInfo.Domino.name);
+  DominoContractModel() : super(ContractsInfo.domino.name);
 
   @override
   Map<String, int> get playerItems {
     List<MapEntry<String, int>> sortedList = scores.entries.toList();
     sortedList.sort((a, b) => a.value.compareTo(b.value));
-    return Map.fromIterable(
-      sortedList,
-      key: (playerScore) => playerScore.key,
-      value: (playerScore) => sortedList.indexOf(playerScore),
-    );
+    return {
+      for (var playerScore in sortedList)
+        playerScore.key: sortedList.indexOf(playerScore)
+    };
   }
 
   /// Sets the score of each player from a Map wich links each player with its rank
   @override
   bool setScores(Map<String, int> rankOfPlayer) {
-    if (rankOfPlayer.length == 0) {
+    if (rankOfPlayer.isEmpty) {
       return false;
     }
     List<MapEntry<String, int>> orderedPlayers = rankOfPlayer.entries.toList();
@@ -208,7 +204,7 @@ class DominoContractModel extends AbstractContractModel {
     );
 
     double middleIndex = orderedPlayers.length / 2;
-    orderedPlayers.forEach((player) {
+    for (var player in orderedPlayers) {
       int score = 0;
       int playerIndex = orderedPlayers.indexOf(player);
 
@@ -216,13 +212,13 @@ class DominoContractModel extends AbstractContractModel {
       if (orderedPlayers.length % 2 == 0 || middleIndex - 0.5 != playerIndex) {
         /// The firsts players have a negative score, other have a positive score
         if (playerIndex < middleIndex) {
-          score -= this._rankScores[playerIndex];
+          score -= _rankScores[playerIndex];
         } else {
-          score = this._rankScores[orderedPlayers.length - playerIndex - 1];
+          score = _rankScores[orderedPlayers.length - playerIndex - 1];
         }
       }
-      this._scores[player.key] = score;
-    });
+      _scores[player.key] = score;
+    }
     return true;
   }
 }

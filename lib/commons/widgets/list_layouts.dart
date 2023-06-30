@@ -7,7 +7,7 @@ class MyGrid extends StatelessWidget {
   /// The function to build each item
   final List<Widget> children;
 
-  MyGrid({required this.children});
+  const MyGrid({super.key, required this.children});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class MyGrid extends StatelessWidget {
       crossAxisSpacing: 24,
       mainAxisSpacing: 24,
       childAspectRatio: 1.4,
-      children: this.children,
+      children: children,
     );
   }
 }
@@ -29,18 +29,18 @@ class MyList extends StatelessWidget {
   /// The function to build each item
   final Widget Function(BuildContext, int) itemBuilder;
 
-  MyList({required this.itemCount, required this.itemBuilder});
+  const MyList({super.key, required this.itemCount, required this.itemBuilder});
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: 16,
       ),
       shrinkWrap: true,
-      itemCount: this.itemCount,
-      itemBuilder: this.itemBuilder,
-      separatorBuilder: (_, __) => SizedBox(
+      itemCount: itemCount,
+      itemBuilder: itemBuilder,
+      separatorBuilder: (_, __) => const SizedBox(
         height: 24,
       ),
     );

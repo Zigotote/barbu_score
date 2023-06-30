@@ -121,8 +121,8 @@ class TrumpsScoresController extends AbstractContractController {
   /// The list of contracts to fill for a trump contract
   final List<ContractsInfo> trumpContracts = ContractsInfo.values
       .where((contractInfo) =>
-          contractInfo != ContractsInfo.Trumps &&
-          contractInfo != ContractsInfo.Domino)
+          contractInfo != ContractsInfo.trumps &&
+          contractInfo != ContractsInfo.domino)
       .toList();
 
   /// The contracts the player has filled

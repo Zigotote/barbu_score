@@ -11,6 +11,8 @@ import '../main.dart';
 
 /// A page to display the scores of each player at the end of the party
 class FinishParty extends GetView<PartyController> {
+  const FinishParty({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultPage(
@@ -29,10 +31,10 @@ class FinishParty extends GetView<PartyController> {
         },
       ),
       bottomWidget: ElevatedButton(
-        child: Text("Retour à l'accueil"),
+        child: const Text("Retour à l'accueil"),
         onPressed: () {
           MyStorage().delete();
-          Get.toNamed(Routes.HOME);
+          Get.toNamed(Routes.home);
           Get.deleteAll();
         },
       ),

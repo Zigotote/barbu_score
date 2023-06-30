@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyTabBar extends StatelessWidget implements PreferredSizeWidget {
   final TabBar tabBar;
 
-  MyTabBar(List<Tab> tabs) : tabBar = TabBar(tabs: tabs);
+  MyTabBar(List<Tab> tabs, {super.key}) : tabBar = TabBar(tabs: tabs);
 
   @override
   Widget build(BuildContext context) {

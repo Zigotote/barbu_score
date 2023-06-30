@@ -12,18 +12,20 @@ import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';
 
 class CreateGame extends ConsumerWidget {
-  static final String playerImage = "assets/players/player%s.png";
+  static const String playerImage = "assets/players/player%s.png";
 
   /// Form key used to validate the form
   final _formKey = GlobalKey<FormState>();
+
+  CreateGame({super.key});
 
   /// Builds the button to add a player
   Widget _buildAddPlayerButton(Function() addPlayer) {
     return Center(
       child: IconButton.outlined(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         onPressed: addPlayer,
-        icon: Icon(
+        icon: const Icon(
           Icons.add,
           semanticLabel: "Ajouter un joueur",
         ),
@@ -36,15 +38,15 @@ class CreateGame extends ConsumerWidget {
   Widget _buildValidateButton(
       BuildContext context, CreateGameNotifier provider) {
     return ElevatedButton(
-      child: Text("Suivant"),
       onPressed: provider.isValid
           ? () {
               if (_formKey.currentState!.validate()) {
                 //MyStorage().saveNbPlayers(_players.length);
-                context.push(Routes.PREPARE_GAME);
+                context.push(Routes.prepareGame);
               }
             }
           : null,
+      child: const Text("Suivant"),
     );
   }
 
@@ -59,6 +61,12 @@ class CreateGame extends ConsumerWidget {
         child: ReorderableGridView.count(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
+          dragStartDelay: kPressTimeout,
+          footer: [
+            if (playerProvider.players.length < kNbPlayersMax)
+              _buildAddPlayerButton(playerProvider.addPlayer)
+          ],
+          onReorder: playerProvider.movePlayer,
           children: playerProvider.players
               .map(
                 (player) => CreatePlayer(
@@ -69,12 +77,6 @@ class CreateGame extends ConsumerWidget {
                 ),
               )
               .toList(),
-          dragStartDelay: kPressTimeout,
-          footer: [
-            if (playerProvider.players.length < kNbPlayersMax)
-              _buildAddPlayerButton(playerProvider.addPlayer)
-          ],
-          onReorder: playerProvider.movePlayer,
         ),
       ),
       bottomWidget: _buildValidateButton(context, playerProvider),

@@ -8,6 +8,7 @@ class MyAppBar extends AppBar {
   MyAppBar(
     BuildContext context,
     String title, {
+    super.key,
     bool isHome = false,
     bool hasLeading = false,
     List<Tab>? tabs,
@@ -26,7 +27,7 @@ class MyAppBar extends AppBar {
                 decoration: BoxDecoration(
                   color: Theme.of(context).scaffoldBackgroundColor,
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
@@ -40,17 +41,17 @@ class MyAppBar extends AppBar {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Visibility(
+                  visible: hasLeading,
                   child: IconButton.outlined(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                     onPressed: () {
                       try {
                         context.pop();
                       } catch (_) {
-                        context.go(Routes.HOME);
+                        context.go(Routes.home);
                       }
                     },
                   ),
-                  visible: hasLeading,
                 ),
               ),
             ],

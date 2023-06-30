@@ -31,7 +31,7 @@ class CreatePlayer extends StatelessWidget {
       initialValue: player.name,
       onChanged: (value) => player.name = value,
       validator: (_) => onValidate(player),
-      decoration: InputDecoration.collapsed(hintText: "Nom du joueur"),
+      decoration: const InputDecoration.collapsed(hintText: "Nom du joueur"),
     );
   }
 
@@ -85,7 +85,7 @@ class CreatePlayer extends StatelessWidget {
           height: ScreenHelper.width * 0.08,
           child: IconButton.outlined(
             onPressed: onRemove,
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
             tooltip: "Supprimer le joueur",
             iconSize: ScreenHelper.width * 0.04,
           ),

@@ -24,22 +24,22 @@ class ColoredContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: this.height,
-      width: this.width,
+      height: height,
+      width: width,
       alignment: Alignment.bottomCenter,
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 16,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
         border: Border.all(
-          color: this.color,
+          color: color,
           width: 2,
         ),
       ),
-      child: this.child,
+      child: child,
     );
   }
 }

@@ -110,7 +110,7 @@ class MyThemes {
           indicatorSize: TabBarIndicatorSize.tab,
           labelColor: baseTheme.colorScheme.onSurface,
           unselectedLabelColor: Colors.grey,
-          overlayColor: MaterialStatePropertyAll(Colors.grey),
+          overlayColor: const MaterialStatePropertyAll(Colors.grey),
         ),
       );
 }

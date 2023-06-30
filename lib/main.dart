@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../pages/finish_party.dart';
 import 'commons/utils/storage.dart';
-import 'controller/contract.dart';
 import 'pages/choose_contract.dart';
 import 'pages/contract_scores/domino_scores.dart';
 import 'pages/contract_scores/individual_scores_contract.dart';
@@ -24,10 +23,12 @@ import 'theme/theme_provider.dart';
 
 void main() {
   Get.put(MyStorage());
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
@@ -38,67 +39,67 @@ class MyApp extends ConsumerWidget {
           ref.watch(appThemeProvider).state ? ThemeMode.dark : ThemeMode.light,
       routerConfig: GoRouter(routes: [
         GoRoute(
-          path: Routes.HOME,
-          builder: (_, __) => MyHome(),
+          path: Routes.home,
+          builder: (_, __) => const MyHome(),
         ),
         GoRoute(
-          path: Routes.RULES,
+          path: Routes.rules,
           builder: (_, __) => MyRules(),
         ),
         GoRoute(
-          path: Routes.SETTINGS,
-          builder: (_, __) => MySettings(),
+          path: Routes.settings,
+          builder: (_, __) => const MySettings(),
         ),
         GoRoute(
-          path: Routes.CREATE_GAME,
+          path: Routes.createGame,
           builder: (_, __) => CreateGame(),
           //binding: CreatePlayersBinding(),
         ),
         GoRoute(
-          path: Routes.PREPARE_GAME,
+          path: Routes.prepareGame,
           builder: (_, __) => PrepareGame(),
           //binding: PartyBinding(),
         ),
         GoRoute(
-          path: Routes.CHOOSE_CONTRACT,
-          builder: (_, __) => ChooseContract(),
+          path: Routes.chooseContract,
+          builder: (_, __) => const ChooseContract(),
           //binding: PartyBinding(),
         ),
         GoRoute(
-          path: Routes.BARBU_OR_NOLASTTRICK_SCORES,
+          path: Routes.barbuOrNoLastTrickScores,
           builder: (_, state) =>
               OneLooserContractScores(state.extra as ContractRouteArgument),
           //binding: SelectPlayerBinding(),
         ),
         GoRoute(
-          path: Routes.DOMINO_SCORES,
-          builder: (_, __) => DominoScores(),
+          path: Routes.dominoScores,
+          builder: (_, __) => const DominoScores(),
           //binding: OrderPlayerBinding(),
         ),
         GoRoute(
-          path: Routes.NO_SOMETHING_SCORES,
+          path: Routes.noSomethingScores,
           builder: (_, state) =>
               IndividualScoresContract(state.extra as ContractRouteArgument),
           //binding: IndividualScoresBinding(),
         ),
         GoRoute(
-          path: Routes.TRUMPS_SCORES,
-          builder: (_, __) => TrumpsScores(),
+          path: Routes.trumpsScores,
+          builder: (_, __) => const TrumpsScores(),
           //binding: TrumpsScoresBinding(),
         ),
         GoRoute(
-          path: Routes.SCORES,
-          builder: (_, __) => MyScores(),
+          path: Routes.scores,
+          builder: (_, __) => const MyScores(),
           //binding: PartyBinding(),
         ),
         GoRoute(
-          path: Routes.SCORES_BY_PLAYER,
+          path: Routes.scoresByPlayer,
           builder: (_, __) => ScoresByPlayer(),
           //binding: PartyBinding(),
         ),
         GoRoute(
-          path: Routes.FINISH_GAME,
-          builder: (_, __) => FinishParty(),
+          path: Routes.finishGame,
+          builder: (_, __) => const FinishParty(),
           //binding: PartyBinding(),
         ),
       ]),
@@ -108,27 +109,17 @@ class MyApp extends ConsumerWidget {
 
 /// Names of the routes for the app
 class Routes {
-  static const HOME = "/";
-  static const RULES = "/rules";
-  static const SETTINGS = "/settings";
-  static const CREATE_GAME = "/create_game";
-  static const PREPARE_GAME = "/prepare_game";
-  static const CHOOSE_CONTRACT = "/choose_contract";
-  static const BARBU_OR_NOLASTTRICK_SCORES = "/one_looser_contract_scores";
-  static const DOMINO_SCORES = "/domino_scores";
-  static const NO_SOMETHING_SCORES = "/individual_scores";
-  static const TRUMPS_SCORES = "/trumps_scores";
-  static const SCORES = "/scores";
-  static const SCORES_BY_PLAYER = "/scores/player";
-  static const FINISH_GAME = "/end_party";
-
-  /// Returns true if the contract of this route is part of a trumps contract
-  static bool isPartOfTrumpsContract() {
-    try {
-      Get.find<TrumpsScoresController>();
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
+  static const home = "/";
+  static const rules = "/rules";
+  static const settings = "/settings";
+  static const createGame = "/create_game";
+  static const prepareGame = "/prepare_game";
+  static const chooseContract = "/choose_contract";
+  static const barbuOrNoLastTrickScores = "/one_looser_contract_scores";
+  static const dominoScores = "/domino_scores";
+  static const noSomethingScores = "/individual_scores";
+  static const trumpsScores = "/trumps_scores";
+  static const scores = "/scores";
+  static const scoresByPlayer = "/scores/player";
+  static const finishGame = "/end_game";
 }

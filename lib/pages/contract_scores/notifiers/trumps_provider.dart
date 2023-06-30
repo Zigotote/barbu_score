@@ -11,13 +11,13 @@ final trumpsProvider = ChangeNotifierProvider.autoDispose<TrumpsNotifier>(
 
 class TrumpsNotifier with ChangeNotifier {
   /// The contracts the player has filled
-  List<AbstractContractModel> _filledContracts = [];
+  final List<AbstractContractModel> _filledContracts = [];
 
   ///  The list of contracts to fill for a trump contract
   final List<ContractsInfo> trumpContracts = ContractsInfo.values
       .where((contractInfo) =>
-          contractInfo != ContractsInfo.Trumps &&
-          contractInfo != ContractsInfo.Domino)
+          contractInfo != ContractsInfo.trumps &&
+          contractInfo != ContractsInfo.domino)
       .toList();
 
   /// Returns true if the contract is entirely filled

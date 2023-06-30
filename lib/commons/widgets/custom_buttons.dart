@@ -10,21 +10,22 @@ class ElevatedButtonFullWidth extends StatelessWidget {
   /// The function to call on pressed action
   final Function() onPressed;
 
-  ElevatedButtonFullWidth({required this.child, required this.onPressed});
+  const ElevatedButtonFullWidth(
+      {super.key, required this.child, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: ElevatedButton(
-        child: this.child,
-        onPressed: this.onPressed,
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           minimumSize: Size(
             ScreenHelper.width - 24,
             ScreenHelper.height * 0.08,
           ),
         ),
+        child: child,
       ),
     );
   }
@@ -50,7 +51,8 @@ class ElevatedButtonCustomColor extends StatelessWidget {
   /// The background color of the button
   final Color? backgroundColor;
 
-  ElevatedButtonCustomColor({
+  const ElevatedButtonCustomColor({
+    super.key,
     this.text,
     this.icon,
     required this.color,
@@ -64,21 +66,21 @@ class ElevatedButtonCustomColor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: this.text != null
-          ? Text(
-              this.text!,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: this.textSize),
-            )
-          : Icon(this.icon),
-      onPressed: this.onPressed,
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        side: BorderSide(color: this.color, width: 2),
-        padding: EdgeInsets.all(8),
-        foregroundColor: this.color,
+        side: BorderSide(color: color, width: 2),
+        padding: const EdgeInsets.all(8),
+        foregroundColor: color,
         backgroundColor:
             backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       ),
+      child: text != null
+          ? Text(
+              text!,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: textSize),
+            )
+          : Icon(icon),
     );
   }
 }
@@ -94,7 +96,8 @@ class ElevatedButtonTopRightWidget extends StatelessWidget {
   /// The widget to display in the top right corner
   final Widget topRightChild;
 
-  ElevatedButtonTopRightWidget({
+  const ElevatedButtonTopRightWidget({
+    super.key,
     required this.text,
     required this.topRightChild,
     this.onPressed,
@@ -107,13 +110,13 @@ class ElevatedButtonTopRightWidget extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         ElevatedButton(
-          child: Text(this.text),
-          onPressed: this.onPressed,
+          onPressed: onPressed,
+          child: Text(text),
         ),
         Positioned(
           right: 8,
           top: 8,
-          child: this.topRightChild,
+          child: topRightChild,
         )
       ],
     );

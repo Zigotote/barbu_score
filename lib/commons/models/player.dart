@@ -14,7 +14,7 @@ class Player {
   String name;
 
   /// The contracts the player has finished
-  List<AbstractContractModel> _contracts;
+  final List<AbstractContractModel> _contracts;
 
   Player({required this.color, required this.image, this.name = ""})
       : _contracts = [];

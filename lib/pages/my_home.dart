@@ -13,16 +13,18 @@ import '../controller/party.dart';
 import '../main.dart';
 
 class MyHome extends StatelessWidget {
+  const MyHome({super.key});
+
   /// Loads a previous party and resumes it
   _loadParty(PartyController previousParty) {
     Get.deleteAll();
     Get.put(previousParty);
-    Get.toNamed(Routes.PREPARE_GAME);
+    Get.toNamed(Routes.prepareGame);
   }
 
   /// Starts a new party
   _startParty(BuildContext context) {
-    context.go(Routes.CREATE_GAME);
+    context.go(Routes.createGame);
   }
 
   /// Builds the widgets to load a saved party
@@ -45,7 +47,7 @@ class MyHome extends StatelessWidget {
           context: context,
           builder: (BuildContext buildContext) {
             return AlertDialog(
-              title: Text("Charger une partie"),
+              title: const Text("Charger une partie"),
               content: Text(
                   "Reprendre la partie précédente avec ${previousParty!.playerNames} ?"),
               actions: [
@@ -75,7 +77,7 @@ class MyHome extends StatelessWidget {
             context: context,
             builder: (BuildContext buildContext) {
               return AlertDialog(
-                title: Text("Une partie sauvegardée existe"),
+                title: const Text("Une partie sauvegardée existe"),
                 content: Text(
                     "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${previousParty.playerNames} sera perdue."),
                 actions: [
@@ -107,7 +109,7 @@ class MyHome extends StatelessWidget {
     Wakelock.disable();
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/background.png"),
             fit: BoxFit.fitWidth,
@@ -123,16 +125,16 @@ class MyHome extends StatelessWidget {
               hasLeading: false,
             ),
             ElevatedButtonFullWidth(
-              child: Text("Démarrer une partie"),
+              child: const Text("Démarrer une partie"),
               onPressed: () => _confirmStartParty(context),
             ),
             ElevatedButtonFullWidth(
-              child: Text("Charger une partie"),
+              child: const Text("Charger une partie"),
               onPressed: () => _confirmLoadParty(context),
             ),
             ElevatedButton(
-              child: Text("Règles du jeu"),
-              onPressed: () => context.push(Routes.RULES),
+              child: const Text("Règles du jeu"),
+              onPressed: () => context.push(Routes.rules),
             ),
             IconButton(
               onPressed: () => SnackbarUtils.instance.openSnackBar(
@@ -140,7 +142,7 @@ class MyHome extends StatelessWidget {
                   title: "Patience...",
                   text: "Cette page arrivera dans une future version."),
               iconSize: ScreenHelper.width * 0.15,
-              icon: Icon(Icons.settings),
+              icon: const Icon(Icons.settings),
               style: IconButton.styleFrom(side: BorderSide.none),
             ),
           ],

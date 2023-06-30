@@ -15,7 +15,8 @@ class PlayerIcon extends GetView {
   /// The size of the icon
   final double size;
 
-  PlayerIcon({
+  const PlayerIcon({
+    super.key,
     required this.image,
     required this.size,
     this.hasMedal = false,
@@ -25,18 +26,18 @@ class PlayerIcon extends GetView {
   @override
   Widget build(BuildContext context) {
     final CircleAvatar playerIcon = CircleAvatar(
-      child: Image.asset(this.image),
-      backgroundColor: this.color,
-      radius: this.size / 2,
+      backgroundColor: color,
+      radius: size / 2,
+      child: Image.asset(image),
     );
-    if (this.hasMedal == true) {
+    if (hasMedal) {
       return Stack(
         children: [
           playerIcon,
           Container(
-            width: this.size,
-            height: this.size,
-            decoration: BoxDecoration(
+            width: size,
+            height: size,
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
                 fit: BoxFit.contain,

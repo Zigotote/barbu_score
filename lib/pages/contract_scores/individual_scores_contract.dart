@@ -18,7 +18,7 @@ class IndividualScoresContract extends ConsumerStatefulWidget {
   /// The maximal number of item that can be gained during the contract
   final int itemsMax;
 
-  IndividualScoresContract(this.routeArgument)
+  IndividualScoresContract(this.routeArgument, {super.key})
       : itemsMax = (routeArgument.contractInfo.contract
                 as AbstractMultipleLooserContractModel)
             .expectedItems;
@@ -43,11 +43,7 @@ class _IndividualScoresContractState
     if (widget.routeArgument.isForModification) {
       _playerItems = widget.routeArgument.contractValues!.playerItems;
     } else {
-      _playerItems = Map.fromIterable(
-        _players,
-        key: (player) => player.name,
-        value: (_) => 0,
-      );
+      _playerItems = {for (var player in _players) player.name: 0};
     }
   }
 
@@ -60,7 +56,7 @@ class _IndividualScoresContractState
 
   /// Increases the score of the player, only if the total score is less than the contract max score
   void _increaseScore(Player player) {
-    if (this._isValid) {
+    if (_isValid) {
       SnackbarUtils.instance.openSnackBar(
         context: context,
         title: "Ajout de points impossible",
@@ -91,7 +87,7 @@ class _IndividualScoresContractState
       itemBuilder: (_, index) {
         Player player = _players[index];
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

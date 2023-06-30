@@ -29,7 +29,8 @@ class ContractPage extends ConsumerWidget {
   /// The number of bad item each player gain during the game
   final Map<String, int> itemsByPlayer;
 
-  ContractPage({
+  const ContractPage({
+    super.key,
     required this.contract,
     required this.subtitle,
     this.isModification = false,
@@ -42,7 +43,7 @@ class ContractPage extends ConsumerWidget {
   void _saveScore(
       BuildContext context, WidgetRef ref, PlayGameNotifier provider) {
     final bool isPartOfTrumpsContract =
-        ref.exists(trumpsProvider) && !(contract == ContractsInfo.Trumps);
+        ref.exists(trumpsProvider) && !(contract == ContractsInfo.trumps);
     bool isFinished;
     if (isPartOfTrumpsContract) {
       /// Adds the contract to the trumps contract
@@ -57,9 +58,8 @@ class ContractPage extends ConsumerWidget {
       if (isPartOfTrumpsContract) {
         context.pop();
       } else {
-        context.go(provider.nextPlayer()
-            ? Routes.CHOOSE_CONTRACT
-            : Routes.FINISH_GAME);
+        context.go(
+            provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame);
       }
     } else {
       SnackbarUtils.instance.openSnackBar(
@@ -77,7 +77,7 @@ class ContractPage extends ConsumerWidget {
     String title;
     String validateText;
     if (isModification) {
-      title = "Modification ${this.contract.displayName}";
+      title = "Modification ${contract.displayName}";
       validateText = "Modifier les scores";
     } else {
       title = "Tour de ${provider.currentPlayer.name}";
@@ -88,14 +88,14 @@ class ContractPage extends ConsumerWidget {
       hasLeading: true,
       content: Column(
         children: [
-          MySubtitle(this.subtitle),
-          SizedBox(height: 8),
-          Expanded(child: this.child),
+          MySubtitle(subtitle),
+          const SizedBox(height: 8),
+          Expanded(child: child),
         ],
       ),
       bottomWidget: ElevatedButton(
-        child: Text(validateText),
         onPressed: isValid ? () => _saveScore(context, ref, provider) : null,
+        child: Text(validateText),
       ),
     );
   }

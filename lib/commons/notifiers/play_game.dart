@@ -13,7 +13,7 @@ final playGameProvider = ChangeNotifierProvider.autoDispose<PlayGameNotifier>(
 
 class PlayGameNotifier with ChangeNotifier {
   /// The list of players for the game
-  List<Player> _players;
+  final List<Player> _players;
 
   /// The index of the current player
   int _currentPlayerIndex;
@@ -31,7 +31,7 @@ class PlayGameNotifier with ChangeNotifier {
   bool finishContract(
       ContractsInfo contractInfo, Map<String, int> itemsByPlayer) {
     final bool isValidScore =
-        this.currentPlayer.addContract(contractInfo, itemsByPlayer);
+        currentPlayer.addContract(contractInfo, itemsByPlayer);
     return isValidScore;
   }
 
@@ -39,13 +39,9 @@ class PlayGameNotifier with ChangeNotifier {
   /// Returns true if their is a next player, false if the game is finished
   bool nextPlayer() {
     _currentPlayerIndex++;
-    if (_currentPlayerIndex == this._players.length) {
+    if (_currentPlayerIndex == _players.length) {
       _currentPlayerIndex = 0;
     }
-    if (this.currentPlayer.availableContracts.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return currentPlayer.availableContracts.isNotEmpty;
   }
 }

@@ -12,6 +12,8 @@ import '../controller/player.dart';
 class ScoresByPlayer extends GetView<PartyController> {
   final PlayerController player = Get.arguments as PlayerController;
 
+  ScoresByPlayer({super.key});
+
   /// Builds the table to display the scores of the players in a matrix
   DataTable _buildTable(Color textColor) {
     final double headingHeight = Get.width * 0.17;
@@ -23,11 +25,11 @@ class ScoresByPlayer extends GetView<PartyController> {
         horizontalInside: BorderSide(color: textColor),
       ),
       columns: [
-        DataColumn(label: Text("")),
+        const DataColumn(label: Text("")),
         ...controller.players
             .map(
               (player) => DataColumn(
-                label: Container(
+                label: SizedBox(
                   width: headingHeight,
                   child: Column(
                     children: [

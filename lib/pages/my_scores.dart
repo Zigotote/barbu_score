@@ -12,6 +12,8 @@ import '../main.dart';
 
 /// A page to display the scores of each player for the party
 class MyScores extends GetView<PartyController> {
+  const MyScores({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultPage(
@@ -28,10 +30,10 @@ class MyScores extends GetView<PartyController> {
         },
       ),
       bottomWidget: ElevatedButton(
-          child: Text('Sauvegarder et quitter'),
+          child: const Text('Sauvegarder et quitter'),
           onPressed: () {
             MyStorage().saveParty();
-            Get.toNamed(Routes.HOME);
+            Get.toNamed(Routes.home);
             SnackbarUtils.instance.openSnackBar(
               context: context,
               title: "Partie sauvegardée",

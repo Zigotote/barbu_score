@@ -7,8 +7,8 @@ class MyStorage {
   /// The object to manipulate local storage
   final GetStorage _storage = GetStorage();
 
-  static const String _PARTY_KEY = "party";
-  static const String _NB_PLAYERS = "nbPlayers";
+  static const String _gameKey = "party";
+  static const String _nbPlayers = "nbPlayers";
 
   MyStorage() : super() {
     GetStorage.init();
@@ -16,13 +16,13 @@ class MyStorage {
 
   /// Gets the party saved in the store
   PartyController? getStoredParty() {
-    var storedParty = _storage.read(_PARTY_KEY);
+    var storedParty = _storage.read(_gameKey);
     if (storedParty != null) {
       if (storedParty.runtimeType == PartyController) {
         return storedParty;
       }
-      this.saveNbPlayers(storedParty["players"].length);
-      return PartyController.fromJson(_storage.read(_PARTY_KEY));
+      saveNbPlayers(storedParty["players"].length);
+      return PartyController.fromJson(_storage.read(_gameKey));
     }
     return null;
   }
@@ -30,18 +30,18 @@ class MyStorage {
   void saveParty() {
     try {
       final PartyController party = Get.find<PartyController>();
-      _storage.write(_PARTY_KEY, party);
+      _storage.write(_gameKey, party);
     } catch (_) {}
   }
 
   /// Get the number of players in the party
   int getNbPlayers() {
-    return _storage.read(_NB_PLAYERS);
+    return _storage.read(_nbPlayers);
   }
 
   /// Saves the number of players for the party (usefull when a party is restored, to be able tu build NoHearts contract)
   void saveNbPlayers(int nb) {
-    _storage.write(_NB_PLAYERS, nb);
+    _storage.write(_nbPlayers, nb);
   }
 
   /// Deletes the data saved in the store

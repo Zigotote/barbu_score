@@ -20,7 +20,7 @@ class CreateGameNotifier with ChangeNotifier {
   final List<Color> playerColors;
 
   /// The list of players for the game
-  List<Player> _players;
+  final List<Player> _players;
 
   CreateGameNotifier(this.playerColors)
       : _players = List.generate(

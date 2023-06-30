@@ -6,15 +6,15 @@ class MySubtitle extends GetWidget {
   /// The text of the subtitle
   final String subtitle;
 
-  MySubtitle(this.subtitle);
+  const MySubtitle(this.subtitle, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.only(bottom: 24),
       child: Center(
         child: Text(
-          this.subtitle,
+          subtitle,
           style: Get.textTheme.titleSmall,
           textAlign: TextAlign.center,
         ),

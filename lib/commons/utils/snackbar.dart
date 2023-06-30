@@ -26,7 +26,7 @@ class SnackbarUtils {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title, style: textTheme.titleMedium),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(text, style: textTheme.bodyLarge),
                 ],
               ),
