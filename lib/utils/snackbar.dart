@@ -1,3 +1,4 @@
+import 'package:barbu_score/utils/screen.dart';
 import 'package:flutter/material.dart';
 
 class SnackbarUtils {
@@ -20,12 +21,21 @@ class SnackbarUtils {
       ScaffoldMessenger.of(context)
           .showSnackBar(
             SnackBar(
-              content: Row(
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: textTheme.bodyLarge),
-                  Text(text),
+                  Text(title, style: textTheme.titleMedium),
+                  SizedBox(height: 4),
+                  Text(text, style: textTheme.bodyLarge),
                 ],
               ),
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(
+                bottom: ScreenHelper.height - 200,
+                right: 8,
+                left: 8,
+              ),
+              dismissDirection: DismissDirection.horizontal,
             ),
           )
           .closed

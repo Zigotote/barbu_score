@@ -89,6 +89,13 @@ class MyThemes {
             ),
           ),
         ),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: baseTheme.scaffoldBackgroundColor.withOpacity(0.8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+          ),
+          insetPadding: EdgeInsets.all(0),
+        ),
         tabBarTheme: TabBarTheme(
           indicator: ShapeDecoration(
             color: baseTheme.scaffoldBackgroundColor,
