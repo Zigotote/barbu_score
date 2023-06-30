@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import '../commons/widgets/default_page.dart';
 
 class MyRules extends GetView {
+  const MyRules({super.key});
+
   _buildTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 8),

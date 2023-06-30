@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../commons/models/player.dart';
 import '../commons/utils/storage.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/list_layouts.dart';
@@ -22,11 +23,12 @@ class FinishParty extends GetView<PartyController> {
         itemBuilder: (_, index) {
           PlayerController player = controller.orderedPlayers[index];
           return PlayerScoreButton(
-            player: player,
+            // TODO Océane tmp
+            player: Player(color: Colors.black, image: ''),
             score: controller.playerScores[player.name]!,
             isFirst: index == 0,
-            bestFriend: controller.bestFriend(player),
-            worstEnnemy: controller.worstEnnemy(player),
+            bestFriend: Player(color: Colors.black, image: ''),
+            worstEnnemy: Player(color: Colors.black, image: ''),
           );
         },
       ),

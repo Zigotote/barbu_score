@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import 'contract_info.dart';
@@ -28,6 +29,15 @@ class Player {
       .where((contract) => !_choosenContracts.contains(contract.name))
       .toList();
 
+  /// Returns the scores of each player, for the contracts of this player
+  /// If the player has not played contracts it return null
+  Map<String, int>? get playerScores {
+    if (_contracts.isEmpty) {
+      return null;
+    }
+    return AbstractContractModel.calculateTotalScore(_contracts);
+  }
+
   /// Returns true if the player has played the contract
   bool hasPlayedContract(ContractsInfo contract) {
     return _choosenContracts.contains(contract.name);
@@ -44,5 +54,12 @@ class Player {
       _contracts.add(contract);
     }
     return isValidScore;
+  }
+
+  /// Returns the scores for the contract. Returns null if it has not been played
+  Map<String, int>? contractScores(String contractName) {
+    final AbstractContractModel? contract = _contracts
+        .firstWhereOrNull((contract) => contract.name == contractName);
+    return contract?.scores;
   }
 }

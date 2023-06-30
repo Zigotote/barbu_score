@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import './custom_buttons.dart';
-import './player_icon.dart';
-import '../../controller/player.dart';
 import '../../main.dart';
+import '../models/player.dart';
 import '../utils/screen.dart';
+import 'custom_buttons.dart';
+import 'player_icon.dart';
 
 /// A button to display the score of a player
 class PlayerScoreButton extends StatelessWidget {
   /// The infos of the player
-  final PlayerController player;
+  final Player player;
 
   /// The score of the player
   final int score;
@@ -19,10 +19,10 @@ class PlayerScoreButton extends StatelessWidget {
   final bool isFirst;
 
   /// The best friend of the player
-  final PlayerController? bestFriend;
+  final Player? bestFriend;
 
   /// The worst ennemy of the player
-  final PlayerController? worstEnnemy;
+  final Player? worstEnnemy;
 
   const PlayerScoreButton(
       {super.key,
@@ -94,8 +94,10 @@ class PlayerScoreButton extends StatelessWidget {
           const Icon(Icons.arrow_forward_ios)
         ],
       ),
-      onPressed: () =>
-          context.push(Routes.scoresByPlayer), //, arguments: player
+      onPressed: () => context.push(
+        Routes.scoresByPlayer,
+        extra: player,
+      ), //, arguments: player
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 import '../pages/finish_party.dart';
+import 'commons/models/player.dart';
 import 'commons/utils/storage.dart';
 import 'pages/choose_contract.dart';
 import 'pages/contract_scores/domino_scores.dart';
@@ -44,7 +45,7 @@ class MyApp extends ConsumerWidget {
         ),
         GoRoute(
           path: Routes.rules,
-          builder: (_, __) => MyRules(),
+          builder: (_, __) => const MyRules(),
         ),
         GoRoute(
           path: Routes.settings,
@@ -94,7 +95,7 @@ class MyApp extends ConsumerWidget {
         ),
         GoRoute(
           path: Routes.scoresByPlayer,
-          builder: (_, __) => ScoresByPlayer(),
+          builder: (_, state) => ScoresByPlayer(state.extra as Player),
           //binding: PartyBinding(),
         ),
         GoRoute(

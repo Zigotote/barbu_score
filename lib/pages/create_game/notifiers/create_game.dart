@@ -98,6 +98,6 @@ class CreateGameNotifier with ChangeNotifier {
 
   /// Returns true if the player has the color name than another
   bool _isDuplicateColor(Player player) {
-    return this._players.any((p) => p != player && p.color == player.color);
+    return _players.any((p) => p != player && p.color == player.color);
   }
 }

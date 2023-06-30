@@ -29,7 +29,7 @@ abstract class AbstractContractModel {
   late Map<String, int> _scores;
 
   AbstractContractModel(this.name) {
-    this._scores = {};
+    _scores = {};
   }
 
   factory AbstractContractModel.fromJson(Map<String, dynamic> json) {

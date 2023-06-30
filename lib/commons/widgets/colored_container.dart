@@ -14,7 +14,8 @@ class ColoredContainer extends StatelessWidget {
   /// The child to put on the container
   final Widget child;
 
-  ColoredContainer({
+  const ColoredContainer({
+    super.key,
     required this.height,
     this.width,
     required this.color,
