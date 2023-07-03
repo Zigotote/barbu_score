@@ -16,7 +16,7 @@ class PlayerScoreButton extends StatelessWidget {
   final int score;
 
   /// The indicator for the winner
-  final bool isFirst;
+  final bool displayMedal;
 
   /// The best friend of the player
   final Player? bestFriend;
@@ -28,7 +28,7 @@ class PlayerScoreButton extends StatelessWidget {
       {super.key,
       required this.player,
       required this.score,
-      this.isFirst = false,
+      this.displayMedal = false,
       this.bestFriend,
       this.worstEnnemy});
 
@@ -76,7 +76,7 @@ class PlayerScoreButton extends StatelessWidget {
         children: [
           PlayerIcon(
             image: player.image,
-            hasMedal: isFirst,
+            hasMedal: displayMedal,
             color: player.color,
             size: screenWidth * 0.15,
           ),
