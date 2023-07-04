@@ -5,14 +5,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
+import '../../commons/utils/globals.dart' as globals;
 import '../../commons/utils/screen.dart';
-import '../../commons/utils/storage.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../main.dart';
 import 'create_game_props.dart';
 import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';
 
+// TODO Océane remove provider because it can be a StatefulWidget
+// + check dark theme
+// correct snackbar
 class CreateGame extends ConsumerWidget {
   static const String playerImage = "assets/players/player%s.png";
 
@@ -44,7 +47,7 @@ class CreateGame extends ConsumerWidget {
           ? () {
               if (_formKey.currentState!.validate()) {
                 ref.read(playGameProvider).init(provider.players);
-                MyStorage().saveNbPlayers(provider.players.length);
+                globals.nbPlayers = provider.players.length;
                 context.push(Routes.prepareGame);
               }
             }

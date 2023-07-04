@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../utils/storage.dart';
+import '../utils/globals.dart' as globals;
 import 'contract_info.dart';
 
 /// An abstract class to fill the scores for a contract
@@ -139,11 +139,7 @@ class BarbuContractModel extends AbstractOneLooserContractModel {
 /// A no hearts contract scores
 class NoHeartsContractModel extends AbstractMultipleLooserContractModel {
   NoHeartsContractModel()
-      : super(
-          ContractsInfo.noHearts.name,
-          5,
-          MyStorage().getNbPlayers() * 2,
-        );
+      : super(ContractsInfo.noHearts.name, 5, globals.nbPlayers * 2);
 }
 
 /// A no queens contract scores
