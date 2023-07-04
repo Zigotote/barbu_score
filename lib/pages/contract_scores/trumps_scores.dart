@@ -1,12 +1,11 @@
+import 'package:barbu_score/pages/contract_scores/widgets/modify_contract_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
-import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/list_layouts.dart';
-import '../../theme/my_themes.dart';
 import 'models/contract_route_argument.dart';
 import 'notifiers/trumps_provider.dart';
 import 'widgets/contract_page.dart';
@@ -42,12 +41,8 @@ class TrumpsScores extends ConsumerWidget {
   /// Builds a Widget for a filled contract, with the button and a tick to know that it has been filled
   Widget _buildFilledContract(BuildContext context, ContractsInfo contract,
       AbstractContractModel contractValues) {
-    return ElevatedButtonTopRightWidget(
+    return ModifyContractButton(
       text: contract.displayName,
-      topRightChild: Icon(
-        Icons.task_alt_outlined,
-        color: Theme.of(context).colorScheme.successColor,
-      ),
       onPressed: () => context.push(
         contract.route,
         extra: ContractRouteArgument(
