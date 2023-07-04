@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../commons/utils/screen.dart';
+import '../../commons/utils/storage.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../main.dart';
 import 'create_game_props.dart';
@@ -36,12 +38,13 @@ class CreateGame extends ConsumerWidget {
 
   /// Builds the button to validate the form
   Widget _buildValidateButton(
-      BuildContext context, CreateGameNotifier provider) {
+      BuildContext context, WidgetRef ref, CreateGameNotifier provider) {
     return ElevatedButton(
       onPressed: provider.isValid
           ? () {
               if (_formKey.currentState!.validate()) {
-                //MyStorage().saveNbPlayers(_players.length);
+                ref.read(playGameProvider).init(provider.players);
+                MyStorage().saveNbPlayers(provider.players.length);
                 context.push(Routes.prepareGame);
               }
             }
@@ -79,7 +82,7 @@ class CreateGame extends ConsumerWidget {
               .toList(),
         ),
       ),
-      bottomWidget: _buildValidateButton(context, playerProvider),
+      bottomWidget: _buildValidateButton(context, ref, playerProvider),
     );
   }
 }

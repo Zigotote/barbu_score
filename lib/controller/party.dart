@@ -130,7 +130,7 @@ class PartyController extends GetxController {
       _currentPlayerIndex = 0;
     }
     if (this.currentPlayer.availableContracts.length > 0) {
-      MyStorage().saveParty();
+      //MyStorage().saveParty();
       Get.toNamed(Routes.chooseContract);
     } else {
       MyStorage().delete();

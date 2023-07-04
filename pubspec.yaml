@@ -31,6 +31,7 @@ dependencies:
   non_uniform_border: ^1.0.0
   reorderable_grid_view: ^2.2.6
   flutter_riverpod: ^2.3.6
+  shared_preferences: ^2.2.0
   sprintf: ^7.0.0
   wakelock: ^0.6.2
 

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
@@ -13,7 +14,6 @@ import '../commons/utils/screen.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/player_icon.dart';
 import '../main.dart';
-import 'create_game/notifiers/create_game.dart';
 
 /// A page to be sure the players and the cards are ready to start
 class PrepareGame extends ConsumerWidget {
@@ -31,7 +31,7 @@ class PrepareGame extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<Player> players = ref.read(createGameProvider).players;
+    final List<Player> players = ref.read(playGameProvider).players;
     return DefaultPage(
       title: "Préparer la partie",
       hasLeading: true,

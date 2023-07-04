@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-import '../pages/finish_party.dart';
+import '../pages/finish_game.dart';
 import 'commons/models/player.dart';
 import 'commons/utils/storage.dart';
 import 'pages/choose_contract.dart';
@@ -22,8 +21,9 @@ import 'pages/scores_by_player.dart';
 import 'theme/my_themes.dart';
 import 'theme/theme_provider.dart';
 
-void main() {
-  Get.put(MyStorage());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MyStorage().init();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -100,7 +100,7 @@ class MyApp extends ConsumerWidget {
         ),
         GoRoute(
           path: Routes.finishGame,
-          builder: (_, __) => const FinishParty(),
+          builder: (_, __) => const FinishGame(),
           //binding: PartyBinding(),
         ),
       ]),

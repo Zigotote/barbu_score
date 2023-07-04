@@ -1,51 +1,56 @@
-import 'package:barbu_score/controller/party.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/game.dart';
 
 /// A class to handle local storage objects
 class MyStorage {
-  /// The object to manipulate local storage
-  final GetStorage _storage = GetStorage();
-
-  static const String _gameKey = "party";
+  static const String _gameKey = "game";
   static const String _nbPlayers = "nbPlayers";
 
-  MyStorage() : super() {
-    GetStorage.init();
+  /// The accessor for storage
+  static SharedPreferences? _storage;
+
+  factory MyStorage() => MyStorage._();
+
+  MyStorage._();
+
+  /// The function to call to init storage
+  init() async {
+    _storage ??= await SharedPreferences.getInstance();
   }
 
-  /// Gets the party saved in the store
-  PartyController? getStoredParty() {
-    var storedParty = _storage.read(_gameKey);
-    if (storedParty != null) {
-      if (storedParty.runtimeType == PartyController) {
-        return storedParty;
-      }
-      saveNbPlayers(storedParty["players"].length);
-      return PartyController.fromJson(_storage.read(_gameKey));
+  /// Gets the game saved in the store
+  Game? getStoredGame() {
+    var storedGame = _storage?.getString(_gameKey);
+    if (storedGame != null) {
+      final Game game = Game.fromJson(jsonDecode(storedGame));
+      saveNbPlayers(game.players.length);
+      return game;
     }
     return null;
   }
 
-  void saveParty() {
+  /// Saves the game status
+  void saveGame(Game game) {
     try {
-      final PartyController party = Get.find<PartyController>();
-      _storage.write(_gameKey, party);
+      _storage?.setString(_gameKey, jsonEncode(game.toJson()));
     } catch (_) {}
   }
 
-  /// Get the number of players in the party
+  /// Get the number of players in the game
   int getNbPlayers() {
-    return _storage.read(_nbPlayers);
+    return _storage!.getInt(_nbPlayers)!;
   }
 
-  /// Saves the number of players for the party (usefull when a party is restored, to be able tu build NoHearts contract)
-  void saveNbPlayers(int nb) {
-    _storage.write(_nbPlayers, nb);
+  /// Saves the number of players for the game (usefull when a game is restored, to be able tu build NoHearts contract)
+  void saveNbPlayers(int nb) async {
+    _storage?.setInt(_nbPlayers, nb);
   }
 
   /// Deletes the data saved in the store
   void delete() {
-    _storage.erase();
+    _storage?.clear();
   }
 }
