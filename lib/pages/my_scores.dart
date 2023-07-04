@@ -7,7 +7,7 @@ import '../commons/utils/snackbar.dart';
 import '../commons/widgets/default_page.dart';
 import '../main.dart';
 
-/// A page to display the scores of each player for the party
+/// A page to display the scores of each player for the game
 class MyScores extends ConsumerWidget {
   const MyScores({super.key});
 

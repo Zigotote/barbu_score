@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 /// An icon for the player
-class PlayerIcon extends GetView {
+class PlayerIcon extends StatelessWidget {
   /// The image of the player
   final String image;
 

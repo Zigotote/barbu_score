@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../commons/widgets/default_page.dart';
 
-class MySettings extends GetView {
+class MySettings extends StatelessWidget {
   const MySettings({super.key});
 
   @override
@@ -15,12 +14,8 @@ class MySettings extends GetView {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           const Text("Thème"),
-          ElevatedButton(
-              onPressed: () => Get.changeThemeMode(ThemeMode.dark),
-              child: const Text('Sombre')),
-          ElevatedButton(
-              onPressed: () => Get.changeThemeMode(ThemeMode.light),
-              child: const Text('Clair'))
+          ElevatedButton(onPressed: () {}, child: const Text('Sombre')),
+          ElevatedButton(onPressed: () {}, child: const Text('Clair'))
         ],
       ),
     );

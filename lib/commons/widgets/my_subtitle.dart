@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 /// A widget to display a subtitle in a page
-class MySubtitle extends GetWidget {
+class MySubtitle extends StatelessWidget {
   /// The text of the subtitle
   final String subtitle;
 
@@ -15,7 +14,7 @@ class MySubtitle extends GetWidget {
       child: Center(
         child: Text(
           subtitle,
-          style: Get.textTheme.titleSmall,
+          style: Theme.of(context).textTheme.titleSmall,
           textAlign: TextAlign.center,
         ),
       ),

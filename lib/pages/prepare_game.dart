@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wakelock/wakelock.dart';
 
@@ -79,7 +78,10 @@ class PrepareGame extends ConsumerWidget {
           child: CircularText(
             children: [
               TextItem(
-                text: Text("La table", style: Get.textTheme.headlineSmall),
+                text: Text(
+                  "La table",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
                 space: 8,
                 startAngle: 270,
                 startAngleAlignment: StartAngleAlignment.center,
