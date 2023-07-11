@@ -1,40 +1,30 @@
-import 'package:barbu_score/utils/snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../controller/party.dart';
-import '../controller/player.dart';
+import '../commons/utils/snackbar.dart';
+import '../commons/widgets/default_page.dart';
+import '../commons/widgets/ordered_players_scores.dart';
 import '../main.dart';
-import '../utils/storage.dart';
-import '../widgets/list_layouts.dart';
-import '../widgets/page_layouts.dart';
-import '../widgets/player_score_button.dart';
 
-/// A page to display the scores of each player for the party
-class MyScores extends GetView<PartyController> {
+/// A page to display the scores of each player for the game
+class MyScores extends ConsumerWidget {
+  const MyScores({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
       hasLeading: true,
       title: "Scores",
-      content: MyList(
-        itemCount: controller.nbPlayers,
-        itemBuilder: (_, index) {
-          PlayerController player = controller.orderedPlayers[index];
-          return PlayerScoreButton(
-            player: player,
-            score: controller.playerScores[player.name]!,
-          );
-        },
-      ),
+      content: const OrderedPlayersScores(),
       bottomWidget: ElevatedButton(
-          child: Text('Sauvegarder et quitter'),
+          child: const Text('Sauvegarder et quitter'),
           onPressed: () {
-            MyStorage().saveParty();
-            Get.toNamed(Routes.HOME);
-            SnackbarUtils.openSnackbar(
-              "Partie sauvegardée",
-              "Sélectionnez 'Charger une partie' pour la poursuivre.",
+            context.go(Routes.home);
+            SnackBarUtils.instance.openSnackBar(
+              context: context,
+              title: "Partie sauvegardée",
+              text: "Sélectionnez 'Charger une partie' pour la poursuivre.",
             );
           }),
     );
