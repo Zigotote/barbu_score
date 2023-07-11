@@ -77,12 +77,10 @@ class OrderedPlayersScores extends ConsumerWidget {
           player: player,
           score: playerInfo.value,
           displayMedal: isFinished && index == 0,
-          bestFriend: isFinished == false
-              ? null
-              : _findBestFriend(player, provider.players),
-          worstEnnemy: isFinished == false
-              ? null
-              : _findWorstEnnemy(player, provider.players),
+          bestFriend:
+              isFinished ? _findBestFriend(player, provider.players) : null,
+          worstEnnemy:
+              isFinished ? _findWorstEnnemy(player, provider.players) : null,
         );
       },
     );

@@ -53,54 +53,44 @@ class MyApp extends ConsumerWidget {
         GoRoute(
           path: Routes.createGame,
           builder: (_, __) => CreateGame(),
-          //binding: CreatePlayersBinding(),
         ),
         GoRoute(
           path: Routes.prepareGame,
           builder: (_, __) => PrepareGame(),
-          //binding: PartyBinding(),
         ),
         GoRoute(
           path: Routes.chooseContract,
           builder: (_, __) => const ChooseContract(),
-          //binding: PartyBinding(),
         ),
         GoRoute(
           path: Routes.barbuOrNoLastTrickScores,
           builder: (_, state) =>
               OneLooserContractScores(state.extra as ContractRouteArgument),
-          //binding: SelectPlayerBinding(),
         ),
         GoRoute(
           path: Routes.dominoScores,
           builder: (_, __) => const DominoScores(),
-          //binding: OrderPlayerBinding(),
         ),
         GoRoute(
           path: Routes.noSomethingScores,
           builder: (_, state) =>
               IndividualScoresContract(state.extra as ContractRouteArgument),
-          //binding: IndividualScoresBinding(),
         ),
         GoRoute(
           path: Routes.trumpsScores,
           builder: (_, __) => const TrumpsScores(),
-          //binding: TrumpsScoresBinding(),
         ),
         GoRoute(
           path: Routes.scores,
           builder: (_, __) => const MyScores(),
-          //binding: PartyBinding(),
         ),
         GoRoute(
           path: Routes.scoresByPlayer,
           builder: (_, state) => ScoresByPlayer(state.extra as Player),
-          //binding: PartyBinding(),
         ),
         GoRoute(
           path: Routes.finishGame,
           builder: (_, __) => const FinishGame(),
-          //binding: PartyBinding(),
         ),
       ]),
     );

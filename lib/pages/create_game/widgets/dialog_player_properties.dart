@@ -1,4 +1,3 @@
-import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +6,7 @@ import 'package:sprintf/sprintf.dart';
 import '../../../commons/models/player.dart';
 import '../../../commons/utils/screen.dart';
 import '../../../commons/widgets/player_icon.dart';
+import '../../../theme/my_themes.dart';
 import '../create_game_props.dart';
 import '../notifiers/create_game.dart';
 

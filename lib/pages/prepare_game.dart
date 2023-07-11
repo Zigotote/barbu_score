@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
@@ -9,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../commons/models/player.dart';
+import '../commons/notifiers/play_game.dart';
 import '../commons/utils/screen.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/player_icon.dart';

@@ -1,10 +1,10 @@
-import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
+import '../../commons/notifiers/play_game.dart';
 import '../../commons/utils/globals.dart' as globals;
 import '../../commons/utils/screen.dart';
 import '../../commons/widgets/default_page.dart';
@@ -14,8 +14,6 @@ import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';
 
 class CreateGame extends ConsumerWidget {
-  static const String playerImage = "assets/players/player%s.png";
-
   /// Form key used to validate the form
   final _formKey = GlobalKey<FormState>();
 

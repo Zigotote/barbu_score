@@ -8,14 +8,15 @@ class Game {
   final List<Player> players;
 
   /// The index of the current player
-  int currentPlayerIndex;
+  int _currentPlayerIndex;
 
-  Game({required this.players, this.currentPlayerIndex = 0});
+  Game({required this.players, int currentPlayerIndex = 0})
+      : _currentPlayerIndex = currentPlayerIndex;
 
   Map<String, dynamic> toJson() {
     return {
       "players": jsonEncode(players.map((player) => player.toJson()).toList()),
-      "currentPlayerIndex": currentPlayerIndex,
+      "currentPlayerIndex": _currentPlayerIndex,
     };
   }
 
@@ -23,16 +24,16 @@ class Game {
       : players = (jsonDecode(json["players"]) as List)
             .map((player) => Player.fromJson(player))
             .toList(),
-        currentPlayerIndex = json["currentPlayerIndex"];
+        _currentPlayerIndex = json["currentPlayerIndex"];
 
   /// Returns the current player
-  Player get currentPlayer => players[currentPlayerIndex];
+  Player get currentPlayer => players[_currentPlayerIndex];
 
   /// Changes the current player to the next one
   nextPlayer() {
-    currentPlayerIndex++;
-    if (currentPlayerIndex == players.length) {
-      currentPlayerIndex = 0;
+    _currentPlayerIndex++;
+    if (_currentPlayerIndex == players.length) {
+      _currentPlayerIndex = 0;
     }
   }
 }

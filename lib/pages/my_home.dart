@@ -1,5 +1,3 @@
-import 'package:barbu_score/commons/notifiers/play_game.dart';
-import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,12 +5,14 @@ import 'package:wakelock/wakelock.dart';
 
 import '../commons/models/game.dart';
 import '../commons/models/player.dart';
+import '../commons/notifiers/play_game.dart';
 import '../commons/utils/screen.dart';
 import '../commons/utils/snackbar.dart';
 import '../commons/utils/storage.dart';
 import '../commons/widgets/custom_buttons.dart';
 import '../commons/widgets/my_appbar.dart';
 import '../main.dart';
+import '../theme/my_themes.dart';
 
 class MyHome extends ConsumerWidget {
   const MyHome({super.key});

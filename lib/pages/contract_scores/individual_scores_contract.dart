@@ -15,13 +15,18 @@ class IndividualScoresContract extends ConsumerStatefulWidget {
   /// The contract the player choose and the previous values, if it needs to be modified
   final ContractRouteArgument routeArgument;
 
-  /// The maximal number of item that can be gained during the contract
+  /// The maximal number of item that can be won during the contract
   final int itemsMax;
+
+  /// The name of the items won for this contract
+  final String itemsName;
 
   IndividualScoresContract(this.routeArgument, {super.key})
       : itemsMax = (routeArgument.contractInfo.contract
                 as AbstractMultipleLooserContractModel)
-            .expectedItems;
+            .expectedItems,
+        itemsName =
+            routeArgument.contractInfo.displayName.replaceFirst("Sans ", "");
 
   @override
   ConsumerState<IndividualScoresContract> createState() =>
@@ -61,7 +66,7 @@ class _IndividualScoresContractState
         context: context,
         title: "Ajout de points impossible",
         text:
-            "Le nombre d'items dépasse le nombre d'éléments pouvant être remporté, fixé à ${widget.itemsMax}.",
+            "Le nombre de ${widget.itemsName} dépasse le nombre d'éléments pouvant être remporté, fixé à ${widget.itemsMax}.",
       );
     } else {
       int playerScore = _playerItems[player.name]!;
@@ -117,8 +122,7 @@ class _IndividualScoresContractState
   @override
   Widget build(BuildContext context) {
     return ContractPage(
-      subtitle:
-          "Nombre de ${widget.routeArgument.contractInfo.displayName.replaceFirst("Sans ", "")} par joueur",
+      subtitle: "Nombre de ${widget.itemsName} par joueur",
       contract: widget.routeArgument.contractInfo,
       isModification: widget.routeArgument.isForModification,
       isValid: _isValid,

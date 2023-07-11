@@ -39,7 +39,7 @@ class PlayGameNotifier with ChangeNotifier {
   }
 
   /// Changes the current player to the next one
-  /// Returns true if their is a next player, false if the game is finished
+  /// Returns true if there is a next player, false if the game is finished
   bool nextPlayer() {
     _game.nextPlayer();
     notifyListeners();
