@@ -77,7 +77,6 @@ class ElevatedButtonCustomColor extends StatelessWidget {
       child: text != null
           ? Text(
               text!,
-              textAlign: TextAlign.center,
               style: TextStyle(fontSize: textSize),
             )
           : Icon(icon),

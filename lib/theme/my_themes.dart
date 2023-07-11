@@ -70,6 +70,7 @@ class MyThemes {
       ),
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
+          padding: const MaterialStatePropertyAll(EdgeInsets.zero),
           backgroundColor:
               MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
           foregroundColor:

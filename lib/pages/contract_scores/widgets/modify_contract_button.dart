@@ -23,7 +23,7 @@ class ModifyContractButton extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: onPressed,
-          child: Text(text),
+          child: Text(text, textAlign: TextAlign.center),
         ),
         Positioned(
           right: 8,
