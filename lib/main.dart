@@ -1,132 +1,115 @@
-import 'package:barbu_score/pages/my_rules.dart';
-import 'package:barbu_score/pages/my_settings.dart';
-import 'package:barbu_score/pages/prepare_party.dart';
-import 'package:barbu_score/utils/storage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import './bindings/contract.dart';
-import './bindings/create_players.dart';
-import './bindings/party.dart';
-import './controller/contract.dart';
-import './pages/choose_contract.dart';
-import './pages/create_party.dart';
-import './pages/domino_scores.dart';
-import './pages/individual_scores_contract.dart';
-import './pages/my_home.dart';
-import './pages/one_looser_contract_scores.dart';
-import './pages/scores_by_player.dart';
-import './pages/trump_scores.dart';
-import './theme/my_themes.dart';
-import '../pages/finish_party.dart';
-import '../pages/my_scores.dart';
+import '../pages/finish_game.dart';
+import 'commons/models/player.dart';
+import 'commons/utils/storage.dart';
+import 'pages/choose_contract.dart';
+import 'pages/contract_scores/domino_scores.dart';
+import 'pages/contract_scores/individual_scores_contract.dart';
+import 'pages/contract_scores/models/contract_route_argument.dart';
+import 'pages/contract_scores/one_looser_contract_scores.dart';
+import 'pages/contract_scores/trumps_scores.dart';
+import 'pages/create_game/create_game.dart';
+import 'pages/my_home.dart';
+import 'pages/my_rules.dart';
+import 'pages/my_scores.dart';
+import 'pages/my_settings.dart';
+import 'pages/prepare_game.dart';
+import 'pages/scores_by_player.dart';
+import 'theme/my_themes.dart';
+import 'theme/theme_provider.dart';
 
-void main() {
-  Get.put(MyStorage());
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MyStorage().init();
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp.router(
       title: 'Barbu Score',
       theme: MyThemes.light,
       darkTheme: MyThemes.dark,
-      themeMode: ThemeMode.system,
-      initialRoute: Routes.HOME,
-      getPages: [
-        GetPage(
-          name: Routes.HOME,
-          page: () => MyHome(),
+      themeMode: ref.watch(appThemeProvider),
+      routerConfig: GoRouter(routes: [
+        GoRoute(
+          path: Routes.home,
+          builder: (_, __) => const MyHome(),
         ),
-        GetPage(
-          name: Routes.RULES,
-          page: () => MyRules(),
+        GoRoute(
+          path: Routes.rules,
+          builder: (_, __) => const MyRules(),
         ),
-        GetPage(
-          name: Routes.SETTINGS,
-          page: () => MySettings(),
+        GoRoute(
+          path: Routes.settings,
+          builder: (_, __) => const MySettings(),
         ),
-        GetPage(
-          name: Routes.CREATE_PARTY,
-          page: () => CreateParty(),
-          binding: CreatePlayersBinding(),
+        GoRoute(
+          path: Routes.createGame,
+          builder: (_, __) => CreateGame(),
         ),
-        GetPage(
-          name: Routes.PREPARE_PARTY,
-          page: () => PrepareParty(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.prepareGame,
+          builder: (_, __) => PrepareGame(),
         ),
-        GetPage(
-          name: Routes.CHOOSE_CONTRACT,
-          page: () => ChooseContract(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.chooseContract,
+          builder: (_, __) => const ChooseContract(),
         ),
-        GetPage(
-          name: Routes.BARBU_OR_NOLASTTRICK_SCORES,
-          page: () => OneLooserContractScores(),
-          binding: SelectPlayerBinding(),
+        GoRoute(
+          path: Routes.barbuOrNoLastTrickScores,
+          builder: (_, state) =>
+              OneLooserContractScores(state.extra as ContractRouteArgument),
         ),
-        GetPage(
-          name: Routes.DOMINO_SCORES,
-          page: () => DominoScores(),
-          binding: OrderPlayerBinding(),
+        GoRoute(
+          path: Routes.dominoScores,
+          builder: (_, __) => const DominoScores(),
         ),
-        GetPage(
-          name: Routes.NO_SOMETHING_SCORES,
-          page: () => IndividualScoresContract(),
-          binding: IndividualScoresBinding(),
+        GoRoute(
+          path: Routes.noSomethingScores,
+          builder: (_, state) =>
+              IndividualScoresContract(state.extra as ContractRouteArgument),
         ),
-        GetPage(
-          name: Routes.TRUMPS_SCORES,
-          page: () => TrumpsScores(),
-          binding: TrumpsScoresBinding(),
+        GoRoute(
+          path: Routes.trumpsScores,
+          builder: (_, __) => const TrumpsScores(),
         ),
-        GetPage(
-          name: Routes.SCORES,
-          page: () => MyScores(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.scores,
+          builder: (_, __) => const MyScores(),
         ),
-        GetPage(
-          name: Routes.SCORES_BY_PLAYER,
-          page: () => ScoresByPlayer(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.scoresByPlayer,
+          builder: (_, state) => ScoresByPlayer(state.extra as Player),
         ),
-        GetPage(
-          name: Routes.FINISH_PARTY,
-          page: () => FinishParty(),
-          binding: PartyBinding(),
+        GoRoute(
+          path: Routes.finishGame,
+          builder: (_, __) => const FinishGame(),
         ),
-      ],
+      ]),
     );
   }
 }
 
 /// Names of the routes for the app
 class Routes {
-  static const HOME = "/";
-  static const RULES = "/rules";
-  static const SETTINGS = "/settings";
-  static const CREATE_PARTY = "/create_party";
-  static const PREPARE_PARTY = "/prepare_party";
-  static const CHOOSE_CONTRACT = "/choose_contract";
-  static const BARBU_OR_NOLASTTRICK_SCORES = "/one_looser_contract_scores";
-  static const DOMINO_SCORES = "/domino_scores";
-  static const NO_SOMETHING_SCORES = "/individual_scores";
-  static const TRUMPS_SCORES = "/trumps_scores";
-  static const SCORES = "/scores";
-  static const SCORES_BY_PLAYER = "/scores/player";
-  static const FINISH_PARTY = "/end_party";
-
-  /// Returns true if the contract of this route is part of a trumps contract
-  static bool isPartOfTrumpsContract() {
-    try {
-      Get.find<TrumpsScoresController>();
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
+  static const home = "/";
+  static const rules = "/rules";
+  static const settings = "/settings";
+  static const createGame = "/create_game";
+  static const prepareGame = "/prepare_game";
+  static const chooseContract = "/choose_contract";
+  static const barbuOrNoLastTrickScores = "/one_looser_contract_scores";
+  static const dominoScores = "/domino_scores";
+  static const noSomethingScores = "/individual_scores";
+  static const trumpsScores = "/trumps_scores";
+  static const scores = "/scores";
+  static const scoresByPlayer = "/scores/player";
+  static const finishGame = "/end_game";
 }

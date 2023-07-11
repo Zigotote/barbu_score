@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../controller/party.dart';
-import '../controller/player.dart';
+import '../commons/models/contract_info.dart';
+import '../commons/models/player.dart';
+import '../commons/notifiers/play_game.dart';
+import '../commons/widgets/default_page.dart';
+import '../commons/widgets/list_layouts.dart';
 import '../main.dart';
-import '../models/contract_info.dart';
-import '../models/route_argument.dart';
-import '../widgets/list_layouts.dart';
-import '../widgets/page_layouts.dart';
+import 'contract_scores/models/contract_route_argument.dart';
 
 /// A page for a player to choose his contract
-class ChooseContract extends GetView<PartyController> {
+class ChooseContract extends ConsumerWidget {
+  const ChooseContract({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    PlayerController player = controller.currentPlayer;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Player player = ref.watch(playGameProvider).currentPlayer;
     return DefaultPage(
       title: "Tour de ${player.name}",
       hasBackground: true,
       content: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           vertical: 16,
           horizontal: 8,
         ),
@@ -26,25 +29,25 @@ class ChooseContract extends GetView<PartyController> {
           children: ContractsInfo.values
               .map(
                 (contract) => ElevatedButton(
-                  child:
-                      Text(contract.displayName, textAlign: TextAlign.center),
                   onPressed: player.hasPlayedContract(contract)
                       ? null
-                      : () => Get.toNamed(
+                      : () => context.push(
                             contract.route,
-                            arguments: RouteArgument(
-                              contractInfo: contract,
-                              contractValues: null,
-                            ),
+                            extra:
+                                ContractRouteArgument(contractInfo: contract),
                           ),
+                  child: Text(
+                    contract.displayName,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               )
               .toList(),
         ),
       ),
       bottomWidget: ElevatedButton(
-        child: Text("Scores"),
-        onPressed: () => Get.toNamed(Routes.SCORES),
+        child: const Text("Scores"),
+        onPressed: () => context.push(Routes.scores),
       ),
     );
   }

@@ -1,0 +1,1 @@
+int nbPlayers = 0;
