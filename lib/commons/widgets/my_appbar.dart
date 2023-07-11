@@ -32,10 +32,8 @@ class MyAppBar extends AppBar {
                   title,
                   textAlign: TextAlign.center,
                   style: isHome
-                      ? Theme.of(context).textTheme.displaySmall!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface)
-                      : Theme.of(context).textTheme.headlineSmall!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface),
+                      ? Theme.of(context).textTheme.displaySmall
+                      : Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
               Align(

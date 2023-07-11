@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/game.dart';
@@ -8,6 +9,7 @@ import 'globals.dart' as globals;
 /// A class to handle local storage objects
 class MyStorage {
   static const String _gameKey = "game";
+  static const String _appThemeKey = "appTheme";
 
   /// The accessor for storage
   static SharedPreferences? _storage;
@@ -37,6 +39,18 @@ class MyStorage {
     try {
       _storage?.setString(_gameKey, jsonEncode(game.toJson()));
     } catch (_) {}
+  }
+
+  /// Saves the app theme
+  void saveAppTheme(ThemeMode themeMode) {
+    _storage?.setString(_appThemeKey, themeMode.name);
+  }
+
+  /// Returns the app theme
+  ThemeMode getAppTheme() {
+    final String? appThemeName = _storage?.getString(_appThemeKey);
+    return ThemeMode.values.firstWhere((theme) => theme.name == appThemeName,
+        orElse: () => ThemeMode.system);
   }
 
   /// Deletes the data saved in the store

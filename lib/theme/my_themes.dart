@@ -120,22 +120,4 @@ class MyThemes {
 extension CustomThemeValues on ColorScheme {
   Color get successColor =>
       brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
-
-  List<Color> get playerColors => brightness == Brightness.dark
-      ? [
-          Colors.brown.shade400,
-          Colors.lightGreen.shade800,
-          Colors.yellow.shade700,
-          Colors.orange.shade800,
-          Colors.deepOrange.shade700,
-          Colors.teal.shade400
-        ]
-      : [
-          Colors.brown.shade700,
-          Colors.lightGreen.shade900,
-          Colors.yellow.shade800,
-          Colors.orange.shade800,
-          Colors.deepOrange.shade900,
-          Colors.teal.shade900,
-        ];
 }

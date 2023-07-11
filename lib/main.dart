@@ -36,8 +36,7 @@ class MyApp extends ConsumerWidget {
       title: 'Barbu Score',
       theme: MyThemes.light,
       darkTheme: MyThemes.dark,
-      themeMode:
-          ref.watch(appThemeProvider).state ? ThemeMode.dark : ThemeMode.light,
+      themeMode: ref.watch(appThemeProvider),
       routerConfig: GoRouter(routes: [
         GoRoute(
           path: Routes.home,

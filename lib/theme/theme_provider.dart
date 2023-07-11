@@ -1,19 +1,20 @@
-import 'package:barbu_score/theme/my_themes.dart';
+import 'package:barbu_score/commons/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final appThemeProvider = StateProvider((ref) => AppThemeState());
+final appThemeProvider =
+    StateNotifierProvider<AppThemeMode, ThemeMode>((ref) => AppThemeMode());
 
-class AppThemeState extends StateNotifier<bool> {
-  AppThemeState() : super(false);
-
-  ThemeData get theme => state ? MyThemes.dark : MyThemes.light;
+class AppThemeMode extends StateNotifier<ThemeMode> {
+  AppThemeMode() : super(MyStorage().getAppTheme());
 
   void setLightTheme() {
-    state = false;
+    state = ThemeMode.light;
+    MyStorage().saveAppTheme(state);
   }
 
   void setDarkTheme() {
-    state = true;
+    state = ThemeMode.dark;
+    MyStorage().saveAppTheme(state);
   }
 }

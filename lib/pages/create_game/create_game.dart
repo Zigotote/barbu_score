@@ -13,9 +13,7 @@ import 'create_game_props.dart';
 import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';
 
-// TODO Océane remove provider because it can be a StatefulWidget
-// + check dark theme
-// correct snackbar
+// TODO Océane correct snackbar + finish correcting dark theme
 class CreateGame extends ConsumerWidget {
   static const String playerImage = "assets/players/player%s.png";
 
