@@ -38,7 +38,6 @@ class _DominoScoresState extends ConsumerState<DominoScores> {
   /// Build each player's button and the box to show which one is currently selected
   Widget _buildFields() {
     return ReorderableListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       buildDefaultDragHandles: false,
       itemCount: orderedPlayers.length,
