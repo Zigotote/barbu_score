@@ -53,6 +53,7 @@ class _OneLooserContractScoresState
   /// Selects the given player
   _selectPlayer(Player player) {
     setState(() {
+      _itemsByPlayer.updateAll((_, __) => 0);
       _selectedPlayer = player;
       _itemsByPlayer[player.name] = 1;
     });

@@ -42,6 +42,7 @@ class TrumpsNotifier with ChangeNotifier {
           .removeWhere((contract) => contract.name == contractInfo.name);
       _filledContracts.add(contract);
     }
+    notifyListeners();
     return isValid;
   }
 }
