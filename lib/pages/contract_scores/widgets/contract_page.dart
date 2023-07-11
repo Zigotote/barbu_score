@@ -54,7 +54,7 @@ class ContractPage extends ConsumerWidget {
       isFinished = provider.finishContract(contract, itemsByPlayer);
     }
     if (isFinished) {
-      SnackbarUtils.instance.closeSnackBar(context);
+      SnackBarUtils.instance.closeSnackBar(context);
       if (isPartOfTrumpsContract) {
         context.pop();
       } else {
@@ -62,7 +62,7 @@ class ContractPage extends ConsumerWidget {
             provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame);
       }
     } else {
-      SnackbarUtils.instance.openSnackBar(
+      SnackBarUtils.instance.openSnackBar(
         context: context,
         title: "Scores incorrects",
         text:

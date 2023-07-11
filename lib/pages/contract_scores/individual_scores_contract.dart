@@ -57,7 +57,7 @@ class _IndividualScoresContractState
   /// Increases the score of the player, only if the total score is less than the contract max score
   void _increaseScore(Player player) {
     if (_isValid) {
-      SnackbarUtils.instance.openSnackBar(
+      SnackBarUtils.instance.openSnackBar(
         context: context,
         title: "Ajout de points impossible",
         text:

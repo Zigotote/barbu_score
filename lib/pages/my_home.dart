@@ -41,7 +41,7 @@ class MyHome extends ConsumerWidget {
     } catch (_) {}
 
     if (previousGame == null) {
-      SnackbarUtils.instance.openSnackBar(
+      SnackBarUtils.instance.openSnackBar(
         context: context,
         title: "Aucune partie trouvée",
         text:
@@ -144,7 +144,7 @@ class MyHome extends ConsumerWidget {
               onPressed: () => context.push(Routes.rules),
             ),
             IconButton(
-              onPressed: () => SnackbarUtils.instance.openSnackBar(
+              onPressed: () => SnackBarUtils.instance.openSnackBar(
                   context: context,
                   title: "Patience...",
                   text: "Cette page arrivera dans une future version."),

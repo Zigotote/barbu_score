@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'screen.dart';
-
-class SnackbarUtils {
+class SnackBarUtils {
   /// Indicates if a snackbar is currently open
   bool _isSnackBarOpen;
 
-  SnackbarUtils._() : _isSnackBarOpen = false;
+  SnackBarUtils._() : _isSnackBarOpen = false;
 
-  static final SnackbarUtils _instance = SnackbarUtils._();
+  static final SnackBarUtils _instance = SnackBarUtils._();
 
-  static SnackbarUtils instance = _instance;
+  static SnackBarUtils instance = _instance;
 
   void openSnackBar(
       {required BuildContext context,
@@ -31,11 +29,7 @@ class SnackbarUtils {
                 ],
               ),
               behavior: SnackBarBehavior.floating,
-              margin: EdgeInsets.only(
-                bottom: ScreenHelper.height - 200,
-                right: 8,
-                left: 8,
-              ),
+              margin: const EdgeInsets.only(right: 8, left: 8, bottom: 8),
               dismissDirection: DismissDirection.horizontal,
             ),
           )

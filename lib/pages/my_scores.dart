@@ -21,7 +21,7 @@ class MyScores extends ConsumerWidget {
           child: const Text('Sauvegarder et quitter'),
           onPressed: () {
             context.go(Routes.home);
-            SnackbarUtils.instance.openSnackBar(
+            SnackBarUtils.instance.openSnackBar(
               context: context,
               title: "Partie sauvegardée",
               text: "Sélectionnez 'Charger une partie' pour la poursuivre.",
