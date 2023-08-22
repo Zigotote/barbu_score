@@ -23,6 +23,15 @@ in [PlayStore](https://play.google.com/store/apps/details?id=zigotote.barbu_scor
 If you notice something you would like to change, feel free to fill an issue or open a Pull request.
 Please explain why you want this changes so that I can understand your changes.
 
+## Release the app
+
+Before releasing, the app needs to be tested on a real device with ```flutter install```.
+If everything is fine, the app bundle can be build with ```flutter build appbundle``` and uploaded
+to PlayStore.
+
+See [Flutter deployment doc](https://docs.flutter.dev/deployment/android#building-the-app-for-release)
+for more info.
+ 
 ## Licence
 
 [MIT](https://choosealicense.com/licenses/mit/)
