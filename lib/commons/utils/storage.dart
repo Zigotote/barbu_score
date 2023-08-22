@@ -28,6 +28,11 @@ class MyStorage {
     var storedGame = _storage?.getString(_gameKey);
     if (storedGame != null) {
       final Game game = Game.fromJson(jsonDecode(storedGame));
+      // If the game is finished but not removed from storage it shouldn't be loaded
+      if (game.isFinished) {
+        _storage?.remove(_gameKey);
+        return null;
+      }
       globals.nbPlayers = game.players.length;
       return game;
     }

@@ -29,6 +29,9 @@ class Game {
   /// Returns the current player
   Player get currentPlayer => players[_currentPlayerIndex];
 
+  /// Returns true if the game is finished
+  bool get isFinished => currentPlayer.availableContracts.isEmpty;
+
   /// Changes the current player to the next one
   nextPlayer() {
     _currentPlayerIndex++;
