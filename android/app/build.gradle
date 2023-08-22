@@ -22,7 +22,8 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
+    namespace 'zigotote.barbu_score'
+    compileSdk 33
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -31,7 +32,7 @@ android {
     defaultConfig {
         applicationId "zigotote.barbu_score"
         minSdkVersion 16
-        targetSdkVersion 31
+        targetSdkVersion flutter.targetSdkVersion
         versionCode 6
         versionName "1.1.3"
     }
