@@ -1,46 +1,28 @@
-# Liste des fonctionnalités à ajouter
+# Barbu score
 
-## Page accueil
+Barbu score is a Flutter app to fill scores during a Barbu card game (also known as Tafferan or King
+of heart).
 
-- pouvoir sauvegarder plusieurs parties en même temps ++
-- pouvoir sauvegarder des joueurs et garder leurs statistiques
+## Installation
 
-## Page choix des joueurs
+This is a Flutter app so you need to install Flutter, like described in
+the [doc](https://docs.flutter.dev/get-started/install).
 
-- ajouter un mode "aléatoire" pour la partie
+...
 
-## Page choix contrat
+And that's it ! Now you can clone this repo and do awesome work to improve this app.
 
-- couper le trait du titre sur la droite et mettre un "?" qui affiche toutes les règles ++
+## Note
 
-## Page contrat
+I only tested this app on Android devices so the iOS version could be a bit flaky.
+If you don't want to contribute and just want to play, you can download the app
+in [PlayStore](https://play.google.com/store/apps/details?id=zigotote.barbu_score).
 
-- mettre un "?" sur la droite du titre pour afficher les règles du contrat ++
+## Contributing
 
-## Page règles
+If you notice something you would like to change, feel free to fill an issue or open a Pull request.
+Please explain why you want this changes so that I can understand your changes.
 
-- faire un accordéon avec les règles de chaque contrat, pour pouvoir les déplier + mettre des images
-    +
-- changer l'ordre : remonter le déroulement des manches pour que ça soit avant les contrats +
+## Licence
 
-## Page scores final
-
-- faire des onglets : scores généraux, scores par contrat, médailles +
-- quand on sélectionne un onglet on met des grosses lignes (comme sur le widget score) pour savoir
-  quel onglet est sélectionné, comme si on avait un classeur
-- scores généraux = ce qu'on a là
-- scores par contrat = équivalent du score d'un joueur mais avec un select en haut pour choisir le
-  type de contrat
-- médailles : le meilleur et le plus nul pour chaque contrat
-
-## Page Réussite
-
-- mettre des petites flèches en haut et en bas de chaque carré de joueur, au milieu, pour faire haut
-  et bas ++
-
-## Page paramètres
-
-- sélectionner les contrats à jouer +++
-- créer de nouveaux contrats
-- modifier le score des contrats +++
-- changer le thème de l'app +
+[MIT](https://choosealicense.com/licenses/mit/)
