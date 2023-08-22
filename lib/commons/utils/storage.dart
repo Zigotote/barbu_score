@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/contract_info.dart';
+import '../models/domino_points_props.dart';
 import '../models/game.dart';
 import 'globals.dart' as globals;
 
@@ -10,6 +12,8 @@ import 'globals.dart' as globals;
 class MyStorage {
   static const String _gameKey = "game";
   static const String _appThemeKey = "appTheme";
+  static const String _dominoPoints = "dominoPoints";
+  static const String _dominoIsFix = "dominoIsFix";
 
   /// The accessor for storage
   static SharedPreferences? _storage;
@@ -58,8 +62,42 @@ class MyStorage {
         orElse: () => ThemeMode.system);
   }
 
-  /// Deletes the data saved in the store
-  void delete() {
-    _storage?.clear();
+  /// Gets the points associated to this contract. Returns default points if no personalized data saved
+  int getPoints(ContractsInfo contractsInfo) {
+    return _storage?.getInt(contractsInfo.name) ?? contractsInfo.defaultPoints;
+  }
+
+  /// Saves the points associated to domino contract
+  DominoPointsProps getDominoPoints() {
+    final bool? isFix = _storage?.getBool(MyStorage._dominoIsFix);
+    final List<int>? points = _storage
+        ?.getStringList(MyStorage._dominoPoints)
+        ?.map((e) => int.parse(e))
+        .toList();
+    if (isFix != null && points != null) {
+      return DominoPointsProps(isFix: isFix, points: points);
+    }
+    return ContractsInfo.domino.defaultPoints;
+  }
+
+  /// Saves the points associated to this contract
+  /// Do not use this method for domino scores
+  void savePoints(ContractsInfo contractsInfo, int points) {
+    _storage?.setInt(contractsInfo.name, points);
+  }
+
+  /// Saves the points associated to domino contract
+  void saveDominoPoints(DominoPointsProps props) {
+    _storage?.setBool(MyStorage._dominoIsFix, props.isFix);
+    _storage?.setStringList(
+      MyStorage._dominoPoints,
+      props.points.map((point) => point.toString()).toList(),
+    );
+  }
+
+  /// Deletes the data saved for the game in the store
+  void deleteGame() {
+    globals.nbPlayers = 0;
+    _storage?.remove(_gameKey);
   }
 }

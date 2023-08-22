@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import '../utils/globals.dart' as globals;
+import '../utils/storage.dart';
 import 'contract_info.dart';
+import 'domino_points_props.dart';
 
 /// An abstract class to fill the scores for a contract
 abstract class AbstractContractModel {
@@ -41,7 +43,7 @@ abstract class AbstractContractModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "name": name.toString(),
+      "name": name,
       "scores": jsonEncode(_scores),
     };
   }
@@ -56,12 +58,14 @@ abstract class AbstractContractModel {
   bool setScores(Map<String, int> itemsByPlayer);
 }
 
-/// An abstract class to fill the scores for a contract which has only one looser
-abstract class AbstractOneLooserContractModel extends AbstractContractModel {
+/// A class to fill the scores for a contract which has only one looser
+class OneLooserContractModel extends AbstractContractModel {
   /// The number of points the looser will have for this contract
   final int _points;
 
-  AbstractOneLooserContractModel(String name, this._points) : super(name);
+  OneLooserContractModel(ContractsInfo contractsInfo)
+      : _points = MyStorage().getPoints(contractsInfo),
+        super(contractsInfo.name);
 
   @override
   Map<String, int> get playerItems => {
@@ -93,10 +97,10 @@ abstract class AbstractMultipleLooserContractModel
   final int _expectedItems;
 
   AbstractMultipleLooserContractModel(
-    String name,
-    this._pointsByItem,
+    ContractsInfo contractsInfo,
     this._expectedItems,
-  ) : super(name);
+  )   : _pointsByItem = MyStorage().getPoints(contractsInfo),
+        super(contractsInfo.name);
 
   /// Returns the maximal score for the contract
   int get expectedItems => _expectedItems;
@@ -131,30 +135,20 @@ abstract class AbstractMultipleLooserContractModel
   }
 }
 
-/// A barbu contract scores
-class BarbuContractModel extends AbstractOneLooserContractModel {
-  BarbuContractModel() : super(ContractsInfo.barbu.name, 50);
-}
-
 /// A no hearts contract scores
 class NoHeartsContractModel extends AbstractMultipleLooserContractModel {
   NoHeartsContractModel()
-      : super(ContractsInfo.noHearts.name, 5, globals.nbPlayers * 2);
+      : super(ContractsInfo.noHearts, globals.nbPlayers * 2);
 }
 
 /// A no queens contract scores
 class NoQueensContractModel extends AbstractMultipleLooserContractModel {
-  NoQueensContractModel() : super(ContractsInfo.noQueens.name, 10, 4);
+  NoQueensContractModel() : super(ContractsInfo.noQueens, 4);
 }
 
 /// A no tricks contract scores
 class NoTricksContractModel extends AbstractMultipleLooserContractModel {
-  NoTricksContractModel() : super(ContractsInfo.noTricks.name, 5, 8);
-}
-
-/// A no last trick contract scores
-class NoLastTrickContractModel extends AbstractOneLooserContractModel {
-  NoLastTrickContractModel() : super(ContractsInfo.noLastTrick.name, 40);
+  NoTricksContractModel() : super(ContractsInfo.noTricks, 8);
 }
 
 /// A trumps contract scores
@@ -173,8 +167,8 @@ class TrumpsContractModel extends AbstractContractModel {
 
 /// A domino contract scores
 class DominoContractModel extends AbstractContractModel {
-  /// The scores the player can have (it is a symmetric array)
-  final List<int> _rankScores = [40, 20, 10];
+  /// The scores the player can have
+  final DominoPointsProps _dominoPointsProps = MyStorage().getDominoPoints();
 
   DominoContractModel() : super(ContractsInfo.domino.name);
 
@@ -199,21 +193,30 @@ class DominoContractModel extends AbstractContractModel {
       (element1, element2) => element1.value - element2.value,
     );
 
-    double middleIndex = orderedPlayers.length / 2;
+    final List<int> dominoPoints = _dominoPointsProps.points;
+    final double middleIndex = orderedPlayers.length / 2;
     for (var player in orderedPlayers) {
-      int score = 0;
       int playerIndex = orderedPlayers.indexOf(player);
 
-      /// If the number of players is odd, and the player is in the middle rank, he has 0 points. Else it is calculated
-      if (orderedPlayers.length % 2 == 0 || middleIndex - 0.5 != playerIndex) {
-        /// The firsts players have a negative score, other have a positive score
-        if (playerIndex < middleIndex) {
-          score -= _rankScores[playerIndex];
-        } else {
-          score = _rankScores[orderedPlayers.length - playerIndex - 1];
+      if (_dominoPointsProps.isFix) {
+        _scores[player.key] = dominoPoints[playerIndex];
+      } else {
+        int score = 0;
+        // If the number of players is odd, and the player is in the middle rank, he has 0 points. Else it is calculated
+        if (orderedPlayers.length % 2 == 0 ||
+            middleIndex - 0.5 != playerIndex) {
+          // To get the first players scores, we read the array forward
+          if (playerIndex < middleIndex) {
+            score = dominoPoints[playerIndex];
+          }
+          // To get the last players scores, the array is read backward
+          else {
+            score = dominoPoints[
+                dominoPoints.length - (orderedPlayers.length - playerIndex)];
+          }
         }
+        _scores[player.key] = score;
       }
-      _scores[player.key] = score;
     }
     return true;
   }

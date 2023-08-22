@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -144,10 +145,16 @@ class MyHome extends ConsumerWidget {
               onPressed: () => context.push(Routes.rules),
             ),
             IconButton(
-              onPressed: () => SnackBarUtils.instance.openSnackBar(
-                  context: context,
-                  title: "Patience...",
-                  text: "Cette page arrivera dans une future version."),
+              onPressed: () {
+                if (kDebugMode) {
+                  context.push(Routes.settings);
+                } else {
+                  SnackBarUtils.instance.openSnackBar(
+                      context: context,
+                      title: "Patience...",
+                      text: "Cette page arrivera dans une future version.");
+                }
+              },
               iconSize: ScreenHelper.width * 0.15,
               icon: const Icon(Icons.settings),
               style: IconButton.styleFrom(side: BorderSide.none),
