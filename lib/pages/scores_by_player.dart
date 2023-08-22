@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/widgets/score_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,95 +15,49 @@ class ScoresByPlayer extends ConsumerWidget {
   /// The player whose contract scores are shown
   final Player player;
 
+  static final double _headingRowHeight = ScreenHelper.width * 0.17;
+
   const ScoresByPlayer(this.player, {super.key});
 
-  /// Builds the table to display the scores of the players in a matrix
-  DataTable _buildTable(BuildContext context, List<Player> players) {
-    final double headingHeight = ScreenHelper.width * 0.17;
-    final Color textColor = Theme.of(context).colorScheme.onSurface;
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    return DataTable(
-      headingRowHeight: headingHeight,
-      headingTextStyle: textTheme.labelLarge,
-      columnSpacing: 8,
-      border: TableBorder(
-        horizontalInside: BorderSide(color: textColor),
-      ),
-      columns: [
-        const DataColumn(label: Text("")),
-        ...players
-            .map(
-              (player) => DataColumn(
-                label: SizedBox(
-                  width: headingHeight,
-                  child: Column(
-                    children: [
-                      PlayerIcon(
-                        image: player.image,
-                        color: player.color,
-                        size: ScreenHelper.width * 0.1,
-                      ),
-                      Text(player.name, overflow: TextOverflow.ellipsis)
-                    ],
-                  ),
-                ),
-                numeric: true,
-                tooltip: player.name,
-              ),
-            )
-            .toList()
-      ],
-      rows: [
-        ...ContractsInfo.values.map((contract) {
-          return DataRow(
-            cells: [
-              DataCell(Text(contract.displayName)),
-              ..._buildScoresCells(
-                players,
-                player.contractScores(contract.name),
-              ),
-            ],
-          );
-        }).toList(),
-        DataRow(
-          cells: [
-            DataCell(Text(
-              "Total",
-              style: textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.w900,
-              ),
-            )),
-            ..._buildScoresCells(
-              players,
-              player.playerScores,
-              textStyle: textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.w900,
-              ),
-            )
-          ],
-        ),
-      ],
-    );
-  }
-
-  /// Builds the cells to display the score of each player
-  List<DataCell> _buildScoresCells(
-      List<Player> players, Map<String, int>? playerScores,
-      {TextStyle? textStyle}) {
+  /// Builds the widgets to display the icon and name of each player
+  List<Widget> _buildColumnHeaders(List<Player> players) {
     return players
         .map(
-          (player) => DataCell(
-            Center(
-              child: Text(
-                playerScores != null
-                    ? playerScores[player.name].toString()
-                    : '/',
-                style: textStyle,
-              ),
+          (player) => SizedBox(
+            width: _headingRowHeight,
+            child: Column(
+              children: [
+                PlayerIcon(
+                  image: player.image,
+                  color: player.color,
+                  size: ScreenHelper.width * 0.1,
+                ),
+                Text(player.name, overflow: TextOverflow.ellipsis)
+              ],
             ),
           ),
         )
         .toList();
+  }
+
+  /// Builds the rows to display player scores for each contract
+  List<ScoreRow> _buildPlayerRows(List<Player> players) {
+    return ContractsInfo.values.map((contract) {
+      final Map<String, int>? scores = player.contractScores(contract.name);
+      return ScoreRow(
+        title: contract.displayName,
+        scores: players.map((p) => scores?[p.name]).toList(),
+      );
+    }).toList();
+  }
+
+  /// Builds the row to display total scores
+  ScoreRow _buildTotalRow(List<Player> players) {
+    return ScoreRow(
+      title: "Total",
+      scores: players.map((p) => player.playerScores?[p.name]).toList(),
+      isBold: true,
+    );
   }
 
   @override
@@ -118,7 +73,11 @@ class ScoresByPlayer extends ConsumerWidget {
             MySubtitle("Contrats de ${player.name}"),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: _buildTable(context, players),
+              child: ScoreTable(
+                headingRowHeight: _headingRowHeight,
+                columnHeaders: _buildColumnHeaders(players),
+                rows: [..._buildPlayerRows(players), _buildTotalRow(players)],
+              ),
             ),
           ],
         ),
