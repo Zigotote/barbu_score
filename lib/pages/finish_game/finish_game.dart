@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../commons/utils/storage.dart';
-import '../commons/widgets/default_page.dart';
-import '../commons/widgets/ordered_players_scores.dart';
-import '../main.dart';
+import '../../commons/utils/storage.dart';
+import '../../commons/widgets/default_page.dart';
+import '../../commons/widgets/ordered_players_scores.dart';
+import '../../main.dart';
+import 'widgets/game_table.dart';
 
 /// A page to display the scores of each player at the end of the game
 class FinishGame extends StatelessWidget {
@@ -14,7 +15,10 @@ class FinishGame extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultPage(
       title: "Fin de partie",
-      content: const OrderedPlayersScores(),
+      tabs: const [Tab(text: "Classement"), Tab(text: "Scores par contrat")],
+      content: const TabBarView(
+        children: [OrderedPlayersScores(), GameTable()],
+      ),
       bottomWidget: ElevatedButton(
         child: const Text("Retour à l'accueil"),
         onPressed: () {

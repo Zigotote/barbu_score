@@ -8,7 +8,6 @@ import '../commons/notifiers/play_game.dart';
 import '../commons/utils/screen.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/my_subtitle.dart';
-import '../commons/widgets/player_icon.dart';
 
 /// A page to display the scores for the contracts of a player
 class ScoresByPlayer extends ConsumerWidget {
@@ -18,27 +17,6 @@ class ScoresByPlayer extends ConsumerWidget {
   static final double _headingRowHeight = ScreenHelper.width * 0.17;
 
   const ScoresByPlayer(this.player, {super.key});
-
-  /// Builds the widgets to display the icon and name of each player
-  List<Widget> _buildColumnHeaders(List<Player> players) {
-    return players
-        .map(
-          (player) => SizedBox(
-            width: _headingRowHeight,
-            child: Column(
-              children: [
-                PlayerIcon(
-                  image: player.image,
-                  color: player.color,
-                  size: ScreenHelper.width * 0.1,
-                ),
-                Text(player.name, overflow: TextOverflow.ellipsis)
-              ],
-            ),
-          ),
-        )
-        .toList();
-  }
 
   /// Builds the rows to display player scores for each contract
   List<ScoreRow> _buildPlayerRows(List<Player> players) {
@@ -74,8 +52,7 @@ class ScoresByPlayer extends ConsumerWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: ScoreTable(
-                headingRowHeight: _headingRowHeight,
-                columnHeaders: _buildColumnHeaders(players),
+                players: players,
                 rows: [..._buildPlayerRows(players), _buildTotalRow(players)],
               ),
             ),
