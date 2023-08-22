@@ -44,6 +44,6 @@ class PlayGameNotifier with ChangeNotifier {
     _game.nextPlayer();
     notifyListeners();
     MyStorage().saveGame(_game);
-    return _game.currentPlayer.availableContracts.isNotEmpty;
+    return !_game.isFinished;
   }
 }
