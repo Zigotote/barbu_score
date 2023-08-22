@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../pages/finish_game.dart';
 import 'commons/models/player.dart';
 import 'commons/utils/storage.dart';
 import 'pages/choose_contract.dart';
@@ -12,6 +11,7 @@ import 'pages/contract_scores/models/contract_route_argument.dart';
 import 'pages/contract_scores/one_looser_contract_scores.dart';
 import 'pages/contract_scores/trumps_scores.dart';
 import 'pages/create_game/create_game.dart';
+import 'pages/finish_game/finish_game.dart';
 import 'pages/my_home.dart';
 import 'pages/my_rules.dart';
 import 'pages/my_scores.dart';

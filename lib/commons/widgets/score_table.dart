@@ -1,26 +1,47 @@
 import 'package:flutter/material.dart';
 
+import '../models/player.dart';
 import '../utils/screen.dart';
+import 'player_icon.dart';
 
 /// A table to display scores
 class ScoreTable extends StatelessWidget {
-  /// The name of the columns of the table
-  final List<Widget> columnHeaders;
+  /// The players for the game
+  final List<Player> players;
 
   /// The data to display in the body rows
   final List<ScoreRow> rows;
 
-  /// The height of the heading row. If null, defaults to DataTable headingRowHeight value
-  final double? headingRowHeight;
+  const ScoreTable({super.key, required this.players, required this.rows});
 
-  const ScoreTable(
-      {super.key,
-      required this.columnHeaders,
-      required this.rows,
-      this.headingRowHeight});
+  /// Builds the widgets to display the icon and name of each player
+  List<DataColumn> _buildPlayersRow(double headingRowHeight) {
+    return players
+        .map(
+          (player) => DataColumn(
+            label: SizedBox(
+              width: headingRowHeight,
+              child: Column(
+                children: [
+                  PlayerIcon(
+                    image: player.image,
+                    color: player.color,
+                    size: ScreenHelper.width * 0.1,
+                  ),
+                  Text(player.name, overflow: TextOverflow.ellipsis)
+                ],
+              ),
+            ),
+            numeric: true,
+            tooltip: player.name,
+          ),
+        )
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final double headingRowHeight = ScreenHelper.width * 0.17;
     final Color textColor = Theme.of(context).colorScheme.onSurface;
     final TextTheme textTheme = Theme.of(context).textTheme;
     return DataTable(
@@ -32,9 +53,7 @@ class ScoreTable extends StatelessWidget {
       ),
       columns: [
         const DataColumn(label: Text("")),
-        ...columnHeaders
-            .map((header) => DataColumn(label: header, numeric: true))
-            .toList()
+        ..._buildPlayersRow(headingRowHeight)
       ],
       rows: [
         ...rows.map((row) {
@@ -62,7 +81,16 @@ class ScoreRow {
   DataRow build(TextStyle textStyle) {
     return DataRow(
       cells: [
-        DataCell(Text(title)),
+        DataCell(
+          Text(
+            title,
+            style: isBold
+                ? textStyle.copyWith(
+                    fontWeight: FontWeight.w900,
+                  )
+                : textStyle,
+          ),
+        ),
         ...scores
             .map(
               (score) => DataCell(

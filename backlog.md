@@ -23,16 +23,6 @@
     +
 - changer l'ordre : remonter le déroulement des manches pour que ça soit avant les contrats +
 
-## Page scores final
-
-- faire des onglets : scores généraux, scores par contrat, médailles +
-- quand on sélectionne un onglet on met des grosses lignes (comme sur le widget score) pour savoir
-  quel onglet est sélectionné, comme si on avait un classeur
-- scores généraux = ce qu'on a là
-- scores par contrat = équivalent du score d'un joueur mais avec un select en haut pour choisir le
-  type de contrat
-- médailles : le meilleur et le plus nul pour chaque contrat
-
 ## Page paramètres
 
 - sélectionner les contrats à jouer +++
