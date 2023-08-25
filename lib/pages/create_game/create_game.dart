@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../commons/notifiers/play_game.dart';
@@ -43,7 +42,7 @@ class CreateGame extends ConsumerWidget {
               if (_formKey.currentState!.validate()) {
                 ref.read(playGameProvider).init(provider.players);
                 globals.nbPlayers = provider.players.length;
-                context.push(Routes.prepareGame);
+                Navigator.of(context).pushNamed(Routes.prepareGame);
               }
             }
           : null,

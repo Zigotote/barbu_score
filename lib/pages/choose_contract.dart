@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../commons/models/contract_info.dart';
 import '../commons/models/player.dart';
@@ -31,9 +30,9 @@ class ChooseContract extends ConsumerWidget {
                 (contract) => ElevatedButton(
                   onPressed: player.hasPlayedContract(contract)
                       ? null
-                      : () => context.push(
+                      : () => Navigator.of(context).pushNamed(
                             contract.route,
-                            extra:
+                            arguments:
                                 ContractRouteArgument(contractInfo: contract),
                           ),
                   child: Text(
@@ -47,7 +46,7 @@ class ChooseContract extends ConsumerWidget {
       ),
       bottomWidget: ElevatedButton(
         child: const Text("Scores"),
-        onPressed: () => context.push(Routes.scores),
+        onPressed: () => Navigator.of(context).pushNamed(Routes.scores),
       ),
     );
   }

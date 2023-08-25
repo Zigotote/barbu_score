@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../commons/models/player.dart';
 import '../../../commons/utils/screen.dart';
@@ -55,10 +54,10 @@ class CreatePlayer extends StatelessWidget {
       context: context,
       builder: (_) => DialogChangePlayerInfo(
         player: player,
-        onValidate: context.pop,
+        onValidate: Navigator.of(context).pop,
         onDelete: () {
           onRemove.call();
-          context.pop();
+          Navigator.of(context).pop();
         },
       ),
     );

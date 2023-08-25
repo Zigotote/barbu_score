@@ -1,20 +1,17 @@
-import 'package:barbu_score/commons/widgets/score_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../commons/models/contract_info.dart';
 import '../commons/models/player.dart';
 import '../commons/notifiers/play_game.dart';
-import '../commons/utils/screen.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/my_subtitle.dart';
+import '../commons/widgets/score_table.dart';
 
 /// A page to display the scores for the contracts of a player
 class ScoresByPlayer extends ConsumerWidget {
   /// The player whose contract scores are shown
   final Player player;
-
-  static final double _headingRowHeight = ScreenHelper.width * 0.17;
 
   const ScoresByPlayer(this.player, {super.key});
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../commons/models/contract_info.dart';
 import '../../../../main.dart';
@@ -56,9 +55,9 @@ class ContractPage extends ConsumerWidget {
     if (isFinished) {
       SnackBarUtils.instance.closeSnackBar(context);
       if (isPartOfTrumpsContract) {
-        context.pop();
+        Navigator.of(context).pop();
       } else {
-        context.go(
+        Navigator.of(context).popAndPushNamed(
             provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame);
       }
     } else {

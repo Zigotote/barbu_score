@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import 'commons/models/player.dart';
 import 'commons/utils/storage.dart';
@@ -32,68 +31,32 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp.router(
-      title: 'Barbu Score',
-      theme: MyThemes.light,
-      darkTheme: MyThemes.dark,
-      themeMode: ref.watch(appThemeProvider),
-      routerConfig: GoRouter(routes: [
-        GoRoute(
-          path: Routes.home,
-          builder: (_, __) => const MyHome(),
-        ),
-        GoRoute(
-          path: Routes.rules,
-          builder: (_, __) => const MyRules(),
-        ),
-        GoRoute(
-          path: Routes.settings,
-          builder: (_, __) => const MySettings(),
-        ),
-        GoRoute(
-          path: Routes.createGame,
-          builder: (_, __) => CreateGame(),
-        ),
-        GoRoute(
-          path: Routes.prepareGame,
-          builder: (_, __) => PrepareGame(),
-        ),
-        GoRoute(
-          path: Routes.chooseContract,
-          builder: (_, __) => const ChooseContract(),
-        ),
-        GoRoute(
-          path: Routes.barbuOrNoLastTrickScores,
-          builder: (_, state) =>
-              OneLooserContractScores(state.extra as ContractRouteArgument),
-        ),
-        GoRoute(
-          path: Routes.dominoScores,
-          builder: (_, __) => const DominoScores(),
-        ),
-        GoRoute(
-          path: Routes.noSomethingScores,
-          builder: (_, state) =>
-              IndividualScoresContract(state.extra as ContractRouteArgument),
-        ),
-        GoRoute(
-          path: Routes.trumpsScores,
-          builder: (_, __) => const TrumpsScores(),
-        ),
-        GoRoute(
-          path: Routes.scores,
-          builder: (_, __) => const MyScores(),
-        ),
-        GoRoute(
-          path: Routes.scoresByPlayer,
-          builder: (_, state) => ScoresByPlayer(state.extra as Player),
-        ),
-        GoRoute(
-          path: Routes.finishGame,
-          builder: (_, __) => const FinishGame(),
-        ),
-      ]),
-    );
+    return MaterialApp(
+        title: 'Barbu Score',
+        theme: MyThemes.light,
+        darkTheme: MyThemes.dark,
+        routes: {
+          Routes.home: (_) => const MyHome(),
+          Routes.rules: (_) => const MyRules(),
+          Routes.settings: (_) => const MySettings(),
+          Routes.createGame: (_) => CreateGame(),
+          Routes.prepareGame: (_) => PrepareGame(),
+          Routes.chooseContract: (_) => const ChooseContract(),
+          Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractScores(
+              ModalRoute.of(context)?.settings.arguments
+                  as ContractRouteArgument),
+          Routes.dominoScores: (_) => const DominoScores(),
+          Routes.noSomethingScores: (context) => IndividualScoresContract(
+              ModalRoute.of(context)?.settings.arguments
+                  as ContractRouteArgument),
+          Routes.trumpsScores: (_) => const TrumpsScores(),
+          Routes.scores: (_) => const MyScores(),
+          Routes.scoresByPlayer: (context) => ScoresByPlayer(
+              ModalRoute.of(context)?.settings.arguments as Player),
+          Routes.finishGame: (_) => const FinishGame(),
+        },
+        initialRoute: Routes.home,
+        builder: (context, child) => child!);
   }
 }
 

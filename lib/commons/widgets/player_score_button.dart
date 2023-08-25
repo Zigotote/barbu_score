@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../main.dart';
 import '../models/player.dart';
@@ -94,9 +93,9 @@ class PlayerScoreButton extends StatelessWidget {
           const Icon(Icons.arrow_forward_ios)
         ],
       ),
-      onPressed: () => context.push(
+      onPressed: () => Navigator.of(context).pushNamed(
         Routes.scoresByPlayer,
-        extra: player,
+        arguments: player,
       ), //, arguments: player
     );
   }
