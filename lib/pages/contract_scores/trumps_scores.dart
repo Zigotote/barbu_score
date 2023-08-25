@@ -1,7 +1,6 @@
 import 'package:barbu_score/pages/contract_scores/widgets/modify_contract_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
@@ -31,9 +30,9 @@ class TrumpsScores extends ConsumerWidget {
       BuildContext context, ContractsInfo contract) {
     return ElevatedButton(
       child: Text(contract.displayName, textAlign: TextAlign.center),
-      onPressed: () => context.push(
+      onPressed: () => Navigator.of(context).pushNamed(
         contract.route,
-        extra: ContractRouteArgument(contractInfo: contract),
+        arguments: ContractRouteArgument(contractInfo: contract),
       ),
     );
   }
@@ -43,9 +42,9 @@ class TrumpsScores extends ConsumerWidget {
       AbstractContractModel contractValues) {
     return ModifyContractButton(
       text: contract.displayName,
-      onPressed: () => context.push(
+      onPressed: () => Navigator.of(context).pushNamed(
         contract.route,
-        extra: ContractRouteArgument(
+        arguments: ContractRouteArgument(
           contractInfo: contract,
           contractValues: contractValues,
         ),

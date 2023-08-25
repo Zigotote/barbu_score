@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../main.dart';
 import 'my_tabbar.dart';
@@ -44,9 +43,9 @@ class MyAppBar extends AppBar {
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () {
                       try {
-                        context.pop();
+                        Navigator.of(context).pop();
                       } catch (_) {
-                        context.go(Routes.home);
+                        Navigator.of(context).pushNamed(Routes.home);
                       }
                     },
                   ),

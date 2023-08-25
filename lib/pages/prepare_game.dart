@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../commons/models/player.dart';
@@ -63,7 +62,7 @@ class PrepareGame extends ConsumerWidget {
         child: const Text("C'est parti !"),
         onPressed: () {
           Wakelock.enable();
-          context.push(Routes.chooseContract);
+          Navigator.of(context).popAndPushNamed(Routes.chooseContract);
         },
       ),
     );

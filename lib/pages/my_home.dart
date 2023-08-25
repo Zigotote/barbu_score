@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../commons/models/game.dart';
@@ -26,12 +25,12 @@ class MyHome extends ConsumerWidget {
   /// Loads a previous game and resumes it
   _loadGame(BuildContext context, WidgetRef ref, Game game) {
     ref.read(playGameProvider).load(game);
-    context.go(Routes.prepareGame);
+    Navigator.of(context).popAndPushNamed(Routes.prepareGame);
   }
 
   /// Starts a new party
   _startGame(BuildContext context, WidgetRef ref) {
-    context.go(Routes.createGame);
+    Navigator.of(context).popAndPushNamed(Routes.createGame);
   }
 
   /// Builds the widgets to load a saved game
@@ -115,51 +114,54 @@ class MyHome extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Wakelock.disable();
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background.png"),
-            fit: BoxFit.fitWidth,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/background.png"),
+              fit: BoxFit.fitWidth,
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            MyAppBar(
-              context,
-              "Le Barbu",
-              isHome: true,
-              hasLeading: false,
-            ),
-            ElevatedButtonFullWidth(
-              child: const Text("Démarrer une partie"),
-              onPressed: () => _confirmStartGame(context, ref),
-            ),
-            ElevatedButtonFullWidth(
-              child: const Text("Charger une partie"),
-              onPressed: () => _confirmLoadGame(context, ref),
-            ),
-            ElevatedButton(
-              child: const Text("Règles du jeu"),
-              onPressed: () => context.push(Routes.rules),
-            ),
-            IconButton(
-              onPressed: () {
-                if (kDebugMode) {
-                  context.push(Routes.settings);
-                } else {
-                  SnackBarUtils.instance.openSnackBar(
-                      context: context,
-                      title: "Patience...",
-                      text: "Cette page arrivera dans une future version.");
-                }
-              },
-              iconSize: ScreenHelper.width * 0.15,
-              icon: const Icon(Icons.settings),
-              style: IconButton.styleFrom(side: BorderSide.none),
-            ),
-          ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MyAppBar(
+                context,
+                "Le Barbu",
+                isHome: true,
+                hasLeading: false,
+              ),
+              ElevatedButtonFullWidth(
+                child: const Text("Démarrer une partie"),
+                onPressed: () => _confirmStartGame(context, ref),
+              ),
+              ElevatedButtonFullWidth(
+                child: const Text("Charger une partie"),
+                onPressed: () => _confirmLoadGame(context, ref),
+              ),
+              ElevatedButton(
+                child: const Text("Règles du jeu"),
+                onPressed: () => Navigator.of(context).pushNamed(Routes.rules),
+              ),
+              IconButton(
+                onPressed: () {
+                  if (kDebugMode) {
+                    Navigator.of(context).pushNamed(Routes.settings);
+                  } else {
+                    SnackBarUtils.instance.openSnackBar(
+                        context: context,
+                        title: "Patience...",
+                        text: "Cette page arrivera dans une future version.");
+                  }
+                },
+                iconSize: ScreenHelper.width * 0.15,
+                icon: const Icon(Icons.settings),
+                style: IconButton.styleFrom(side: BorderSide.none),
+              ),
+            ],
+          ),
         ),
       ),
     );
