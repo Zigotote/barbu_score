@@ -1,9 +1,10 @@
 import 'package:barbu_score/commons/models/domino_points_props.dart';
+import 'package:barbu_score/pages/settings/widgets/app_theme_choice.dart';
 import 'package:flutter/material.dart';
 
-import '../commons/models/contract_info.dart';
-import '../commons/utils/storage.dart';
-import '../commons/widgets/default_page.dart';
+import '../../commons/models/contract_info.dart';
+import '../../commons/utils/storage.dart';
+import '../../commons/widgets/default_page.dart';
 
 class MySettings extends StatelessWidget {
   const MySettings({super.key});
@@ -15,14 +16,7 @@ class MySettings extends StatelessWidget {
       hasLeading: true,
       content: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Text("Thème"),
-              ElevatedButton(onPressed: () {}, child: const Text('Sombre')),
-              ElevatedButton(onPressed: () {}, child: const Text('Clair'))
-            ],
-          ),
+          const AppThemeChoice(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [

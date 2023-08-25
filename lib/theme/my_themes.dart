@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:non_uniform_border/non_uniform_border.dart';
 
 class MyThemes {
+  MyThemes._();
+
   static final light = _baseTheme(ThemeData.light());
 
   static final dark = _baseTheme(ThemeData.dark());
