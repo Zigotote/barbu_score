@@ -7,11 +7,17 @@ class MyGrid extends StatelessWidget {
   /// The function to build each item
   final List<Widget> children;
 
-  const MyGrid({super.key, required this.children});
+  /// The indicator to know if grid should be scrollable
+  final bool isScrollable;
+
+  const MyGrid({super.key, required this.children, this.isScrollable = true});
 
   @override
   Widget build(BuildContext context) {
     return GridView.extent(
+      physics: isScrollable
+          ? const AlwaysScrollableScrollPhysics()
+          : const NeverScrollableScrollPhysics(),
       maxCrossAxisExtent: ScreenHelper.width * 0.5,
       crossAxisSpacing: 24,
       mainAxisSpacing: 24,

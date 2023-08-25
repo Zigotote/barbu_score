@@ -5,25 +5,57 @@ import 'contract_models.dart';
 
 /// List the names of the contracts for a party
 enum ContractsInfo {
-  barbu("Barbu", 50, Routes.barbuOrNoLastTrickScores),
-  noHearts("Sans coeurs", 5, Routes.noSomethingScores),
-  noQueens("Sans dames", 10, Routes.noSomethingScores),
-  noTricks("Sans plis", 5, Routes.noSomethingScores),
-  noLastTrick("Dernier", 40, Routes.barbuOrNoLastTrickScores),
-  trumps("Salade", null, Routes.trumpsScores),
+  barbu(
+    displayName: "Barbu",
+    defaultPoints: 50,
+    scoreRoute: Routes.barbuOrNoLastTrickScores,
+    settingsRoute: Routes.barbuOrNoLastTrickSettings,
+  ),
+  noHearts(
+    displayName: "Sans coeurs",
+    defaultPoints: 5,
+    scoreRoute: Routes.noSomethingScores,
+    settingsRoute: Routes.noSomethingScoresSettings,
+  ),
+  noQueens(
+    displayName: "Sans dames",
+    defaultPoints: 10,
+    scoreRoute: Routes.noSomethingScores,
+    settingsRoute: Routes.noSomethingScoresSettings,
+  ),
+  noTricks(
+    displayName: "Sans plis",
+    defaultPoints: 5,
+    scoreRoute: Routes.noSomethingScores,
+    settingsRoute: Routes.noSomethingScoresSettings,
+  ),
+  noLastTrick(
+    displayName: "Dernier",
+    defaultPoints: 40,
+    scoreRoute: Routes.barbuOrNoLastTrickScores,
+    settingsRoute: Routes.noSomethingScoresSettings,
+  ),
+  trumps(displayName: "Salade", scoreRoute: Routes.trumpsScores),
   domino(
-      "Réussite",
-      DominoPointsProps(
-        isFix: false,
-        points: [-40, -20, -10, 10, 20, 40],
-      ),
-      Routes.dominoScores);
+    displayName: "Réussite",
+    defaultPoints: DominoPointsProps(
+      isFix: false,
+      points: [-40, -20, -10, 10, 20, 40],
+    ),
+    scoreRoute: Routes.dominoScores,
+    settingsRoute: Routes.barbuOrNoLastTrickSettings,
+  );
 
-  const ContractsInfo(this.displayName, this.defaultPoints, this.route);
+  const ContractsInfo(
+      {required this.displayName,
+      this.defaultPoints,
+      required this.scoreRoute,
+      this.settingsRoute});
 
   final String displayName;
   final dynamic defaultPoints;
-  final String route;
+  final String scoreRoute;
+  final String? settingsRoute;
 
   AbstractContractModel get contract {
     switch (this) {

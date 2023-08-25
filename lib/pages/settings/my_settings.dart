@@ -1,10 +1,9 @@
-import 'package:barbu_score/commons/models/domino_points_props.dart';
-import 'package:barbu_score/pages/settings/widgets/app_theme_choice.dart';
 import 'package:flutter/material.dart';
 
 import '../../commons/models/contract_info.dart';
-import '../../commons/utils/storage.dart';
 import '../../commons/widgets/default_page.dart';
+import '../../commons/widgets/list_layouts.dart';
+import 'widgets/app_theme_choice.dart';
 
 class MySettings extends StatelessWidget {
   const MySettings({super.key});
@@ -15,61 +14,30 @@ class MySettings extends StatelessWidget {
       title: "Paramètres",
       hasLeading: true,
       content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const AppThemeChoice(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Text("Score barbu"),
-              Expanded(
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  initialValue:
-                      MyStorage().getPoints(ContractsInfo.barbu).toString(),
-                  onChanged: (value) => MyStorage()
-                      .savePoints(ContractsInfo.barbu, int.parse(value)),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Text("Points par dame"),
-              Expanded(
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  initialValue:
-                      MyStorage().getPoints(ContractsInfo.noQueens).toString(),
-                  onChanged: (value) => MyStorage()
-                      .savePoints(ContractsInfo.noQueens, int.parse(value)),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Text("Points réussite"),
-              Expanded(
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  initialValue: MyStorage().getDominoPoints().points.toString(),
-                  onChanged: (value) => MyStorage().saveDominoPoints(
-                    DominoPointsProps(
-                      isFix: false,
-                      points: value
-                          .replaceFirst("[", "")
-                          .replaceFirst("]", "")
-                          .split(",")
-                          .map((e) => int.parse(e))
-                          .toList(),
+          const Text("Paramètres des contrats"),
+          const SizedBox(height: 24),
+          Expanded(
+            child: MyGrid(
+              isScrollable: false,
+              children: ContractsInfo.values
+                  .where((contract) => contract.settingsRoute != null)
+                  .map(
+                    (contract) => ElevatedButton(
+                      onPressed: () => Navigator.of(context).pushNamed(
+                          contract.settingsRoute!,
+                          arguments: contract),
+                      child: Text(
+                        contract.displayName,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ],
-          )
+                  )
+                  .toList(),
+            ),
+          ),
         ],
       ),
     );

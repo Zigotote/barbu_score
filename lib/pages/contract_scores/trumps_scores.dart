@@ -31,7 +31,7 @@ class TrumpsScores extends ConsumerWidget {
     return ElevatedButton(
       child: Text(contract.displayName, textAlign: TextAlign.center),
       onPressed: () => Navigator.of(context).pushNamed(
-        contract.route,
+        contract.scoreRoute,
         arguments: ContractRouteArgument(contractInfo: contract),
       ),
     );
@@ -43,7 +43,7 @@ class TrumpsScores extends ConsumerWidget {
     return ModifyContractButton(
       text: contract.displayName,
       onPressed: () => Navigator.of(context).pushNamed(
-        contract.route,
+        contract.scoreRoute,
         arguments: ContractRouteArgument(
           contractInfo: contract,
           contractValues: contractValues,
