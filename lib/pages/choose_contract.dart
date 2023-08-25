@@ -31,7 +31,7 @@ class ChooseContract extends ConsumerWidget {
                   onPressed: player.hasPlayedContract(contract)
                       ? null
                       : () => Navigator.of(context).pushNamed(
-                            contract.route,
+                            contract.scoreRoute,
                             arguments:
                                 ContractRouteArgument(contractInfo: contract),
                           ),

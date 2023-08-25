@@ -9,11 +9,13 @@ class MyThemes {
   static final dark = _baseTheme(ThemeData.dark());
 
   static _baseTheme(ThemeData baseTheme) {
+    final onSurfaceColor = baseTheme.colorScheme.onSurface;
+    const disabledColor = Color(0xffAFAFAF);
+
     final TextTheme textTheme = baseTheme.textTheme.apply(
       fontFamily: "QuickSand",
-      displayColor: baseTheme.colorScheme.onSurface,
+      displayColor: onSurfaceColor,
     );
-    const disabledColor = Color(0xffAFAFAF);
     return baseTheme.copyWith(
       useMaterial3: true,
       colorScheme: baseTheme.colorScheme.copyWith(
@@ -21,12 +23,12 @@ class MyThemes {
         error: baseTheme.brightness == Brightness.dark
             ? Colors.red
             : Colors.red.shade900,
-        outline: baseTheme.colorScheme.onSurface,
+        outline: onSurfaceColor,
       ),
       textTheme: textTheme,
       dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
       disabledColor: disabledColor,
-      dividerColor: baseTheme.colorScheme.onSurface,
+      dividerColor: onSurfaceColor,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -34,7 +36,7 @@ class MyThemes {
             if (states.contains(MaterialState.disabled)) {
               return disabledColor;
             }
-            return baseTheme.colorScheme.onSurface;
+            return onSurfaceColor;
           }),
           textStyle: MaterialStatePropertyAll(
             textTheme.labelLarge!.copyWith(
@@ -56,7 +58,7 @@ class MyThemes {
             BorderSide border = BorderSide(
               style: BorderStyle.solid,
               width: 2,
-              color: baseTheme.colorScheme.onSurface,
+              color: onSurfaceColor,
             );
             if (states.contains(MaterialState.disabled)) {
               border = border.copyWith(color: disabledColor);
@@ -76,13 +78,27 @@ class MyThemes {
           padding: const MaterialStatePropertyAll(EdgeInsets.zero),
           backgroundColor:
               MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
-          foregroundColor:
-              MaterialStatePropertyAll(baseTheme.colorScheme.onSurface),
+          foregroundColor: MaterialStatePropertyAll(onSurfaceColor),
           overlayColor: const MaterialStatePropertyAll(disabledColor),
           side: MaterialStatePropertyAll(
-            BorderSide(color: baseTheme.colorScheme.onSurface),
+            BorderSide(color: onSurfaceColor),
           ),
         ),
+      ),
+      switchTheme: SwitchThemeData(
+        trackOutlineWidth: const MaterialStatePropertyAll(1),
+        trackColor: MaterialStateProperty.resolveWith((states) {
+          if (states.any((element) => (element == MaterialState.selected))) {
+            return baseTheme.colorScheme.successColor;
+          }
+          return Colors.transparent;
+        }),
+        thumbColor: MaterialStateProperty.resolveWith((states) {
+          if (states.any((element) => (element == MaterialState.selected))) {
+            return Colors.white;
+          }
+          return onSurfaceColor;
+        }),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: baseTheme.scaffoldBackgroundColor.withOpacity(0.8),
@@ -104,16 +120,16 @@ class MyThemes {
             topWidth: 2,
             rightWidth: 2,
             bottomWidth: 0,
-            color: baseTheme.colorScheme.onSurface,
+            color: onSurfaceColor,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.elliptical(8, 5),
               topRight: Radius.elliptical(8, 5),
             ),
           ),
         ),
-        indicatorColor: baseTheme.colorScheme.onSurface,
+        indicatorColor: onSurfaceColor,
         indicatorSize: TabBarIndicatorSize.tab,
-        labelColor: baseTheme.colorScheme.onSurface,
+        labelColor: onSurfaceColor,
         unselectedLabelColor: disabledColor,
         overlayColor: const MaterialStatePropertyAll(disabledColor),
       ),
