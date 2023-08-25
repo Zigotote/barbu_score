@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../commons/utils/snackbar.dart';
 import '../commons/widgets/default_page.dart';
@@ -20,7 +19,7 @@ class MyScores extends ConsumerWidget {
       bottomWidget: ElevatedButton(
           child: const Text('Sauvegarder et quitter'),
           onPressed: () {
-            context.go(Routes.home);
+            Navigator.of(context).popAndPushNamed(Routes.home);
             SnackBarUtils.instance.openSnackBar(
               context: context,
               title: "Partie sauvegardée",

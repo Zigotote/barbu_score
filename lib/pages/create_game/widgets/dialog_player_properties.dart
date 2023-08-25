@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../../../commons/models/player.dart';
@@ -41,7 +40,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
           right: 0,
           top: -16,
           child: IconButton(
-            onPressed: context.pop,
+            onPressed: Navigator.of(context).pop,
             icon: const Icon(Icons.close),
             style: IconButton.styleFrom(side: BorderSide.none),
           ),
