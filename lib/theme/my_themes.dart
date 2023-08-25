@@ -13,6 +13,7 @@ class MyThemes {
       fontFamily: "QuickSand",
       displayColor: baseTheme.colorScheme.onSurface,
     );
+    const disabledColor = Color(0xffAFAFAF);
     return baseTheme.copyWith(
       useMaterial3: true,
       colorScheme: baseTheme.colorScheme.copyWith(
@@ -24,14 +25,14 @@ class MyThemes {
       ),
       textTheme: textTheme,
       dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
-      disabledColor: Colors.grey,
+      disabledColor: disabledColor,
       dividerColor: baseTheme.colorScheme.onSurface,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
             if (states.contains(MaterialState.disabled)) {
-              return Colors.grey;
+              return disabledColor;
             }
             return baseTheme.colorScheme.onSurface;
           }),
@@ -43,7 +44,7 @@ class MyThemes {
           ),
           backgroundColor:
               MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
-          overlayColor: const MaterialStatePropertyAll(Colors.grey),
+          overlayColor: const MaterialStatePropertyAll(disabledColor),
           elevation: const MaterialStatePropertyAll(10),
           shape: const MaterialStatePropertyAll(
             RoundedRectangleBorder(
@@ -58,7 +59,7 @@ class MyThemes {
               color: baseTheme.colorScheme.onSurface,
             );
             if (states.contains(MaterialState.disabled)) {
-              border = border.copyWith(color: Colors.grey);
+              border = border.copyWith(color: disabledColor);
             }
             return border;
           }),
@@ -77,7 +78,7 @@ class MyThemes {
               MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
           foregroundColor:
               MaterialStatePropertyAll(baseTheme.colorScheme.onSurface),
-          overlayColor: const MaterialStatePropertyAll(Colors.grey),
+          overlayColor: const MaterialStatePropertyAll(disabledColor),
           side: MaterialStatePropertyAll(
             BorderSide(color: baseTheme.colorScheme.onSurface),
           ),
@@ -113,8 +114,8 @@ class MyThemes {
         indicatorColor: baseTheme.colorScheme.onSurface,
         indicatorSize: TabBarIndicatorSize.tab,
         labelColor: baseTheme.colorScheme.onSurface,
-        unselectedLabelColor: Colors.grey,
-        overlayColor: const MaterialStatePropertyAll(Colors.grey),
+        unselectedLabelColor: disabledColor,
+        overlayColor: const MaterialStatePropertyAll(disabledColor),
       ),
     );
   }
