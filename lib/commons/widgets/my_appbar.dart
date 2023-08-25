@@ -22,19 +22,6 @@ class MyAppBar extends AppBar {
                 thickness: 1,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: isHome
-                      ? Theme.of(context).textTheme.displaySmall
-                      : Theme.of(context).textTheme.headlineSmall,
-                ),
-              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Visibility(
@@ -49,6 +36,19 @@ class MyAppBar extends AppBar {
                       }
                     },
                   ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: isHome
+                      ? Theme.of(context).textTheme.displaySmall
+                      : Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
             ],

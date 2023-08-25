@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
 import '../../../commons/utils/screen.dart';
+import 'setting_question.dart';
 
 /// A widget to choose app theme
 class AppThemeChoice extends ConsumerStatefulWidget {
@@ -67,24 +68,21 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text("Thème de l'application"),
-        GestureDetector(
-          onTap: () => _invertTheme(),
-          onHorizontalDragStart: (_) => _invertTheme(),
-          child: SizedBox(
-            height: ScreenHelper.width * 0.2,
-            width: ScreenHelper.width * 0.2,
-            child: RiveAnimation.asset(
-              "assets/switch.riv",
-              stateMachines: [_riveStateName],
-              onInit: _initStateMachine,
-            ),
+    return SettingQuestion(
+      label: "Thème de l'application",
+      input: GestureDetector(
+        onTap: () => _invertTheme(),
+        onHorizontalDragStart: (_) => _invertTheme(),
+        child: SizedBox(
+          height: ScreenHelper.width * 0.18,
+          width: ScreenHelper.width * 0.18,
+          child: RiveAnimation.asset(
+            "assets/switch.riv",
+            stateMachines: [_riveStateName],
+            onInit: _initStateMachine,
           ),
         ),
-      ],
+      ),
     );
   }
 }
