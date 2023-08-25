@@ -28,6 +28,7 @@ dependencies:
   flutter_circular_text: ^0.3.1
   non_uniform_border: ^1.0.0
   reorderable_grid_view: ^2.2.6
+  rive: ^0.11.14
   flutter_riverpod: ^2.3.6
   shared_preferences: ^2.2.0
   sprintf: ^7.0.0

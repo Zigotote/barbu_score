@@ -14,9 +14,9 @@ import 'pages/finish_game/finish_game.dart';
 import 'pages/my_home.dart';
 import 'pages/my_rules.dart';
 import 'pages/my_scores.dart';
-import 'pages/my_settings.dart';
 import 'pages/prepare_game.dart';
 import 'pages/scores_by_player.dart';
+import 'pages/settings/my_settings.dart';
 import 'theme/my_themes.dart';
 import 'theme/theme_provider.dart';
 
@@ -31,32 +31,51 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var themeMode = _getThemeMode(ref);
     return MaterialApp(
-        title: 'Barbu Score',
-        theme: MyThemes.light,
-        darkTheme: MyThemes.dark,
-        routes: {
-          Routes.home: (_) => const MyHome(),
-          Routes.rules: (_) => const MyRules(),
-          Routes.settings: (_) => const MySettings(),
-          Routes.createGame: (_) => CreateGame(),
-          Routes.prepareGame: (_) => PrepareGame(),
-          Routes.chooseContract: (_) => const ChooseContract(),
-          Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractScores(
-              ModalRoute.of(context)?.settings.arguments
-                  as ContractRouteArgument),
-          Routes.dominoScores: (_) => const DominoScores(),
-          Routes.noSomethingScores: (context) => IndividualScoresContract(
-              ModalRoute.of(context)?.settings.arguments
-                  as ContractRouteArgument),
-          Routes.trumpsScores: (_) => const TrumpsScores(),
-          Routes.scores: (_) => const MyScores(),
-          Routes.scoresByPlayer: (context) => ScoresByPlayer(
-              ModalRoute.of(context)?.settings.arguments as Player),
-          Routes.finishGame: (_) => const FinishGame(),
-        },
-        initialRoute: Routes.home,
-        builder: (context, child) => child!);
+      title: 'Barbu Score',
+      theme: MyThemes.light,
+      darkTheme: MyThemes.dark,
+      themeMode: themeMode,
+      routes: {
+        Routes.home: (_) => const MyHome(),
+        Routes.rules: (_) => const MyRules(),
+        Routes.settings: (_) => const MySettings(),
+        Routes.createGame: (_) => CreateGame(),
+        Routes.prepareGame: (_) => PrepareGame(),
+        Routes.chooseContract: (_) => const ChooseContract(),
+        Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractScores(
+            ModalRoute.of(context)?.settings.arguments
+                as ContractRouteArgument),
+        Routes.dominoScores: (_) => const DominoScores(),
+        Routes.noSomethingScores: (context) => IndividualScoresContract(
+            ModalRoute.of(context)?.settings.arguments
+                as ContractRouteArgument),
+        Routes.trumpsScores: (_) => const TrumpsScores(),
+        Routes.scores: (_) => const MyScores(),
+        Routes.scoresByPlayer: (context) => ScoresByPlayer(
+            ModalRoute.of(context)?.settings.arguments as Player),
+        Routes.finishGame: (_) => const FinishGame(),
+      },
+      initialRoute: Routes.home,
+      // Another ProviderScope so that whole app is not reloaded after theme mode change
+      builder: (context, child) => ProviderScope(
+        child: child!,
+      ),
+    );
+  }
+
+  /// Returns the themeMode depending on data provider data
+  ThemeMode _getThemeMode(WidgetRef ref) {
+    bool? savedIsDarkTheme = ref.watch(isDarkThemeProvider);
+    switch (savedIsDarkTheme) {
+      case true:
+        return ThemeMode.dark;
+      case false:
+        return ThemeMode.light;
+      default:
+        return ThemeMode.system;
+    }
   }
 }
 
