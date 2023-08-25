@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/contract_info.dart';
@@ -11,7 +10,7 @@ import 'globals.dart' as globals;
 /// A class to handle local storage objects
 class MyStorage {
   static const String _gameKey = "game";
-  static const String _appThemeKey = "appTheme";
+  static const String _isDarkThemeKey = "isDarkTheme";
   static const String _dominoPoints = "dominoPoints";
   static const String _dominoIsFix = "dominoIsFix";
 
@@ -24,7 +23,7 @@ class MyStorage {
 
   /// The function to call to init storage
   init() async {
-    _storage ??= await SharedPreferences.getInstance();
+    _storage = await SharedPreferences.getInstance();
   }
 
   /// Gets the game saved in the store
@@ -50,16 +49,14 @@ class MyStorage {
     } catch (_) {}
   }
 
-  /// Saves the app theme
-  void saveAppTheme(ThemeMode themeMode) {
-    _storage?.setString(_appThemeKey, themeMode.name);
+  /// Saves true if app theme should be dark, false otherwise
+  void saveIsDarkTheme(bool isDarkTheme) {
+    _storage?.setBool(_isDarkThemeKey, isDarkTheme);
   }
 
-  /// Returns the app theme
-  ThemeMode getAppTheme() {
-    final String? appThemeName = _storage?.getString(_appThemeKey);
-    return ThemeMode.values.firstWhere((theme) => theme.name == appThemeName,
-        orElse: () => ThemeMode.system);
+  /// Returns true if saved theme is dark, false if it is white and null if nothing is saved
+  bool? getIsDarkTheme() {
+    return _storage?.getBool(_isDarkThemeKey);
   }
 
   /// Gets the points associated to this contract. Returns default points if no personalized data saved
