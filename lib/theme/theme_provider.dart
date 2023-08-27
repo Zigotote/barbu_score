@@ -9,11 +9,11 @@ final isDarkThemeProvider = StateNotifierProvider<_IsDarkThemeNotifier, bool?>(
     (ref) => _IsDarkThemeNotifier());
 
 class _IsDarkThemeNotifier extends StateNotifier<bool?> {
-  _IsDarkThemeNotifier() : super(MyStorage().getIsDarkTheme());
+  _IsDarkThemeNotifier() : super(MyStorage.getIsDarkTheme());
 
   void changeTheme(bool isDark) {
     state = isDark;
-    MyStorage().saveIsDarkTheme(isDark);
+    MyStorage.saveIsDarkTheme(isDark);
   }
 
   /// Returns the current saved brightness bool or app brightness if nothing is saved

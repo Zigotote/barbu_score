@@ -25,7 +25,7 @@ import 'theme/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MyStorage().init();
+  await MyStorage.init();
   runApp(const ProviderScope(child: MyApp()));
 }
 

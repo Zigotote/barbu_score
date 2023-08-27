@@ -43,7 +43,7 @@ class PlayGameNotifier with ChangeNotifier {
   bool nextPlayer() {
     _game.nextPlayer();
     notifyListeners();
-    MyStorage().saveGame(_game);
+    MyStorage.saveGame(_game);
     return !_game.isFinished;
   }
 }
