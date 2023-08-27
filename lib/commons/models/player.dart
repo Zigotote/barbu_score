@@ -1,45 +1,32 @@
-import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import 'contract_info.dart';
 import 'contract_models.dart';
 
+part 'player.g.dart';
+
+@HiveType(typeId: 1)
 class Player {
   /// The color of the player
+  @HiveField(0)
   Color color;
 
   /// The image of the player
+  @HiveField(1)
   String image;
 
   /// The name of the player
+  @HiveField(2)
   String name;
 
   /// The contracts the player has finished
+  @HiveField(3)
   final List<AbstractContractModel> _contracts;
 
   Player({required this.color, required this.image, this.name = ""})
       : _contracts = [];
-
-  Map<String, dynamic> toJson() {
-    return {
-      "name": name,
-      "color": color.value,
-      "image": image,
-      "contracts": jsonEncode(
-        _contracts.map((contract) => contract.toJson()).toList(),
-      )
-    };
-  }
-
-  Player.fromJson(dynamic json)
-      : name = json["name"] as String,
-        color = Color(json["color"]),
-        image = json["image"] as String,
-        _contracts = ((jsonDecode(json["contracts"]) as List)
-            .map((contractData) => AbstractContractModel.fromJson(contractData))
-            .toList());
 
   /// Returns the list of the contracts the player has already selected
   List<String> get _choosenContracts =>

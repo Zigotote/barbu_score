@@ -43,7 +43,7 @@ class MyHome extends ConsumerWidget {
   _confirmLoadGame(BuildContext context, WidgetRef ref) {
     Game? previousGame;
     try {
-      previousGame = MyStorage().getStoredGame();
+      previousGame = MyStorage.getStoredGame();
     } catch (_) {}
 
     if (previousGame == null) {
@@ -84,7 +84,7 @@ class MyHome extends ConsumerWidget {
   /// Builds the widgets to start a new game
   _confirmStartGame(BuildContext context, WidgetRef ref) {
     try {
-      Game? previousGame = MyStorage().getStoredGame();
+      Game? previousGame = MyStorage.getStoredGame();
       if (previousGame != null) {
         showDialog(
             context: context,

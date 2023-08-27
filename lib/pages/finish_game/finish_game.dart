@@ -21,7 +21,7 @@ class FinishGame extends StatelessWidget {
       bottomWidget: ElevatedButton(
         child: const Text("Retour à l'accueil"),
         onPressed: () {
-          MyStorage().deleteGame();
+          MyStorage.deleteGame();
           Navigator.of(context).popAndPushNamed(Routes.home);
         },
       ),
