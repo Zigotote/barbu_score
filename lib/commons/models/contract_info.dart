@@ -60,7 +60,7 @@ enum ContractsInfo {
   AbstractContractModel get contract {
     switch (this) {
       case ContractsInfo.barbu:
-        return OneLooserContractModel(ContractsInfo.barbu);
+        return BarbuContractModel();
       case ContractsInfo.noHearts:
         return NoHeartsContractModel();
       case ContractsInfo.noQueens:
@@ -68,7 +68,7 @@ enum ContractsInfo {
       case ContractsInfo.noTricks:
         return NoTricksContractModel();
       case ContractsInfo.noLastTrick:
-        return OneLooserContractModel(ContractsInfo.noLastTrick);
+        return NoLastTrickContractModel();
       case ContractsInfo.trumps:
         return TrumpsContractModel();
       case ContractsInfo.domino:

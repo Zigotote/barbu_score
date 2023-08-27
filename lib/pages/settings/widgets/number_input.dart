@@ -15,7 +15,7 @@ class NumberInput extends StatelessWidget {
 
   NumberInput(this.contract, {super.key})
       : _controller = TextEditingController(
-          text: MyStorage().getPoints(contract).toString(),
+          text: MyStorage.getPoints(contract).toString(),
         );
 
   @override
@@ -30,7 +30,7 @@ class NumberInput extends StatelessWidget {
           FilteringTextInputFormatter.allow(RegExp(r'-?[0-9]*'))
         ],
         onTapOutside: (_) =>
-            MyStorage().savePoints(contract, int.parse(_controller.value.text)),
+            MyStorage.savePoints(contract, int.parse(_controller.value.text)),
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide(

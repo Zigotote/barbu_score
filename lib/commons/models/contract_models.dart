@@ -1,9 +1,11 @@
-import 'dart:convert';
+import 'package:hive/hive.dart';
 
 import '../utils/globals.dart' as globals;
 import '../utils/storage.dart';
 import 'contract_info.dart';
 import 'domino_points_props.dart';
+
+part 'contract_models.g.dart';
 
 /// An abstract class to fill the scores for a contract
 abstract class AbstractContractModel {
@@ -25,27 +27,15 @@ abstract class AbstractContractModel {
   }
 
   /// The name of the contract
+  @HiveField(0)
   final String name;
 
   /// The scores of all the players for this contract
+  @HiveField(1)
   late Map<String, int> _scores;
 
   AbstractContractModel(this.name) {
     _scores = {};
-  }
-
-  factory AbstractContractModel.fromJson(Map<String, dynamic> json) {
-    AbstractContractModel abstractContractModel =
-        ContractsInfo.getContractFromToString(json["name"]);
-    abstractContractModel._scores = Map.castFrom(jsonDecode(json["scores"]));
-    return abstractContractModel;
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "name": name,
-      "scores": jsonEncode(_scores),
-    };
   }
 
   Map<String, int> get scores => _scores;
@@ -59,12 +49,12 @@ abstract class AbstractContractModel {
 }
 
 /// A class to fill the scores for a contract which has only one looser
-class OneLooserContractModel extends AbstractContractModel {
+abstract class OneLooserContractModel extends AbstractContractModel {
   /// The number of points the looser will have for this contract
   final int _points;
 
   OneLooserContractModel(ContractsInfo contractsInfo)
-      : _points = MyStorage().getPoints(contractsInfo),
+      : _points = MyStorage.getPoints(contractsInfo),
         super(contractsInfo.name);
 
   @override
@@ -99,7 +89,7 @@ abstract class AbstractMultipleLooserContractModel
   AbstractMultipleLooserContractModel(
     ContractsInfo contractsInfo,
     this._expectedItems,
-  )   : _pointsByItem = MyStorage().getPoints(contractsInfo),
+  )   : _pointsByItem = MyStorage.getPoints(contractsInfo),
         super(contractsInfo.name);
 
   /// Returns the maximal score for the contract
@@ -135,23 +125,39 @@ abstract class AbstractMultipleLooserContractModel
   }
 }
 
+/// A barbu contract scores
+@HiveType(typeId: 2)
+class BarbuContractModel extends OneLooserContractModel {
+  BarbuContractModel() : super(ContractsInfo.barbu);
+}
+
+/// A no last trick contract scores
+@HiveType(typeId: 3)
+class NoLastTrickContractModel extends OneLooserContractModel {
+  NoLastTrickContractModel() : super(ContractsInfo.noLastTrick);
+}
+
 /// A no hearts contract scores
+@HiveType(typeId: 4)
 class NoHeartsContractModel extends AbstractMultipleLooserContractModel {
   NoHeartsContractModel()
       : super(ContractsInfo.noHearts, globals.nbPlayers * 2);
 }
 
 /// A no queens contract scores
+@HiveType(typeId: 5)
 class NoQueensContractModel extends AbstractMultipleLooserContractModel {
   NoQueensContractModel() : super(ContractsInfo.noQueens, 4);
 }
 
 /// A no tricks contract scores
+@HiveType(typeId: 6)
 class NoTricksContractModel extends AbstractMultipleLooserContractModel {
   NoTricksContractModel() : super(ContractsInfo.noTricks, 8);
 }
 
 /// A trumps contract scores
+@HiveType(typeId: 7)
 class TrumpsContractModel extends AbstractContractModel {
   TrumpsContractModel() : super(ContractsInfo.trumps.name);
 
@@ -166,9 +172,10 @@ class TrumpsContractModel extends AbstractContractModel {
 }
 
 /// A domino contract scores
+@HiveType(typeId: 8)
 class DominoContractModel extends AbstractContractModel {
   /// The scores the player can have
-  final DominoPointsProps _dominoPointsProps = MyStorage().getDominoPoints();
+  final DominoPointsProps _dominoPointsProps = MyStorage.getDominoPoints();
 
   DominoContractModel() : super(ContractsInfo.domino.name);
 
