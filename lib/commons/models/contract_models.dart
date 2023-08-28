@@ -1,9 +1,7 @@
 import 'package:hive/hive.dart';
 
 import '../utils/globals.dart' as globals;
-import '../utils/storage.dart';
 import 'contract_info.dart';
-import 'domino_points_props.dart';
 
 part 'contract_models.g.dart';
 
@@ -54,7 +52,7 @@ abstract class OneLooserContractModel extends AbstractContractModel {
   final int _points;
 
   OneLooserContractModel(ContractsInfo contractsInfo)
-      : _points = MyStorage.getPoints(contractsInfo),
+      : _points = /*MyStorage.getSettings(contractsInfo)*/ 5,
         super(contractsInfo.name);
 
   @override
@@ -89,7 +87,7 @@ abstract class AbstractMultipleLooserContractModel
   AbstractMultipleLooserContractModel(
     ContractsInfo contractsInfo,
     this._expectedItems,
-  )   : _pointsByItem = MyStorage.getPoints(contractsInfo),
+  )   : _pointsByItem = /*MyStorage.getSettings(contractsInfo)*/ 5,
         super(contractsInfo.name);
 
   /// Returns the maximal score for the contract
@@ -175,7 +173,7 @@ class TrumpsContractModel extends AbstractContractModel {
 @HiveType(typeId: 8)
 class DominoContractModel extends AbstractContractModel {
   /// The scores the player can have
-  final DominoPointsProps _dominoPointsProps = MyStorage.getDominoPoints();
+  final List<int> _dominoPointsProps = [];
 
   DominoContractModel() : super(ContractsInfo.domino.name);
 
@@ -200,12 +198,12 @@ class DominoContractModel extends AbstractContractModel {
       (element1, element2) => element1.value - element2.value,
     );
 
-    final List<int> dominoPoints = _dominoPointsProps.points;
+    final List<int> dominoPoints = _dominoPointsProps;
     final double middleIndex = orderedPlayers.length / 2;
     for (var player in orderedPlayers) {
       int playerIndex = orderedPlayers.indexOf(player);
 
-      if (_dominoPointsProps.isFix) {
+      if (_dominoPointsProps.length > 0) {
         _scores[player.key] = dominoPoints[playerIndex];
       } else {
         int score = 0;
