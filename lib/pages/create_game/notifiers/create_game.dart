@@ -1,33 +1,33 @@
 import 'dart:collection';
 
+import 'package:barbu_score/commons/utils/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../../../commons/models/player.dart';
+import '../../../theme/theme_provider.dart';
 import '../create_game_props.dart';
 
 final createGameProvider =
     ChangeNotifierProvider.autoDispose<CreateGameNotifier>(
-  (ref) => CreateGameNotifier(
-      WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-              Brightness.dark
-          ? [
-              Colors.brown.shade400,
-              Colors.lightGreen.shade800,
-              Colors.yellow.shade700,
-              Colors.orange.shade800,
-              Colors.deepOrange.shade700,
-              Colors.teal.shade400
-            ]
-          : [
-              Colors.brown.shade700,
-              Colors.lightGreen.shade900,
-              Colors.yellow.shade800,
-              Colors.orange.shade800,
-              Colors.deepOrange.shade900,
-              Colors.teal.shade900,
-            ]),
+  (ref) => CreateGameNotifier(ref.read(isDarkThemeProvider.notifier).isDark
+      ? [
+          Colors.brown.shade400,
+          Colors.lightGreen.shade800,
+          Colors.yellow.shade700,
+          Colors.orange.shade800,
+          Colors.deepOrange.shade700,
+          Colors.teal.shade400
+        ]
+      : [
+          Colors.brown.shade700,
+          Colors.lightGreen.shade900,
+          Colors.yellow.shade800,
+          Colors.orange.shade800,
+          Colors.deepOrange.shade900,
+          Colors.teal.shade900,
+        ]),
 );
 
 class CreateGameNotifier with ChangeNotifier {
