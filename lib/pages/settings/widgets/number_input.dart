@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../commons/models/contract_info.dart';
 import '../../../commons/utils/screen.dart';
-import '../../../commons/utils/storage.dart';
 
-/// A widget to enter some points and save it
+/// A widget to enter some points
 class NumberInput extends StatelessWidget {
   /// The contract to wich the score is linked
-  final ContractsInfo contract;
+  final int points;
+
+  /// The function to call on value changed
+  final void Function(int) onChanged;
 
   /// The controller for the text input
   final TextEditingController _controller;
 
-  NumberInput(this.contract, {super.key})
-      : _controller = TextEditingController(
-          text: MyStorage.getPoints(contract).toString(),
-        );
+  NumberInput({required this.points, required this.onChanged, super.key})
+      : _controller = TextEditingController(text: points.toString());
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +28,7 @@ class NumberInput extends StatelessWidget {
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'-?[0-9]*'))
         ],
-        onTapOutside: (_) =>
-            MyStorage.savePoints(contract, int.parse(_controller.value.text)),
+        onTapOutside: (_) => onChanged(int.parse(_controller.value.text)),
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide(

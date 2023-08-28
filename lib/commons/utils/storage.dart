@@ -1,11 +1,14 @@
+import 'dart:ui';
+
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import '../models/contract_info.dart';
-import '../models/domino_points_props.dart';
+import '../models/contract_settings_models.dart';
 import '../models/game.dart';
 import 'globals.dart' as globals;
+import 'screen.dart';
 
 /// A class to handle local storage objects
 class MyStorage {
@@ -32,6 +35,10 @@ class MyStorage {
     Hive.registerAdapter(NoTricksContractModelAdapter());
     Hive.registerAdapter(TrumpsContractModelAdapter());
     Hive.registerAdapter(DominoContractModelAdapter());
+    Hive.registerAdapter(PointsContractSettingsAdapter());
+    Hive.registerAdapter(IndividualScoresContractSettingsAdapter());
+    Hive.registerAdapter(TrumpsContractSettingsAdapter());
+    Hive.registerAdapter(DominoContractSettingsAdapter());
   }
 
   /// Gets the game saved in the store
@@ -56,56 +63,32 @@ class MyStorage {
     } catch (_) {}
   }
 
+  /// Deletes the data saved for the game in the store
+  static void deleteGame() {
+    globals.nbPlayers = 0;
+    Hive.box(_gameBoxName).clear();
+  }
+
+  /// Returns true if saved theme is dark, false if it is white. If nothing saved, return platform brightness
+  static bool getIsDarkTheme() {
+    return Hive.box(_settingsBoxName).get(_isDarkThemeKey,
+        defaultValue: ScreenHelper.brightness == Brightness.dark);
+  }
+
   /// Saves true if app theme should be dark, false otherwise
   static void saveIsDarkTheme(bool isDarkTheme) {
     Hive.box(_settingsBoxName).put(_isDarkThemeKey, isDarkTheme);
   }
 
-  /// Returns true if saved theme is dark, false if it is white and null if nothing is saved
-  static bool? getIsDarkTheme() {
-    return Hive.box(_settingsBoxName).get(_isDarkThemeKey);
-  }
-
-  /// Gets the points associated to this contract. Returns default points if no personalized data saved
-  static int getPoints(ContractsInfo contractsInfo) {
-    // TODO Océane créer la classe pour conserver les paramètres de chaque contrat
-    // Brancher ça ssur Hive
-    // Et le brancher dans les écrans
-    return /*_storage?.getInt(contractsInfo.name) ??*/ contractsInfo
-        .defaultPoints;
-  }
-
-  /// Saves the points associated to domino contract
-  static DominoPointsProps getDominoPoints() {
-    /*final bool? isFix = _storage?.getBool(MyStorage._dominoIsFix);
-    final List<int>? points = _storage
-        ?.getStringList(MyStorage._dominoPoints)
-        ?.map((e) => int.parse(e))
-        .toList();
-    if (isFix != null && points != null) {
-      return DominoPointsProps(isFix: isFix, points: points);
-    }*/
-    return ContractsInfo.domino.defaultPoints;
+  /// Gets the settings associated to this contract. Returns default settings if no personalized data saved
+  static T? getSettings<T>(ContractsInfo contractsInfo) {
+    return Hive.box(_settingsBoxName)
+        .get(contractsInfo.name, defaultValue: contractsInfo.settings);
   }
 
   /// Saves the points associated to this contract
-  /// Do not use this method for domino scores
-  static void savePoints(ContractsInfo contractsInfo, int points) {
-    //_storage?.setInt(contractsInfo.name, points);
-  }
-
-  /// Saves the points associated to domino contract
-  static void saveDominoPoints(DominoPointsProps props) {
-    /*_storage?.setBool(MyStorage._dominoIsFix, props.isFix);
-    _storage?.setStringList(
-      MyStorage._dominoPoints,
-      props.points.map((point) => point.toString()).toList(),
-    )*/
-  }
-
-  /// Deletes the data saved for the game in the store
-  static void deleteGame() {
-    globals.nbPlayers = 0;
-    Hive.box(_gameBoxName).clear();
+  static void saveSettings(
+      ContractsInfo contractsInfo, AbstractContractSettings settings) {
+    Hive.box(_settingsBoxName).put(contractsInfo.name, settings);
   }
 }

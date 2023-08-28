@@ -45,10 +45,10 @@ class MyApp extends ConsumerWidget {
         Routes.rules: (_) => const MyRules(),
         Routes.settings: (_) => const MySettings(),
         Routes.barbuOrNoLastTrickSettings: (context) =>
-            OneLooserContractSettings(
+            OneLooserContractSettingsPage(
                 _getRouteArgument<ContractsInfo>(context)),
         Routes.noSomethingScoresSettings: (context) =>
-            IndividualScoresContractSettings(
+            IndividualScoresContractSettingsPage(
                 _getRouteArgument<ContractsInfo>(context)),
         Routes.createGame: (_) => CreateGame(),
         Routes.prepareGame: (_) => PrepareGame(),

@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:barbu_score/commons/utils/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sprintf/sprintf.dart';
@@ -11,7 +10,7 @@ import '../create_game_props.dart';
 
 final createGameProvider =
     ChangeNotifierProvider.autoDispose<CreateGameNotifier>(
-  (ref) => CreateGameNotifier(ref.read(isDarkThemeProvider.notifier).isDark
+  (ref) => CreateGameNotifier(ref.read(isDarkThemeProvider)
       ? [
           Colors.brown.shade400,
           Colors.lightGreen.shade800,
