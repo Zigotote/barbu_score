@@ -42,7 +42,7 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
 
   /// Updates isDark value and modify switch value accordingly
   void _updateTheme() {
-    _switchState?.change(ref.read(isDarkThemeProvider.notifier).isDark);
+    _switchState?.change(ref.read(isDarkThemeProvider));
   }
 
   /// Initializes riverpod animation
