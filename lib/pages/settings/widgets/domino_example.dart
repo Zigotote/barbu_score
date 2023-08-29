@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/utils/screen.dart';
 import '../../../commons/widgets/my_tabbar.dart';
-import '../../../theme/my_themes.dart';
 import '../../create_game/create_game_props.dart';
 import 'number_input.dart';
 
@@ -41,29 +40,13 @@ class DominoExample extends StatelessWidget {
   /// Builds the widget to display the points for a position
   Widget _buildPositionPoints(BuildContext context, int position, int points) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.only(top: 16, left: 16),
       child: Row(
         children: [
           Expanded(child: Text(_positionNames[position])),
-          if (points != 0) _buildSignIndicator(context, points >= 0),
           const SizedBox(width: 8),
           NumberInput(points: points, onChanged: null)
         ],
-      ),
-    );
-  }
-
-  /// Builds a sign indicator for a value
-  IconButton _buildSignIndicator(BuildContext context, bool isPositive) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final IconData icon = isPositive ? Icons.add : Icons.remove;
-    final Color color = isPositive ? colorScheme.error : colorScheme.success;
-    return IconButton.outlined(
-      onPressed: null,
-      icon: Icon(icon),
-      style: IconButton.styleFrom(
-        disabledBackgroundColor: color,
-        side: BorderSide.none,
       ),
     );
   }
