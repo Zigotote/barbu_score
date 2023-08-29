@@ -33,6 +33,7 @@ class IndividualScoresContractSettingsPage extends StatelessWidget {
             onChanged: (value) => _settings.points = value,
           ),
         ),
+        const SizedBox(height: 32),
         SettingQuestion(
           tooltip:
               "Si un joueur remporte la totalité des $itemName, son score devient négatif.",

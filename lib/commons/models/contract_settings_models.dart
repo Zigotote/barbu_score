@@ -41,5 +41,45 @@ class TrumpsContractSettings extends AbstractContractSettings {
 /// A domino contract settings
 @HiveType(typeId: 12)
 class DominoContractSettings extends AbstractContractSettings {
-  DominoContractSettings() : super();
+  /// The points the best player will have
+  @HiveField(1)
+  int pointsMin;
+
+  /// The points the worst player will have
+  @HiveField(2)
+  int pointsMax;
+
+  DominoContractSettings({required this.pointsMin, required this.pointsMax})
+      : super();
+
+  /// Returns the points of each player depending on min and max value
+  List<int> calculatePoints(int nbPlayers) {
+    final double middleIndex = nbPlayers / 2;
+    int pointsByPart = (pointsMax - pointsMin) ~/ (nbPlayers - 1);
+
+    if (pointsByPart % 10 != 0) {
+      pointsByPart = ((pointsMax - pointsMin) / 2) ~/ middleIndex;
+    }
+    return List.generate(nbPlayers, (index) {
+      var points = 0;
+      if (index == 0) {
+        return pointsMin;
+      }
+      if (index == nbPlayers - 1) {
+        return pointsMax;
+      }
+      if (nbPlayers % 2 == 0 || middleIndex - 0.5 != index) {
+        // To get the first players scores, we add values to min points
+        if (index < middleIndex) {
+          points = pointsMin + (pointsByPart * index);
+        }
+        // To get the last players scores, we subtract values to max points
+        else {
+          points = pointsMax - pointsByPart * (nbPlayers - index - 1);
+        }
+      }
+      // Rounds the value to the nearest 10
+      return points ~/ 10 * 10;
+    });
+  }
 }

@@ -70,7 +70,7 @@ class MyHome extends ConsumerWidget {
                   onPressed: () => _startGame(context, ref),
                 ),
                 ElevatedButtonCustomColor(
-                  color: Theme.of(context).colorScheme.successColor,
+                  color: Theme.of(context).colorScheme.success,
                   textSize: 16,
                   text: "Oui",
                   onPressed: () => _loadGame(context, ref, previousGame!),
@@ -101,7 +101,7 @@ class MyHome extends ConsumerWidget {
                     onPressed: () => _loadGame(context, ref, previousGame),
                   ),
                   ElevatedButtonCustomColor(
-                    color: Theme.of(context).colorScheme.successColor,
+                    color: Theme.of(context).colorScheme.success,
                     textSize: 16,
                     text: "Oui",
                     onPressed: () => _startGame(context, ref),

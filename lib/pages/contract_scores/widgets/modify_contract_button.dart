@@ -1,5 +1,6 @@
-import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
+
+import '../../../theme/my_themes.dart';
 
 /// A button with a widget in the top right corner
 class ModifyContractButton extends StatelessWidget {
@@ -30,7 +31,7 @@ class ModifyContractButton extends StatelessWidget {
           top: 8,
           child: Icon(
             Icons.task_alt_outlined,
-            color: Theme.of(context).colorScheme.successColor,
+            color: Theme.of(context).colorScheme.success,
           ),
         )
       ],
