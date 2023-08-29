@@ -40,21 +40,21 @@ class _ContractSettingsPage extends State<ContractSettingsPage> {
     return DefaultPage(
       hasLeading: true,
       title: "Paramètres\n${widget.contract.displayName}",
-      content: Column(
-        children: [
-          const SizedBox(height: 24),
-          SettingQuestion(
-            label: "Activer le contrat",
-            input: MySwitch(
-              isActive: widget.settings.isActive,
-              onChanged: (bool value) => widget.settings.isActive = value,
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 24),
+            SettingQuestion(
+              label: "Activer le contrat",
+              input: MySwitch(
+                isActive: widget.settings.isActive,
+                onChanged: (bool value) => widget.settings.isActive = value,
+              ),
             ),
-          ),
-          ...widget.children
-              .map((setting) => Padding(
-                  padding: const EdgeInsets.only(top: 32), child: setting))
-              .toList()
-        ],
+            const SizedBox(height: 32),
+            ...widget.children
+          ],
+        ),
       ),
     );
   }

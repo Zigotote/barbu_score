@@ -89,7 +89,7 @@ class MyThemes {
         trackOutlineWidth: const MaterialStatePropertyAll(1),
         trackColor: MaterialStateProperty.resolveWith((states) {
           if (states.any((element) => (element == MaterialState.selected))) {
-            return baseTheme.colorScheme.successColor;
+            return baseTheme.colorScheme.success;
           }
           return Colors.transparent;
         }),
@@ -138,6 +138,6 @@ class MyThemes {
 }
 
 extension CustomThemeValues on ColorScheme {
-  Color get successColor =>
+  Color get success =>
       brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
 }

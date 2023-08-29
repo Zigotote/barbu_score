@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '/pages/settings/domino_contract_settings.dart';
 import 'commons/models/contract_info.dart';
 import 'commons/models/player.dart';
 import 'commons/utils/storage.dart';
@@ -50,6 +51,7 @@ class MyApp extends ConsumerWidget {
         Routes.noSomethingScoresSettings: (context) =>
             IndividualScoresContractSettingsPage(
                 _getRouteArgument<ContractsInfo>(context)),
+        Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
         Routes.createGame: (_) => CreateGame(),
         Routes.prepareGame: (_) => PrepareGame(),
         Routes.chooseContract: (_) => const ChooseContract(),
@@ -97,6 +99,7 @@ class Routes {
   static const barbuOrNoLastTrickSettings =
       "/settings/one_looser_contract_scores";
   static const noSomethingScoresSettings = "/settings/individual_scores";
+  static const dominoSettings = "/settings/domino";
   static const createGame = "/create_game";
   static const prepareGame = "/prepare_game";
   static const chooseContract = "/choose_contract";
