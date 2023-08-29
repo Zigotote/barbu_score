@@ -1,12 +1,12 @@
 import 'dart:ui';
 
-import 'package:barbu_score/commons/models/contract_models.dart';
-import 'package:barbu_score/commons/models/player.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import '../models/contract_info.dart';
+import '../models/contract_models.dart';
 import '../models/contract_settings_models.dart';
 import '../models/game.dart';
+import '../models/player.dart';
 import 'globals.dart' as globals;
 import 'screen.dart';
 

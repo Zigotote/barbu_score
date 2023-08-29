@@ -33,7 +33,7 @@ enum ContractsInfo {
   domino(
     displayName: "Réussite",
     scoreRoute: Routes.dominoScores,
-    settingsRoute: Routes.barbuOrNoLastTrickSettings,
+    settingsRoute: Routes.dominoSettings,
   );
 
   const ContractsInfo(
@@ -79,7 +79,7 @@ enum ContractsInfo {
       case ContractsInfo.trumps:
         return TrumpsContractSettings();
       case ContractsInfo.domino:
-        return DominoContractSettings();
+        return DominoContractSettings(pointsMin: -40, pointsMax: 40);
     }
   }
 

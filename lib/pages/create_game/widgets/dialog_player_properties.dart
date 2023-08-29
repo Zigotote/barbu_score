@@ -151,7 +151,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
         _buildActionButton(
           Icons.done,
           "Valider",
-          theme.colorScheme.successColor,
+          theme.colorScheme.success,
           onValidate,
         ),
       ],
