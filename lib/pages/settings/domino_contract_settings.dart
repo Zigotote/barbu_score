@@ -44,7 +44,21 @@ class _DominoContractSettingsPageState
             onChanged: (value) => setState(() => _settings.pointsMax = value),
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            const Text("Scores calculés"),
+            IconButton(
+              icon: const Icon(Icons.link),
+              onPressed: () {
+                debugPrint("not yet implemented");
+              },
+              style: IconButton.styleFrom(side: BorderSide.none),
+            )
+          ],
+        ),
+        const SizedBox(height: 8),
         DominoExample(settings: _settings),
       ],
     );

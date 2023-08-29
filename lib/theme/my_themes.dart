@@ -87,6 +87,7 @@ class MyThemes {
       ),
       switchTheme: SwitchThemeData(
         trackOutlineWidth: const MaterialStatePropertyAll(1),
+        trackOutlineColor: MaterialStatePropertyAll(onSurfaceColor),
         trackColor: MaterialStateProperty.resolveWith((states) {
           if (states.any((element) => (element == MaterialState.selected))) {
             return baseTheme.colorScheme.success;

@@ -25,20 +25,25 @@ class MyStorage {
     await Hive.initFlutter();
     await Hive.openBox(_gameBoxName);
     await Hive.openBox(_settingsBoxName);
-    Hive.registerAdapter(GameAdapter());
-    Hive.registerAdapter(PlayerAdapter());
-    Hive.registerAdapter(ColorAdapter());
-    Hive.registerAdapter(BarbuContractModelAdapter());
-    Hive.registerAdapter(NoLastTrickContractModelAdapter());
-    Hive.registerAdapter(NoHeartsContractModelAdapter());
-    Hive.registerAdapter(NoQueensContractModelAdapter());
-    Hive.registerAdapter(NoTricksContractModelAdapter());
-    Hive.registerAdapter(TrumpsContractModelAdapter());
-    Hive.registerAdapter(DominoContractModelAdapter());
-    Hive.registerAdapter(PointsContractSettingsAdapter());
-    Hive.registerAdapter(IndividualScoresContractSettingsAdapter());
-    Hive.registerAdapter(TrumpsContractSettingsAdapter());
-    Hive.registerAdapter(DominoContractSettingsAdapter());
+    Hive.registerAdapter<Game>(GameAdapter());
+    Hive.registerAdapter<Player>(PlayerAdapter());
+    Hive.registerAdapter<Color>(ColorAdapter());
+    Hive.registerAdapter<BarbuContractModel>(BarbuContractModelAdapter());
+    Hive.registerAdapter<NoLastTrickContractModel>(
+        NoLastTrickContractModelAdapter());
+    Hive.registerAdapter<NoHeartsContractModel>(NoHeartsContractModelAdapter());
+    Hive.registerAdapter<NoQueensContractModel>(NoQueensContractModelAdapter());
+    Hive.registerAdapter<NoTricksContractModel>(NoTricksContractModelAdapter());
+    Hive.registerAdapter<TrumpsContractModel>(TrumpsContractModelAdapter());
+    Hive.registerAdapter<DominoContractModel>(DominoContractModelAdapter());
+    Hive.registerAdapter<PointsContractSettings>(
+        PointsContractSettingsAdapter());
+    Hive.registerAdapter<IndividualScoresContractSettings>(
+        IndividualScoresContractSettingsAdapter());
+    Hive.registerAdapter<TrumpsContractSettings>(
+        TrumpsContractSettingsAdapter());
+    Hive.registerAdapter<DominoContractSettings>(
+        DominoContractSettingsAdapter());
   }
 
   /// Gets the game saved in the store
