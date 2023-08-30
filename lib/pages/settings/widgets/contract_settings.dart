@@ -42,6 +42,7 @@ class _ContractSettingsPage extends State<ContractSettingsPage> {
       title: "Paramètres\n${widget.contract.displayName}",
       content: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 24),
             SettingQuestion(
