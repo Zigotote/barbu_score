@@ -23,7 +23,6 @@ class MySettings extends StatelessWidget {
             child: MyGrid(
               isScrollable: false,
               children: ContractsInfo.values
-                  .where((contract) => contract.settingsRoute != null)
                   .map(
                     (contract) => ElevatedButton(
                       onPressed: () => Navigator.of(context).pushNamed(
