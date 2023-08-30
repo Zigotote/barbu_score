@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
 
+import 'contract_info.dart';
+
 part 'contract_settings_models.g.dart';
 
 /// An abstract class to save the settings of a contract
@@ -35,7 +37,17 @@ class IndividualScoresContractSettings extends PointsContractSettings {
 /// A trumps contract settings
 @HiveType(typeId: 11)
 class TrumpsContractSettings extends AbstractContractSettings {
-  TrumpsContractSettings() : super();
+  /// Lists all contract that could be part of a trumps contract
+  static List<ContractsInfo> availableContracts = ContractsInfo.values
+      .where((contract) =>
+          contract != ContractsInfo.trumps && contract != ContractsInfo.domino)
+      .toList();
+
+  /// A map to know if each contract should be part of trumps contract or not
+  @HiveField(1)
+  final Map<ContractsInfo, bool> contracts;
+
+  TrumpsContractSettings({required this.contracts}) : super();
 }
 
 /// A domino contract settings

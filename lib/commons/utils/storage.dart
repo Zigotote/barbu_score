@@ -23,11 +23,10 @@ class MyStorage {
   /// The function to call to init storage
   static init() async {
     await Hive.initFlutter();
-    await Hive.openBox(_gameBoxName);
-    await Hive.openBox(_settingsBoxName);
     Hive.registerAdapter<Game>(GameAdapter());
     Hive.registerAdapter<Player>(PlayerAdapter());
     Hive.registerAdapter<Color>(ColorAdapter());
+    Hive.registerAdapter<ContractsInfo>(ContractsInfoAdapter());
     Hive.registerAdapter<BarbuContractModel>(BarbuContractModelAdapter());
     Hive.registerAdapter<NoLastTrickContractModel>(
         NoLastTrickContractModelAdapter());
@@ -44,6 +43,9 @@ class MyStorage {
         TrumpsContractSettingsAdapter());
     Hive.registerAdapter<DominoContractSettings>(
         DominoContractSettingsAdapter());
+
+    await Hive.openBox(_gameBoxName);
+    await Hive.openBox(_settingsBoxName);
   }
 
   /// Gets the game saved in the store

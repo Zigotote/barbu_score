@@ -10,13 +10,19 @@ the [doc](https://docs.flutter.dev/get-started/install).
 
 ...
 
-And that's it ! Now you can clone this repo and do awesome work to improve this app.
+To get all dependencies and create generated files run these commands :
 
-## Note
+```
+flutter pub get
+dart run build_runner build
+```
 
-I only tested this app on Android devices so the iOS version could be a bit flaky.
-If you don't want to contribute and just want to play, you can download the app
-in [PlayStore](https://play.google.com/store/apps/details?id=zigotote.barbu_score).
+And that's it ! Now you can do awesome work to improve this app.
+
+_Note_ : I only tested this app on Android devices so the iOS version could be a bit flaky.
+
+**If you don't want to contribute and just want to play, you can download the app
+in [PlayStore](https://play.google.com/store/apps/details?id=zigotote.barbu_score).**
 
 ## Contributing
 
@@ -31,7 +37,7 @@ to PlayStore.
 
 See [Flutter deployment doc](https://docs.flutter.dev/deployment/android#building-the-app-for-release)
 for more info.
- 
+
 ## Licence
 
 [MIT](https://choosealicense.com/licenses/mit/)

@@ -21,6 +21,7 @@ import 'pages/scores_by_player.dart';
 import 'pages/settings/individual_scores_contract_settings.dart';
 import 'pages/settings/my_settings.dart';
 import 'pages/settings/one_looser_contract_settings.dart';
+import 'pages/settings/trumps_contract_settings.dart';
 import 'theme/my_themes.dart';
 import 'theme/theme_provider.dart';
 
@@ -52,6 +53,7 @@ class MyApp extends ConsumerWidget {
             IndividualScoresContractSettingsPage(
                 _getRouteArgument<ContractsInfo>(context)),
         Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
+        Routes.trumpsSettings: (_) => TrumpsContractSettingsPage(),
         Routes.createGame: (_) => CreateGame(),
         Routes.prepareGame: (_) => PrepareGame(),
         Routes.chooseContract: (_) => const ChooseContract(),
@@ -100,6 +102,7 @@ class Routes {
       "/settings/one_looser_contract_scores";
   static const noSomethingScoresSettings = "/settings/individual_scores";
   static const dominoSettings = "/settings/domino";
+  static const trumpsSettings = "/settings/trumps";
   static const createGame = "/create_game";
   static const prepareGame = "/prepare_game";
   static const chooseContract = "/choose_contract";
