@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:hive/hive.dart';
 
 import 'contract_info.dart';
@@ -55,40 +57,48 @@ class TrumpsContractSettings extends AbstractContractSettings {
 class DominoContractSettings extends AbstractContractSettings {
   /// The points the best player will have
   @HiveField(1)
-  int pointsMin;
+  int pointsFirstPlayer;
 
   /// The points the worst player will have
   @HiveField(2)
-  int pointsMax;
+  int pointsLastPlayer;
 
-  DominoContractSettings({required this.pointsMin, required this.pointsMax})
+  DominoContractSettings(
+      {required this.pointsFirstPlayer, required this.pointsLastPlayer})
       : super();
 
   /// Returns the points of each player depending on min and max value
   List<int> calculatePoints(int nbPlayers) {
     final double middleIndex = nbPlayers / 2;
-    int pointsByPart = (pointsMax - pointsMin) ~/ (nbPlayers - 1);
+    int pointsByPart =
+        (pointsLastPlayer - pointsFirstPlayer) ~/ (nbPlayers - 1);
 
     if (pointsByPart % 10 != 0) {
-      pointsByPart = ((pointsMax - pointsMin) / 2) ~/ middleIndex;
+      pointsByPart =
+          ((pointsLastPlayer - pointsFirstPlayer) / 2) ~/ middleIndex;
     }
     return List.generate(nbPlayers, (index) {
       var points = 0;
       if (index == 0) {
-        return pointsMin;
+        return pointsFirstPlayer;
       }
       if (index == nbPlayers - 1) {
-        return pointsMax;
+        return pointsLastPlayer;
       }
       if (nbPlayers % 2 == 0 || middleIndex - 0.5 != index) {
         // To get the first players scores, we add values to min points
         if (index < middleIndex) {
-          points = pointsMin + (pointsByPart * index);
+          points = pointsFirstPlayer + (pointsByPart * index);
         }
         // To get the last players scores, we subtract values to max points
         else {
-          points = pointsMax - pointsByPart * (nbPlayers - index - 1);
+          points = pointsLastPlayer - pointsByPart * (nbPlayers - index - 1);
         }
+      }
+      if (points < min(pointsLastPlayer, pointsFirstPlayer)) {
+        points = min(pointsLastPlayer, pointsFirstPlayer);
+      } else if (points > max(pointsLastPlayer, pointsFirstPlayer)) {
+        points = max(pointsFirstPlayer, pointsLastPlayer);
       }
       // Rounds the value to the nearest 10
       return points ~/ 10 * 10;

@@ -100,7 +100,8 @@ enum ContractsInfo {
           ),
         );
       case ContractsInfo.domino:
-        return DominoContractSettings(pointsMin: -40, pointsMax: 40);
+        return DominoContractSettings(
+            pointsFirstPlayer: -40, pointsLastPlayer: 40);
     }
   }
 
