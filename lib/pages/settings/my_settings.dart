@@ -13,14 +13,14 @@ class MySettings extends StatelessWidget {
     return DefaultPage(
       title: "Paramètres",
       hasLeading: true,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const AppThemeChoice(),
-          const Text("Paramètres des contrats"),
-          const SizedBox(height: 24),
-          Expanded(
-            child: MyGrid(
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const AppThemeChoice(),
+            const Text("Paramètres des contrats"),
+            const SizedBox(height: 24),
+            MyGrid(
               isScrollable: false,
               children: ContractsInfo.values
                   .map(
@@ -36,8 +36,8 @@ class MySettings extends StatelessWidget {
                   )
                   .toList(),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
