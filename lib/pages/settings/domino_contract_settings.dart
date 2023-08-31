@@ -32,16 +32,18 @@ class _DominoContractSettingsPageState
         SettingQuestion(
           label: "Score du premier joueur",
           input: NumberInput(
-            points: _settings.pointsMin,
-            onChanged: (value) => setState(() => _settings.pointsMin = value),
+            points: _settings.pointsFirstPlayer,
+            onChanged: (value) =>
+                setState(() => _settings.pointsFirstPlayer = value),
           ),
         ),
         const SizedBox(height: 16),
         SettingQuestion(
           label: "Score du dernier joueur",
           input: NumberInput(
-            points: _settings.pointsMax,
-            onChanged: (value) => setState(() => _settings.pointsMax = value),
+            points: _settings.pointsLastPlayer,
+            onChanged: (value) =>
+                setState(() => _settings.pointsLastPlayer = value),
           ),
         ),
         const SizedBox(height: 24),
