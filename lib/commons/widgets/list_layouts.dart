@@ -22,6 +22,7 @@ class MyGrid extends StatelessWidget {
       crossAxisSpacing: 24,
       mainAxisSpacing: 24,
       childAspectRatio: 1.4,
+      shrinkWrap: true,
       children: children,
     );
   }
