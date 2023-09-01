@@ -26,7 +26,7 @@ class MySettings extends StatelessWidget {
                   .map(
                     (contract) => ElevatedButton(
                       onPressed: () => Navigator.of(context).pushNamed(
-                          contract.settingsRoute!,
+                          contract.settingsRoute,
                           arguments: contract),
                       child: Text(
                         contract.displayName,

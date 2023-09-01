@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// A statefull switch widget
 class MySwitch extends StatefulWidget {
   final bool isActive;
-  final Function(bool) onChanged;
+  final Function(bool)? onChanged;
 
   const MySwitch({super.key, required this.isActive, required this.onChanged});
 
@@ -24,12 +24,14 @@ class _MySwitch extends State<MySwitch> {
   Widget build(BuildContext context) {
     return Switch(
       value: value!,
-      onChanged: (bool newValue) {
-        setState(() {
-          value = newValue;
-        });
-        widget.onChanged(newValue);
-      },
+      onChanged: widget.onChanged != null
+          ? (bool newValue) {
+              setState(() {
+                value = newValue;
+              });
+              widget.onChanged!(newValue);
+            }
+          : null,
     );
   }
 }
