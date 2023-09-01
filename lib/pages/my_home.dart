@@ -9,10 +9,10 @@ import '../commons/notifiers/play_game.dart';
 import '../commons/utils/screen.dart';
 import '../commons/utils/snackbar.dart';
 import '../commons/utils/storage.dart';
+import '../commons/widgets/alert_dialog.dart';
 import '../commons/widgets/custom_buttons.dart';
 import '../commons/widgets/my_appbar.dart';
 import '../main.dart';
-import '../theme/my_themes.dart';
 
 class MyHome extends ConsumerWidget {
   const MyHome({super.key});
@@ -58,24 +58,19 @@ class MyHome extends ConsumerWidget {
       showDialog(
           context: context,
           builder: (BuildContext buildContext) {
-            return AlertDialog(
-              title: const Text("Charger une partie"),
-              content: Text(
-                  "Reprendre la partie précédente avec ${_playerNames(previousGame!.players)} ?"),
-              actions: [
-                ElevatedButtonCustomColor(
-                  color: Theme.of(context).colorScheme.error,
-                  textSize: 16,
-                  text: "Non, nouvelle partie",
-                  onPressed: () => _startGame(context, ref),
-                ),
-                ElevatedButtonCustomColor(
-                  color: Theme.of(context).colorScheme.success,
-                  textSize: 16,
-                  text: "Oui",
-                  onPressed: () => _loadGame(context, ref, previousGame!),
-                ),
-              ],
+            return MyAlertDialog(
+              context: context,
+              title: "Charger une partie",
+              content:
+                  "Reprendre la partie précédente avec ${_playerNames(previousGame!.players)} ?",
+              defaultAction: AlertDialogActionButton(
+                text: "Non, nouvelle partie",
+                onPressed: () => _startGame(context, ref),
+              ),
+              destructiveAction: AlertDialogActionButton(
+                text: "Oui",
+                onPressed: () => _loadGame(context, ref, previousGame!),
+              ),
             );
           });
     }
@@ -89,24 +84,19 @@ class MyHome extends ConsumerWidget {
         showDialog(
             context: context,
             builder: (BuildContext buildContext) {
-              return AlertDialog(
-                title: const Text("Une partie sauvegardée existe"),
-                content: Text(
-                    "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${_playerNames(previousGame.players)} sera perdue."),
-                actions: [
-                  ElevatedButtonCustomColor(
-                    color: Theme.of(context).colorScheme.error,
-                    textSize: 16,
-                    text: "Non, reprendre la partie",
-                    onPressed: () => _loadGame(context, ref, previousGame),
-                  ),
-                  ElevatedButtonCustomColor(
-                    color: Theme.of(context).colorScheme.success,
-                    textSize: 16,
-                    text: "Oui",
-                    onPressed: () => _startGame(context, ref),
-                  ),
-                ],
+              return MyAlertDialog(
+                context: context,
+                title: "Une partie sauvegardée existe",
+                content:
+                    "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${_playerNames(previousGame.players)} sera perdue.",
+                defaultAction: AlertDialogActionButton(
+                  text: "Non, reprendre la partie",
+                  onPressed: () => _loadGame(context, ref, previousGame),
+                ),
+                destructiveAction: AlertDialogActionButton(
+                  text: "Oui",
+                  onPressed: () => _startGame(context, ref),
+                ),
               );
             });
       } else {

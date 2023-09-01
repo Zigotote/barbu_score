@@ -90,6 +90,9 @@ class MyThemes {
         trackOutlineColor: MaterialStatePropertyAll(onSurfaceColor),
         trackColor: MaterialStateProperty.resolveWith((states) {
           if (states.any((element) => (element == MaterialState.selected))) {
+            if (states.any((element) => (element == MaterialState.disabled))) {
+              return disabledColor;
+            }
             return baseTheme.colorScheme.success;
           }
           return Colors.transparent;
@@ -97,6 +100,9 @@ class MyThemes {
         thumbColor: MaterialStateProperty.resolveWith((states) {
           if (states.any((element) => (element == MaterialState.selected))) {
             return Colors.white;
+          }
+          if (states.any((element) => (element == MaterialState.disabled))) {
+            return disabledColor;
           }
           return onSurfaceColor;
         }),
