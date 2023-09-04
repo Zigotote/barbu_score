@@ -20,7 +20,7 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   final String _riveStateName = "Switch theme";
 
   /// The state of the switch (true or false)
-  late SMIInput<bool>? _switchState;
+  late final SMIInput<bool>? _switchState;
 
   @override
   void initState() {

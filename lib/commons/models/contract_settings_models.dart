@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
+import '../../pages/create_game/create_game_props.dart';
 import 'contract_info.dart';
 
 part 'contract_settings_models.g.dart';
@@ -63,17 +65,43 @@ class DominoContractSettings extends AbstractContractSettings {
   @HiveField(2)
   int pointsLastPlayer;
 
-  DominoContractSettings(
-      {required this.pointsFirstPlayer, required this.pointsLastPlayer})
-      : super();
+  /// The indicator to know if the user wants to create his own points for domino contract
+  @HiveField(3)
+  late bool overridePoints;
+
+  /// The points for each player rank, depending on the number of player in the game
+  @HiveField(4)
+  late Map<int, List<int>> points;
+
+  DominoContractSettings({
+    required this.pointsFirstPlayer,
+    required this.pointsLastPlayer,
+    bool? overridePoints,
+    Map<int, List<int>>? points,
+  }) : super() {
+    this.overridePoints = overridePoints ?? false;
+    this.points = points ?? generatePointsLists();
+  }
+
+  /// Generates points lists depending on number players in the game
+  Map<int, List<int>> generatePointsLists() {
+    return Map.fromIterable(
+      List.generate(
+        kNbPlayersMax - kNbPlayersMin + 1,
+        (index) => index + kNbPlayersMin,
+      ),
+      value: (key) => calculatePoints(key),
+    );
+  }
 
   /// Returns the points of each player depending on min and max value
+  @visibleForTesting
   List<int> calculatePoints(int nbPlayers) {
     final double middleIndex = nbPlayers / 2;
     int pointsByPart =
         (pointsLastPlayer - pointsFirstPlayer) ~/ (nbPlayers - 1);
 
-    if (pointsByPart % 10 != 0) {
+    if (pointsByPart % 10 != 0 && nbPlayers % 2 == 0) {
       pointsByPart =
           ((pointsLastPlayer - pointsFirstPlayer) / 2) ~/ middleIndex;
     }
@@ -85,16 +113,16 @@ class DominoContractSettings extends AbstractContractSettings {
       if (index == nbPlayers - 1) {
         return pointsLastPlayer;
       }
-      if (nbPlayers % 2 == 0 || middleIndex - 0.5 != index) {
-        // To get the first players scores, we add values to min points
-        if (index < middleIndex) {
-          points = pointsFirstPlayer + (pointsByPart * index);
-        }
-        // To get the last players scores, we subtract values to max points
-        else {
-          points = pointsLastPlayer - pointsByPart * (nbPlayers - index - 1);
-        }
+
+      // To get the first players scores, we add values to min points
+      if (index < middleIndex) {
+        points = pointsFirstPlayer + (pointsByPart * index);
       }
+      // To get the last players scores, we subtract values to max points
+      else {
+        points = pointsLastPlayer - pointsByPart * (nbPlayers - index - 1);
+      }
+
       if (points < min(pointsLastPlayer, pointsFirstPlayer)) {
         points = min(pointsLastPlayer, pointsFirstPlayer);
       } else if (points > max(pointsLastPlayer, pointsFirstPlayer)) {
