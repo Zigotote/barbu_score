@@ -26,7 +26,7 @@ class _OneLooserContractScoresState
   Player? _selectedPlayer;
 
   /// The players of the game
-  late List<Player> _players;
+  late final List<Player> _players;
 
   /// The selected player has 1 item, other have 0
   late Map<String, int> _itemsByPlayer;
