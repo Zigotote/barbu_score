@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import '../utils/storage.dart';
 import 'contract_info.dart';
 import 'contract_models.dart';
 
@@ -25,17 +26,20 @@ class Player {
   @HiveField(3)
   final List<AbstractContractModel> _contracts;
 
-  Player({required this.color, required this.image, this.name = ""})
-      : _contracts = [];
+  Player(
+      {required this.color,
+      required this.image,
+      this.name = "",
+      List<AbstractContractModel>? playedContracts})
+      : _contracts = playedContracts ?? [];
 
   /// Returns the list of the contracts the player has already selected
-  List<String> get _choosenContracts =>
+  List<String> get _chosenContracts =>
       _contracts.map((contract) => contract.name).toList();
 
   /// Returns the list of the contracts the player can choose
-  List<ContractsInfo> get availableContracts => ContractsInfo.values
-      .where((contract) => !_choosenContracts.contains(contract.name))
-      .toList();
+  bool get hasAvailableContracts =>
+      MyStorage.getActiveContracts().length != _chosenContracts.length;
 
   /// Returns the scores of each player, for the contracts of this player
   /// If the player has not played contracts it return null
@@ -48,7 +52,7 @@ class Player {
 
   /// Returns true if the player has played the contract
   bool hasPlayedContract(ContractsInfo contract) {
-    return _choosenContracts.contains(contract.name);
+    return _chosenContracts.contains(contract.name);
   }
 
   /// Adds a contract played by a player, created from its name.
@@ -69,5 +73,10 @@ class Player {
     final AbstractContractModel? contract = _contracts
         .firstWhereOrNull((contract) => contract.name == contractName);
     return contract?.scores;
+  }
+
+  @override
+  String toString() {
+    return "$name : $_contracts";
   }
 }

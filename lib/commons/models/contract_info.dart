@@ -89,7 +89,7 @@ enum ContractsInfo {
       case ContractsInfo.noQueens:
         return IndividualScoresContractSettings(points: 10);
       case ContractsInfo.noTricks:
-        return IndividualScoresContractSettings(points: 10);
+        return IndividualScoresContractSettings(points: 5);
       case ContractsInfo.noLastTrick:
         return PointsContractSettings(points: 40);
       case ContractsInfo.trumps:
@@ -103,12 +103,5 @@ enum ContractsInfo {
         return DominoContractSettings(
             pointsFirstPlayer: -40, pointsLastPlayer: 40);
     }
-  }
-
-  // Returns the contract associated with the enum value obtained with toString()
-  static AbstractContractModel getContractFromToString(String enumName) {
-    return ContractsInfo.values
-        .firstWhere((contract) => contract.name == enumName)
-        .contract;
   }
 }

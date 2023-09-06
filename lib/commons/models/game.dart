@@ -22,7 +22,7 @@ class Game {
   Player get currentPlayer => players[_currentPlayerIndex];
 
   /// Returns true if the game is finished
-  bool get isFinished => currentPlayer.availableContracts.isEmpty;
+  bool get isFinished => !currentPlayer.hasAvailableContracts;
 
   /// Changes the current player to the next one
   nextPlayer() {
@@ -30,5 +30,10 @@ class Game {
     if (_currentPlayerIndex == players.length) {
       _currentPlayerIndex = 0;
     }
+  }
+
+  @override
+  String toString() {
+    return players.toString();
   }
 }
