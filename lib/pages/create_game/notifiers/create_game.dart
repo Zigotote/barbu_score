@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../../../commons/models/player.dart';
+import '../../../commons/utils/globals.dart';
 import '../../../theme/theme_provider.dart';
 import '../create_game_props.dart';
 

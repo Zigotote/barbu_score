@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/player.dart';
 import '../../../commons/notifiers/play_game.dart';
+import '../../../commons/utils/storage.dart';
 import '../../../commons/widgets/score_table.dart';
 
 /// A table to display the scores of players for the entire game
@@ -12,7 +12,7 @@ class GameTable extends ConsumerWidget {
 
   /// Builds the rows to display player scores for each contract
   List<ScoreRow> _buildPlayerRows(List<Player> players) {
-    return ContractsInfo.values.map((contract) {
+    return MyStorage.getActiveContracts().map((contract) {
       final Map<String, int> scores = {};
       for (var player in players) {
         final Map<String, int>? playerContractScores =

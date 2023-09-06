@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/models/contract_info.dart';
 import '../../../../commons/models/contract_models.dart';
+import '../../../commons/models/contract_settings_models.dart';
+import '../../../commons/utils/storage.dart';
 
 final trumpsProvider = ChangeNotifierProvider.autoDispose<TrumpsNotifier>(
   (ref) => TrumpsNotifier(),
@@ -14,11 +16,17 @@ class TrumpsNotifier with ChangeNotifier {
   final List<AbstractContractModel> _filledContracts = [];
 
   ///  The list of contracts to fill for a trump contract
-  final List<ContractsInfo> trumpContracts = ContractsInfo.values
-      .where((contractInfo) =>
-          contractInfo != ContractsInfo.trumps &&
-          contractInfo != ContractsInfo.domino)
-      .toList();
+  final List<ContractsInfo> trumpContracts;
+
+  TrumpsNotifier._(this.trumpContracts);
+
+  factory TrumpsNotifier() {
+    final Map<ContractsInfo, bool> activeContracts =
+        MyStorage.getSettings<TrumpsContractSettings>(ContractsInfo.trumps)
+            .contracts
+          ..removeWhere((_, isActive) => !isActive);
+    return TrumpsNotifier._(activeContracts.keys.toList());
+  }
 
   /// Returns true if the contract is entirely filled
   bool get isValid => _filledContracts.length == trumpContracts.length;

@@ -42,6 +42,8 @@ class DefaultPage extends StatelessWidget {
         hasLeading: hasLeading,
       ),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: hasBackground
             ? const BoxDecoration(
                 image: DecorationImage(

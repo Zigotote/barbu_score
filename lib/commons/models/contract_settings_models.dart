@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
-import '../../pages/create_game/create_game_props.dart';
+import '../utils/globals.dart';
 import 'contract_info.dart';
 
 part 'contract_settings_models.g.dart';

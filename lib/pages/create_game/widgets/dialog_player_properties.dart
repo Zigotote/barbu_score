@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../../../commons/models/player.dart';
+import '../../../commons/utils/globals.dart';
 import '../../../commons/utils/screen.dart';
 import '../../../commons/widgets/player_icon.dart';
 import '../../../theme/my_themes.dart';

@@ -31,6 +31,7 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
     if (MyStorage.getStoredGame() != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (_) => MyAlertDialog(
             context: context,

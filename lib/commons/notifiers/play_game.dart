@@ -11,7 +11,7 @@ final playGameProvider =
 
 class PlayGameNotifier with ChangeNotifier {
   /// The object representing the game
-  late final Game _game;
+  late Game _game;
 
   PlayGameNotifier();
 

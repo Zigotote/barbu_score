@@ -65,9 +65,7 @@ class MyStorage {
 
   /// Saves the game status
   static void saveGame(Game game) {
-    try {
-      Hive.box(_gameBoxName).put(_gameKey, game);
-    } catch (_) {}
+    Hive.box(_gameBoxName).put(_gameKey, game);
   }
 
   /// Deletes the data saved for the game in the store
@@ -88,9 +86,16 @@ class MyStorage {
   }
 
   /// Gets the settings associated to this contract. Returns default settings if no personalized data saved
-  static T? getSettings<T>(ContractsInfo contractsInfo) {
+  static T getSettings<T extends AbstractContractSettings>(
+      ContractsInfo contractsInfo) {
     return Hive.box(_settingsBoxName)
         .get(contractsInfo.name, defaultValue: contractsInfo.settings);
+  }
+
+  /// Returns all active contracts
+  static List<ContractsInfo> getActiveContracts() {
+    return List<ContractsInfo>.from(ContractsInfo.values)
+      ..removeWhere((contract) => !MyStorage.getSettings(contract).isActive);
   }
 
   /// Saves the points associated to this contract
