@@ -62,7 +62,8 @@ class PrepareGame extends ConsumerWidget {
         child: const Text("C'est parti !"),
         onPressed: () {
           Wakelock.enable();
-          Navigator.of(context).popAndPushNamed(Routes.chooseContract);
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.of(context).pushNamed(Routes.chooseContract);
         },
       ),
     );

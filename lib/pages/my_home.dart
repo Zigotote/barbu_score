@@ -25,17 +25,13 @@ class MyHome extends ConsumerWidget {
   /// Loads a previous game and resumes it
   _loadGame(BuildContext context, WidgetRef ref, Game game) {
     ref.read(playGameProvider).load(game);
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
-    }
+    Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.of(context).pushNamed(Routes.prepareGame);
   }
 
   /// Starts a new party
   _startGame(BuildContext context, WidgetRef ref) {
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
-    }
+    Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.of(context).pushNamed(Routes.createGame);
   }
 

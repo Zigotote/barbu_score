@@ -1,7 +1,9 @@
 import 'package:hive/hive.dart';
 
 import '../utils/globals.dart' as globals;
+import '../utils/storage.dart';
 import 'contract_info.dart';
+import 'contract_settings_models.dart';
 
 part 'contract_models.g.dart';
 
@@ -24,17 +26,23 @@ abstract class AbstractContractModel {
     return playerScores;
   }
 
+  /// The contract associated to this model
+  final ContractsInfo contract;
+
   /// The name of the contract
   @HiveField(0)
   final String name;
 
   /// The scores of all the players for this contract
   @HiveField(1)
-  late Map<String, int> _scores;
+  Map<String, int> _scores;
 
-  AbstractContractModel(this.name) {
-    _scores = {};
-  }
+  AbstractContractModel(this.contract)
+      : name = contract.name,
+        _scores = {};
+
+  /// The settings associated to this contract
+  AbstractContractSettings get _settings => MyStorage.getSettings(contract);
 
   Map<String, int> get scores => _scores;
 
@@ -44,21 +52,21 @@ abstract class AbstractContractModel {
   /// Sets the score of each player from a Map wich links all player's names with the number of tricks/cards they won.
   /// Returns true if the score has been set correctly, false if the trickByPlayer Map is not correctly filled
   bool setScores(Map<String, int> itemsByPlayer);
+
+  @override
+  String toString() {
+    return "$name : $_scores";
+  }
 }
 
 /// A class to fill the scores for a contract which has only one looser
 abstract class OneLooserContractModel extends AbstractContractModel {
-  /// The number of points the looser will have for this contract
-  final int _points;
-
-  OneLooserContractModel(ContractsInfo contractsInfo)
-      : _points = /*MyStorage.getSettings(contractsInfo)*/ 5,
-        super(contractsInfo.name);
+  OneLooserContractModel(super.contract);
 
   @override
   Map<String, int> get playerItems => {
         for (var playerScore in scores.entries)
-          playerScore.key: playerScore.value == _points ? 1 : 0
+          playerScore.key: playerScore.value != 0 ? 1 : 0
       };
 
   /// Sets the score of the player in the Map at the value of this.points. Other players have a score of 0.
@@ -69,7 +77,8 @@ abstract class OneLooserContractModel extends AbstractContractModel {
       return false;
     }
     _scores = itemsByPlayer.map(
-      (playerName, nbItems) => MapEntry(playerName, nbItems * _points),
+      (playerName, nbItems) => MapEntry(
+          playerName, nbItems * (_settings as PointsContractSettings).points),
     );
     return true;
   }
@@ -78,17 +87,13 @@ abstract class OneLooserContractModel extends AbstractContractModel {
 /// An abstract class to fill the scores for a contract where multiple players can have some points
 abstract class AbstractMultipleLooserContractModel
     extends AbstractContractModel {
-  /// The number of points each item (card or trick) costs
-  final int _pointsByItem;
-
   /// The number of item (card or trick) the deck should have
   final int _expectedItems;
 
   AbstractMultipleLooserContractModel(
-    ContractsInfo contractsInfo,
+    super.contract,
     this._expectedItems,
-  )   : _pointsByItem = /*MyStorage.getSettings(contractsInfo)*/ 5,
-        super(contractsInfo.name);
+  );
 
   /// Returns the maximal score for the contract
   int get expectedItems => _expectedItems;
@@ -96,7 +101,9 @@ abstract class AbstractMultipleLooserContractModel
   @override
   Map<String, int> get playerItems => {
         for (var playerScore in scores.entries)
-          playerScore.key: ((playerScore.value) ~/ _pointsByItem).abs()
+          playerScore.key: ((playerScore.value) ~/
+                  (_settings as IndividualScoresContractSettings).points)
+              .abs()
       };
 
   @override
@@ -106,17 +113,21 @@ abstract class AbstractMultipleLooserContractModel
     if (declaredItems != _expectedItems) {
       return false;
     }
+    final settings = _settings as IndividualScoresContractSettings;
     try {
-      MapEntry<String, int> playerWithNegativeScore = itemsByPlayer.entries
+      MapEntry<String, int>? playerWithAllItems = itemsByPlayer.entries
           .firstWhere((playerItems) => playerItems.value == _expectedItems);
-      _scores[playerWithNegativeScore.key] =
-          0 - (_expectedItems * _pointsByItem);
+      int score = _expectedItems * settings.points;
+      if (settings.invertScore) {
+        score = -score;
+      }
+      _scores[playerWithAllItems.key] = score;
       itemsByPlayer.forEach(
         (player, items) => _scores.putIfAbsent(player, () => 0),
       );
     } catch (_) {
       itemsByPlayer.forEach((player, value) {
-        _scores[player] = value * _pointsByItem;
+        _scores[player] = value * settings.points;
       });
     }
     return true;
@@ -157,7 +168,7 @@ class NoTricksContractModel extends AbstractMultipleLooserContractModel {
 /// A trumps contract scores
 @HiveType(typeId: 7)
 class TrumpsContractModel extends AbstractContractModel {
-  TrumpsContractModel() : super(ContractsInfo.trumps.name);
+  TrumpsContractModel() : super(ContractsInfo.trumps);
 
   @override
   Map<String, int> get playerItems => {};
@@ -172,10 +183,7 @@ class TrumpsContractModel extends AbstractContractModel {
 /// A domino contract scores
 @HiveType(typeId: 8)
 class DominoContractModel extends AbstractContractModel {
-  /// The scores the player can have
-  final List<int> _dominoPointsProps = [];
-
-  DominoContractModel() : super(ContractsInfo.domino.name);
+  DominoContractModel() : super(ContractsInfo.domino);
 
   @override
   Map<String, int> get playerItems {
@@ -193,36 +201,10 @@ class DominoContractModel extends AbstractContractModel {
     if (rankOfPlayer.isEmpty) {
       return false;
     }
-    List<MapEntry<String, int>> orderedPlayers = rankOfPlayer.entries.toList();
-    orderedPlayers.sort(
-      (element1, element2) => element1.value - element2.value,
-    );
-
-    final List<int> dominoPoints = _dominoPointsProps;
-    final double middleIndex = orderedPlayers.length / 2;
-    for (var player in orderedPlayers) {
-      int playerIndex = orderedPlayers.indexOf(player);
-
-      if (_dominoPointsProps.length > 0) {
-        _scores[player.key] = dominoPoints[playerIndex];
-      } else {
-        int score = 0;
-        // If the number of players is odd, and the player is in the middle rank, he has 0 points. Else it is calculated
-        if (orderedPlayers.length % 2 == 0 ||
-            middleIndex - 0.5 != playerIndex) {
-          // To get the first players scores, we read the array forward
-          if (playerIndex < middleIndex) {
-            score = dominoPoints[playerIndex];
-          }
-          // To get the last players scores, the array is read backward
-          else {
-            score = dominoPoints[
-                dominoPoints.length - (orderedPlayers.length - playerIndex)];
-          }
-        }
-        _scores[player.key] = score;
-      }
-    }
+    List<int> points =
+        (_settings as DominoContractSettings).points[globals.nbPlayers]!;
+    _scores =
+        rankOfPlayer.map((player, rank) => MapEntry(player, points[rank]));
     return true;
   }
 }
