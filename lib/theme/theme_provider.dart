@@ -2,10 +2,12 @@ import 'package:barbu_score/commons/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final isDarkThemeProvider = StateNotifierProvider<_IsDarkThemeNotifier, bool>(
+import '../commons/utils/screen.dart';
+
+final isDarkThemeProvider = StateNotifierProvider<_IsDarkThemeNotifier, bool?>(
     (ref) => _IsDarkThemeNotifier());
 
-class _IsDarkThemeNotifier extends StateNotifier<bool> {
+class _IsDarkThemeNotifier extends StateNotifier<bool?> {
   _IsDarkThemeNotifier() : super(MyStorage.getIsDarkTheme());
 
   void changeTheme(bool isDark) {
@@ -14,7 +16,7 @@ class _IsDarkThemeNotifier extends StateNotifier<bool> {
   }
 
   /// Returns players colors, depending on state
-  get playerColors => state
+  get playerColors => state ?? ScreenHelper.brightness == Brightness.dark
       ? [
           Colors.brown.shade400,
           Colors.lightGreen.shade800,
