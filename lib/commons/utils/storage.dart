@@ -8,7 +8,6 @@ import '../models/contract_settings_models.dart';
 import '../models/game.dart';
 import '../models/player.dart';
 import 'globals.dart' as globals;
-import 'screen.dart';
 
 /// A class to handle local storage objects
 class MyStorage {
@@ -74,10 +73,9 @@ class MyStorage {
     Hive.box(_gameBoxName).clear();
   }
 
-  /// Returns true if saved theme is dark, false if it is white. If nothing saved, return platform brightness
-  static bool getIsDarkTheme() {
-    return Hive.box(_settingsBoxName).get(_isDarkThemeKey,
-        defaultValue: ScreenHelper.brightness == Brightness.dark);
+  /// Returns true if saved theme is dark, false if it is white. If nothing saved, returns null
+  static bool? getIsDarkTheme() {
+    return Hive.box(_settingsBoxName).get(_isDarkThemeKey);
   }
 
   /// Saves true if app theme should be dark, false otherwise
