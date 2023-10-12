@@ -7,7 +7,6 @@ import '../../../commons/utils/globals.dart';
 import '../../../commons/utils/screen.dart';
 import '../../../commons/widgets/player_icon.dart';
 import '../../../theme/my_themes.dart';
-import '../create_game_props.dart';
 import '../notifiers/create_game.dart';
 
 /// A dialog to change a player's informations
@@ -127,16 +126,15 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                 "Avatar",
                 List.generate(
                   kNbPlayersMax,
-                  (index) => sprintf(kPlayerImageFolder, [index + 1]),
-                )
-                    .map(
-                      (image) => TextButton(
-                        onPressed: () =>
-                            provider.changePlayerImage(player, image),
-                        child: PlayerIcon(image: image, size: double.maxFinite),
-                      ),
-                    )
-                    .toList(),
+                  (index) {
+                    final image = sprintf(kPlayerImageFolder, [index + 1]);
+                    return TextButton(
+                      onPressed: () =>
+                          provider.changePlayerImage(player, image),
+                      child: PlayerIcon(image: image, size: double.maxFinite),
+                    );
+                  },
+                ).toList(),
               )
             ],
           ),

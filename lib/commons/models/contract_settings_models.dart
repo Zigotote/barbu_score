@@ -57,46 +57,37 @@ class TrumpsContractSettings extends AbstractContractSettings {
 /// A domino contract settings
 @HiveType(typeId: 12)
 class DominoContractSettings extends AbstractContractSettings {
-  /// The points the best player will have
-  @HiveField(1)
-  int pointsFirstPlayer;
-
-  /// The points the worst player will have
-  @HiveField(2)
-  int pointsLastPlayer;
-
-  /// The indicator to know if the user wants to create his own points for domino contract
-  @HiveField(3)
-  late bool overridePoints;
-
   /// The points for each player rank, depending on the number of player in the game
-  @HiveField(4)
+  @HiveField(1)
   late Map<int, List<int>> points;
 
   DominoContractSettings({
-    required this.pointsFirstPlayer,
-    required this.pointsLastPlayer,
-    bool? overridePoints,
+    int? pointsFirstPlayer,
+    int? pointsLastPlayer,
     Map<int, List<int>>? points,
-  }) : super() {
-    this.overridePoints = overridePoints ?? false;
-    this.points = points ?? generatePointsLists();
+  })  : assert((pointsLastPlayer != null && pointsFirstPlayer != null) ||
+            points != null),
+        super() {
+    this.points =
+        points ?? generatePointsLists(pointsFirstPlayer!, pointsLastPlayer!);
   }
 
   /// Generates points lists depending on number players in the game
-  Map<int, List<int>> generatePointsLists() {
+  Map<int, List<int>> generatePointsLists(
+      int pointsFirstPlayer, int pointsLastPlayer) {
     return Map.fromIterable(
       List.generate(
         kNbPlayersMax - kNbPlayersMin + 1,
         (index) => index + kNbPlayersMin,
       ),
-      value: (key) => calculatePoints(key),
+      value: (key) => calculatePoints(key, pointsFirstPlayer, pointsLastPlayer),
     );
   }
 
   /// Returns the points of each player depending on min and max value
   @visibleForTesting
-  List<int> calculatePoints(int nbPlayers) {
+  List<int> calculatePoints(
+      int nbPlayers, int pointsFirstPlayer, int pointsLastPlayer) {
     final double middleIndex = nbPlayers / 2;
     int pointsByPart =
         (pointsLastPlayer - pointsFirstPlayer) ~/ (nbPlayers - 1);
