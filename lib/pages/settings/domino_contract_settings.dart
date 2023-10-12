@@ -1,53 +1,112 @@
+import 'package:barbu_score/commons/utils/screen.dart';
+import 'package:barbu_score/theme/theme_provider.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sprintf/sprintf.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
+import '../../commons/utils/globals.dart';
+import '../../commons/widgets/player_icon.dart';
 import 'notifiers/contract_settings_provider.dart';
 import 'widgets/contract_settings.dart';
-import 'widgets/domino_example.dart';
 import 'widgets/number_input.dart';
-import 'widgets/setting_question.dart';
 
-/// A page to edit domino contract settings
 class DominoContractSettingsPage extends ConsumerWidget {
   const DominoContractSettingsPage({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget _buildDataTable(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(contractSettingsProvider(ContractsInfo.domino));
     final settings = provider.settings as DominoContractSettings;
+    final List<String> positionNames = [
+      "1er",
+      "2ème",
+      "3ème",
+      "4ème",
+      "5ème",
+      "6ème"
+    ];
+    return DataTable(
+      columnSpacing: 8,
+      // I don't want border but it doesn't work because of https://github.com/flutter/flutter/issues/132214
+      dividerThickness: 0,
+      horizontalMargin: 8,
+      border: TableBorder(
+        horizontalInside: BorderSide(
+            color: Theme.of(context).scaffoldBackgroundColor, width: 1),
+      ),
+      columns: [
+        DataColumn(
+          label: _buildPlayersStack(
+              ref.watch(isDarkThemeProvider.notifier).playerColors),
+        ),
+        ...List.filled(settings.points.length, DataColumn(label: Container()))
+      ],
+      rows: positionNames.mapIndexed((index, positionName) {
+        return DataRow(
+          cells: [
+            DataCell(Text(positionName)),
+            ..._buildPointsCells(settings, provider, index),
+          ],
+        );
+      }).toList(),
+    );
+  }
+
+  Stack _buildPlayersStack(List<Color> playerColors) {
+    return Stack(
+      alignment: Alignment.center,
+      clipBehavior: Clip.none,
+      children: List.generate(
+        5,
+        (index) {
+          final image = sprintf(kPlayerImageFolder, [index + 1]);
+          final basePadding = ScreenHelper.width * 0.3;
+          final baseSize = ScreenHelper.width * 0.1;
+          // Applicates a ratio to other icons than the first one
+          final ratio = index == 0 ? 1 : (1 - 0.15 * (index / 2).round());
+          final playerIcon = PlayerIcon(
+            image: image,
+            color: playerColors[index],
+            size: baseSize * ratio,
+          );
+          if (index % 2 == 0) {
+            return Padding(
+              padding: EdgeInsets.only(left: basePadding * (1 - ratio)),
+              child: playerIcon,
+            );
+          }
+          return Padding(
+            padding: EdgeInsets.only(right: basePadding * (1 - ratio)),
+            child: playerIcon,
+          );
+        },
+      ).reversed.toList(),
+    );
+  }
+
+  List<DataCell> _buildPointsCells(DominoContractSettings settings,
+      ContractSettingsNotifier provider, int playerIndex) {
+    return List.generate(settings.points.length, (index) {
+      final int nbPlayers = index + kNbPlayersMin;
+      if (playerIndex < settings.points[nbPlayers]!.length) {
+        return DataCell(
+          NumberInput(
+              points: settings.points[nbPlayers]![playerIndex],
+              onChanged: provider.modifySetting(
+                  (value) => settings.points[nbPlayers]?[playerIndex] = value)),
+        );
+      }
+      return DataCell(Container());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return ContractSettingsPage(
       contract: ContractsInfo.domino,
-      children: [
-        SettingQuestion(
-          label: "Score du premier joueur",
-          input: NumberInput(
-            points: settings.pointsFirstPlayer,
-            onChanged: provider.modifySetting(
-              (value) {
-                settings.pointsFirstPlayer = value;
-                settings.points = settings.generatePointsLists();
-              },
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        SettingQuestion(
-          label: "Score du dernier joueur",
-          input: NumberInput(
-            points: settings.pointsLastPlayer,
-            onChanged: provider.modifySetting(
-              (value) {
-                settings.pointsLastPlayer = value;
-                settings.points = settings.generatePointsLists();
-              },
-            ),
-          ),
-        ),
-        const SizedBox(height: 24),
-        const DominoExample(),
-      ],
+      children: [_buildDataTable(context, ref)],
     );
   }
 }

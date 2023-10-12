@@ -42,15 +42,11 @@ class ScoreTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double headingRowHeight = ScreenHelper.width * 0.17;
-    final Color textColor = Theme.of(context).colorScheme.onSurface;
     final TextTheme textTheme = Theme.of(context).textTheme;
     return DataTable(
       headingRowHeight: headingRowHeight,
       headingTextStyle: textTheme.labelLarge,
       columnSpacing: 8,
-      border: TableBorder(
-        horizontalInside: BorderSide(color: textColor),
-      ),
       columns: [
         const DataColumn(label: Text("")),
         ..._buildPlayersRow(headingRowHeight)

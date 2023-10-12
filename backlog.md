@@ -25,7 +25,4 @@
 
 ## Page paramètres
 
-- sélectionner les contrats à jouer +++
 - créer de nouveaux contrats
-- modifier le score des contrats +++
-- changer le thème de l'app +
