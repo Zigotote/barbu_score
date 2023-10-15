@@ -34,7 +34,6 @@ class DefaultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget page = Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
         context,
         tabs: tabs,
