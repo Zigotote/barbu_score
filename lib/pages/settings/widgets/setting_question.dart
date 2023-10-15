@@ -24,6 +24,7 @@ class SettingQuestion extends StatelessWidget {
             child: Tooltip(
               message: tooltip,
               triggerMode: TooltipTriggerMode.tap,
+              showDuration: const Duration(seconds: 3),
               margin: const EdgeInsets.symmetric(horizontal: 16),
               child: const Icon(Icons.info_outline_rounded),
             ),
