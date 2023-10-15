@@ -17,8 +17,14 @@ class ContractSettingsPage extends ConsumerStatefulWidget {
   /// The additionnal settings to display for the contract
   final List<Widget> children;
 
+  /// The indactor to know if is active switch state should be blocked, or if it can be updated
+  final bool blockIsActive;
+
   const ContractSettingsPage(
-      {super.key, required this.contract, required this.children});
+      {super.key,
+      required this.contract,
+      required this.children,
+      this.blockIsActive = false});
 
   @override
   ConsumerState<ContractSettingsPage> createState() => _ContractSettingsPage();
@@ -76,9 +82,11 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
               label: "Activer le contrat",
               input: MySwitch(
                 isActive: provider.settings.isActive,
-                onChanged: provider.modifySetting(
-                  (bool value) => provider.settings.isActive = value,
-                ),
+                onChanged: widget.blockIsActive == false
+                    ? provider.modifySetting(
+                        (bool value) => provider.settings.isActive = value,
+                      )
+                    : null,
               ),
             ),
             const SizedBox(height: 32),

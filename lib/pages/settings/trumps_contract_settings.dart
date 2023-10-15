@@ -16,25 +16,35 @@ class TrumpsContractSettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(contractSettingsProvider(ContractsInfo.trumps));
     final settings = provider.settings as TrumpsContractSettings;
-    return ContractSettingsPage(contract: ContractsInfo.trumps, children: [
-      Text(
-        "Contrats à jouer :",
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-      const SizedBox(height: 8),
-      ...TrumpsContractSettings.availableContracts
-          .map(
-            (contract) => SettingQuestion(
-              label: contract.displayName,
-              input: MySwitch(
-                isActive: settings.contracts[contract]!,
-                onChanged: provider.modifySetting(
-                  (value) => settings.contracts.update(contract, (_) => value),
+    return ContractSettingsPage(
+      contract: ContractsInfo.trumps,
+      blockIsActive: !settings.contracts.containsValue(true),
+      children: [
+        Text(
+          "Contrats à jouer :",
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 8),
+        ...TrumpsContractSettings.availableContracts
+            .map(
+              (contract) => SettingQuestion(
+                label: contract.displayName,
+                input: MySwitch(
+                  isActive: settings.contracts[contract]!,
+                  onChanged: provider.modifySetting(
+                    (value) {
+                      settings.contracts.update(contract, (_) => value);
+                      // Deactivate trumps contract if no active contract inside it
+                      if (!settings.contracts.containsValue(true)) {
+                        settings.isActive = false;
+                      }
+                    },
+                  ),
                 ),
               ),
-            ),
-          )
-          .toList(),
-    ]);
+            )
+            .toList(),
+      ],
+    );
   }
 }
