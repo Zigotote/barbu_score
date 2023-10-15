@@ -21,6 +21,12 @@ class _MySwitch extends State<MySwitch> {
   }
 
   @override
+  void didUpdateWidget(covariant MySwitch oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() => value = widget.isActive);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Switch(
       value: value!,
