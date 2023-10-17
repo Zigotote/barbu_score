@@ -31,9 +31,16 @@ Please explain why you want this changes so that I can understand your changes.
 
 ## Release the app
 
-Before releasing, the app needs to be tested on a real device with ```flutter install```.
-If everything is fine, the app bundle can be build with ```flutter build appbundle``` and uploaded
-to PlayStore.
+Before releasing, the app needs to be tested on a real device with
+
+```
+flutter build apk --release
+flutter install
+```
+
+If everything is fine, the app bundle can be build
+with ```flutter build appbundle --obfuscate --split-debug-info="/zigotote/barbu_score/debug"``` and
+uploaded to PlayStore.
 
 See [Flutter deployment doc](https://docs.flutter.dev/deployment/android#building-the-app-for-release)
 for more info.
