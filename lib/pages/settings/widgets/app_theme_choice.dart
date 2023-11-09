@@ -1,9 +1,9 @@
-import 'package:barbu_score/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
 import '../../../commons/utils/screen.dart';
+import '../../../theme/theme_provider.dart';
 import 'setting_question.dart';
 
 /// A widget to choose app theme

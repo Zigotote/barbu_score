@@ -1,4 +1,3 @@
-import 'package:barbu_score/pages/contract_scores/widgets/modify_contract_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,6 +7,7 @@ import '../../commons/widgets/list_layouts.dart';
 import 'models/contract_route_argument.dart';
 import 'notifiers/trumps_provider.dart';
 import 'widgets/contract_page.dart';
+import 'widgets/modify_contract_button.dart';
 
 /// A page to fill the scores for a trumps contract
 class TrumpsScores extends ConsumerWidget {
