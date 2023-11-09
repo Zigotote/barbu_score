@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import 'package:sprintf/sprintf.dart';
 
 import '../utils/globals.dart';
 import 'contract_info.dart';
@@ -15,6 +16,9 @@ abstract class AbstractContractSettings {
   bool isActive;
 
   AbstractContractSettings({this.isActive = true});
+
+  /// Fills the rules depending on the contract settings
+  String filledRules(String rules);
 }
 
 /// A class to save the settings for a contract where an item has points
@@ -25,6 +29,11 @@ class PointsContractSettings extends AbstractContractSettings {
   int points;
 
   PointsContractSettings({required this.points});
+
+  @override
+  String filledRules(String rules) {
+    return sprintf(rules, [points]);
+  }
 }
 
 /// A class to save the settings for a contract where multiple players can have some points
@@ -36,6 +45,16 @@ class IndividualScoresContractSettings extends PointsContractSettings {
 
   IndividualScoresContractSettings(
       {required super.points, this.invertScore = true});
+
+  @override
+  String filledRules(String rules) {
+    String invertScoreSentence = "";
+    if (invertScore) {
+      invertScoreSentence =
+          " Si un joueur remporte tout, son score devient négatif.";
+    }
+    return super.filledRules(rules) + invertScoreSentence;
+  }
 }
 
 /// A trumps contract settings
@@ -52,6 +71,19 @@ class TrumpsContractSettings extends AbstractContractSettings {
   final Map<ContractsInfo, bool> contracts;
 
   TrumpsContractSettings({required this.contracts}) : super();
+
+  @override
+  String filledRules(String rules) {
+    return sprintf(rules, [
+      contracts.entries
+          .where((contract) => contract.value)
+          .toList()
+          .map((e) => e.key.displayName.toLowerCase().replaceAll("sans ", ""))
+          .toString()
+          .replaceAll('(', "")
+          .replaceAll(')', "")
+    ]);
+  }
 }
 
 /// A domino contract settings
@@ -122,5 +154,10 @@ class DominoContractSettings extends AbstractContractSettings {
       // Rounds the value to the nearest 10
       return points ~/ 10 * 10;
     });
+  }
+
+  @override
+  String filledRules(String rules) {
+    return rules;
   }
 }
