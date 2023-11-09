@@ -1,3 +1,5 @@
+import 'package:barbu_score/commons/models/contract_info.dart';
+import 'package:barbu_score/commons/utils/storage.dart';
 import 'package:flutter/material.dart';
 
 import '../commons/widgets/default_page.dart';
@@ -40,26 +42,21 @@ class MyRules extends StatelessWidget {
             const Text(
                 "Le jeu est composé de 7 contrats devant être réalisés par tous les joueurs. Un contrat correspond à une manche de jeu. Au début de son tour, le premier joueur sélectionne un contrat à réaliser. Il l'annonce et débute la manche. A la fin de la manche, les points sont comptés, les cartes mélangées et distribuées et le joueur à gauche du premier joueur choisit un contrat à réaliser. La partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats."),
             _buildTitle(textTheme, "Les contrats"),
-            _buildSubtitle(textTheme, "Barbu"),
-            const Text(
-                "Le joueur emportant le roi de coeur (Barbu) marque 50 points."),
-            _buildSubtitle(textTheme, "Sans coeurs"),
-            const Text(
-                'Chaque joueur marque 5 points par coeur remporté. Si un joueur a tous les coeurs, son score devient négatif.'),
-            _buildSubtitle(textTheme, "Sans dames"),
-            const Text(
-                'Chaque joueur marque 10 points par dame remportée. Si un joueur a toutes les dames, il perd 40 points.'),
-            _buildSubtitle(textTheme, "Sans plis"),
-            const Text(
-                'Chaque joueur marque 5 points par pli remporté. Si un joueur remporte tous les plis, il perd 40 points.'),
-            _buildSubtitle(textTheme, "Dernier"),
-            const Text("Le joueur emportant le dernier pli marque 40 points."),
-            _buildSubtitle(textTheme, "Salade"),
-            const Text(
-                "Ce contrat est une combinaison de tous les contrats précédents. Il ne faut donc pas remporter les coeurs, le Barbu, les dames, les plis et le dernier pli. C'est le contrat qui peut faire marquer le plus de points puisque les points de chaque contrat s'additionnent."),
-            _buildSubtitle(textTheme, "Réussite"),
-            const Text(
-                "Le joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite. S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour. Le joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure à cette première carte. Il peut aussi poser une carte de la valeur d'ouverture. S'il ne peut pas poser de carte il indique qu'il passe. Le jeu se poursuite ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. Les joueurs marquent un nombre de points dépendant de leur ordre de fin."),
+            ...ContractsInfo.values.map((contract) {
+              final settings = MyStorage.getSettings(contract);
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSubtitle(textTheme, contract.displayName),
+                  Text(settings.filledRules(contract.rules)),
+                  if (!settings.isActive)
+                    const Text(
+                      "Ce contrat est désactivé pour vos parties.",
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                ],
+              );
+            }),
             _buildTitle(textTheme, "Déroulement d'une manche"),
             const Text(
                 "Le joueur qui choisit le contrat l'annonce et commence à jouer. Il pose la carte de son choix. Les joueurs jouent ensuite dans le sens des aiguilles d'une montre. Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle. A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant. La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes. Les points sont ensuite comptés selon le contrat choisi par le premier joueur, et une nouvelle manche est démarrée par le joueur à sa gauche."),
