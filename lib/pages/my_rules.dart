@@ -1,7 +1,7 @@
-import 'package:barbu_score/commons/models/contract_info.dart';
-import 'package:barbu_score/commons/utils/storage.dart';
 import 'package:flutter/material.dart';
 
+import '../commons/models/contract_info.dart';
+import '../commons/utils/storage.dart';
 import '../commons/widgets/default_page.dart';
 
 class MyRules extends StatelessWidget {

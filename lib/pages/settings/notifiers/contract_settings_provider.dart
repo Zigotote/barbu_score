@@ -1,8 +1,8 @@
-import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/models/contract_info.dart';
+import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/utils/storage.dart';
 
 final contractSettingsProvider = ChangeNotifierProvider.family

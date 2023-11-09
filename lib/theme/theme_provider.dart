@@ -1,8 +1,8 @@
-import 'package:barbu_score/commons/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../commons/utils/screen.dart';
+import '../commons/utils/storage.dart';
 
 final isDarkThemeProvider = StateNotifierProvider<_IsDarkThemeNotifier, bool?>(
     (ref) => _IsDarkThemeNotifier());
