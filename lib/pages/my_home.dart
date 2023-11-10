@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wakelock/wakelock.dart';
@@ -138,19 +137,13 @@ class MyHome extends ConsumerWidget {
                 onPressed: () => Navigator.of(context).pushNamed(Routes.rules),
               ),
               IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    Navigator.of(context).pushNamed(Routes.settings);
-                  } else {
-                    SnackBarUtils.instance.openSnackBar(
-                        context: context,
-                        title: "Patience...",
-                        text: "Cette page arrivera dans une future version.");
-                  }
-                },
-                iconSize: ScreenHelper.width * 0.15,
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(Routes.settings),
                 icon: const Icon(Icons.settings),
-                style: IconButton.styleFrom(side: BorderSide.none),
+                style: IconButton.styleFrom(
+                  side: BorderSide.none,
+                  iconSize: ScreenHelper.width * 0.15,
+                ),
               ),
             ],
           ),
