@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../utils/screen.dart';
-
 /// An ElevatedButton with a full width
 class ElevatedButtonFullWidth extends StatelessWidget {
   /// The child of the button
@@ -20,10 +18,7 @@ class ElevatedButtonFullWidth extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          minimumSize: Size(
-            ScreenHelper.width - 24,
-            ScreenHelper.height * 0.08,
-          ),
+          minimumSize: const Size.fromHeight(48),
         ),
         child: child,
       ),
@@ -80,6 +75,39 @@ class ElevatedButtonCustomColor extends StatelessWidget {
               style: TextStyle(fontSize: textSize),
             )
           : Icon(icon),
+    );
+  }
+}
+
+/// A button with an indicator on top
+class ElevatedButtonWithIndicator extends StatelessWidget {
+  /// The text of the button
+  final String text;
+
+  /// The function to call on button's pressed
+  final Function() onPressed;
+
+  /// The indicator to display on top off the button
+  final Widget indicator;
+
+  const ElevatedButtonWithIndicator(
+      {super.key,
+      required this.text,
+      required this.onPressed,
+      required this.indicator});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      fit: StackFit.expand,
+      children: [
+        ElevatedButton(
+          onPressed: onPressed,
+          child: Text(text, textAlign: TextAlign.center),
+        ),
+        Positioned(right: 8, top: 8, child: indicator)
+      ],
     );
   }
 }
