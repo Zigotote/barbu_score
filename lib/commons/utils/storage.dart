@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import '../models/contract_info.dart';
@@ -87,7 +88,8 @@ class MyStorage {
   static T getSettings<T extends AbstractContractSettings>(
       ContractsInfo contractsInfo) {
     return Hive.box(_settingsBoxName)
-        .get(contractsInfo.name, defaultValue: contractsInfo.settings);
+        .get(contractsInfo.name, defaultValue: contractsInfo.settings)
+        .copy();
   }
 
   /// Returns all active contracts
@@ -100,5 +102,12 @@ class MyStorage {
   static void saveSettings(
       ContractsInfo contractsInfo, AbstractContractSettings settings) {
     Hive.box(_settingsBoxName).put(contractsInfo.name, settings);
+  }
+
+  /// Listens to contract settings changes
+  static ValueListenable<Box> listenContractsSettings() {
+    return Hive.box(_settingsBoxName).listenable(
+      keys: ContractsInfo.values.map((contract) => contract.name).toList(),
+    );
   }
 }

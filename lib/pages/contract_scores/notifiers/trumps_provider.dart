@@ -21,10 +21,10 @@ class TrumpsNotifier with ChangeNotifier {
   TrumpsNotifier._(this.trumpContracts);
 
   factory TrumpsNotifier() {
-    final Map<ContractsInfo, bool> activeContracts =
+    final Map<ContractsInfo, bool> activeContracts = Map.from(
         MyStorage.getSettings<TrumpsContractSettings>(ContractsInfo.trumps)
-            .contracts
-          ..removeWhere((_, isActive) => !isActive);
+            .contracts)
+      ..removeWhere((_, isActive) => !isActive);
     return TrumpsNotifier._(activeContracts.keys.toList());
   }
 

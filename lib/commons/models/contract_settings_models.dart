@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:sprintf/sprintf.dart';
@@ -10,7 +11,7 @@ import 'contract_info.dart';
 part 'contract_settings_models.g.dart';
 
 /// An abstract class to save the settings of a contract
-abstract class AbstractContractSettings {
+abstract class AbstractContractSettings with EquatableMixin {
   /// The indicator to know if the user wants to have this contract in its games or not
   @HiveField(0)
   bool isActive;
@@ -19,6 +20,9 @@ abstract class AbstractContractSettings {
 
   /// Fills the rules depending on the contract settings
   String filledRules(String rules);
+
+  /// Copies the object with some overrides
+  AbstractContractSettings copy();
 }
 
 /// A class to save the settings for a contract where an item has points
@@ -28,12 +32,20 @@ class PointsContractSettings extends AbstractContractSettings {
   @HiveField(1)
   int points;
 
-  PointsContractSettings({required this.points});
+  PointsContractSettings({super.isActive, required this.points});
 
   @override
   String filledRules(String rules) {
     return sprintf(rules, [points]);
   }
+
+  @override
+  PointsContractSettings copy() {
+    return PointsContractSettings(isActive: isActive, points: points);
+  }
+
+  @override
+  List<Object?> get props => [isActive, points];
 }
 
 /// A class to save the settings for a contract where multiple players can have some points
@@ -44,7 +56,7 @@ class IndividualScoresContractSettings extends PointsContractSettings {
   bool invertScore;
 
   IndividualScoresContractSettings(
-      {required super.points, this.invertScore = true});
+      {super.isActive, required super.points, this.invertScore = true});
 
   @override
   String filledRules(String rules) {
@@ -55,6 +67,18 @@ class IndividualScoresContractSettings extends PointsContractSettings {
     }
     return super.filledRules(rules) + invertScoreSentence;
   }
+
+  @override
+  IndividualScoresContractSettings copy() {
+    return IndividualScoresContractSettings(
+      isActive: isActive,
+      points: points,
+      invertScore: invertScore,
+    );
+  }
+
+  @override
+  List<Object?> get props => [isActive, points, invertScore];
 }
 
 /// A trumps contract settings
@@ -70,7 +94,7 @@ class TrumpsContractSettings extends AbstractContractSettings {
   @HiveField(1)
   final Map<ContractsInfo, bool> contracts;
 
-  TrumpsContractSettings({required this.contracts}) : super();
+  TrumpsContractSettings({super.isActive, required this.contracts});
 
   @override
   String filledRules(String rules) {
@@ -84,6 +108,14 @@ class TrumpsContractSettings extends AbstractContractSettings {
           .replaceAll(')', "")
     ]);
   }
+
+  @override
+  TrumpsContractSettings copy() {
+    return TrumpsContractSettings(isActive: isActive, contracts: contracts);
+  }
+
+  @override
+  List<Object?> get props => [isActive, contracts];
 }
 
 /// A domino contract settings
@@ -94,6 +126,7 @@ class DominoContractSettings extends AbstractContractSettings {
   late Map<int, List<int>> points;
 
   DominoContractSettings({
+    super.isActive,
     int? pointsFirstPlayer,
     int? pointsLastPlayer,
     Map<int, List<int>>? points,
@@ -160,4 +193,12 @@ class DominoContractSettings extends AbstractContractSettings {
   String filledRules(String rules) {
     return rules;
   }
+
+  @override
+  DominoContractSettings copy() {
+    return DominoContractSettings(isActive: isActive, points: points);
+  }
+
+  @override
+  List<Object?> get props => [isActive, points];
 }
