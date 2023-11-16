@@ -34,8 +34,8 @@ android {
         applicationId "zigotote.barbu_score"
         minSdkVersion 16
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 7
-        versionName "1.2.0"
+        versionCode 8
+        versionName "2.0.0"
     }
 
     signingConfigs {
