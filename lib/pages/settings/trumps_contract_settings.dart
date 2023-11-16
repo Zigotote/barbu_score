@@ -43,7 +43,7 @@ class TrumpsContractSettingsPage extends ConsumerWidget {
                 ),
               ),
             )
-            .toList(),
+            ,
       ],
     );
   }

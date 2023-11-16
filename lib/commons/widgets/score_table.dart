@@ -54,7 +54,7 @@ class ScoreTable extends StatelessWidget {
       rows: [
         ...rows.map((row) {
           return row.build(textTheme.bodyMedium!);
-        }).toList(),
+        }),
       ],
     );
   }
@@ -102,7 +102,7 @@ class ScoreRow {
                 ),
               ),
             )
-            .toList()
+            
       ],
     );
   }

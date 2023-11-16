@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../commons/models/player.dart';
 import '../commons/notifiers/play_game.dart';
@@ -61,7 +61,7 @@ class PrepareGame extends ConsumerWidget {
       bottomWidget: ElevatedButton(
         child: const Text("C'est parti !"),
         onPressed: () {
-          Wakelock.enable();
+          WakelockPlus.enable();
           Navigator.of(context).popUntil((route) => route.isFirst);
           Navigator.of(context).pushNamed(Routes.chooseContract);
         },

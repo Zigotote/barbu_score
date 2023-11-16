@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../commons/models/game.dart';
 import '../commons/models/player.dart';
@@ -103,9 +103,9 @@ class MyHome extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Wakelock.disable();
+    WakelockPlus.disable();
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () => Future.value(false),
       child: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
