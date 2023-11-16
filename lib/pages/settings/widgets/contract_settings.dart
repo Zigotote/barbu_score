@@ -36,7 +36,7 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
     super.initState();
     if (MyStorage.getStoredGame() != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        showDialog(
+        final isAnswered = await showDialog(
           barrierDismissible: false,
           context: context,
           builder: (_) => MyAlertDialog(
@@ -49,7 +49,7 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
               onPressed: () {
                 ref.read(contractSettingsProvider(widget.contract)).canModify =
                     false;
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(true);
               },
             ),
             destructiveAction: AlertDialogActionButton(
@@ -58,11 +58,14 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
                 MyStorage.deleteGame();
                 ref.read(contractSettingsProvider(widget.contract)).canModify =
                     true;
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(true);
               },
             ),
           ),
         );
+        if (isAnswered == null) {
+          ref.read(contractSettingsProvider(widget.contract)).canModify = false;
+        }
       });
     }
   }
