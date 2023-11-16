@@ -5,7 +5,6 @@ import 'package:wakelock/wakelock.dart';
 import '../commons/models/game.dart';
 import '../commons/models/player.dart';
 import '../commons/notifiers/play_game.dart';
-import '../commons/utils/screen.dart';
 import '../commons/utils/snackbar.dart';
 import '../commons/utils/storage.dart';
 import '../commons/widgets/alert_dialog.dart';
@@ -142,7 +141,7 @@ class MyHome extends ConsumerWidget {
                 icon: const Icon(Icons.settings),
                 style: IconButton.styleFrom(
                   side: BorderSide.none,
-                  iconSize: ScreenHelper.width * 0.15,
+                  iconSize: 55,
                 ),
               ),
             ],
