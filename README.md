@@ -39,7 +39,7 @@ flutter install
 ```
 
 If everything is fine, the app bundle can be build
-with ```flutter build appbundle --obfuscate --split-debug-info="/zigotote/barbu_score/debug"``` and
+with ```flutter build appbundle --obfuscate --split-debug-info="zigotote/barbu_score/debug"``` and
 uploaded to PlayStore.
 
 See [Flutter deployment doc](https://docs.flutter.dev/deployment/android#building-the-app-for-release)
