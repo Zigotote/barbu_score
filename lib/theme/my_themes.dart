@@ -80,9 +80,7 @@ class MyThemes {
               MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
           foregroundColor: MaterialStatePropertyAll(onSurfaceColor),
           overlayColor: const MaterialStatePropertyAll(disabledColor),
-          side: MaterialStatePropertyAll(
-            BorderSide(color: onSurfaceColor),
-          ),
+          side: MaterialStatePropertyAll(BorderSide(color: onSurfaceColor)),
         ),
       ),
       switchTheme: SwitchThemeData(
