@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../main.dart';
 import '../models/player.dart';
-import '../utils/screen.dart';
 import 'custom_buttons.dart';
 import 'player_icon.dart';
 
@@ -37,12 +36,12 @@ class PlayerScoreButton extends StatelessWidget {
   }
 
   /// Returns the widget with the friend and the ennemy of the player
-  Widget _buildFriendStatus(double screenWidth) {
-    double badgesSize = screenWidth * 0.075;
+  Widget _buildFriendStatus() {
+    const double badgesSize = 27;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Icon(
+        const Icon(
           Icons.heart_broken_outlined,
           size: badgesSize,
           semanticLabel: "Pire ennemi",
@@ -53,7 +52,7 @@ class PlayerScoreButton extends StatelessWidget {
           size: badgesSize,
         ),
         const SizedBox(width: 16),
-        Icon(
+        const Icon(
           Icons.favorite_outline,
           size: badgesSize,
           semanticLabel: "Meilleur ami",
@@ -69,7 +68,6 @@ class PlayerScoreButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = ScreenHelper.width;
     return ElevatedButtonFullWidth(
       child: Row(
         children: [
@@ -77,16 +75,14 @@ class PlayerScoreButton extends StatelessWidget {
             image: player.image,
             hasMedal: displayMedal,
             color: player.color,
-            size: screenWidth * 0.15,
+            size: 55,
           ),
           Expanded(
             child: Column(
               children: [
                 Text(player.name),
                 Text("$score points"),
-                _showFriendStatus()
-                    ? _buildFriendStatus(screenWidth)
-                    : Container(),
+                if (_showFriendStatus()) _buildFriendStatus(),
               ],
             ),
           ),

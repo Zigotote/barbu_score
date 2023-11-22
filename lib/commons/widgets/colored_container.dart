@@ -6,7 +6,7 @@ import '../models/player_colors.dart';
 /// A container with a colored border
 class ColoredContainer extends StatelessWidget {
   /// The height of the container
-  final double height;
+  final double? height;
 
   /// The width of the container, if not specified the width of the parent is used
   final double? width;
@@ -19,7 +19,7 @@ class ColoredContainer extends StatelessWidget {
 
   const ColoredContainer({
     super.key,
-    required this.height,
+    this.height,
     this.width,
     required this.color,
     required this.child,

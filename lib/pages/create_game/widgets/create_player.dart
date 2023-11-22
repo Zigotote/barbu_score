@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../commons/models/player.dart';
-import '../../../commons/utils/screen.dart';
 import '../../../commons/widgets/colored_container.dart';
 import '../../../commons/widgets/player_icon.dart';
 import 'dialog_player_properties.dart';
@@ -35,13 +34,13 @@ class CreatePlayer extends StatelessWidget {
   }
 
   /// Builds player icon
-  Widget _buildPlayerIcon(BuildContext context) {
+  Widget _buildPlayerIcon(BuildContext context, double parentMaxWidth) {
     return TextButton(
       onPressed: () => _displayDialog(context, player, onRemove),
       child: PlayerIcon(
         image: player.image,
         color: player.color,
-        size: ScreenHelper.width * 0.25,
+        size: parentMaxWidth < 150 ? 75 : 90,
       ),
     );
   }
@@ -65,31 +64,42 @@ class CreatePlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        ColoredContainer(
-          height: ScreenHelper.height * 0.15,
-          color: player.color,
-          child: _buildPlayerTextField(),
-        ),
-        Positioned(
-          top: 0,
-          child: _buildPlayerIcon(context),
-        ),
-        Positioned(
-          top: ScreenHelper.height * 0.025,
-          right: 0,
-          width: ScreenHelper.width * 0.08,
-          height: ScreenHelper.width * 0.08,
-          child: IconButton.outlined(
-            onPressed: onRemove,
-            icon: const Icon(Icons.close),
-            tooltip: "Supprimer le joueur",
-            iconSize: ScreenHelper.width * 0.04,
+    return LayoutBuilder(builder: (context, constraint) {
+      return Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            bottom: 0,
+            child: ColoredContainer(
+              height: constraint.maxHeight * 0.75,
+              width: constraint.maxWidth,
+              color: player.color,
+              child: Container(),
+            ),
           ),
-        ),
-      ],
-    );
+          Positioned(
+            top: constraint.maxHeight * 0.78,
+            width: constraint.maxWidth,
+            child: _buildPlayerTextField(),
+          ),
+          Positioned(
+            top: 0,
+            child: _buildPlayerIcon(context, constraint.maxWidth),
+          ),
+          Positioned(
+            top: 24,
+            right: 0,
+            width: 32,
+            height: 32,
+            child: IconButton.outlined(
+              onPressed: onRemove,
+              icon: const Icon(Icons.close),
+              tooltip: "Supprimer le joueur",
+            ),
+          ),
+        ],
+      );
+    });
   }
 }

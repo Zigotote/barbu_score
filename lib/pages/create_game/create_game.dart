@@ -5,7 +5,6 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../commons/notifiers/play_game.dart';
 import '../../commons/utils/globals.dart';
-import '../../commons/utils/screen.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../main.dart';
 import 'notifiers/create_game.dart';
@@ -27,7 +26,7 @@ class CreateGame extends ConsumerWidget {
           Icons.add,
           semanticLabel: "Ajouter un joueur",
         ),
-        iconSize: ScreenHelper.width * 0.1,
+        iconSize: 40,
       ),
     );
   }
@@ -60,7 +59,9 @@ class CreateGame extends ConsumerWidget {
         child: ReorderableGridView.count(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
+          mainAxisSpacing: 24,
           dragStartDelay: kPressTimeout,
+          childAspectRatio: 10 / 8,
           footer: [
             if (playerProvider.players.length < kNbPlayersMax)
               _buildAddPlayerButton(playerProvider.addPlayer)

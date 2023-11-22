@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../utils/screen.dart';
-
 /// A grid which takes all the available space in the layout
 class MyGrid extends StatelessWidget {
   /// The function to build each item
@@ -18,7 +16,7 @@ class MyGrid extends StatelessWidget {
       physics: isScrollable
           ? const AlwaysScrollableScrollPhysics()
           : const NeverScrollableScrollPhysics(),
-      maxCrossAxisExtent: ScreenHelper.width * 0.5,
+      maxCrossAxisExtent: 180,
       crossAxisSpacing: 24,
       mainAxisSpacing: 24,
       childAspectRatio: 1.4,

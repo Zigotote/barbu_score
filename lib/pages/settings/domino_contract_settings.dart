@@ -6,7 +6,6 @@ import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
 import '../../commons/utils/globals.dart';
 import '../../commons/utils/player_icon_properties.dart';
-import '../../commons/utils/screen.dart';
 import '../../commons/widgets/player_icon.dart';
 import 'notifiers/contract_settings_provider.dart';
 import 'widgets/contract_settings.dart';
@@ -73,8 +72,8 @@ class DominoContractSettingsPage extends ConsumerWidget {
         5,
         (index) {
           final image = PlayerIconProperties.playerImages[index];
-          final basePadding = ScreenHelper.width * 0.3;
-          final baseSize = ScreenHelper.width * 0.1;
+          const double basePadding = 110;
+          const double baseSize = 36;
           // Applicates a ratio to other icons than the first one
           final ratio = index == 0 ? 1 : (1 - 0.15 * (index / 2).round());
           final playerIcon = PlayerIcon(

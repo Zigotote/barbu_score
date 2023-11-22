@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/player.dart';
 import '../../../commons/utils/player_icon_properties.dart';
-import '../../../commons/utils/screen.dart';
 import '../../../commons/widgets/player_icon.dart';
 import '../notifiers/create_game.dart';
 
@@ -33,7 +32,6 @@ class DialogChangePlayerInfo extends ConsumerWidget {
         PlayerIcon(
           image: player.image,
           color: player.color,
-          size: ScreenHelper.width * 0.25,
         ),
         Positioned(
           right: 0,
@@ -51,7 +49,6 @@ class DialogChangePlayerInfo extends ConsumerWidget {
   /// Builds the title and list of items the player can modify
   Widget _buildPropertySelection(
       BuildContext context, String text, List<Widget> items) {
-    final double buttonSpacing = ScreenHelper.width * 0.05;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,12 +56,12 @@ class DialogChangePlayerInfo extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 8),
           child: Text(text, style: Theme.of(context).textTheme.titleLarge),
         ),
-        GridView.count(
+        GridView.extent(
           physics: const NeverScrollableScrollPhysics(),
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
           shrinkWrap: true,
-          mainAxisSpacing: buttonSpacing,
-          crossAxisSpacing: buttonSpacing,
-          crossAxisCount: 3,
+          maxCrossAxisExtent: 75,
           children: items,
         ),
       ],
@@ -91,51 +88,54 @@ class DialogChangePlayerInfo extends ConsumerWidget {
     final ThemeData theme = Theme.of(context);
     return AlertDialog(
       title: _buildTitle(context),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildPropertySelection(
-              context,
-              "Couleur",
-              PlayerIconProperties.playerColors
-                  .map(
-                    (color) => TextButton(
-                      onPressed: () =>
-                          provider.changePlayerColor(player, color),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Theme.of(context)
-                            .colorScheme
-                            .convertPlayerColor(color),
-                      ),
-                      child: Text(
-                        provider.getPlayersWithColor(color),
-                        overflow: TextOverflow.fade,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.labelLarge!.copyWith(
-                          color: theme.scaffoldBackgroundColor,
+      content: SizedBox(
+        width: double.maxFinite,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildPropertySelection(
+                context,
+                "Couleur",
+                PlayerIconProperties.playerColors
+                    .map(
+                      (color) => TextButton(
+                        onPressed: () =>
+                            provider.changePlayerColor(player, color),
+                        style: TextButton.styleFrom(
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .convertPlayerColor(color),
+                        ),
+                        child: Text(
+                          provider.getPlayersWithColor(color),
+                          overflow: TextOverflow.fade,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.labelLarge!.copyWith(
+                            color: theme.scaffoldBackgroundColor,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
-            ),
-            const SizedBox(height: 16),
-            _buildPropertySelection(
-              context,
-              "Avatar",
-              PlayerIconProperties.playerImages
-                  .map(
-                    (image) => TextButton(
-                      onPressed: () =>
-                          provider.changePlayerImage(player, image),
-                      child: PlayerIcon(image: image, size: double.maxFinite),
-                    ),
-                  )
-                  .toList(),
-            )
-          ],
+                    )
+                    .toList(),
+              ),
+              const SizedBox(height: 16),
+              _buildPropertySelection(
+                context,
+                "Avatar",
+                PlayerIconProperties.playerImages
+                    .map(
+                      (image) => TextButton(
+                        onPressed: () =>
+                            provider.changePlayerImage(player, image),
+                        child: PlayerIcon(image: image, size: double.maxFinite),
+                      ),
+                    )
+                    .toList(),
+              )
+            ],
+          ),
         ),
       ),
       actions: [
