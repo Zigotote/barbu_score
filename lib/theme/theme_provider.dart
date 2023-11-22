@@ -1,8 +1,6 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../commons/utils/screen.dart';
 import '../commons/utils/storage.dart';
 
 final isDarkThemeProvider = StateNotifierProvider<_IsDarkThemeNotifier, bool?>(
@@ -18,6 +16,8 @@ class _IsDarkThemeNotifier extends StateNotifier<bool?> {
 
   /// Returns true if dark theme is set or system theme is dark. False otherwise
   bool isDarkTheme() {
-    return state ?? ScreenHelper.brightness == Brightness.dark;
+    return state ??
+        WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+            Brightness.dark;
   }
 }

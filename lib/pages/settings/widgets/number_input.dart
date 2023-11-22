@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../commons/utils/screen.dart';
-
 /// A widget to enter some points
 class NumberInput extends StatefulWidget {
   /// The contract to wich the score is linked
@@ -44,7 +42,7 @@ class _NumberInputState extends State<NumberInput> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: ScreenHelper.width * 0.15,
+      width: 55,
       child: TextField(
         controller: _controller,
         textAlign: TextAlign.end,

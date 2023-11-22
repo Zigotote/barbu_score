@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/player.dart';
 import '../../commons/notifiers/play_game.dart';
-import '../../commons/utils/screen.dart';
 import '../../commons/widgets/colored_container.dart';
 import 'widgets/contract_page.dart';
 
@@ -56,11 +55,12 @@ class _DominoScoresState extends ConsumerState<DominoScores> {
                   (index + 1).toString(),
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                ColoredContainer(
-                  height: ScreenHelper.height * 0.08,
-                  width: ScreenHelper.width * 0.75,
-                  color: player.color,
-                  child: _buildPlayerTile(player),
+                const SizedBox(width: 24),
+                Expanded(
+                  child: ColoredContainer(
+                    color: player.color,
+                    child: Center(child: _buildPlayerTile(player)),
+                  ),
                 ),
               ],
             ),
@@ -80,28 +80,25 @@ class _DominoScoresState extends ConsumerState<DominoScores> {
   Widget _buildPlayerTile(Player player) {
     final color =
         Theme.of(context).colorScheme.convertPlayerColor(player.color);
-    return Stack(
-      alignment: Alignment.center,
-      fit: StackFit.expand,
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            player.name,
-            style: TextStyle(
-              fontSize: 16,
-              color: color,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              player.name,
+              style: TextStyle(
+                fontSize: 16,
+                color: color,
+              ),
             ),
           ),
-        ),
-        Positioned(
-          right: 0,
-          child: Icon(
+          Icon(
             Icons.drag_handle,
             color: color,
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 

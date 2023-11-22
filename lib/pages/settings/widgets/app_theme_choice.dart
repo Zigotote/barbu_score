@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
-import '../../../commons/utils/screen.dart';
 import '../../../theme/theme_provider.dart';
 import 'setting_question.dart';
 
@@ -73,8 +72,8 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
         onTap: () => _invertTheme(),
         onHorizontalDragStart: (_) => _invertTheme(),
         child: SizedBox(
-          height: ScreenHelper.width * 0.18,
-          width: ScreenHelper.width * 0.18,
+          height: 60,
+          width: 60,
           child: RiveAnimation.asset(
             "assets/switch.riv",
             stateMachines: [_riveStateName],

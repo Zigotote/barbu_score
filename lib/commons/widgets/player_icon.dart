@@ -20,7 +20,7 @@ class PlayerIcon extends StatelessWidget {
   const PlayerIcon({
     super.key,
     required this.image,
-    required this.size,
+    this.size = 90,
     this.hasMedal = false,
     this.color,
   });
