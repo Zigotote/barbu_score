@@ -1,3 +1,4 @@
+import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -77,6 +78,8 @@ class _DominoScoresState extends ConsumerState<DominoScores> {
 
   /// Builds a stack with the name of a player and a drag icon as a leading
   Widget _buildPlayerTile(Player player) {
+    final color =
+        Theme.of(context).colorScheme.convertPlayerColor(player.color);
     return Stack(
       alignment: Alignment.center,
       fit: StackFit.expand,
@@ -87,7 +90,7 @@ class _DominoScoresState extends ConsumerState<DominoScores> {
             player.name,
             style: TextStyle(
               fontSize: 16,
-              color: player.color,
+              color: color,
             ),
           ),
         ),
@@ -95,7 +98,7 @@ class _DominoScoresState extends ConsumerState<DominoScores> {
           right: 0,
           child: Icon(
             Icons.drag_handle,
-            color: player.color,
+            color: color,
           ),
         )
       ],

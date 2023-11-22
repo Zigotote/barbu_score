@@ -2,31 +2,27 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sprintf/sprintf.dart';
 
 import '../../../commons/models/player.dart';
+import '../../../commons/models/player_colors.dart';
 import '../../../commons/utils/globals.dart';
-import '../../../theme/theme_provider.dart';
+import '../../../commons/utils/player_icon_properties.dart';
 
 final createGameProvider =
     ChangeNotifierProvider.autoDispose<CreateGameNotifier>(
-  (ref) =>
-      CreateGameNotifier(ref.read(isDarkThemeProvider.notifier).playerColors),
+  (ref) => CreateGameNotifier(),
 );
 
 class CreateGameNotifier with ChangeNotifier {
-  /// The available colors for the players (depending on app theme)
-  final List<Color> playerColors;
-
   /// The list of players for the game
   final List<Player> _players;
 
-  CreateGameNotifier(this.playerColors)
+  CreateGameNotifier()
       : _players = List.generate(
           4,
           (index) => Player(
-            color: playerColors[index],
-            image: sprintf(kPlayerImageFolder, [index + 1]),
+            color: PlayerIconProperties.playerColors[index],
+            image: PlayerIconProperties.playerImages[index],
           ),
           growable: true,
         );
@@ -36,8 +32,8 @@ class CreateGameNotifier with ChangeNotifier {
   /// Adds a player for the game
   void addPlayer() {
     _players.add(Player(
-      color: playerColors[_players.length],
-      image: sprintf(kPlayerImageFolder, [_players.length + 1]),
+      color: PlayerIconProperties.playerColors[_players.length],
+      image: PlayerIconProperties.playerImages[_players.length],
     ));
     notifyListeners();
   }
@@ -56,7 +52,7 @@ class CreateGameNotifier with ChangeNotifier {
   }
 
   /// Returns the first letter of each player who choose this color
-  String getPlayersWithColor(Color color) {
+  String getPlayersWithColor(PlayerColors color) {
     return _players
         .where((player) => player.color == color)
         .map((player) => player.name.trim().isEmpty
@@ -65,7 +61,7 @@ class CreateGameNotifier with ChangeNotifier {
         .join("/");
   }
 
-  void changePlayerColor(Player player, Color color) {
+  void changePlayerColor(Player player, PlayerColors color) {
     _players.firstWhere((p) => p == player).color = color;
     notifyListeners();
   }

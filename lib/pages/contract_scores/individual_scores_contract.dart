@@ -96,7 +96,7 @@ class _IndividualScoresContractState
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ElevatedButtonCustomColor(
+              ElevatedButtonCustomColor.player(
                 icon: Icons.remove,
                 color: player.color,
                 onPressed: () => _decreaseScore(player),
@@ -107,7 +107,7 @@ class _IndividualScoresContractState
                   Text(_playerItems[player.name].toString())
                 ],
               ),
-              ElevatedButtonCustomColor(
+              ElevatedButtonCustomColor.player(
                 icon: Icons.add,
                 color: player.color,
                 onPressed: () => _increaseScore(player),

@@ -61,17 +61,15 @@ class _OneLooserContractScoresState
 
   /// Build each player's button and the box to show which one is currently selected
   Widget _buildFields() {
-    final Color defaultTextColor = Theme.of(context).scaffoldBackgroundColor;
     return MyGrid(
       children: _players.map(
         (player) {
-          Color playerColor = player.color;
-          bool isPlayerSelected = _selectedPlayer == player;
-          return ElevatedButtonCustomColor(
+          final isPlayerSelected = _selectedPlayer == player;
+          return ElevatedButtonCustomColor.player(
             text: player.name,
-            color: isPlayerSelected ? defaultTextColor : playerColor,
+            color: isPlayerSelected ? null : player.color,
             onPressed: () => _selectPlayer(player),
-            backgroundColor: isPlayerSelected ? playerColor : null,
+            backgroundColor: isPlayerSelected ? player.color : null,
           );
         },
       ).toList(),

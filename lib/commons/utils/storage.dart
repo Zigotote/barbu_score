@@ -8,6 +8,7 @@ import '../models/contract_models.dart';
 import '../models/contract_settings_models.dart';
 import '../models/game.dart';
 import '../models/player.dart';
+import '../models/player_colors.dart';
 import 'globals.dart' as globals;
 
 /// A class to handle local storage objects
@@ -43,6 +44,7 @@ class MyStorage {
         TrumpsContractSettingsAdapter());
     Hive.registerAdapter<DominoContractSettings>(
         DominoContractSettingsAdapter());
+    Hive.registerAdapter<PlayerColors>(PlayerColorsAdapter());
 
     await Hive.openBox(_gameBoxName);
     await Hive.openBox(_settingsBoxName);

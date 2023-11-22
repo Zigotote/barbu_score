@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../commons/utils/screen.dart';
@@ -15,22 +16,8 @@ class _IsDarkThemeNotifier extends StateNotifier<bool?> {
     MyStorage.saveIsDarkTheme(isDark);
   }
 
-  /// Returns players colors, depending on state
-  get playerColors => state ?? ScreenHelper.brightness == Brightness.dark
-      ? [
-          Colors.brown.shade400,
-          Colors.lightGreen.shade800,
-          Colors.yellow.shade700,
-          Colors.orange.shade800,
-          Colors.deepOrange.shade700,
-          Colors.teal.shade400
-        ]
-      : [
-          Colors.brown.shade700,
-          Colors.lightGreen.shade900,
-          Colors.yellow.shade800,
-          Colors.orange.shade800,
-          Colors.deepOrange.shade900,
-          Colors.teal.shade900,
-        ];
+  /// Returns true if dark theme is set or system theme is dark. False otherwise
+  bool isDarkTheme() {
+    return state ?? ScreenHelper.brightness == Brightness.dark;
+  }
 }
