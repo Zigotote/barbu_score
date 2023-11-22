@@ -1,14 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sprintf/sprintf.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
 import '../../commons/utils/globals.dart';
+import '../../commons/utils/player_icon_properties.dart';
 import '../../commons/utils/screen.dart';
 import '../../commons/widgets/player_icon.dart';
-import '../../theme/theme_provider.dart';
 import 'notifiers/contract_settings_provider.dart';
 import 'widgets/contract_settings.dart';
 import 'widgets/number_input.dart';
@@ -40,8 +39,7 @@ class DominoContractSettingsPage extends ConsumerWidget {
       ),
       columns: [
         DataColumn(
-          label: _buildPlayersStack(
-              ref.watch(isDarkThemeProvider.notifier).playerColors),
+          label: _buildPlayersStack(),
         ),
         ...List.generate(
           settings.points.length,
@@ -67,21 +65,21 @@ class DominoContractSettingsPage extends ConsumerWidget {
     );
   }
 
-  Stack _buildPlayersStack(List<Color> playerColors) {
+  Stack _buildPlayersStack() {
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
       children: List.generate(
         5,
         (index) {
-          final image = sprintf(kPlayerImageFolder, [index + 1]);
+          final image = PlayerIconProperties.playerImages[index];
           final basePadding = ScreenHelper.width * 0.3;
           final baseSize = ScreenHelper.width * 0.1;
           // Applicates a ratio to other icons than the first one
           final ratio = index == 0 ? 1 : (1 - 0.15 * (index / 2).round());
           final playerIcon = PlayerIcon(
             image: image,
-            color: playerColors[index],
+            color: PlayerIconProperties.playerColors[index],
             size: baseSize * ratio,
           );
           if (index % 2 == 0) {

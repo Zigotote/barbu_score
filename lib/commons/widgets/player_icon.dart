@@ -1,4 +1,7 @@
+import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
+
+import '../models/player_colors.dart';
 
 /// An icon for the player
 class PlayerIcon extends StatelessWidget {
@@ -9,7 +12,7 @@ class PlayerIcon extends StatelessWidget {
   final bool hasMedal;
 
   /// The color of the icon
-  final Color color;
+  final PlayerColors? color;
 
   /// The size of the icon
   final double size;
@@ -19,13 +22,18 @@ class PlayerIcon extends StatelessWidget {
     required this.image,
     required this.size,
     this.hasMedal = false,
-    this.color = const Color(0xFFBDBDBD),
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
+    var backgroundColor = Theme.of(context).disabledColor;
+    if (color != null) {
+      backgroundColor =
+          Theme.of(context).colorScheme.convertPlayerColor(color!);
+    }
     final CircleAvatar playerIcon = CircleAvatar(
-      backgroundColor: color,
+      backgroundColor: backgroundColor,
       radius: size / 2,
       child: Image.asset(image),
     );

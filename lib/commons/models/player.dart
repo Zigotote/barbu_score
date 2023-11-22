@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -12,7 +13,8 @@ part 'player.g.dart';
 class Player {
   /// The color of the player
   @HiveField(0)
-  Color color;
+  @Deprecated("Use [color] instead")
+  Color? c;
 
   /// The image of the player
   @HiveField(1)
@@ -26,12 +28,19 @@ class Player {
   @HiveField(3)
   final List<AbstractContractModel> _contracts;
 
+  /// The name of the color key
+  @HiveField(4)
+  PlayerColors color;
+
   Player(
-      {required this.color,
+      {this.c,
       required this.image,
       this.name = "",
-      List<AbstractContractModel>? playedContracts})
-      : _contracts = playedContracts ?? [];
+      List<AbstractContractModel>? playedContracts,
+      PlayerColors? color})
+      : assert(c != null || color != null),
+        _contracts = playedContracts ?? [],
+        color = color ?? PlayerColors.fromValue(c!);
 
   /// Returns the list of the contracts the player has already selected
   List<String> get _chosenContracts =>

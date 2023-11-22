@@ -1,12 +1,11 @@
+import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sprintf/sprintf.dart';
 
 import '../../../commons/models/player.dart';
-import '../../../commons/utils/globals.dart';
+import '../../../commons/utils/player_icon_properties.dart';
 import '../../../commons/utils/screen.dart';
 import '../../../commons/widgets/player_icon.dart';
-import '../../../theme/my_themes.dart';
 import '../notifiers/create_game.dart';
 
 /// A dialog to change a player's informations
@@ -93,51 +92,50 @@ class DialogChangePlayerInfo extends ConsumerWidget {
     return AlertDialog(
       title: _buildTitle(context),
       content: SingleChildScrollView(
-        child: SizedBox(
-          width: double.maxFinite,
-          height: ScreenHelper.height * 0.643,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildPropertySelection(
-                context,
-                "Couleur",
-                provider.playerColors
-                    .map(
-                      (color) => TextButton(
-                        onPressed: () =>
-                            provider.changePlayerColor(player, color),
-                        style: TextButton.styleFrom(backgroundColor: color),
-                        child: Text(
-                          provider.getPlayersWithColor(color),
-                          overflow: TextOverflow.fade,
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.labelLarge!.copyWith(
-                            color: theme.scaffoldBackgroundColor,
-                          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildPropertySelection(
+              context,
+              "Couleur",
+              PlayerIconProperties.playerColors
+                  .map(
+                    (color) => TextButton(
+                      onPressed: () =>
+                          provider.changePlayerColor(player, color),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(context)
+                            .colorScheme
+                            .convertPlayerColor(color),
+                      ),
+                      child: Text(
+                        provider.getPlayersWithColor(color),
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.labelLarge!.copyWith(
+                          color: theme.scaffoldBackgroundColor,
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(height: 16),
-              _buildPropertySelection(
-                context,
-                "Avatar",
-                List.generate(
-                  kNbPlayersMax,
-                  (index) {
-                    final image = sprintf(kPlayerImageFolder, [index + 1]);
-                    return TextButton(
+                    ),
+                  )
+                  .toList(),
+            ),
+            const SizedBox(height: 16),
+            _buildPropertySelection(
+              context,
+              "Avatar",
+              PlayerIconProperties.playerImages
+                  .map(
+                    (image) => TextButton(
                       onPressed: () =>
                           provider.changePlayerImage(player, image),
                       child: PlayerIcon(image: image, size: double.maxFinite),
-                    );
-                  },
-                ).toList(),
-              )
-            ],
-          ),
+                    ),
+                  )
+                  .toList(),
+            )
+          ],
         ),
       ),
       actions: [
