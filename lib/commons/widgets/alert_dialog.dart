@@ -11,7 +11,14 @@ class AlertDialogActionButton {
   /// The function to call on action button pressed
   final Function() onPressed;
 
-  AlertDialogActionButton({required this.text, required this.onPressed});
+  /// The indicator to know if this action can lead to destructive action
+  final bool isDestructive;
+
+  AlertDialogActionButton({
+    required this.text,
+    required this.onPressed,
+    this.isDestructive = false,
+  });
 }
 
 /// A custom alert dialog
@@ -21,24 +28,21 @@ class MyAlertDialog extends AlertDialog {
       required BuildContext context,
       required String title,
       required String content,
-      required AlertDialogActionButton defaultAction,
-      required AlertDialogActionButton destructiveAction})
+      required List<AlertDialogActionButton> actions})
       : super(
           title: Text(title),
           content: Text(content),
-          actions: [
-            ElevatedButtonCustomColor(
-              color: Theme.of(context).colorScheme.success,
-              textSize: 16,
-              text: defaultAction.text,
-              onPressed: defaultAction.onPressed,
-            ),
-            ElevatedButtonCustomColor(
-              color: Theme.of(context).colorScheme.error,
-              textSize: 16,
-              text: destructiveAction.text,
-              onPressed: destructiveAction.onPressed,
-            ),
-          ],
+          actions: actions
+              .map(
+                (action) => ElevatedButtonCustomColor(
+                  color: action.isDestructive
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(context).colorScheme.success,
+                  textSize: 16,
+                  text: action.text,
+                  onPressed: action.onPressed,
+                ),
+              )
+              .toList(),
         );
 }

@@ -55,7 +55,7 @@ class MyApp extends ConsumerWidget {
         Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
         Routes.trumpsSettings: (_) => const TrumpsContractSettingsPage(),
         Routes.createGame: (_) => CreateGame(),
-        Routes.prepareGame: (_) => PrepareGame(),
+        Routes.prepareGame: (_) => const PrepareGame(),
         Routes.chooseContract: (_) => const ChooseContract(),
         Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractScores(
             _getRouteArgument<ContractRouteArgument>(context)),

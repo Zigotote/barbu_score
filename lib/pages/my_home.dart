@@ -24,7 +24,11 @@ class MyHome extends ConsumerWidget {
   _loadGame(BuildContext context, WidgetRef ref, Game game) {
     ref.read(playGameProvider).load(game);
     Navigator.of(context).popUntil((route) => route.isFirst);
-    Navigator.of(context).pushNamed(Routes.prepareGame);
+    if (game.isFinished) {
+      Navigator.of(context).pushNamed(Routes.finishGame);
+    } else {
+      Navigator.of(context).pushNamed(Routes.prepareGame);
+    }
   }
 
   /// Starts a new party
@@ -56,15 +60,18 @@ class MyHome extends ConsumerWidget {
               context: context,
               title: "Charger une partie",
               content:
-                  "Reprendre la partie précédente avec ${_playerNames(previousGame!.players)} ?",
-              defaultAction: AlertDialogActionButton(
-                text: "Non, nouvelle partie",
-                onPressed: () => _startGame(context, ref),
-              ),
-              destructiveAction: AlertDialogActionButton(
-                text: "Oui",
-                onPressed: () => _loadGame(context, ref, previousGame!),
-              ),
+                  "${previousGame!.isFinished ? "Revoir" : "Reprendre"} la partie précédente avec ${_playerNames(previousGame.players)} ?",
+              actions: [
+                AlertDialogActionButton(
+                  isDestructive: true,
+                  text: "Non, nouvelle partie",
+                  onPressed: () => _startGame(context, ref),
+                ),
+                AlertDialogActionButton(
+                  text: "Oui",
+                  onPressed: () => _loadGame(context, ref, previousGame!),
+                ),
+              ],
             );
           });
     }
@@ -74,7 +81,7 @@ class MyHome extends ConsumerWidget {
   _confirmStartGame(BuildContext context, WidgetRef ref) {
     try {
       Game? previousGame = MyStorage.getStoredGame();
-      if (previousGame != null) {
+      if (previousGame != null && !previousGame.isFinished) {
         showDialog(
             context: context,
             builder: (BuildContext buildContext) {
@@ -83,14 +90,17 @@ class MyHome extends ConsumerWidget {
                 title: "Une partie sauvegardée existe",
                 content:
                     "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${_playerNames(previousGame.players)} sera perdue.",
-                defaultAction: AlertDialogActionButton(
-                  text: "Non, reprendre la partie",
-                  onPressed: () => _loadGame(context, ref, previousGame),
-                ),
-                destructiveAction: AlertDialogActionButton(
-                  text: "Oui",
-                  onPressed: () => _startGame(context, ref),
-                ),
+                actions: [
+                  AlertDialogActionButton(
+                    text: "Non, reprendre la partie",
+                    onPressed: () => _loadGame(context, ref, previousGame),
+                  ),
+                  AlertDialogActionButton(
+                    isDestructive: true,
+                    text: "Oui",
+                    onPressed: () => _startGame(context, ref),
+                  ),
+                ],
               );
             });
       } else {
