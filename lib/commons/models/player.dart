@@ -26,7 +26,7 @@ class Player {
 
   /// The contracts the player has finished
   @HiveField(3)
-  final List<AbstractContractModel> _contracts;
+  final List<AbstractContractModel> contracts;
 
   /// The name of the color key
   @HiveField(4)
@@ -36,15 +36,21 @@ class Player {
       {this.c,
       required this.image,
       this.name = "",
-      List<AbstractContractModel>? playedContracts,
+      required this.contracts,
       PlayerColors? color})
       : assert(c != null || color != null),
-        _contracts = playedContracts ?? [],
         color = color ?? PlayerColors.fromValue(c!);
+
+  factory Player.create({required PlayerColors color, required String image}) =>
+      Player(
+        image: image,
+        color: color,
+        contracts: [],
+      );
 
   /// Returns the list of the contracts the player has already selected
   List<String> get _chosenContracts =>
-      _contracts.map((contract) => contract.name).toList();
+      contracts.map((contract) => contract.name).toList();
 
   /// Returns the list of the contracts the player can choose
   bool get hasAvailableContracts =>
@@ -53,10 +59,10 @@ class Player {
   /// Returns the scores of each player, for the contracts of this player
   /// If the player has not played contracts it return null
   Map<String, int>? get playerScores {
-    if (_contracts.isEmpty) {
+    if (contracts.isEmpty) {
       return null;
     }
-    return AbstractContractModel.calculateTotalScore(_contracts);
+    return AbstractContractModel.calculateTotalScore(contracts);
   }
 
   /// Returns true if the player has played the contract
@@ -71,21 +77,21 @@ class Player {
     AbstractContractModel contract = contractName.contract;
     final bool isValidScore = contract.setScores(trickByPlayer);
     if (isValidScore) {
-      _contracts.removeWhere((c) => c.name == contractName.name);
-      _contracts.add(contract);
+      contracts.removeWhere((c) => c.name == contractName.name);
+      contracts.add(contract);
     }
     return isValidScore;
   }
 
   /// Returns the scores for the contract. Returns null if it has not been played
   Map<String, int>? contractScores(String contractName) {
-    final AbstractContractModel? contract = _contracts
-        .firstWhereOrNull((contract) => contract.name == contractName);
+    final AbstractContractModel? contract =
+        contracts.firstWhereOrNull((contract) => contract.name == contractName);
     return contract?.scores;
   }
 
   @override
   String toString() {
-    return "$name : $_contracts";
+    return "$name : $contracts";
   }
 }
