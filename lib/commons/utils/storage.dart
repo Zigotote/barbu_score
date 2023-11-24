@@ -54,11 +54,6 @@ class MyStorage {
   static Game? getStoredGame() {
     var storedGame = Hive.box(_gameBoxName).get(_gameKey);
     if (storedGame != null) {
-      // If the game is finished but not removed from storage it shouldn't be loaded
-      if (storedGame.isFinished) {
-        Hive.box(_gameBoxName).delete(_gameKey);
-        return null;
-      }
       globals.nbPlayers = storedGame.players.length;
       return storedGame;
     }

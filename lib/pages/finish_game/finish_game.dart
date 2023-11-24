@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../commons/utils/storage.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/ordered_players_scores.dart';
 import '../../main.dart';
@@ -20,10 +19,7 @@ class FinishGame extends StatelessWidget {
       ),
       bottomWidget: ElevatedButton(
         child: const Text("Retour à l'accueil"),
-        onPressed: () {
-          MyStorage.deleteGame();
-          Navigator.of(context).popAndPushNamed(Routes.home);
-        },
+        onPressed: () => Navigator.of(context).popAndPushNamed(Routes.home),
       ),
     );
   }

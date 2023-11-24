@@ -34,7 +34,12 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
   @override
   void initState() {
     super.initState();
-    if (MyStorage.getStoredGame() != null) {
+    var storedGame = MyStorage.getStoredGame();
+    if (storedGame?.isFinished == true) {
+      MyStorage.deleteGame();
+      storedGame = null;
+    }
+    if (storedGame != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         final isAnswered = await showDialog(
           barrierDismissible: false,
@@ -44,23 +49,28 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
             title: "Modification des paramètres",
             content:
                 "Une partie est déjà sauvegardée sur l'appareil. Les paramètres des contrats peuvent uniquement être consultés. Pour les modifier, la partie en cours doit être supprimée.",
-            defaultAction: AlertDialogActionButton(
-              text: 'Consulter',
-              onPressed: () {
-                ref.read(contractSettingsProvider(widget.contract)).canModify =
-                    false;
-                Navigator.of(context).pop(true);
-              },
-            ),
-            destructiveAction: AlertDialogActionButton(
-              text: 'Supprimer',
-              onPressed: () {
-                MyStorage.deleteGame();
-                ref.read(contractSettingsProvider(widget.contract)).canModify =
-                    true;
-                Navigator.of(context).pop(true);
-              },
-            ),
+            actions: [
+              AlertDialogActionButton(
+                text: 'Consulter',
+                onPressed: () {
+                  ref
+                      .read(contractSettingsProvider(widget.contract))
+                      .canModify = false;
+                  Navigator.of(context).pop(true);
+                },
+              ),
+              AlertDialogActionButton(
+                isDestructive: true,
+                text: 'Supprimer',
+                onPressed: () {
+                  MyStorage.deleteGame();
+                  ref
+                      .read(contractSettingsProvider(widget.contract))
+                      .canModify = true;
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
           ),
         );
         if (isAnswered == null) {

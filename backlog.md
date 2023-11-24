@@ -21,10 +21,6 @@
 - mettre un "?" sur la droite du titre pour afficher les règles du contrat ++
 - ajouter l'icone du joueur sur les boutons de points des contrats à un perdant ?
 
-## Fin de partie
-
-- ne pas supprimer la partie si elle est finie ?
-
 ## Page règles
 
 - faire un accordéon avec les règles de chaque contrat, pour pouvoir les déplier + mettre des images
