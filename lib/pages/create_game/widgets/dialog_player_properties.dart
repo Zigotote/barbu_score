@@ -98,7 +98,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
               _buildPropertySelection(
                 context,
                 "Couleur",
-                PlayerIconProperties.playerColors
+                playerColors
                     .map(
                       (color) => TextButton(
                         onPressed: () =>
@@ -124,7 +124,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
               _buildPropertySelection(
                 context,
                 "Avatar",
-                PlayerIconProperties.playerImages
+                playerImages
                     .map(
                       (image) => TextButton(
                         onPressed: () =>

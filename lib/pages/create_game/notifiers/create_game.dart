@@ -21,8 +21,8 @@ class CreateGameNotifier with ChangeNotifier {
       : _players = List.generate(
           4,
           (index) => Player(
-            color: PlayerIconProperties.playerColors[index],
-            image: PlayerIconProperties.playerImages[index],
+            color: playerColors[index],
+            image: playerImages[index],
           ),
           growable: true,
         );
@@ -32,8 +32,8 @@ class CreateGameNotifier with ChangeNotifier {
   /// Adds a player for the game
   void addPlayer() {
     _players.add(Player(
-      color: PlayerIconProperties.playerColors[_players.length],
-      image: PlayerIconProperties.playerImages[_players.length],
+      color: playerColors[_players.length],
+      image: playerImages[_players.length],
     ));
     notifyListeners();
   }

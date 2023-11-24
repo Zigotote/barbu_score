@@ -71,14 +71,13 @@ class DominoContractSettingsPage extends ConsumerWidget {
       children: List.generate(
         5,
         (index) {
-          final image = PlayerIconProperties.playerImages[index];
           const double basePadding = 110;
           const double baseSize = 36;
           // Applicates a ratio to other icons than the first one
           final ratio = index == 0 ? 1 : (1 - 0.15 * (index / 2).round());
           final playerIcon = PlayerIcon(
-            image: image,
-            color: PlayerIconProperties.playerColors[index],
+            image: playerImages[index],
+            color: playerColors[index],
             size: baseSize * ratio,
           );
           if (index % 2 == 0) {
