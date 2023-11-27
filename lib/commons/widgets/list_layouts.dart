@@ -12,11 +12,11 @@ class MyGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.extent(
+    return GridView.count(
       physics: isScrollable
           ? const AlwaysScrollableScrollPhysics()
           : const NeverScrollableScrollPhysics(),
-      maxCrossAxisExtent: 180,
+      crossAxisCount: 2,
       crossAxisSpacing: 24,
       mainAxisSpacing: 24,
       childAspectRatio: 1.4,

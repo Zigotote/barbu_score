@@ -115,7 +115,7 @@ class DominoContractSettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ContractSettingsPage(
       contract: ContractsInfo.domino,
-      children: [_buildDataTable(context, ref)],
+      children: [Center(child: _buildDataTable(context, ref))],
     );
   }
 }

@@ -34,13 +34,13 @@ class CreatePlayer extends StatelessWidget {
   }
 
   /// Builds player icon
-  Widget _buildPlayerIcon(BuildContext context, double parentMaxWidth) {
+  Widget _buildPlayerIcon(BuildContext context, double size) {
     return TextButton(
       onPressed: () => _displayDialog(context, player, onRemove),
       child: PlayerIcon(
         image: player.image,
         color: player.color,
-        size: parentMaxWidth < 150 ? 75 : 90,
+        size: size,
       ),
     );
   }
@@ -79,13 +79,13 @@ class CreatePlayer extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: constraint.maxHeight * 0.78,
+            top: constraint.maxHeight * 0.8,
             width: constraint.maxWidth,
             child: _buildPlayerTextField(),
           ),
           Positioned(
             top: 0,
-            child: _buildPlayerIcon(context, constraint.maxWidth),
+            child: _buildPlayerIcon(context, constraint.maxWidth * 0.55),
           ),
           Positioned(
             top: 24,
