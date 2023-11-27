@@ -23,7 +23,7 @@ class MyScores extends ConsumerWidget {
             SnackBarUtils.instance.openSnackBar(
               context: context,
               title: "Partie sauvegardée",
-              text: "Sélectionnez 'Charger une partie' pour la poursuivre.",
+              text: "Sélectionnez \"Charger une partie\" pour la poursuivre.",
             );
           }),
     );
