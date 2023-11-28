@@ -27,7 +27,7 @@ class CreatePlayer extends StatelessWidget {
     return TextFormField(
       textAlign: TextAlign.center,
       initialValue: player.name,
-      onChanged: (value) => player.name = value,
+      onChanged: (value) => player.name = value.trim(),
       validator: (_) => onValidate(player),
       decoration: const InputDecoration.collapsed(hintText: "Nom du joueur"),
     );
