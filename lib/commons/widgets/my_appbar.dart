@@ -3,58 +3,66 @@ import 'package:flutter/material.dart';
 import '../../main.dart';
 import 'my_tabbar.dart';
 
-class MyAppBar extends AppBar {
-  MyAppBar(
-    BuildContext context,
-    String title, {
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final bool isHome;
+  final bool hasLeading;
+  final List<Tab>? tabs;
+
+  const MyAppBar(
+    this.title, {
     super.key,
-    bool isHome = false,
-    bool hasLeading = false,
-    List<Tab>? tabs,
-  }) : super(
-          automaticallyImplyLeading: false,
-          leadingWidth: 0,
-          titleSpacing: 0,
-          title: Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              Divider(
-                thickness: 1,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Visibility(
-                  visible: hasLeading,
-                  child: IconButton.outlined(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      try {
-                        Navigator.of(context).pop();
-                      } catch (_) {
-                        Navigator.of(context).pushNamed(Routes.home);
-                      }
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: isHome
-                      ? Theme.of(context).textTheme.displaySmall
-                      : Theme.of(context).textTheme.headlineSmall,
-                ),
-              ),
-            ],
+    this.isHome = false,
+    this.hasLeading = false,
+    this.tabs,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      titleSpacing: 0,
+      centerTitle: true,
+      forceMaterialTransparency: true,
+      elevation: 0,
+      flexibleSpace: SafeArea(
+        child: Container(
+          alignment: Alignment.center,
+          height: preferredSize.height,
+          child: Divider(
+            thickness: 1,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
-          forceMaterialTransparency: true,
-          elevation: 0,
-          bottom: tabs == null ? null : MyTabBar(tabs),
-        );
+        ),
+      ),
+      leading: hasLeading
+          ? IconButton.outlined(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                try {
+                  Navigator.of(context).pop();
+                } catch (_) {
+                  Navigator.of(context).pushNamed(Routes.home);
+                }
+              })
+          : null,
+      title: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: isHome
+              ? Theme.of(context).textTheme.displaySmall
+              : Theme.of(context).textTheme.headlineSmall,
+        ),
+      ),
+      bottom: tabs == null ? null : MyTabBar(tabs!),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

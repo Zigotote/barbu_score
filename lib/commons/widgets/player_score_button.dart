@@ -80,7 +80,7 @@ class PlayerScoreButton extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                Text(player.name),
+                Text(player.name, textAlign: TextAlign.center),
                 Text("$score points"),
                 if (_showFriendStatus()) _buildFriendStatus(),
               ],

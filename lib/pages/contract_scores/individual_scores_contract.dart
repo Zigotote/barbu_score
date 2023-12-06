@@ -94,19 +94,25 @@ class _IndividualScoresContractState
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButtonCustomColor.player(
                 icon: Icons.remove,
                 color: player.color,
                 onPressed: () => _decreaseScore(player),
               ),
-              Column(
-                children: [
-                  Text(player.name),
-                  Text(_playerItems[player.name].toString())
-                ],
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      player.name,
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(_playerItems[player.name].toString())
+                  ],
+                ),
               ),
+              const SizedBox(width: 16),
               ElevatedButtonCustomColor.player(
                 icon: Icons.add,
                 color: player.color,

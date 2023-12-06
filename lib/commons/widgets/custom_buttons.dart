@@ -135,6 +135,7 @@ class ElevatedButtonCustomColor extends StatelessWidget {
           ? Text(
               text!,
               style: TextStyle(fontSize: textSize ?? 22),
+              textAlign: TextAlign.center,
             )
           : Icon(icon),
     );

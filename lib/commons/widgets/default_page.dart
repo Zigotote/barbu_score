@@ -35,9 +35,8 @@ class DefaultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget page = Scaffold(
       appBar: MyAppBar(
-        context,
-        tabs: tabs,
         title,
+        tabs: tabs,
         hasLeading: hasLeading,
       ),
       body: Container(
