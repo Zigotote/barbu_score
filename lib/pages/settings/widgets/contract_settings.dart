@@ -86,26 +86,24 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
     return DefaultPage(
       hasLeading: true,
       title: "Paramètres\n${widget.contract.displayName}",
-      content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 24),
-            SettingQuestion(
-              label: "Activer le contrat",
-              input: MySwitch(
-                isActive: provider.settings.isActive,
-                onChanged: widget.blockIsActive == false
-                    ? provider.modifySetting(
-                        (bool value) => provider.settings.isActive = value,
-                      )
-                    : null,
-              ),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 24),
+          SettingQuestion(
+            label: "Activer le contrat",
+            input: MySwitch(
+              isActive: provider.settings.isActive,
+              onChanged: widget.blockIsActive == false
+                  ? provider.modifySetting(
+                      (bool value) => provider.settings.isActive = value,
+                    )
+                  : null,
             ),
-            const SizedBox(height: 32),
-            ...widget.children
-          ],
-        ),
+          ),
+          const SizedBox(height: 32),
+          ...widget.children
+        ],
       ),
     );
   }
