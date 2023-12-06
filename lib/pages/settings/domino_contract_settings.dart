@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
@@ -25,42 +26,38 @@ class DominoContractSettingsPage extends ConsumerWidget {
       "5ème",
       "6ème"
     ];
-    return DataTable(
-      columnSpacing: 8,
-      // I don't want border but it doesn't work because of https://github.com/flutter/flutter/issues/132214
-      dividerThickness: 0,
-      horizontalMargin: 8,
-      border: TableBorder(
-        horizontalInside: BorderSide(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          width: 1,
-        ),
+    const spanPadding = TableSpanPadding.all(4);
+    return TableView.list(
+      pinnedRowCount: 1,
+      pinnedColumnCount: 1,
+      columnBuilder: (_) => const TableSpan(
+        extent: FixedTableSpanExtent(60),
+        padding: spanPadding,
       ),
-      columns: [
-        DataColumn(
-          label: _buildPlayersStack(),
-        ),
-        ...List.generate(
-          settings.points.length,
-          (index) => DataColumn(
-            label: Expanded(
-              child: Text(
-                "${index + kNbPlayersMin} j.",
-                textAlign: TextAlign.center,
+      rowBuilder: (_) => const TableSpan(
+        extent: FixedTableSpanExtent(40),
+        padding: spanPadding,
+      ),
+      cells: [
+        [
+          _buildPlayersStack(),
+          ...List.generate(settings.points.length, (index) {
+            final nbPlayers = index + kNbPlayersMin;
+            return Center(
+              child: Tooltip(
+                message: "Points à $nbPlayers joueurs",
+                child: Text("$nbPlayers j."),
               ),
-            ),
-            tooltip: "Points à ${index + kNbPlayersMin} joueurs",
-          ),
-        )
-      ],
-      rows: positionNames.mapIndexed((index, positionName) {
-        return DataRow(
-          cells: [
-            DataCell(Text(positionName)),
+            );
+          })
+        ],
+        ...positionNames.mapIndexed((index, positionName) {
+          return [
+            Center(child: Text(positionName)),
             ..._buildPointsCells(settings, provider, index),
-          ],
-        );
-      }).toList(),
+          ];
+        })
+      ],
     );
   }
 
@@ -95,19 +92,20 @@ class DominoContractSettingsPage extends ConsumerWidget {
     );
   }
 
-  List<DataCell> _buildPointsCells(DominoContractSettings settings,
+  List<Widget> _buildPointsCells(DominoContractSettings settings,
       ContractSettingsNotifier provider, int playerIndex) {
     return List.generate(settings.points.length, (index) {
       final int nbPlayers = index + kNbPlayersMin;
       if (playerIndex < settings.points[nbPlayers]!.length) {
-        return DataCell(
-          NumberInput(
-              points: settings.points[nbPlayers]![playerIndex],
-              onChanged: provider.modifySetting(
-                  (value) => settings.points[nbPlayers]?[playerIndex] = value)),
+        return Center(
+          child: NumberInput(
+            points: settings.points[nbPlayers]![playerIndex],
+            onChanged: provider.modifySetting(
+                (value) => settings.points[nbPlayers]?[playerIndex] = value),
+          ),
         );
       }
-      return DataCell(Container());
+      return Container();
     });
   }
 
@@ -115,7 +113,7 @@ class DominoContractSettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ContractSettingsPage(
       contract: ContractsInfo.domino,
-      children: [Center(child: _buildDataTable(context, ref))],
+      children: [Flexible(child: _buildDataTable(context, ref))],
     );
   }
 }
