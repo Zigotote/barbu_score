@@ -54,20 +54,16 @@ class GameTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final players = ref.read(playGameProvider).players;
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        children: [
-          const SizedBox(height: 16),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ScoreTable(
-              players: players,
-              rows: [..._buildPlayerRows(players), _buildTotalRow(players)],
-            ),
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        Expanded(
+          child: ScoreTable(
+            players: players,
+            rows: [..._buildPlayerRows(players), _buildTotalRow(players)],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

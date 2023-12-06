@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 import '../models/player.dart';
 import 'player_icon.dart';
@@ -14,11 +15,12 @@ class ScoreTable extends StatelessWidget {
   const ScoreTable({super.key, required this.players, required this.rows});
 
   /// Builds the widgets to display the icon and name of each player
-  List<DataColumn> _buildPlayersRow() {
+  List<Widget> _buildPlayersRow() {
     return players
         .map(
-          (player) => DataColumn(
-            label: Column(
+          (player) => Tooltip(
+            message: player.name,
+            child: Column(
               children: [
                 PlayerIcon(
                   image: player.image,
@@ -28,8 +30,6 @@ class ScoreTable extends StatelessWidget {
                 Text(player.name, overflow: TextOverflow.ellipsis)
               ],
             ),
-            numeric: true,
-            tooltip: player.name,
           ),
         )
         .toList();
@@ -38,15 +38,53 @@ class ScoreTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    return DataTable(
-      headingRowHeight: 60,
-      headingTextStyle: textTheme.labelLarge,
-      columnSpacing: 8,
-      columns: [const DataColumn(label: Text("")), ..._buildPlayersRow()],
-      rows: [
+    const spanPadding = TableSpanPadding.all(4);
+    return TableView.list(
+      pinnedColumnCount: 1,
+      pinnedRowCount: 1,
+      columnBuilder: (int index) {
+        const playerColumnWidth = FixedTableSpanExtent(60);
+        if (index == 0) {
+          return TableSpan(
+            extent: CombiningTableSpanExtent(
+              const RemainingTableSpanExtent(),
+              playerColumnWidth,
+              (remainingSpace, playerSpace) {
+                final leftSpaceInScreen =
+                    remainingSpace - playerSpace * players.length - 32;
+                return leftSpaceInScreen < 70 ? 70 : leftSpaceInScreen;
+              },
+            ),
+            padding: spanPadding,
+          );
+        }
+        return const TableSpan(
+          extent: playerColumnWidth,
+          padding: spanPadding,
+        );
+      },
+      rowBuilder: (int index) {
+        final double rowWidth = index == 0 ? 60 : 40;
+        final border = index == 0
+            ? null
+            : TableSpanDecoration(
+                border: TableSpanBorder(
+                  leading: BorderSide(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+              );
+        return TableSpan(
+          extent: FixedTableSpanExtent(rowWidth),
+          backgroundDecoration: border,
+          padding: spanPadding,
+        );
+      },
+      cells: [
+        [Container(), ..._buildPlayersRow()],
         ...rows.map((row) {
           return row.build(textTheme.bodyMedium!);
-        }),
+        })
       ],
     );
   }
@@ -66,12 +104,23 @@ class ScoreRow {
   const ScoreRow(
       {required this.title, required this.scores, this.isBold = false});
 
-  DataRow build(TextStyle textStyle) {
-    return DataRow(
-      cells: [
-        DataCell(
-          Text(
-            title,
+  List<Widget> build(TextStyle textStyle) {
+    return [
+      Center(
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: isBold
+              ? textStyle.copyWith(
+                  fontWeight: FontWeight.w900,
+                )
+              : textStyle,
+        ),
+      ),
+      ...scores.map(
+        (score) => Center(
+          child: Text(
+            score != null ? score.toString() : '/',
             style: isBold
                 ? textStyle.copyWith(
                     fontWeight: FontWeight.w900,
@@ -79,21 +128,7 @@ class ScoreRow {
                 : textStyle,
           ),
         ),
-        ...scores.map(
-          (score) => DataCell(
-            Center(
-              child: Text(
-                score != null ? score.toString() : '/',
-                style: isBold
-                    ? textStyle.copyWith(
-                        fontWeight: FontWeight.w900,
-                      )
-                    : textStyle,
-              ),
-            ),
-          ),
-        )
-      ],
-    );
+      ),
+    ];
   }
 }

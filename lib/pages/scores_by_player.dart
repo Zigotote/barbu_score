@@ -41,20 +41,17 @@ class ScoresByPlayer extends ConsumerWidget {
     return DefaultPage(
       hasLeading: true,
       title: "Scores",
-      content: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            MySubtitle("Contrats de ${player.name}"),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: ScoreTable(
-                players: players,
-                rows: [..._buildPlayerRows(players), _buildTotalRow(players)],
-              ),
+      content: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          MySubtitle("Contrats de ${player.name}"),
+          Expanded(
+            child: ScoreTable(
+              players: players,
+              rows: [..._buildPlayerRows(players), _buildTotalRow(players)],
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
