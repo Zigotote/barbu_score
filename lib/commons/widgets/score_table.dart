@@ -39,27 +39,33 @@ class ScoreTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     const spanPadding = TableSpanPadding.all(4);
+    double playerColumnWidth = 60;
     return TableView.list(
       pinnedColumnCount: 1,
       pinnedRowCount: 1,
       columnBuilder: (int index) {
-        const playerColumnWidth = FixedTableSpanExtent(60);
         if (index == 0) {
           return TableSpan(
             extent: CombiningTableSpanExtent(
               const RemainingTableSpanExtent(),
-              playerColumnWidth,
+              FixedTableSpanExtent(playerColumnWidth * players.length),
               (remainingSpace, playerSpace) {
-                final leftSpaceInScreen =
-                    remainingSpace - playerSpace * players.length - 32;
+                double leftSpaceInScreen = remainingSpace - playerSpace - 32;
+                // If left space in screen is too big, playerColumnWidth is increased and leftSpace is calculated again
+                if (leftSpaceInScreen > 110) {
+                  playerColumnWidth = 80;
+                  leftSpaceInScreen =
+                      remainingSpace - playerColumnWidth * players.length - 32;
+                }
+                // Column width cannot be less than 70 pixels
                 return leftSpaceInScreen < 70 ? 70 : leftSpaceInScreen;
               },
             ),
             padding: spanPadding,
           );
         }
-        return const TableSpan(
-          extent: playerColumnWidth,
+        return TableSpan(
+          extent: FixedTableSpanExtent(playerColumnWidth),
           padding: spanPadding,
         );
       },
