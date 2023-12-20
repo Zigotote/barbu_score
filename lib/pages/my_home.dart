@@ -127,7 +127,12 @@ class MyHome extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const MyAppBar("Le Barbu", isHome: true, hasLeading: false),
+              MyAppBar(
+                "Le Barbu",
+                context: context,
+                isHome: true,
+                hasLeading: false,
+              ),
               ElevatedButtonFullWidth(
                 child: const Text("Démarrer une partie"),
                 onPressed: () => _confirmStartGame(context, ref),
