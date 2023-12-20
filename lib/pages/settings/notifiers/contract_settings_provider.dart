@@ -15,7 +15,7 @@ class ContractSettingsNotifier with ChangeNotifier {
   final AbstractContractSettings settings;
 
   /// The indicator to know if the settings can be modified or not
-  bool _canModify = true;
+  bool _canModify = !MyStorage.hasStoredGame();
 
   ContractSettingsNotifier(ContractsInfo contract)
       : settings = MyStorage.getSettings(contract);
@@ -28,6 +28,11 @@ class ContractSettingsNotifier with ChangeNotifier {
   }
 
   Function(T)? modifySetting<T>(Function(T) func) {
-    return canModify == true ? (value) => func.call(value) : null;
+    return canModify
+        ? (value) {
+            MyStorage.deleteGame();
+            func.call(value);
+          }
+        : null;
   }
 }

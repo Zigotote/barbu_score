@@ -34,12 +34,7 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
   @override
   void initState() {
     super.initState();
-    var storedGame = MyStorage.getStoredGame();
-    if (storedGame?.isFinished == true) {
-      MyStorage.deleteGame();
-      storedGame = null;
-    }
-    if (storedGame != null) {
+    if (MyStorage.hasStoredGame()) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         final isAnswered = await showDialog(
           barrierDismissible: false,
