@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -41,8 +42,10 @@ class Player {
       : assert(c != null || color != null),
         color = color ?? PlayerColors.fromValue(c!);
 
-  factory Player.create({required PlayerColors color, required String image}) =>
+  factory Player.create(
+          {required PlayerColors color, required String image, String? name}) =>
       Player(
+        name: kDebugMode ? image : "",
         image: image,
         color: color,
         contracts: [],
