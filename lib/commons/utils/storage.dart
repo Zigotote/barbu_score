@@ -50,6 +50,12 @@ class MyStorage {
     await Hive.openBox(_settingsBoxName);
   }
 
+  /// Returns true if a game is saved in storage, false otherwise
+  static bool hasStoredGame() {
+    final storedGame = MyStorage.getStoredGame();
+    return storedGame != null && !storedGame.isFinished;
+  }
+
   /// Gets the game saved in the store
   static Game? getStoredGame() {
     var storedGame = Hive.box(_gameBoxName).get(_gameKey);
