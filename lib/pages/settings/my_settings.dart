@@ -33,6 +33,7 @@ class MySettings extends ConsumerWidget {
                   isScrollable: false,
                   children: ContractsInfo.values.map(
                     (contract) {
+                      final contractSettings = MyStorage.getSettings(contract);
                       return ElevatedButtonWithIndicator(
                         text: contract.displayName,
                         onPressed: () {
@@ -46,8 +47,7 @@ class MySettings extends ConsumerWidget {
                             final newSettings = ref
                                 .read(contractSettingsProvider(contract))
                                 .settings;
-                            if (MyStorage.getSettings(contract) !=
-                                newSettings) {
+                            if (contractSettings != newSettings) {
                               MyStorage.saveSettings(contract, newSettings);
                               SnackBarUtils.instance.openSnackBar(
                                 context: context,
@@ -58,7 +58,9 @@ class MySettings extends ConsumerWidget {
                             }
                           });
                         },
-                        indicator: ActiveContractIndicator(contract: contract),
+                        indicator: ActiveContractIndicator(
+                          isActive: contractSettings.isActive,
+                        ),
                       );
                     },
                   ).toList(),
