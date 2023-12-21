@@ -31,14 +31,43 @@ class MyHome extends ConsumerWidget {
     }
   }
 
-  /// Starts a new party
-  _startGame(BuildContext context, WidgetRef ref) {
+  /// Starts a new game
+  _startGame(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.of(context).pushNamed(Routes.createGame);
   }
 
+  bool _verifyHasActiveContracts(BuildContext context) {
+    if (MyStorage.getActiveContracts().isEmpty) {
+      showDialog(
+          context: context,
+          builder: (BuildContext buildContext) {
+            return MyAlertDialog(
+              context: context,
+              title: "Impossible de lancer une partie",
+              content:
+                  "Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.",
+              actions: [
+                AlertDialogActionButton(
+                  text: "Modifier les paramètres",
+                  onPressed: () {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    Navigator.of(context).pushNamed(Routes.settings);
+                  },
+                ),
+              ],
+            );
+          });
+      return false;
+    }
+    return true;
+  }
+
   /// Builds the widgets to load a saved game
   _confirmLoadGame(BuildContext context, WidgetRef ref) {
+    if (!_verifyHasActiveContracts(context)) {
+      return;
+    }
     Game? previousGame;
     try {
       previousGame = MyStorage.getStoredGame();
@@ -51,7 +80,7 @@ class MyHome extends ConsumerWidget {
         text:
             "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
       );
-      _startGame(context, ref);
+      _startGame(context);
     } else {
       showDialog(
           context: context,
@@ -65,7 +94,7 @@ class MyHome extends ConsumerWidget {
                 AlertDialogActionButton(
                   isDestructive: true,
                   text: "Non, nouvelle partie",
-                  onPressed: () => _startGame(context, ref),
+                  onPressed: () => _startGame(context),
                 ),
                 AlertDialogActionButton(
                   text: "Oui",
@@ -79,6 +108,9 @@ class MyHome extends ConsumerWidget {
 
   /// Builds the widgets to start a new game
   _confirmStartGame(BuildContext context, WidgetRef ref) {
+    if (!_verifyHasActiveContracts(context)) {
+      return;
+    }
     try {
       Game? previousGame = MyStorage.getStoredGame();
       if (previousGame != null && !previousGame.isFinished) {
@@ -98,16 +130,16 @@ class MyHome extends ConsumerWidget {
                   AlertDialogActionButton(
                     isDestructive: true,
                     text: "Oui",
-                    onPressed: () => _startGame(context, ref),
+                    onPressed: () => _startGame(context),
                   ),
                 ],
               );
             });
       } else {
-        _startGame(context, ref);
+        _startGame(context);
       }
     } catch (_) {
-      _startGame(context, ref);
+      _startGame(context);
     }
   }
 
