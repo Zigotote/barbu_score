@@ -104,6 +104,7 @@ class MyStorage {
   /// Saves the points associated to this contract
   static void saveSettings(
       ContractsInfo contractsInfo, AbstractContractSettings settings) {
+    deleteGame();
     Hive.box(_settingsBoxName).put(contractsInfo.name, settings);
   }
 
