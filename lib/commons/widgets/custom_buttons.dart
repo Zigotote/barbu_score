@@ -161,16 +161,19 @@ class ElevatedButtonWithIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.center,
-      fit: StackFit.expand,
-      children: [
-        ElevatedButton(
-          onPressed: onPressed,
-          child: Text(text, textAlign: TextAlign.center),
-        ),
-        Positioned(right: 8, top: 8, child: indicator)
-      ],
+    return GestureDetector(
+      onTap: onPressed,
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        fit: StackFit.expand,
+        children: [
+          ElevatedButton(
+            onPressed: onPressed,
+            child: Text(text, textAlign: TextAlign.center),
+          ),
+          Positioned(right: 8, top: 8, child: indicator)
+        ],
+      ),
     );
   }
 }
