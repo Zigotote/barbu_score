@@ -32,7 +32,7 @@ dependencies:
   hive_flutter: ^1.1.0
   non_uniform_border: ^1.0.0
   reorderable_grid_view: ^2.2.8
-  rive: ^0.12.3
+  rive: ^0.12.4
   sprintf: ^7.0.0
   two_dimensional_scrollables: ^0.0.4
   wakelock_plus: ^1.1.3
