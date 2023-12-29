@@ -1,9 +1,9 @@
+import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/utils/snackbar.dart';
-import '../../commons/utils/storage.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/list_layouts.dart';
@@ -27,13 +27,15 @@ class MySettings extends ConsumerWidget {
             const Text("Paramètres des contrats"),
             const SizedBox(height: 24),
             ValueListenableBuilder(
-              valueListenable: MyStorage.listenContractsSettings(),
+              valueListenable:
+                  ref.watch(storageProvider).listenContractsSettings(),
               builder: (_, contracts, ___) {
                 return MyGrid(
                   isScrollable: false,
                   children: ContractsInfo.values.map(
                     (contract) {
-                      final contractSettings = MyStorage.getSettings(contract);
+                      final contractSettings =
+                          ref.read(storageProvider).getSettings(contract);
                       return ElevatedButtonWithIndicator(
                         text: contract.displayName,
                         onPressed: () {
@@ -48,7 +50,9 @@ class MySettings extends ConsumerWidget {
                                 .read(contractSettingsProvider(contract))
                                 .settings;
                             if (contractSettings != newSettings) {
-                              MyStorage.saveSettings(contract, newSettings);
+                              ref
+                                  .read(storageProvider)
+                                  .saveSettings(contract, newSettings);
                               SnackBarUtils.instance.openSnackBar(
                                 context: context,
                                 title: "Modifications sauvegardées",
