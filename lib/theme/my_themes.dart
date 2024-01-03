@@ -19,7 +19,6 @@ class MyThemes {
       displayColor: onSurfaceColor,
     );
     return baseTheme.copyWith(
-      useMaterial3: true,
       colorScheme: baseTheme.colorScheme.copyWith(
         surfaceTint: baseTheme.scaffoldBackgroundColor,
         error: baseTheme.brightness == Brightness.dark
