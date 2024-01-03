@@ -39,7 +39,7 @@ class MyStorage2 {
   }
 
   /// Deletes the data saved for the game in the store
-  static void deleteGame() {
+  void deleteGame() {
     globals.nbPlayers = 0;
     Hive.box(_gameBoxName).clear();
   }

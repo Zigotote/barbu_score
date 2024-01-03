@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
@@ -14,6 +15,7 @@ import 'package:patrol_finders/patrol_finders.dart';
 
 import '../fake/game.dart';
 import '../fake/storage.dart';
+import '../utils.dart';
 
 const startGameText = "Démarrer une partie";
 const loadGameText = "Charger une partie";
@@ -24,11 +26,7 @@ main() {
 
     expect($("Le Barbu"), findsOneWidget);
     expect($.tester.takeException(), isNull);
-    await expectLater($.tester, meetsGuideline(androidTapTargetGuideline));
-    await expectLater($.tester, meetsGuideline(iOSTapTargetGuideline));
-    await expectLater($.tester, meetsGuideline(labeledTapTargetGuideline));
-    // TODO handle this guideline
-    // await expectLater($, meetsGuideline(textContrastGuideline));
+    await checkAccessibility($.tester);
   });
 
   group("#startGame", () {
@@ -68,7 +66,7 @@ main() {
       });
     }
     patrolWidgetTest("should not start game if no active contract", ($) async {
-      await $.pumpWidget(_createPage(hasActiveContracts: false));
+      await $.pumpWidget(_createPage(activeContracts: []));
 
       await $.tap($(startGameText));
 
@@ -114,11 +112,12 @@ main() {
       await $.tap($("Oui"));
       expect($(FinishGame), findsOneWidget);
     });
-    patrolWidgetTest("should start game if no stored game", ($) async {
+    patrolWidgetTest("should not load game if no stored game", ($) async {
       await $.pumpWidget(_createPage());
 
       await $.tap($(loadGameText));
 
+      expect($("Aucune partie trouvée"), findsOneWidget);
       expect($(CreateGame), findsOneWidget);
     });
   });
@@ -132,13 +131,13 @@ Future<void> _checkGoBack(PatrolTester $) async {
 
 Widget _createPage({
   Game? storedGame,
-  bool hasActiveContracts = true,
+  List<ContractsInfo> activeContracts = ContractsInfo.values,
 }) {
   final container = ProviderContainer(
     overrides: [
       storageProvider.overrideWithValue(FakeStorage(
         storedGame: storedGame,
-        hasActiveContracts: hasActiveContracts,
+        activeContracts: activeContracts,
       )),
     ],
   );

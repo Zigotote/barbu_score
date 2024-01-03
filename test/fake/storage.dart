@@ -6,24 +6,48 @@ import 'package:flutter/foundation.dart';
 
 class FakeStorage extends MyStorage2 {
   final Game? storedGame;
-  final bool hasActiveContracts;
+  late Map<ContractsInfo, AbstractContractSettings> storedSettings;
+  late final ValueNotifier settingsNotifier;
 
-  FakeStorage({required this.storedGame, required this.hasActiveContracts});
+  FakeStorage({this.storedGame, required List<ContractsInfo> activeContracts}) {
+    storedSettings = Map.fromIterable(
+      ContractsInfo.values,
+      key: (contract) => contract,
+      value: (contract) {
+        var settings = contract.settings;
+        settings.isActive = activeContracts.contains(contract);
+        return settings;
+      },
+    );
+    settingsNotifier = ValueNotifier(storedSettings);
+  }
 
   @override
-  List<ContractsInfo> getActiveContracts() =>
-      hasActiveContracts ? ContractsInfo.values : [];
+  List<ContractsInfo> getActiveContracts() => storedSettings.entries
+      .where((contract) => contract.value.isActive)
+      .map((contract) => contract.key)
+      .toList();
+
+  @override
+  void deleteGame() {}
 
   @override
   bool? getIsDarkTheme() => false;
 
   @override
   AbstractContractSettings getSettings(ContractsInfo contractsInfo) =>
-      contractsInfo.settings;
+      storedSettings[contractsInfo]!.copy();
 
   @override
   Game? getStoredGame() => storedGame;
 
   @override
-  ValueListenable listenContractsSettings() => ValueNotifier(null);
+  void saveSettings(
+      ContractsInfo contractsInfo, AbstractContractSettings settings) {
+    storedSettings[contractsInfo] = settings;
+    settingsNotifier.notifyListeners();
+  }
+
+  @override
+  ValueListenable listenContractsSettings() => settingsNotifier;
 }

@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
-import '../../../commons/utils/storage.dart';
+import '../../../commons/notifiers/storage.dart';
 
 final contractSettingsProvider = ChangeNotifierProvider.family
     .autoDispose<ContractSettingsNotifier, ContractsInfo>(
-  (ref, contractsInfo) => ContractSettingsNotifier(contractsInfo),
+  (ref, contractsInfo) => ContractSettingsNotifier(
+    ref.read(storageProvider).getSettings(contractsInfo),
+  ),
 );
 
 class ContractSettingsNotifier with ChangeNotifier {
@@ -17,8 +19,7 @@ class ContractSettingsNotifier with ChangeNotifier {
   /// The indicator to know if the settings can be modified or not
   bool _canModify = true;
 
-  ContractSettingsNotifier(ContractsInfo contract)
-      : settings = MyStorage.getSettings(contract);
+  ContractSettingsNotifier(this.settings);
 
   bool get canModify => _canModify;
 

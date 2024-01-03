@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '/pages/settings/domino_contract_settings.dart';
 import 'commons/models/contract_info.dart';
 import 'commons/models/player.dart';
 import 'commons/utils/storage.dart';
@@ -18,6 +17,7 @@ import 'pages/my_rules.dart';
 import 'pages/my_scores.dart';
 import 'pages/prepare_game.dart';
 import 'pages/scores_by_player.dart';
+import 'pages/settings/domino_contract_settings.dart';
 import 'pages/settings/individual_scores_contract_settings.dart';
 import 'pages/settings/my_settings.dart';
 import 'pages/settings/one_looser_contract_settings.dart';
@@ -48,24 +48,24 @@ class MyApp extends ConsumerWidget {
         Routes.settings: (_) => const MySettings(),
         Routes.barbuOrNoLastTrickSettings: (context) =>
             OneLooserContractSettingsPage(
-                _getRouteArgument<ContractsInfo>(context)),
+                Routes.getArgument<ContractsInfo>(context)),
         Routes.noSomethingScoresSettings: (context) =>
             IndividualScoresContractSettingsPage(
-                _getRouteArgument<ContractsInfo>(context)),
+                Routes.getArgument<ContractsInfo>(context)),
         Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
         Routes.trumpsSettings: (_) => const TrumpsContractSettingsPage(),
         Routes.createGame: (_) => CreateGame(),
         Routes.prepareGame: (_) => const PrepareGame(),
         Routes.chooseContract: (_) => const ChooseContract(),
         Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractScores(
-            _getRouteArgument<ContractRouteArgument>(context)),
+            Routes.getArgument<ContractRouteArgument>(context)),
         Routes.dominoScores: (_) => const DominoScores(),
         Routes.noSomethingScores: (context) => IndividualScoresContract(
-            _getRouteArgument<ContractRouteArgument>(context)),
+            Routes.getArgument<ContractRouteArgument>(context)),
         Routes.trumpsScores: (_) => const TrumpsScores(),
         Routes.scores: (_) => const MyScores(),
         Routes.scoresByPlayer: (context) =>
-            ScoresByPlayer(_getRouteArgument<Player>(context)),
+            ScoresByPlayer(Routes.getArgument<Player>(context)),
         Routes.finishGame: (_) => const FinishGame(),
       },
       initialRoute: Routes.home,
@@ -75,9 +75,6 @@ class MyApp extends ConsumerWidget {
       ),
     );
   }
-
-  T _getRouteArgument<T>(BuildContext context) =>
-      ModalRoute.of(context)?.settings.arguments as T;
 
   /// Returns the themeMode depending on data provider data
   ThemeMode _getThemeMode(WidgetRef ref) {
@@ -113,4 +110,8 @@ class Routes {
   static const scores = "/scores";
   static const scoresByPlayer = "/scores/player";
   static const finishGame = "/end_game";
+
+  @visibleForTesting
+  static T getArgument<T>(BuildContext context) =>
+      ModalRoute.of(context)?.settings.arguments as T;
 }

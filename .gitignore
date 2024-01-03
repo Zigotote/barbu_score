@@ -6,7 +6,7 @@
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
-barbu_score/
+*.symbols
 
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock

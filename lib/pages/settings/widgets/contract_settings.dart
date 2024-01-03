@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/contract_info.dart';
+import '../../../commons/notifiers/storage.dart';
 import '../../../commons/utils/storage.dart';
 import '../../../commons/widgets/alert_dialog.dart';
 import '../../../commons/widgets/default_page.dart';
@@ -34,7 +35,7 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
   @override
   void initState() {
     super.initState();
-    if (MyStorage.hasStoredGame()) {
+    if (ref.read(storageProvider).hasStoredGame()) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         final isAnswered = await showDialog(
           barrierDismissible: false,
