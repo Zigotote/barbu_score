@@ -146,8 +146,8 @@ class MyHome extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     WakelockPlus.disable();
-    return WillPopScope(
-      onWillPop: () => Future.value(false),
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         body: Container(
           decoration: const BoxDecoration(

@@ -63,8 +63,6 @@ class DefaultPage extends StatelessWidget {
     page = tabs == null
         ? page
         : DefaultTabController(length: tabs!.length, child: page);
-    return hasLeading
-        ? page
-        : WillPopScope(onWillPop: () => Future.value(false), child: page);
+    return hasLeading ? page : PopScope(canPop: false, child: page);
   }
 }
