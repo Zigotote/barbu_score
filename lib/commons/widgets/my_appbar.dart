@@ -51,6 +51,6 @@ class MyAppBar extends AppBar {
                   : Theme.of(context).textTheme.headlineSmall,
             ),
           ),
-          bottom: tabs == null ? null : MyTabBar(tabs!),
+          bottom: tabs == null ? null : MyTabBar(tabs),
         );
 }
