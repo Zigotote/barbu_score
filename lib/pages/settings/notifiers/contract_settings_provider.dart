@@ -27,6 +27,11 @@ class ContractSettingsNotifier with ChangeNotifier {
   ContractSettingsNotifier(this.canModify, this.settings);
 
   Function(T)? modifySetting<T>(Function(T) func) {
-    return canModify ? (value) => func.call(value) : null;
+    return canModify
+        ? (value) {
+            func.call(value);
+            notifyListeners();
+          }
+        : null;
   }
 }
