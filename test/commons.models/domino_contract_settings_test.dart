@@ -15,7 +15,7 @@ class _Tester {
 }
 
 main() {
-  group("Test #calculatePoints for domino contract", () {
+  group("#calculatePoints", () {
     for (var dominoTest in [
       // The values I play with
       _Tester(
