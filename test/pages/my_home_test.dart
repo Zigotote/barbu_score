@@ -33,7 +33,7 @@ main() {
     patrolWidgetTest("should start game if no stored game", ($) async {
       await $.pumpWidget(_createPage());
 
-      await $.tap($(startGameText));
+      await $(startGameText).tap();
 
       expect($(CreateGame), findsOneWidget);
     });
@@ -41,7 +41,7 @@ main() {
       final storedGame = FakeGame(finished: true);
       await $.pumpWidget(_createPage(storedGame: storedGame));
 
-      await $.tap($(startGameText));
+      await $(startGameText).tap();
 
       expect($(CreateGame), findsOneWidget);
     });
@@ -51,14 +51,14 @@ main() {
           ($) async {
         await $.pumpWidget(_createPage(storedGame: FakeGame()));
 
-        await $.tap($(startGameText));
+        await $(startGameText).tap();
 
         expect($(MyAlertDialog), findsOneWidget);
         if (startGame) {
-          await $.tap($("Oui"));
+          await $("Oui").tap();
           expect($(CreateGame), findsOneWidget);
         } else {
-          await $.tap($("Non, reprendre la partie"));
+          await $("Non, reprendre la partie").tap();
           expect($(PrepareGame), findsOneWidget);
         }
 
@@ -68,13 +68,12 @@ main() {
     patrolWidgetTest("should not start game if no active contract", ($) async {
       await $.pumpWidget(_createPage(activeContracts: []));
 
-      await $.tap($(startGameText));
+      await $(startGameText).tap();
 
       expect($(MyAlertDialog), findsOneWidget);
-      await $.tap(
-        $(MyAlertDialog).$(ElevatedButton),
-        settlePolicy: SettlePolicy.trySettle,
-      );
+      await $(MyAlertDialog)
+          .$(ElevatedButton)
+          .tap(settlePolicy: SettlePolicy.trySettle);
 
       expect($(MySettings), findsOneWidget);
 
@@ -88,14 +87,14 @@ main() {
           ($) async {
         await $.pumpWidget(_createPage(storedGame: FakeGame()));
 
-        await $.tap($(loadGameText));
+        await $(loadGameText).tap();
 
         expect($(MyAlertDialog), findsOneWidget);
         if (loadGame) {
-          await $.tap($("Oui"));
+          await $("Oui").tap();
           expect($(PrepareGame), findsOneWidget);
         } else {
-          await $.tap($("Non, nouvelle partie"));
+          await $("Non, nouvelle partie").tap();
           expect($(CreateGame), findsOneWidget);
         }
         // should go back to home
@@ -106,16 +105,16 @@ main() {
         ($) async {
       await $.pumpWidget(_createPage(storedGame: FakeGame(finished: true)));
 
-      await $.tap($(loadGameText));
+      await $(loadGameText).tap();
 
       expect($(MyAlertDialog), findsOneWidget);
-      await $.tap($("Oui"));
+      await $("Oui").tap();
       expect($(FinishGame), findsOneWidget);
     });
     patrolWidgetTest("should not load game if no stored game", ($) async {
       await $.pumpWidget(_createPage());
 
-      await $.tap($(loadGameText));
+      await $(loadGameText).tap();
 
       expect($("Aucune partie trouvée"), findsOneWidget);
       expect($(CreateGame), findsOneWidget);
@@ -125,7 +124,7 @@ main() {
 
 /// Verify go back goes to home
 Future<void> _checkGoBack(PatrolTester $) async {
-  await $.tap($(Icons.arrow_back));
+  await $(Icons.arrow_back).tap();
   expect($(MyHome), findsOneWidget);
 }
 

@@ -36,9 +36,9 @@ main() {
         if (hasStoredGame) {
           expect(alertTitle, findsOneWidget);
           if (allowModification) {
-            await $.tap($("Supprimer"));
+            await $("Supprimer").tap();
           } else {
-            await $.tap($("Consulter"));
+            await $("Consulter").tap();
           }
         }
 

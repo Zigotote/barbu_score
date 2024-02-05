@@ -50,23 +50,18 @@ main() {
 
         // Go to contract settings page
         await $.scrollUntilVisible(finder: $(modifiedContract.displayName));
-        await $.tap(
-          $(modifiedContract.displayName),
-          settlePolicy: SettlePolicy.trySettle,
-        );
+        await $(modifiedContract.displayName)
+            .tap(settlePolicy: SettlePolicy.trySettle);
 
         // Activate contract
         expect(($.tester.firstWidget($(Switch)) as Switch).value, true);
         if (isModified) {
-          await $.tap($(MySwitch), settlePolicy: SettlePolicy.noSettle);
+          await $(MySwitch).tap(settlePolicy: SettlePolicy.noSettle);
           expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
         }
 
         // Go back to global settings page
-        await $.tap(
-          $(Icons.arrow_back),
-          settlePolicy: SettlePolicy.noSettle,
-        );
+        await $(Icons.arrow_back).tap(settlePolicy: SettlePolicy.noSettle);
         await $.pump();
 
         if (isModified) {
