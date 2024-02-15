@@ -37,10 +37,13 @@ class CreatePlayer extends StatelessWidget {
   Widget _buildPlayerIcon(BuildContext context, double size) {
     return TextButton(
       onPressed: () => _displayDialog(context, player, onRemove),
-      child: PlayerIcon(
-        image: player.image,
-        color: player.color,
-        size: size,
+      child: Semantics(
+        label: "Modifier le joueur",
+        child: PlayerIcon(
+          image: player.image,
+          color: player.color,
+          size: size,
+        ),
       ),
     );
   }

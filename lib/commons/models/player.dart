@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import '../utils/globals.dart';
 import '../utils/storage.dart';
 import 'contract_info.dart';
 import 'contract_models.dart';
@@ -45,7 +46,7 @@ class Player {
   factory Player.create(
           {required PlayerColors color, required String image, String? name}) =>
       Player(
-        name: kDebugMode ? image : "",
+        name: name ?? (kDebugMode && !kIsTest ? image : ""),
         image: image,
         color: color,
         contracts: [],
