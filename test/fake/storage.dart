@@ -23,15 +23,6 @@ class FakeStorage extends MyStorage2 {
   }
 
   @override
-  List<ContractsInfo> getActiveContracts() => storedSettings.entries
-      .where((contract) => contract.value.isActive)
-      .map((contract) => contract.key)
-      .toList();
-
-  @override
-  void deleteGame() {}
-
-  @override
   bool? getIsDarkTheme() => false;
 
   @override

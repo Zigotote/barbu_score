@@ -27,5 +27,6 @@ doc/api/
 .idea
 
 # Generated files
+*.mocks.dart
 *.g.dart
 *.mock.dart

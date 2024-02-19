@@ -6,10 +6,11 @@ import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../fake/storage.dart';
 import '../../utils.dart';
+import '../my_home_test.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -94,12 +95,12 @@ Future<void> _unplayContracts(PatrolTester $) async {
 }
 
 Widget _createPage() {
+  final mockStorage = MockMyStorage2();
+  when(mockStorage.getSettings(ContractsInfo.trumps))
+      .thenReturn(ContractsInfo.trumps.settings);
+
   final container = ProviderContainer(
-    overrides: [
-      storageProvider.overrideWith(
-        (ref) => FakeStorage(activeContracts: ContractsInfo.values),
-      )
-    ],
+    overrides: [storageProvider.overrideWithValue(mockStorage)],
   );
 
   return UncontrolledProviderScope(

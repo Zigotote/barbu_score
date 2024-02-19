@@ -4,11 +4,11 @@ import 'package:barbu_score/pages/settings/widgets/contract_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../fake/game.dart';
-import '../../fake/storage.dart';
 import '../../utils.dart';
+import '../my_home_test.mocks.dart';
 
 const defaultContract = ContractsInfo.barbu;
 
@@ -52,15 +52,13 @@ main() {
 }
 
 Widget _createPage([bool hasStoredGame = false]) {
+  final mockStorage = MockMyStorage2();
+  when(mockStorage.hasStoredGame()).thenReturn(hasStoredGame);
+  when(mockStorage.getSettings(defaultContract))
+      .thenReturn(defaultContract.settings);
+
   final container = ProviderContainer(
-    overrides: [
-      storageProvider.overrideWith(
-        (ref) => FakeStorage(
-          activeContracts: [defaultContract],
-          storedGame: hasStoredGame ? FakeGame() : null,
-        ),
-      )
-    ],
+    overrides: [storageProvider.overrideWithValue(mockStorage)],
   );
 
   return UncontrolledProviderScope(
