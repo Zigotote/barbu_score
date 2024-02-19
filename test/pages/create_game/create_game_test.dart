@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/globals.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:barbu_score/main.dart';
@@ -23,13 +24,13 @@ main() {
     expect($("Créer les joueurs"), findsOneWidget);
     expect($(CreatePlayer), findsNWidgets(nbPlayersByDefault));
   });
-  for (var nbPlayers = 1; nbPlayers < 3; nbPlayers++) {
+  for (var nbPlayers = 1; nbPlayers < kNbPlayersMin; nbPlayers++) {
     patrolWidgetTest("should not allow start game if $nbPlayers players",
         ($) async {
       await $.pumpWidget(_createPage($));
 
       // Remove players
-      for (var i = 3; i >= nbPlayers; i--) {
+      for (var i = kNbPlayersMin; i >= nbPlayers; i--) {
         await $(Icons.close).tap();
       }
 
@@ -41,7 +42,7 @@ main() {
           isNull);
     });
   }
-  for (var nbPlayers = 3; nbPlayers <= 6; nbPlayers++) {
+  for (var nbPlayers = kNbPlayersMin; nbPlayers <= kNbPlayersMax; nbPlayers++) {
     patrolWidgetTest("should start game with $nbPlayers players", ($) async {
       await $.pumpWidget(_createPage($));
 
