@@ -11,8 +11,6 @@ import 'package:patrol_finders/patrol_finders.dart';
 import '../../../fake/create_game.dart';
 import '../../../utils.dart';
 
-final playerNames = ["Alice", "Bob", "Charles", "Daniel"];
-
 main() {
   patrolWidgetTest("should display dialog", ($) async {
     final players = _generatePlayers();
@@ -109,7 +107,7 @@ List<Player> _generatePlayers(
   return List.generate(
     4,
     (index) => Player.create(
-      name: withName ? playerNames[index] : null,
+      name: withName ? defaultPlayerNames[index] : null,
       color: playerColors[withSameColor ? 0 : index],
       image: playerImages[index],
     ),

@@ -143,12 +143,7 @@ Widget _createPage(
 
   final mockStorage = MockMyStorage2();
   when(mockStorage.getStoredGame()).thenReturn(storedGame);
-  for (var contract in ContractsInfo.values) {
-    final contractSettings = contract.settings;
-    contractSettings.isActive = activeContracts.contains(contract);
-    when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
-  }
-  when(mockStorage.getActiveContracts()).thenReturn(activeContracts);
+  mockActiveContracts(mockStorage, activeContracts);
   when(mockStorage.listenContractsSettings()).thenReturn(ValueNotifier({}));
 
   final container = ProviderContainer(

@@ -8,7 +8,13 @@ import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/utils/storage.dart';
 
 final trumpsProvider = ChangeNotifierProvider.autoDispose<TrumpsNotifier>(
-  (ref) => TrumpsNotifier(),
+  (ref) {
+    final Map<ContractsInfo, bool> activeContracts = Map.from(
+        MyStorage.getSettings<TrumpsContractSettings>(ContractsInfo.trumps)
+            .contracts)
+      ..removeWhere((_, isActive) => !isActive);
+    return TrumpsNotifier(activeContracts.keys.toList());
+  },
 );
 
 class TrumpsNotifier with ChangeNotifier {
@@ -18,15 +24,7 @@ class TrumpsNotifier with ChangeNotifier {
   ///  The list of contracts to fill for a trump contract
   final List<ContractsInfo> trumpContracts;
 
-  TrumpsNotifier._(this.trumpContracts);
-
-  factory TrumpsNotifier() {
-    final Map<ContractsInfo, bool> activeContracts = Map.from(
-        MyStorage.getSettings<TrumpsContractSettings>(ContractsInfo.trumps)
-            .contracts)
-      ..removeWhere((_, isActive) => !isActive);
-    return TrumpsNotifier._(activeContracts.keys.toList());
-  }
+  TrumpsNotifier(this.trumpContracts);
 
   /// Returns true if the contract is entirely filled
   bool get isValid => _filledContracts.length == trumpContracts.length;

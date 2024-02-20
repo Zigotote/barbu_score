@@ -1,6 +1,12 @@
+import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
+
+import 'pages/my_home_test.mocks.dart';
+
+final defaultPlayerNames = ["Alice", "Bob", "Charles", "Daniel"];
 
 checkAccessibility(WidgetTester tester) async {
   await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
@@ -12,3 +18,13 @@ checkAccessibility(WidgetTester tester) async {
 
 PlayerIcon findPlayerIcon(PatrolTester $, {int index = 0}) =>
     ($.tester.widgetList($(PlayerIcon)).toList()[index] as PlayerIcon);
+
+mockActiveContracts(
+    MockMyStorage2 mockStorage, List<ContractsInfo> activeContracts) {
+  for (var contract in ContractsInfo.values) {
+    final contractSettings = contract.settings;
+    contractSettings.isActive = activeContracts.contains(contract);
+    when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
+  }
+  when(mockStorage.getActiveContracts()).thenReturn(activeContracts);
+}
