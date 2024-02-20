@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
+import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
 import 'package:barbu_score/main.dart';
@@ -16,6 +17,7 @@ import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../fake/game.dart';
+import '../fake/play_game.dart';
 import '../utils.dart';
 @GenerateNiceMocks([MockSpec<MyStorage2>()])
 import 'my_home_test.mocks.dart';
@@ -34,7 +36,7 @@ main() {
 
   group("#startGame", () {
     patrolWidgetTest("should start game if no stored game", ($) async {
-      await $.pumpWidget(_createPage());
+      await $.pumpWidget(_createPage($));
 
       await $(startGameText).tap();
 
@@ -42,7 +44,7 @@ main() {
     });
     patrolWidgetTest("should start game if finished stored game", ($) async {
       final storedGame = FakeGame(finished: true);
-      await $.pumpWidget(_createPage(storedGame: storedGame));
+      await $.pumpWidget(_createPage($, storedGame: storedGame));
 
       await $(startGameText).tap();
 
@@ -52,7 +54,7 @@ main() {
       patrolWidgetTest(
           "should ${startGame ? "" : "not "}start game if stored game is ${startGame ? "ignored" : "loaded"}",
           ($) async {
-        await $.pumpWidget(_createPage(storedGame: FakeGame()));
+        await $.pumpWidget(_createPage($, storedGame: FakeGame()));
 
         await $(startGameText).tap();
 
@@ -69,7 +71,7 @@ main() {
       });
     }
     patrolWidgetTest("should not start game if no active contract", ($) async {
-      await $.pumpWidget(_createPage(activeContracts: []));
+      await $.pumpWidget(_createPage($, activeContracts: []));
 
       await $(startGameText).tap();
 
@@ -88,7 +90,7 @@ main() {
       patrolWidgetTest(
           "should ${loadGame ? "load" : "start"} game if stored game ${loadGame ? "exists" : "is ignored"}",
           ($) async {
-        await $.pumpWidget(_createPage(storedGame: FakeGame()));
+        await $.pumpWidget(_createPage($, storedGame: FakeGame()));
 
         await $(loadGameText).tap();
 
@@ -106,7 +108,7 @@ main() {
     }
     patrolWidgetTest("should display scores if stored game is finished",
         ($) async {
-      await $.pumpWidget(_createPage(storedGame: FakeGame(finished: true)));
+      await $.pumpWidget(_createPage($, storedGame: FakeGame(finished: true)));
 
       await $(loadGameText).tap();
 
@@ -115,7 +117,7 @@ main() {
       expect($(FinishGame), findsOneWidget);
     });
     patrolWidgetTest("should not load game if no stored game", ($) async {
-      await $.pumpWidget(_createPage());
+      await $.pumpWidget(_createPage($));
 
       await $(loadGameText).tap();
 
@@ -131,10 +133,14 @@ Future<void> _checkGoBack(PatrolTester $) async {
   expect($(MyHome), findsOneWidget);
 }
 
-Widget _createPage({
+Widget _createPage(
+  PatrolTester $, {
   Game? storedGame,
   List<ContractsInfo> activeContracts = ContractsInfo.values,
 }) {
+  // Increase screen size because prepare game page only works on some screen sizes
+  $.tester.view.physicalSize = const Size(1440, 2560);
+
   final mockStorage = MockMyStorage2();
   when(mockStorage.getStoredGame()).thenReturn(storedGame);
   for (var contract in ContractsInfo.values) {
@@ -146,7 +152,10 @@ Widget _createPage({
   when(mockStorage.listenContractsSettings()).thenReturn(ValueNotifier({}));
 
   final container = ProviderContainer(
-    overrides: [storageProvider.overrideWithValue(mockStorage)],
+    overrides: [
+      storageProvider.overrideWithValue(mockStorage),
+      playGameProvider.overrideWith((_) => FakePlayGame(FakeGame()))
+    ],
   );
 
   return UncontrolledProviderScope(
@@ -156,20 +165,7 @@ Widget _createPage({
       routes: {
         Routes.createGame: (_) => CreateGame(),
         Routes.settings: (_) => const MySettings(),
-        Routes.prepareGame: (_) {
-          // Ignore overflow error because this page only works on some screen sizes
-          FlutterError.onError = (FlutterErrorDetails details) {
-            final exception = details.exception;
-            final isOverflowError = exception is FlutterError &&
-                !exception.diagnostics.any((e) => e.value
-                    .toString()
-                    .startsWith("A RenderFlex overflowed by"));
-            if (!isOverflowError) {
-              FlutterError.presentError(details);
-            }
-          };
-          return const PrepareGame();
-        },
+        Routes.prepareGame: (_) => const PrepareGame(),
         Routes.finishGame: (_) => const FinishGame(),
       },
     ),
