@@ -7,6 +7,7 @@ import 'package:patrol_finders/patrol_finders.dart';
 import 'pages/my_home_test.mocks.dart';
 
 final defaultPlayerNames = ["Alice", "Bob", "Charles", "Daniel"];
+const nbPlayersByDefault = 4;
 
 checkAccessibility(WidgetTester tester) async {
   await expectLater(tester, meetsGuideline(androidTapTargetGuideline));

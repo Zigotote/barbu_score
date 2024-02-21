@@ -42,7 +42,7 @@ main() {
   }
 }
 
-Widget _createPage(PatrolTester $, {final nbPlayers = 4}) {
+Widget _createPage(PatrolTester $, {final nbPlayers = nbPlayersByDefault}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
   final container = ProviderContainer(

@@ -126,7 +126,7 @@ Widget _createPage($,
         (_) => FakePlayGame(
           FakeGame(
             players: List.generate(
-              4,
+              nbPlayersByDefault,
               (index) => Player(
                 name: defaultPlayerNames[index],
                 color: PlayerColors.values[index],

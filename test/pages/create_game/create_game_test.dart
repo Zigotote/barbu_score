@@ -16,7 +16,6 @@ import '../../utils.dart';
 const basePlayerName = "Player";
 
 main() {
-  const nbPlayersByDefault = 4;
   patrolWidgetTest("should display page", ($) async {
     await $.pumpWidget(_createPage($));
 

@@ -19,7 +19,7 @@ main() {
     expect($.tester.takeException(), isNull);
     expect($("Couleur"), findsOneWidget);
     expect($("Avatar"), findsOneWidget);
-    expect($("X"), findsNWidgets(4));
+    expect($("X"), findsNWidgets(nbPlayersByDefault));
 
     // Verify player icon
     final player = players[0];
@@ -105,7 +105,7 @@ Finder _findPlayerNameInColor(
 List<Player> _generatePlayers(
     {bool withName = false, bool withSameColor = false}) {
   return List.generate(
-    4,
+    nbPlayersByDefault,
     (index) => Player.create(
       name: withName ? defaultPlayerNames[index] : null,
       color: playerColors[withSameColor ? 0 : index],
