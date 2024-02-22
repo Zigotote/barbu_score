@@ -14,7 +14,7 @@ class FakeStorage extends MyStorage2 {
       ContractsInfo.values,
       key: (contract) => contract,
       value: (contract) {
-        var settings = contract.settings;
+        var settings = contract._settings;
         settings.isActive = activeContracts.contains(contract);
         return settings;
       },
