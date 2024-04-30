@@ -7,7 +7,7 @@ import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/domino_scores.dart';
 import 'package:barbu_score/pages/contract_scores/models/contract_route_argument.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_scores_contract.dart';
-import 'package:barbu_score/pages/contract_scores/one_looser_contract_scores.dart';
+import 'package:barbu_score/pages/contract_scores/one_looser_contract.dart';
 import 'package:barbu_score/pages/contract_scores/trumps_scores.dart';
 import 'package:barbu_score/pages/my_scores.dart';
 import 'package:flutter/material.dart';
@@ -132,7 +132,7 @@ Widget _createPage($,
   return UncontrolledProviderScope(
     container: container,
     child: MaterialApp(home: const ChooseContract(), routes: {
-      Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractScoresPage(
+      Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractPage(
             ContractRouteArgument(contractInfo: ContractsInfo.barbu),
           ),
       Routes.noSomethingScores: (context) => MultipleLooserContractPage(

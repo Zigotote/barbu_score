@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 import '../utils/contract_scores.dart';
@@ -8,7 +9,7 @@ import 'contract_settings_models.dart';
 part 'contract_models.g.dart';
 
 /// An abstract class to fill the items won by players for a contract
-abstract class AbstractContractModel {
+abstract class AbstractContractModel with EquatableMixin {
   /// The name of the contract
   @HiveField(0)
   final String name;
@@ -25,6 +26,9 @@ abstract class AbstractContractModel {
   String toString() {
     return name;
   }
+
+  @override
+  List<Object?> get props => [name];
 }
 
 /// A class to represent a contracts that can be part of a trumps contract
@@ -34,6 +38,9 @@ abstract class AbstractSubContractModel extends AbstractContractModel {
   Map<String, int> _itemsByPlayer;
 
   AbstractSubContractModel({super.contract, super.name}) : _itemsByPlayer = {};
+
+  @override
+  List<Object?> get props => [...super.props, _itemsByPlayer];
 
   /// The number of item of the players. Used to modify the contract.
   UnmodifiableMapView<String, int> get itemsByPlayer =>
@@ -91,6 +98,9 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
       {super.contract, super.name, required this.nbItems});
 
   @override
+  List<Object?> get props => [...super.props, nbItems];
+
+  @override
   bool isValid(Map<String, int> itemsByPlayer) {
     final int declaredItems = itemsByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
@@ -136,6 +146,9 @@ class TrumpsContractModel extends AbstractContractModel {
       : _subContracts = subContracts ?? [],
         super(contract: ContractsInfo.trumps);
 
+  @override
+  List<Object?> get props => [...super.props, _subContracts];
+
   UnmodifiableListView<AbstractSubContractModel> get subContracts =>
       UnmodifiableListView(_subContracts);
 
@@ -171,6 +184,9 @@ class DominoContractModel extends AbstractContractModel {
   DominoContractModel({Map<String, int>? rankOfPlayer})
       : _rankOfPlayer = rankOfPlayer ?? {},
         super(contract: ContractsInfo.domino);
+
+  @override
+  List<Object?> get props => [...super.props, _rankOfPlayer];
 
   /// Sets the [rankOfPlayer] from a Map wich links all player's names with its rank.
   /// Returns true if the map is valid, false otherwise

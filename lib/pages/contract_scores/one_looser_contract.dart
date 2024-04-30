@@ -11,19 +11,18 @@ import 'models/contract_route_argument.dart';
 import 'widgets/contract_page.dart';
 
 /// A page to fill the scores for a contract where only one player can loose
-class OneLooserContractScoresPage extends ConsumerStatefulWidget {
+class OneLooserContractPage extends ConsumerStatefulWidget {
   /// The contract the player choose and the previous values, if it needs to be modified
   final ContractRouteArgument routeArgument;
 
-  const OneLooserContractScoresPage(this.routeArgument, {super.key});
+  const OneLooserContractPage(this.routeArgument, {super.key});
 
   @override
-  ConsumerState<OneLooserContractScoresPage> createState() =>
-      _OneLooserContractScoresPageState();
+  ConsumerState<OneLooserContractPage> createState() =>
+      _OneLooserContractPageState();
 }
 
-class _OneLooserContractScoresPageState
-    extends ConsumerState<OneLooserContractScoresPage> {
+class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
   /// The selected player
   Player? _selectedPlayer;
 
