@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../../fake/create_game.dart';
 import '../../../utils.dart';
 
 main() {
@@ -117,7 +116,7 @@ List<Player> _generatePlayers(
 Widget _createPage(List<Player> players) {
   final container = ProviderContainer(
     overrides: [
-      createGameProvider.overrideWith((ref) => FakeCreateGame(players)),
+      createGameProvider.overrideWith((ref) => CreateGameNotifier(players)),
     ],
   );
   return UncontrolledProviderScope(

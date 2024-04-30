@@ -1,10 +1,7 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
-import 'package:barbu_score/commons/models/player.dart';
-import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
-import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/domino_scores.dart';
@@ -18,8 +15,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../fake/game.dart';
-import '../fake/play_game.dart';
 import '../utils.dart';
 import '../utils.mocks.dart';
 
@@ -124,23 +119,12 @@ Widget _createPage($,
   final mockStorage = MockMyStorage2();
   mockActiveContracts(mockStorage, activeContracts);
 
+  final mockPlayGame = MockPlayGameNotifier();
+  mockGame(mockPlayGame, playedContracts: playedContracts);
+
   final container = ProviderContainer(
     overrides: [
-      playGameProvider.overrideWith(
-        (_) => FakePlayGame(
-          FakeGame(
-            players: List.generate(
-              nbPlayersByDefault,
-              (index) => Player(
-                name: defaultPlayerNames[index],
-                color: PlayerColors.values[index],
-                image: playerImages[index],
-                contracts: playedContracts,
-              ),
-            ),
-          ),
-        ),
-      ),
+      playGameProvider.overrideWith((_) => mockPlayGame),
       storageProvider.overrideWithValue(mockStorage),
     ],
   );

@@ -15,8 +15,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../fake/game.dart';
-import '../fake/play_game.dart';
 import '../utils.dart';
 import '../utils.mocks.dart';
 
@@ -41,7 +39,8 @@ main() {
       expect($(CreateGame), findsOneWidget);
     });
     patrolWidgetTest("should start game if finished stored game", ($) async {
-      final storedGame = FakeGame(finished: true);
+      final storedGame = Game(players: []);
+      storedGame.isFinished = true;
       await $.pumpWidget(_createPage($, storedGame: storedGame));
 
       await $(startGameText).tap();
@@ -52,7 +51,7 @@ main() {
       patrolWidgetTest(
           "should ${startGame ? "" : "not "}start game if stored game is ${startGame ? "ignored" : "loaded"}",
           ($) async {
-        await $.pumpWidget(_createPage($, storedGame: FakeGame()));
+        await $.pumpWidget(_createPage($, storedGame: Game(players: [])));
 
         await $(startGameText).tap();
 
@@ -88,7 +87,7 @@ main() {
       patrolWidgetTest(
           "should ${loadGame ? "load" : "start"} game if stored game ${loadGame ? "exists" : "is ignored"}",
           ($) async {
-        await $.pumpWidget(_createPage($, storedGame: FakeGame()));
+        await $.pumpWidget(_createPage($, storedGame: Game(players: [])));
 
         await $(loadGameText).tap();
 
@@ -106,7 +105,9 @@ main() {
     }
     patrolWidgetTest("should display scores if stored game is finished",
         ($) async {
-      await $.pumpWidget(_createPage($, storedGame: FakeGame(finished: true)));
+      final storedGame = Game(players: []);
+      storedGame.isFinished = true;
+      await $.pumpWidget(_createPage($, storedGame: storedGame));
 
       await $(loadGameText).tap();
 
@@ -144,10 +145,13 @@ Widget _createPage(
   mockActiveContracts(mockStorage, activeContracts);
   when(mockStorage.listenContractsSettings()).thenReturn(ValueNotifier({}));
 
+  final mockPlayGame = MockPlayGameNotifier();
+  when(mockPlayGame.game).thenReturn(Game(players: []));
+
   final container = ProviderContainer(
     overrides: [
       storageProvider.overrideWithValue(mockStorage),
-      playGameProvider.overrideWith((_) => FakePlayGame(FakeGame()))
+      playGameProvider.overrideWith((_) => mockPlayGame)
     ],
   );
 
