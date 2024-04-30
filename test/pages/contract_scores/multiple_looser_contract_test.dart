@@ -110,7 +110,7 @@ main() {
             tooManyTap ? findsOneWidget : findsNothing);
         expect($("$nbItems"), findsOneWidget);
         expect($("0"), findsNWidgets(game.players.length - 1));
-        await _findValidateScoresButton($).tap();
+        await findValidateScoresButton($).tap();
 
         expect($(ChooseContract), findsOneWidget);
         verify(mockPlayGame.finishContract(expectedContract));
@@ -121,11 +121,7 @@ main() {
 }
 
 ElevatedButton _findValidateScoresButtonWidget(PatrolTester $) {
-  return $.tester.firstWidget(_findValidateScoresButton($));
-}
-
-PatrolFinder _findValidateScoresButton(PatrolTester $) {
-  return $(ElevatedButton).containing("Valider les scores");
+  return $.tester.firstWidget(findValidateScoresButton($));
 }
 
 Widget _createPage(

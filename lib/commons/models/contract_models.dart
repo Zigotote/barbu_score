@@ -208,4 +208,9 @@ class DominoContractModel extends AbstractContractModel {
         (settings as DominoContractSettings).points[_rankOfPlayer.length]!;
     return _rankOfPlayer.map((player, rank) => MapEntry(player, points[rank]));
   }
+
+  @override
+  String toString() {
+    return "${super.toString()} : $_rankOfPlayer";
+  }
 }

@@ -30,7 +30,7 @@ main() {
 
     expect($(ElevatedButtonCustomColor), findsNWidgets(nbPlayersByDefault));
     final validateButton =
-        ($.tester.firstWidget(_findValidateScoresButton($)) as ElevatedButton);
+        ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
     expect(validateButton.onPressed, isNull);
   });
   patrolWidgetTest("should create page with initial selected player",
@@ -71,17 +71,13 @@ main() {
         await $(ElevatedButtonCustomColor).at(0).tap();
       }
       await $(ElevatedButtonCustomColor).at(indexSelectedPlayer).tap();
-      await _findValidateScoresButton($).tap();
+      await findValidateScoresButton($).tap();
 
       expect($(ChooseContract), findsOneWidget);
       verify(mockPlayGame.finishContract(expectedContract));
       verify(mockPlayGame.nextPlayer());
     });
   }
-}
-
-PatrolFinder _findValidateScoresButton(PatrolTester $) {
-  return $(ElevatedButton).containing("Valider les scores");
 }
 
 Widget _createPage(

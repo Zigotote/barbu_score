@@ -7,6 +7,7 @@ import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -35,6 +36,10 @@ checkAccessibility(WidgetTester tester) async {
 
 PlayerIcon findPlayerIcon(PatrolTester $, {int index = 0}) =>
     ($.tester.widgetList($(PlayerIcon)).toList()[index] as PlayerIcon);
+
+PatrolFinder findValidateScoresButton(PatrolTester $) {
+  return $(ElevatedButton).containing("Valider les scores");
+}
 
 /// Mocks a storage with some active contracts
 mockActiveContracts(

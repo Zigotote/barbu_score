@@ -14,14 +14,14 @@ import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
 
 /// A page to fill the scores for a domino contract
-class DominoScores extends ConsumerStatefulWidget {
-  const DominoScores({super.key});
+class DominoContractPage extends ConsumerStatefulWidget {
+  const DominoContractPage({super.key});
 
   @override
-  ConsumerState<DominoScores> createState() => _DominoScoresState();
+  ConsumerState<DominoContractPage> createState() => _DominoContractPageState();
 }
 
-class _DominoScoresState extends ConsumerState<DominoScores> {
+class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   /// The ordered list of players
   late List<Player> orderedPlayers;
 

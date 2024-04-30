@@ -5,7 +5,7 @@ import 'commons/models/contract_info.dart';
 import 'commons/models/player.dart';
 import 'commons/utils/storage.dart';
 import 'pages/choose_contract.dart';
-import 'pages/contract_scores/domino_scores.dart';
+import 'pages/contract_scores/domino_contract.dart';
 import 'pages/contract_scores/models/contract_route_argument.dart';
 import 'pages/contract_scores/multiple_looser_contract.dart';
 import 'pages/contract_scores/one_looser_contract.dart';
@@ -59,7 +59,7 @@ class MyApp extends ConsumerWidget {
         Routes.chooseContract: (_) => const ChooseContract(),
         Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractPage(
             Routes.getArgument<ContractRouteArgument>(context)),
-        Routes.dominoScores: (_) => const DominoScores(),
+        Routes.dominoScores: (_) => const DominoContractPage(),
         Routes.noSomethingScores: (context) => MultipleLooserContractPage(
             Routes.getArgument<ContractRouteArgument>(context)),
         Routes.trumpsScores: (_) => const TrumpsScores(),

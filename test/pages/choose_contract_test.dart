@@ -4,7 +4,7 @@ import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
-import 'package:barbu_score/pages/contract_scores/domino_scores.dart';
+import 'package:barbu_score/pages/contract_scores/domino_contract.dart';
 import 'package:barbu_score/pages/contract_scores/models/contract_route_argument.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
 import 'package:barbu_score/pages/contract_scores/one_looser_contract.dart';
@@ -138,7 +138,7 @@ Widget _createPage($,
       Routes.noSomethingScores: (context) => MultipleLooserContractPage(
             ContractRouteArgument(contractInfo: ContractsInfo.noQueens),
           ),
-      Routes.dominoScores: (_) => const DominoScores(),
+      Routes.dominoScores: (_) => const DominoContractPage(),
       Routes.trumpsScores: (_) => const TrumpsScores(),
       Routes.scores: (_) => const MyScores()
     }),
