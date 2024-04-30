@@ -12,9 +12,8 @@ class FakeStorage extends MyStorage2 {
   FakeStorage({this.storedGame, required List<ContractsInfo> activeContracts}) {
     storedSettings = Map.fromIterable(
       ContractsInfo.values,
-      key: (contract) => contract,
       value: (contract) {
-        var settings = contract._settings;
+        var settings = contract.defaultSettings;
         settings.isActive = activeContracts.contains(contract);
         return settings;
       },
