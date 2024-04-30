@@ -25,16 +25,18 @@ Map<String, int>? calculateTotalScores(List<AbstractContractModel> contracts,
       );
 }
 
-/// Sums all the scores in the list
+/// Sums all the scores in the list. Returns null if no scores to sum
 Map<String, int>? sumScores(List<Map<String, int>?> playerScores) {
-  return playerScores.reduce(
-    (scores, contractScore) => scores == null
-        ? contractScore
-        : (scores
-          ..updateAll(
-            (player, playerScores) => contractScore == null
-                ? playerScores
-                : playerScores += contractScore[player]!,
-          )),
-  );
+  return playerScores.isEmpty
+      ? null
+      : playerScores.reduce(
+          (scores, contractScore) => scores == null
+              ? contractScore
+              : (scores
+                ..updateAll(
+                  (player, playerScores) => contractScore == null
+                      ? playerScores
+                      : playerScores += contractScore[player]!,
+                )),
+        );
 }
