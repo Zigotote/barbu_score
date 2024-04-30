@@ -34,7 +34,7 @@ class MyStorage2 {
   }
 
   /// Saves the game status
-  static void saveGame(Game game) {
+  void saveGame(Game game) {
     Hive.box(_gameBoxName).put(_gameKey, game);
   }
 
@@ -57,7 +57,7 @@ class MyStorage2 {
   /// Gets the settings associated to this contract. Returns default settings if no personalized data saved
   AbstractContractSettings getSettings(ContractsInfo contractsInfo) {
     return Hive.box(_settingsBoxName)
-        .get(contractsInfo.name, defaultValue: contractsInfo.settings)
+        .get(contractsInfo.name, defaultValue: contractsInfo.defaultSettings)
         .copy();
   }
 
@@ -67,7 +67,7 @@ class MyStorage2 {
       ..removeWhere((contract) => !getSettings(contract).isActive);
   }
 
-  /// Saves the points associated to this contract
+  /// Saves contract settings and deletes the current game
   void saveSettings(
       ContractsInfo contractsInfo, AbstractContractSettings settings) {
     deleteGame();

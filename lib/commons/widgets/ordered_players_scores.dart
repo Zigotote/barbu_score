@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/player.dart';
+import '../notifiers/contracts_manager.dart';
 import '../notifiers/play_game.dart';
+import '../utils/contract_scores.dart';
 import 'list_layouts.dart';
 import 'player_score_button.dart';
 
@@ -13,49 +15,42 @@ class OrderedPlayersScores extends ConsumerWidget {
 
   const OrderedPlayersScores({super.key, this.isFinished = false});
 
-  /// Calculates the total score of each player for the party
+  /// Calculates the total score of each player for the game
   /// and orders them by score
-  List<MapEntry<String, int>> _orderedPlayerScores(List<Player> players) {
-    Map<String, int> playerScores = {
-      for (var player in players) player.name: 0
-    };
-    for (var player in players) {
-      player.playerScores?.forEach((playerName, score) {
-        int? playerScore = playerScores[playerName];
-        if (playerScore != null) {
-          playerScores[playerName] = playerScore + score;
-        } else {
-          playerScores[playerName] = score;
-        }
-      });
-    }
+  List<MapEntry<String, int>> _orderedPlayerScores(
+      Map<Player, Map<String, int>?> scoresByPlayer) {
+    final totalScores = sumScores(scoresByPlayer.values.toList());
+    final playerScores =
+        totalScores ?? {for (var player in scoresByPlayer.keys) player.name: 0};
     return playerScores.entries.toList()
-      ..sort(
-        (player1, player2) => player1.value.compareTo(player2.value),
-      );
+      ..sort((player1, player2) => player1.value.compareTo(player2.value));
   }
 
   /// Finds the player's best friend
-  Player _findBestFriend(Player player, List<Player> players) {
+  Player _findBestFriend(
+      Player player, Map<Player, Map<String, int>?> scoresByPlayer) {
     return _findPlayerWhere(
-        players, player, (score1, score2) => score1 > score2);
+        player, scoresByPlayer, (score1, score2) => score1 > score2);
   }
 
   /// Finds the player's worst ennemy
-  Player _findWorstEnnemy(Player player, List<Player> players) {
+  Player _findWorstEnnemy(
+      Player player, Map<Player, Map<String, int>?> scoresByPlayer) {
     return _findPlayerWhere(
-        players, player, (score1, score2) => score1 < score2);
+        player, scoresByPlayer, (score1, score2) => score1 < score2);
   }
 
   /// Finds the player where condition applies
   Player _findPlayerWhere(
-      List<Player> players, Player player, Function(int, int) condition) {
-    int score = player.playerScores![player.name]!;
+      Player player,
+      Map<Player, Map<String, int>?> scoresByPlayer,
+      Function(int, int) condition) {
+    int score = scoresByPlayer[player]![player.name]!;
     Player playerFound = player;
-    for (var p in players) {
-      final int playerScore = p.playerScores![player.name]!;
+    for (var scores in scoresByPlayer.entries) {
+      final int playerScore = scores.value![player.name]!;
       if (condition(score, playerScore)) {
-        playerFound = p;
+        playerFound = scores.key;
         score = playerScore;
       }
     }
@@ -64,23 +59,30 @@ class OrderedPlayersScores extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(playGameProvider);
+    final players = ref.read(playGameProvider).players;
+    final contractsManager = ref.read(contractsManagerProvider);
+    final Map<Player, Map<String, int>?> scoresByPlayer = {
+      for (var player in players)
+        player: sumScores(
+          contractsManager.scoresByContract(player).values.toList(),
+        )
+    };
     final List<MapEntry<String, int>> orderedPlayers =
-        _orderedPlayerScores(provider.players);
+        _orderedPlayerScores(scoresByPlayer);
     return MyList(
-      itemCount: provider.players.length,
+      itemCount: players.length,
       itemBuilder: (_, index) {
         final MapEntry<String, int> playerInfo = orderedPlayers[index];
         final Player player =
-            provider.players.firstWhere((p) => p.name == playerInfo.key);
+            players.firstWhere((p) => p.name == playerInfo.key);
         return PlayerScoreButton(
           player: player,
           score: playerInfo.value,
           displayMedal: isFinished && index == 0,
           bestFriend:
-              isFinished ? _findBestFriend(player, provider.players) : null,
+              isFinished ? _findBestFriend(player, scoresByPlayer) : null,
           worstEnnemy:
-              isFinished ? _findWorstEnnemy(player, provider.players) : null,
+              isFinished ? _findWorstEnnemy(player, scoresByPlayer) : null,
         );
       },
     );

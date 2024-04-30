@@ -5,50 +5,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../commons/models/contract_info.dart';
 import '../../../../commons/models/contract_models.dart';
 import '../../../commons/models/contract_settings_models.dart';
-import '../../../commons/utils/storage.dart';
+import '../../../commons/notifiers/contracts_manager.dart';
 
 final trumpsProvider = ChangeNotifierProvider.autoDispose<TrumpsNotifier>(
-  (ref) {
-    final Map<ContractsInfo, bool> activeContracts = Map.from(
-        MyStorage.getSettings<TrumpsContractSettings>(ContractsInfo.trumps)
-            .contracts)
-      ..removeWhere((_, isActive) => !isActive);
-    return TrumpsNotifier(activeContracts.keys.toList());
-  },
+  (ref) => TrumpsNotifier(
+    ref.read(contractsManagerProvider).getContractManager(ContractsInfo.trumps),
+  ),
 );
 
 class TrumpsNotifier with ChangeNotifier {
-  /// The contracts the player has filled
-  final List<AbstractContractModel> _filledContracts = [];
+  final TrumpsContractModel model;
+  final TrumpsContractSettings _settings;
 
-  ///  The list of contracts to fill for a trump contract
-  final List<ContractsInfo> trumpContracts;
+  TrumpsNotifier(ContractManager manager)
+      : model = manager.model as TrumpsContractModel,
+        _settings = manager.settings as TrumpsContractSettings;
 
-  TrumpsNotifier(this.trumpContracts);
+  bool get isValid =>
+      _settings.activeContracts.length == model.subContracts.length;
 
-  /// Returns true if the contract is entirely filled
-  bool get isValid => _filledContracts.length == trumpContracts.length;
-
-  /// Returns the players scores
-  Map<String, int> get playerScores =>
-      AbstractContractModel.calculateTotalScore(_filledContracts);
+  List<ContractsInfo> get subContracts => _settings.activeContracts;
 
   /// Returns the filled contract which matches the contractName. If there is none, returns null
-  AbstractContractModel? getFilledContract(String contractName) {
-    return _filledContracts
+  AbstractSubContractModel? getFilledContract(String contractName) {
+    return model.subContracts
         .firstWhereOrNull((contract) => contract.name == contractName);
   }
 
   /// Adds a contract to the filledContracts list
-  bool addContract(ContractsInfo contractInfo, Map<String, int> playerItems) {
-    AbstractContractModel contract = contractInfo.contract;
-    bool isValid = contract.setScores(playerItems);
-    if (isValid) {
-      _filledContracts
-          .removeWhere((contract) => contract.name == contractInfo.name);
-      _filledContracts.add(contract);
-    }
+  void addContract(AbstractSubContractModel contract) {
+    model.addSubContract(contract);
     notifyListeners();
-    return isValid;
   }
 }

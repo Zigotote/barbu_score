@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../commons/models/contract_info.dart';
-import '../commons/utils/storage.dart';
+import '../commons/notifiers/contracts_manager.dart';
 import '../commons/widgets/default_page.dart';
 
-class MyRules extends StatelessWidget {
+class MyRules extends ConsumerWidget {
   const MyRules({super.key});
 
   _buildTitle(TextTheme textTheme, String title) {
@@ -22,7 +22,7 @@ class MyRules extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return DefaultPage(
       title: "Règles du jeu",
@@ -42,13 +42,20 @@ class MyRules extends StatelessWidget {
             const Text(
                 "Le jeu est composé de 7 contrats devant être réalisés par tous les joueurs. Un contrat correspond à une manche de jeu. Au début de son tour, le premier joueur sélectionne un contrat à réaliser. Il l'annonce et débute la manche. A la fin de la manche, les points sont comptés, les cartes mélangées et distribuées et le joueur à gauche du premier joueur choisit un contrat à réaliser. La partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats."),
             _buildTitle(textTheme, "Les contrats"),
-            ...ContractsInfo.values.map((contract) {
-              final settings = MyStorage.getSettings(contract);
+            ...ref
+                .read(contractsManagerProvider)
+                .contracts
+                .entries
+                .map((contract) {
+              final settings = contract.value.settings;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSubtitle(textTheme, contract.displayName),
-                  Text(settings.filledRules(contract.rules)),
+                  _buildSubtitle(textTheme, contract.key.displayName),
+                  Text(
+                    settings
+                        .filledRules(settings.filledRules(contract.key.rules)),
+                  ),
                   if (!settings.isActive)
                     const Text(
                       "Ce contrat est désactivé pour vos parties.",

@@ -28,18 +28,16 @@ class MyStorage {
     Hive.registerAdapter<Player>(PlayerAdapter());
     Hive.registerAdapter<Color>(ColorAdapter());
     Hive.registerAdapter<ContractsInfo>(ContractsInfoAdapter());
-    Hive.registerAdapter<BarbuContractModel>(BarbuContractModelAdapter());
-    Hive.registerAdapter<NoLastTrickContractModel>(
-        NoLastTrickContractModelAdapter());
-    Hive.registerAdapter<NoHeartsContractModel>(NoHeartsContractModelAdapter());
-    Hive.registerAdapter<NoQueensContractModel>(NoQueensContractModelAdapter());
-    Hive.registerAdapter<NoTricksContractModel>(NoTricksContractModelAdapter());
+    Hive.registerAdapter<OneLooserContractModel>(
+        OneLooserContractModelAdapter());
+    Hive.registerAdapter<MultipleLooserContractModel>(
+        MultipleLooserContractModelAdapter());
     Hive.registerAdapter<TrumpsContractModel>(TrumpsContractModelAdapter());
     Hive.registerAdapter<DominoContractModel>(DominoContractModelAdapter());
-    Hive.registerAdapter<PointsContractSettings>(
-        PointsContractSettingsAdapter());
-    Hive.registerAdapter<IndividualScoresContractSettings>(
-        IndividualScoresContractSettingsAdapter());
+    Hive.registerAdapter<OneLooserContractSettings>(
+        OneLooserContractSettingsAdapter());
+    Hive.registerAdapter<MultipleLooserContractSettings>(
+        MultipleLooserContractSettingsAdapter());
     Hive.registerAdapter<TrumpsContractSettings>(
         TrumpsContractSettingsAdapter());
     Hive.registerAdapter<DominoContractSettings>(
@@ -85,20 +83,6 @@ class MyStorage {
   /// Saves true if app theme should be dark, false otherwise
   static void saveIsDarkTheme(bool isDarkTheme) {
     Hive.box(_settingsBoxName).put(_isDarkThemeKey, isDarkTheme);
-  }
-
-  /// Gets the settings associated to this contract. Returns default settings if no personalized data saved
-  static T getSettings<T extends AbstractContractSettings>(
-      ContractsInfo contractsInfo) {
-    return Hive.box(_settingsBoxName)
-        .get(contractsInfo.name, defaultValue: contractsInfo.settings)
-        .copy();
-  }
-
-  /// Returns all active contracts
-  static List<ContractsInfo> getActiveContracts() {
-    return List<ContractsInfo>.from(ContractsInfo.values)
-      ..removeWhere((contract) => !MyStorage.getSettings(contract).isActive);
   }
 
   /// Saves the points associated to this contract

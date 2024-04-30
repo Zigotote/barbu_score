@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../commons/models/contract_info.dart';
-import '../../../../main.dart';
+import '../../../commons/models/contract_info.dart';
+import '../../../commons/models/contract_models.dart';
+import '../../../commons/notifiers/contracts_manager.dart';
 import '../../../commons/notifiers/play_game.dart';
 import '../../../commons/utils/snackbar.dart';
 import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_subtitle.dart';
+import '../../../main.dart';
 import '../notifiers/trumps_provider.dart';
 
-class ContractPage extends ConsumerWidget {
+class SubContractPage extends ConsumerWidget {
   /// The contract actually displayed
   final ContractsInfo contract;
 
@@ -28,7 +30,7 @@ class ContractPage extends ConsumerWidget {
   /// The number of bad item each player gain during the game
   final Map<String, int> itemsByPlayer;
 
-  const ContractPage({
+  const SubContractPage({
     super.key,
     required this.contract,
     required this.subtitle,
@@ -38,27 +40,31 @@ class ContractPage extends ConsumerWidget {
     required this.child,
   });
 
-  /// Saves the score for this contract and moves to the next player round
-  void _saveScore(
-      BuildContext context, WidgetRef ref, PlayGameNotifier provider) {
+  /// Saves this contract and moves to the next player round
+  void _saveContract(BuildContext context, WidgetRef ref) {
+    final playGame = ref.read(playGameProvider);
     final bool isPartOfTrumpsContract =
         ref.exists(trumpsProvider) && !(contract == ContractsInfo.trumps);
-    bool isFinished;
+    final contractModel = (ref
+        .read(contractsManagerProvider)
+        .getContractManager(contract)
+        .model as AbstractSubContractModel);
+    final bool isFinished = contractModel.setItemsByPlayer(itemsByPlayer);
+
     if (isPartOfTrumpsContract) {
       /// Adds the contract to the trumps contract
-      isFinished =
-          ref.read(trumpsProvider).addContract(contract, itemsByPlayer);
+      ref.read(trumpsProvider).addContract(contractModel);
     } else {
-      /// Finishes the contract
-      isFinished = provider.finishContract(contract, itemsByPlayer);
+      playGame.finishContract(contractModel);
     }
+
     if (isFinished) {
       SnackBarUtils.instance.closeSnackBar(context);
       if (isPartOfTrumpsContract) {
         Navigator.of(context).pop();
       } else {
         Navigator.of(context).popAndPushNamed(
-            provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame);
+            playGame.nextPlayer() ? Routes.chooseContract : Routes.finishGame);
       }
     } else {
       SnackBarUtils.instance.openSnackBar(
@@ -72,18 +78,17 @@ class ContractPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(playGameProvider);
-    String title;
+    String titleText;
     String validateText;
     if (isModification) {
-      title = "Modification ${contract.displayName}";
+      titleText = "Modification ${contract.displayName}";
       validateText = "Modifier les scores";
     } else {
-      title = "Tour de ${provider.currentPlayer.name}";
+      titleText = "Tour de ${ref.read(playGameProvider).currentPlayer.name}";
       validateText = "Valider les scores";
     }
     return DefaultPage(
-      title: title,
+      title: titleText,
       hasLeading: true,
       content: Column(
         children: [
@@ -93,7 +98,7 @@ class ContractPage extends ConsumerWidget {
         ],
       ),
       bottomWidget: ElevatedButton(
-        onPressed: isValid ? () => _saveScore(context, ref, provider) : null,
+        onPressed: isValid ? () => _saveContract(context, ref) : null,
         child: Text(validateText),
       ),
     );

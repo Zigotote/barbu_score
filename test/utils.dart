@@ -23,7 +23,7 @@ PlayerIcon findPlayerIcon(PatrolTester $, {int index = 0}) =>
 mockActiveContracts(
     MockMyStorage2 mockStorage, List<ContractsInfo> activeContracts) {
   for (var contract in ContractsInfo.values) {
-    final contractSettings = contract.settings;
+    final contractSettings = contract.defaultSettings;
     contractSettings.isActive = activeContracts.contains(contract);
     when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
   }

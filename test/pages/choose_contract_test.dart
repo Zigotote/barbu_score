@@ -7,9 +7,8 @@ import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/domino_scores.dart';
-import 'package:barbu_score/pages/contract_scores/individual_scores_contract.dart';
 import 'package:barbu_score/pages/contract_scores/models/contract_route_argument.dart';
-import 'package:barbu_score/pages/contract_scores/notifiers/trumps_provider.dart';
+import 'package:barbu_score/pages/contract_scores/multiple_scores_contract.dart';
 import 'package:barbu_score/pages/contract_scores/one_looser_contract_scores.dart';
 import 'package:barbu_score/pages/contract_scores/trumps_scores.dart';
 import 'package:barbu_score/pages/my_scores.dart';
@@ -20,7 +19,6 @@ import 'package:patrol_finders/patrol_finders.dart';
 
 import '../fake/game.dart';
 import '../fake/play_game.dart';
-import '../fake/trumps_provider.dart';
 import '../utils.dart';
 import 'my_home_test.mocks.dart';
 
@@ -131,27 +129,28 @@ Widget _createPage($,
                 name: defaultPlayerNames[index],
                 color: PlayerColors.values[index],
                 image: playerImages[index],
-                contracts: playedContracts
+                contracts: [] /*TODO Océane to fix playedContracts
                     .map((contract) => contract.contract)
-                    .toList(),
+                    .toList() */
+                ,
               ),
             ),
           ),
         ),
       ),
       storageProvider.overrideWithValue(mockStorage),
-      trumpsProvider
-          .overrideWith((ref) => FakeTrumpsProvider(ContractsInfo.values))
+      /*TODO Océane to fix trumpsProvider
+          .overrideWith((ref) => FakeTrumpsProvider(ContractsInfo.values))*/
     ],
   );
 
   return UncontrolledProviderScope(
     container: container,
     child: MaterialApp(home: const ChooseContract(), routes: {
-      Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractScores(
+      Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractScoresPage(
             ContractRouteArgument(contractInfo: ContractsInfo.barbu),
           ),
-      Routes.noSomethingScores: (context) => IndividualScoresContract(
+      Routes.noSomethingScores: (context) => MultipleLooserContractPage(
             ContractRouteArgument(contractInfo: ContractsInfo.noQueens),
           ),
       Routes.dominoScores: (_) => const DominoScores(),

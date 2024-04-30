@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/player.dart';
+import '../models/contract_models.dart';
 import '../models/game.dart';
-import '../utils/storage.dart';
+import 'storage.dart';
 
-final playGameProvider =
-    ChangeNotifierProvider<PlayGameNotifier>((ref) => PlayGameNotifier());
+final playGameProvider = ChangeNotifierProvider<PlayGameNotifier>(
+  (ref) => PlayGameNotifier(ref.read(storageProvider)),
+);
 
 class PlayGameNotifier with ChangeNotifier {
   /// The object representing the game
   late Game game;
 
-  PlayGameNotifier();
+  /// The storage manager
+  final MyStorage2 storage;
+
+  PlayGameNotifier(this.storage);
 
   /// Returns the player list
   List<Player> get players => game.players;
@@ -31,19 +35,20 @@ class PlayGameNotifier with ChangeNotifier {
     game = game;
   }
 
-  /// Saves the score for the contract and changes the current player to the next one
-  /// Returns true if the score is valid
-  bool finishContract(
-      ContractsInfo contractInfo, Map<String, int> itemsByPlayer) {
-    return game.currentPlayer.addContract(contractInfo, itemsByPlayer);
+  /// Saves the score for the contract
+  void finishContract(AbstractContractModel contract) {
+    game.currentPlayer.addContract(contract);
   }
 
   /// Changes the current player to the next one
   /// Returns true if there is a next player, false if the game is finished
   bool nextPlayer() {
     game.nextPlayer();
+    game.isFinished = !game.currentPlayer.hasAvailableContracts(
+      storage.getActiveContracts(),
+    );
     notifyListeners();
-    MyStorage.saveGame(game);
+    storage.saveGame(game);
     return !game.isFinished;
   }
 }

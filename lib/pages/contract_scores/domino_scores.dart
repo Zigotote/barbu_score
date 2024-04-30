@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
+import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
+import '../../commons/notifiers/contracts_manager.dart';
 import '../../commons/notifiers/play_game.dart';
+import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/colored_container.dart';
-import 'widgets/contract_page.dart';
+import '../../commons/widgets/default_page.dart';
+import '../../commons/widgets/my_subtitle.dart';
+import '../../main.dart';
 
 /// A page to fill the scores for a domino contract
 class DominoScores extends ConsumerStatefulWidget {
@@ -23,8 +28,7 @@ class _DominoScoresState extends ConsumerState<DominoScores> {
   @override
   void initState() {
     super.initState();
-    setState(
-        () => orderedPlayers = List.from(ref.read(playGameProvider).players));
+    orderedPlayers = List.from(ref.read(playGameProvider).players);
   }
 
   /// Moves a player from oldIndex to newIndex
@@ -102,18 +106,47 @@ class _DominoScoresState extends ConsumerState<DominoScores> {
     );
   }
 
+  _saveContract(BuildContext context, WidgetRef ref) {
+    final contractModel = (ref
+        .read(contractsManagerProvider)
+        .getContractManager(ContractsInfo.domino)
+        .model as DominoContractModel);
+    final bool isFinished = contractModel.setRankOfPlayer({
+      for (var player in orderedPlayers)
+        player.name: orderedPlayers.indexOf(player)
+    });
+    final provider = ref.read(playGameProvider);
+    provider.finishContract(contractModel);
+
+    if (isFinished) {
+      SnackBarUtils.instance.closeSnackBar(context);
+      Navigator.of(context).popAndPushNamed(
+          provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame);
+    } else {
+      SnackBarUtils.instance.openSnackBar(
+        context: context,
+        title: "Scores incorrects",
+        text: "Tous les joueurs n'ont pas été classés.",
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ContractPage(
-      subtitle: "Quel est l'ordre des joueurs ?",
-      contract: ContractsInfo.domino,
-      isValid: orderedPlayers.isNotEmpty,
-      // Not really items by players, it's more player's rank
-      itemsByPlayer: {
-        for (var player in orderedPlayers)
-          player.name: orderedPlayers.indexOf(player)
-      },
-      child: _buildFields(),
+    return DefaultPage(
+      title: "Tour de ${ref.read(playGameProvider).currentPlayer.name}",
+      hasLeading: true,
+      content: Column(
+        children: [
+          const MySubtitle("Quel est l'ordre des joueurs ?"),
+          const SizedBox(height: 8),
+          Expanded(child: _buildFields()),
+        ],
+      ),
+      bottomWidget: ElevatedButton(
+        onPressed: () => _saveContract(context, ref),
+        child: const Text("Valider les scores"),
+      ),
     );
   }
 }

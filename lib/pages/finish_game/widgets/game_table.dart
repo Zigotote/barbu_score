@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/player.dart';
+import '../../../commons/notifiers/contracts_manager.dart';
 import '../../../commons/notifiers/play_game.dart';
-import '../../../commons/utils/storage.dart';
+import '../../../commons/utils/contract_scores.dart';
 import '../../../commons/widgets/score_table.dart';
 
 /// A table to display the scores of players for the entire game
@@ -11,56 +13,60 @@ class GameTable extends ConsumerWidget {
   const GameTable({super.key});
 
   /// Builds the rows to display player scores for each contract
-  List<ScoreRow> _buildPlayerRows(List<Player> players) {
-    return MyStorage.getActiveContracts().map((contract) {
-      final Map<String, int> scores = {};
-      for (var player in players) {
-        final Map<String, int>? playerContractScores =
-            player.contractScores(contract.name);
-        _sumScores(scores, playerContractScores);
-      }
+  List<ScoreRow> _buildPlayerRows(
+      Map<ContractsInfo, Map<String, int>?> contractScores,
+      List<Player> players) {
+    return contractScores.entries.map((contractScore) {
       return ScoreRow(
-        title: contract.displayName,
-        scores: players.map((p) => scores[p.name]).toList(),
+        title: contractScore.key.displayName,
+        scores: contractScore.value!.values.toList(),
       );
     }).toList();
   }
 
   /// Builds the row to display total scores
-  ScoreRow _buildTotalRow(List<Player> players) {
-    final Map<String, int> scores = {};
-    for (var player in players) {
-      final Map<String, int>? playerContractScores = player.playerScores;
-      _sumScores(scores, playerContractScores);
-    }
+  ScoreRow _buildTotalRow(Map<ContractsInfo, Map<String, int>?> contractScores,
+      List<Player> players) {
+    final totalScores = sumScores(contractScores.values.toList());
     return ScoreRow(
       title: "Total",
-      scores: players.map((p) => scores[p.name]).toList(),
+      scores: players.map((p) => totalScores![p.name]).toList(),
       isBold: true,
     );
   }
 
-  /// Sums scoresToSum to scores to get summed score for each player
-  void _sumScores(Map<String, int> scores, Map<String, int>? scoresToSum) {
-    scoresToSum?.forEach((playerName, score) {
-      if (scores.containsKey(playerName)) {
-        scores[playerName] = scores[playerName]! + score;
-      } else {
-        scores[playerName] = score;
-      }
-    });
+  /// Sums the contract scores of each player of the list, sorted by contract
+  Map<ContractsInfo, Map<String, int>?> _sumContractScores(
+      ContractsManager contractsManager, List<Player> players) {
+    final contractScores = players
+        .map((player) => contractsManager.scoresByContract(player))
+        .reduce(
+          (sum, contractScores) => sum
+            ..updateAll(
+              (contract, playerScores) => playerScores
+                ?..updateAll(
+                  (player, score) => score += playerScores[player]!,
+                ),
+            ),
+        );
+    return contractScores;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final players = ref.read(playGameProvider).players;
+    final contractScores =
+        _sumContractScores(ref.read(contractsManagerProvider), players);
     return Column(
       children: [
         const SizedBox(height: 16),
         Expanded(
           child: ScoreTable(
             players: players,
-            rows: [..._buildPlayerRows(players), _buildTotalRow(players)],
+            rows: [
+              ..._buildPlayerRows(contractScores, players),
+              _buildTotalRow(contractScores, players)
+            ],
           ),
         ),
       ],

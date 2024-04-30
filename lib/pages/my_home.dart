@@ -1,4 +1,3 @@
-import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -6,6 +5,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import '../commons/models/game.dart';
 import '../commons/models/player.dart';
 import '../commons/notifiers/play_game.dart';
+import '../commons/notifiers/storage.dart';
 import '../commons/utils/snackbar.dart';
 import '../commons/widgets/alert_dialog.dart';
 import '../commons/widgets/custom_buttons.dart';

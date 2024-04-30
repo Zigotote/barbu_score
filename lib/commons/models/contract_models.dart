@@ -1,210 +1,195 @@
+import 'package:collection/collection.dart';
 import 'package:hive/hive.dart';
 
-import '../utils/globals.dart' as globals;
-import '../utils/storage.dart';
+import '../utils/contract_scores.dart';
 import 'contract_info.dart';
 import 'contract_settings_models.dart';
 
 part 'contract_models.g.dart';
 
-/// An abstract class to fill the scores for a contract
+/// An abstract class to fill the items won by players for a contract
 abstract class AbstractContractModel {
-  /// Calculates the total score of each player, from a list of contracts
-  static Map<String, int> calculateTotalScore(
-      List<AbstractContractModel> contracts) {
-    Map<String, int> playerScores = {};
-    for (var contract in contracts) {
-      contract.scores.forEach((player, score) {
-        int? playerScore = playerScores[player];
-        if (playerScore != null) {
-          playerScores[player] = playerScore + score;
-        } else {
-          playerScores[player] = score;
-        }
-      });
-    }
-    return playerScores;
-  }
-
-  /// The contract associated to this model
-  final ContractsInfo contract;
-
   /// The name of the contract
   @HiveField(0)
   final String name;
 
-  /// The scores of all the players for this contract
-  @HiveField(1)
-  Map<String, int> _scores;
+  AbstractContractModel({ContractsInfo? contract, String? name})
+      : assert(name == null || contract == null,
+            "Only name or contract should be used"),
+        name = name ?? contract!.name;
 
-  AbstractContractModel(this.contract)
-      : name = contract.name,
-        _scores = {};
-
-  /// The settings associated to this contract
-  AbstractContractSettings get _settings => MyStorage.getSettings(contract);
-
-  Map<String, int> get scores => _scores;
-
-  /// The number of item (or rank) of the players, calculated from _scores. Used to modify the contract.
-  Map<String, int> get playerItems;
-
-  /// Sets the score of each player from a Map wich links all player's names with the number of tricks/cards they won.
-  /// Returns true if the score has been set correctly, false if the trickByPlayer Map is not correctly filled
-  bool setScores(Map<String, int> itemsByPlayer);
+  /// Calculates the scores of this contract from its settings. Returns null score if it can't be calculated
+  Map<String, int>? scores(AbstractContractSettings settings);
 
   @override
   String toString() {
-    return "$name : $_scores";
+    return name;
+  }
+}
+
+/// A class to represent a contracts that can be part of a trumps contract
+abstract class AbstractSubContractModel extends AbstractContractModel {
+  /// The number of items each player won for this contract
+  @HiveField(1)
+  Map<String, int> _itemsByPlayer;
+
+  AbstractSubContractModel({super.contract, super.name}) : _itemsByPlayer = {};
+
+  /// The number of item of the players. Used to modify the contract.
+  UnmodifiableMapView<String, int> get itemsByPlayer =>
+      UnmodifiableMapView(_itemsByPlayer);
+
+  /// Returns true if the [itemsByPlayer] are valid, depending on the type of contract
+  bool isValid(Map<String, int> itemsByPlayer);
+
+  /// Sets the [itemsByPlayer] from a Map which links all player's names with the number of tricks/cards they won.
+  /// Returns true if the map is valid, false otherwise
+  bool setItemsByPlayer(Map<String, int> itemsByPlayer) {
+    final canBeSet = isValid(itemsByPlayer);
+    if (canBeSet) {
+      _itemsByPlayer = itemsByPlayer;
+    }
+    return canBeSet;
+  }
+
+  @override
+  String toString() {
+    return "${super.toString()} : $_itemsByPlayer";
   }
 }
 
 /// A class to fill the scores for a contract which has only one looser
-abstract class OneLooserContractModel extends AbstractContractModel {
-  OneLooserContractModel(super.contract);
+@HiveType(typeId: 15)
+class OneLooserContractModel extends AbstractSubContractModel {
+  OneLooserContractModel({super.contract, super.name});
 
   @override
-  Map<String, int> get playerItems => {
-        for (var playerScore in scores.entries)
-          playerScore.key: playerScore.value != 0 ? 1 : 0
-      };
+  bool isValid(Map<String, int> itemsByPlayer) {
+    return itemsByPlayer.entries.where((entry) => entry.value == 1).length == 1;
+  }
 
-  /// Sets the score of the player in the Map at the value of this.points. Other players have a score of 0.
-  /// Returns true if the score has been set correctly, false otherwise (less or more than 1 player in the Map)
   @override
-  bool setScores(Map<String, int> itemsByPlayer) {
-    if (itemsByPlayer.entries.isEmpty) {
-      return false;
+  Map<String, int>? scores(AbstractContractSettings settings) {
+    if (_itemsByPlayer.isEmpty) {
+      return null;
     }
-    _scores = itemsByPlayer.map(
+    return _itemsByPlayer.map(
       (playerName, nbItems) => MapEntry(
-          playerName, nbItems * (_settings as PointsContractSettings).points),
+          playerName, nbItems * (settings as OneLooserContractSettings).points),
     );
-    return true;
   }
 }
 
-/// An abstract class to fill the scores for a contract where multiple players can have some points
-abstract class AbstractMultipleLooserContractModel
-    extends AbstractContractModel {
+/// A class to fill the scores for a contract where multiple players can have some points
+@HiveType(typeId: 16)
+class MultipleLooserContractModel extends AbstractSubContractModel {
   /// The number of item (card or trick) the deck should have
-  final int _expectedItems;
+  @HiveField(2)
+  final int nbItems;
 
-  AbstractMultipleLooserContractModel(
-    super.contract,
-    this._expectedItems,
-  );
-
-  /// Returns the maximal score for the contract
-  int get expectedItems => _expectedItems;
+  MultipleLooserContractModel(
+      {super.contract, super.name, required this.nbItems});
 
   @override
-  Map<String, int> get playerItems => {
-        for (var playerScore in scores.entries)
-          playerScore.key: ((playerScore.value) ~/
-                  (_settings as IndividualScoresContractSettings).points)
-              .abs()
-      };
-
-  @override
-  bool setScores(Map<String, int> itemsByPlayer) {
+  bool isValid(Map<String, int> itemsByPlayer) {
     final int declaredItems = itemsByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
-    if (declaredItems != _expectedItems) {
-      return false;
+    return declaredItems == nbItems;
+  }
+
+  @override
+  Map<String, int>? scores(AbstractContractSettings settings) {
+    if (_itemsByPlayer.isEmpty) {
+      return null;
     }
-    final settings = _settings as IndividualScoresContractSettings;
-    try {
-      MapEntry<String, int>? playerWithAllItems = itemsByPlayer.entries
-          .firstWhere((playerItems) => playerItems.value == _expectedItems);
-      int score = _expectedItems * settings.points;
-      if (settings.invertScore) {
+    final individualScoresSettings = settings as MultipleLooserContractSettings;
+    final Map<String, int> scores = {};
+
+    MapEntry<String, int> playerWithAllItems = itemsByPlayer.entries.firstWhere(
+        (playerItems) => playerItems.value == nbItems,
+        orElse: () => const MapEntry("", 0));
+    if (playerWithAllItems.key.isNotEmpty) {
+      int score = playerWithAllItems.value * individualScoresSettings.points;
+      if (individualScoresSettings.invertScore) {
         score = -score;
       }
-      _scores[playerWithAllItems.key] = score;
+      scores[playerWithAllItems.key] = score;
       itemsByPlayer.forEach(
-        (player, items) => _scores.putIfAbsent(player, () => 0),
+        (player, items) => scores.putIfAbsent(player, () => 0),
       );
-    } catch (_) {
+    } else {
       itemsByPlayer.forEach((player, value) {
-        _scores[player] = value * settings.points;
+        scores[player] = value * individualScoresSettings.points;
       });
     }
-    return true;
+    return scores;
   }
-}
-
-/// A barbu contract scores
-@HiveType(typeId: 2)
-class BarbuContractModel extends OneLooserContractModel {
-  BarbuContractModel() : super(ContractsInfo.barbu);
-}
-
-/// A no last trick contract scores
-@HiveType(typeId: 3)
-class NoLastTrickContractModel extends OneLooserContractModel {
-  NoLastTrickContractModel() : super(ContractsInfo.noLastTrick);
-}
-
-/// A no hearts contract scores
-@HiveType(typeId: 4)
-class NoHeartsContractModel extends AbstractMultipleLooserContractModel {
-  NoHeartsContractModel()
-      : super(ContractsInfo.noHearts, globals.nbPlayers * 2);
-}
-
-/// A no queens contract scores
-@HiveType(typeId: 5)
-class NoQueensContractModel extends AbstractMultipleLooserContractModel {
-  NoQueensContractModel() : super(ContractsInfo.noQueens, 4);
-}
-
-/// A no tricks contract scores
-@HiveType(typeId: 6)
-class NoTricksContractModel extends AbstractMultipleLooserContractModel {
-  NoTricksContractModel() : super(ContractsInfo.noTricks, 8);
 }
 
 /// A trumps contract scores
 @HiveType(typeId: 7)
 class TrumpsContractModel extends AbstractContractModel {
-  TrumpsContractModel() : super(ContractsInfo.trumps);
+  @HiveField(1)
+  final List<AbstractSubContractModel> _subContracts;
 
-  @override
-  Map<String, int> get playerItems => {};
+  TrumpsContractModel({List<AbstractSubContractModel>? subContracts})
+      : _subContracts = subContracts ?? [],
+        super(contract: ContractsInfo.trumps);
 
+  UnmodifiableListView<AbstractSubContractModel> get subContracts =>
+      UnmodifiableListView(_subContracts);
+
+  /// Returns true if
+  bool addSubContract(AbstractSubContractModel contract) {
+    if (contract._itemsByPlayer.isNotEmpty) {
+      _subContracts
+          .removeWhere((subContract) => contract.name == subContract.name);
+      _subContracts.add(contract);
+      return true;
+    }
+    return false;
+  }
+
+  /// Calculates the scores of this contract from a list of settings. Returns null if scores can't be calculated
   @override
-  bool setScores(Map<String, int> itemsByPlayer) {
-    _scores = itemsByPlayer;
-    return true;
+  Map<String, int>? scores(AbstractContractSettings settings,
+      [List<AbstractContractSettings>? subContractSettings]) {
+    if (subContractSettings == null) {
+      return null;
+    }
+    return calculateTotalScores(_subContracts, subContractSettings);
   }
 }
 
 /// A domino contract scores
 @HiveType(typeId: 8)
 class DominoContractModel extends AbstractContractModel {
-  DominoContractModel() : super(ContractsInfo.domino);
+  /// The rank where each player finished this contract
+  @HiveField(1)
+  Map<String, int> _rankOfPlayer;
 
-  @override
-  Map<String, int> get playerItems {
-    List<MapEntry<String, int>> sortedList = scores.entries.toList();
-    sortedList.sort((a, b) => a.value.compareTo(b.value));
-    return {
-      for (var playerScore in sortedList)
-        playerScore.key: sortedList.indexOf(playerScore)
-    };
-  }
+  DominoContractModel({Map<String, int>? rankOfPlayer})
+      : _rankOfPlayer = rankOfPlayer ?? {},
+        super(contract: ContractsInfo.domino);
 
-  /// Sets the score of each player from a Map wich links each player with its rank
-  @override
-  bool setScores(Map<String, int> rankOfPlayer) {
+  /// Sets the [rankOfPlayer] from a Map wich links all player's names with its rank.
+  /// Returns true if the map is valid, false otherwise
+  bool setRankOfPlayer(Map<String, int> rankOfPlayer) {
     if (rankOfPlayer.isEmpty) {
       return false;
     }
-    List<int> points =
-        (_settings as DominoContractSettings).points[globals.nbPlayers]!;
-    _scores =
-        rankOfPlayer.map((player, rank) => MapEntry(player, points[rank]));
+    _rankOfPlayer = rankOfPlayer;
     return true;
+  }
+
+  /// Calculates the scores of this contract its settings. Returns null score can't be calculated
+  @override
+  Map<String, int>? scores(AbstractContractSettings settings) {
+    if (_rankOfPlayer.isEmpty) {
+      return null;
+    }
+    List<int> points =
+        (settings as DominoContractSettings).points[_rankOfPlayer.length]!;
+    return _rankOfPlayer.map((player, rank) => MapEntry(player, points[rank]));
   }
 }

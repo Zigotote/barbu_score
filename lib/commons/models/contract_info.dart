@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 
 import '../../main.dart';
-import 'contract_models.dart';
 import 'contract_settings_models.dart';
 
 part 'contract_info.g.dart';
@@ -72,37 +71,18 @@ enum ContractsInfo {
   final String scoreRoute;
   final String settingsRoute;
 
-  AbstractContractModel get contract {
+  AbstractContractSettings get defaultSettings {
     switch (this) {
       case ContractsInfo.barbu:
-        return BarbuContractModel();
+        return OneLooserContractSettings(contract: this, points: 50);
       case ContractsInfo.noHearts:
-        return NoHeartsContractModel();
+        return MultipleLooserContractSettings(contract: this, points: 5);
       case ContractsInfo.noQueens:
-        return NoQueensContractModel();
+        return MultipleLooserContractSettings(contract: this, points: 10);
       case ContractsInfo.noTricks:
-        return NoTricksContractModel();
+        return MultipleLooserContractSettings(contract: this, points: 5);
       case ContractsInfo.noLastTrick:
-        return NoLastTrickContractModel();
-      case ContractsInfo.trumps:
-        return TrumpsContractModel();
-      case ContractsInfo.domino:
-        return DominoContractModel();
-    }
-  }
-
-  AbstractContractSettings get settings {
-    switch (this) {
-      case ContractsInfo.barbu:
-        return PointsContractSettings(points: 50);
-      case ContractsInfo.noHearts:
-        return IndividualScoresContractSettings(points: 5);
-      case ContractsInfo.noQueens:
-        return IndividualScoresContractSettings(points: 10);
-      case ContractsInfo.noTricks:
-        return IndividualScoresContractSettings(points: 5);
-      case ContractsInfo.noLastTrick:
-        return PointsContractSettings(points: 40);
+        return OneLooserContractSettings(contract: this, points: 40);
       case ContractsInfo.trumps:
         return TrumpsContractSettings(
           contracts: Map.fromIterable(
@@ -116,5 +96,10 @@ enum ContractsInfo {
           pointsLastPlayer: 40,
         );
     }
+  }
+
+  /// Returns the ContractsInfo from its name
+  static ContractsInfo fromName(String name) {
+    return ContractsInfo.values.firstWhere((contract) => contract.name == name);
   }
 }

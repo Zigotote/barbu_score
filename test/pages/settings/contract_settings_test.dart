@@ -54,8 +54,8 @@ main() {
 Widget _createPage([bool hasStoredGame = false]) {
   final mockStorage = MockMyStorage2();
   when(mockStorage.hasStoredGame()).thenReturn(hasStoredGame);
-  when(mockStorage.getSettings(defaultContract))
-      .thenReturn(defaultContract.settings);
+  /*TODO Océane to fix when(mockStorage.getSettings(defaultContract))
+      .thenReturn(defaultContract.settings);*/
 
   final container = ProviderContainer(
     overrides: [storageProvider.overrideWithValue(mockStorage)],

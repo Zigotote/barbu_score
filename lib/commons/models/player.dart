@@ -1,13 +1,13 @@
-import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import '../utils/globals.dart';
-import '../utils/storage.dart';
 import 'contract_info.dart';
 import 'contract_models.dart';
+import 'contract_settings_models.dart';
+import 'player_colors.dart';
 
 part 'player.g.dart';
 
@@ -56,17 +56,9 @@ class Player {
   List<String> get _chosenContracts =>
       contracts.map((contract) => contract.name).toList();
 
-  /// Returns the list of the contracts the player can choose
-  bool get hasAvailableContracts =>
-      MyStorage.getActiveContracts().length != _chosenContracts.length;
-
-  /// Returns the scores of each player, for the contracts of this player
-  /// If the player has not played contracts it return null
-  Map<String, int>? get playerScores {
-    if (contracts.isEmpty) {
-      return null;
-    }
-    return AbstractContractModel.calculateTotalScore(contracts);
+  /// Returns true if the player can choose at least one contract from the list, false if he already choose all of them
+  bool hasAvailableContracts(List<ContractsInfo> activeContracts) {
+    return activeContracts.length != _chosenContracts.length;
   }
 
   /// Returns true if the player has played the contract
@@ -74,24 +66,18 @@ class Player {
     return _chosenContracts.contains(contract.name);
   }
 
-  /// Adds a contract played by a player, created from its name.
-  /// The score is calculated from the Map wich links the number of card or trick each player won.
-  /// Returns true if the score has been added, false otherwise
-  bool addContract(ContractsInfo contractName, Map<String, int> trickByPlayer) {
-    AbstractContractModel contract = contractName.contract;
-    final bool isValidScore = contract.setScores(trickByPlayer);
-    if (isValidScore) {
-      contracts.removeWhere((c) => c.name == contractName.name);
-      contracts.add(contract);
-    }
-    return isValidScore;
+  /// Adds a contract played by a player
+  void addContract(AbstractContractModel contract) {
+    contracts.removeWhere((c) => c.name == contract.name);
+    contracts.add(contract);
   }
 
   /// Returns the scores for the contract. Returns null if it has not been played
-  Map<String, int>? contractScores(String contractName) {
-    final AbstractContractModel? contract =
-        contracts.firstWhereOrNull((contract) => contract.name == contractName);
-    return contract?.scores;
+  Map<String, int>? contractScores(
+      ContractsInfo contract, AbstractContractSettings settings) {
+    final AbstractContractModel? contractModel =
+        contracts.firstWhereOrNull((c) => c.name == contract.name);
+    return contractModel?.scores(settings);
   }
 
   @override
