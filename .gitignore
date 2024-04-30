@@ -30,3 +30,4 @@ doc/api/
 *.mocks.dart
 *.g.dart
 *.mock.dart
+coverage/
