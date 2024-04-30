@@ -6,7 +6,7 @@ import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/models/contract_route_argument.dart';
-import 'package:barbu_score/pages/contract_scores/multiple_scores_contract.dart';
+import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

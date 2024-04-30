@@ -7,7 +7,7 @@ import 'commons/utils/storage.dart';
 import 'pages/choose_contract.dart';
 import 'pages/contract_scores/domino_scores.dart';
 import 'pages/contract_scores/models/contract_route_argument.dart';
-import 'pages/contract_scores/multiple_scores_contract.dart';
+import 'pages/contract_scores/multiple_looser_contract.dart';
 import 'pages/contract_scores/one_looser_contract.dart';
 import 'pages/contract_scores/trumps_scores.dart';
 import 'pages/create_game/create_game.dart';
