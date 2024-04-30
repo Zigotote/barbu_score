@@ -8,7 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils.dart';
-import '../my_home_test.mocks.dart';
+import '../../utils.mocks.dart';
 
 const defaultContract = ContractsInfo.barbu;
 

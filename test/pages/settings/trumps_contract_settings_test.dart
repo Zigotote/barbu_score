@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils.dart';
-import '../my_home_test.mocks.dart';
+import '../../utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {

@@ -4,8 +4,8 @@ import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 
-import '../pages/my_home_test.mocks.dart';
 import '../utils.dart';
+import '../utils.mocks.dart';
 import 'game.dart';
 
 class FakePlayGame extends PlayGameNotifier {

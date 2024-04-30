@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
+import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/notifiers/play_game.dart';
@@ -20,7 +21,7 @@ import 'package:patrol_finders/patrol_finders.dart';
 import '../fake/game.dart';
 import '../fake/play_game.dart';
 import '../utils.dart';
-import 'my_home_test.mocks.dart';
+import '../utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -33,12 +34,16 @@ main() {
   for (var contracts in [
     (
       active: ContractsInfo.values,
-      played: [ContractsInfo.barbu, ContractsInfo.trumps, ContractsInfo.domino]
+      played: [
+        OneLooserContractModel(contract: ContractsInfo.barbu),
+        TrumpsContractModel(),
+        DominoContractModel(),
+      ]
     ),
-    (active: [ContractsInfo.barbu], played: <ContractsInfo>[]),
+    (active: [ContractsInfo.barbu], played: <AbstractContractModel>[]),
     (
       active: [ContractsInfo.barbu, ContractsInfo.trumps, ContractsInfo.domino],
-      played: [ContractsInfo.barbu]
+      played: [OneLooserContractModel(contract: ContractsInfo.barbu)]
     )
   ]) {
     final activeContracts = contracts.active;
@@ -74,7 +79,8 @@ main() {
         expect(
           $(Key(contract.name)).which((widget) {
             final onPressed = (widget as ElevatedButton).onPressed;
-            return playedContracts.contains(contract)
+            return playedContracts.any(
+                    (playedContract) => contract.name == playedContract.name)
                 ? onPressed == null
                 : onPressed != null;
           }),
@@ -112,7 +118,7 @@ main() {
 
 Widget _createPage($,
     {List<ContractsInfo> activeContracts = ContractsInfo.values,
-    List<ContractsInfo> playedContracts = const []}) {
+    List<AbstractContractModel> playedContracts = const []}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
   final mockStorage = MockMyStorage2();
@@ -129,18 +135,13 @@ Widget _createPage($,
                 name: defaultPlayerNames[index],
                 color: PlayerColors.values[index],
                 image: playerImages[index],
-                contracts: [] /*TODO Océane to fix playedContracts
-                    .map((contract) => contract.contract)
-                    .toList() */
-                ,
+                contracts: playedContracts,
               ),
             ),
           ),
         ),
       ),
       storageProvider.overrideWithValue(mockStorage),
-      /*TODO Océane to fix trumpsProvider
-          .overrideWith((ref) => FakeTrumpsProvider(ContractsInfo.values))*/
     ],
   );
 

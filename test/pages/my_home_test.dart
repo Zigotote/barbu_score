@@ -12,15 +12,13 @@ import 'package:barbu_score/pages/settings/my_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../fake/game.dart';
 import '../fake/play_game.dart';
 import '../utils.dart';
-@GenerateNiceMocks([MockSpec<MyStorage2>()])
-import 'my_home_test.mocks.dart';
+import '../utils.mocks.dart';
 
 const startGameText = "Démarrer une partie";
 const loadGameText = "Charger une partie";
