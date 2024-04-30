@@ -6,6 +6,7 @@ import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils.dart';
@@ -95,8 +96,8 @@ Future<void> _unplayContracts(PatrolTester $) async {
 
 Widget _createPage() {
   final mockStorage = MockMyStorage2();
-  /*TODO Océane to fix when(mockStorage.getSettings(ContractsInfo.trumps))
-      .thenReturn(ContractsInfo.trumps.settings);*/
+  when(mockStorage.getSettings(ContractsInfo.trumps))
+      .thenReturn(ContractsInfo.trumps.defaultSettings);
 
   final container = ProviderContainer(
     overrides: [storageProvider.overrideWithValue(mockStorage)],
