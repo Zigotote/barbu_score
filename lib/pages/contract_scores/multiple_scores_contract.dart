@@ -99,6 +99,7 @@ class _MultipleLooserContractPageState
                 icon: Icons.remove,
                 color: player.color,
                 onPressed: () => _decreaseScore(player),
+                semantics: "Retirer ${widget.itemsName}",
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -117,6 +118,7 @@ class _MultipleLooserContractPageState
                 icon: Icons.add,
                 color: player.color,
                 onPressed: () => _increaseScore(player),
+                semantics: "Ajouter ${widget.itemsName}",
               )
             ],
           ),

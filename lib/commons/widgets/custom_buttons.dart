@@ -55,6 +55,9 @@ class ElevatedButtonCustomColor extends StatelessWidget {
   /// The background color of the button, defined by player color
   final PlayerColors? backgroundFromPlayer;
 
+  /// The semantics of the button, if its label is not sufficient enough
+  final String? semantics;
+
   const ElevatedButtonCustomColor._({
     super.key,
     this.text,
@@ -65,6 +68,7 @@ class ElevatedButtonCustomColor extends StatelessWidget {
     this.textSize,
     this.background,
     this.backgroundFromPlayer,
+    this.semantics,
   })  : assert(
             ((text != null || icon != null) && (text == null || icon == null)),
             "You have to provide an icon or a text for the button"),
@@ -73,14 +77,16 @@ class ElevatedButtonCustomColor extends StatelessWidget {
         assert(background == null || backgroundFromPlayer == null,
             "Background should be fixed or come from player");
 
-  factory ElevatedButtonCustomColor(
-          {Key? key,
-          String? text,
-          IconData? icon,
-          required Color color,
-          required Function() onPressed,
-          double? textSize,
-          Color? backgroundColor}) =>
+  factory ElevatedButtonCustomColor({
+    Key? key,
+    String? text,
+    IconData? icon,
+    required Color color,
+    required Function() onPressed,
+    double? textSize,
+    Color? backgroundColor,
+    String? semantics,
+  }) =>
       ElevatedButtonCustomColor._(
         key: key,
         text: text,
@@ -89,16 +95,19 @@ class ElevatedButtonCustomColor extends StatelessWidget {
         onPressed: onPressed,
         textSize: textSize,
         background: backgroundColor,
+        semantics: semantics,
       );
 
-  factory ElevatedButtonCustomColor.player(
-          {Key? key,
-          String? text,
-          IconData? icon,
-          PlayerColors? color,
-          required Function() onPressed,
-          double? textSize,
-          PlayerColors? backgroundColor}) =>
+  factory ElevatedButtonCustomColor.player({
+    Key? key,
+    String? text,
+    IconData? icon,
+    PlayerColors? color,
+    required Function() onPressed,
+    double? textSize,
+    PlayerColors? backgroundColor,
+    String? semantics,
+  }) =>
       ElevatedButtonCustomColor._(
         key: key,
         text: text,
@@ -107,6 +116,7 @@ class ElevatedButtonCustomColor extends StatelessWidget {
         onPressed: onPressed,
         textSize: textSize,
         backgroundFromPlayer: backgroundColor,
+        semantics: semantics,
       );
 
   @override
@@ -123,7 +133,7 @@ class ElevatedButtonCustomColor extends StatelessWidget {
           .colorScheme
           .convertPlayerColor(backgroundFromPlayer!);
     }
-    return ElevatedButton(
+    final button = ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: foregroundColor, width: 2),
@@ -139,6 +149,9 @@ class ElevatedButtonCustomColor extends StatelessWidget {
             )
           : Icon(icon),
     );
+    return semantics == null
+        ? button
+        : MergeSemantics(child: Semantics(label: semantics, child: button));
   }
 }
 
