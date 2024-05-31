@@ -128,7 +128,7 @@ Widget _createPage(
     {MultipleLooserContractModel? contractValues,
     MockPlayGameNotifier? mockPlayGame}) {
   final mockStorage = MockMyStorage2();
-  mockActiveContracts(mockStorage, ContractsInfo.values);
+  mockActiveContracts(mockStorage);
 
   if (mockPlayGame == null) {
     mockPlayGame = MockPlayGameNotifier();

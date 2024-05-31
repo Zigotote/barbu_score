@@ -87,7 +87,7 @@ enum ContractsInfo {
         return TrumpsContractSettings(
           contracts: Map.fromIterable(
             TrumpsContractSettings.availableContracts,
-            value: (contract) => contract != ContractsInfo.domino,
+            value: (contract) => true,
           ),
         );
       case ContractsInfo.domino:

@@ -13,8 +13,8 @@ import '../../main.dart';
 import 'models/contract_route_argument.dart';
 import 'notifiers/trumps_provider.dart';
 
-class TrumpsScores extends ConsumerWidget {
-  const TrumpsScores({super.key});
+class TrumpsContractPage extends ConsumerWidget {
+  const TrumpsContractPage({super.key});
 
   Widget _buildFields(BuildContext context, TrumpsNotifier provider) {
     return MyGrid(
@@ -77,7 +77,7 @@ class TrumpsScores extends ConsumerWidget {
       hasLeading: true,
       content: Column(
         children: [
-          const MySubtitle("Quel est l'ordre des joueurs ?"),
+          const MySubtitle("Quel est le score de chaque contrat ?"),
           const SizedBox(height: 8),
           Expanded(child: _buildFields(context, provider)),
         ],

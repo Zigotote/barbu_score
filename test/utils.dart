@@ -7,13 +7,18 @@ import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
+import 'package:barbu_score/pages/contract_scores/notifiers/trumps_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-@GenerateNiceMocks([MockSpec<MyStorage2>(), MockSpec<PlayGameNotifier>()])
+@GenerateNiceMocks([
+  MockSpec<MyStorage2>(),
+  MockSpec<PlayGameNotifier>(),
+  MockSpec<TrumpsNotifier>()
+])
 import 'utils.mocks.dart';
 
 final defaultPlayerNames = [
@@ -42,8 +47,8 @@ PatrolFinder findValidateScoresButton(PatrolTester $) {
 }
 
 /// Mocks a storage with some active contracts
-mockActiveContracts(
-    MockMyStorage2 mockStorage, List<ContractsInfo> activeContracts) {
+mockActiveContracts(MockMyStorage2 mockStorage,
+    [List<ContractsInfo> activeContracts = ContractsInfo.values]) {
   for (var contract in ContractsInfo.values) {
     final contractSettings = contract.defaultSettings;
     contractSettings.isActive = activeContracts.contains(contract);

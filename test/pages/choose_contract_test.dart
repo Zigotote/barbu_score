@@ -8,7 +8,7 @@ import 'package:barbu_score/pages/contract_scores/domino_contract.dart';
 import 'package:barbu_score/pages/contract_scores/models/contract_route_argument.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
 import 'package:barbu_score/pages/contract_scores/one_looser_contract.dart';
-import 'package:barbu_score/pages/contract_scores/trumps_scores.dart';
+import 'package:barbu_score/pages/contract_scores/trumps_contract.dart';
 import 'package:barbu_score/pages/my_scores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -111,7 +111,7 @@ main() {
   });
 }
 
-Widget _createPage($,
+Widget _createPage(PatrolTester $,
     {List<ContractsInfo> activeContracts = ContractsInfo.values,
     List<AbstractContractModel> playedContracts = const []}) {
   // Make screen bigger to avoid scrolling
@@ -139,7 +139,7 @@ Widget _createPage($,
             ContractRouteArgument(contractInfo: ContractsInfo.noQueens),
           ),
       Routes.dominoScores: (_) => const DominoContractPage(),
-      Routes.trumpsScores: (_) => const TrumpsScores(),
+      Routes.trumpsScores: (_) => const TrumpsContractPage(),
       Routes.scores: (_) => const MyScores()
     }),
   );

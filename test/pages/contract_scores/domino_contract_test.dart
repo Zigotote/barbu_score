@@ -1,4 +1,3 @@
-import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
@@ -65,7 +64,7 @@ main() {
 
 Widget _createPage([MockPlayGameNotifier? mockPlayGame]) {
   final mockStorage = MockMyStorage2();
-  mockActiveContracts(mockStorage, ContractsInfo.values);
+  mockActiveContracts(mockStorage);
 
   if (mockPlayGame == null) {
     mockPlayGame = MockPlayGameNotifier();
