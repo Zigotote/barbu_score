@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
-import '../utils/contract_scores.dart';
 import 'contract_info.dart';
 import 'contract_settings_models.dart';
 
@@ -22,10 +21,13 @@ abstract class AbstractContractModel with EquatableMixin {
   /// Calculates the scores of this contract from its settings. Returns null score if it can't be calculated
   Map<String, int>? scores(AbstractContractSettings settings);
 
+  // coverage:ignore-start
   @override
   String toString() {
     return name;
   }
+
+  // coverage:ignore-end
 
   @override
   List<Object?> get props => [name];
@@ -59,10 +61,12 @@ abstract class AbstractSubContractModel extends AbstractContractModel {
     return canBeSet;
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     return "${super.toString()} : $_itemsByPlayer";
   }
+// coverage:ignore-end
 }
 
 /// A class to fill the scores for a contract which has only one looser
@@ -72,7 +76,10 @@ class OneLooserContractModel extends AbstractSubContractModel {
 
   @override
   bool isValid(Map<String, int> itemsByPlayer) {
-    return itemsByPlayer.entries.where((entry) => entry.value == 1).length == 1;
+    return itemsByPlayer.entries.where((entry) => entry.value == 1).length ==
+            1 &&
+        itemsByPlayer.entries
+            .none((entry) => entry.value > 1 || entry.value < 0);
   }
 
   @override
@@ -140,11 +147,9 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
 @HiveType(typeId: 7)
 class TrumpsContractModel extends AbstractContractModel {
   @HiveField(1)
-  final List<AbstractSubContractModel> _subContracts;
+  final List<AbstractSubContractModel> _subContracts = [];
 
-  TrumpsContractModel({List<AbstractSubContractModel>? subContracts})
-      : _subContracts = subContracts ?? [],
-        super(contract: ContractsInfo.trumps);
+  TrumpsContractModel() : super(contract: ContractsInfo.trumps);
 
   @override
   List<Object?> get props => [...super.props, _subContracts];
@@ -152,25 +157,46 @@ class TrumpsContractModel extends AbstractContractModel {
   UnmodifiableListView<AbstractSubContractModel> get subContracts =>
       UnmodifiableListView(_subContracts);
 
-  /// Returns true if
-  bool addSubContract(AbstractSubContractModel contract) {
-    if (contract._itemsByPlayer.isNotEmpty) {
-      _subContracts
-          .removeWhere((subContract) => contract.name == subContract.name);
-      _subContracts.add(contract);
-      return true;
-    }
-    return false;
+  void addSubContract(AbstractSubContractModel contract) {
+    _subContracts
+        .removeWhere((subContract) => contract.name == subContract.name);
+    _subContracts.add(contract);
   }
 
   /// Calculates the scores of this contract from a list of settings. Returns null if scores can't be calculated
   @override
   Map<String, int>? scores(AbstractContractSettings settings,
       [List<AbstractContractSettings>? subContractSettings]) {
-    if (subContractSettings == null) {
+    if (subContractSettings == null || _subContracts.isEmpty) {
       return null;
     }
-    return calculateTotalScores(_subContracts, subContractSettings);
+    // Checks if all contracts are active
+    if (_subContracts.map((subContract) => subContract.name).toList().equals(
+        (settings as TrumpsContractSettings)
+            .activeContracts
+            .map((contract) => contract.name)
+            .toList())) {
+      return null;
+    }
+    // Checks if all sub contract has settings
+    if (_subContracts.any((contract) => subContractSettings
+        .none((settings) => settings.name == contract.name))) {
+      return null;
+    }
+    return _subContracts
+        .map(
+          (subContract) => subContract.scores(
+            subContractSettings
+                .firstWhere((setting) => setting.name == subContract.name),
+          ),
+        )
+        .reduce(
+          (scores, subContractScores) => scores
+            ?..updateAll(
+              (player, playerScores) =>
+                  playerScores + subContractScores![player]!,
+            ),
+        );
   }
 }
 
@@ -179,11 +205,9 @@ class TrumpsContractModel extends AbstractContractModel {
 class DominoContractModel extends AbstractContractModel {
   /// The rank where each player finished this contract
   @HiveField(1)
-  Map<String, int> _rankOfPlayer;
+  Map<String, int> _rankOfPlayer = {};
 
-  DominoContractModel({Map<String, int>? rankOfPlayer})
-      : _rankOfPlayer = rankOfPlayer ?? {},
-        super(contract: ContractsInfo.domino);
+  DominoContractModel() : super(contract: ContractsInfo.domino);
 
   @override
   List<Object?> get props => [...super.props, _rankOfPlayer];
@@ -209,8 +233,10 @@ class DominoContractModel extends AbstractContractModel {
     return _rankOfPlayer.map((player, rank) => MapEntry(player, points[rank]));
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     return "${super.toString()} : $_rankOfPlayer";
   }
+// coverage:ignore-end
 }

@@ -140,7 +140,7 @@ main() {
   patrolWidgetTest("should validate when all contracts are filled", ($) async {
     final mockPlayGame = MockPlayGameNotifier();
     final page = _createPage($, mockPlayGame: mockPlayGame);
-    final List<AbstractSubContractModel> subContracts = [];
+    final contractModel = TrumpsContractModel();
     await $.pumpWidget(page);
 
     for (var contract in TrumpsContractSettings.availableContracts) {
@@ -149,7 +149,7 @@ main() {
           .getContractManager(contract)
           .model as AbstractSubContractModel;
       await _fillSubContract($, mockPlayGame, contract, subContractModel);
-      subContracts.add(subContractModel);
+      contractModel.addSubContract(subContractModel);
     }
 
     // Redirect to trumps contract page
@@ -159,11 +159,7 @@ main() {
     await findValidateScoresButton($).tap();
 
     expect($(ChooseContract), findsOneWidget);
-    verify(
-      mockPlayGame.finishContract(
-        TrumpsContractModel(subContracts: subContracts),
-      ),
-    );
+    verify(mockPlayGame.finishContract(contractModel));
     verify(mockPlayGame.nextPlayer());
   });
 }

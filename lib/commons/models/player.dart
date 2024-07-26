@@ -80,8 +80,10 @@ class Player {
     return contractModel?.scores(settings);
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     return "$name : $contracts";
   }
+// coverage:ignore-end
 }
