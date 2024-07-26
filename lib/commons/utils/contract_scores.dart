@@ -9,7 +9,7 @@ Map<String, int>? sumScores(List<Map<String, int>?> playerScores) {
                 ..updateAll(
                   (player, playerScores) => contractScore == null
                       ? playerScores
-                      : playerScores += contractScore[player]!,
+                      : playerScores + contractScore[player]!,
                 )),
         );
 }
