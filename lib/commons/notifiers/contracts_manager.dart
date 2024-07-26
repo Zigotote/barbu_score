@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,13 +15,11 @@ final contractsManagerProvider = StateProvider.autoDispose<ContractsManager>(
   ),
 );
 
-/// A class to bind all contracts data together
-class ContractManager {
-  final AbstractContractModel model;
-  final AbstractContractSettings settings;
-
-  ContractManager({required this.model, required this.settings});
-}
+/// An object to bind all contracts data together
+typedef ContractManager = ({
+  AbstractContractModel model,
+  AbstractContractSettings settings
+});
 
 /// A class to manage the contracts of the game
 class ContractsManager {
@@ -31,40 +27,40 @@ class ContractsManager {
 
   ContractsManager(MyStorage2 storage, int nbPlayers) {
     _contracts = {
-      ContractsInfo.barbu: ContractManager(
+      ContractsInfo.barbu: (
         model: OneLooserContractModel(contract: ContractsInfo.barbu),
         settings: storage.getSettings(ContractsInfo.barbu),
       ),
-      ContractsInfo.noHearts: ContractManager(
+      ContractsInfo.noHearts: (
         model: MultipleLooserContractModel(
           contract: ContractsInfo.noHearts,
           nbItems: nbPlayers * 2,
         ),
         settings: storage.getSettings(ContractsInfo.noHearts),
       ),
-      ContractsInfo.noQueens: ContractManager(
+      ContractsInfo.noQueens: (
         model: MultipleLooserContractModel(
           contract: ContractsInfo.noQueens,
           nbItems: 4,
         ),
         settings: storage.getSettings(ContractsInfo.noQueens),
       ),
-      ContractsInfo.noTricks: ContractManager(
+      ContractsInfo.noTricks: (
         model: MultipleLooserContractModel(
           contract: ContractsInfo.noTricks,
           nbItems: 8,
         ),
         settings: storage.getSettings(ContractsInfo.noTricks),
       ),
-      ContractsInfo.noLastTrick: ContractManager(
+      ContractsInfo.noLastTrick: (
         model: OneLooserContractModel(contract: ContractsInfo.noLastTrick),
         settings: storage.getSettings(ContractsInfo.noLastTrick),
       ),
-      ContractsInfo.trumps: ContractManager(
+      ContractsInfo.trumps: (
         model: TrumpsContractModel(),
         settings: storage.getSettings(ContractsInfo.trumps),
       ),
-      ContractsInfo.domino: ContractManager(
+      ContractsInfo.domino: (
         model: DominoContractModel(),
         settings: storage.getSettings(ContractsInfo.domino),
       ),
@@ -89,10 +85,22 @@ class ContractsManager {
     return Map.fromEntries(
       _contracts.entries.where((contract) => contract.value.settings.isActive),
     ).map(
-      (contract, contractManager) => MapEntry(
-        contract,
-        player.contractScores(contract, contractManager.settings),
-      ),
+      (contract, contractManager) {
+        Map<String, int>? scores;
+        final AbstractContractModel? contractModel =
+            player.contracts.firstWhereOrNull((c) => c.name == contract.name);
+        if (contractModel is TrumpsContractModel) {
+          scores = contractModel.scores(
+            contractManager.settings,
+            _contracts.values
+                .map((contractManager) => contractManager.settings)
+                .toList(),
+          );
+        } else {
+          scores = contractModel?.scores(contractManager.settings);
+        }
+        return MapEntry(contract, scores);
+      },
     );
   }
 

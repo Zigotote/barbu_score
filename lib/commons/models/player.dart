@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -6,7 +5,6 @@ import 'package:hive/hive.dart';
 import '../utils/globals.dart';
 import 'contract_info.dart';
 import 'contract_models.dart';
-import 'contract_settings_models.dart';
 import 'player_colors.dart';
 
 part 'player.g.dart';
@@ -70,14 +68,6 @@ class Player {
   void addContract(AbstractContractModel contract) {
     contracts.removeWhere((c) => c.name == contract.name);
     contracts.add(contract);
-  }
-
-  /// Returns the scores for the contract. Returns null if it has not been played
-  Map<String, int>? contractScores(
-      ContractsInfo contract, AbstractContractSettings settings) {
-    final AbstractContractModel? contractModel =
-        contracts.firstWhereOrNull((c) => c.name == contract.name);
-    return contractModel?.scores(settings);
   }
 
   // coverage:ignore-start
