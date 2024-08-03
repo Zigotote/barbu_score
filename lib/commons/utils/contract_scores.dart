@@ -5,7 +5,7 @@ Map<String, int>? sumScores(List<Map<String, int>?> playerScores) {
       : playerScores.reduce(
           (scores, contractScore) => scores == null
               ? contractScore
-              : (scores
+              : (Map.from(scores)
                 ..updateAll(
                   (player, playerScores) => contractScore == null
                       ? playerScores

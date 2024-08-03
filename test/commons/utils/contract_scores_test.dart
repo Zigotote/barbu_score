@@ -8,7 +8,7 @@ main() {
     expect(sumScores([]), isNull);
   });
 
-  test("should sum scores", () {
+  test("should sum scores and be idempotent", () {
     final List<Map<String, int>?> scores = [
       {
         for (var (index, player) in defaultPlayerNames.indexed)
@@ -31,6 +31,20 @@ main() {
       defaultPlayerNames[4]: 0,
       defaultPlayerNames[5]: -20,
     });
+    expect(scores, [
+      {
+        for (var (index, player) in defaultPlayerNames.indexed)
+          player: index == 0 ? 50 : 0
+      },
+      {
+        for (var (index, player) in defaultPlayerNames.indexed)
+          player: index % 2 == 1 ? 20 : 0
+      },
+      {
+        for (var (index, player) in defaultPlayerNames.indexed)
+          player: index == defaultPlayerNames.length - 1 ? -40 : 0
+      }
+    ]);
   });
   for (var isInFirst in [true, false]) {
     test(
