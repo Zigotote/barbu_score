@@ -3,6 +3,7 @@ import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/models/player_colors.dart';
+import 'package:barbu_score/commons/notifiers/contracts_manager.dart';
 import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
@@ -17,7 +18,8 @@ import 'package:patrol_finders/patrol_finders.dart';
 @GenerateNiceMocks([
   MockSpec<MyStorage2>(),
   MockSpec<PlayGameNotifier>(),
-  MockSpec<TrumpsNotifier>()
+  MockSpec<TrumpsNotifier>(),
+  MockSpec<ContractsManager>()
 ])
 import 'utils.mocks.dart';
 
