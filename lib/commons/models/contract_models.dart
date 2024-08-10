@@ -142,31 +142,30 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
 @HiveType(typeId: 7)
 class TrumpsContractModel extends AbstractContractModel {
   @HiveField(1)
-  final List<AbstractSubContractModel> _subContracts = [];
+  final List<AbstractSubContractModel> subContracts;
 
-  TrumpsContractModel() : super(contract: ContractsInfo.trumps);
+  TrumpsContractModel({List<AbstractSubContractModel>? subContracts})
+      : subContracts = subContracts ?? [],
+        super(contract: ContractsInfo.trumps);
 
   @override
-  List<Object?> get props => [...super.props, _subContracts];
-
-  UnmodifiableListView<AbstractSubContractModel> get subContracts =>
-      UnmodifiableListView(_subContracts);
+  List<Object?> get props => [...super.props, subContracts];
 
   void addSubContract(AbstractSubContractModel contract) {
-    _subContracts
+    subContracts
         .removeWhere((subContract) => contract.name == subContract.name);
-    _subContracts.add(contract);
+    subContracts.add(contract);
   }
 
   /// Calculates the scores of this contract from a list of settings. Returns null if scores can't be calculated
   @override
   Map<String, int>? scores(AbstractContractSettings settings,
       [List<AbstractContractSettings>? subContractSettings]) {
-    if (subContractSettings == null || _subContracts.isEmpty) {
+    if (subContractSettings == null || subContracts.isEmpty) {
       return null;
     }
     // Checks if all contracts are active
-    if (_subContracts.map((subContract) => subContract.name).toList().equals(
+    if (subContracts.map((subContract) => subContract.name).toList().equals(
         (settings as TrumpsContractSettings)
             .activeContracts
             .map((contract) => contract.name)
@@ -174,11 +173,11 @@ class TrumpsContractModel extends AbstractContractModel {
       return null;
     }
     // Checks if all sub contract has settings
-    if (_subContracts.any((contract) => subContractSettings
+    if (subContracts.any((contract) => subContractSettings
         .none((settings) => settings.name == contract.name))) {
       return null;
     }
-    return _subContracts
+    return subContracts
         .map(
           (subContract) => subContract.scores(
             subContractSettings

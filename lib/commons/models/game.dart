@@ -34,10 +34,8 @@ class Game {
     }
   }
 
-  // coverage:ignore-start
   @override
   String toString() {
     return players.toString();
   }
-// coverage:ignore-end
 }

@@ -85,10 +85,9 @@ main() {
   domino.setRankOfPlayer(
     {for (var (index, player) in playerNames.indexed) player: index},
   );
-  final trumps = TrumpsContractModel();
-  for (var subContract in [barbu, noQueens, noHearts, noLastTrick, noTricks]) {
-    trumps.addSubContract(subContract);
-  }
+  final trumps = TrumpsContractModel(
+    subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
+  );
 
   // Expected scores
   final barbuScores = {

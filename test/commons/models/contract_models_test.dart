@@ -325,16 +325,9 @@ main() {
               player: index == 0 ? 1 : 0
           },
         );
-        final model = TrumpsContractModel();
-        for (var subContract in [
-          barbu,
-          noQueens,
-          noHearts,
-          noLastTrick,
-          noTricks
-        ]) {
-          model.addSubContract(subContract);
-        }
+        final model = TrumpsContractModel(
+          subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
+        );
 
         expect(model.scores(contract.defaultSettings, subContractSettings), {
           for (var (index, player) in defaultPlayerNames.indexed)
