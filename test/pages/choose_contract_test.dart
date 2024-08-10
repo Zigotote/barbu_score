@@ -107,6 +107,9 @@ main() {
 
       await $("Scores").tap();
       expect($(MyScores), findsOneWidget);
+
+      await $(IconButton).tap();
+      expect($(ChooseContract), findsOneWidget);
     });
   });
 }

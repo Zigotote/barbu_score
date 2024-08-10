@@ -51,74 +51,56 @@ main() {
     for (int i = 0; i < game.players.length; i++) {
       await $(PlayerScoreButton).at(i).tap();
       expect($(ScoresByPlayer), findsOneWidget);
+      expect($(game.players[i].name), findsOneWidget);
 
       await $(Icons.arrow_back).tap();
       expect($(MyScores), findsOneWidget);
     }
   });
-  for (var isFinished in [true, false]) {
-    patrolWidgetTest(
-        "should display ordered scores for ${isFinished ? "finished" : "current"} game",
-        ($) async {
-      final mockPlayGame = MockPlayGameNotifier();
-      final game = mockGame(mockPlayGame);
-      game.isFinished = isFinished;
-      final mockContractManager = MockContractsManager();
-      when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
-        ContractsInfo.barbu: {
-          for (var (index, player) in game.players.indexed)
-            player.name: index == 0 ? 50 : 0
-        }
-      });
-      when(mockContractManager.scoresByContract(game.players[1])).thenReturn({
-        ContractsInfo.noQueens: {
-          for (var player in game.players) player.name: 10
-        }
-      });
-      when(mockContractManager.scoresByContract(game.players[2])).thenReturn({
-        ContractsInfo.noTricks: {
-          for (var (index, player) in game.players.indexed)
-            player.name: index % 2 == 0 ? 20 : 0
-        }
-      });
-
-      await $.pumpWidget(
-        _createPage(
-          $,
-          mockPlayGame: mockPlayGame,
-          mockContractsManager: mockContractManager,
-        ),
-      );
-
-      final playerScoreButtons =
-          $.tester.widgetList($(PlayerScoreButton)).toList();
-      for (var (index, expectedScore) in [
-        (playerIndex: 1, score: 10, worstEnnemyIndex: 1, bestFriendIndex: 0),
-        (playerIndex: 3, score: 10, worstEnnemyIndex: 1, bestFriendIndex: 0),
-        (playerIndex: 2, score: 30, worstEnnemyIndex: 2, bestFriendIndex: 0),
-        (playerIndex: 0, score: 80, worstEnnemyIndex: 0, bestFriendIndex: 1)
-      ].indexed) {
-        final button = playerScoreButtons[index] as PlayerScoreButton;
-        expect(button.player, game.players[expectedScore.playerIndex]);
-        expect(button.score, expectedScore.score);
-        if (!isFinished) {
-          expect(button.displayMedal, isFalse);
-          expect(button.bestFriend, isNull);
-          expect(button.worstEnnemy, isNull);
-        } else {
-          expect(button.displayMedal, index == 0);
-          expect(
-            button.worstEnnemy,
-            game.players[expectedScore.worstEnnemyIndex],
-          );
-          expect(
-            button.bestFriend,
-            game.players[expectedScore.bestFriendIndex],
-          );
-        }
+  patrolWidgetTest("should display ordered scores", ($) async {
+    final mockPlayGame = MockPlayGameNotifier();
+    final game = mockGame(mockPlayGame);
+    final mockContractManager = MockContractsManager();
+    when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
+      ContractsInfo.barbu: {
+        for (var (index, player) in game.players.indexed)
+          player.name: index == 0 ? 50 : 0
       }
     });
-  }
+    when(mockContractManager.scoresByContract(game.players[1])).thenReturn({
+      ContractsInfo.noQueens: {for (var player in game.players) player.name: 10}
+    });
+    when(mockContractManager.scoresByContract(game.players[2])).thenReturn({
+      ContractsInfo.noTricks: {
+        for (var (index, player) in game.players.indexed)
+          player.name: index % 2 == 0 ? 20 : 0
+      }
+    });
+
+    await $.pumpWidget(
+      _createPage(
+        $,
+        mockPlayGame: mockPlayGame,
+        mockContractsManager: mockContractManager,
+      ),
+    );
+
+    final playerScoreButtons =
+        $.tester.widgetList($(PlayerScoreButton)).toList();
+    for (var (index, expectedScore) in [
+      (playerIndex: 1, score: 10),
+      (playerIndex: 3, score: 10),
+      (playerIndex: 2, score: 30),
+      (playerIndex: 0, score: 80)
+    ].indexed) {
+      final button = playerScoreButtons[index] as PlayerScoreButton;
+      expect(button.player, game.players[expectedScore.playerIndex]);
+      expect(button.score, expectedScore.score);
+      expect(button.displayMedal, isFalse);
+      expect(button.bestFriend, isNull);
+      expect(button.worstEnnemy, isNull);
+    }
+  });
 }
 
 Widget _createPage(PatrolTester $,

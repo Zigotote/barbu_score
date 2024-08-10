@@ -10,7 +10,10 @@ import 'player_score_button.dart';
 
 /// A list to display the scores of each player, sorted to have the best player at top
 class OrderedPlayersScores extends ConsumerWidget {
-  const OrderedPlayersScores({super.key});
+  /// Indicates if the gme is finished or not
+  final bool isGameFinished;
+
+  const OrderedPlayersScores({super.key, this.isGameFinished = false});
 
   /// Calculates the total score of each player for the game
   /// and orders them by score
@@ -57,9 +60,7 @@ class OrderedPlayersScores extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(playGameProvider);
-    final players = provider.players;
-    final isFinished = provider.game.isFinished;
+    final players = ref.read(playGameProvider).players;
     final contractsManager = ref.read(contractsManagerProvider);
     final Map<Player, Map<String, int>?> scoresByPlayer = {
       for (var player in players)
@@ -78,11 +79,11 @@ class OrderedPlayersScores extends ConsumerWidget {
         return PlayerScoreButton(
           player: player,
           score: playerInfo.value,
-          displayMedal: isFinished && index == 0,
+          displayMedal: isGameFinished && index == 0,
           bestFriend:
-              isFinished ? _findBestFriend(player, scoresByPlayer) : null,
+              isGameFinished ? _findBestFriend(player, scoresByPlayer) : null,
           worstEnnemy:
-              isFinished ? _findWorstEnnemy(player, scoresByPlayer) : null,
+              isGameFinished ? _findWorstEnnemy(player, scoresByPlayer) : null,
         );
       },
     );

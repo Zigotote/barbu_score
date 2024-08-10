@@ -35,28 +35,11 @@ class GameTable extends ConsumerWidget {
     );
   }
 
-  /// Sums the contract scores of each player of the list, sorted by contract
-  Map<ContractsInfo, Map<String, int>?> _sumContractScores(
-      ContractsManager contractsManager, List<Player> players) {
-    final contractScores = players
-        .map((player) => contractsManager.scoresByContract(player))
-        .reduce(
-          (sum, contractScores) => sum
-            ..updateAll(
-              (contract, playerScores) => playerScores
-                ?..updateAll(
-                  (player, score) => score += playerScores[player]!,
-                ),
-            ),
-        );
-    return contractScores;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final players = ref.read(playGameProvider).players;
     final contractScores =
-        _sumContractScores(ref.read(contractsManagerProvider), players);
+        ref.read(contractsManagerProvider).sumScoresByContract(players);
     return Column(
       children: [
         const SizedBox(height: 16),

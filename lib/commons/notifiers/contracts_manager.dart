@@ -104,6 +104,23 @@ class ContractsManager {
     );
   }
 
+  /// Sums the scores of the players, sorted by contract
+  Map<ContractsInfo, Map<String, int>?> sumScoresByContract(
+      List<Player> players) {
+    return players.map((player) => scoresByContract(player)).reduce(
+          (sum, contractScores) => sum
+            ..updateAll(
+              (contract, playerScores) => playerScores == null
+                  ? contractScores[contract]
+                  : (playerScores
+                    ..updateAll(
+                      (player, score) =>
+                          score + (contractScores[contract]?[player] ?? 0),
+                    )),
+            ),
+        );
+  }
+
   /// Returns the contract model and settings for one specific contract
   ContractManager getContractManager(ContractsInfo contract) =>
       _contracts[contract]!;

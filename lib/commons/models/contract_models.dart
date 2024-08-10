@@ -21,13 +21,10 @@ abstract class AbstractContractModel with EquatableMixin {
   /// Calculates the scores of this contract from its settings. Returns null score if it can't be calculated
   Map<String, int>? scores(AbstractContractSettings settings);
 
-  // coverage:ignore-start
   @override
   String toString() {
     return name;
   }
-
-  // coverage:ignore-end
 
   @override
   List<Object?> get props => [name];
@@ -61,12 +58,10 @@ abstract class AbstractSubContractModel extends AbstractContractModel {
     return canBeSet;
   }
 
-  // coverage:ignore-start
   @override
   String toString() {
     return "${super.toString()} : $_itemsByPlayer";
   }
-// coverage:ignore-end
 }
 
 /// A class to fill the scores for a contract which has only one looser
@@ -233,10 +228,8 @@ class DominoContractModel extends AbstractContractModel {
     return _rankOfPlayer.map((player, rank) => MapEntry(player, points[rank]));
   }
 
-  // coverage:ignore-start
   @override
   String toString() {
     return "${super.toString()} : $_rankOfPlayer";
   }
-// coverage:ignore-end
 }

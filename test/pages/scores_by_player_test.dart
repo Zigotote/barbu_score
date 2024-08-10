@@ -91,7 +91,7 @@ main() {
 
     // Verify scores lines
     // Barbu
-    expect(($("50")), findsOneWidget);
+    expect($("50"), findsOneWidget);
     // No queens
     final nbScoresForNoQueens = game.players.length;
     expect(
@@ -101,7 +101,7 @@ main() {
     );
     // No tricks
     final nbScoresForNoTricks = (game.players.length / 2).round();
-    expect(($("20")), findsNWidgets(nbScoresForNoTricks));
+    expect($("20"), findsNWidgets(nbScoresForNoTricks));
     // Zeros for players who didn't score previously
     expect(
       ($("0")),
@@ -111,7 +111,7 @@ main() {
       ),
     );
     // Empty lines
-    expect(($("/")), findsNWidgets(game.players.length * 4));
+    expect($("/"), findsNWidgets(game.players.length * 4));
     // Total
     expect($("80"), findsOneWidget);
     expect($("30"), findsOneWidget);
@@ -154,23 +154,23 @@ main() {
 
     // Verify scores lines
     // Barbu
-    expect(($("50")), findsOneWidget);
+    expect($("50"), findsOneWidget);
     // No hearts
-    expect(($("15")), findsNWidgets(game.players.length));
+    expect($("15"), findsNWidgets(game.players.length));
     // No queens
-    expect(($("20")), findsNWidgets(game.players.length));
+    expect($("20"), findsNWidgets(game.players.length));
     // No tricks
     final nbScoresForNoTricks = (game.players.length / 2).round();
-    expect(($("10")), findsNWidgets(nbScoresForNoTricks));
+    expect($("10"), findsNWidgets(nbScoresForNoTricks));
     // No last trick
-    expect(($("40")), findsOneWidget);
+    expect($("40"), findsOneWidget);
     // Domino
-    expect(($("-10")), findsOneWidget);
-    expect(($("-20")), findsOneWidget);
-    expect(($("-30")), findsOneWidget);
+    expect($("-10"), findsOneWidget);
+    expect($("-20"), findsOneWidget);
+    expect($("-30"), findsOneWidget);
     // Zeros for players who didn't score previously
     expect(
-      ($("0")),
+      $("0"),
       findsNWidgets((game.players.length - 1) * 2 // barbu and no last trick
               +
               (game.players.length / 2).round() // no tricks
@@ -181,7 +181,7 @@ main() {
           ),
     );
     // Empty lines
-    expect(($("/")), findsNothing);
+    expect($("/"), findsNothing);
     // Total
     expect($("135"), findsOneWidget);
     expect($("25"), findsNWidgets(2));

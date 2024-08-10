@@ -70,10 +70,8 @@ class Player {
     contracts.add(contract);
   }
 
-  // coverage:ignore-start
   @override
   String toString() {
     return "$name : $contracts";
   }
-// coverage:ignore-end
 }
