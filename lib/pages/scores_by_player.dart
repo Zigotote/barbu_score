@@ -25,7 +25,7 @@ class ScoresByPlayer extends ConsumerWidget {
         .map(
           (playerScore) => ScoreRow(
             title: playerScore.key.displayName,
-            scores: players.map((p) => playerScore.value?[p.name]).toList(),
+            scores: playerScore.value,
           ),
         )
         .toList();
@@ -37,8 +37,8 @@ class ScoresByPlayer extends ConsumerWidget {
     final totalScores = sumScores(playerScores.values.toList());
     return ScoreRow(
       title: "Total",
-      scores: players.map((p) => totalScores?[p.name] ?? 0).toList(),
-      isBold: true,
+      scores: totalScores,
+      isTotal: true,
     );
   }
 

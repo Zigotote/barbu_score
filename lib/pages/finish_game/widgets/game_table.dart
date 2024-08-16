@@ -19,7 +19,7 @@ class GameTable extends ConsumerWidget {
     return contractScores.entries.map((contractScore) {
       return ScoreRow(
         title: contractScore.key.displayName,
-        scores: contractScore.value!.values.toList(),
+        scores: contractScore.value,
       );
     }).toList();
   }
@@ -30,8 +30,8 @@ class GameTable extends ConsumerWidget {
     final totalScores = sumScores(contractScores.values.toList());
     return ScoreRow(
       title: "Total",
-      scores: players.map((p) => totalScores![p.name]).toList(),
-      isBold: true,
+      scores: totalScores,
+      isTotal: true,
     );
   }
 
