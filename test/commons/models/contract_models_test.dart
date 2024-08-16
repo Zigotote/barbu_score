@@ -268,18 +268,6 @@ main() {
             ),
             isNull);
       });
-      test("should be null if subContract contains some inactive contracts",
-          () {
-        const subContract = ContractsInfo.barbu;
-        final model = TrumpsContractModel();
-        model.addSubContract(
-          OneLooserContractModel(contract: ContractsInfo.barbu),
-        );
-        final settings = contract.defaultSettings as TrumpsContractSettings;
-        settings.contracts[subContract] = false;
-
-        expect(model.scores(settings, subContractSettings), isNull);
-      });
       test("should sum sub contract scores", () {
         final barbu = OneLooserContractModel(contract: ContractsInfo.barbu);
         barbu.setItemsByPlayer({
@@ -342,6 +330,66 @@ main() {
                         (noHeartsSettings.points * 2) +
                         (noTricksSettings.points * 2)
                     : 0
+        });
+      });
+      test("should sum sub contract scores when one players wons all", () {
+        final barbu = OneLooserContractModel(contract: ContractsInfo.barbu);
+        barbu.setItemsByPlayer({
+          for (var (index, player) in defaultPlayerNames.indexed)
+            player: index == 0 ? 1 : 0
+        });
+        final noQueens = MultipleLooserContractModel(
+          contract: ContractsInfo.noQueens,
+          nbItems: 4,
+        );
+        noQueens.setItemsByPlayer(
+          {
+            for (var (index, player) in defaultPlayerNames.indexed)
+              player: index == 0 ? noQueens.nbItems : 0
+          },
+        );
+        final noTricks = MultipleLooserContractModel(
+          contract: ContractsInfo.noTricks,
+          nbItems: 8,
+        );
+        noTricks.setItemsByPlayer(
+          {
+            for (var (index, player) in defaultPlayerNames.indexed)
+              player: index == 0 ? noTricks.nbItems : 0
+          },
+        );
+        final noHearts = MultipleLooserContractModel(
+          contract: ContractsInfo.noHearts,
+          nbItems: 8,
+        );
+        noHearts.setItemsByPlayer(
+          {
+            for (var (index, player) in defaultPlayerNames.indexed)
+              player: index == 0 ? noHearts.nbItems : 0
+          },
+        );
+        final noLastTrick = OneLooserContractModel(
+          contract: ContractsInfo.noLastTrick,
+        );
+        noLastTrick.setItemsByPlayer(
+          {
+            for (var (index, player) in defaultPlayerNames.indexed)
+              player: index == 0 ? 1 : 0
+          },
+        );
+        final model = TrumpsContractModel(
+          subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
+        );
+
+        expect(model.scores(contract.defaultSettings, subContractSettings), {
+          for (var (index, player) in defaultPlayerNames.indexed)
+            player: index == 0
+                ? barbuSettings.points +
+                    noLastTrickSettings.points +
+                    -(noQueensSettings.points * noQueens.nbItems) +
+                    -(noHeartsSettings.points * noHearts.nbItems) +
+                    -(noTricksSettings.points * noTricks.nbItems)
+                : 0
         });
       });
     });

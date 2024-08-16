@@ -164,14 +164,6 @@ class TrumpsContractModel extends AbstractContractModel {
     if (subContractSettings == null || subContracts.isEmpty) {
       return null;
     }
-    // Checks if all contracts are active
-    if (subContracts.map((subContract) => subContract.name).toList().equals(
-        (settings as TrumpsContractSettings)
-            .activeContracts
-            .map((contract) => contract.name)
-            .toList())) {
-      return null;
-    }
     // Checks if all sub contract has settings
     if (subContracts.any((contract) => subContractSettings
         .none((settings) => settings.name == contract.name))) {
