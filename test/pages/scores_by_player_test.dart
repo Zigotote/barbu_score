@@ -30,7 +30,7 @@ main() {
         ($) async {
       final mockPlayGame = MockPlayGameNotifier();
       final game = mockGame(mockPlayGame);
-      final mockStorage = MockMyStorage2();
+      final mockStorage = MockMyStorage();
       mockActiveContracts(mockStorage, activeContractsTest);
       await $.pumpWidget(
         _createPage(
@@ -192,13 +192,13 @@ main() {
 Widget _createPage(
     {MockPlayGameNotifier? mockPlayGame,
     MockContractsManager? mockContractsManager,
-    MockMyStorage2? mockStorage}) {
+    MockMyStorage? mockStorage}) {
   if (mockPlayGame == null) {
     mockPlayGame = MockPlayGameNotifier();
     mockGame(mockPlayGame);
   }
   if (mockStorage == null) {
-    mockStorage = MockMyStorage2();
+    mockStorage = MockMyStorage();
     mockActiveContracts(mockStorage);
   }
 

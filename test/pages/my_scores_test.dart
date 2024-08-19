@@ -26,7 +26,7 @@ main() {
     await checkAccessibility($.tester);
   });
   patrolWidgetTest("should save game and go to home", ($) async {
-    final mockStorage = MockMyStorage2();
+    final mockStorage = MockMyStorage();
     final mockPlayGame = MockPlayGameNotifier();
     final game = mockGame(mockPlayGame);
 
@@ -104,12 +104,12 @@ main() {
 }
 
 Widget _createPage(PatrolTester $,
-    {MockMyStorage2? mockStorage,
+    {MockMyStorage? mockStorage,
     MockPlayGameNotifier? mockPlayGame,
     MockContractsManager? mockContractsManager}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
-  mockStorage ??= MockMyStorage2();
+  mockStorage ??= MockMyStorage();
   mockActiveContracts(mockStorage);
 
   if (mockPlayGame == null) {

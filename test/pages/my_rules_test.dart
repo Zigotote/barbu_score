@@ -19,7 +19,7 @@ main() {
 }
 
 Widget _createPage() {
-  final mockStorage = MockMyStorage2();
+  final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
 
   final container = ProviderContainer(

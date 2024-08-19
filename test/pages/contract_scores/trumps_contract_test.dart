@@ -199,7 +199,7 @@ UncontrolledProviderScope _createPage(PatrolTester $,
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
 
-  final mockStorage = MockMyStorage2();
+  final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
   mockPlayGame ??= MockPlayGameNotifier();
   mockGame(mockPlayGame);

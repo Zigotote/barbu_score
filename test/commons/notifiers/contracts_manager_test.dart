@@ -13,7 +13,7 @@ import '../../utils.mocks.dart';
 
 main() {
   // Custom settings
-  final mockStorage = MockMyStorage2();
+  final mockStorage = MockMyStorage();
   final barbuSettings = OneLooserContractSettings(
     contract: ContractsInfo.barbu,
     points: 30,

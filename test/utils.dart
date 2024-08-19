@@ -16,7 +16,7 @@ import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 @GenerateNiceMocks([
-  MockSpec<MyStorage2>(),
+  MockSpec<MyStorage>(),
   MockSpec<PlayGameNotifier>(),
   MockSpec<TrumpsNotifier>(),
   MockSpec<ContractsManager>()
@@ -49,7 +49,7 @@ PatrolFinder findValidateScoresButton(PatrolTester $) {
 }
 
 /// Mocks a storage with some active contracts
-mockActiveContracts(MockMyStorage2 mockStorage,
+mockActiveContracts(MyStorage mockStorage,
     [List<ContractsInfo> activeContracts = ContractsInfo.values]) {
   for (var contract in ContractsInfo.values) {
     final contractSettings = contract.defaultSettings;

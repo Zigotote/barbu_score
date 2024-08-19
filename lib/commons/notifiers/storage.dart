@@ -1,21 +1,53 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import '../models/contract_info.dart';
+import '../models/contract_models.dart';
 import '../models/contract_settings_models.dart';
 import '../models/game.dart';
+import '../models/player.dart';
+import '../models/player_colors.dart';
 import '../utils/globals.dart' as globals;
 
-final storageProvider = Provider((ref) => MyStorage2());
+final storageProvider = Provider((ref) => MyStorage());
 
 /// A class to handle local storage objects
-class MyStorage2 {
+class MyStorage {
   static const _settingsBoxName = "settings";
   static const _gameBoxName = "game";
 
   static const String _gameKey = "game";
   static const String _isDarkThemeKey = "isDarkTheme";
+
+  /// The function to call to init storage
+  static init() async {
+    await Hive.initFlutter();
+    Hive.registerAdapter<Game>(GameAdapter());
+    Hive.registerAdapter<Player>(PlayerAdapter());
+    Hive.registerAdapter<Color>(ColorAdapter());
+    Hive.registerAdapter<ContractsInfo>(ContractsInfoAdapter());
+    Hive.registerAdapter<OneLooserContractModel>(
+        OneLooserContractModelAdapter());
+    Hive.registerAdapter<MultipleLooserContractModel>(
+        MultipleLooserContractModelAdapter());
+    Hive.registerAdapter<TrumpsContractModel>(TrumpsContractModelAdapter());
+    Hive.registerAdapter<DominoContractModel>(DominoContractModelAdapter());
+    Hive.registerAdapter<OneLooserContractSettings>(
+        OneLooserContractSettingsAdapter());
+    Hive.registerAdapter<MultipleLooserContractSettings>(
+        MultipleLooserContractSettingsAdapter());
+    Hive.registerAdapter<TrumpsContractSettings>(
+        TrumpsContractSettingsAdapter());
+    Hive.registerAdapter<DominoContractSettings>(
+        DominoContractSettingsAdapter());
+    Hive.registerAdapter<PlayerColors>(PlayerColorsAdapter());
+
+    await Hive.openBox(_gameBoxName);
+    await Hive.openBox(_settingsBoxName);
+  }
 
   /// Returns true if a game is saved in storage, false otherwise
   bool hasStoredGame() {
@@ -50,7 +82,7 @@ class MyStorage2 {
   }
 
   /// Saves true if app theme should be dark, false otherwise
-  static void saveIsDarkTheme(bool isDarkTheme) {
+  void saveIsDarkTheme(bool isDarkTheme) {
     Hive.box(_settingsBoxName).put(_isDarkThemeKey, isDarkTheme);
   }
 

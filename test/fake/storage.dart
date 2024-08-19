@@ -4,7 +4,7 @@ import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:flutter/foundation.dart';
 
-class FakeStorage extends MyStorage2 {
+class FakeStorage extends MyStorage {
   final Game? storedGame;
   late Map<ContractsInfo, AbstractContractSettings> storedSettings;
   late final ValueNotifier settingsNotifier;

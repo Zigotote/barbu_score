@@ -25,7 +25,7 @@ typedef ContractManager = ({
 class ContractsManager {
   late final Map<ContractsInfo, ContractManager> _contracts;
 
-  ContractsManager(MyStorage2 storage, int nbPlayers) {
+  ContractsManager(MyStorage storage, int nbPlayers) {
     _contracts = {
       ContractsInfo.barbu: (
         model: OneLooserContractModel(contract: ContractsInfo.barbu),

@@ -63,7 +63,7 @@ main() {
 }
 
 Widget _createPage([MockPlayGameNotifier? mockPlayGame]) {
-  final mockStorage = MockMyStorage2();
+  final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
 
   if (mockPlayGame == null) {

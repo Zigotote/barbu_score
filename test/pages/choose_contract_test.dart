@@ -119,7 +119,7 @@ Widget _createPage(PatrolTester $,
     List<AbstractContractModel> playedContracts = const []}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
-  final mockStorage = MockMyStorage2();
+  final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage, activeContracts);
 
   final mockPlayGame = MockPlayGameNotifier();

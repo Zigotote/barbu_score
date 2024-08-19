@@ -15,7 +15,7 @@ class PlayGameNotifier with ChangeNotifier {
   late Game game;
 
   /// The storage manager
-  final MyStorage2 storage;
+  final MyStorage storage;
 
   PlayGameNotifier(this.storage);
 

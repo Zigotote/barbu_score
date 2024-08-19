@@ -95,7 +95,7 @@ Future<void> _unplayContracts(PatrolTester $) async {
 }
 
 Widget _createPage() {
-  final mockStorage = MockMyStorage2();
+  final mockStorage = MockMyStorage();
   when(mockStorage.getSettings(ContractsInfo.trumps))
       .thenReturn(ContractsInfo.trumps.defaultSettings);
 

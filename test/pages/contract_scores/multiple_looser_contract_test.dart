@@ -127,7 +127,7 @@ ElevatedButton _findValidateScoresButtonWidget(PatrolTester $) {
 Widget _createPage(
     {MultipleLooserContractModel? contractValues,
     MockPlayGameNotifier? mockPlayGame}) {
-  final mockStorage = MockMyStorage2();
+  final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
 
   if (mockPlayGame == null) {

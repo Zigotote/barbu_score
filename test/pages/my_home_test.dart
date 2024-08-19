@@ -140,7 +140,7 @@ Widget _createPage(
   // Increase screen size because prepare game page only works on some screen sizes
   $.tester.view.physicalSize = const Size(1440, 2560);
 
-  final mockStorage = MockMyStorage2();
+  final mockStorage = MockMyStorage();
   when(mockStorage.getStoredGame()).thenReturn(storedGame);
   mockActiveContracts(mockStorage, activeContracts);
   when(mockStorage.listenContractsSettings()).thenReturn(ValueNotifier({}));

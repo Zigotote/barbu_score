@@ -52,7 +52,7 @@ main() {
 }
 
 Widget _createPage([bool hasStoredGame = false]) {
-  final mockStorage = MockMyStorage2();
+  final mockStorage = MockMyStorage();
   when(mockStorage.hasStoredGame()).thenReturn(hasStoredGame);
   when(mockStorage.getSettings(defaultContract))
       .thenReturn(defaultContract.defaultSettings);
