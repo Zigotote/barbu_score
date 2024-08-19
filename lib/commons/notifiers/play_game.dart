@@ -32,7 +32,7 @@ class PlayGameNotifier with ChangeNotifier {
 
   /// Loads a previous game
   load(Game game) {
-    game = game;
+    this.game = game;
   }
 
   /// Saves the score for the contract
