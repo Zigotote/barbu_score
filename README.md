@@ -38,6 +38,13 @@ flutter build apk --release
 flutter install
 ```
 
+App update can be tested with
+
+```
+flutter build apk --release
+adb install build/app/outputs/flutter-apk/app-release.apk
+```
+
 If everything is fine, the app bundle can be build
 with ```flutter build appbundle --obfuscate --split-debug-info="zigotote/barbu_score/debug"``` and
 uploaded to PlayStore.
