@@ -38,11 +38,13 @@ main() {
     final mockPlayGame = MockPlayGameNotifier();
     final game = mockGame(mockPlayGame);
     const indexSelectedPlayer = 1;
-    final contract = OneLooserContractModel(contract: ContractsInfo.barbu);
-    contract.setItemsByPlayer({
-      for (var (index, player) in game.players.indexed)
-        player.name: index == indexSelectedPlayer ? 1 : 0
-    });
+    final contract = OneLooserContractModel(
+      contract: ContractsInfo.barbu,
+      itemsByPlayer: {
+        for (var (index, player) in game.players.indexed)
+          player.name: index == indexSelectedPlayer ? 1 : 0
+      },
+    );
 
     await $.pumpWidget(_createPage(contractValues: contract));
 

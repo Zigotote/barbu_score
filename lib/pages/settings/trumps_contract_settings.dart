@@ -30,10 +30,10 @@ class TrumpsContractSettingsPage extends ConsumerWidget {
             key: Key(contract.name),
             label: contract.displayName,
             input: MySwitch(
-              isActive: settings.contracts[contract]!,
+              isActive: settings.contracts[contract.name]!,
               onChanged: provider.modifySetting(
                 (value) {
-                  settings.contracts.update(contract, (_) => value);
+                  settings.contracts.update(contract.name, (_) => value);
                   // Deactivate trumps contract if no active contract inside it
                   if (!settings.contracts.containsValue(true)) {
                     settings.isActive = false;

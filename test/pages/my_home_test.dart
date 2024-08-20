@@ -18,8 +18,8 @@ import 'package:patrol_finders/patrol_finders.dart';
 import '../utils.dart';
 import '../utils.mocks.dart';
 
-const startGameText = "Démarrer une partie";
-const loadGameText = "Charger une partie";
+const _startGameText = "Démarrer une partie";
+const _loadGameText = "Charger une partie";
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -34,7 +34,7 @@ main() {
     patrolWidgetTest("should start game if no stored game", ($) async {
       await $.pumpWidget(_createPage($));
 
-      await $(startGameText).tap();
+      await $(_startGameText).tap();
 
       expect($(CreateGame), findsOneWidget);
     });
@@ -43,7 +43,7 @@ main() {
       storedGame.isFinished = true;
       await $.pumpWidget(_createPage($, storedGame: storedGame));
 
-      await $(startGameText).tap();
+      await $(_startGameText).tap();
 
       expect($(CreateGame), findsOneWidget);
     });
@@ -53,7 +53,7 @@ main() {
           ($) async {
         await $.pumpWidget(_createPage($, storedGame: Game(players: [])));
 
-        await $(startGameText).tap();
+        await $(_startGameText).tap();
 
         expect($(MyAlertDialog), findsOneWidget);
         if (startGame) {
@@ -70,7 +70,7 @@ main() {
     patrolWidgetTest("should not start game if no active contract", ($) async {
       await $.pumpWidget(_createPage($, activeContracts: []));
 
-      await $(startGameText).tap();
+      await $(_startGameText).tap();
 
       expect($(MyAlertDialog), findsOneWidget);
       await $(MyAlertDialog)
@@ -89,7 +89,7 @@ main() {
           ($) async {
         await $.pumpWidget(_createPage($, storedGame: Game(players: [])));
 
-        await $(loadGameText).tap();
+        await $(_loadGameText).tap();
 
         expect($(MyAlertDialog), findsOneWidget);
         if (loadGame) {
@@ -109,7 +109,7 @@ main() {
       storedGame.isFinished = true;
       await $.pumpWidget(_createPage($, storedGame: storedGame));
 
-      await $(loadGameText).tap();
+      await $(_loadGameText).tap();
 
       expect($(MyAlertDialog), findsOneWidget);
       await $("Oui").tap();
@@ -118,7 +118,7 @@ main() {
     patrolWidgetTest("should not load game if no stored game", ($) async {
       await $.pumpWidget(_createPage($));
 
-      await $(loadGameText).tap();
+      await $(_loadGameText).tap();
 
       expect($("Aucune partie trouvée"), findsOneWidget);
       expect($(CreateGame), findsOneWidget);
@@ -143,7 +143,6 @@ Widget _createPage(
   final mockStorage = MockMyStorage();
   when(mockStorage.getStoredGame()).thenReturn(storedGame);
   mockActiveContracts(mockStorage, activeContracts);
-  when(mockStorage.listenContractsSettings()).thenReturn(ValueNotifier({}));
 
   final mockPlayGame = MockPlayGameNotifier();
   when(mockPlayGame.game).thenReturn(Game(players: []));

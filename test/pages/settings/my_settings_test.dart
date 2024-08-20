@@ -11,10 +11,11 @@ import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../fake/storage.dart';
 import '../../utils.dart';
+import '../../utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -32,7 +33,7 @@ main() {
     patrolWidgetTest(
         "should display ${activeContracts.length} active contracts from storage",
         ($) async {
-      await $.pumpWidget(_createPage(activeContracts));
+      await $.pumpWidget(_createPage(activeContracts: activeContracts));
 
       expect($("ON"), findsNWidgets(activeContracts.length));
       expect(
@@ -46,7 +47,8 @@ main() {
       patrolWidgetTest(
           "should ${isModified ? "reload" : "keep"} $modifiedContract activation on settings ${isModified ? "" : "not "}changed",
           ($) async {
-        await $.pumpWidget(_createPage());
+        final mockStorage = MockMyStorage();
+        await $.pumpWidget(_createPage(mockStorage: mockStorage));
 
         // Go to contract settings page
         await $.scrollUntilVisible(finder: $(modifiedContract.displayName));
@@ -58,6 +60,11 @@ main() {
         if (isModified) {
           await $(MySwitch).tap(settlePolicy: SettlePolicy.noSettle);
           expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
+
+          final modifierContractSettings = modifiedContract.defaultSettings;
+          modifierContractSettings.isActive = false;
+          when(mockStorage.getSettings(modifiedContract))
+              .thenReturn(modifierContractSettings);
         }
 
         // Go back to global settings page
@@ -72,9 +79,11 @@ main() {
                   .containing($("OFF")),
               findsOneWidget);
           expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
+          verify(mockStorage.saveSettings(modifiedContract, any));
         } else {
           expect($("Modifications sauvegardées"), findsNothing);
           expect($("ON"), findsNWidgets(ContractsInfo.values.length));
+          verifyNever(mockStorage.saveSettings(modifiedContract, any));
         }
       });
     }
@@ -82,12 +91,17 @@ main() {
 }
 
 Widget _createPage(
-    [List<ContractsInfo> activeContracts = ContractsInfo.values]) {
+    {MockMyStorage? mockStorage,
+    List<ContractsInfo> activeContracts = ContractsInfo.values}) {
+  mockStorage ??= MockMyStorage();
+  for (var contract in ContractsInfo.values) {
+    final contractSettings = contract.defaultSettings;
+    contractSettings.isActive = activeContracts.contains(contract);
+    when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
+  }
   final container = ProviderContainer(
     overrides: [
-      storageProvider.overrideWithValue(
-        FakeStorage(activeContracts: activeContracts),
-      ),
+      storageProvider.overrideWithValue(mockStorage),
     ],
   );
 

@@ -65,12 +65,12 @@ main() {
       final game = mockGame(mockPlayGame);
       final contract = MultipleLooserContractModel(
         contract: ContractsInfo.noQueens,
+        itemsByPlayer: {
+          for (var (index, player) in game.players.indexed)
+            player.name: index % 2 == 0 ? 2 : 0
+        },
         nbItems: 4,
       );
-      contract.setItemsByPlayer({
-        for (var (index, player) in game.players.indexed)
-          player.name: index % 2 == 0 ? 2 : 0
-      });
 
       await $.pumpWidget(_createPage(contractValues: contract));
 

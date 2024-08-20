@@ -1,45 +1,32 @@
+import 'dart:convert';
+
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
 import '../utils/globals.dart';
 import 'contract_info.dart';
 import 'contract_models.dart';
 import 'player_colors.dart';
 
-part 'player.g.dart';
-
-@HiveType(typeId: 1)
-class Player {
-  /// The color of the player
-  @HiveField(0)
-  @Deprecated("Use [color] instead")
-  Color? c;
-
+class Player with EquatableMixin {
   /// The image of the player
-  @HiveField(1)
   String image;
 
+  /// The name of the color key
+  PlayerColors color;
+
   /// The name of the player
-  @HiveField(2)
   String name;
 
   /// The contracts the player has finished
-  @HiveField(3)
   final List<AbstractContractModel> contracts;
 
-  /// The name of the color key
-  @HiveField(4)
-  PlayerColors color;
-
-  Player(
-      {this.c,
-      required this.image,
-      this.name = "",
-      required this.contracts,
-      PlayerColors? color})
-      : assert(c != null || color != null),
-        color = color ?? PlayerColors.fromValue(c!);
+  Player({
+    required this.image,
+    required this.color,
+    this.name = "",
+    required this.contracts,
+  });
 
   factory Player.create(
           {required PlayerColors color, required String image, String? name}) =>
@@ -49,6 +36,25 @@ class Player {
         color: color,
         contracts: [],
       );
+
+  Player.fromJson(dynamic json)
+      : name = json["name"] as String,
+        color = PlayerColors.fromName(json["color"]),
+        image = json["image"] as String,
+        contracts = ((jsonDecode(json["contracts"]) as List)
+            .map((contractData) => AbstractContractModel.fromJson(contractData))
+            .toList());
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "color": color.name,
+      "image": image,
+      "contracts": jsonEncode(
+        contracts.map((contract) => contract.toJson()).toList(),
+      )
+    };
+  }
 
   /// Returns the list of the contracts the player has already selected
   List<String> get _chosenContracts =>
@@ -74,4 +80,7 @@ class Player {
   String toString() {
     return "$name : $contracts";
   }
+
+  @override
+  List<Object?> get props => [image, name, contracts, color];
 }
