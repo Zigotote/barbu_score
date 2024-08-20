@@ -17,7 +17,8 @@ class PrepareGame extends ConsumerWidget {
   const PrepareGame({super.key});
 
   /// Returns the values of the cards to take out for the party
-  List<int> _getCardsToTakeOut(int nbPlayers) {
+  @visibleForTesting
+  static List<int> getCardsToTakeOut(int nbPlayers) {
     return List.generate((52 - nbPlayers * 8) ~/ 4, (index) => 2 + index);
   }
 
@@ -38,7 +39,7 @@ class PrepareGame extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  _getCardsToTakeOut(players.length).join(", "),
+                  getCardsToTakeOut(players.length).join(", "),
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),

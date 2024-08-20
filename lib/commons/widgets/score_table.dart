@@ -88,9 +88,12 @@ class ScoreTable extends StatelessWidget {
       },
       cells: [
         [Container(), ..._buildPlayersRow()],
-        ...rows.map((row) {
-          return row.build(textTheme.bodyMedium!);
-        })
+        ...rows.map(
+          (row) => row.build(
+            textTheme.bodyMedium!,
+            players.map((player) => player.name).toList(),
+          ),
+        )
       ],
     );
   }
@@ -101,39 +104,44 @@ class ScoreRow {
   /// The title of the row
   final String title;
 
-  /// The scores of this row
-  final List<int?> scores;
+  /// The score of each player of this row. If null, displays "/" or 0 score
+  final Map<String, int?>? scores;
 
-  /// The indicator to know if the data should be in bold font or not
-  final bool isBold;
+  /// The indicator to know if this line is the final line
+  final bool isTotal;
 
   const ScoreRow(
-      {required this.title, required this.scores, this.isBold = false});
+      {required this.title, required this.scores, this.isTotal = false});
 
-  List<Widget> build(TextStyle textStyle) {
+  /// Builds the cells of a row from [scores] map. The values of this map are ordered by the [orderedScoreKeys]
+  List<Widget> build(TextStyle textStyle, List<String> orderedScoreKeys) {
     return [
       Center(
         child: Text(
           title,
           textAlign: TextAlign.center,
-          style: isBold
+          style: isTotal
               ? textStyle.copyWith(
                   fontWeight: FontWeight.w900,
                 )
               : textStyle,
         ),
       ),
-      ...scores.map(
-        (score) => Center(
-          child: Text(
-            score != null ? score.toString() : '/',
-            style: isBold
-                ? textStyle.copyWith(
-                    fontWeight: FontWeight.w900,
-                  )
-                : textStyle,
-          ),
-        ),
+      ...orderedScoreKeys.map(
+        (key) {
+          final score = scores?[key] ?? (isTotal ? 0 : null);
+          return Center(
+            child: Text(
+              score != null ? score.toString() : "/",
+              key: Key("$title-$key"),
+              style: isTotal
+                  ? textStyle.copyWith(
+                      fontWeight: FontWeight.w900,
+                    )
+                  : textStyle,
+            ),
+          );
+        },
       ),
     ];
   }

@@ -12,7 +12,7 @@ class MySwitch extends StatefulWidget {
 }
 
 class _MySwitch extends State<MySwitch> {
-  bool? value;
+  late bool value;
 
   @override
   void initState() {
@@ -28,16 +28,19 @@ class _MySwitch extends State<MySwitch> {
 
   @override
   Widget build(BuildContext context) {
-    return Switch(
-      value: value!,
-      onChanged: widget.onChanged != null
-          ? (bool newValue) {
-              setState(() {
-                value = newValue;
-              });
-              widget.onChanged!(newValue);
-            }
-          : null,
+    return Semantics(
+      label: value ? "activé" : "désactivé",
+      child: Switch(
+        value: value,
+        onChanged: widget.onChanged != null
+            ? (bool newValue) {
+                setState(() {
+                  value = newValue;
+                });
+                widget.onChanged!(newValue);
+              }
+            : null,
+      ),
     );
   }
 }

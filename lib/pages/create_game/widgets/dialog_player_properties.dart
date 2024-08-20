@@ -98,27 +98,36 @@ class DialogChangePlayerInfo extends ConsumerWidget {
               _buildPropertySelection(
                 context,
                 "Couleur",
-                playerColors
-                    .map(
-                      (color) => TextButton(
-                        onPressed: () =>
-                            provider.changePlayerColor(player, color),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .convertPlayerColor(color),
-                        ),
-                        child: Text(
-                          provider.getPlayersWithColor(color),
-                          overflow: TextOverflow.fade,
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.labelLarge!.copyWith(
-                            color: theme.scaffoldBackgroundColor,
-                          ),
+                playerColors.map(
+                  (color) {
+                    final playersWithColor =
+                        provider.getPlayersWithColor(color);
+                    return TextButton(
+                      key: Key(color.name),
+                      onPressed: () =>
+                          provider.changePlayerColor(player, color),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(context)
+                            .colorScheme
+                            .convertPlayerColor(color),
+                      ),
+                      child: Text(
+                        playersWithColor
+                            .map((playerName) =>
+                                playerName.characters.first.toUpperCase())
+                            .join("/"),
+                        semanticsLabel: playersWithColor.isEmpty
+                            ? "Couleur disponible"
+                            : playersWithColor.join(","),
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.labelLarge!.copyWith(
+                          color: theme.scaffoldBackgroundColor,
                         ),
                       ),
-                    )
-                    .toList(),
+                    );
+                  },
+                ).toList(),
               ),
               const SizedBox(height: 16),
               _buildPropertySelection(
@@ -127,6 +136,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                 playerImages
                     .map(
                       (image) => TextButton(
+                        key: Key(image),
                         onPressed: () =>
                             provider.changePlayerImage(player, image),
                         child: PlayerIcon(image: image, size: double.maxFinite),

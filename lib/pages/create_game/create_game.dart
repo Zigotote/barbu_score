@@ -19,7 +19,7 @@ class CreateGame extends ConsumerWidget {
   /// Builds the button to add a player
   Widget _buildAddPlayerButton(Function() addPlayer) {
     return Center(
-      child: IconButton.outlined(
+      child: IconButton(
         padding: const EdgeInsets.all(16),
         onPressed: addPlayer,
         icon: const Icon(

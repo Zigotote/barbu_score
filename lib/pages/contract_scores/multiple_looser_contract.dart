@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
+import '../../commons/notifiers/contracts_manager.dart';
 import '../../commons/notifiers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/custom_buttons.dart';
@@ -11,53 +12,52 @@ import 'models/contract_route_argument.dart';
 import 'widgets/contract_page.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
-class IndividualScoresContract extends ConsumerStatefulWidget {
+class MultipleLooserContractPage extends ConsumerStatefulWidget {
   /// The contract the player choose and the previous values, if it needs to be modified
   final ContractRouteArgument routeArgument;
-
-  /// The maximal number of item that can be won during the contract
-  final int itemsMax;
 
   /// The name of the items won for this contract
   final String itemsName;
 
-  IndividualScoresContract(this.routeArgument, {super.key})
-      : itemsMax = (routeArgument.contractInfo.contract
-                as AbstractMultipleLooserContractModel)
-            .expectedItems,
-        itemsName =
+  MultipleLooserContractPage(this.routeArgument, {super.key})
+      : itemsName =
             routeArgument.contractInfo.displayName.replaceFirst("Sans ", "");
 
   @override
-  ConsumerState<IndividualScoresContract> createState() =>
-      _IndividualScoresContractState();
+  ConsumerState<MultipleLooserContractPage> createState() =>
+      _MultipleLooserContractPageState();
 }
 
-class _IndividualScoresContractState
-    extends ConsumerState<IndividualScoresContract> {
+class _MultipleLooserContractPageState
+    extends ConsumerState<MultipleLooserContractPage> {
   /// The map which links each player name to the number of items he has
-  late Map<String, int> _playerItems;
+  late Map<String, int> _itemsByPlayer;
 
   /// The players of the game
   late List<Player> _players;
+
+  /// The model of the contract
+  late final MultipleLooserContractModel contractModel;
 
   @override
   void initState() {
     super.initState();
     _players = ref.read(playGameProvider).players;
     if (widget.routeArgument.isForModification) {
-      _playerItems = widget.routeArgument.contractValues!.playerItems;
+      contractModel =
+          widget.routeArgument.contractModel as MultipleLooserContractModel;
+      _itemsByPlayer = contractModel.itemsByPlayer;
     } else {
-      _playerItems = {for (var player in _players) player.name: 0};
+      contractModel = ref
+          .read(contractsManagerProvider)
+          .getContractManager(widget.routeArgument.contractInfo)
+          .model as MultipleLooserContractModel;
+      _itemsByPlayer = {for (var player in _players) player.name: 0};
     }
   }
 
   ///Returns true if the score is valid, false otherwise
-  bool get _isValid {
-    final int currentScore = _playerItems.values
-        .fold(0, (previousValue, element) => previousValue + element);
-    return currentScore == widget.itemsMax;
-  }
+  bool get _isValid => contractModel.isValid(_itemsByPlayer);
 
   /// Increases the score of the player, only if the total score is less than the contract max score
   void _increaseScore(Player player) {
@@ -66,29 +66,29 @@ class _IndividualScoresContractState
         context: context,
         title: "Ajout de points impossible",
         text:
-            "Le nombre de ${widget.itemsName} dépasse le nombre d'éléments pouvant être remporté, fixé à ${widget.itemsMax}.",
+            "Le nombre de ${widget.itemsName} dépasse le nombre d'éléments pouvant être remporté, fixé à ${contractModel.nbItems}.",
       );
     } else {
-      int playerScore = _playerItems[player.name]!;
+      int playerScore = _itemsByPlayer[player.name]!;
       setState(() {
-        _playerItems[player.name] = playerScore + 1;
+        _itemsByPlayer[player.name] = playerScore + 1;
       });
     }
   }
 
   /// Decreases the score of the player. It can't go behind 0
   void _decreaseScore(Player player) {
-    int playerScore = _playerItems[player.name]!;
+    int playerScore = _itemsByPlayer[player.name]!;
     if (playerScore >= 1) {
       setState(() {
-        _playerItems[player.name] = playerScore - 1;
+        _itemsByPlayer[player.name] = playerScore - 1;
       });
     }
   }
 
   Widget _buildFields() {
     return MyList(
-      itemCount: _playerItems.length,
+      itemCount: _itemsByPlayer.length,
       itemBuilder: (_, index) {
         Player player = _players[index];
         return Padding(
@@ -99,6 +99,7 @@ class _IndividualScoresContractState
                 icon: Icons.remove,
                 color: player.color,
                 onPressed: () => _decreaseScore(player),
+                semantics: "Retirer ${widget.itemsName}",
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -108,7 +109,7 @@ class _IndividualScoresContractState
                       player.name,
                       textAlign: TextAlign.center,
                     ),
-                    Text(_playerItems[player.name].toString())
+                    Text(_itemsByPlayer[player.name].toString())
                   ],
                 ),
               ),
@@ -117,6 +118,7 @@ class _IndividualScoresContractState
                 icon: Icons.add,
                 color: player.color,
                 onPressed: () => _increaseScore(player),
+                semantics: "Ajouter ${widget.itemsName}",
               )
             ],
           ),
@@ -127,12 +129,12 @@ class _IndividualScoresContractState
 
   @override
   Widget build(BuildContext context) {
-    return ContractPage(
-      subtitle: "Nombre de ${widget.itemsName} par joueur",
+    return SubContractPage(
       contract: widget.routeArgument.contractInfo,
+      subtitle: "Nombre de ${widget.itemsName} par joueur",
       isModification: widget.routeArgument.isForModification,
       isValid: _isValid,
-      itemsByPlayer: _playerItems,
+      itemsByPlayer: _itemsByPlayer,
       child: _buildFields(),
     );
   }

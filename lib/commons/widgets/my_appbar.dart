@@ -29,6 +29,7 @@ class MyAppBar extends AppBar {
           ),
           leading: hasLeading
               ? IconButton.outlined(
+                  tooltip: "Retour",
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     try {

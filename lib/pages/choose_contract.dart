@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../commons/models/player.dart';
+import '../commons/notifiers/contracts_manager.dart';
 import '../commons/notifiers/play_game.dart';
-import '../commons/utils/storage.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/list_layouts.dart';
 import '../main.dart';
@@ -25,9 +25,12 @@ class ChooseContract extends ConsumerWidget {
           horizontal: 8,
         ),
         child: MyGrid(
-          children: MyStorage.getActiveContracts()
+          children: ref
+              .read(contractsManagerProvider)
+              .activeContracts
               .map(
                 (contract) => ElevatedButton(
+                  key: Key(contract.name),
                   onPressed: player.hasPlayedContract(contract)
                       ? null
                       : () => Navigator.of(context).pushNamed(

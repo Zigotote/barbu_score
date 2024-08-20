@@ -12,27 +12,43 @@ part 'contract_settings_models.g.dart';
 
 /// An abstract class to save the settings of a contract
 abstract class AbstractContractSettings with EquatableMixin {
+  /// The name of the contract
+  @HiveField(3)
+  final String name;
+
   /// The indicator to know if the user wants to have this contract in its games or not
   @HiveField(0)
   bool isActive;
 
-  AbstractContractSettings({this.isActive = true});
+  AbstractContractSettings(
+      {this.isActive = true, ContractsInfo? contract, String? name})
+      : assert(name == null || contract == null,
+            "Only name or contract should be used"),
+        name = name ?? contract!.name;
 
   /// Fills the rules depending on the contract settings
   String filledRules(String rules);
 
   /// Copies the object with some overrides
   AbstractContractSettings copy();
+
+  @override
+  List<Object?> get props => [name, isActive];
 }
 
-/// A class to save the settings for a contract where an item has points
+/// A class to save the settings for a contract where only one player can loose
 @HiveType(typeId: 9)
-class PointsContractSettings extends AbstractContractSettings {
+class OneLooserContractSettings extends AbstractContractSettings {
   /// The points for this contract item
   @HiveField(1)
   int points;
 
-  PointsContractSettings({super.isActive, required this.points});
+  OneLooserContractSettings({
+    super.contract,
+    super.name,
+    super.isActive,
+    required this.points,
+  });
 
   @override
   String filledRules(String rules) {
@@ -40,23 +56,36 @@ class PointsContractSettings extends AbstractContractSettings {
   }
 
   @override
-  PointsContractSettings copy() {
-    return PointsContractSettings(isActive: isActive, points: points);
-  }
+  List<Object?> get props => [...super.props, points];
 
   @override
-  List<Object?> get props => [isActive, points];
+  OneLooserContractSettings copy() {
+    return OneLooserContractSettings(
+      name: name,
+      isActive: isActive,
+      points: points,
+    );
+  }
 }
 
 /// A class to save the settings for a contract where multiple players can have some points
 @HiveType(typeId: 10)
-class IndividualScoresContractSettings extends PointsContractSettings {
+class MultipleLooserContractSettings extends AbstractContractSettings {
+  /// The points for one item
+  @HiveField(1)
+  int points;
+
   /// The indicator to know if the score should be inverted if one players wins all contract items
   @HiveField(2)
   bool invertScore;
 
-  IndividualScoresContractSettings(
-      {super.isActive, required super.points, this.invertScore = true});
+  MultipleLooserContractSettings({
+    super.contract,
+    super.name,
+    super.isActive,
+    required this.points,
+    this.invertScore = true,
+  });
 
   @override
   String filledRules(String rules) {
@@ -65,20 +94,21 @@ class IndividualScoresContractSettings extends PointsContractSettings {
       invertScoreSentence =
           " Si un joueur remporte tout, son score devient négatif.";
     }
-    return super.filledRules(rules) + invertScoreSentence;
+    return sprintf(rules, [points]) + invertScoreSentence;
   }
 
   @override
-  IndividualScoresContractSettings copy() {
-    return IndividualScoresContractSettings(
+  List<Object?> get props => [...super.props, points, invertScore];
+
+  @override
+  MultipleLooserContractSettings copy() {
+    return MultipleLooserContractSettings(
+      name: name,
       isActive: isActive,
       points: points,
       invertScore: invertScore,
     );
   }
-
-  @override
-  List<Object?> get props => [isActive, points, invertScore];
 }
 
 /// A trumps contract settings
@@ -94,7 +124,14 @@ class TrumpsContractSettings extends AbstractContractSettings {
   @HiveField(1)
   final Map<ContractsInfo, bool> contracts;
 
-  TrumpsContractSettings({super.isActive, required this.contracts});
+  TrumpsContractSettings({super.isActive, required this.contracts})
+      : super(contract: ContractsInfo.trumps);
+
+  /// Returns the active contracts
+  List<ContractsInfo> get activeContracts => contracts.entries
+      .where((contract) => contract.value)
+      .map((contract) => contract.key)
+      .toList();
 
   @override
   String filledRules(String rules) {
@@ -115,7 +152,7 @@ class TrumpsContractSettings extends AbstractContractSettings {
   }
 
   @override
-  List<Object?> get props => [isActive, contracts];
+  List<Object?> get props => [...super.props, contracts];
 }
 
 /// A domino contract settings
@@ -132,7 +169,7 @@ class DominoContractSettings extends AbstractContractSettings {
     Map<int, List<int>>? points,
   })  : assert((pointsLastPlayer != null && pointsFirstPlayer != null) ||
             points != null),
-        super() {
+        super(contract: ContractsInfo.domino) {
     this.points =
         points ?? generatePointsLists(pointsFirstPlayer!, pointsLastPlayer!);
   }
@@ -200,5 +237,5 @@ class DominoContractSettings extends AbstractContractSettings {
   }
 
   @override
-  List<Object?> get props => [isActive, points];
+  List<Object?> get props => [...super.props, points];
 }
