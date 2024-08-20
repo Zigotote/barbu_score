@@ -41,10 +41,10 @@ main() {
         _createPage(
           $,
           settings: TrumpsContractSettings(
-            contracts: Map.fromIterable(
-              TrumpsContractSettings.availableContracts,
-              value: (contract) => activeContracts.contains(contract),
-            ),
+            contracts: {
+              for (var contract in TrumpsContractSettings.availableContracts)
+                contract.name: activeContracts.contains(contract)
+            },
           ),
         ),
       );
@@ -96,11 +96,13 @@ main() {
     final mockPlayGame = MockPlayGameNotifier();
     final page = _createPage($, mockPlayGame: mockPlayGame);
     final playerSelectedAfterModify = mockPlayGame.players.length - 1;
-    final expectedSubContract = OneLooserContractModel(contract: contract);
-    expectedSubContract.setItemsByPlayer({
-      for (var (index, player) in mockPlayGame.players.indexed)
-        player.name: index == playerSelectedAfterModify ? 1 : 0
-    });
+    final expectedSubContract = OneLooserContractModel(
+      contract: contract,
+      itemsByPlayer: {
+        for (var (index, player) in mockPlayGame.players.indexed)
+          player.name: index == playerSelectedAfterModify ? 1 : 0
+      },
+    );
 
     await $.pumpWidget(page);
 

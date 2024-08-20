@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-
-part 'player_colors.g.dart';
 
 /// The colors available for players
-@HiveType(typeId: 14)
 enum PlayerColors {
-  @HiveField(0)
   brown,
-  @HiveField(1)
   green,
-  @HiveField(2)
   yellow,
-  @HiveField(3)
   orange,
-  @HiveField(4)
   red,
-  @HiveField(5)
   blue;
 
   const PlayerColors();
@@ -55,9 +45,8 @@ enum PlayerColors {
     }
   }
 
-  /// Returns the PlayerColors associated to the color
-  static PlayerColors fromValue(Color color) {
-    return PlayerColors.values.firstWhere((playerColor) =>
-        playerColor.light == color || playerColor.dark == color);
+  /// Returns the PlayerColors from its name
+  static PlayerColors fromName(String name) {
+    return PlayerColors.values.firstWhere((color) => color.name == name);
   }
 }

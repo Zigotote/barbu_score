@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
@@ -26,6 +27,42 @@ abstract class AbstractContractSettings with EquatableMixin {
             "Only name or contract should be used"),
         name = name ?? contract!.name;
 
+  factory AbstractContractSettings.fromJson(Map<String, dynamic> json) {
+    final contract = ContractsInfo.fromName(json["name"]);
+    final isActive = json["isActive"];
+    return switch (contract) {
+      ContractsInfo.barbu ||
+      ContractsInfo.noLastTrick =>
+        OneLooserContractSettings.fromJson(
+          json,
+          contract: contract,
+          isActive: isActive,
+        ),
+      ContractsInfo.noHearts ||
+      ContractsInfo.noQueens ||
+      ContractsInfo.noTricks =>
+        MultipleLooserContractSettings.fromJson(
+          json,
+          contract: contract,
+          isActive: isActive,
+        ),
+      ContractsInfo.trumps => TrumpsContractSettings.fromJson(
+          json,
+          contract: contract,
+          isActive: isActive,
+        ),
+      ContractsInfo.domino => DominoContractSettings.fromJson(
+          json,
+          contract: contract,
+          isActive: isActive,
+        )
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return {"name": name, "isActive": isActive};
+  }
+
   /// Fills the rules depending on the contract settings
   String filledRules(String rules);
 
@@ -49,6 +86,16 @@ class OneLooserContractSettings extends AbstractContractSettings {
     super.isActive,
     required this.points,
   });
+
+  OneLooserContractSettings.fromJson(Map<String, dynamic> json,
+      {required ContractsInfo contract, required super.isActive})
+      : points = json["points"],
+        super(contract: contract);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {...super.toJson(), "points": points};
+  }
 
   @override
   String filledRules(String rules) {
@@ -87,6 +134,17 @@ class MultipleLooserContractSettings extends AbstractContractSettings {
     this.invertScore = true,
   });
 
+  MultipleLooserContractSettings.fromJson(Map<String, dynamic> json,
+      {required ContractsInfo contract, required super.isActive})
+      : points = json["points"],
+        invertScore = json["invertScore"],
+        super(contract: contract);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {...super.toJson(), "points": points, "invertScore": invertScore};
+  }
+
   @override
   String filledRules(String rules) {
     String invertScoreSentence = "";
@@ -122,15 +180,35 @@ class TrumpsContractSettings extends AbstractContractSettings {
 
   /// A map to know if each contract should be part of trumps contract or not
   @HiveField(1)
-  final Map<ContractsInfo, bool> contracts;
+  @Deprecated("should use [contracts] instead")
+  final Map<ContractsInfo, bool>? c;
 
-  TrumpsContractSettings({super.isActive, required this.contracts})
-      : super(contract: ContractsInfo.trumps);
+  /// A map to know if each contract should be part of trumps contract or not
+  final Map<String, bool> contracts;
+
+  TrumpsContractSettings({super.isActive, this.c, Map<String, bool>? contracts})
+      : assert(c != null || contracts != null),
+        contracts = contracts ??
+            {
+              for (var contract in c!.entries) contract.key.name: contract.value
+            },
+        super(contract: ContractsInfo.trumps);
+
+  TrumpsContractSettings.fromJson(Map<String, dynamic> json,
+      {required ContractsInfo contract, required super.isActive})
+      : contracts = Map.castFrom(jsonDecode(json["contracts"])),
+        c = {},
+        super(contract: contract);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {...super.toJson(), "contracts": jsonEncode(contracts)};
+  }
 
   /// Returns the active contracts
   List<ContractsInfo> get activeContracts => contracts.entries
       .where((contract) => contract.value)
-      .map((contract) => contract.key)
+      .map((contract) => ContractsInfo.fromName(contract.key))
       .toList();
 
   @override
@@ -139,7 +217,10 @@ class TrumpsContractSettings extends AbstractContractSettings {
       contracts.entries
           .where((contract) => contract.value)
           .toList()
-          .map((e) => e.key.displayName.toLowerCase().replaceAll("sans ", ""))
+          .map((e) => ContractsInfo.fromName(e.key)
+              .displayName
+              .toLowerCase()
+              .replaceAll("sans ", ""))
           .toString()
           .replaceAll('(', "")
           .replaceAll(')', "")
@@ -172,6 +253,26 @@ class DominoContractSettings extends AbstractContractSettings {
         super(contract: ContractsInfo.domino) {
     this.points =
         points ?? generatePointsLists(pointsFirstPlayer!, pointsLastPlayer!);
+  }
+
+  DominoContractSettings.fromJson(Map<String, dynamic> json,
+      {required ContractsInfo contract, required super.isActive})
+      : points = Map.castFrom({
+          for (var entry in jsonDecode(json["points"]).entries)
+            int.parse(entry.key): List<int>.from(entry.value),
+        }),
+        super(contract: contract);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      ...super.toJson(),
+      "points": jsonEncode(
+        {
+          for (var entry in points.entries) '${entry.key}': entry.value,
+        },
+      )
+    };
   }
 
   /// Generates points lists depending on number players in the game

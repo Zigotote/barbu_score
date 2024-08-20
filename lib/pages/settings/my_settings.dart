@@ -26,50 +26,45 @@ class MySettings extends ConsumerWidget {
             const AppThemeChoice(),
             const Text("Paramètres des contrats"),
             const SizedBox(height: 24),
-            ValueListenableBuilder(
-              valueListenable:
-                  ref.watch(storageProvider).listenContractsSettings(),
-              builder: (_, contracts, ___) {
-                return MyGrid(
-                  isScrollable: false,
-                  children: ContractsInfo.values.map(
-                    (contract) {
-                      final contractSettings =
-                          ref.read(storageProvider).getSettings(contract);
-                      return ElevatedButtonWithIndicator(
-                        text: contract.displayName,
-                        onPressed: () {
-                          SnackBarUtils.instance.closeSnackBar(context);
-                          Navigator.of(context)
-                              .pushNamed(
-                            contract.settingsRoute,
-                            arguments: contract,
-                          )
-                              .then((_) {
-                            final newSettings = ref
-                                .read(contractSettingsProvider(contract))
-                                .settings;
-                            if (contractSettings != newSettings) {
-                              ref
-                                  .read(storageProvider)
-                                  .saveSettings(contract, newSettings);
-                              SnackBarUtils.instance.openSnackBar(
-                                context: context,
-                                title: "Modifications sauvegardées",
-                                text:
-                                    "Les changements ont été sauvegardés et seront appliqués sur les prochaines parties.",
-                              );
-                            }
-                          });
-                        },
-                        indicator: ActiveContractIndicator(
-                          isActive: contractSettings.isActive,
-                        ),
-                      );
+            MyGrid(
+              isScrollable: false,
+              children: ContractsInfo.values.map(
+                (contract) {
+                  final contractSettings =
+                      ref.watch(storageProvider).getSettings(contract);
+                  return ElevatedButtonWithIndicator(
+                    text: contract.displayName,
+                    onPressed: () {
+                      SnackBarUtils.instance.closeSnackBar(context);
+                      Navigator.of(context)
+                          .pushNamed(
+                        contract.settingsRoute,
+                        arguments: contract,
+                      )
+                          .then((_) {
+                        final newSettings = ref
+                            .read(contractSettingsProvider(contract))
+                            .settings;
+                        if (contractSettings != newSettings) {
+                          ref
+                              .read(storageProvider)
+                              .saveSettings(contract, newSettings);
+                          SnackBarUtils.instance.openSnackBar(
+                            context: context,
+                            title: "Modifications sauvegardées",
+                            text:
+                                "Les changements ont été sauvegardés et seront appliqués sur les prochaines parties.",
+                          );
+                          ref.invalidate(storageProvider);
+                        }
+                      });
                     },
-                  ).toList(),
-                );
-              },
+                    indicator: ActiveContractIndicator(
+                      isActive: contractSettings.isActive,
+                    ),
+                  );
+                },
+              ).toList(),
             ),
           ],
         ),

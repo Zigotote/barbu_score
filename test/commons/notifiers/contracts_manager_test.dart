@@ -53,38 +53,38 @@ main() {
 
   // Items by players
   final playerNames = defaultPlayerNames.take(4).toList();
-  final barbu = OneLooserContractModel(contract: ContractsInfo.barbu);
-  barbu.setItemsByPlayer({
-    for (var (index, player) in playerNames.indexed) player: index == 0 ? 1 : 0
-  });
-  final noQueens = MultipleLooserContractModel(
-    contract: ContractsInfo.noQueens,
-    nbItems: 4,
-  );
-  noQueens.setItemsByPlayer({for (var player in playerNames) player: 1});
-  final noTricks = MultipleLooserContractModel(
-    contract: ContractsInfo.noTricks,
-    nbItems: 8,
-  );
-  noTricks.setItemsByPlayer({for (var player in playerNames) player: 2});
-  final noHearts = MultipleLooserContractModel(
-    contract: ContractsInfo.noHearts,
-    nbItems: 8,
-  );
-  noHearts.setItemsByPlayer({for (var player in playerNames) player: 2});
-  final noLastTrick = OneLooserContractModel(
-    contract: ContractsInfo.noLastTrick,
-  );
-  noLastTrick.setItemsByPlayer(
-    {
+  final barbu = OneLooserContractModel(
+    contract: ContractsInfo.barbu,
+    itemsByPlayer: {
       for (var (index, player) in playerNames.indexed)
         player: index == 0 ? 1 : 0
     },
   );
-  final domino = DominoContractModel();
-  domino.setRankOfPlayer(
-    {for (var (index, player) in playerNames.indexed) player: index},
+  final noQueens = MultipleLooserContractModel(
+    contract: ContractsInfo.noQueens,
+    itemsByPlayer: {for (var player in playerNames) player: 1},
+    nbItems: 4,
   );
+  final noTricks = MultipleLooserContractModel(
+    contract: ContractsInfo.noTricks,
+    itemsByPlayer: {for (var player in playerNames) player: 2},
+    nbItems: 8,
+  );
+  final noHearts = MultipleLooserContractModel(
+    contract: ContractsInfo.noHearts,
+    itemsByPlayer: {for (var player in playerNames) player: 2},
+    nbItems: 8,
+  );
+  final noLastTrick = OneLooserContractModel(
+    contract: ContractsInfo.noLastTrick,
+    itemsByPlayer: {
+      for (var (index, player) in playerNames.indexed)
+        player: index == 0 ? 1 : 0
+    },
+  );
+  final domino = DominoContractModel(rankOfPlayer: {
+    for (var (index, player) in playerNames.indexed) player: index
+  });
   final trumps = TrumpsContractModel(
     subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
   );
