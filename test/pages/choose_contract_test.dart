@@ -65,8 +65,13 @@ main() {
     });
     patrolWidgetTest("should display disabled contracts $activeContracts",
         ($) async {
-      await $.pumpWidget(_createPage($,
-          activeContracts: activeContracts, playedContracts: playedContracts));
+      await $.pumpWidget(
+        _createPage(
+          $,
+          activeContracts: activeContracts,
+          playedContracts: playedContracts,
+        ),
+      );
 
       expect($(ElevatedButton), findsNWidgets(activeContracts.length + 1));
       for (var contract in activeContracts) {
@@ -134,16 +139,19 @@ Widget _createPage(PatrolTester $,
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(home: const ChooseContract(), routes: {
-      Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractPage(
-            ContractRouteArgument(contractInfo: ContractsInfo.barbu),
-          ),
-      Routes.noSomethingScores: (context) => MultipleLooserContractPage(
-            ContractRouteArgument(contractInfo: ContractsInfo.noQueens),
-          ),
-      Routes.dominoScores: (_) => const DominoContractPage(),
-      Routes.trumpsScores: (_) => const TrumpsContractPage(),
-      Routes.scores: (_) => const MyScores()
-    }),
+    child: MaterialApp(
+      home: const ChooseContract(),
+      routes: {
+        Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractPage(
+              ContractRouteArgument(contractInfo: ContractsInfo.barbu),
+            ),
+        Routes.noSomethingScores: (context) => MultipleLooserContractPage(
+              ContractRouteArgument(contractInfo: ContractsInfo.noQueens),
+            ),
+        Routes.dominoScores: (_) => const DominoContractPage(),
+        Routes.trumpsScores: (_) => const TrumpsContractPage(),
+        Routes.scores: (_) => const MyScores()
+      },
+    ),
   );
 }

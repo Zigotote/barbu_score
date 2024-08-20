@@ -1,22 +1,38 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hive/hive.dart';
 
 import 'contract_info.dart';
 import 'contract_settings_models.dart';
 
-part 'contract_models.g.dart';
-
 /// An abstract class to fill the items won by players for a contract
 abstract class AbstractContractModel with EquatableMixin {
   /// The name of the contract
-  @HiveField(0)
   final String name;
 
   AbstractContractModel({ContractsInfo? contract, String? name})
       : assert(name == null || contract == null,
             "Only name or contract should be used"),
         name = name ?? contract!.name;
+
+  factory AbstractContractModel.fromJson(Map<String, dynamic> json) {
+    final contract = ContractsInfo.fromName(json["name"]);
+    return switch (contract) {
+      ContractsInfo.barbu ||
+      ContractsInfo.noLastTrick ||
+      ContractsInfo.noHearts ||
+      ContractsInfo.noQueens ||
+      ContractsInfo.noTricks =>
+        AbstractSubContractModel.fromJson(contract, json),
+      ContractsInfo.trumps => TrumpsContractModel.fromJson(contract, json),
+      ContractsInfo.domino => DominoContractModel.fromJson(contract, json)
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return {"name": name};
+  }
 
   /// Calculates the scores of this contract from its settings. Returns null score if it can't be calculated
   Map<String, int>? scores(AbstractContractSettings settings);
@@ -33,10 +49,30 @@ abstract class AbstractContractModel with EquatableMixin {
 /// A class to represent a contract that can be part of a trumps contract
 abstract class AbstractSubContractModel extends AbstractContractModel {
   /// The number of items each player won for this contract
-  @HiveField(1)
   Map<String, int> _itemsByPlayer;
 
-  AbstractSubContractModel({super.contract, super.name}) : _itemsByPlayer = {};
+  AbstractSubContractModel(
+      {super.contract, super.name, Map<String, int> itemsByPlayer = const {}})
+      : _itemsByPlayer = itemsByPlayer;
+
+  factory AbstractSubContractModel.fromJson(
+      ContractsInfo contract, Map<String, dynamic> json) {
+    return switch (contract) {
+      ContractsInfo.barbu ||
+      ContractsInfo.noLastTrick =>
+        OneLooserContractModel.fromJson(contract, json),
+      ContractsInfo.noHearts ||
+      ContractsInfo.noQueens ||
+      ContractsInfo.noTricks =>
+        MultipleLooserContractModel.fromJson(contract, json),
+      _ => throw UnimplementedError(),
+    };
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {...super.toJson(), "itemsByPlayer": jsonEncode(_itemsByPlayer)};
+  }
 
   @override
   List<Object?> get props => [...super.props, _itemsByPlayer];
@@ -65,9 +101,15 @@ abstract class AbstractSubContractModel extends AbstractContractModel {
 }
 
 /// A class to fill the scores for a contract which has only one looser
-@HiveType(typeId: 15)
 class OneLooserContractModel extends AbstractSubContractModel {
-  OneLooserContractModel({super.contract, super.name});
+  OneLooserContractModel({super.contract, super.name, super.itemsByPlayer});
+
+  OneLooserContractModel.fromJson(
+      ContractsInfo contract, Map<String, dynamic> json)
+      : super(
+          contract: contract,
+          itemsByPlayer: Map.castFrom(jsonDecode(json["itemsByPlayer"])),
+        );
 
   @override
   bool isValid(Map<String, int> itemsByPlayer) {
@@ -90,14 +132,25 @@ class OneLooserContractModel extends AbstractSubContractModel {
 }
 
 /// A class to fill the scores for a contract where multiple players can have some points
-@HiveType(typeId: 16)
 class MultipleLooserContractModel extends AbstractSubContractModel {
   /// The number of item (card or trick) the deck should have
-  @HiveField(2)
   final int nbItems;
 
   MultipleLooserContractModel(
-      {super.contract, super.name, required this.nbItems});
+      {super.contract, super.name, super.itemsByPlayer, required this.nbItems});
+
+  MultipleLooserContractModel.fromJson(
+      ContractsInfo contract, Map<String, dynamic> json)
+      : nbItems = json["nbItems"],
+        super(
+          contract: contract,
+          itemsByPlayer: Map.castFrom(jsonDecode(json["itemsByPlayer"])),
+        );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {...super.toJson(), "nbItems": nbItems};
+  }
 
   @override
   List<Object?> get props => [...super.props, nbItems];
@@ -139,14 +192,34 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
 }
 
 /// A trumps contract scores
-@HiveType(typeId: 7)
 class TrumpsContractModel extends AbstractContractModel {
-  @HiveField(1)
   final List<AbstractSubContractModel> subContracts;
 
   TrumpsContractModel({List<AbstractSubContractModel>? subContracts})
       : subContracts = subContracts ?? [],
         super(contract: ContractsInfo.trumps);
+
+  TrumpsContractModel.fromJson(
+      ContractsInfo contract, Map<String, dynamic> json)
+      : subContracts = ((jsonDecode(json["subContracts"]) as List)
+            .map(
+              (subContractJson) => AbstractSubContractModel.fromJson(
+                ContractsInfo.fromName(subContractJson["name"]),
+                subContractJson,
+              ),
+            )
+            .toList()),
+        super(contract: contract);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      ...super.toJson(),
+      "subContracts": jsonEncode(
+        subContracts.map((subContract) => subContract.toJson()).toList(),
+      )
+    };
+  }
 
   @override
   List<Object?> get props => [...super.props, subContracts];
@@ -187,13 +260,23 @@ class TrumpsContractModel extends AbstractContractModel {
 }
 
 /// A domino contract scores
-@HiveType(typeId: 8)
 class DominoContractModel extends AbstractContractModel {
   /// The rank where each player finished this contract
-  @HiveField(1)
-  Map<String, int> _rankOfPlayer = {};
+  Map<String, int> _rankOfPlayer;
 
-  DominoContractModel() : super(contract: ContractsInfo.domino);
+  DominoContractModel({Map<String, int> rankOfPlayer = const {}})
+      : _rankOfPlayer = rankOfPlayer,
+        super(contract: ContractsInfo.domino);
+
+  DominoContractModel.fromJson(
+      ContractsInfo contract, Map<String, dynamic> json)
+      : _rankOfPlayer = Map.castFrom(jsonDecode(json["rankOfPlayer"])),
+        super(contract: contract);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {...super.toJson(), "rankOfPlayer": jsonEncode(_rankOfPlayer)};
+  }
 
   @override
   List<Object?> get props => [...super.props, _rankOfPlayer];

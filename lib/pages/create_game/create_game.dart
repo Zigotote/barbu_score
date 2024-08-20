@@ -39,7 +39,6 @@ class CreateGame extends ConsumerWidget {
           ? () {
               if (_formKey.currentState!.validate()) {
                 ref.read(playGameProvider).init(provider.players);
-                nbPlayers = provider.players.length;
                 Navigator.of(context).pushNamed(Routes.prepareGame);
               }
             }

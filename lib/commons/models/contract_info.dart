@@ -85,10 +85,10 @@ enum ContractsInfo {
         return OneLooserContractSettings(contract: this, points: 40);
       case ContractsInfo.trumps:
         return TrumpsContractSettings(
-          contracts: Map.fromIterable(
-            TrumpsContractSettings.availableContracts,
-            value: (contract) => true,
-          ),
+          contracts: {
+            for (var contract in TrumpsContractSettings.availableContracts)
+              contract.name: true
+          },
         );
       case ContractsInfo.domino:
         return DominoContractSettings(

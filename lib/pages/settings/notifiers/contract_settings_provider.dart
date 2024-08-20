@@ -13,7 +13,7 @@ final contractSettingsProvider = ChangeNotifierProvider.family
     .autoDispose<ContractSettingsNotifier, ContractsInfo>(
   (ref, contractsInfo) => ContractSettingsNotifier(
     ref.watch(canModifySettingsProvider),
-    ref.read(storageProvider).getSettings(contractsInfo),
+    ref.read(storageProvider).getSettings(contractsInfo).copy(),
   ),
 );
 

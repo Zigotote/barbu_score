@@ -64,12 +64,14 @@ main() {
         expect(model.scores(contract.defaultSettings), isNull);
       });
       test("should calculate scores from settings", () {
-        final model = OneLooserContractModel(contract: contract);
         final itemsByPlayer = {
           for (var (index, player) in defaultPlayerNames.indexed)
             player: index == 0 ? 1 : 0
         };
-        model.setItemsByPlayer(itemsByPlayer);
+        final model = OneLooserContractModel(
+          contract: contract,
+          itemsByPlayer: itemsByPlayer,
+        );
 
         final expectedScores = {
           for (var (index, player) in defaultPlayerNames.indexed)
@@ -142,14 +144,14 @@ main() {
       test(
           "should calculate scores from settings with multiple players with items",
           () {
-        final model = MultipleLooserContractModel(
-          contract: contract,
-          nbItems: nbItemsForContract,
-        );
         final itemsByPlayer = {
           for (var player in defaultPlayerNames) player: 1
         };
-        model.setItemsByPlayer(itemsByPlayer);
+        final model = MultipleLooserContractModel(
+          contract: contract,
+          itemsByPlayer: itemsByPlayer,
+          nbItems: nbItemsForContract,
+        );
 
         final expectedScores = {
           for (var player in defaultPlayerNames)
@@ -163,15 +165,15 @@ main() {
         test(
             "should calculate scores from settings with one player with items and invert scores is $invertScore",
             () {
-          final model = MultipleLooserContractModel(
-            contract: contract,
-            nbItems: nbItemsForContract,
-          );
           final itemsByPlayer = {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index == 0 ? nbItemsForContract : 0
           };
-          model.setItemsByPlayer(itemsByPlayer);
+          final model = MultipleLooserContractModel(
+            contract: contract,
+            itemsByPlayer: itemsByPlayer,
+            nbItems: nbItemsForContract,
+          );
 
           final settings = MultipleLooserContractSettings(
             contract: contract,
@@ -199,12 +201,13 @@ main() {
     for (var replaceSubContract in [true, false]) {
       test("should ${replaceSubContract ? "replace" : "add"} sub contract", () {
         final model = TrumpsContractModel();
-        final subContract =
-            OneLooserContractModel(contract: ContractsInfo.noQueens);
-        subContract.setItemsByPlayer({
-          for (var (index, player) in defaultPlayerNames.indexed)
-            player: index == 0 ? 1 : 0
-        });
+        final subContract = OneLooserContractModel(
+          contract: ContractsInfo.noQueens,
+          itemsByPlayer: {
+            for (var (index, player) in defaultPlayerNames.indexed)
+              player: index == 0 ? 1 : 0
+          },
+        );
         Map<String, int> expectedItemsByPlayer = subContract.itemsByPlayer;
 
         model.addSubContract(subContract);
@@ -269,46 +272,40 @@ main() {
             isNull);
       });
       test("should sum sub contract scores", () {
-        final barbu = OneLooserContractModel(contract: ContractsInfo.barbu);
-        barbu.setItemsByPlayer({
-          for (var (index, player) in defaultPlayerNames.indexed)
-            player: index == 0 ? 1 : 0
-        });
+        final barbu = OneLooserContractModel(
+          contract: ContractsInfo.barbu,
+          itemsByPlayer: {
+            for (var (index, player) in defaultPlayerNames.indexed)
+              player: index == 0 ? 1 : 0
+          },
+        );
         final noQueens = MultipleLooserContractModel(
           contract: ContractsInfo.noQueens,
-          nbItems: 4,
-        );
-        noQueens.setItemsByPlayer(
-          {
+          itemsByPlayer: {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index < 4 ? 1 : 0
           },
+          nbItems: 4,
         );
         final noTricks = MultipleLooserContractModel(
           contract: ContractsInfo.noTricks,
-          nbItems: 8,
-        );
-        noTricks.setItemsByPlayer(
-          {
+          itemsByPlayer: {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index < 4 ? 2 : 0
           },
+          nbItems: 8,
         );
         final noHearts = MultipleLooserContractModel(
           contract: ContractsInfo.noHearts,
-          nbItems: 8,
-        );
-        noHearts.setItemsByPlayer(
-          {
+          itemsByPlayer: {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index < 4 ? 2 : 0
           },
+          nbItems: 8,
         );
         final noLastTrick = OneLooserContractModel(
           contract: ContractsInfo.noLastTrick,
-        );
-        noLastTrick.setItemsByPlayer(
-          {
+          itemsByPlayer: {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index == 0 ? 1 : 0
           },
@@ -333,46 +330,43 @@ main() {
         });
       });
       test("should sum sub contract scores when one players wons all", () {
-        final barbu = OneLooserContractModel(contract: ContractsInfo.barbu);
-        barbu.setItemsByPlayer({
-          for (var (index, player) in defaultPlayerNames.indexed)
-            player: index == 0 ? 1 : 0
-        });
+        final barbu = OneLooserContractModel(
+          contract: ContractsInfo.barbu,
+          itemsByPlayer: {
+            for (var (index, player) in defaultPlayerNames.indexed)
+              player: index == 0 ? 1 : 0
+          },
+        );
+        const nbNoQueens = 4;
         final noQueens = MultipleLooserContractModel(
           contract: ContractsInfo.noQueens,
-          nbItems: 4,
-        );
-        noQueens.setItemsByPlayer(
-          {
+          itemsByPlayer: {
             for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? noQueens.nbItems : 0
+              player: index == 0 ? nbNoQueens : 0
           },
+          nbItems: nbNoQueens,
         );
+        const nbNoTricks = 8;
         final noTricks = MultipleLooserContractModel(
           contract: ContractsInfo.noTricks,
-          nbItems: 8,
-        );
-        noTricks.setItemsByPlayer(
-          {
+          itemsByPlayer: {
             for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? noTricks.nbItems : 0
+              player: index == 0 ? nbNoTricks : 0
           },
+          nbItems: nbNoTricks,
         );
+        const nbNoHearts = 8;
         final noHearts = MultipleLooserContractModel(
           contract: ContractsInfo.noHearts,
-          nbItems: 8,
-        );
-        noHearts.setItemsByPlayer(
-          {
+          itemsByPlayer: {
             for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? noHearts.nbItems : 0
+              player: index == 0 ? nbNoHearts : 0
           },
+          nbItems: nbNoHearts,
         );
         final noLastTrick = OneLooserContractModel(
           contract: ContractsInfo.noLastTrick,
-        );
-        noLastTrick.setItemsByPlayer(
-          {
+          itemsByPlayer: {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index == 0 ? 1 : 0
           },
