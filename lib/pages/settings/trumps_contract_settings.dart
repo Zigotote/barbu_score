@@ -25,25 +25,24 @@ class TrumpsContractSettingsPage extends ConsumerWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 8),
-        ...TrumpsContractSettings.availableContracts
-            .map(
-              (contract) => SettingQuestion(
-                label: contract.displayName,
-                input: MySwitch(
-                  isActive: settings.contracts[contract]!,
-                  onChanged: provider.modifySetting(
-                    (value) {
-                      settings.contracts.update(contract, (_) => value);
-                      // Deactivate trumps contract if no active contract inside it
-                      if (!settings.contracts.containsValue(true)) {
-                        settings.isActive = false;
-                      }
-                    },
-                  ),
-                ),
+        ...TrumpsContractSettings.availableContracts.map(
+          (contract) => SettingQuestion(
+            key: Key(contract.name),
+            label: contract.displayName,
+            input: MySwitch(
+              isActive: settings.contracts[contract]!,
+              onChanged: provider.modifySetting(
+                (value) {
+                  settings.contracts.update(contract, (_) => value);
+                  // Deactivate trumps contract if no active contract inside it
+                  if (!settings.contracts.containsValue(true)) {
+                    settings.isActive = false;
+                  }
+                },
               ),
-            )
-            ,
+            ),
+          ),
+        ),
       ],
     );
   }

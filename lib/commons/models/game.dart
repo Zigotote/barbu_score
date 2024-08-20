@@ -15,14 +15,16 @@ class Game {
   @HiveField(1)
   int _currentPlayerIndex;
 
+  /// The indicator to know if game is finished or not
+  @HiveField(2)
+  bool isFinished;
+
   Game({required this.players, int currentPlayerIndex = 0})
-      : _currentPlayerIndex = currentPlayerIndex;
+      : _currentPlayerIndex = currentPlayerIndex,
+        isFinished = false;
 
   /// Returns the current player
   Player get currentPlayer => players[_currentPlayerIndex];
-
-  /// Returns true if the game is finished
-  bool get isFinished => !currentPlayer.hasAvailableContracts;
 
   /// Changes the current player to the next one
   nextPlayer() {

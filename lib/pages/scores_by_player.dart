@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../commons/models/contract_info.dart';
 import '../commons/models/player.dart';
+import '../commons/notifiers/contracts_manager.dart';
 import '../commons/notifiers/play_game.dart';
-import '../commons/utils/storage.dart';
+import '../commons/utils/contract_scores.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/my_subtitle.dart';
 import '../commons/widgets/score_table.dart';
@@ -16,28 +18,35 @@ class ScoresByPlayer extends ConsumerWidget {
   const ScoresByPlayer(this.player, {super.key});
 
   /// Builds the rows to display player scores for each contract
-  List<ScoreRow> _buildPlayerRows(List<Player> players) {
-    return MyStorage.getActiveContracts().map((contract) {
-      final Map<String, int>? scores = player.contractScores(contract.name);
-      return ScoreRow(
-        title: contract.displayName,
-        scores: players.map((p) => scores?[p.name]).toList(),
-      );
-    }).toList();
+  List<ScoreRow> _buildPlayerRows(
+      Map<ContractsInfo, Map<String, int>?> playerScores,
+      List<Player> players) {
+    return playerScores.entries
+        .map(
+          (playerScore) => ScoreRow(
+            title: playerScore.key.displayName,
+            scores: playerScore.value,
+          ),
+        )
+        .toList();
   }
 
   /// Builds the row to display total scores
-  ScoreRow _buildTotalRow(List<Player> players) {
+  ScoreRow _buildTotalRow(Map<ContractsInfo, Map<String, int>?> playerScores,
+      List<Player> players) {
+    final totalScores = sumScores(playerScores.values.toList());
     return ScoreRow(
       title: "Total",
-      scores: players.map((p) => player.playerScores?[p.name]).toList(),
-      isBold: true,
+      scores: totalScores,
+      isTotal: true,
     );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final players = ref.read(playGameProvider).players;
+    final playerScores =
+        ref.read(contractsManagerProvider).scoresByContract(player);
     return DefaultPage(
       hasLeading: true,
       title: "Scores",
@@ -48,7 +57,10 @@ class ScoresByPlayer extends ConsumerWidget {
           Expanded(
             child: ScoreTable(
               players: players,
-              rows: [..._buildPlayerRows(players), _buildTotalRow(players)],
+              rows: [
+                ..._buildPlayerRows(playerScores, players),
+                _buildTotalRow(playerScores, players)
+              ],
             ),
           )
         ],

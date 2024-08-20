@@ -7,10 +7,10 @@ class ContractRouteArgument {
   final ContractsInfo contractInfo;
 
   /// The model of the contract, with some values, if it has already been filled
-  final AbstractContractModel? contractValues;
+  final AbstractSubContractModel? contractModel;
 
-  ContractRouteArgument({required this.contractInfo, this.contractValues});
+  ContractRouteArgument({required this.contractInfo, this.contractModel});
 
   /// Returns true if the route is made to modify a contract, false if it is a new one
-  bool get isForModification => contractValues != null;
+  bool get isForModification => contractModel != null;
 }

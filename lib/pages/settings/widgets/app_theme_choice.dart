@@ -66,18 +66,20 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
 
   @override
   Widget build(BuildContext context) {
-    return SettingQuestion(
-      label: "Thème de l'application",
-      input: GestureDetector(
-        onTap: () => _invertTheme(),
-        onHorizontalDragStart: (_) => _invertTheme(),
-        child: SizedBox(
-          height: 60,
-          width: 60,
-          child: RiveAnimation.asset(
-            "assets/switch.riv",
-            stateMachines: [_riveStateName],
-            onInit: _initStateMachine,
+    return MergeSemantics(
+      child: SettingQuestion(
+        label: "Thème de l'application",
+        input: GestureDetector(
+          onTap: () => _invertTheme(),
+          onHorizontalDragStart: (_) => _invertTheme(),
+          child: SizedBox(
+            height: 60,
+            width: 60,
+            child: RiveAnimation.asset(
+              "assets/switch.riv",
+              stateMachines: [_riveStateName],
+              onInit: _initStateMachine,
+            ),
           ),
         ),
       ),

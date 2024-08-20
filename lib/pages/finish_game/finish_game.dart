@@ -15,7 +15,7 @@ class FinishGame extends StatelessWidget {
       title: "Fin de partie",
       tabs: const [Tab(text: "Classement"), Tab(text: "Scores par contrat")],
       content: const TabBarView(
-        children: [OrderedPlayersScores(isFinished: true), GameTable()],
+        children: [OrderedPlayersScores(isGameFinished: true), GameTable()],
       ),
       bottomWidget: ElevatedButton(
         child: const Text("Retour à l'accueil"),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/contract_info.dart';
-import '../../../commons/utils/storage.dart';
+import '../../../commons/notifiers/storage.dart';
 import '../../../commons/widgets/alert_dialog.dart';
 import '../../../commons/widgets/default_page.dart';
 import '../notifiers/contract_settings_provider.dart';
@@ -34,9 +34,9 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
   @override
   void initState() {
     super.initState();
-    if (MyStorage.hasStoredGame()) {
+    if (!ref.read(canModifySettingsProvider)) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        final isAnswered = await showDialog(
+        await showDialog(
           barrierDismissible: false,
           context: context,
           builder: (_) => MyAlertDialog(
@@ -48,29 +48,23 @@ class _ContractSettingsPage extends ConsumerState<ContractSettingsPage> {
               AlertDialogActionButton(
                 text: 'Consulter',
                 onPressed: () {
-                  ref
-                      .read(contractSettingsProvider(widget.contract))
-                      .canModify = false;
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop();
                 },
               ),
               AlertDialogActionButton(
                 isDestructive: true,
                 text: 'Supprimer',
                 onPressed: () {
-                  MyStorage.deleteGame();
+                  ref.read(storageProvider).deleteGame();
                   ref
-                      .read(contractSettingsProvider(widget.contract))
-                      .canModify = true;
-                  Navigator.of(context).pop(true);
+                      .read(canModifySettingsProvider.notifier)
+                      .update((state) => true);
+                  Navigator.of(context).pop();
                 },
               ),
             ],
           ),
         );
-        if (isAnswered == null) {
-          ref.read(contractSettingsProvider(widget.contract)).canModify = false;
-        }
       });
     }
   }

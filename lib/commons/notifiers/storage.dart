@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import '../models/contract_info.dart';
@@ -9,7 +10,9 @@ import '../models/contract_settings_models.dart';
 import '../models/game.dart';
 import '../models/player.dart';
 import '../models/player_colors.dart';
-import 'globals.dart' as globals;
+import '../utils/globals.dart' as globals;
+
+final storageProvider = Provider((ref) => MyStorage());
 
 /// A class to handle local storage objects
 class MyStorage {
@@ -19,8 +22,6 @@ class MyStorage {
   static const String _gameKey = "game";
   static const String _isDarkThemeKey = "isDarkTheme";
 
-  MyStorage._();
-
   /// The function to call to init storage
   static init() async {
     await Hive.initFlutter();
@@ -28,18 +29,16 @@ class MyStorage {
     Hive.registerAdapter<Player>(PlayerAdapter());
     Hive.registerAdapter<Color>(ColorAdapter());
     Hive.registerAdapter<ContractsInfo>(ContractsInfoAdapter());
-    Hive.registerAdapter<BarbuContractModel>(BarbuContractModelAdapter());
-    Hive.registerAdapter<NoLastTrickContractModel>(
-        NoLastTrickContractModelAdapter());
-    Hive.registerAdapter<NoHeartsContractModel>(NoHeartsContractModelAdapter());
-    Hive.registerAdapter<NoQueensContractModel>(NoQueensContractModelAdapter());
-    Hive.registerAdapter<NoTricksContractModel>(NoTricksContractModelAdapter());
+    Hive.registerAdapter<OneLooserContractModel>(
+        OneLooserContractModelAdapter());
+    Hive.registerAdapter<MultipleLooserContractModel>(
+        MultipleLooserContractModelAdapter());
     Hive.registerAdapter<TrumpsContractModel>(TrumpsContractModelAdapter());
     Hive.registerAdapter<DominoContractModel>(DominoContractModelAdapter());
-    Hive.registerAdapter<PointsContractSettings>(
-        PointsContractSettingsAdapter());
-    Hive.registerAdapter<IndividualScoresContractSettings>(
-        IndividualScoresContractSettingsAdapter());
+    Hive.registerAdapter<OneLooserContractSettings>(
+        OneLooserContractSettingsAdapter());
+    Hive.registerAdapter<MultipleLooserContractSettings>(
+        MultipleLooserContractSettingsAdapter());
     Hive.registerAdapter<TrumpsContractSettings>(
         TrumpsContractSettingsAdapter());
     Hive.registerAdapter<DominoContractSettings>(
@@ -51,13 +50,13 @@ class MyStorage {
   }
 
   /// Returns true if a game is saved in storage, false otherwise
-  static bool hasStoredGame() {
-    final storedGame = MyStorage.getStoredGame();
+  bool hasStoredGame() {
+    final storedGame = getStoredGame();
     return storedGame != null && !storedGame.isFinished;
   }
 
   /// Gets the game saved in the store
-  static Game? getStoredGame() {
+  Game? getStoredGame() {
     var storedGame = Hive.box(_gameBoxName).get(_gameKey);
     if (storedGame != null) {
       globals.nbPlayers = storedGame.players.length;
@@ -67,49 +66,48 @@ class MyStorage {
   }
 
   /// Saves the game status
-  static void saveGame(Game game) {
+  void saveGame(Game game) {
     Hive.box(_gameBoxName).put(_gameKey, game);
   }
 
   /// Deletes the data saved for the game in the store
-  static void deleteGame() {
+  void deleteGame() {
     globals.nbPlayers = 0;
     Hive.box(_gameBoxName).clear();
   }
 
   /// Returns true if saved theme is dark, false if it is white. If nothing saved, returns null
-  static bool? getIsDarkTheme() {
+  bool? getIsDarkTheme() {
     return Hive.box(_settingsBoxName).get(_isDarkThemeKey);
   }
 
   /// Saves true if app theme should be dark, false otherwise
-  static void saveIsDarkTheme(bool isDarkTheme) {
+  void saveIsDarkTheme(bool isDarkTheme) {
     Hive.box(_settingsBoxName).put(_isDarkThemeKey, isDarkTheme);
   }
 
   /// Gets the settings associated to this contract. Returns default settings if no personalized data saved
-  static T getSettings<T extends AbstractContractSettings>(
-      ContractsInfo contractsInfo) {
+  AbstractContractSettings getSettings(ContractsInfo contractsInfo) {
     return Hive.box(_settingsBoxName)
-        .get(contractsInfo.name, defaultValue: contractsInfo.settings)
+        .get(contractsInfo.name, defaultValue: contractsInfo.defaultSettings)
         .copy();
   }
 
   /// Returns all active contracts
-  static List<ContractsInfo> getActiveContracts() {
+  List<ContractsInfo> getActiveContracts() {
     return List<ContractsInfo>.from(ContractsInfo.values)
-      ..removeWhere((contract) => !MyStorage.getSettings(contract).isActive);
+      ..removeWhere((contract) => !getSettings(contract).isActive);
   }
 
-  /// Saves the points associated to this contract
-  static void saveSettings(
+  /// Saves contract settings and deletes the current game
+  void saveSettings(
       ContractsInfo contractsInfo, AbstractContractSettings settings) {
     deleteGame();
     Hive.box(_settingsBoxName).put(contractsInfo.name, settings);
   }
 
   /// Listens to contract settings changes
-  static ValueListenable<Box> listenContractsSettings() {
+  ValueListenable listenContractsSettings() {
     return Hive.box(_settingsBoxName).listenable(
       keys: ContractsInfo.values.map((contract) => contract.name).toList(),
     );

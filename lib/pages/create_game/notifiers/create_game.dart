@@ -10,22 +10,23 @@ import '../../../commons/utils/player_icon_properties.dart';
 
 final createGameProvider =
     ChangeNotifierProvider.autoDispose<CreateGameNotifier>(
-  (ref) => CreateGameNotifier(),
+  (ref) => CreateGameNotifier(
+    List.generate(
+      4,
+      (index) => Player.create(
+        color: playerColors[index],
+        image: playerImages[index],
+      ),
+      growable: true,
+    ),
+  ),
 );
 
 class CreateGameNotifier with ChangeNotifier {
   /// The list of players for the game
   final List<Player> _players;
 
-  CreateGameNotifier()
-      : _players = List.generate(
-          4,
-          (index) => Player.create(
-            color: playerColors[index],
-            image: playerImages[index],
-          ),
-          growable: true,
-        );
+  CreateGameNotifier(this._players);
 
   UnmodifiableListView<Player> get players => UnmodifiableListView(_players);
 
@@ -51,14 +52,12 @@ class CreateGameNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  /// Returns the first letter of each player who choose this color
-  String getPlayersWithColor(PlayerColors color) {
+  /// Returns the name of each player who choose this color
+  List<String> getPlayersWithColor(PlayerColors color) {
     return _players
         .where((player) => player.color == color)
-        .map((player) => player.name.trim().isEmpty
-            ? "X"
-            : player.name.trim().characters.first.toUpperCase())
-        .join("/");
+        .map((player) => player.name.trim().isEmpty ? "X" : player.name.trim())
+        .toList();
   }
 
   void changePlayerColor(Player player, PlayerColors color) {
