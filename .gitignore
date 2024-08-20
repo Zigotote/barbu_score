@@ -6,10 +6,7 @@
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
-barbu_score/
-
-# If you're building an application, you may want to check-in your pubspec.lock
-pubspec.lock
+*.symbols
 
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
@@ -27,4 +24,10 @@ doc/api/
 .idea
 
 # Generated files
+*.mocks.dart
 *.g.dart
+*.mock.dart
+coverage/
+
+# FVM Version Cache
+.fvm/

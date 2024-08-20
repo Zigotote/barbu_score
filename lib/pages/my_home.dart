@@ -5,8 +5,8 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import '../commons/models/game.dart';
 import '../commons/models/player.dart';
 import '../commons/notifiers/play_game.dart';
+import '../commons/notifiers/storage.dart';
 import '../commons/utils/snackbar.dart';
-import '../commons/utils/storage.dart';
 import '../commons/widgets/alert_dialog.dart';
 import '../commons/widgets/custom_buttons.dart';
 import '../commons/widgets/my_appbar.dart';
@@ -37,8 +37,8 @@ class MyHome extends ConsumerWidget {
     Navigator.of(context).pushNamed(Routes.createGame);
   }
 
-  bool _verifyHasActiveContracts(BuildContext context) {
-    if (MyStorage.getActiveContracts().isEmpty) {
+  bool _verifyHasActiveContracts(BuildContext context, WidgetRef ref) {
+    if (ref.read(storageProvider).getActiveContracts().isEmpty) {
       showDialog(
           context: context,
           builder: (BuildContext buildContext) {
@@ -65,12 +65,12 @@ class MyHome extends ConsumerWidget {
 
   /// Builds the widgets to load a saved game
   _confirmLoadGame(BuildContext context, WidgetRef ref) {
-    if (!_verifyHasActiveContracts(context)) {
+    if (!_verifyHasActiveContracts(context, ref)) {
       return;
     }
     Game? previousGame;
     try {
-      previousGame = MyStorage.getStoredGame();
+      previousGame = ref.read(storageProvider).getStoredGame();
     } catch (_) {}
 
     if (previousGame == null) {
@@ -108,11 +108,11 @@ class MyHome extends ConsumerWidget {
 
   /// Builds the widgets to start a new game
   _confirmStartGame(BuildContext context, WidgetRef ref) {
-    if (!_verifyHasActiveContracts(context)) {
+    if (!_verifyHasActiveContracts(context, ref)) {
       return;
     }
     try {
-      Game? previousGame = MyStorage.getStoredGame();
+      Game? previousGame = ref.read(storageProvider).getStoredGame();
       if (previousGame != null && !previousGame.isFinished) {
         showDialog(
             context: context,
@@ -181,6 +181,7 @@ class MyHome extends ConsumerWidget {
                 onPressed: () =>
                     Navigator.of(context).pushNamed(Routes.settings),
                 icon: const Icon(Icons.settings),
+                tooltip: "Paramètres",
                 style: IconButton.styleFrom(
                   side: BorderSide.none,
                   iconSize: 55,

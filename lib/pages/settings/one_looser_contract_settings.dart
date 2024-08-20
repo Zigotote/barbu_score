@@ -18,7 +18,7 @@ class OneLooserContractSettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(contractSettingsProvider(contract));
-    final settings = provider.settings as PointsContractSettings;
+    final settings = provider.settings as OneLooserContractSettings;
     return ContractSettingsPage(
       contract: contract,
       children: [

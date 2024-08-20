@@ -20,7 +20,7 @@ class IndividualScoresContractSettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String itemName = contract.displayName.replaceFirst("Sans ", "");
     final provider = ref.watch(contractSettingsProvider(contract));
-    final settings = provider.settings as IndividualScoresContractSettings;
+    final settings = provider.settings as MultipleLooserContractSettings;
     return ContractSettingsPage(
       contract: contract,
       children: [
