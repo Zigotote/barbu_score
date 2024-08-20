@@ -25,7 +25,7 @@ abstract class AbstractContractSettings with EquatableMixin {
       {this.isActive = true, ContractsInfo? contract, String? name})
       : assert(name == null || contract == null,
             "Only name or contract should be used"),
-        name = name ?? contract!.name;
+        name = name ?? contract?.name ?? ""; // Fallback for app update
 
   factory AbstractContractSettings.fromJson(Map<String, dynamic> json) {
     final contract = ContractsInfo.fromName(json["name"]);

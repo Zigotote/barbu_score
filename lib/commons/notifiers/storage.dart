@@ -42,11 +42,16 @@ class MyStorage {
       storage?.setBool(_isDarkThemeKey, isDarkTheme);
     }
     for (var contract in ContractsInfo.values) {
-      var contractSettings = Hive.box(_settingsBoxName).get(contract.name);
+      final AbstractContractSettings? contractSettings =
+          Hive.box(_settingsBoxName).get(contract.name);
       if (contractSettings != null) {
+        final json = contractSettings.toJson();
+        if (json["name"]?.isEmpty) {
+          json["name"] = contract.name;
+        }
         storage?.setString(
           contract.name,
-          jsonEncode(contractSettings.toJson()),
+          jsonEncode(json),
         );
       }
     }
