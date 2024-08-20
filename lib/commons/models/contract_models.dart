@@ -30,7 +30,7 @@ abstract class AbstractContractModel with EquatableMixin {
   List<Object?> get props => [name];
 }
 
-/// A class to represent a contracts that can be part of a trumps contract
+/// A class to represent a contract that can be part of a trumps contract
 abstract class AbstractSubContractModel extends AbstractContractModel {
   /// The number of items each player won for this contract
   @HiveField(1)
