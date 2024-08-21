@@ -55,7 +55,7 @@ class MyStorage {
         );
       }
     }
-    Hive.box(_settingsBoxName).clear();
+    await Hive.box(_settingsBoxName).clear();
   }
 
   /// Returns true if a game is saved in storage, false otherwise
