@@ -19,8 +19,6 @@ dart run build_runner build
 
 And that's it ! Now you can do awesome work to improve this app.
 
-_Note_ : I only tested this app on Android devices so the iOS version could be a bit flaky.
-
 **If you don't want to contribute and just want to play, you can download the app
 in [PlayStore](https://play.google.com/store/apps/details?id=zigotote.barbu_score).**
 
@@ -28,6 +26,11 @@ in [PlayStore](https://play.google.com/store/apps/details?id=zigotote.barbu_scor
 
 If you notice something you would like to change, feel free to fill an issue or open a Pull request.
 Please explain why you want this changes so that I can understand your changes.
+
+## Testing
+
+Every changes should be tested. Before pushing, please check ```flutter test``` result is OK.
+A Github action also runs on each PR to check tests status.
 
 ## Release the app
 
