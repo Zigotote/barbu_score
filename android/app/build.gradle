@@ -30,7 +30,7 @@ android {
     defaultConfig {
         applicationId "zigotote.barbu_score"
         minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 34
+        targetSdkVersion flutter.targetSdkVersion
         versionCode 13
         versionName "3.0.0"
     }
