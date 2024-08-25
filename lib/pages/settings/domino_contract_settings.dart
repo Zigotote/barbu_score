@@ -43,17 +43,19 @@ class DominoContractSettingsPage extends ConsumerWidget {
           _buildPlayersStack(),
           ...List.generate(settings.points.length, (index) {
             final nbPlayers = index + kNbPlayersMin;
-            return Center(
-              child: Tooltip(
-                message: "Points à $nbPlayers joueurs",
-                child: Text("$nbPlayers j."),
+            return TableViewCell(
+              child: Center(
+                child: Tooltip(
+                  message: "Points à $nbPlayers joueurs",
+                  child: Text("$nbPlayers j."),
+                ),
               ),
             );
           })
         ],
         ...positionNames.mapIndexed((index, positionName) {
           return [
-            Center(child: Text(positionName)),
+            TableViewCell(child: Center(child: Text(positionName))),
             ..._buildPointsCells(settings, provider, index),
           ];
         })
@@ -61,51 +63,55 @@ class DominoContractSettingsPage extends ConsumerWidget {
     );
   }
 
-  Stack _buildPlayersStack() {
-    return Stack(
-      alignment: Alignment.center,
-      clipBehavior: Clip.none,
-      children: List.generate(
-        5,
-        (index) {
-          const double basePadding = 110;
-          const double baseSize = 36;
-          // Applicates a ratio to other icons than the first one
-          final ratio = index == 0 ? 1 : (1 - 0.15 * (index / 2).round());
-          final playerIcon = PlayerIcon(
-            image: playerImages[index],
-            color: playerColors[index],
-            size: baseSize * ratio,
-          );
-          if (index % 2 == 0) {
+  TableViewCell _buildPlayersStack() {
+    return TableViewCell(
+      child: Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: List.generate(
+          5,
+          (index) {
+            const double basePadding = 110;
+            const double baseSize = 36;
+            // Applicates a ratio to other icons than the first one
+            final ratio = index == 0 ? 1 : (1 - 0.15 * (index / 2).round());
+            final playerIcon = PlayerIcon(
+              image: playerImages[index],
+              color: playerColors[index],
+              size: baseSize * ratio,
+            );
+            if (index % 2 == 0) {
+              return Padding(
+                padding: EdgeInsets.only(left: basePadding * (1 - ratio)),
+                child: playerIcon,
+              );
+            }
             return Padding(
-              padding: EdgeInsets.only(left: basePadding * (1 - ratio)),
+              padding: EdgeInsets.only(right: basePadding * (1 - ratio)),
               child: playerIcon,
             );
-          }
-          return Padding(
-            padding: EdgeInsets.only(right: basePadding * (1 - ratio)),
-            child: playerIcon,
-          );
-        },
-      ).reversed.toList(),
+          },
+        ).reversed.toList(),
+      ),
     );
   }
 
-  List<Widget> _buildPointsCells(DominoContractSettings settings,
+  List<TableViewCell> _buildPointsCells(DominoContractSettings settings,
       ContractSettingsNotifier provider, int playerIndex) {
     return List.generate(settings.points.length, (index) {
       final int nbPlayers = index + kNbPlayersMin;
       if (playerIndex < settings.points[nbPlayers]!.length) {
-        return Center(
-          child: NumberInput(
-            points: settings.points[nbPlayers]![playerIndex],
-            onChanged: provider.modifySetting(
-                (value) => settings.points[nbPlayers]?[playerIndex] = value),
+        return TableViewCell(
+          child: Center(
+            child: NumberInput(
+              points: settings.points[nbPlayers]![playerIndex],
+              onChanged: provider.modifySetting(
+                  (value) => settings.points[nbPlayers]?[playerIndex] = value),
+            ),
           ),
         );
       }
-      return Container();
+      return TableViewCell(child: Container());
     });
   }
 

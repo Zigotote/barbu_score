@@ -49,12 +49,14 @@ class MySettings extends ConsumerWidget {
                           ref
                               .read(storageProvider)
                               .saveSettings(contract, newSettings);
-                          SnackBarUtils.instance.openSnackBar(
-                            context: context,
-                            title: "Modifications sauvegardées",
-                            text:
-                                "Les changements ont été sauvegardés et seront appliqués sur les prochaines parties.",
-                          );
+                          if (context.mounted) {
+                            SnackBarUtils.instance.openSnackBar(
+                              context: context,
+                              title: "Modifications sauvegardées",
+                              text:
+                                  "Les changements ont été sauvegardés et seront appliqués sur les prochaines parties.",
+                            );
+                          }
                           ref.invalidate(storageProvider);
                         }
                       });

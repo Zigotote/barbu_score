@@ -15,20 +15,22 @@ class ScoreTable extends StatelessWidget {
   const ScoreTable({super.key, required this.players, required this.rows});
 
   /// Builds the widgets to display the icon and name of each player
-  List<Widget> _buildPlayersRow() {
+  List<TableViewCell> _buildPlayersRow() {
     return players
         .map(
-          (player) => Tooltip(
-            message: player.name,
-            child: Column(
-              children: [
-                PlayerIcon(
-                  image: player.image,
-                  color: player.color,
-                  size: 40,
-                ),
-                Text(player.name, overflow: TextOverflow.ellipsis)
-              ],
+          (player) => TableViewCell(
+            child: Tooltip(
+              message: player.name,
+              child: Column(
+                children: [
+                  PlayerIcon(
+                    image: player.image,
+                    color: player.color,
+                    size: 40,
+                  ),
+                  Text(player.name, overflow: TextOverflow.ellipsis)
+                ],
+              ),
             ),
           ),
         )
@@ -87,7 +89,7 @@ class ScoreTable extends StatelessWidget {
         );
       },
       cells: [
-        [Container(), ..._buildPlayersRow()],
+        [TableViewCell(child: Container()), ..._buildPlayersRow()],
         ...rows.map(
           (row) => row.build(
             textTheme.bodyMedium!,
@@ -114,31 +116,36 @@ class ScoreRow {
       {required this.title, required this.scores, this.isTotal = false});
 
   /// Builds the cells of a row from [scores] map. The values of this map are ordered by the [orderedScoreKeys]
-  List<Widget> build(TextStyle textStyle, List<String> orderedScoreKeys) {
+  List<TableViewCell> build(
+      TextStyle textStyle, List<String> orderedScoreKeys) {
     return [
-      Center(
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: isTotal
-              ? textStyle.copyWith(
-                  fontWeight: FontWeight.w900,
-                )
-              : textStyle,
+      TableViewCell(
+        child: Center(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: isTotal
+                ? textStyle.copyWith(
+                    fontWeight: FontWeight.w900,
+                  )
+                : textStyle,
+          ),
         ),
       ),
       ...orderedScoreKeys.map(
         (key) {
           final score = scores?[key] ?? (isTotal ? 0 : null);
-          return Center(
-            child: Text(
-              score != null ? score.toString() : "/",
-              key: Key("$title-$key"),
-              style: isTotal
-                  ? textStyle.copyWith(
-                      fontWeight: FontWeight.w900,
-                    )
-                  : textStyle,
+          return TableViewCell(
+            key: Key("$title-$key"),
+            child: Center(
+              child: Text(
+                score != null ? score.toString() : "/",
+                style: isTotal
+                    ? textStyle.copyWith(
+                        fontWeight: FontWeight.w900,
+                      )
+                    : textStyle,
+              ),
             ),
           );
         },

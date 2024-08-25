@@ -32,41 +32,41 @@ class MyThemes {
       dividerColor: onSurfaceColor,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) {
-            if (states.contains(MaterialState.disabled)) {
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+              (Set<WidgetState> states) {
+            if (states.contains(WidgetState.disabled)) {
               return disabledColor;
             }
             return onSurfaceColor;
           }),
-          textStyle: MaterialStatePropertyAll(
+          textStyle: WidgetStatePropertyAll(
             textTheme.labelLarge!.copyWith(
               fontSize: 22,
               fontFamily: "QuickSand",
             ),
           ),
           backgroundColor:
-              MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
-          overlayColor: const MaterialStatePropertyAll(disabledColor),
-          elevation: const MaterialStatePropertyAll(10),
-          shape: const MaterialStatePropertyAll(
+              WidgetStatePropertyAll(baseTheme.scaffoldBackgroundColor),
+          overlayColor: const WidgetStatePropertyAll(disabledColor),
+          elevation: const WidgetStatePropertyAll(10),
+          shape: const WidgetStatePropertyAll(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.elliptical(8, 5)),
             ),
           ),
-          side: MaterialStateProperty.resolveWith<BorderSide>(
-              (Set<MaterialState> states) {
+          side: WidgetStateProperty.resolveWith<BorderSide>(
+              (Set<WidgetState> states) {
             BorderSide border = BorderSide(
               style: BorderStyle.solid,
               width: 2,
               color: onSurfaceColor,
             );
-            if (states.contains(MaterialState.disabled)) {
+            if (states.contains(WidgetState.disabled)) {
               border = border.copyWith(color: disabledColor);
             }
             return border;
           }),
-          padding: const MaterialStatePropertyAll(
+          padding: const WidgetStatePropertyAll(
             EdgeInsets.symmetric(
               vertical: 16,
               horizontal: 16,
@@ -76,31 +76,31 @@ class MyThemes {
       ),
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          padding: const MaterialStatePropertyAll(EdgeInsets.zero),
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
           backgroundColor:
-              MaterialStatePropertyAll(baseTheme.scaffoldBackgroundColor),
-          foregroundColor: MaterialStatePropertyAll(onSurfaceColor),
-          overlayColor: const MaterialStatePropertyAll(disabledColor),
-          side: MaterialStatePropertyAll(BorderSide(color: onSurfaceColor)),
+              WidgetStatePropertyAll(baseTheme.scaffoldBackgroundColor),
+          foregroundColor: WidgetStatePropertyAll(onSurfaceColor),
+          overlayColor: const WidgetStatePropertyAll(disabledColor),
+          side: WidgetStatePropertyAll(BorderSide(color: onSurfaceColor)),
         ),
       ),
       switchTheme: SwitchThemeData(
-        trackOutlineWidth: const MaterialStatePropertyAll(1),
-        trackOutlineColor: MaterialStatePropertyAll(onSurfaceColor),
-        trackColor: MaterialStateProperty.resolveWith((states) {
-          if (states.any((element) => (element == MaterialState.selected))) {
-            if (states.any((element) => (element == MaterialState.disabled))) {
+        trackOutlineWidth: const WidgetStatePropertyAll(1),
+        trackOutlineColor: WidgetStatePropertyAll(onSurfaceColor),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.any((element) => (element == WidgetState.selected))) {
+            if (states.any((element) => (element == WidgetState.disabled))) {
               return disabledColor;
             }
             return baseTheme.colorScheme.success;
           }
           return Colors.transparent;
         }),
-        thumbColor: MaterialStateProperty.resolveWith((states) {
-          if (states.any((element) => (element == MaterialState.selected))) {
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.any((element) => (element == WidgetState.selected))) {
             return Colors.white;
           }
-          if (states.any((element) => (element == MaterialState.disabled))) {
+          if (states.any((element) => (element == WidgetState.disabled))) {
             return disabledColor;
           }
           return onSurfaceColor;
@@ -115,7 +115,7 @@ class MyThemes {
       ),
       textButtonTheme: const TextButtonThemeData(
         style: ButtonStyle(
-          padding: MaterialStatePropertyAll(EdgeInsets.zero),
+          padding: WidgetStatePropertyAll(EdgeInsets.zero),
         ),
       ),
       tabBarTheme: TabBarTheme(
@@ -137,7 +137,7 @@ class MyThemes {
         indicatorSize: TabBarIndicatorSize.tab,
         labelColor: onSurfaceColor,
         unselectedLabelColor: disabledColor,
-        overlayColor: const MaterialStatePropertyAll(disabledColor),
+        overlayColor: const WidgetStatePropertyAll(disabledColor),
       ),
     );
   }
