@@ -8,13 +8,16 @@ of heart).
 This is a Flutter app so you need to install Flutter, like described in
 the [doc](https://docs.flutter.dev/get-started/install).
 
-...
+You should also install fvm tool, as
+described [here](https://fvm.app/documentation/getting-started/installation)
+and get the Flutter version set in the .fvmrc file of the repo
+with ```fvm use {barbu_score.version}```
 
 To get all dependencies and create generated files run these commands :
 
 ```
-flutter pub get
-dart run build_runner build
+fvm flutter pub get
+fvm dart run build_runner build
 ```
 
 And that's it ! Now you can do awesome work to improve this app.
@@ -29,7 +32,7 @@ Please explain why you want this changes so that I can understand your changes.
 
 ## Testing
 
-Every changes should be tested. Before pushing, please check ```flutter test``` result is OK.
+Every changes should be tested. Before pushing, please check ```fvm flutter test``` result is OK.
 A Github action also runs on each PR to check tests status.
 
 ## Release the app
@@ -37,20 +40,20 @@ A Github action also runs on each PR to check tests status.
 Before releasing, the app needs to be tested on a real device with
 
 ```
-flutter build apk --release
-flutter install
+fvm flutter build apk --release
+fvm flutter install
 ```
 
 App update can be tested with
 
 ```
-flutter build apk --release
+fvm flutter build apk --release
 adb install build/app/outputs/flutter-apk/app-release.apk
 ```
 
 If everything is fine, the app bundle can be build
-with ```flutter build appbundle --obfuscate --split-debug-info="zigotote/barbu_score/debug"``` and
-uploaded to PlayStore.
+with ```fvm flutter build appbundle --obfuscate --split-debug-info="zigotote/barbu_score/debug"```
+and uploaded to PlayStore.
 
 See [Flutter deployment doc](https://docs.flutter.dev/deployment/android#building-the-app-for-release)
 for more info.
