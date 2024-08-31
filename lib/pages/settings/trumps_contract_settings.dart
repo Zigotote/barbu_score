@@ -35,13 +35,8 @@ class _TrumpsContractSettingsPageState
             context: context,
             title: "Le contrat a déjà été joué",
             content:
-                "Le contrat a déjà été joué par ${playersWithContract!.join(", ")}. Toutes modifications dans les paramètres de ce contrat aura des répercussions les contrats sauvegardés.",
-            actions: [
-              AlertDialogActionButton(
-                text: "Ok",
-                onPressed: Navigator.of(context).pop,
-              ),
-            ],
+                "Le contrat a déjà été joué par ${playersWithContract!.join(", ")}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.",
+            actions: [AlertDialogActionButton(text: "Ok")],
           ),
         );
       });

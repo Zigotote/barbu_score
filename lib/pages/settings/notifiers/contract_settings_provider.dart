@@ -42,12 +42,7 @@ class ContractSettingsNotifier with ChangeNotifier {
         title: "Activation impossible",
         content:
             "La ${ContractsInfo.trumps.displayName} doit posséder au moins un contrat à jouer pour être activée.",
-        actions: [
-          AlertDialogActionButton(
-            text: "Ok",
-            onPressed: Navigator.of(context).pop,
-          )
-        ],
+        actions: [AlertDialogActionButton(text: "Ok")],
       );
     }
     if (settings.isActive && (playersWithContract?.isNotEmpty ?? false)) {
@@ -57,16 +52,12 @@ class ContractSettingsNotifier with ChangeNotifier {
         content:
             "Le contrat a déjà été joué par ${playersWithContract!.join(", ")}. S'il est désactivé il sera supprimé de la partie et ${playersWithContract!.length > 1 ? "ces joueurs devront" : "ce joueur devra"} choisir un contrat supplémentaire en fin de partie.",
         actions: [
-          AlertDialogActionButton(
-            text: "Conserver",
-            onPressed: Navigator.of(context).pop,
-          ),
+          AlertDialogActionButton(text: "Conserver"),
           AlertDialogActionButton(
             text: "Désactiver",
             isDestructive: true,
             onPressed: () {
               modifySetting((_) => settings.isActive = false)(null);
-              Navigator.of(context).pop();
             },
           ),
         ],
