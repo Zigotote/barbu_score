@@ -54,7 +54,7 @@ class MySettings extends ConsumerWidget {
                               context: context,
                               title: "Modifications sauvegardées",
                               text:
-                                  "Les changements ont été sauvegardés et seront appliqués sur les prochaines parties.",
+                                  "Les changements ont été sauvegardés et sont effectifs dès maintenant.",
                             );
                           }
                           ref.invalidate(storageProvider);

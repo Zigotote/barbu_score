@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:equatable/equatable.dart';
 
 import 'player.dart';
@@ -38,11 +39,19 @@ class Game with EquatableMixin {
   Player get currentPlayer => players[_currentPlayerIndex];
 
   /// Changes the current player to the next one
-  nextPlayer() {
+  void nextPlayer() {
     _currentPlayerIndex++;
     if (_currentPlayerIndex == players.length) {
       _currentPlayerIndex = 0;
     }
+  }
+
+  /// Returns the name of the players who played this contract
+  List<String> getPlayersWithPlayedContract(ContractsInfo contract) {
+    return players
+        .where((player) => player.hasPlayedContract(contract))
+        .map((player) => player.name)
+        .toList();
   }
 
   @override

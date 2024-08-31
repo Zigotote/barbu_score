@@ -105,7 +105,6 @@ class MyStorage {
   /// Saves contract settings and deletes the current game
   void saveSettings(
       ContractsInfo contractsInfo, AbstractContractSettings settings) {
-    deleteGame();
     storage?.setString(contractsInfo.name, jsonEncode(settings.toJson()));
   }
 
