@@ -4,16 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
+import '../../../commons/models/game.dart';
 import '../../../commons/notifiers/storage.dart';
 
 final contractSettingsProvider = ChangeNotifierProvider.family
     .autoDispose<ContractSettingsNotifier, ContractsInfo>(
   (ref, contractsInfo) => ContractSettingsNotifier(
     ref.read(storageProvider).getSettings(contractsInfo).copy(),
-    playersWithContract: ref
-        .read(storageProvider)
-        .getStoredGame()
-        ?.getPlayersWithPlayedContract(contractsInfo),
+    storedGame: ref.read(storageProvider).getStoredGame(),
   ),
 );
 
@@ -21,10 +19,16 @@ class ContractSettingsNotifier with ChangeNotifier {
   /// The settings of the current contract
   final AbstractContractSettings settings;
 
-  /// The name of the players who played this contract
-  final List<String>? playersWithContract;
+  /// The stored game
+  final Game? storedGame;
 
-  ContractSettingsNotifier(this.settings, {required this.playersWithContract});
+  ContractSettingsNotifier(this.settings, {required this.storedGame});
+
+  /// Returns the name of the players who played this contract, or null if no game or the game is finished
+  List<String>? get playersWithContract => storedGame?.isFinished ?? true
+      ? null
+      : storedGame
+          ?.getPlayersWithPlayedContract(ContractsInfo.fromName(settings.name));
 
   Function(T) modifySetting<T>(Function(T) func) {
     return (value) {
