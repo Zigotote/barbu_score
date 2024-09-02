@@ -244,16 +244,18 @@ class TrumpsContractModel extends AbstractContractModel {
     }
     return subContracts
         .map(
-          (subContract) => subContract.scores(
-            subContractSettings
-                .firstWhere((setting) => setting.name == subContract.name),
-          ),
+          (subContract) => (settings as TrumpsContractSettings)
+                      .contracts[subContract.name] ==
+                  true
+              ? subContract.scores(subContractSettings
+                  .firstWhere((setting) => setting.name == subContract.name))
+              : null,
         )
         .reduce(
           (scores, subContractScores) => scores
             ?..updateAll(
               (player, playerScores) =>
-                  playerScores + subContractScores![player]!,
+                  playerScores + (subContractScores?[player] ?? 0),
             ),
         );
   }

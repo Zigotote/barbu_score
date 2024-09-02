@@ -48,8 +48,7 @@ class MySettings extends ConsumerWidget {
                         if (contractSettings != newSettings) {
                           final storage = ref.read(storageProvider);
                           storage.saveSettings(contract, newSettings);
-                          if (settingsProvider.storedGame?.isFinished ??
-                              false) {
+                          if (settingsProvider.storedGame?.isFinished == true) {
                             storage.deleteGame();
                           }
                           if (context.mounted) {

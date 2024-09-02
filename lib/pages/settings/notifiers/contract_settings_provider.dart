@@ -24,11 +24,12 @@ class ContractSettingsNotifier with ChangeNotifier {
 
   ContractSettingsNotifier(this.settings, {required this.storedGame});
 
-  /// Returns the name of the players who played this contract, or null if no game or the game is finished
-  List<String>? get playersWithContract => storedGame?.isFinished ?? true
-      ? null
-      : storedGame
-          ?.getPlayersWithPlayedContract(ContractsInfo.fromName(settings.name));
+  /// Returns the name of the players who played this contract, or empty list if no data found
+  List<String> get playersWithContract => storedGame?.isFinished == true
+      ? []
+      : storedGame?.getPlayersWithPlayedContract(
+              ContractsInfo.fromName(settings.name)) ??
+          [];
 
   Function(T) modifySetting<T>(Function(T) func) {
     return (value) {
@@ -49,12 +50,12 @@ class ContractSettingsNotifier with ChangeNotifier {
         actions: [AlertDialogActionButton(text: "Ok")],
       );
     }
-    if (settings.isActive && (playersWithContract?.isNotEmpty ?? false)) {
+    if (settings.isActive && (playersWithContract.isNotEmpty)) {
       return MyAlertDialog(
         context: context,
         title: "Le contrat a déjà été joué",
         content:
-            "Le contrat a déjà été joué par ${playersWithContract!.join(", ")}. S'il est désactivé il sera supprimé de la partie et ${playersWithContract!.length > 1 ? "ces joueurs devront" : "ce joueur devra"} choisir un contrat supplémentaire en fin de partie.",
+            "Le contrat a déjà été joué par ${playersWithContract.join(", ")}. S'il est désactivé il sera supprimé de la partie et ${playersWithContract.length > 1 ? "ces joueurs devront" : "ce joueur devra"} choisir un contrat supplémentaire en fin de partie.",
         actions: [
           AlertDialogActionButton(text: "Conserver"),
           AlertDialogActionButton(

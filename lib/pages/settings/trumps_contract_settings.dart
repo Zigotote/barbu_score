@@ -26,7 +26,7 @@ class _TrumpsContractSettingsPageState
     final playersWithContract = ref
         .read(contractSettingsProvider(ContractsInfo.trumps))
         .playersWithContract;
-    if (playersWithContract?.isNotEmpty ?? false) {
+    if (playersWithContract.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showDialog(
           barrierDismissible: false,
@@ -35,7 +35,7 @@ class _TrumpsContractSettingsPageState
             context: context,
             title: "Le contrat a déjà été joué",
             content:
-                "Le contrat a déjà été joué par ${playersWithContract!.join(", ")}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.",
+                "Le contrat a déjà été joué par ${playersWithContract.join(", ")}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.",
             actions: [AlertDialogActionButton(text: "Ok")],
           ),
         );

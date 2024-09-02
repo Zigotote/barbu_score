@@ -37,4 +37,4 @@
   dans la salade +
 - dans les paramètres des contrats, ajouter un bouton pour réinitialiser les paramètres +
 - permettre de modifier les paramètres lorsqu'une partie est en cours ++ --> TODO Océane reste à
-  faire : tests + corriger calcul scores salade si un contrat est désactivé
+  faire : tests 
