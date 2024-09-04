@@ -1,3 +1,5 @@
+import 'package:barbu_score/commons/models/contract_info.dart';
+import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/models/player_colors.dart';
@@ -7,27 +9,73 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../utils.dart';
 
 main() {
-  final players = List.generate(
-    4,
-    (index) => Player(
-      name: defaultPlayerNames[index],
-      color: PlayerColors.values[index],
-      image: playerImages[index],
-      contracts: [],
-    ),
-  );
-  test("should change player when has next", () {
-    final game = Game(players: players, currentPlayerIndex: 0);
+  group("#nextPlayer", () {
+    final players = List.generate(
+      4,
+      (index) => Player(
+        name: defaultPlayerNames[index],
+        color: PlayerColors.values[index],
+        image: playerImages[index],
+        contracts: [],
+      ),
+    );
+    test("should change player when has next", () {
+      final game = Game(players: players);
 
-    game.nextPlayer();
+      game.nextPlayer();
 
-    expect(game.currentPlayer, players[1]);
+      expect(game.currentPlayer, players[1]);
+    });
+    test("should go to first player when has not next", () {
+      final game = Game(players: players)
+        ..currentPlayerIndex = players.length - 1;
+
+      game.nextPlayer();
+
+      expect(game.currentPlayer, players[0]);
+    });
   });
-  test("should go to first player when has not next", () {
-    final game = Game(players: players, currentPlayerIndex: players.length - 1);
+  group("#getPlayersWithPlayedContract", () {
+    final barbu = OneLooserContractModel(
+      contract: ContractsInfo.barbu,
+      itemsByPlayer: {
+        for (var (index, player) in defaultPlayerNames.indexed)
+          player: index == 0 ? 1 : 0
+      },
+    );
+    final noHearts = MultipleLooserContractModel(
+      contract: ContractsInfo.noHearts,
+      nbItems: 4,
+      itemsByPlayer: {
+        for (var (index, player) in defaultPlayerNames.indexed)
+          player: index == 0 ? 4 : 0
+      },
+    );
+    for (int nbPlayersWithContract = 0;
+        nbPlayersWithContract < 4;
+        nbPlayersWithContract++) {
+      test("should return $nbPlayersWithContract players with contract", () {
+        final game = Game(
+          players: List.generate(
+            4,
+            (index) => Player(
+              name: defaultPlayerNames[index],
+              color: PlayerColors.values[index],
+              image: playerImages[index],
+              contracts: [barbu, if (index < nbPlayersWithContract) noHearts],
+            ),
+          ),
+        );
 
-    game.nextPlayer();
+        final playersWithContract =
+            game.getPlayersWithPlayedContract(ContractsInfo.noHearts);
 
-    expect(game.currentPlayer, players[0]);
+        expect(playersWithContract.length, nbPlayersWithContract);
+        for (var (index, player) in game.players.indexed) {
+          expect(playersWithContract.contains(player.name),
+              index < nbPlayersWithContract);
+        }
+      });
+    }
   });
 }

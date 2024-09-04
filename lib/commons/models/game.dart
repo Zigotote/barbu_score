@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'player.dart';
 
@@ -16,8 +17,8 @@ class Game with EquatableMixin {
   /// The indicator to know if game is finished or not
   bool isFinished;
 
-  Game({required this.players, int currentPlayerIndex = 0})
-      : _currentPlayerIndex = currentPlayerIndex,
+  Game({required this.players})
+      : _currentPlayerIndex = 0,
         isFinished = false;
 
   Game.fromJson(Map<String, dynamic> json)
@@ -34,6 +35,9 @@ class Game with EquatableMixin {
       "isFinished": isFinished
     };
   }
+
+  @visibleForTesting
+  set currentPlayerIndex(int value) => _currentPlayerIndex = value;
 
   /// Returns the current player
   Player get currentPlayer => players[_currentPlayerIndex];
