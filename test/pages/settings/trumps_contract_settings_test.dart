@@ -19,15 +19,7 @@ import 'utils/settings_utils.dart';
 
 main() {
   final contractModel = TrumpsContractModel(
-    subContracts: [
-      OneLooserContractModel(
-        contract: ContractsInfo.barbu,
-        itemsByPlayer: {
-          for (var (index, player) in defaultPlayerNames.indexed)
-            player: index == 0 ? 1 : 0
-        },
-      )
-    ],
+    subContracts: [defaultBarbu],
   );
   final storedGame = createGame(4, [contractModel]);
   final finishedStoredGame = createGame(4, [contractModel])..isFinished = true;

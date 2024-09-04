@@ -1,5 +1,4 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
-import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
@@ -19,15 +18,8 @@ import 'utils/settings_utils.dart';
 const _defaultContract = ContractsInfo.barbu;
 
 main() {
-  final contractModel = OneLooserContractModel(
-    contract: _defaultContract,
-    itemsByPlayer: {
-      for (var (index, player) in defaultPlayerNames.indexed)
-        player: index == 0 ? 1 : 0
-    },
-  );
-  final storedGame = createGame(4, [contractModel]);
-  final finishedStoredGame = createGame(4, [contractModel])..isFinished = true;
+  final storedGame = createGame(4, [defaultBarbu]);
+  final finishedStoredGame = createGame(4, [defaultBarbu])..isFinished = true;
 
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage());

@@ -36,21 +36,6 @@ main() {
     });
   });
   group("#getPlayersWithPlayedContract", () {
-    final barbu = OneLooserContractModel(
-      contract: ContractsInfo.barbu,
-      itemsByPlayer: {
-        for (var (index, player) in defaultPlayerNames.indexed)
-          player: index == 0 ? 1 : 0
-      },
-    );
-    final noHearts = MultipleLooserContractModel(
-      contract: ContractsInfo.noHearts,
-      nbItems: 4,
-      itemsByPlayer: {
-        for (var (index, player) in defaultPlayerNames.indexed)
-          player: index == 0 ? 4 : 0
-      },
-    );
     for (int nbPlayersWithContract = 0;
         nbPlayersWithContract < 4;
         nbPlayersWithContract++) {
@@ -62,7 +47,10 @@ main() {
               name: defaultPlayerNames[index],
               color: PlayerColors.values[index],
               image: playerImages[index],
-              contracts: [barbu, if (index < nbPlayersWithContract) noHearts],
+              contracts: [
+                defaultBarbu,
+                if (index < nbPlayersWithContract) defaultNoHearts
+              ],
             ),
           ),
         );

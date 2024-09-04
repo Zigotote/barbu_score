@@ -33,6 +33,65 @@ final defaultPlayerNames = [
 ];
 const nbPlayersByDefault = 4;
 
+final defaultBarbu = OneLooserContractModel(
+  contract: ContractsInfo.barbu,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index == 0 ? 1 : 0
+  },
+);
+
+final defaultNoQueens = MultipleLooserContractModel(
+  contract: ContractsInfo.noQueens,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index < 4 ? 1 : 0
+  },
+  nbItems: 4,
+);
+
+final defaultNoTricks = MultipleLooserContractModel(
+  contract: ContractsInfo.noTricks,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index < 4 ? 2 : 0
+  },
+  nbItems: 8,
+);
+
+final defaultNoHearts = MultipleLooserContractModel(
+  contract: ContractsInfo.noHearts,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index < 4 ? 2 : 0
+  },
+  nbItems: 8,
+);
+
+final defaultNoLastTrick = OneLooserContractModel(
+  contract: ContractsInfo.noLastTrick,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index == 0 ? 1 : 0
+  },
+);
+
+final defaultDomino = DominoContractModel(
+  rankOfPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed) player: index
+  },
+);
+
+final defaultTrumps = TrumpsContractModel(
+  subContracts: [
+    defaultBarbu,
+    defaultNoQueens,
+    defaultNoHearts,
+    defaultNoLastTrick,
+    defaultNoTricks
+  ],
+);
+
 checkAccessibility(WidgetTester tester) async {
   await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
   await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));

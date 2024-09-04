@@ -9,34 +9,9 @@ import '../../utils.dart';
 
 main() {
   group("#game", () {
-    final barbu = OneLooserContractModel(
-      contract: ContractsInfo.barbu,
-      itemsByPlayer: {
-        for (var (index, player) in defaultPlayerNames.indexed)
-          player: index == 0 ? 1 : 0
-      },
-    );
-    final noHearts = MultipleLooserContractModel(
-      contract: ContractsInfo.noQueens,
-      nbItems: 4,
-      itemsByPlayer: {
-        for (var (index, player) in defaultPlayerNames.indexed)
-          player: index == 0 ? 4 : 0
-      },
-    );
     final game = createGame(
       4,
-      [
-        barbu,
-        noHearts,
-        TrumpsContractModel(subContracts: [barbu, noHearts]),
-        DominoContractModel(
-          rankOfPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index
-          },
-        )
-      ],
+      [defaultBarbu, defaultNoHearts, defaultTrumps, defaultDomino],
     );
     test("should return null when getStoredGame if no game", () async {
       await _initializeStorage();

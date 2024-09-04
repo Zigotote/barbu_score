@@ -43,10 +43,18 @@ class PlayGameNotifier with ChangeNotifier {
   /// Changes the current player to the next one
   /// Returns true if there is a next player, false if the game is finished
   bool nextPlayer() {
+    final previousPlayer = game.currentPlayer;
+    final activeContracts = storage.getActiveContracts();
     game.nextPlayer();
-    game.isFinished = !game.currentPlayer.hasAvailableContracts(
-      storage.getActiveContracts(),
-    );
+    bool playerHasAvailableContracts =
+        game.currentPlayer.hasAvailableContracts(activeContracts);
+    while (
+        !playerHasAvailableContracts && game.currentPlayer != previousPlayer) {
+      game.nextPlayer();
+      playerHasAvailableContracts =
+          game.currentPlayer.hasAvailableContracts(activeContracts);
+    }
+    game.isFinished = !playerHasAvailableContracts;
     notifyListeners();
     storage.saveGame(game);
     return !game.isFinished;
