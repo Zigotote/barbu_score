@@ -18,7 +18,7 @@ import 'pages/my_scores.dart';
 import 'pages/prepare_game.dart';
 import 'pages/scores_by_player.dart';
 import 'pages/settings/domino_contract_settings.dart';
-import 'pages/settings/individual_scores_contract_settings.dart';
+import 'pages/settings/multiple_looser_contract_settings.dart';
 import 'pages/settings/my_settings.dart';
 import 'pages/settings/one_looser_contract_settings.dart';
 import 'pages/settings/trumps_contract_settings.dart';
@@ -50,7 +50,7 @@ class MyApp extends ConsumerWidget {
             OneLooserContractSettingsPage(
                 Routes.getArgument<ContractsInfo>(context)),
         Routes.noSomethingScoresSettings: (context) =>
-            IndividualScoresContractSettingsPage(
+            MultipleLooserContractSettingsPage(
                 Routes.getArgument<ContractsInfo>(context)),
         Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
         Routes.trumpsSettings: (_) => const TrumpsContractSettingsPage(),

@@ -1,9 +1,10 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
+import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
-import 'package:barbu_score/pages/settings/individual_scores_contract_settings.dart';
+import 'package:barbu_score/pages/settings/multiple_looser_contract_settings.dart';
 import 'package:barbu_score/pages/settings/my_settings.dart';
 import 'package:barbu_score/pages/settings/one_looser_contract_settings.dart';
 import 'package:barbu_score/pages/settings/trumps_contract_settings.dart';
@@ -55,16 +56,16 @@ main() {
         await $(modifiedContract.displayName)
             .tap(settlePolicy: SettlePolicy.trySettle);
 
-        // Activate contract
+        // Deactivate contract
         expect(($.tester.firstWidget($(Switch)) as Switch).value, true);
         if (isModified) {
-          await $(MySwitch).tap(settlePolicy: SettlePolicy.noSettle);
+          await $(MySwitch).tap();
           expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
 
-          final modifierContractSettings = modifiedContract.defaultSettings;
-          modifierContractSettings.isActive = false;
+          final modifiedContractSettings = modifiedContract.defaultSettings;
+          modifiedContractSettings.isActive = false;
           when(mockStorage.getSettings(modifiedContract))
-              .thenReturn(modifierContractSettings);
+              .thenReturn(modifiedContractSettings);
         }
 
         // Go back to global settings page
@@ -80,10 +81,54 @@ main() {
               findsOneWidget);
           expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
           verify(mockStorage.saveSettings(modifiedContract, any));
+          verifyNever(mockStorage.deleteGame());
         } else {
           expect($("Modifications sauvegardées"), findsNothing);
           expect($("ON"), findsNWidgets(ContractsInfo.values.length));
           verifyNever(mockStorage.saveSettings(modifiedContract, any));
+          verifyNever(mockStorage.deleteGame());
+        }
+      });
+    }
+    for (var isGameFinished in [true, false]) {
+      patrolWidgetTest(
+          "should${isGameFinished ? " delete game and" : ""} save settings on $modifiedContract activation changed",
+          ($) async {
+        final mockStorage = MockMyStorage();
+        when(mockStorage.getStoredGame())
+            .thenReturn(Game(players: [])..isFinished = isGameFinished);
+        await $.pumpWidget(_createPage(mockStorage: mockStorage));
+
+        // Go to contract settings page
+        await $.scrollUntilVisible(finder: $(modifiedContract.displayName));
+        await $(modifiedContract.displayName)
+            .tap(settlePolicy: SettlePolicy.trySettle);
+
+        // Deactivate contract
+        await $(MySwitch).tap();
+        expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
+
+        final modifiedContractSettings = modifiedContract.defaultSettings;
+        modifiedContractSettings.isActive = false;
+        when(mockStorage.getSettings(modifiedContract))
+            .thenReturn(modifiedContractSettings);
+
+        // Go back to global settings page
+        await $(Icons.arrow_back).tap(settlePolicy: SettlePolicy.noSettle);
+        await $.pump();
+
+        expect($("Modifications sauvegardées"), findsOneWidget);
+        expect(
+            $(ElevatedButtonWithIndicator)
+                .containing($(modifiedContract.displayName))
+                .containing($("OFF")),
+            findsOneWidget);
+        expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
+        verify(mockStorage.saveSettings(modifiedContract, any));
+        if (isGameFinished) {
+          verify(mockStorage.deleteGame());
+        } else {
+          verifyNever(mockStorage.deleteGame());
         }
       });
     }
@@ -114,7 +159,7 @@ Widget _createPage(
             OneLooserContractSettingsPage(
                 Routes.getArgument<ContractsInfo>(context)),
         Routes.noSomethingScoresSettings: (context) =>
-            IndividualScoresContractSettingsPage(
+            MultipleLooserContractSettingsPage(
                 Routes.getArgument<ContractsInfo>(context)),
         Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
         Routes.trumpsSettings: (_) => const TrumpsContractSettingsPage(),

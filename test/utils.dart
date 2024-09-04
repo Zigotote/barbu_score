@@ -41,6 +41,15 @@ checkAccessibility(WidgetTester tester) async {
   // await expectLater($, meetsGuideline(textContrastGuideline));
 }
 
+/// Returns the text used to describe game in test description
+String getGameStateText(Game? game) {
+  return game != null
+      ? game.isFinished
+          ? "with finished game"
+          : "with stored game"
+      : "";
+}
+
 PlayerIcon findPlayerIcon(PatrolTester $, {int index = 0}) =>
     ($.tester.widgetList($(PlayerIcon)).toList()[index] as PlayerIcon);
 
@@ -59,12 +68,9 @@ mockActiveContracts(MyStorage mockStorage,
   when(mockStorage.getActiveContracts()).thenReturn(activeContracts);
 }
 
-/// Mocks a game with custom values if given
-/// Returns the game
-Game mockGame(MockPlayGameNotifier mockPlayGame,
-    {List<AbstractContractModel>? playedContracts,
-    int nbPlayers = nbPlayersByDefault}) {
-  final fakeGame = Game(
+/// Creates a game with [nbPlayers] number of players, and eaach player played [playedContracts]
+Game createGame(int nbPlayers, List<AbstractContractModel>? playedContracts) {
+  return Game(
     players: List.generate(
       nbPlayers,
       (index) => Player(
@@ -75,6 +81,14 @@ Game mockGame(MockPlayGameNotifier mockPlayGame,
       ),
     ),
   );
+}
+
+/// Mocks a game with custom values if given
+/// Returns the game
+Game mockGame(MockPlayGameNotifier mockPlayGame,
+    {List<AbstractContractModel>? playedContracts,
+    int nbPlayers = nbPlayersByDefault}) {
+  final fakeGame = createGame(nbPlayers, playedContracts);
   when(mockPlayGame.game).thenReturn(fakeGame);
   when(mockPlayGame.players).thenReturn(fakeGame.players);
   when(mockPlayGame.currentPlayer).thenReturn(fakeGame.players[0]);

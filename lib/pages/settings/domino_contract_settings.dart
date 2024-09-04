@@ -35,7 +35,7 @@ class DominoContractSettingsPage extends ConsumerWidget {
         padding: spanPadding,
       ),
       rowBuilder: (_) => const TableSpan(
-        extent: FixedTableSpanExtent(40),
+        extent: FixedTableSpanExtent(48),
         padding: spanPadding,
       ),
       cells: [

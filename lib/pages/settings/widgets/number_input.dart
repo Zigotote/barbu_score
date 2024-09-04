@@ -51,7 +51,6 @@ class _NumberInputState extends State<NumberInput> {
           FilteringTextInputFormatter.allow(RegExp(r'-?[0-9]*'))
         ],
         enabled: widget.onChanged != null,
-        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide(

@@ -1,11 +1,7 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
-import 'package:barbu_score/commons/models/game.dart';
-import 'package:barbu_score/commons/models/player.dart';
-import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
-import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,26 +24,19 @@ main() {
           player: index == 0 ? 4 : 0
       },
     );
-    final game = Game(
-      players: List.generate(
-        4,
-        (index) => Player(
-          name: defaultPlayerNames[index],
-          color: PlayerColors.values[index],
-          image: playerImages[index],
-          contracts: [
-            barbu,
-            noHearts,
-            TrumpsContractModel(subContracts: [barbu, noHearts]),
-            DominoContractModel(
-              rankOfPlayer: {
-                for (var (index, player) in defaultPlayerNames.indexed)
-                  player: index
-              },
-            )
-          ],
-        ),
-      ),
+    final game = createGame(
+      4,
+      [
+        barbu,
+        noHearts,
+        TrumpsContractModel(subContracts: [barbu, noHearts]),
+        DominoContractModel(
+          rankOfPlayer: {
+            for (var (index, player) in defaultPlayerNames.indexed)
+              player: index
+          },
+        )
+      ],
     );
     test("should return null when getStoredGame if no game", () async {
       await _initializeStorage();
