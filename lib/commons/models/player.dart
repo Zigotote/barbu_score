@@ -62,7 +62,7 @@ class Player with EquatableMixin {
 
   /// Returns true if the player can choose at least one contract from the list, false if he already choose all of them
   bool hasAvailableContracts(List<ContractsInfo> activeContracts) {
-    return activeContracts.length != _chosenContracts.length;
+    return activeContracts.any((contract) => !hasPlayedContract(contract));
   }
 
   /// Returns true if the player has played the contract

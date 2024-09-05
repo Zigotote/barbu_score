@@ -272,60 +272,63 @@ main() {
             isNull);
       });
       test("should sum sub contract scores", () {
-        final barbu = OneLooserContractModel(
-          contract: ContractsInfo.barbu,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? 1 : 0
+        expect(
+            defaultTrumps.scores(contract.defaultSettings, subContractSettings),
+            {
+              for (var (index, player) in defaultPlayerNames.indexed)
+                player: index == 0
+                    ? barbuSettings.points +
+                        noLastTrickSettings.points +
+                        noQueensSettings.points +
+                        (noHeartsSettings.points * 2) +
+                        (noTricksSettings.points * 2)
+                    : index < 4
+                        ? noQueensSettings.points +
+                            (noHeartsSettings.points * 2) +
+                            (noTricksSettings.points * 2)
+                        : 0
+            });
+      });
+      test("should sum sub contract scores with some removed contracts", () {
+        final settings = TrumpsContractSettings(
+          isActive: true,
+          contracts: {
+            ContractsInfo.barbu.name: true,
+            ContractsInfo.noLastTrick.name: true,
+            ContractsInfo.noHearts.name: false,
+            ContractsInfo.noTricks.name: false,
+            ContractsInfo.noQueens.name: true,
           },
         );
-        final noQueens = MultipleLooserContractModel(
-          contract: ContractsInfo.noQueens,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index < 4 ? 1 : 0
-          },
-          nbItems: 4,
-        );
-        final noTricks = MultipleLooserContractModel(
-          contract: ContractsInfo.noTricks,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index < 4 ? 2 : 0
-          },
-          nbItems: 8,
-        );
-        final noHearts = MultipleLooserContractModel(
-          contract: ContractsInfo.noHearts,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index < 4 ? 2 : 0
-          },
-          nbItems: 8,
-        );
-        final noLastTrick = OneLooserContractModel(
-          contract: ContractsInfo.noLastTrick,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? 1 : 0
-          },
-        );
+
+        expect(defaultTrumps.scores(settings, subContractSettings), {
+          for (var (index, player) in defaultPlayerNames.indexed)
+            player: index == 0
+                ? barbuSettings.points +
+                    noLastTrickSettings.points +
+                    noQueensSettings.points
+                : index < 4
+                    ? noQueensSettings.points
+                    : 0
+        });
+      });
+      test("should sum sub contract scores with some missing contracts", () {
         final model = TrumpsContractModel(
-          subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
+          subContracts: [
+            defaultBarbu,
+            defaultNoQueens,
+            defaultNoHearts,
+          ],
         );
 
         expect(model.scores(contract.defaultSettings, subContractSettings), {
           for (var (index, player) in defaultPlayerNames.indexed)
             player: index == 0
                 ? barbuSettings.points +
-                    noLastTrickSettings.points +
                     noQueensSettings.points +
-                    (noHeartsSettings.points * 2) +
-                    (noTricksSettings.points * 2)
+                    (noHeartsSettings.points * 2)
                 : index < 4
-                    ? noQueensSettings.points +
-                        (noHeartsSettings.points * 2) +
-                        (noTricksSettings.points * 2)
+                    ? noQueensSettings.points + (noHeartsSettings.points * 2)
                     : 0
         });
       });

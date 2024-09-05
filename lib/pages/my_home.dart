@@ -23,7 +23,6 @@ class MyHome extends ConsumerWidget {
   /// Loads a previous game and resumes it
   _loadGame(BuildContext context, WidgetRef ref, Game game) {
     ref.read(playGameProvider).load(game);
-    Navigator.of(context).popUntil((route) => route.isFirst);
     if (game.isFinished) {
       Navigator.of(context).pushNamed(Routes.finishGame);
     } else {
@@ -33,7 +32,6 @@ class MyHome extends ConsumerWidget {
 
   /// Starts a new game
   _startGame(BuildContext context) {
-    Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.of(context).pushNamed(Routes.createGame);
   }
 
@@ -51,7 +49,6 @@ class MyHome extends ConsumerWidget {
                 AlertDialogActionButton(
                   text: "Modifier les paramètres",
                   onPressed: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
                     Navigator.of(context).pushNamed(Routes.settings);
                   },
                 ),

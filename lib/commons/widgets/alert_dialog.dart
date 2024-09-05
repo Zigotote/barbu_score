@@ -9,14 +9,14 @@ class AlertDialogActionButton {
   final String text;
 
   /// The function to call on action button pressed
-  final Function() onPressed;
+  final Function()? onPressed;
 
   /// The indicator to know if this action can lead to destructive action
   final bool isDestructive;
 
   AlertDialogActionButton({
     required this.text,
-    required this.onPressed,
+    this.onPressed,
     this.isDestructive = false,
   });
 }
@@ -28,7 +28,8 @@ class MyAlertDialog extends AlertDialog {
       required BuildContext context,
       required String title,
       required String content,
-      required List<AlertDialogActionButton> actions})
+      required List<AlertDialogActionButton> actions,
+      bool closeOnAction = true})
       : super(
           title: Text(title),
           content: Text(content),
@@ -40,7 +41,12 @@ class MyAlertDialog extends AlertDialog {
                       : Theme.of(context).colorScheme.success,
                   textSize: 16,
                   text: action.text,
-                  onPressed: action.onPressed,
+                  onPressed: closeOnAction
+                      ? () {
+                          Navigator.of(context).pop();
+                          action.onPressed?.call();
+                        }
+                      : action.onPressed ?? () {},
                 ),
               )
               .toList(),

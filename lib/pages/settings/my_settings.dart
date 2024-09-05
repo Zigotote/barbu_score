@@ -42,19 +42,21 @@ class MySettings extends ConsumerWidget {
                         arguments: contract,
                       )
                           .then((_) {
-                        final newSettings = ref
-                            .read(contractSettingsProvider(contract))
-                            .settings;
+                        final settingsProvider =
+                            ref.read(contractSettingsProvider(contract));
+                        final newSettings = settingsProvider.settings;
                         if (contractSettings != newSettings) {
-                          ref
-                              .read(storageProvider)
-                              .saveSettings(contract, newSettings);
+                          final storage = ref.read(storageProvider);
+                          storage.saveSettings(contract, newSettings);
+                          if (settingsProvider.storedGame?.isFinished == true) {
+                            storage.deleteGame();
+                          }
                           if (context.mounted) {
                             SnackBarUtils.instance.openSnackBar(
                               context: context,
                               title: "Modifications sauvegardées",
                               text:
-                                  "Les changements ont été sauvegardés et seront appliqués sur les prochaines parties.",
+                                  "Les changements ont été sauvegardés et sont effectifs dès maintenant.",
                             );
                           }
                           ref.invalidate(storageProvider);
