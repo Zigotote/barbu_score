@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
+import 'contract_info.dart';
 import 'player.dart';
 
 /// A class to represent a game, with players and a current player

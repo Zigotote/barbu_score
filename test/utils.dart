@@ -16,10 +16,11 @@ import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 @GenerateNiceMocks([
+  MockSpec<BuildContext>(),
+  MockSpec<ContractsManager>(),
   MockSpec<MyStorage>(),
   MockSpec<PlayGameNotifier>(),
   MockSpec<TrumpsNotifier>(),
-  MockSpec<ContractsManager>()
 ])
 import 'utils.mocks.dart';
 
