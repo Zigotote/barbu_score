@@ -36,4 +36,3 @@
 - dans les paramètres des contrats, si un contrat est désactivé, proposer de le désactiver aussi
   dans la salade +
 - dans les paramètres des contrats, ajouter un bouton pour réinitialiser les paramètres +
-- permettre de modifier les paramètres lorsqu'une partie est en cours ++

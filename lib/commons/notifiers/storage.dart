@@ -58,12 +58,6 @@ class MyStorage {
     await Hive.box(_settingsBoxName).clear();
   }
 
-  /// Returns true if a game is saved in storage, false otherwise
-  bool hasStoredGame() {
-    final storedGame = getStoredGame();
-    return storedGame != null && !storedGame.isFinished;
-  }
-
   /// Gets the game saved in the store
   Game? getStoredGame() {
     final storedGame = storage?.getString(_gameKey);
@@ -105,7 +99,6 @@ class MyStorage {
   /// Saves contract settings and deletes the current game
   void saveSettings(
       ContractsInfo contractsInfo, AbstractContractSettings settings) {
-    deleteGame();
     storage?.setString(contractsInfo.name, jsonEncode(settings.toJson()));
   }
 

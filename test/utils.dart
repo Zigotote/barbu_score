@@ -16,10 +16,11 @@ import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 @GenerateNiceMocks([
+  MockSpec<BuildContext>(),
+  MockSpec<ContractsManager>(),
   MockSpec<MyStorage>(),
   MockSpec<PlayGameNotifier>(),
   MockSpec<TrumpsNotifier>(),
-  MockSpec<ContractsManager>()
 ])
 import 'utils.mocks.dart';
 
@@ -33,12 +34,80 @@ final defaultPlayerNames = [
 ];
 const nbPlayersByDefault = 4;
 
+final defaultBarbu = OneLooserContractModel(
+  contract: ContractsInfo.barbu,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index == 0 ? 1 : 0
+  },
+);
+
+final defaultNoQueens = MultipleLooserContractModel(
+  contract: ContractsInfo.noQueens,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index < 4 ? 1 : 0
+  },
+  nbItems: 4,
+);
+
+final defaultNoTricks = MultipleLooserContractModel(
+  contract: ContractsInfo.noTricks,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index < 4 ? 2 : 0
+  },
+  nbItems: 8,
+);
+
+final defaultNoHearts = MultipleLooserContractModel(
+  contract: ContractsInfo.noHearts,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index < 4 ? 2 : 0
+  },
+  nbItems: 8,
+);
+
+final defaultNoLastTrick = OneLooserContractModel(
+  contract: ContractsInfo.noLastTrick,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index == 0 ? 1 : 0
+  },
+);
+
+final defaultDomino = DominoContractModel(
+  rankOfPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed) player: index
+  },
+);
+
+final defaultTrumps = TrumpsContractModel(
+  subContracts: [
+    defaultBarbu,
+    defaultNoQueens,
+    defaultNoHearts,
+    defaultNoLastTrick,
+    defaultNoTricks
+  ],
+);
+
 checkAccessibility(WidgetTester tester) async {
   await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
   await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));
   await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
   // TODO handle this guideline
   // await expectLater($, meetsGuideline(textContrastGuideline));
+}
+
+/// Returns the text used to describe game in test description
+String getGameStateText(Game? game) {
+  return game != null
+      ? game.isFinished
+          ? "with finished game"
+          : "with stored game"
+      : "";
 }
 
 PlayerIcon findPlayerIcon(PatrolTester $, {int index = 0}) =>
@@ -59,12 +128,9 @@ mockActiveContracts(MyStorage mockStorage,
   when(mockStorage.getActiveContracts()).thenReturn(activeContracts);
 }
 
-/// Mocks a game with custom values if given
-/// Returns the game
-Game mockGame(MockPlayGameNotifier mockPlayGame,
-    {List<AbstractContractModel>? playedContracts,
-    int nbPlayers = nbPlayersByDefault}) {
-  final fakeGame = Game(
+/// Creates a game with [nbPlayers] number of players, and eaach player played [playedContracts]
+Game createGame(int nbPlayers, List<AbstractContractModel>? playedContracts) {
+  return Game(
     players: List.generate(
       nbPlayers,
       (index) => Player(
@@ -75,6 +141,14 @@ Game mockGame(MockPlayGameNotifier mockPlayGame,
       ),
     ),
   );
+}
+
+/// Mocks a game with custom values if given
+/// Returns the game
+Game mockGame(MockPlayGameNotifier mockPlayGame,
+    {List<AbstractContractModel>? playedContracts,
+    int nbPlayers = nbPlayersByDefault}) {
+  final fakeGame = createGame(nbPlayers, playedContracts);
   when(mockPlayGame.game).thenReturn(fakeGame);
   when(mockPlayGame.players).thenReturn(fakeGame.players);
   when(mockPlayGame.currentPlayer).thenReturn(fakeGame.players[0]);
