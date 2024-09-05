@@ -37,19 +37,6 @@ main() {
   final dominoSettings = DominoContractSettings(points: {
     4: [-10, -5, 5, 10]
   });
-  for (var contractSettings in [
-    barbuSettings,
-    noQueensSettings,
-    noTricksSettings,
-    noHeartsSettings,
-    noLastTrickSettings,
-    dominoSettings
-  ]) {
-    when(mockStorage.getSettings(ContractsInfo.fromName(contractSettings.name)))
-        .thenReturn(contractSettings);
-  }
-  when(mockStorage.getSettings(ContractsInfo.trumps))
-      .thenReturn(ContractsInfo.trumps.defaultSettings);
 
   // Items by players
   final playerNames = defaultPlayerNames.take(4).toList();
@@ -124,6 +111,23 @@ main() {
               noTricksSettings.points * 2
   };
 
+  setUp(() {
+    for (var contractSettings in [
+      barbuSettings,
+      noQueensSettings,
+      noTricksSettings,
+      noHeartsSettings,
+      noLastTrickSettings,
+      dominoSettings
+    ]) {
+      when(mockStorage
+              .getSettings(ContractsInfo.fromName(contractSettings.name)))
+          .thenReturn(contractSettings);
+    }
+    when(mockStorage.getSettings(ContractsInfo.trumps))
+        .thenReturn(ContractsInfo.trumps.defaultSettings);
+  });
+
   group("#scoresByContract", () {
     for (var contractsTest in [
       <ContractsInfo>[],
@@ -139,55 +143,74 @@ main() {
         ContractsInfo.trumps,
       ]
     ]) {
-      test(
-          "should calculate scores by contract for a player with $contractsTest",
-          () {
-        final player = Player(
-          name: playerNames[0],
-          color: PlayerColors.values[0],
-          image: playerImages[0],
-          contracts: [
-            barbu,
-            noQueens,
-            noHearts,
-            noLastTrick,
-            noTricks,
-            domino,
-            trumps
-          ]
-              .where((contractScores) => contractsTest
-                  .map((ContractsInfo? contract) => contract?.name)
-                  .contains(contractScores.name))
-              .toList(),
-        );
+      final player = Player(
+        name: playerNames[0],
+        color: PlayerColors.values[0],
+        image: playerImages[0],
+        contracts: [
+          barbu,
+          noQueens,
+          noHearts,
+          noLastTrick,
+          noTricks,
+          domino,
+          trumps
+        ]
+            .where((contractScores) => contractsTest
+                .map((ContractsInfo? contract) => contract?.name)
+                .contains(contractScores.name))
+            .toList(),
+      );
+      for (bool hasInactiveContracts in [true, false]) {
+        test(
+            "should calculate scores by contract for a player with $contractsTest ${hasInactiveContracts ? "with some inactive contracts" : ""}",
+            () {
+          for (var contractSettings in [
+            noTricksSettings,
+            noQueensSettings,
+            dominoSettings
+          ]) {
+            when(mockStorage
+                    .getSettings(ContractsInfo.fromName(contractSettings.name)))
+                .thenReturn(
+              contractSettings.copy()..isActive = !hasInactiveContracts,
+            );
+          }
+          final contractsManager =
+              ContractsManager(mockStorage, playerNames.length);
 
-        final contractsManager =
-            ContractsManager(mockStorage, playerNames.length);
-
-        expect(contractsManager.scoresByContract(player), {
-          ContractsInfo.barbu:
-              contractsTest.contains(ContractsInfo.barbu) ? barbuScores : null,
-          ContractsInfo.noHearts: contractsTest.contains(ContractsInfo.noHearts)
-              ? noHeartsScores
-              : null,
-          ContractsInfo.noQueens: contractsTest.contains(ContractsInfo.noQueens)
-              ? noQueensScores
-              : null,
-          ContractsInfo.noTricks: contractsTest.contains(ContractsInfo.noTricks)
-              ? noTricksScores
-              : null,
-          ContractsInfo.noLastTrick:
-              contractsTest.contains(ContractsInfo.noLastTrick)
-                  ? noLastTricksScores
+          expect(contractsManager.scoresByContract(player), {
+            ContractsInfo.barbu: contractsTest.contains(ContractsInfo.barbu)
+                ? barbuScores
+                : null,
+            ContractsInfo.noHearts:
+                contractsTest.contains(ContractsInfo.noHearts)
+                    ? noHeartsScores
+                    : null,
+            if (!hasInactiveContracts)
+              ContractsInfo.noQueens:
+                  contractsTest.contains(ContractsInfo.noQueens)
+                      ? noQueensScores
+                      : null,
+            if (!hasInactiveContracts)
+              ContractsInfo.noTricks:
+                  contractsTest.contains(ContractsInfo.noTricks)
+                      ? noTricksScores
+                      : null,
+            ContractsInfo.noLastTrick:
+                contractsTest.contains(ContractsInfo.noLastTrick)
+                    ? noLastTricksScores
+                    : null,
+            if (!hasInactiveContracts)
+              ContractsInfo.domino: contractsTest.contains(ContractsInfo.domino)
+                  ? dominoScores
                   : null,
-          ContractsInfo.domino: contractsTest.contains(ContractsInfo.domino)
-              ? dominoScores
-              : null,
-          ContractsInfo.trumps: contractsTest.contains(ContractsInfo.trumps)
-              ? trumpsScores
-              : null,
+            ContractsInfo.trumps: contractsTest.contains(ContractsInfo.trumps)
+                ? trumpsScores
+                : null,
+          });
         });
-      });
+      }
     }
   });
 

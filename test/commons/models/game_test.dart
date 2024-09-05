@@ -1,5 +1,4 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
-import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/models/player_colors.dart';

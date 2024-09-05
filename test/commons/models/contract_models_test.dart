@@ -272,13 +272,52 @@ main() {
             isNull);
       });
       test("should sum sub contract scores", () {
+        expect(
+            defaultTrumps.scores(contract.defaultSettings, subContractSettings),
+            {
+              for (var (index, player) in defaultPlayerNames.indexed)
+                player: index == 0
+                    ? barbuSettings.points +
+                        noLastTrickSettings.points +
+                        noQueensSettings.points +
+                        (noHeartsSettings.points * 2) +
+                        (noTricksSettings.points * 2)
+                    : index < 4
+                        ? noQueensSettings.points +
+                            (noHeartsSettings.points * 2) +
+                            (noTricksSettings.points * 2)
+                        : 0
+            });
+      });
+      test("should sum sub contract scores with some removed contracts", () {
+        final settings = TrumpsContractSettings(
+          isActive: true,
+          contracts: {
+            ContractsInfo.barbu.name: true,
+            ContractsInfo.noLastTrick.name: true,
+            ContractsInfo.noHearts.name: false,
+            ContractsInfo.noTricks.name: false,
+            ContractsInfo.noQueens.name: true,
+          },
+        );
+
+        expect(defaultTrumps.scores(settings, subContractSettings), {
+          for (var (index, player) in defaultPlayerNames.indexed)
+            player: index == 0
+                ? barbuSettings.points +
+                    noLastTrickSettings.points +
+                    noQueensSettings.points
+                : index < 4
+                    ? noQueensSettings.points
+                    : 0
+        });
+      });
+      test("should sum sub contract scores with some missing contracts", () {
         final model = TrumpsContractModel(
           subContracts: [
             defaultBarbu,
             defaultNoQueens,
             defaultNoHearts,
-            defaultNoLastTrick,
-            defaultNoTricks
           ],
         );
 
@@ -286,14 +325,10 @@ main() {
           for (var (index, player) in defaultPlayerNames.indexed)
             player: index == 0
                 ? barbuSettings.points +
-                    noLastTrickSettings.points +
                     noQueensSettings.points +
-                    (noHeartsSettings.points * 2) +
-                    (noTricksSettings.points * 2)
+                    (noHeartsSettings.points * 2)
                 : index < 4
-                    ? noQueensSettings.points +
-                        (noHeartsSettings.points * 2) +
-                        (noTricksSettings.points * 2)
+                    ? noQueensSettings.points + (noHeartsSettings.points * 2)
                     : 0
         });
       });
