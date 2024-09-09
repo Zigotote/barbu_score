@@ -52,7 +52,7 @@ class DefaultPage extends StatelessWidget {
                 ),
               )
             : null,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
         child: content,
       ),
       bottomNavigationBar: Padding(
