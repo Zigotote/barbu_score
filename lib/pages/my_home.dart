@@ -163,15 +163,24 @@ class MyHome extends ConsumerWidget {
                 hasLeading: false,
               ),
               ElevatedButtonFullWidth(
-                child: const Text("Démarrer une partie"),
+                child: const Text(
+                  "Démarrer une partie",
+                  textAlign: TextAlign.center,
+                ),
                 onPressed: () => _confirmStartGame(context, ref),
               ),
               ElevatedButtonFullWidth(
-                child: const Text("Charger une partie"),
+                child: const Text(
+                  "Charger une partie",
+                  textAlign: TextAlign.center,
+                ),
                 onPressed: () => _confirmLoadGame(context, ref),
               ),
               ElevatedButton(
-                child: const Text("Règles du jeu"),
+                child: const Text(
+                  "Règles du jeu",
+                  textAlign: TextAlign.center,
+                ),
                 onPressed: () => Navigator.of(context).pushNamed(Routes.rules),
               ),
               IconButton(
