@@ -12,7 +12,7 @@ class MyTabBar extends StatelessWidget implements PreferredSizeWidget {
       children: [
         Container(
           width: double.infinity,
-          height: 2,
+          height: 3,
           color: Theme.of(context).colorScheme.onSurface,
         ),
         tabBar,
@@ -21,5 +21,6 @@ class MyTabBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => tabBar.preferredSize;
+  Size get preferredSize =>
+      Size(tabBar.preferredSize.width, tabBar.preferredSize.height + 16);
 }

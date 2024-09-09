@@ -12,6 +12,7 @@ class MyAppBar extends AppBar {
     bool hasLeading = false,
     List<Tab>? tabs,
   }) : super(
+          toolbarHeight: _calculateToolbarHeight(context, title),
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           centerTitle: true,
@@ -20,7 +21,7 @@ class MyAppBar extends AppBar {
           flexibleSpace: SafeArea(
             child: Container(
               alignment: Alignment.center,
-              height: kToolbarHeight,
+              height: _calculateToolbarHeight(context, title),
               child: Divider(
                 thickness: 1,
                 color: Theme.of(context).colorScheme.onSurface,
@@ -54,4 +55,9 @@ class MyAppBar extends AppBar {
           ),
           bottom: tabs == null ? null : MyTabBar(tabs),
         );
+
+  static double _calculateToolbarHeight(BuildContext context, String title) {
+    return (Theme.of(context).textTheme.displaySmall?.fontSize ?? 1) *
+        (title.contains("\n") ? 2 : 1);
+  }
 }
