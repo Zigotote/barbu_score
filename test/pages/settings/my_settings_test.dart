@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
+import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
@@ -133,6 +134,9 @@ main() {
       });
     }
   }
+
+  // The state of the singleton is shared during tests so the snackbar cannot be opened multiple times
+  tearDown(() => SnackBarUtils.instance.isSnackBarOpen = false);
 }
 
 Widget _createPage(
