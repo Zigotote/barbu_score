@@ -1,3 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'commons/models/contract_info.dart';
 import 'commons/models/player.dart';
 import 'commons/notifiers/storage.dart';
+import 'firebase_options.dart';
 import 'pages/choose_contract.dart';
 import 'pages/contract_scores/domino_contract.dart';
 import 'pages/contract_scores/models/contract_route_argument.dart';
@@ -28,7 +32,20 @@ import 'theme/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kDebugMode) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  }
+
   await MyStorage.init();
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

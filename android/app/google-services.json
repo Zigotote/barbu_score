@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "886177799464",
+    "project_id": "barbu-score",
+    "storage_bucket": "barbu-score.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886177799464:android:2ff5b7e2479b851b7b841d",
+        "android_client_info": {
+          "package_name": "zigotote.barbu_score"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWxoMGlkINQjbmzJZcVpOBRd6qK3UZEGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
