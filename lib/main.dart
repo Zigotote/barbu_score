@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'commons/models/contract_info.dart';
@@ -71,7 +72,16 @@ class MyApp extends ConsumerWidget {
       initialRoute: Routes.home,
       // Another ProviderScope so that whole app is not reloaded after theme mode change
       builder: (context, child) => ProviderScope(
-        child: child!,
+        child: AnnotatedRegion(
+          value: SystemUiOverlayStyle(
+            systemNavigationBarColor: Theme.of(context).colorScheme.surface,
+            systemNavigationBarIconBrightness:
+                Theme.of(context).brightness == Brightness.dark
+                    ? Brightness.light
+                    : Brightness.dark,
+          ),
+          child: child!,
+        ),
       ),
     );
   }
