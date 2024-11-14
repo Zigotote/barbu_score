@@ -12,7 +12,9 @@ class MyThemes {
 
   static _baseTheme(ThemeData baseTheme) {
     final onSurfaceColor = baseTheme.colorScheme.onSurface;
-    const disabledColor = Color(0xffAFAFAF);
+    final disabledColor = baseTheme.brightness == Brightness.dark
+        ? const Color(0xffAFAFAF)
+        : const Color(0xff757575);
 
     final TextTheme textTheme = baseTheme.textTheme.apply(
       fontFamily: "QuickSand",
@@ -54,8 +56,13 @@ class MyThemes {
           ),
           backgroundColor:
               WidgetStatePropertyAll(baseTheme.scaffoldBackgroundColor),
-          overlayColor: const WidgetStatePropertyAll(disabledColor),
-          elevation: const WidgetStatePropertyAll(10),
+          overlayColor: WidgetStatePropertyAll(disabledColor),
+          elevation: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+            if (states.contains(WidgetState.disabled)) {
+              return 0;
+            }
+            return 10;
+          }),
           shape: const WidgetStatePropertyAll(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.elliptical(8, 5)),
@@ -69,7 +76,7 @@ class MyThemes {
               color: onSurfaceColor,
             );
             if (states.contains(WidgetState.disabled)) {
-              border = border.copyWith(color: disabledColor);
+              border = border.copyWith(color: disabledColor, width: 1);
             }
             return border;
           }),
@@ -87,7 +94,7 @@ class MyThemes {
           backgroundColor:
               WidgetStatePropertyAll(baseTheme.scaffoldBackgroundColor),
           foregroundColor: WidgetStatePropertyAll(onSurfaceColor),
-          overlayColor: const WidgetStatePropertyAll(disabledColor),
+          overlayColor: WidgetStatePropertyAll(disabledColor),
           side: WidgetStatePropertyAll(BorderSide(color: onSurfaceColor)),
         ),
       ),
@@ -144,7 +151,7 @@ class MyThemes {
         indicatorSize: TabBarIndicatorSize.tab,
         labelColor: onSurfaceColor,
         unselectedLabelColor: disabledColor,
-        overlayColor: const WidgetStatePropertyAll(disabledColor),
+        overlayColor: WidgetStatePropertyAll(disabledColor),
       ),
     );
   }
