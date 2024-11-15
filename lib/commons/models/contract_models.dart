@@ -252,11 +252,13 @@ class TrumpsContractModel extends AbstractContractModel {
               : null,
         )
         .reduce(
-          (scores, subContractScores) => scores
-            ?..updateAll(
-              (player, playerScores) =>
-                  playerScores + (subContractScores?[player] ?? 0),
-            ),
+          (scores, subContractScores) => scores == null
+              ? subContractScores
+              : (scores
+                ..updateAll(
+                  (player, playerScores) =>
+                      playerScores + (subContractScores?[player] ?? 0),
+                )),
         );
   }
 }
