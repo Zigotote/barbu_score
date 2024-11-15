@@ -293,7 +293,7 @@ main() {
         final settings = TrumpsContractSettings(
           isActive: true,
           contracts: {
-            ContractsInfo.barbu.name: true,
+            ContractsInfo.barbu.name: false,
             ContractsInfo.noLastTrick.name: true,
             ContractsInfo.noHearts.name: false,
             ContractsInfo.noTricks.name: false,
@@ -304,9 +304,7 @@ main() {
         expect(defaultTrumps.scores(settings, subContractSettings), {
           for (var (index, player) in defaultPlayerNames.indexed)
             player: index == 0
-                ? barbuSettings.points +
-                    noLastTrickSettings.points +
-                    noQueensSettings.points
+                ? noLastTrickSettings.points + noQueensSettings.points
                 : index < 4
                     ? noQueensSettings.points
                     : 0
