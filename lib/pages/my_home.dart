@@ -22,8 +22,13 @@ class MyHome extends ConsumerWidget {
 
   /// Loads a previous game and resumes it
   _loadGame(BuildContext context, WidgetRef ref, Game game) {
-    ref.read(playGameProvider).load(game);
-    if (game.isFinished) {
+    final provider = ref.read(playGameProvider);
+    provider.load(game);
+    if (!game.isFinished) {
+      provider.moveToFirstPlayerWithAvailableContracts();
+    }
+    if (provider.game.isFinished) {
+      ref.read(storageProvider).saveGame(provider.game);
       Navigator.of(context).pushNamed(Routes.finishGame);
     } else {
       Navigator.of(context).pushNamed(Routes.prepareGame);

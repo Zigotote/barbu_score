@@ -1,6 +1,5 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
-import 'package:barbu_score/commons/notifiers/play_game.dart';
 import 'package:barbu_score/commons/notifiers/storage.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
 import 'package:barbu_score/main.dart';
@@ -51,7 +50,9 @@ main() {
       patrolWidgetTest(
           "should ${startGame ? "" : "not "}start game if stored game is ${startGame ? "ignored" : "loaded"}",
           ($) async {
-        await $.pumpWidget(_createPage($, storedGame: Game(players: [])));
+        await $.pumpWidget(
+          _createPage($, storedGame: createGame(nbPlayersByDefault, [])),
+        );
 
         await $(_startGameText).tap();
 
@@ -87,7 +88,9 @@ main() {
       patrolWidgetTest(
           "should ${loadGame ? "load" : "start"} game if stored game ${loadGame ? "exists" : "is ignored"}",
           ($) async {
-        await $.pumpWidget(_createPage($, storedGame: Game(players: [])));
+        await $.pumpWidget(
+          _createPage($, storedGame: createGame(nbPlayersByDefault, [])),
+        );
 
         await $(_loadGameText).tap();
 
@@ -105,16 +108,56 @@ main() {
     }
     patrolWidgetTest("should display scores if stored game is finished",
         ($) async {
+      final mockStorage = MockMyStorage();
       final storedGame = Game(players: []);
       storedGame.isFinished = true;
-      await $.pumpWidget(_createPage($, storedGame: storedGame));
+
+      await $.pumpWidget(
+        _createPage($, mockStorage: mockStorage, storedGame: storedGame),
+      );
 
       await $(_loadGameText).tap();
 
       expect($(MyAlertDialog), findsOneWidget);
       await $("Oui").tap();
       expect($(FinishGame), findsOneWidget);
+      verify(mockStorage.saveGame(any));
     });
+    for (var hasAvailableContract in [true, false]) {
+      patrolWidgetTest(
+          "should display ${hasAvailableContract ? "prepare game" : "scores"} if players has${hasAvailableContract ? "" : " not"} available contract",
+          ($) async {
+        final mockStorage = MockMyStorage();
+        final storedGame = createGame(
+          defaultPlayerNames.length,
+          [defaultBarbu],
+        );
+
+        await $.pumpWidget(
+          _createPage(
+            $,
+            mockStorage: mockStorage,
+            storedGame: storedGame,
+            activeContracts: hasAvailableContract
+                ? ContractsInfo.values
+                : [ContractsInfo.barbu],
+          ),
+        );
+
+        await $(_loadGameText).tap();
+
+        expect($(MyAlertDialog), findsOneWidget);
+        await $("Oui").tap();
+
+        if (hasAvailableContract) {
+          expect($(PrepareGame), findsOneWidget);
+          verifyNever(mockStorage.saveGame(any));
+        } else {
+          expect($(FinishGame), findsOneWidget);
+          verify(mockStorage.saveGame(any));
+        }
+      });
+    }
     patrolWidgetTest("should not load game if no stored game", ($) async {
       await $.pumpWidget(_createPage($));
 
@@ -134,23 +177,20 @@ Future<void> _checkGoBack(PatrolTester $) async {
 
 Widget _createPage(
   PatrolTester $, {
+  MockMyStorage? mockStorage,
   Game? storedGame,
   List<ContractsInfo> activeContracts = ContractsInfo.values,
 }) {
   // Increase screen size because prepare game page only works on some screen sizes
   $.tester.view.physicalSize = const Size(1440, 2560);
 
-  final mockStorage = MockMyStorage();
+  mockStorage ??= MockMyStorage();
   when(mockStorage.getStoredGame()).thenReturn(storedGame);
   mockActiveContracts(mockStorage, activeContracts);
-
-  final mockPlayGame = MockPlayGameNotifier();
-  when(mockPlayGame.game).thenReturn(Game(players: []));
 
   final container = ProviderContainer(
     overrides: [
       storageProvider.overrideWithValue(mockStorage),
-      playGameProvider.overrideWith((_) => mockPlayGame)
     ],
   );
 

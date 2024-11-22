@@ -35,6 +35,26 @@ class PlayGameNotifier with ChangeNotifier {
     this.game = game;
   }
 
+  /// Finds the first player who has available contracts, depending on the current settings
+  /// Returns true if such a player exists, and moves game's current player to him
+  /// false if the game is finished
+  bool moveToFirstPlayerWithAvailableContracts() {
+    final firstPlayer = game.currentPlayer;
+    final activeContracts = storage.getActiveContracts();
+    bool playerHasAvailableContracts =
+        game.currentPlayer.hasAvailableContracts(activeContracts);
+    if (!playerHasAvailableContracts) {
+      do {
+        game.nextPlayer();
+        playerHasAvailableContracts =
+            game.currentPlayer.hasAvailableContracts(activeContracts);
+      } while (
+          !playerHasAvailableContracts && game.currentPlayer != firstPlayer);
+    }
+    game.isFinished = !playerHasAvailableContracts;
+    return !game.isFinished;
+  }
+
   /// Saves the score for the contract
   void finishContract(AbstractContractModel contract) {
     game.currentPlayer.addContract(contract);
@@ -43,18 +63,8 @@ class PlayGameNotifier with ChangeNotifier {
   /// Changes the current player to the next one
   /// Returns true if there is a next player, false if the game is finished
   bool nextPlayer() {
-    final previousPlayer = game.currentPlayer;
-    final activeContracts = storage.getActiveContracts();
     game.nextPlayer();
-    bool playerHasAvailableContracts =
-        game.currentPlayer.hasAvailableContracts(activeContracts);
-    while (
-        !playerHasAvailableContracts && game.currentPlayer != previousPlayer) {
-      game.nextPlayer();
-      playerHasAvailableContracts =
-          game.currentPlayer.hasAvailableContracts(activeContracts);
-    }
-    game.isFinished = !playerHasAvailableContracts;
+    moveToFirstPlayerWithAvailableContracts();
     notifyListeners();
     storage.saveGame(game);
     return !game.isFinished;
