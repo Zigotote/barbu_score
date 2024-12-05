@@ -58,6 +58,15 @@ and uploaded to PlayStore.
 See [Flutter deployment doc](https://docs.flutter.dev/deployment/android#building-the-app-for-release)
 for more info.
 
+/!\ If there is an alert "This appbundle has native code and you didn't imported debug symbols" in
+PlayStore
+
+- Change the .aab extension to .zip
+- extract it
+- find debug symbols under the base/lib/ directory.
+- Compress all of it to a zip file
+- upload it in Play Store in Bundle Explorer -> Your version -> Downloads -> native debug symbols
+
 ## Licence
 
 [MIT](https://choosealicense.com/licenses/mit/)
