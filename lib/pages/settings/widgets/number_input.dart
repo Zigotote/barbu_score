@@ -23,20 +23,15 @@ class _NumberInputState extends State<NumberInput> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.points.toString());
-    _controller.addListener(_callOnChanged);
+    _controller.addListener(
+      () => widget.onChanged?.call(int.tryParse(_controller.text) ?? 0),
+    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  /// Calls onChanged method if it is not null
-  void _callOnChanged() {
-    widget.onChanged != null
-        ? Future(() => widget.onChanged!(int.parse(_controller.text)))
-        : null;
   }
 
   @override
