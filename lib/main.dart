@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'commons/models/contract_info.dart';
 import 'commons/models/player.dart';
-import 'commons/notifiers/storage.dart';
+import 'commons/providers/storage.dart';
 import 'firebase_options.dart';
 import 'pages/choose_contract.dart';
 import 'pages/contract_scores/domino_contract.dart';

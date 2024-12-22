@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_models.dart';
-import '../../../commons/notifiers/contracts_manager.dart';
-import '../../../commons/notifiers/play_game.dart';
+import '../../../commons/providers/contracts_manager.dart';
+import '../../../commons/providers/log.dart';
+import '../../../commons/providers/play_game.dart';
 import '../../../commons/utils/snackbar.dart';
 import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_subtitle.dart';
@@ -50,6 +51,9 @@ class SubContractPage extends ConsumerWidget {
         .getContractManager(contract)
         .model as AbstractSubContractModel);
     final bool isFinished = contractModel.setItemsByPlayer(itemsByPlayer);
+    ref.read(logProvider).info(
+          "SubContractPage.saveContract: save $contractModel ${isPartOfTrumpsContract ? "in trumps" : ""}",
+        );
 
     if (isPartOfTrumpsContract) {
       /// Adds the contract to the trumps contract

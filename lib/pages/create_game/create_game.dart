@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
-import '../../commons/notifiers/play_game.dart';
+import '../../commons/providers/log.dart';
+import '../../commons/providers/play_game.dart';
 import '../../commons/utils/globals.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../main.dart';
@@ -38,8 +39,20 @@ class CreateGame extends ConsumerWidget {
       onPressed: provider.isValid
           ? () {
               if (_formKey.currentState!.validate()) {
+                ref.read(logProvider).info(
+                      "CreateGame.buildValidateButton: create game with ${provider.players}",
+                    );
+                ref.read(logProvider).sendAnalyticEvent(
+                  "Create game",
+                  parameters: {"nbPlayers": provider.players.length},
+                );
+
                 ref.read(playGameProvider).init(provider.players);
                 Navigator.of(context).pushNamed(Routes.prepareGame);
+              } else {
+                ref.read(logProvider).info(
+                      "CreateGame.buildValidateButton: cannot create game with ${provider.players}",
+                    );
               }
             }
           : null,

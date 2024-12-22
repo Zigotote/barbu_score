@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/utils/globals.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils.dart';
+import '../../utils.mocks.dart';
 
 const basePlayerName = "Player";
 
@@ -161,7 +163,10 @@ Future<void> _fillPlayerNames(PatrolTester $, int nbPlayers) async {
 Widget _createPage(PatrolTester $) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
-  return ProviderScope(
+  return UncontrolledProviderScope(
+    container: ProviderContainer(overrides: [
+      logProvider.overrideWithValue(MockMyLog()),
+    ]),
     child: MaterialApp(home: CreateGame(), routes: {
       Routes.prepareGame: (_) => const PrepareGame(),
     }),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../commons/notifiers/play_game.dart';
-import '../commons/notifiers/storage.dart';
+import '../commons/providers/log.dart';
+import '../commons/providers/play_game.dart';
+import '../commons/providers/storage.dart';
 import '../commons/utils/snackbar.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/ordered_players_scores.dart';
@@ -21,7 +22,13 @@ class MyScores extends ConsumerWidget {
       bottomWidget: ElevatedButton(
           child: const Text('Sauvegarder et quitter'),
           onPressed: () {
-            ref.read(storageProvider).saveGame(ref.read(playGameProvider).game);
+            final game = ref.read(playGameProvider).game;
+            ref.read(logProvider).info("MyScores: save $game");
+            ref.read(logProvider).sendAnalyticEvent(
+              "Save game",
+              parameters: {"nbPlayers": game.players.length},
+            );
+            ref.read(storageProvider).saveGame(game);
             Navigator.of(context).popAndPushNamed(Routes.home);
             SnackBarUtils.instance.openSnackBar(
               context: context,

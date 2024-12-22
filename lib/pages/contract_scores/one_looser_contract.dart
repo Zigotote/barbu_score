@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
-import '../../commons/notifiers/contracts_manager.dart';
-import '../../commons/notifiers/play_game.dart';
+import '../../commons/providers/contracts_manager.dart';
+import '../../commons/providers/play_game.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/list_layouts.dart';
 import 'models/contract_route_argument.dart';

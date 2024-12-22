@@ -5,8 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
-import '../../commons/notifiers/contracts_manager.dart';
-import '../../commons/notifiers/play_game.dart';
+import '../../commons/providers/contracts_manager.dart';
+import '../../commons/providers/log.dart';
+import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/colored_container.dart';
 import '../../commons/widgets/default_page.dart';
@@ -115,6 +116,9 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
       for (var player in orderedPlayers)
         player.name: orderedPlayers.indexOf(player)
     });
+    ref
+        .read(logProvider)
+        .info("DominoContractPage.saveContract: save $contractModel");
     final provider = ref.read(playGameProvider);
     provider.finishContract(contractModel);
 

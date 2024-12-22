@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../commons/models/contract_info.dart';
 import '../../../../commons/models/contract_models.dart';
 import '../../../commons/models/contract_settings_models.dart';
-import '../../../commons/notifiers/contracts_manager.dart';
+import '../../../commons/providers/contracts_manager.dart';
 
 final trumpsProvider = ChangeNotifierProvider.autoDispose<TrumpsNotifier>(
   (ref) => TrumpsNotifier(

@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
-import 'package:barbu_score/commons/notifiers/storage.dart';
+import 'package:barbu_score/commons/providers/log.dart';
+import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/main.dart';
@@ -150,6 +151,7 @@ Widget _createPage(
   }
   final container = ProviderContainer(
     overrides: [
+      logProvider.overrideWithValue(MockMyLog()),
       storageProvider.overrideWithValue(mockStorage),
     ],
   );

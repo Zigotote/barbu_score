@@ -2,7 +2,7 @@ import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/models/player_colors.dart';
-import 'package:barbu_score/commons/notifiers/play_game.dart';
+import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:flutter_test/flutter_test.dart';
 
