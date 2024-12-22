@@ -1,7 +1,8 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
-import 'package:barbu_score/commons/notifiers/play_game.dart';
-import 'package:barbu_score/commons/notifiers/storage.dart';
+import 'package:barbu_score/commons/providers/log.dart';
+import 'package:barbu_score/commons/providers/play_game.dart';
+import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/domino_contract.dart';
@@ -132,6 +133,7 @@ Widget _createPage(PatrolTester $,
 
   final container = ProviderContainer(
     overrides: [
+      logProvider.overrideWithValue(MockMyLog()),
       playGameProvider.overrideWith((_) => mockPlayGame),
       storageProvider.overrideWithValue(mockStorage),
     ],

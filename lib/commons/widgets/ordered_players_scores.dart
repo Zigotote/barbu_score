@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/player.dart';
-import '../notifiers/contracts_manager.dart';
-import '../notifiers/play_game.dart';
+import '../providers/contracts_manager.dart';
+import '../providers/play_game.dart';
 import '../utils/contract_scores.dart';
 import 'list_layouts.dart';
 import 'player_score_button.dart';

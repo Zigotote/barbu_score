@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
-import '../../commons/notifiers/storage.dart';
+import '../../commons/providers/log.dart';
+import '../../commons/providers/storage.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/default_page.dart';
@@ -35,6 +36,9 @@ class MySettings extends ConsumerWidget {
                   return ElevatedButtonWithIndicator(
                     text: contract.displayName,
                     onPressed: () {
+                      ref.read(logProvider).info(
+                            "MySettings: modify settings for ${contract.name}",
+                          );
                       SnackBarUtils.instance.closeSnackBar(context);
                       Navigator.of(context)
                           .pushNamed(
@@ -46,6 +50,13 @@ class MySettings extends ConsumerWidget {
                             ref.read(contractSettingsProvider(contract));
                         final newSettings = settingsProvider.settings;
                         if (contractSettings != newSettings) {
+                          ref.read(logProvider).info(
+                                "MySettings: save ${contract.name} settings $newSettings",
+                              );
+                          ref.read(logProvider).sendAnalyticEvent(
+                            "Modify settings",
+                            parameters: {"contract": contract.name},
+                          );
                           final storage = ref.read(storageProvider);
                           storage.saveSettings(contract, newSettings);
                           if (storage.getStoredGame()?.isFinished == true) {

@@ -3,9 +3,10 @@ import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/models/player_colors.dart';
-import 'package:barbu_score/commons/notifiers/contracts_manager.dart';
-import 'package:barbu_score/commons/notifiers/play_game.dart';
-import 'package:barbu_score/commons/notifiers/storage.dart';
+import 'package:barbu_score/commons/providers/contracts_manager.dart';
+import 'package:barbu_score/commons/providers/log.dart';
+import 'package:barbu_score/commons/providers/play_game.dart';
+import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:barbu_score/pages/contract_scores/notifiers/trumps_provider.dart';
@@ -21,6 +22,7 @@ import 'package:patrol_finders/patrol_finders.dart';
   MockSpec<MyStorage>(),
   MockSpec<PlayGameNotifier>(),
   MockSpec<TrumpsNotifier>(),
+  MockSpec<MyLog>()
 ])
 import 'utils.mocks.dart';
 

@@ -1,7 +1,8 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
-import 'package:barbu_score/commons/notifiers/contracts_manager.dart';
-import 'package:barbu_score/commons/notifiers/play_game.dart';
-import 'package:barbu_score/commons/notifiers/storage.dart';
+import 'package:barbu_score/commons/providers/contracts_manager.dart';
+import 'package:barbu_score/commons/providers/log.dart';
+import 'package:barbu_score/commons/providers/play_game.dart';
+import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/pages/scores_by_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -204,6 +205,7 @@ Widget _createPage(
 
   final container = ProviderContainer(
     overrides: [
+      logProvider.overrideWithValue(MockMyLog()),
       playGameProvider.overrideWith((_) => mockPlayGame!),
       storageProvider.overrideWithValue(mockStorage),
       if (mockContractsManager != null)

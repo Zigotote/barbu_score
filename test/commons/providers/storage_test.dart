@@ -1,6 +1,6 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
-import 'package:barbu_score/commons/notifiers/storage.dart';
+import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -4,8 +4,9 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../commons/models/game.dart';
 import '../commons/models/player.dart';
-import '../commons/notifiers/play_game.dart';
-import '../commons/notifiers/storage.dart';
+import '../commons/providers/log.dart';
+import '../commons/providers/play_game.dart';
+import '../commons/providers/storage.dart';
 import '../commons/utils/snackbar.dart';
 import '../commons/widgets/alert_dialog.dart';
 import '../commons/widgets/custom_buttons.dart';
@@ -33,10 +34,14 @@ class MyHome extends ConsumerWidget {
     } else {
       Navigator.of(context).pushNamed(Routes.prepareGame);
     }
+    ref.read(logProvider).info("MyHome.loadGame: load $game");
+    ref.read(logProvider).sendAnalyticEvent("Load game");
   }
 
   /// Starts a new game
-  _startGame(BuildContext context) {
+  _startGame(BuildContext context, WidgetRef ref) {
+    ref.read(logProvider).info("MyHome.startGame: start game");
+    ref.read(logProvider).sendAnalyticEvent("Start game");
     Navigator.of(context).pushNamed(Routes.createGame);
   }
 
@@ -73,7 +78,9 @@ class MyHome extends ConsumerWidget {
     Game? previousGame;
     try {
       previousGame = ref.read(storageProvider).getStoredGame();
-    } catch (_) {}
+    } catch (e) {
+      ref.read(logProvider).error("MyHome.confirmLoadGame: $e");
+    }
 
     if (previousGame == null) {
       SnackBarUtils.instance.openSnackBar(
@@ -82,7 +89,7 @@ class MyHome extends ConsumerWidget {
         text:
             "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
       );
-      _startGame(context);
+      _startGame(context, ref);
     } else {
       showDialog(
           context: context,
@@ -96,7 +103,7 @@ class MyHome extends ConsumerWidget {
                 AlertDialogActionButton(
                   isDestructive: true,
                   text: "Non, nouvelle partie",
-                  onPressed: () => _startGame(context),
+                  onPressed: () => _startGame(context, ref),
                 ),
                 AlertDialogActionButton(
                   text: "Oui",
@@ -132,16 +139,17 @@ class MyHome extends ConsumerWidget {
                   AlertDialogActionButton(
                     isDestructive: true,
                     text: "Oui",
-                    onPressed: () => _startGame(context),
+                    onPressed: () => _startGame(context, ref),
                   ),
                 ],
               );
             });
       } else {
-        _startGame(context);
+        _startGame(context, ref);
       }
-    } catch (_) {
-      _startGame(context);
+    } catch (e) {
+      ref.read(logProvider).error("MyHome.confirmStartGame: $e");
+      _startGame(context, ref);
     }
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
-import '../../../commons/notifiers/storage.dart';
+import '../../../commons/providers/storage.dart';
 import '../../../commons/widgets/alert_dialog.dart';
 
 final contractSettingsProvider = ChangeNotifierProvider.family

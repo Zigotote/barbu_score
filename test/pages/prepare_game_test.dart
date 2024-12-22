@@ -1,4 +1,4 @@
-import 'package:barbu_score/commons/notifiers/play_game.dart';
+import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/utils/globals.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:barbu_score/pages/prepare_game.dart';

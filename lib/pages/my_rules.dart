@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../commons/models/contract_info.dart';
-import '../commons/notifiers/storage.dart';
+import '../commons/providers/storage.dart';
 import '../commons/widgets/default_page.dart';
 
 class MyRules extends ConsumerWidget {

@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../commons/models/player.dart';
-import '../commons/notifiers/play_game.dart';
+import '../commons/providers/play_game.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/player_icon.dart';
 import '../main.dart';

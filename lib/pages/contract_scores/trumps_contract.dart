@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
-import '../../commons/notifiers/play_game.dart';
+import '../../commons/providers/log.dart';
+import '../../commons/providers/play_game.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/list_layouts.dart';
@@ -61,6 +62,9 @@ class TrumpsContractPage extends ConsumerWidget {
   /// Saves the contract and moves to the next player round
   void _saveContract(
       BuildContext context, WidgetRef ref, TrumpsNotifier trumpsProvider) {
+    ref
+        .read(logProvider)
+        .info("TrumpsContractPage.saveContract: save $trumpsProvider");
     final provider = ref.read(playGameProvider);
     provider.finishContract(trumpsProvider.model);
 

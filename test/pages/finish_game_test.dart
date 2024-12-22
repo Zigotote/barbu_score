@@ -1,7 +1,8 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/player.dart';
-import 'package:barbu_score/commons/notifiers/contracts_manager.dart';
-import 'package:barbu_score/commons/notifiers/play_game.dart';
+import 'package:barbu_score/commons/providers/contracts_manager.dart';
+import 'package:barbu_score/commons/providers/log.dart';
+import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/widgets/ordered_players_scores.dart';
 import 'package:barbu_score/commons/widgets/player_score_button.dart';
 import 'package:barbu_score/main.dart';
@@ -202,9 +203,10 @@ Widget _createPage(PatrolTester $,
 
   final container = ProviderContainer(
     overrides: [
-      playGameProvider.overrideWith((_) => mockPlayGame!),
       contractsManagerProvider
-          .overrideWith((_) => mockContractsManager ?? MockContractsManager())
+          .overrideWith((_) => mockContractsManager ?? MockContractsManager()),
+      logProvider.overrideWithValue(MockMyLog()),
+      playGameProvider.overrideWith((_) => mockPlayGame!),
     ],
   );
 

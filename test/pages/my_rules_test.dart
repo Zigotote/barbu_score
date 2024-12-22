@@ -1,4 +1,4 @@
-import 'package:barbu_score/commons/notifiers/storage.dart';
+import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/pages/my_rules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

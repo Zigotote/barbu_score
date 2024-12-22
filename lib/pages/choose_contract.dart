@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../commons/models/player.dart';
-import '../commons/notifiers/contracts_manager.dart';
-import '../commons/notifiers/play_game.dart';
+import '../commons/providers/contracts_manager.dart';
+import '../commons/providers/log.dart';
+import '../commons/providers/play_game.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/list_layouts.dart';
 import '../main.dart';
@@ -33,11 +34,16 @@ class ChooseContract extends ConsumerWidget {
                   key: Key(contract.name),
                   onPressed: player.hasPlayedContract(contract)
                       ? null
-                      : () => Navigator.of(context).pushNamed(
+                      : () {
+                          ref.read(logProvider).info(
+                                "ChooseContract: ${player.name} choose ${contract.name}",
+                              );
+                          Navigator.of(context).pushNamed(
                             contract.scoreRoute,
                             arguments:
                                 ContractRouteArgument(contractInfo: contract),
-                          ),
+                          );
+                        },
                   child: Text(
                     contract.displayName,
                     textAlign: TextAlign.center,
