@@ -69,10 +69,7 @@ class ElevatedButtonCustomColor extends StatelessWidget {
     this.background,
     this.backgroundFromPlayer,
     this.semantics,
-  })  : assert(
-            ((text != null || icon != null) && (text == null || icon == null)),
-            "You have to provide an icon or a text for the button"),
-        assert(color == null || colorFromPlayer == null,
+  })  : assert(color == null || colorFromPlayer == null,
             "Color should be fixed or come from player"),
         assert(background == null || backgroundFromPlayer == null,
             "Background should be fixed or come from player");
@@ -133,22 +130,31 @@ class ElevatedButtonCustomColor extends StatelessWidget {
           .colorScheme
           .convertPlayerColor(backgroundFromPlayer!);
     }
-    final button = ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        side: BorderSide(color: foregroundColor, width: 2),
-        padding: const EdgeInsets.all(8),
-        foregroundColor: foregroundColor,
-        backgroundColor: backgroundColor,
-      ),
-      child: text != null
-          ? Text(
-              text!,
-              style: TextStyle(fontSize: textSize ?? 22),
-              textAlign: TextAlign.center,
-            )
-          : Icon(icon),
+    final style = ElevatedButton.styleFrom(
+      side: BorderSide(color: foregroundColor, width: 2),
+      padding: const EdgeInsets.all(8),
+      foregroundColor: foregroundColor,
+      backgroundColor: backgroundColor,
+      iconColor: foregroundColor,
     );
+    final button = icon != null && text != null
+        ? ElevatedButton.icon(
+            style: style,
+            onPressed: onPressed,
+            label: Text(text!, textAlign: TextAlign.center),
+            icon: Icon(icon),
+          )
+        : ElevatedButton(
+            style: style,
+            onPressed: onPressed,
+            child: text != null
+                ? Text(
+                    text!,
+                    style: TextStyle(fontSize: textSize ?? 22),
+                    textAlign: TextAlign.center,
+                  )
+                : Icon(icon),
+          );
     return semantics == null
         ? button
         : MergeSemantics(child: Semantics(label: semantics, child: button));

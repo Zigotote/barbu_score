@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/player.dart';
 import '../../../commons/utils/player_icon_properties.dart';
+import '../../../commons/widgets/custom_buttons.dart';
 import '../../../commons/widgets/player_icon.dart';
 import '../notifiers/create_game.dart';
 
@@ -23,28 +24,6 @@ class DialogChangePlayerInfo extends ConsumerWidget {
       required this.player,
       required this.onValidate,
       required this.onDelete});
-
-  /// Builds the title of the widget
-  Widget _buildTitle(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        PlayerIcon(
-          image: player.image,
-          color: player.color,
-        ),
-        Positioned(
-          right: 0,
-          top: -16,
-          child: IconButton(
-            onPressed: Navigator.of(context).pop,
-            icon: const Icon(Icons.close),
-            style: IconButton.styleFrom(side: BorderSide.none),
-          ),
-        )
-      ],
-    );
-  }
 
   /// Builds the title and list of items the player can modify
   Widget _buildPropertySelection(
@@ -68,32 +47,35 @@ class DialogChangePlayerInfo extends ConsumerWidget {
     );
   }
 
-  ElevatedButton _buildActionButton(
-      IconData icon, String text, Color color, Function() action) {
-    return ElevatedButton.icon(
-      icon: Icon(icon),
-      label: Text(text),
-      onPressed: action,
-      style: ElevatedButton.styleFrom(
-        side: BorderSide(color: color, width: 2),
-        padding: const EdgeInsets.all(8),
-        foregroundColor: color,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(createGameProvider);
     final ThemeData theme = Theme.of(context);
     return AlertDialog(
-      title: _buildTitle(context),
+      title: PlayerIcon(
+        image: player.image,
+        color: player.color,
+      ),
+      icon: Align(
+        alignment: Alignment.centerRight,
+        child: IconButton(
+          onPressed: Navigator.of(context).pop,
+          icon: const Icon(Icons.close),
+          style: IconButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            side: BorderSide.none,
+          ),
+          tooltip: "Fermer",
+        ),
+      ),
+      iconPadding: const EdgeInsets.only(top: 16, right: 16),
       content: SizedBox(
         width: double.maxFinite,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 16,
             children: [
               _buildPropertySelection(
                 context,
@@ -129,7 +111,6 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                   },
                 ).toList(),
               ),
-              const SizedBox(height: 16),
               _buildPropertySelection(
                 context,
                 "Avatar",
@@ -149,17 +130,17 @@ class DialogChangePlayerInfo extends ConsumerWidget {
         ),
       ),
       actions: [
-        _buildActionButton(
-          Icons.delete_forever_outlined,
-          "Supprimer",
-          theme.colorScheme.error,
-          onDelete,
+        ElevatedButtonCustomColor(
+          icon: Icons.delete_forever_outlined,
+          text: "Supprimer",
+          onPressed: onDelete,
+          color: theme.colorScheme.error,
         ),
-        _buildActionButton(
-          Icons.done,
-          "Valider",
-          theme.colorScheme.success,
-          onValidate,
+        ElevatedButtonCustomColor(
+          icon: Icons.done,
+          text: "Valider",
+          onPressed: onValidate,
+          color: theme.colorScheme.success,
         ),
       ],
       shape: RoundedRectangleBorder(
