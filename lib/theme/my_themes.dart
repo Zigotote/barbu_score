@@ -27,6 +27,7 @@ class MyThemes {
             ? Colors.red
             : Colors.red.shade900,
         outline: onSurfaceColor,
+        primary: Colors.transparent,
       ),
       textTheme: textTheme,
       dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
@@ -42,6 +43,13 @@ class MyThemes {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           foregroundColor:
+              WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+            if (states.contains(WidgetState.disabled)) {
+              return disabledColor;
+            }
+            return onSurfaceColor;
+          }),
+          iconColor:
               WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
             if (states.contains(WidgetState.disabled)) {
               return disabledColor;
