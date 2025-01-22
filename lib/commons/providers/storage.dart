@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,7 @@ class MyStorage {
   static const _settingsBoxName = "settings";
   static const String _gameKey = "game";
   static const String _isDarkThemeKey = "isDarkTheme";
+  static const String _localeKey = "locale";
 
   /// The object to manipulate local storage
   @visibleForTesting
@@ -106,5 +108,19 @@ class MyStorage {
   List<ContractsInfo> getActiveContracts() {
     return List<ContractsInfo>.from(ContractsInfo.values)
       ..removeWhere((contract) => !getSettings(contract).isActive);
+  }
+
+  /// Saves the locale to use in the app
+  void saveLocale(Locale locale) {
+    storage?.setString(_localeKey, locale.languageCode);
+  }
+
+  /// Returns the locale saved in the storage, or null if nothing is saved
+  Locale? getLocale() {
+    final savedLocale = storage?.getString(_localeKey);
+    if (savedLocale != null) {
+      return Locale(savedLocale);
+    }
+    return null;
   }
 }

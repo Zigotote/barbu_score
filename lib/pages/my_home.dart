@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -170,7 +171,7 @@ class MyHome extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               MyAppBar(
-                "Le Barbu",
+                AppLocalizations.of(context)!.helloWorld,
                 context: context,
                 isHome: true,
                 hasLeading: false,

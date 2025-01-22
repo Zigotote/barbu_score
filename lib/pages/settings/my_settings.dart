@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
@@ -12,6 +13,7 @@ import '../../commons/widgets/my_appbar.dart';
 import 'notifiers/contract_settings_provider.dart';
 import 'widgets/active_contract_indicator.dart';
 import 'widgets/app_theme_choice.dart';
+import 'widgets/language_choice.dart';
 
 class MySettings extends ConsumerWidget {
   const MySettings({super.key});
@@ -19,12 +21,17 @@ class MySettings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
-      appBar: MyAppBar("Paramètres", context: context, hasLeading: true),
+      appBar: MyAppBar(
+        AppLocalizations.of(context)!.settings,
+        context: context,
+        hasLeading: true,
+      ),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const AppThemeChoice(),
+            const LanguageChoice(),
             const Text("Paramètres des contrats"),
             const SizedBox(height: 24),
             MyGrid(

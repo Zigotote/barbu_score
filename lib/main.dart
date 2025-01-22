@@ -3,12 +3,14 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'commons/models/contract_info.dart';
 import 'commons/models/player.dart';
 import 'commons/providers/storage.dart';
 import 'firebase_options.dart';
+import 'l10n/config/locale_provider.dart';
 import 'pages/choose_contract.dart';
 import 'pages/contract_scores/domino_contract.dart';
 import 'pages/contract_scores/models/contract_route_argument.dart';
@@ -57,6 +59,9 @@ class MyApp extends ConsumerWidget {
     var themeMode = _getThemeMode(ref);
     return MaterialApp(
       title: 'Barbu Score',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: ref.watch(localeProvider),
       theme: MyThemes.light,
       darkTheme: MyThemes.dark,
       themeMode: themeMode,
