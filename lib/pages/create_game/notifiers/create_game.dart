@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/player.dart';
 import '../../../commons/models/player_colors.dart';
-import '../../../commons/utils/globals.dart';
+import '../../../commons/utils/constants.dart';
 import '../../../commons/utils/player_icon_properties.dart';
 
 final createGameProvider =

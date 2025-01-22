@@ -200,11 +200,8 @@ class MyHome extends ConsumerWidget {
                 onPressed: () =>
                     Navigator.of(context).pushNamed(Routes.settings),
                 icon: const Icon(Icons.settings),
+                iconSize: 55,
                 tooltip: "Paramètres",
-                style: IconButton.styleFrom(
-                  side: BorderSide.none,
-                  iconSize: 55,
-                ),
               ),
             ],
           ),

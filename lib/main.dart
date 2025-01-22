@@ -18,9 +18,9 @@ import 'pages/contract_scores/trumps_contract.dart';
 import 'pages/create_game/create_game.dart';
 import 'pages/finish_game/finish_game.dart';
 import 'pages/my_home.dart';
-import 'pages/my_rules.dart';
 import 'pages/my_scores.dart';
 import 'pages/prepare_game.dart';
+import 'pages/rules/my_rules.dart';
 import 'pages/scores_by_player.dart';
 import 'pages/settings/domino_contract_settings.dart';
 import 'pages/settings/multiple_looser_contract_settings.dart';
@@ -60,6 +60,7 @@ class MyApp extends ConsumerWidget {
       theme: MyThemes.light,
       darkTheme: MyThemes.dark,
       themeMode: themeMode,
+      debugShowCheckedModeBanner: false,
       routes: {
         Routes.home: (_) => const MyHome(),
         Routes.rules: (_) => const MyRules(),

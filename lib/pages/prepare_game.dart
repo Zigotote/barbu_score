@@ -8,7 +8,9 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../commons/models/player.dart';
 import '../commons/providers/play_game.dart';
+import '../commons/utils/game_helpers.dart';
 import '../commons/widgets/default_page.dart';
+import '../commons/widgets/my_appbar.dart';
 import '../commons/widgets/player_icon.dart';
 import '../main.dart';
 
@@ -16,18 +18,15 @@ import '../main.dart';
 class PrepareGame extends ConsumerWidget {
   const PrepareGame({super.key});
 
-  /// Returns the values of the cards to take out for the party
-  @visibleForTesting
-  static List<int> getCardsToTakeOut(int nbPlayers) {
-    return List.generate((52 - nbPlayers * 8) ~/ 4, (index) => 2 + index);
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<Player> players = ref.read(playGameProvider).players;
     return DefaultPage(
-      title: "Préparer la partie",
-      hasLeading: true,
+      appBar: MyAppBar(
+        "Préparer la partie",
+        context: context,
+        hasLeading: true,
+      ),
       content: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,

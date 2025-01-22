@@ -4,13 +4,17 @@ import '../../main.dart';
 import 'my_tabbar.dart';
 
 class MyAppBar extends AppBar {
+  /// The tabs to display at the bottom of the appBar
+  final List<Tab>? tabs;
+
   MyAppBar(
     String title, {
     super.key,
     required BuildContext context,
     bool isHome = false,
     bool hasLeading = false,
-    List<Tab>? tabs,
+    IconButton? trailing,
+    this.tabs,
   }) : super(
           toolbarHeight: _calculateToolbarHeight(context, title),
           automaticallyImplyLeading: false,
@@ -53,6 +57,7 @@ class MyAppBar extends AppBar {
                   : Theme.of(context).textTheme.headlineSmall,
             ),
           ),
+          actions: trailing != null ? [trailing] : null,
           bottom: tabs == null ? null : MyTabBar(tabs),
         );
 

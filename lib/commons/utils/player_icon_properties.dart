@@ -1,26 +1,25 @@
 import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:sprintf/sprintf.dart';
 
-import 'globals.dart';
-
 final _isDecember = DateTime.now().month == 12;
 
 /// Returns the list of player images available
 List<String> get playerImages {
+  const String playerImageFolder = "assets/players/player%s.png";
   const nbImages = 13;
   const christmasImageSuffix = "_christmas";
   return List.generate(nbImages, (index) {
     if (_isDecember) {
       if (index == 0) {
-        return sprintf(kPlayerImageFolder, [christmasImageSuffix]);
+        return sprintf(playerImageFolder, [christmasImageSuffix]);
       } else {
-        return sprintf(kPlayerImageFolder, [index]);
+        return sprintf(playerImageFolder, [index]);
       }
     } else {
       if (index == nbImages - 1) {
-        return sprintf(kPlayerImageFolder, [christmasImageSuffix]);
+        return sprintf(playerImageFolder, [christmasImageSuffix]);
       } else {
-        return sprintf(kPlayerImageFolder, [index + 1]);
+        return sprintf(playerImageFolder, [index + 1]);
       }
     }
   });

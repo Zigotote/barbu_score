@@ -12,6 +12,7 @@ class MyThemes {
 
   static _baseTheme(ThemeData baseTheme) {
     final onSurfaceColor = baseTheme.colorScheme.onSurface;
+    final grey = baseTheme.colorScheme.grey;
     final disabledColor = baseTheme.brightness == Brightness.dark
         ? const Color(0xffAFAFAF)
         : const Color(0xff757575);
@@ -36,12 +37,12 @@ class MyThemes {
       dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
       disabledColor: disabledColor,
       dividerColor: onSurfaceColor,
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.android: ZoomPageTransitionsBuilder(
-            allowEnterRouteSnapshotting: false,
+      dropdownMenuTheme: const DropdownMenuThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
-        },
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -61,7 +62,7 @@ class MyThemes {
           }),
           backgroundColor:
               WidgetStatePropertyAll(baseTheme.scaffoldBackgroundColor),
-          overlayColor: WidgetStatePropertyAll(disabledColor),
+          overlayColor: WidgetStatePropertyAll(grey),
           elevation: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
             if (states.contains(WidgetState.disabled)) {
               return 0;
@@ -99,8 +100,7 @@ class MyThemes {
           backgroundColor:
               WidgetStatePropertyAll(baseTheme.scaffoldBackgroundColor),
           foregroundColor: WidgetStatePropertyAll(onSurfaceColor),
-          overlayColor: WidgetStatePropertyAll(disabledColor),
-          side: WidgetStatePropertyAll(BorderSide(color: onSurfaceColor)),
+          overlayColor: WidgetStatePropertyAll(grey),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -119,6 +119,13 @@ class MyThemes {
           borderRadius: BorderRadius.circular(10),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+      ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: ZoomPageTransitionsBuilder(
+            allowEnterRouteSnapshotting: false,
+          ),
+        },
       ),
       switchTheme: SwitchThemeData(
         trackOutlineWidth: const WidgetStatePropertyAll(1),
@@ -173,13 +180,15 @@ class MyThemes {
         indicatorSize: TabBarIndicatorSize.tab,
         labelColor: onSurfaceColor,
         unselectedLabelColor: disabledColor,
-        overlayColor: WidgetStatePropertyAll(disabledColor),
+        overlayColor: WidgetStatePropertyAll(grey),
       ),
     );
   }
 }
 
 extension CustomThemeValues on ColorScheme {
+  Color get grey => const Color(0xffafafaf);
+
   Color get success =>
       brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
 

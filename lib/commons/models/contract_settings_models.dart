@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:sprintf/sprintf.dart';
 
-import '../utils/globals.dart';
+import '../utils/constants.dart';
 import 'contract_info.dart';
 
 part 'contract_settings_models.g.dart';

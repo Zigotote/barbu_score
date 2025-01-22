@@ -27,7 +27,7 @@ class PlayerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var backgroundColor = Theme.of(context).disabledColor;
+    var backgroundColor = Theme.of(context).colorScheme.grey;
     if (color != null) {
       backgroundColor =
           Theme.of(context).colorScheme.convertPlayerColor(color!);

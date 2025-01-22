@@ -4,11 +4,8 @@ import './my_appbar.dart';
 
 /// A page with a beautiful layout
 class DefaultPage extends StatelessWidget {
-  /// The title of the page
-  final String title;
-
-  /// The tabs of the page
-  final List<Tab>? tabs;
+  /// The appbar of the page
+  final MyAppBar appBar;
 
   /// The widget for the content of the page
   final Widget content;
@@ -19,27 +16,18 @@ class DefaultPage extends StatelessWidget {
   /// True if the background has to be drawn
   final bool hasBackground;
 
-  /// True if a go back leading should be displayed before the title of the page
-  final bool hasLeading;
-
-  const DefaultPage(
-      {super.key,
-      required this.title,
-      this.tabs,
-      required this.content,
-      this.bottomWidget,
-      this.hasBackground = false,
-      this.hasLeading = false});
+  const DefaultPage({
+    super.key,
+    required this.appBar,
+    required this.content,
+    this.bottomWidget,
+    this.hasBackground = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     Widget page = Scaffold(
-      appBar: MyAppBar(
-        title,
-        context: context,
-        tabs: tabs,
-        hasLeading: hasLeading,
-      ),
+      appBar: appBar,
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -60,9 +48,9 @@ class DefaultPage extends StatelessWidget {
         child: bottomWidget,
       ),
     );
-    page = tabs == null
+    page = appBar.tabs == null
         ? page
-        : DefaultTabController(length: tabs!.length, child: page);
-    return hasLeading ? page : PopScope(canPop: false, child: page);
+        : DefaultTabController(length: appBar.tabs!.length, child: page);
+    return appBar.leading != null ? page : PopScope(canPop: false, child: page);
   }
 }
