@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,7 +20,7 @@ class ChooseContract extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Player player = ref.watch(playGameProvider).currentPlayer;
     return DefaultPage(
-      appBar: MyAppBar("Tour de ${player.name}", context: context),
+      appBar: MyAppBar(context.l10n.playerTurn(player.name), context: context),
       hasBackground: true,
       content: Padding(
         padding: const EdgeInsets.symmetric(
@@ -46,7 +47,7 @@ class ChooseContract extends ConsumerWidget {
                           );
                         },
                   child: Text(
-                    contract.displayName,
+                    context.l10n.contractName(contract),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -55,7 +56,7 @@ class ChooseContract extends ConsumerWidget {
         ),
       ),
       bottomWidget: ElevatedButton(
-        child: const Text("Scores"),
+        child: Text(context.l10n.scores),
         onPressed: () => Navigator.of(context).pushNamed(Routes.scores),
       ),
     );

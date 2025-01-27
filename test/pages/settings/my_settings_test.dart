@@ -3,7 +3,6 @@ import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/snackbar.dart';
-import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
 import 'package:barbu_score/pages/settings/multiple_looser_contract_settings.dart';
@@ -17,8 +16,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils.dart';
-import '../../utils.mocks.dart';
+import '../../utils/french_material_app.dart';
+import '../../utils/utils.dart';
+import '../../utils/utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -54,8 +54,8 @@ main() {
         await $.pumpWidget(_createPage(mockStorage: mockStorage));
 
         // Go to contract settings page
-        await $.scrollUntilVisible(finder: $(modifiedContract.displayName));
-        await $(modifiedContract.displayName)
+        await $.scrollUntilVisible(finder: $(Key(modifiedContract.name)));
+        await $(Key(modifiedContract.name))
             .tap(settlePolicy: SettlePolicy.trySettle);
 
         // Deactivate contract
@@ -77,10 +77,9 @@ main() {
         if (isModified) {
           expect($("Modifications sauvegardées"), findsOneWidget);
           expect(
-              $(ElevatedButtonWithIndicator)
-                  .containing($(modifiedContract.displayName))
-                  .containing($("OFF")),
-              findsOneWidget);
+            $(Key(modifiedContract.name)).containing($("OFF")),
+            findsOneWidget,
+          );
           expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
           verify(mockStorage.saveSettings(modifiedContract, any));
           verifyNever(mockStorage.deleteGame());
@@ -102,8 +101,8 @@ main() {
         await $.pumpWidget(_createPage(mockStorage: mockStorage));
 
         // Go to contract settings page
-        await $.scrollUntilVisible(finder: $(modifiedContract.displayName));
-        await $(modifiedContract.displayName)
+        await $.scrollUntilVisible(finder: $(Key(modifiedContract.name)));
+        await $(Key(modifiedContract.name))
             .tap(settlePolicy: SettlePolicy.trySettle);
 
         // Deactivate contract
@@ -121,10 +120,9 @@ main() {
 
         expect($("Modifications sauvegardées"), findsOneWidget);
         expect(
-            $(ElevatedButtonWithIndicator)
-                .containing($(modifiedContract.displayName))
-                .containing($("OFF")),
-            findsOneWidget);
+          $(Key(modifiedContract.name)).containing($("OFF")),
+          findsOneWidget,
+        );
         expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
         verify(mockStorage.saveSettings(modifiedContract, any));
         if (isGameFinished) {
@@ -158,7 +156,7 @@ Widget _createPage(
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(
+    child: FrenchMaterialApp(
       home: const MySettings(),
       routes: {
         Routes.barbuOrNoLastTrickSettings: (context) =>

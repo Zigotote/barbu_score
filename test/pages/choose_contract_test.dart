@@ -16,8 +16,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../utils.dart';
-import '../utils.mocks.dart';
+import '../utils/french_material_app.dart';
+import '../utils/utils.dart';
+import '../utils/utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -52,7 +53,7 @@ main() {
       for (var contract in ContractsInfo.values) {
         final isActiveContract = activeContracts.contains(contract);
         expect(
-          $(contract.displayName),
+          $(Key(contract.name)),
           isActiveContract ? findsOneWidget : findsNothing,
         );
         if (isActiveContract) {
@@ -76,7 +77,7 @@ main() {
 
       expect($(ElevatedButton), findsNWidgets(activeContracts.length + 1));
       for (var contract in activeContracts) {
-        expect($(contract.displayName), findsOneWidget);
+        expect($(Key(contract.name)), findsOneWidget);
         expect(
           $(Key(contract.name)).which((widget) {
             final onPressed = (widget as ElevatedButton).onPressed;
@@ -141,7 +142,7 @@ Widget _createPage(PatrolTester $,
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(
+    child: FrenchMaterialApp(
       home: const ChooseContract(),
       routes: {
         Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractPage(

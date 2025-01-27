@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils.dart';
+import '../../utils/utils.dart';
 
 main() {
   final players = List.generate(

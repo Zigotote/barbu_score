@@ -13,8 +13,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils.dart';
-import '../../utils.mocks.dart';
+import '../../utils/french_material_app.dart';
+import '../../utils/utils.dart';
+import '../../utils/utils.mocks.dart';
 import 'utils/settings_utils.dart';
 
 main() {
@@ -29,8 +30,7 @@ main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage());
 
-    expect(
-        $("Paramètres\n${ContractsInfo.domino.displayName}"), findsOneWidget);
+    expect($("Paramètres\nRéussite"), findsOneWidget);
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
   });
@@ -103,8 +103,6 @@ UncontrolledProviderScope _createPage([Game? storedGame]) {
 
   return UncontrolledProviderScope(
     container: container,
-    child: const MaterialApp(
-      home: DominoContractSettingsPage(),
-    ),
+    child: FrenchMaterialApp(home: const DominoContractSettingsPage()),
   );
 }

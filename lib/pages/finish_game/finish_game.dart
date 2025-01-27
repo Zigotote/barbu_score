@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,15 +19,18 @@ class FinishGame extends ConsumerWidget {
     ref.read(logProvider).sendAnalyticEvent("finish_game");
     return DefaultPage(
       appBar: MyAppBar(
-        "Fin de partie",
+        context.l10n.endGame,
         context: context,
-        tabs: const [Tab(text: "Classement"), Tab(text: "Scores par contrat")],
+        tabs: [
+          Tab(text: context.l10n.ranking),
+          Tab(text: context.l10n.scoresByContract)
+        ],
       ),
       content: const TabBarView(
         children: [OrderedPlayersScores(isGameFinished: true), GameTable()],
       ),
       bottomWidget: ElevatedButton(
-        child: const Text("Retour à l'accueil"),
+        child: Text(context.l10n.goHome),
         onPressed: () => Navigator.of(context).popAndPushNamed(Routes.home),
       ),
     );

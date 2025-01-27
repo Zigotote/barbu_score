@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,7 +34,11 @@ class TrumpsContractPage extends ConsumerWidget {
   ElevatedButton _buildContractButton(
       BuildContext context, ContractsInfo contract) {
     return ElevatedButton(
-      child: Text(contract.displayName, textAlign: TextAlign.center),
+      key: Key(contract.name),
+      child: Text(
+        context.l10n.contractName(contract),
+        textAlign: TextAlign.center,
+      ),
       onPressed: () => Navigator.of(context).pushNamed(
         contract.scoreRoute,
         arguments: ContractRouteArgument(contractInfo: contract),
@@ -45,7 +50,8 @@ class TrumpsContractPage extends ConsumerWidget {
   Widget _buildFilledContract(BuildContext context, ContractsInfo contract,
       AbstractSubContractModel contractValues) {
     return ElevatedButtonWithIndicator(
-      text: contract.displayName,
+      key: Key(contract.name),
+      text: context.l10n.contractName(contract),
       onPressed: () => Navigator.of(context).pushNamed(
         contract.scoreRoute,
         arguments: ContractRouteArgument(
@@ -79,14 +85,14 @@ class TrumpsContractPage extends ConsumerWidget {
     final provider = ref.watch(trumpsProvider);
     return DefaultPage(
       appBar: MyAppBar(
-        "Tour de ${ref.watch(playGameProvider).currentPlayer.name}",
+        context.l10n.playerTurn(ref.watch(playGameProvider).currentPlayer.name),
         context: context,
         hasLeading: true,
       ),
       content: Column(
+        spacing: 8,
         children: [
-          const MySubtitle("Quel est le score de chaque contrat ?"),
-          const SizedBox(height: 8),
+          MySubtitle(context.l10n.trumpsScoresSubtitle),
           Expanded(child: _buildFields(context, provider)),
         ],
       ),
@@ -94,7 +100,7 @@ class TrumpsContractPage extends ConsumerWidget {
         onPressed: provider.isValid
             ? () => _saveContract(context, ref, provider)
             : null,
-        child: const Text("Valider les scores"),
+        child: Text(context.l10n.validateScores),
       ),
     );
   }

@@ -8,8 +8,8 @@ import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../utils.dart';
-import '../../utils.mocks.dart';
+import '../../utils/utils.dart';
+import '../../utils/utils.mocks.dart';
 
 main() {
   // Custom settings

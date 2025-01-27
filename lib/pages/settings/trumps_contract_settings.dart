@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,9 +34,10 @@ class _TrumpsContractSettingsPageState
           context: context,
           builder: (_) => MyAlertDialog(
             context: context,
-            title: "Le contrat a déjà été joué",
-            content:
-                "Le contrat a déjà été joué par ${playersWithContract.join(", ")}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.",
+            title: context.l10n.alertContractPlayed,
+            content: context.l10n.alertTrumpsContractPlayedBy(
+              playersWithContract.join(", "),
+            ),
             actions: [AlertDialogActionButton(text: "Ok")],
           ),
         );
@@ -58,7 +60,7 @@ class _TrumpsContractSettingsPageState
         ...TrumpsContractSettings.availableContracts.map(
           (contract) => SettingQuestion(
             key: Key(contract.name),
-            label: contract.displayName,
+            label: context.l10n.contractName(contract),
             input: MySwitch(
               isActive: settings.contracts[contract.name]!,
               onChanged: provider.modifySetting(

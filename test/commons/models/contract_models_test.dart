@@ -3,7 +3,7 @@ import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../utils.dart';
+import '../../utils/utils.dart';
 
 main() {
   group("#OneLooserContractModel", () {

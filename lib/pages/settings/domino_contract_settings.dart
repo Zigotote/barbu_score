@@ -1,4 +1,4 @@
-import 'package:collection/collection.dart';
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
@@ -18,14 +18,6 @@ class DominoContractSettingsPage extends ConsumerWidget {
   Widget _buildDataTable(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(contractSettingsProvider(ContractsInfo.domino));
     final settings = provider.settings as DominoContractSettings;
-    final List<String> positionNames = [
-      "1er",
-      "2ème",
-      "3ème",
-      "4ème",
-      "5ème",
-      "6ème"
-    ];
     const spanPadding = TableSpanPadding.all(4);
     return TableView.list(
       pinnedRowCount: 1,
@@ -46,19 +38,24 @@ class DominoContractSettingsPage extends ConsumerWidget {
             return TableViewCell(
               child: Center(
                 child: Tooltip(
-                  message: "Points à $nbPlayers joueurs",
-                  child: Text("$nbPlayers j."),
+                  message: context.l10n.pointsForNbPlayers(nbPlayers),
+                  child: Text(context.l10n.nbPlayer(nbPlayers)),
                 ),
               ),
             );
           })
         ],
-        ...positionNames.mapIndexed((index, positionName) {
-          return [
-            TableViewCell(child: Center(child: Text(positionName))),
-            ..._buildPointsCells(settings, provider, index),
-          ];
-        })
+        ...[
+          for (int position = 1; position <= kNbPlayersMax; position++)
+            [
+              TableViewCell(
+                child: Center(
+                  child: Text(context.l10n.ordinalNumber(position)),
+                ),
+              ),
+              ..._buildPointsCells(settings, provider, position - 1),
+            ]
+        ]
       ],
     );
   }

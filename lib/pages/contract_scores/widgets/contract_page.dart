@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -74,9 +75,8 @@ class SubContractPage extends ConsumerWidget {
     } else {
       SnackBarUtils.instance.openSnackBar(
         context: context,
-        title: "Scores incorrects",
-        text:
-            "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
+        title: context.l10n.scoresNotValid,
+        text: context.l10n.errorNbItems,
       );
     }
   }
@@ -86,11 +86,12 @@ class SubContractPage extends ConsumerWidget {
     String titleText;
     String validateText;
     if (isModification) {
-      titleText = "Modification ${contract.displayName}";
-      validateText = "Modifier les scores";
+      titleText = context.l10n.modify(context.l10n.contractName(contract));
+      validateText = context.l10n.validateModify;
     } else {
-      titleText = "Tour de ${ref.read(playGameProvider).currentPlayer.name}";
-      validateText = "Valider les scores";
+      titleText = context.l10n
+          .playerTurn(ref.read(playGameProvider).currentPlayer.name);
+      validateText = context.l10n.validateScores;
     }
     return DefaultPage(
       appBar: MyAppBar(titleText, context: context, hasLeading: true),

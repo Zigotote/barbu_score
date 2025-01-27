@@ -4,7 +4,7 @@ import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils.dart';
+import '../../utils/utils.dart';
 
 main() {
   group("#game", () {

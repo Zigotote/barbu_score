@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,12 +17,7 @@ class MultipleLooserContractPage extends ConsumerStatefulWidget {
   /// The contract the player choose and the previous values, if it needs to be modified
   final ContractRouteArgument routeArgument;
 
-  /// The name of the items won for this contract
-  final String itemsName;
-
-  MultipleLooserContractPage(this.routeArgument, {super.key})
-      : itemsName =
-            routeArgument.contractInfo.displayName.replaceFirst("Sans ", "");
+  const MultipleLooserContractPage(this.routeArgument, {super.key});
 
   @override
   ConsumerState<MultipleLooserContractPage> createState() =>
@@ -59,14 +55,17 @@ class _MultipleLooserContractPageState
   ///Returns true if the score is valid, false otherwise
   bool get _isValid => contractModel.isValid(_itemsByPlayer);
 
+  String get _itemName =>
+      context.l10n.itemsName(widget.routeArgument.contractInfo);
+
   /// Increases the score of the player, only if the total score is less than the contract max score
   void _increaseScore(Player player) {
     if (_isValid) {
       SnackBarUtils.instance.openSnackBar(
         context: context,
-        title: "Ajout de points impossible",
-        text:
-            "Le nombre de ${widget.itemsName} dépasse le nombre d'éléments pouvant être remporté, fixé à ${contractModel.nbItems}.",
+        title: context.l10n.errorAddPoints,
+        text: context.l10n
+            .errorAddPointsDetails(_itemName, contractModel.nbItems),
       );
     } else {
       int playerScore = _itemsByPlayer[player.name]!;
@@ -100,7 +99,7 @@ class _MultipleLooserContractPageState
                 icon: Icons.remove,
                 color: player.color,
                 onPressed: () => _decreaseScore(player),
-                semantics: "Retirer ${widget.itemsName}",
+                semantics: context.l10n.withdrawItem(_itemName),
               ),
               Expanded(
                 child: Column(
@@ -117,7 +116,7 @@ class _MultipleLooserContractPageState
                 icon: Icons.add,
                 color: player.color,
                 onPressed: () => _increaseScore(player),
-                semantics: "Ajouter ${widget.itemsName}",
+                semantics: context.l10n.addItem(_itemName),
               )
             ],
           ),
@@ -130,7 +129,7 @@ class _MultipleLooserContractPageState
   Widget build(BuildContext context) {
     return SubContractPage(
       contract: widget.routeArgument.contractInfo,
-      subtitle: "Nombre de ${widget.itemsName} par joueur",
+      subtitle: context.l10n.nbItemsByPlayer(_itemName),
       isModification: widget.routeArgument.isForModification,
       isValid: _isValid,
       itemsByPlayer: _itemsByPlayer,

@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../commons/models/player.dart';
@@ -44,7 +45,7 @@ class CreatePlayer extends StatelessWidget {
     return TextButton(
       onPressed: () => _displayDialog(context, player, onRemove),
       child: Semantics(
-        label: "Modifier le joueur",
+        label: context.l10n.modifyPlayer,
         child: PlayerIcon(
           image: player.image,
           color: player.color,
@@ -104,7 +105,7 @@ class CreatePlayer extends StatelessWidget {
             child: IconButton.outlined(
               onPressed: onRemove,
               icon: const Icon(Icons.close),
-              tooltip: "Supprimer le joueur",
+              tooltip: context.l10n.deletePlayer,
             ),
           ),
         ],

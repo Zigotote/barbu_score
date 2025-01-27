@@ -10,7 +10,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils.mocks.dart';
+import '../../utils/french_material_app.dart';
+import '../../utils/utils.mocks.dart';
 
 main() {
   for (var activeContracts in [
@@ -56,7 +57,7 @@ Widget _createPage([List<ContractsInfo>? activeContracts]) {
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(
+    child: FrenchMaterialApp(
       home: const ContractsRules(0),
       routes: {Routes.settings: (_) => const MySettings()},
     ),

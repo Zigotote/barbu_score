@@ -9,9 +9,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
+import '../utils/french_material_app.dart';
 
-import '../utils.dart';
-import '../utils.mocks.dart';
+import '../utils/utils.dart';
+import '../utils/utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -43,7 +44,7 @@ main() {
       expect($("Contrats de ${game.players[0].name}"), findsOneWidget);
       for (var contract in ContractsInfo.values) {
         expect(
-          $(contract.displayName),
+          $(Key(contract.name)),
           activeContractsTest.contains(contract)
               ? findsOneWidget
               : findsNothing,
@@ -215,6 +216,6 @@ Widget _createPage(
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(home: ScoresByPlayer(mockPlayGame.players[0])),
+    child: FrenchMaterialApp(home: ScoresByPlayer(mockPlayGame.players[0])),
   );
 }

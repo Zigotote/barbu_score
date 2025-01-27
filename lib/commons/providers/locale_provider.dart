@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../commons/providers/storage.dart';
+import 'storage.dart';
 
 final localeProvider =
     NotifierProvider<_LocaleNotifier, Locale>(_LocaleNotifier.new);

@@ -8,9 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'commons/models/contract_info.dart';
 import 'commons/models/player.dart';
+import 'commons/providers/locale_provider.dart';
 import 'commons/providers/storage.dart';
 import 'firebase_options.dart';
-import 'l10n/config/locale_provider.dart';
 import 'pages/choose_contract.dart';
 import 'pages/contract_scores/domino_contract.dart';
 import 'pages/contract_scores/models/contract_route_argument.dart';
@@ -59,6 +59,7 @@ class MyApp extends ConsumerWidget {
     var themeMode = _getThemeMode(ref);
     return MaterialApp(
       title: 'Barbu Score',
+      // TODO océane internationaaliser çaa
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: ref.watch(localeProvider),

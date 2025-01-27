@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,12 +22,15 @@ class ScoresByPlayer extends ConsumerWidget {
 
   /// Builds the rows to display player scores for each contract
   List<ScoreRow> _buildPlayerRows(
-      Map<ContractsInfo, Map<String, int>?> playerScores,
-      List<Player> players) {
+    BuildContext context,
+    Map<ContractsInfo, Map<String, int>?> playerScores,
+    List<Player> players,
+  ) {
     return playerScores.entries
         .map(
           (playerScore) => ScoreRow(
-            title: playerScore.key.displayName,
+            key: Key(playerScore.key.name),
+            title: context.l10n.contractName(playerScore.key),
             scores: playerScore.value,
           ),
         )
@@ -34,11 +38,14 @@ class ScoresByPlayer extends ConsumerWidget {
   }
 
   /// Builds the row to display total scores
-  ScoreRow _buildTotalRow(Map<ContractsInfo, Map<String, int>?> playerScores,
-      List<Player> players) {
+  ScoreRow _buildTotalRow(
+    BuildContext context,
+    Map<ContractsInfo, Map<String, int>?> playerScores,
+    List<Player> players,
+  ) {
     final totalScores = sumScores(playerScores.values.toList());
     return ScoreRow(
-      title: "Total",
+      title: context.l10n.total,
       scores: totalScores,
       isTotal: true,
     );
@@ -54,17 +61,17 @@ class ScoresByPlayer extends ConsumerWidget {
     final playerScores =
         ref.read(contractsManagerProvider).scoresByContract(player);
     return DefaultPage(
-      appBar: MyAppBar("Scores", context: context, hasLeading: true),
+      appBar: MyAppBar(context.l10n.scores, context: context, hasLeading: true),
       content: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          MySubtitle("Contrats de ${player.name}"),
+          MySubtitle(context.l10n.contractsOf(player.name)),
           Expanded(
             child: ScoreTable(
               players: players,
               rows: [
-                ..._buildPlayerRows(playerScores, players),
-                _buildTotalRow(playerScores, players)
+                ..._buildPlayerRows(context, playerScores, players),
+                _buildTotalRow(context, playerScores, players)
               ],
             ),
           )

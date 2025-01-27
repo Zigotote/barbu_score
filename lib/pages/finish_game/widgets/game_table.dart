@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,22 +15,25 @@ class GameTable extends ConsumerWidget {
 
   /// Builds the rows to display player scores for each contract
   List<ScoreRow> _buildPlayerRows(
+      BuildContext context,
       Map<ContractsInfo, Map<String, int>?> contractScores,
       List<Player> players) {
     return contractScores.entries.map((contractScore) {
       return ScoreRow(
-        title: contractScore.key.displayName,
+        title: context.l10n.contractName(contractScore.key),
         scores: contractScore.value,
       );
     }).toList();
   }
 
   /// Builds the row to display total scores
-  ScoreRow _buildTotalRow(Map<ContractsInfo, Map<String, int>?> contractScores,
+  ScoreRow _buildTotalRow(
+      BuildContext context,
+      Map<ContractsInfo, Map<String, int>?> contractScores,
       List<Player> players) {
     final totalScores = sumScores(contractScores.values.toList());
     return ScoreRow(
-      title: "Total",
+      title: context.l10n.total,
       scores: totalScores,
       isTotal: true,
     );
@@ -47,8 +51,8 @@ class GameTable extends ConsumerWidget {
           child: ScoreTable(
             players: players,
             rows: [
-              ..._buildPlayerRows(contractScores, players),
-              _buildTotalRow(contractScores, players)
+              ..._buildPlayerRows(context, contractScores, players),
+              _buildTotalRow(context, contractScores, players)
             ],
           ),
         ),

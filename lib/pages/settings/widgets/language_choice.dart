@@ -1,8 +1,9 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/config/locale_provider.dart';
-import '../../../l10n/config/my_locales.dart';
+import '../../../commons/models/my_locales.dart';
+import '../../../commons/providers/locale_provider.dart';
 
 class LanguageChoice extends ConsumerStatefulWidget {
   const LanguageChoice({super.key});
@@ -26,7 +27,7 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Langue"),
+        Text(context.l10n.language),
         Stack(
           alignment: Alignment.center,
           children: [
@@ -37,6 +38,7 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
                   width: optionSize,
                   height: optionSize,
                   child: IconButton.outlined(
+                    tooltip: context.l10n.french,
                     onPressed: () {
                       ref
                           .read(localeProvider.notifier)
@@ -51,6 +53,7 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
                   width: optionSize,
                   height: optionSize,
                   child: IconButton.outlined(
+                    tooltip: context.l10n.english,
                     onPressed: () {
                       ref
                           .read(localeProvider.notifier)

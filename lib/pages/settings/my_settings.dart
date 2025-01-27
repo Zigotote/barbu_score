@@ -1,5 +1,5 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
@@ -22,7 +22,7 @@ class MySettings extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
       appBar: MyAppBar(
-        AppLocalizations.of(context)!.settings,
+        context.l10n.settings,
         context: context,
         hasLeading: true,
       ),
@@ -32,7 +32,7 @@ class MySettings extends ConsumerWidget {
           children: [
             const AppThemeChoice(),
             const LanguageChoice(),
-            const Text("Paramètres des contrats"),
+            Text(context.l10n.contractSettings),
             const SizedBox(height: 24),
             MyGrid(
               isScrollable: false,
@@ -41,7 +41,8 @@ class MySettings extends ConsumerWidget {
                   final contractSettings =
                       ref.watch(storageProvider).getSettings(contract);
                   return ElevatedButtonWithIndicator(
-                    text: contract.displayName,
+                    key: Key(contract.name),
+                    text: context.l10n.contractName(contract),
                     onPressed: () {
                       ref.read(logProvider).info(
                             "MySettings: modify settings for ${contract.name}",
@@ -72,9 +73,8 @@ class MySettings extends ConsumerWidget {
                           if (context.mounted) {
                             SnackBarUtils.instance.openSnackBar(
                               context: context,
-                              title: "Modifications sauvegardées",
-                              text:
-                                  "Les changements ont été sauvegardés et sont effectifs dès maintenant.",
+                              title: context.l10n.changesSaved,
+                              text: context.l10n.changesSavedDetails,
                             );
                           }
                           ref.invalidate(storageProvider);

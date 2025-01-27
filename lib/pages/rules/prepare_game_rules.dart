@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../../commons/utils/constants.dart';
@@ -21,7 +22,7 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
   Widget build(BuildContext context) {
     return RulesPage(
       pageIndex: widget.pageIndex,
-      title: "Préparation du jeu",
+      title: context.l10n.prepareGameRules,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,7 +31,7 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
             spacing: 8,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              const Text("Pour une partie à"),
+              Text(context.l10n.forGameAt),
               DropdownMenu(
                 width: 80,
                 dropdownMenuEntries: [
@@ -43,28 +44,29 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
                 onSelected: (nbPlayers) =>
                     setState(() => nbPlayersExample = nbPlayers ?? 4),
                 trailingIcon: Semantics(
-                  label: "Déplier le choix",
+                  label: context.l10n.unfold,
                   child: const Icon(Icons.keyboard_arrow_down),
                 ),
                 selectedTrailingIcon: Semantics(
-                  label: "Replier le choix",
+                  label: context.l10n.fold,
                   child: const Icon(Icons.keyboard_arrow_up),
                 ),
               ),
-              const Text("joueurs."),
+              Text(context.l10n.players),
             ],
           ),
           const SizedBox(height: 16),
           Text(
-            "Le jeu se joue avec ${nbPlayersExample * 8} cartes ($nbPlayersExample \u00d7 8).",
+            context.l10n.nbCardsRules(nbPlayersExample * 8, nbPlayersExample),
           ),
           const SizedBox(height: 8),
-          const Text(
-            "Les as sont les cartes les plus fortes. Avant de jouer il faut retirer les cartes les plus faibles jusqu'à obtenir le nombre requis.",
-          ),
+          Text(context.l10n.cardsOrder),
           const SizedBox(height: 16),
           Text(
-            "A $nbPlayersExample joueurs, il faut donc retirer toutes les cartes\u00a0: ${getCardsToTakeOut(nbPlayersExample).join(", ")}.",
+            context.l10n.withdrawCardsForPlayers(
+              nbPlayersExample,
+              getCardsToTakeOut(nbPlayersExample).join(", "),
+            ),
           ),
         ],
       ),

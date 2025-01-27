@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,7 @@ class _MySwitch extends State<MySwitch> {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: value ? "activé" : "désactivé",
+      label: value ? context.l10n.activated : context.l10n.deactivated,
       child: Switch(
         value: value,
         onChanged: widget.onChanged != null

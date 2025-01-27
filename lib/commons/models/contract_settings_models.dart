@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:sprintf/sprintf.dart';
 
 import '../utils/constants.dart';
 import 'contract_info.dart';
@@ -63,9 +62,6 @@ abstract class AbstractContractSettings with EquatableMixin {
     return {"name": name, "isActive": isActive};
   }
 
-  /// Fills the rules depending on the contract settings
-  String filledRules(String rules);
-
   /// Copies the object with some overrides
   AbstractContractSettings copy();
 
@@ -95,11 +91,6 @@ class OneLooserContractSettings extends AbstractContractSettings {
   @override
   Map<String, dynamic> toJson() {
     return {...super.toJson(), "points": points};
-  }
-
-  @override
-  String filledRules(String rules) {
-    return sprintf(rules, [points]);
   }
 
   @override
@@ -143,16 +134,6 @@ class MultipleLooserContractSettings extends AbstractContractSettings {
   @override
   Map<String, dynamic> toJson() {
     return {...super.toJson(), "points": points, "invertScore": invertScore};
-  }
-
-  @override
-  String filledRules(String rules) {
-    String invertScoreSentence = "";
-    if (invertScore) {
-      invertScoreSentence =
-          " Si un joueur remporte tout, son score devient négatif.";
-    }
-    return sprintf(rules, [points]) + invertScoreSentence;
   }
 
   @override
@@ -210,17 +191,6 @@ class TrumpsContractSettings extends AbstractContractSettings {
       .where((contract) => contract.value)
       .map((contract) => ContractsInfo.fromName(contract.key))
       .toList();
-
-  @override
-  String filledRules(String rules) {
-    return sprintf(rules, [
-      contracts.entries
-          .where((contract) => contract.value)
-          .toList()
-          .map((e) => ContractsInfo.fromName(e.key).displayName.toLowerCase())
-          .join(", ")
-    ]);
-  }
 
   @override
   TrumpsContractSettings copy() {
@@ -320,11 +290,6 @@ class DominoContractSettings extends AbstractContractSettings {
       // Rounds the value to the nearest 10
       return points ~/ 10 * 10;
     });
-  }
-
-  @override
-  String filledRules(String rules) {
-    return rules;
   }
 
   @override

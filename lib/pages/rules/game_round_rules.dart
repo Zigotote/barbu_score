@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:timelines_plus/timelines_plus.dart';
@@ -13,20 +14,10 @@ class GameRoundRules extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rulesByStep = [
-      "Distribuer les cartes entre les joueurs\u00a0: chacun doit en avoir 8.",
-      "Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.",
-      "Il démarre le pli en posant une carte, qui détermine la couleur du pli",
-      "Chaque joueur pose une carte dans le sens des aiguilles d'une montre.",
-      "Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.",
-      "A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.",
-      "La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.",
-      "Les points sont ensuite comptés selon le contrat choisi par le premier joueur",
-      "Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
-    ];
+    final rulesByStep = context.l10n.gameRoundRules.split("*");
     return RulesPage(
       pageIndex: pageIndex,
-      title: "Manche de jeu",
+      title: context.l10n.gameRound,
       content: Column(
         children: [
           const SizedBox(height: 16),

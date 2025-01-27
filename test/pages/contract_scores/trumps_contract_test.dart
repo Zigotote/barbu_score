@@ -19,8 +19,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils.dart';
-import '../../utils.mocks.dart';
+import '../../utils/french_material_app.dart';
+import '../../utils/utils.dart';
+import '../../utils/utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -52,7 +53,7 @@ main() {
 
       for (var contract in TrumpsContractSettings.availableContracts) {
         expect(
-          $(contract.displayName),
+          $(Key(contract.name)),
           activeContracts.contains(contract) ? findsOneWidget : findsNothing,
         );
       }
@@ -79,7 +80,9 @@ main() {
       expect($(TrumpsContractPage), findsOneWidget);
       expect($(ElevatedButtonWithIndicator), findsOneWidget);
       expect(
-          $(ElevatedButtonWithIndicator).containing(contractToFill.displayName),
+          $(ElevatedButtonWithIndicator).which(
+            (Widget widget) => widget.key == Key(contractToFill.name),
+          ),
           findsOneWidget);
       final validateButton =
           ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
@@ -122,13 +125,16 @@ main() {
     expect($(TrumpsContractPage), findsOneWidget);
 
     // Modify contract
-    await $(contract.displayName).tap();
+    await $(Key(contract.name)).tap();
     await $(ElevatedButtonCustomColor).at(playerSelectedAfterModify).tap();
     await $(ElevatedButton).containing("Modifier les scores").tap();
 
     // Redirect to trumps contract page
     expect($(ElevatedButtonWithIndicator), findsOneWidget);
-    expect($(ElevatedButtonWithIndicator).containing(contract.displayName),
+    expect(
+        $(ElevatedButtonWithIndicator).which(
+          (Widget widget) => widget.key == Key(contract.name),
+        ),
         findsOneWidget);
     final validateButton =
         ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
@@ -179,7 +185,7 @@ Future<void> _fillSubContract(PatrolTester $, MockPlayGameNotifier game,
       player.name: index == playerWithItems ? nbItems : 0
   });
   // Navigate to contract
-  await $(contract.displayName).tap();
+  await $(Key(contract.name)).tap();
 
   // Fill contract
   if (contractModel is OneLooserContractModel) {
@@ -220,7 +226,7 @@ UncontrolledProviderScope _createPage(PatrolTester $,
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(
+    child: FrenchMaterialApp(
       home: const TrumpsContractPage(),
       routes: {
         Routes.chooseContract: (_) => const ChooseContract(),

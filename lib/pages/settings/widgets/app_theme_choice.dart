@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
@@ -68,7 +69,7 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   Widget build(BuildContext context) {
     return MergeSemantics(
       child: SettingQuestion(
-        label: "Thème de l'application",
+        label: context.l10n.appTheme,
         input: GestureDetector(
           onTap: () => _invertTheme(),
           onHorizontalDragStart: (_) => _invertTheme(),

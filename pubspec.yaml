@@ -28,7 +28,6 @@ dependencies:
   reorderable_grid_view: ^2.2.8
   rive: ^0.12.4
   shared_preferences: ^2.2.3
-  sprintf: ^7.0.0
   timelines_plus: ^1.0.4
   two_dimensional_scrollables: ^0.3.1
   wakelock_plus: ^1.1.3

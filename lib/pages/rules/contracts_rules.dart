@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +20,14 @@ class ContractsRules extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return RulesPage(
       pageIndex: pageIndex,
-      title: "Contrats",
+      title: context.l10n.contracts,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 16,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 8),
-            child: Text("Le jeu du Barbu comporte les contrats suivants :"),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(context.l10n.contractsRules),
           ),
           ...ContractsInfo.values.mapIndexed((index, contract) {
             final settings = ref.read(storageProvider).getSettings(contract);
@@ -52,20 +53,20 @@ class ContractsRules extends ConsumerWidget {
                         .withOpacity(0.5),
                   ),
                   child: Text(
-                    contract.displayName,
+                    context.l10n.contractName(contract),
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(settings.filledRules(contract.rules)),
+                  child: Text(context.l10n.contractRules(settings)),
                 ),
                 if (!settings.isActive)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      "Désactivé pour vos parties.",
-                      style: TextStyle(fontStyle: FontStyle.italic),
+                      context.l10n.deactivatedForGame,
+                      style: const TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
               ],
