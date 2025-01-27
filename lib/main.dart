@@ -59,7 +59,9 @@ class MyApp extends ConsumerWidget {
     var themeMode = _getThemeMode(ref);
     return MaterialApp(
       title: 'Barbu Score',
-      // TODO océane internationaaliser çaa
+      // TODO Océane internationaaliser le nom de l'app
+      // TODO Océane passer les drapeaux à 80% d'opacité quand ils sont desséléctionnés, 100% quand c'est sélectionné
+      // TODO Océane réfélchir où mettre le choiix de la laangue dans la page de paramètres
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: ref.watch(localeProvider),
