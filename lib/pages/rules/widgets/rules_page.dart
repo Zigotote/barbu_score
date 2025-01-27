@@ -1,8 +1,8 @@
-import 'package:barbu_score/commons/widgets/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/widgets/default_page.dart';
+import '../../../commons/widgets/my_appbar.dart';
 import '../notifiers/turn_page.dart';
 import 'arrow_icon.dart';
 
@@ -33,7 +33,7 @@ class RulesPage extends ConsumerWidget {
           icon: const Icon(Icons.close),
         ),
       ),
-      content: content,
+      content: SingleChildScrollView(child: content),
       bottomWidget: Stack(
         alignment: Alignment.center,
         children: [

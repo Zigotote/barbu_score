@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/utils/constants.dart';
 import '../../commons/utils/game_helpers.dart';
 import 'widgets/rules_page.dart';
-import 'widgets/section_title.dart';
 
 class PrepareGameRules extends ConsumerStatefulWidget {
   /// The index of the page in the order of rules pages
@@ -28,16 +27,11 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 8),
-          const Text(
-            "Le jeu se joue avec n \u00d7 8 cartes, où n correspond au nombre de joueurs.",
-          ),
-          const Text(
-            "Les as sont les cartes les plus fortes. Avant de jouer il faut retirer les cartes les plus faibles jusqu'à obtenir le nombre requis.",
-          ),
-          const SectionTitle("Exemple"),
-          Row(
+          Wrap(
+            spacing: 4,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              const Text("Pour une partie à "),
+              const Text("Pour une partie à"),
               DropdownMenu(
                 width: 80,
                 dropdownMenuEntries: [
@@ -52,12 +46,20 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
                 trailingIcon: const Icon(Icons.keyboard_arrow_down),
                 selectedTrailingIcon: const Icon(Icons.keyboard_arrow_up),
               ),
-              const Text(" joueurs."),
+              const Text("joueurs."),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Text(
-            "Retirer toutes les cartes : ${getCardsToTakeOut(nbPlayersExample).join(", ")}.",
+            "Le jeu se joue avec ${nbPlayersExample * 8} cartes ($nbPlayersExample \u00d7 8).",
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            "Les as sont les cartes les plus fortes. Avant de jouer il faut retirer les cartes les plus faibles jusqu'à obtenir le nombre requis.",
+          ),
+          const SizedBox(height: 16),
+          Text(
+            "A $nbPlayersExample joueurs, il faut donc retirer toutes les cartes : ${getCardsToTakeOut(nbPlayersExample).join(", ")}.",
           ),
         ],
       ),

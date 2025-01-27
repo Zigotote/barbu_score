@@ -55,7 +55,7 @@ enum ContractsInfo {
   domino(
     displayName: "Réussite",
     rules:
-        "Le joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il ne peut pas poser de carte il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. Les joueurs marquent un nombre de points dépendant de leur ordre de fin.",
+        "Contrairement aux autres contrats, la réussite n'est pas un contrat à plis.\nLe joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il ne peut pas poser de carte il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. L'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.",
     scoreRoute: Routes.dominoScores,
     settingsRoute: Routes.dominoSettings,
   );
