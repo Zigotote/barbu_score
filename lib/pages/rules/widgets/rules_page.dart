@@ -31,6 +31,7 @@ class RulesPage extends ConsumerWidget {
         trailing: IconButton.outlined(
           onPressed: Navigator.of(context).pop,
           icon: const Icon(Icons.close),
+          tooltip: "Fermer",
         ),
       ),
       content: SingleChildScrollView(child: content),

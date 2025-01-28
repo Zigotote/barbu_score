@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'widgets/rules_page.dart';
 
-class GamePresentation extends ConsumerWidget {
+class GamePresentation extends StatelessWidget {
   /// The index of the page in the order of rules pages
   final int pageIndex;
 
   const GamePresentation(this.pageIndex, {super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return RulesPage(
       pageIndex: pageIndex,
       title: "Règles du jeu",

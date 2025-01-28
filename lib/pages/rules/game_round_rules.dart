@@ -1,19 +1,18 @@
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 
 import '../../commons/models/player_colors.dart';
 import 'widgets/rules_page.dart';
 
-class GameRoundRules extends ConsumerWidget {
+class GameRoundRules extends StatelessWidget {
   /// The index of the page in the order of rules pages
   final int pageIndex;
 
   const GameRoundRules(this.pageIndex, {super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final rulesByStep = [
       "Distribuer les cartes entre les joueurs : chacun doit en avoir 8.",
       "Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.",

@@ -12,6 +12,10 @@ class ArrowIcon extends StatelessWidget {
     final path =
         "assets/icons/${Theme.of(context).brightness == Brightness.dark ? "dark" : "light"}";
     final imageName = "arrow_${isForward ? "forward" : "backward"}.png";
-    return Image.asset("$path/$imageName", height: 40);
+    return Image.asset(
+      "$path/$imageName",
+      height: 40,
+      excludeFromSemantics: true,
+    );
   }
 }

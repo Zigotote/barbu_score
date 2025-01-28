@@ -31,6 +31,7 @@ class ContractsRules extends ConsumerWidget {
           ...ContractsInfo.values.mapIndexed((index, contract) {
             final settings = ref.read(storageProvider).getSettings(contract);
             return Column(
+              key: Key(contract.name),
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -54,6 +55,14 @@ class ContractsRules extends ConsumerWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
+                if (!settings.isActive)
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    child: Text(
+                      "Ce contrat est désactivé pour vos parties.",
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                   child: Text(settings.filledRules(contract.rules)),
