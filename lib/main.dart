@@ -60,7 +60,6 @@ class MyApp extends ConsumerWidget {
       theme: MyThemes.light,
       darkTheme: MyThemes.dark,
       themeMode: themeMode,
-      debugShowCheckedModeBanner: false,
       routes: {
         Routes.home: (_) => const MyHome(),
         Routes.rules: (_) => const MyRules(),

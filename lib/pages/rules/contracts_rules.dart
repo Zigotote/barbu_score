@@ -33,6 +33,7 @@ class ContractsRules extends ConsumerWidget {
             return Column(
               key: Key(contract.name),
               crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8,
               children: [
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -57,14 +58,14 @@ class ContractsRules extends ConsumerWidget {
                 ),
                 if (!settings.isActive)
                   const Padding(
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
                       "Ce contrat est désactivé pour vos parties.",
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(settings.filledRules(contract.rules)),
                 ),
               ],
