@@ -39,15 +39,10 @@ class MyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(
-        vertical: 16,
-      ),
       shrinkWrap: true,
       itemCount: itemCount,
       itemBuilder: itemBuilder,
-      separatorBuilder: (_, __) => const SizedBox(
-        height: 24,
-      ),
+      separatorBuilder: (_, __) => const SizedBox(height: 24),
     );
   }
 }

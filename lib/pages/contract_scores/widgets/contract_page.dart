@@ -97,8 +97,7 @@ class SubContractPage extends ConsumerWidget {
       content: Column(
         children: [
           MySubtitle(subtitle),
-          const SizedBox(height: 8),
-          Expanded(child: child),
+          child,
         ],
       ),
       bottomWidget: ElevatedButton(

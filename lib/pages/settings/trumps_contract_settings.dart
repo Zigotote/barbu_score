@@ -52,7 +52,7 @@ class _TrumpsContractSettingsPageState
       children: [
         Text(
           "Contrats à jouer :",
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         const SizedBox(height: 8),
         ...TrumpsContractSettings.availableContracts.map(

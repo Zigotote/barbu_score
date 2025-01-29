@@ -28,7 +28,11 @@ class ScoreTable extends StatelessWidget {
                     color: player.color,
                     size: 40,
                   ),
-                  Text(player.name, overflow: TextOverflow.ellipsis)
+                  Text(
+                    player.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             ),

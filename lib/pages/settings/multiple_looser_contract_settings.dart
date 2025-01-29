@@ -33,7 +33,7 @@ class MultipleLooserContractSettingsPage extends ConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 16),
         SettingQuestion(
           tooltip:
               "Si un joueur remporte la totalité des $itemName, son score devient négatif.",

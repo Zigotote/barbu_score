@@ -30,7 +30,7 @@ class ContractSettingsPage extends ConsumerWidget {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
           SettingQuestion(
             label: "Activer le contrat",
             input: MySwitch(
@@ -41,7 +41,7 @@ class ContractSettingsPage extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 16),
           ...children
         ],
       ),

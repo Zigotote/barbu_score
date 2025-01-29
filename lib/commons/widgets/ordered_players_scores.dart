@@ -70,22 +70,26 @@ class OrderedPlayersScores extends ConsumerWidget {
     };
     final List<MapEntry<String, int>> orderedPlayers =
         _orderedPlayerScores(scoresByPlayer);
-    return MyList(
-      itemCount: players.length,
-      itemBuilder: (_, index) {
-        final MapEntry<String, int> playerInfo = orderedPlayers[index];
-        final Player player =
-            players.firstWhere((p) => p.name == playerInfo.key);
-        return PlayerScoreButton(
-          player: player,
-          score: playerInfo.value,
-          displayMedal: isGameFinished && index == 0,
-          bestFriend:
-              isGameFinished ? _findBestFriend(player, scoresByPlayer) : null,
-          worstEnnemy:
-              isGameFinished ? _findWorstEnnemy(player, scoresByPlayer) : null,
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: MyList(
+        itemCount: players.length,
+        itemBuilder: (_, index) {
+          final MapEntry<String, int> playerInfo = orderedPlayers[index];
+          final Player player =
+              players.firstWhere((p) => p.name == playerInfo.key);
+          return PlayerScoreButton(
+            player: player,
+            score: playerInfo.value,
+            displayMedal: isGameFinished && index == 0,
+            bestFriend:
+                isGameFinished ? _findBestFriend(player, scoresByPlayer) : null,
+            worstEnnemy: isGameFinished
+                ? _findWorstEnnemy(player, scoresByPlayer)
+                : null,
+          );
+        },
+      ),
     );
   }
 }
