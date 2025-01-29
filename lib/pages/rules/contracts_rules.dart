@@ -7,6 +7,7 @@ import '../../commons/models/contract_info.dart';
 import '../../commons/models/player_colors.dart';
 import '../../commons/providers/storage.dart';
 import 'widgets/rules_page.dart';
+import 'widgets/settings_card.dart';
 
 class ContractsRules extends ConsumerWidget {
   /// The position of the page in the order of rules pages
@@ -23,10 +24,9 @@ class ContractsRules extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 16,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-                "Le jeu du Barbu comporte les ${ContractsInfo.values.length} contrats suivants :"),
+          const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Text("Le jeu du Barbu comporte les contrats suivants :"),
           ),
           ...ContractsInfo.values.mapIndexed((index, contract) {
             final settings = ref.read(storageProvider).getSettings(contract);
@@ -56,21 +56,22 @@ class ContractsRules extends ConsumerWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-                if (!settings.isActive)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(
-                      "Ce contrat est désactivé pour vos parties.",
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(settings.filledRules(contract.rules)),
                 ),
+                if (!settings.isActive)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      "Désactivé pour vos parties.",
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
               ],
             );
           }),
+          const SettingsCard(),
         ],
       ),
     );

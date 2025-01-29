@@ -27,7 +27,7 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
         children: [
           const SizedBox(height: 8),
           Wrap(
-            spacing: 4,
+            spacing: 8,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               const Text("Pour une partie à"),
@@ -64,7 +64,7 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
           ),
           const SizedBox(height: 16),
           Text(
-            "A $nbPlayersExample joueurs, il faut donc retirer toutes les cartes : ${getCardsToTakeOut(nbPlayersExample).join(", ")}.",
+            "A $nbPlayersExample joueurs, il faut donc retirer toutes les cartes\u00a0: ${getCardsToTakeOut(nbPlayersExample).join(", ")}.",
           ),
         ],
       ),

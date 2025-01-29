@@ -1,6 +1,9 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/rules/contracts_rules.dart';
+import 'package:barbu_score/pages/rules/widgets/settings_card.dart';
+import 'package:barbu_score/pages/settings/my_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,20 +27,27 @@ main() {
       for (var contract in ContractsInfo.values) {
         expect($(Key(contract.name)), findsOneWidget);
         expect(
-          $(Key(contract.name))
-              .containing("Ce contrat est désactivé pour vos parties."),
+          $(Key(contract.name)).containing("Désactivé pour vos parties."),
           activeContracts.contains(contract) ? findsNothing : findsOneWidget,
         );
       }
     });
   }
+  patrolWidgetTest("should go to settings page", ($) async {
+    await $.pumpWidget(_createPage());
+
+    await $.scrollUntilVisible(finder: $(SettingsCard));
+    await $(ElevatedButton).tap();
+
+    expect($(MySettings), findsOneWidget);
+  });
 }
 
-Widget _createPage(List<ContractsInfo> activeContracts) {
+Widget _createPage([List<ContractsInfo>? activeContracts]) {
   final mockStorage = MockMyStorage();
   for (var contract in ContractsInfo.values) {
     final contractSettings = contract.defaultSettings;
-    contractSettings.isActive = activeContracts.contains(contract);
+    contractSettings.isActive = activeContracts?.contains(contract) ?? false;
     when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
   }
   final container = ProviderContainer(
@@ -46,6 +56,9 @@ Widget _createPage(List<ContractsInfo> activeContracts) {
 
   return UncontrolledProviderScope(
     container: container,
-    child: const MaterialApp(home: ContractsRules(0)),
+    child: MaterialApp(
+      home: const ContractsRules(0),
+      routes: {Routes.settings: (_) => const MySettings()},
+    ),
   );
 }

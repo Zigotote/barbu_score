@@ -14,7 +14,7 @@ class GameRoundRules extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rulesByStep = [
-      "Distribuer les cartes entre les joueurs : chacun doit en avoir 8.",
+      "Distribuer les cartes entre les joueurs\u00a0: chacun doit en avoir 8.",
       "Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.",
       "Il démarre le pli en posant une carte, qui détermine la couleur du pli",
       "Chaque joueur pose une carte dans le sens des aiguilles d'une montre.",
