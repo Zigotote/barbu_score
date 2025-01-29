@@ -94,6 +94,7 @@ class _MultipleLooserContractPageState
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
+            spacing: 16,
             children: [
               ElevatedButtonCustomColor.player(
                 icon: Icons.remove,
@@ -101,7 +102,6 @@ class _MultipleLooserContractPageState
                 onPressed: () => _decreaseScore(player),
                 semantics: "Retirer ${widget.itemsName}",
               ),
-              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   children: [
@@ -113,7 +113,6 @@ class _MultipleLooserContractPageState
                   ],
                 ),
               ),
-              const SizedBox(width: 16),
               ElevatedButtonCustomColor.player(
                 icon: Icons.add,
                 color: player.color,

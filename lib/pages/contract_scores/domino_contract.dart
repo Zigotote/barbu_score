@@ -92,16 +92,10 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
           Expanded(
             child: Text(
               player.name,
-              style: TextStyle(
-                fontSize: 16,
-                color: color,
-              ),
+              style: TextStyle(color: color),
             ),
           ),
-          Icon(
-            Icons.drag_handle,
-            color: color,
-          )
+          Icon(Icons.drag_handle, color: color)
         ],
       ),
     );

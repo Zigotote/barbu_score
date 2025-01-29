@@ -19,7 +19,7 @@ import '../../utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
-    await $.pumpWidget(_createPage());
+    await $.pumpWidget(_createPage($));
 
     expect($("Tour de ${defaultPlayerNames[0]}"), findsOneWidget);
     expect($.tester.takeException(), isNull);
@@ -27,7 +27,7 @@ main() {
   });
   patrolWidgetTest("should create page with disabled validate scores button",
       ($) async {
-    await $.pumpWidget(_createPage());
+    await $.pumpWidget(_createPage($));
 
     expect($(ElevatedButtonCustomColor), findsNWidgets(nbPlayersByDefault));
     final validateButton =
@@ -47,7 +47,7 @@ main() {
       },
     );
 
-    await $.pumpWidget(_createPage(contractValues: contract));
+    await $.pumpWidget(_createPage($, contractValues: contract));
 
     final modifyButton = ($.tester
             .firstWidget($(ElevatedButton).containing("Modifier les scores"))
@@ -69,7 +69,7 @@ main() {
         },
       );
 
-      await $.pumpWidget(_createPage(mockPlayGame: mockPlayGame));
+      await $.pumpWidget(_createPage($, mockPlayGame: mockPlayGame));
 
       if (changeSelectedPlayer) {
         await $(ElevatedButtonCustomColor).at(0).tap();
@@ -84,9 +84,12 @@ main() {
   }
 }
 
-Widget _createPage(
+Widget _createPage(PatrolTester $,
     {OneLooserContractModel? contractValues,
     MockPlayGameNotifier? mockPlayGame}) {
+  // Make screen bigger to avoid scrolling
+  $.tester.view.physicalSize = const Size(1440, 2560);
+
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
 

@@ -29,7 +29,10 @@ class MyThemes {
         outline: onSurfaceColor,
         primary: Colors.transparent,
       ),
-      textTheme: textTheme,
+      textTheme: textTheme.copyWith(
+        bodyMedium: textTheme.bodyMedium?.copyWith(fontSize: 16),
+        labelLarge: textTheme.labelLarge?.copyWith(fontSize: 22),
+      ),
       dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
       disabledColor: disabledColor,
       dividerColor: onSurfaceColor,
@@ -56,12 +59,6 @@ class MyThemes {
             }
             return onSurfaceColor;
           }),
-          textStyle: WidgetStatePropertyAll(
-            textTheme.labelLarge!.copyWith(
-              fontSize: 22,
-              fontFamily: "QuickSand",
-            ),
-          ),
           backgroundColor:
               WidgetStatePropertyAll(baseTheme.scaffoldBackgroundColor),
           overlayColor: WidgetStatePropertyAll(disabledColor),
