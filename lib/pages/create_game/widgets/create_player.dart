@@ -29,7 +29,13 @@ class CreatePlayer extends StatelessWidget {
       initialValue: player.name,
       onChanged: (value) => player.name = value.trim(),
       validator: (_) => onValidate(player),
-      decoration: const InputDecoration.collapsed(hintText: "Nom du joueur"),
+      decoration: const InputDecoration(
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.zero,
+        focusedBorder: InputBorder.none,
+        hintText: "Nom du joueur",
+        isCollapsed: true,
+      ),
     );
   }
 

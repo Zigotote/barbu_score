@@ -46,18 +46,6 @@ class _NumberInputState extends State<NumberInput> {
           FilteringTextInputFormatter.allow(RegExp(r'-?[0-9]*'))
         ],
         enabled: widget.onChanged != null,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 1,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
-          isDense: true,
-        ),
       ),
     );
   }
