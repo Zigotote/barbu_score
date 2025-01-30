@@ -41,7 +41,10 @@ class _NumberInputState extends State<NumberInput> {
       child: TextField(
         controller: _controller,
         textAlign: TextAlign.end,
-        keyboardType: TextInputType.number,
+        keyboardType: const TextInputType.numberWithOptions(
+          signed: true,
+          decimal: false,
+        ),
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'-?[0-9]*'))
         ],
