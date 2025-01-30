@@ -103,6 +103,23 @@ class MyThemes {
           side: WidgetStatePropertyAll(BorderSide(color: onSurfaceColor)),
         ),
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1,
+            color: onSurfaceColor,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
+            color: onSurfaceColor,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+      ),
       switchTheme: SwitchThemeData(
         trackOutlineWidth: const WidgetStatePropertyAll(1),
         trackOutlineColor: WidgetStatePropertyAll(onSurfaceColor),
@@ -157,6 +174,11 @@ class MyThemes {
         labelColor: onSurfaceColor,
         unselectedLabelColor: disabledColor,
         overlayColor: WidgetStatePropertyAll(disabledColor),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: onSurfaceColor,
+        selectionHandleColor: onSurfaceColor,
+        selectionColor: onSurfaceColor.withOpacity(0.5),
       ),
     );
   }
