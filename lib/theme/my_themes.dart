@@ -27,7 +27,7 @@ class MyThemes {
             ? Colors.red
             : Colors.red.shade900,
         outline: onSurfaceColor,
-        primary: Colors.transparent,
+        primary: onSurfaceColor,
       ),
       textTheme: textTheme.copyWith(
         bodyMedium: textTheme.bodyMedium?.copyWith(fontSize: 16),
@@ -174,11 +174,6 @@ class MyThemes {
         labelColor: onSurfaceColor,
         unselectedLabelColor: disabledColor,
         overlayColor: WidgetStatePropertyAll(disabledColor),
-      ),
-      textSelectionTheme: TextSelectionThemeData(
-        cursorColor: onSurfaceColor,
-        selectionHandleColor: onSurfaceColor,
-        selectionColor: onSurfaceColor.withOpacity(0.5),
       ),
     );
   }
