@@ -32,6 +32,7 @@ class MyThemes {
       ),
       textTheme: textTheme.copyWith(
         bodyMedium: textTheme.bodyMedium?.copyWith(fontSize: 16),
+        titleMedium: textTheme.bodyMedium?.copyWith(fontSize: 18),
         labelLarge: textTheme.labelLarge?.copyWith(fontSize: 22),
       ),
       dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
