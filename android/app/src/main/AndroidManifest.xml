@@ -10,7 +10,7 @@
         tools:node="remove" />
 
     <application
-        android:icon="@mipmap/launcher_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="Score Barbu">
         <activity
             android:name=".MainActivity"
