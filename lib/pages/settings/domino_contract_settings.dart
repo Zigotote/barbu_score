@@ -5,7 +5,7 @@ import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
-import '../../commons/utils/globals.dart';
+import '../../commons/utils/constants.dart';
 import '../../commons/utils/player_icon_properties.dart';
 import '../../commons/widgets/player_icon.dart';
 import 'notifiers/contract_settings_provider.dart';

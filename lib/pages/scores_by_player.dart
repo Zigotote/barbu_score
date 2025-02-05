@@ -8,6 +8,7 @@ import '../commons/providers/log.dart';
 import '../commons/providers/play_game.dart';
 import '../commons/utils/contract_scores.dart';
 import '../commons/widgets/default_page.dart';
+import '../commons/widgets/my_appbar.dart';
 import '../commons/widgets/my_subtitle.dart';
 import '../commons/widgets/score_table.dart';
 
@@ -53,8 +54,7 @@ class ScoresByPlayer extends ConsumerWidget {
     final playerScores =
         ref.read(contractsManagerProvider).scoresByContract(player);
     return DefaultPage(
-      hasLeading: true,
-      title: "Scores",
+      appBar: MyAppBar("Scores", context: context, hasLeading: true),
       content: Column(
         mainAxisSize: MainAxisSize.max,
         children: [

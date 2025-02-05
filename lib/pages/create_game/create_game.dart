@@ -5,8 +5,9 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../commons/providers/log.dart';
 import '../../commons/providers/play_game.dart';
-import '../../commons/utils/globals.dart';
+import '../../commons/utils/constants.dart';
 import '../../commons/widgets/default_page.dart';
+import '../../commons/widgets/my_appbar.dart';
 import '../../main.dart';
 import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';
@@ -20,7 +21,7 @@ class CreateGame extends ConsumerWidget {
   /// Builds the button to add a player
   Widget _buildAddPlayerButton(Function() addPlayer) {
     return Center(
-      child: IconButton(
+      child: IconButton.outlined(
         padding: const EdgeInsets.all(16),
         onPressed: addPlayer,
         icon: const Icon(
@@ -64,8 +65,7 @@ class CreateGame extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final playerProvider = ref.watch(createGameProvider);
     return DefaultPage(
-      title: "Créer les joueurs",
-      hasLeading: true,
+      appBar: MyAppBar("Créer les joueurs", context: context, hasLeading: true),
       content: Form(
         key: _formKey,
         child: ReorderableGridView.count(

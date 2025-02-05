@@ -1,5 +1,5 @@
 import 'package:barbu_score/commons/providers/log.dart';
-import 'package:barbu_score/commons/utils/globals.dart';
+import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:barbu_score/main.dart';

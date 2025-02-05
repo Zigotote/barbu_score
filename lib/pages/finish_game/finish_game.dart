@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/providers/log.dart';
 import '../../commons/widgets/default_page.dart';
+import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/ordered_players_scores.dart';
 import '../../main.dart';
 import 'widgets/game_table.dart';
@@ -16,8 +17,11 @@ class FinishGame extends ConsumerWidget {
     ref.read(logProvider).info("FinishGame: finished game");
     ref.read(logProvider).sendAnalyticEvent("Finish game");
     return DefaultPage(
-      title: "Fin de partie",
-      tabs: const [Tab(text: "Classement"), Tab(text: "Scores par contrat")],
+      appBar: MyAppBar(
+        "Fin de partie",
+        context: context,
+        tabs: const [Tab(text: "Classement"), Tab(text: "Scores par contrat")],
+      ),
       content: const TabBarView(
         children: [OrderedPlayersScores(isGameFinished: true), GameTable()],
       ),

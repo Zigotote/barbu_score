@@ -7,6 +7,7 @@ import '../commons/providers/log.dart';
 import '../commons/providers/play_game.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/list_layouts.dart';
+import '../commons/widgets/my_appbar.dart';
 import '../main.dart';
 import 'contract_scores/models/contract_route_argument.dart';
 
@@ -18,7 +19,7 @@ class ChooseContract extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Player player = ref.watch(playGameProvider).currentPlayer;
     return DefaultPage(
-      title: "Tour de ${player.name}",
+      appBar: MyAppBar("Tour de ${player.name}", context: context),
       hasBackground: true,
       content: Padding(
         padding: const EdgeInsets.symmetric(

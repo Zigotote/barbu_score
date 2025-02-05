@@ -8,6 +8,7 @@ import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/list_layouts.dart';
+import '../../commons/widgets/my_appbar.dart';
 import 'notifiers/contract_settings_provider.dart';
 import 'widgets/active_contract_indicator.dart';
 import 'widgets/app_theme_choice.dart';
@@ -18,8 +19,7 @@ class MySettings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
-      title: "Paramètres",
-      hasLeading: true,
+      appBar: MyAppBar("Paramètres", context: context, hasLeading: true),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
