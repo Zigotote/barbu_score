@@ -51,6 +51,9 @@ class DefaultPage extends StatelessWidget {
     page = appBar.tabs == null
         ? page
         : DefaultTabController(length: appBar.tabs!.length, child: page);
-    return appBar.leading != null ? page : PopScope(canPop: false, child: page);
+    // TODO temporaire, voir si ça peut être amélioré prochainement
+    return appBar.leading != null || appBar.actions != null
+        ? page
+        : PopScope(canPop: false, child: page);
   }
 }
