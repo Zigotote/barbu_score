@@ -6,6 +6,7 @@ import '../commons/providers/play_game.dart';
 import '../commons/providers/storage.dart';
 import '../commons/utils/snackbar.dart';
 import '../commons/widgets/default_page.dart';
+import '../commons/widgets/my_appbar.dart';
 import '../commons/widgets/ordered_players_scores.dart';
 import '../main.dart';
 
@@ -16,8 +17,7 @@ class MyScores extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
-      hasLeading: true,
-      title: "Scores",
+      appBar: MyAppBar("Scores", context: context, hasLeading: true),
       content: const OrderedPlayersScores(),
       bottomWidget: ElevatedButton(
           child: const Text('Sauvegarder et quitter'),

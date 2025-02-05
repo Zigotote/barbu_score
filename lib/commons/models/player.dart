@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-import '../utils/globals.dart';
+import '../utils/constants.dart';
 import 'contract_info.dart';
 import 'contract_models.dart';
 import 'player_colors.dart';

@@ -8,6 +8,7 @@ import '../../../commons/providers/log.dart';
 import '../../../commons/providers/play_game.dart';
 import '../../../commons/utils/snackbar.dart';
 import '../../../commons/widgets/default_page.dart';
+import '../../../commons/widgets/my_appbar.dart';
 import '../../../commons/widgets/my_subtitle.dart';
 import '../../../main.dart';
 import '../notifiers/trumps_provider.dart';
@@ -92,8 +93,7 @@ class SubContractPage extends ConsumerWidget {
       validateText = "Valider les scores";
     }
     return DefaultPage(
-      title: titleText,
-      hasLeading: true,
+      appBar: MyAppBar(titleText, context: context, hasLeading: true),
       content: Column(
         children: [
           MySubtitle(subtitle),

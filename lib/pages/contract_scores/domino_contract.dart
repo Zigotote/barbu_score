@@ -11,6 +11,7 @@ import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/colored_container.dart';
 import '../../commons/widgets/default_page.dart';
+import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
 
@@ -132,8 +133,11 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultPage(
-      title: "Tour de ${ref.read(playGameProvider).currentPlayer.name}",
-      hasLeading: true,
+      appBar: MyAppBar(
+        "Tour de ${ref.read(playGameProvider).currentPlayer.name}",
+        context: context,
+        hasLeading: true,
+      ),
       content: Column(
         children: [
           const MySubtitle("Quel est l'ordre des joueurs ?"),

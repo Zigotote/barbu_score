@@ -1,5 +1,5 @@
 import 'package:barbu_score/commons/providers/play_game.dart';
-import 'package:barbu_score/commons/utils/globals.dart';
+import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:barbu_score/pages/prepare_game.dart';
 import 'package:flutter/material.dart';
@@ -18,22 +18,11 @@ main() {
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
   });
-  for (var testData in List.generate(
-    kNbPlayersMax - kNbPlayersMin,
-    (index) => (
-      nbPlayers: kNbPlayersMin + index,
-      nbCardsNumbersToTakeOut: 7 - 2 * index
-    ),
-  )) {
-    final nbPlayers = testData.nbPlayers;
-    patrolWidgetTest(
-        "should ask to remove ${testData.nbCardsNumbersToTakeOut} for $nbPlayers",
-        ($) async {
+  for (var nbPlayers = kNbPlayersMin; nbPlayers <= kNbPlayersMax; nbPlayers++) {
+    patrolWidgetTest("should display $nbPlayers players", ($) async {
       await $.pumpWidget(_createPage($, nbPlayers: nbPlayers));
 
       expect($(PlayerIcon), findsNWidgets(nbPlayers));
-      expect(PrepareGame.getCardsToTakeOut(nbPlayers).length,
-          testData.nbCardsNumbersToTakeOut);
     });
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/contract_info.dart';
 import '../../../commons/widgets/default_page.dart';
+import '../../../commons/widgets/my_appbar.dart';
 import '../notifiers/contract_settings_provider.dart';
 import 'my_switch.dart';
 import 'setting_question.dart';
@@ -25,8 +26,11 @@ class ContractSettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(contractSettingsProvider(contract));
     return DefaultPage(
-      hasLeading: true,
-      title: "Paramètres\n${contract.displayName}",
+      appBar: MyAppBar(
+        "Paramètres\n${contract.displayName}",
+        context: context,
+        hasLeading: true,
+      ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

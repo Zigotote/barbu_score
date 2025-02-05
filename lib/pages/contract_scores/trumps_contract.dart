@@ -9,6 +9,7 @@ import '../../commons/providers/play_game.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/list_layouts.dart';
+import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
 import 'models/contract_route_argument.dart';
@@ -77,8 +78,11 @@ class TrumpsContractPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(trumpsProvider);
     return DefaultPage(
-      title: "Tour de ${ref.watch(playGameProvider).currentPlayer.name}",
-      hasLeading: true,
+      appBar: MyAppBar(
+        "Tour de ${ref.watch(playGameProvider).currentPlayer.name}",
+        context: context,
+        hasLeading: true,
+      ),
       content: Column(
         children: [
           const MySubtitle("Quel est le score de chaque contrat ?"),
