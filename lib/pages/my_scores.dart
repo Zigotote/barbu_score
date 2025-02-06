@@ -25,7 +25,7 @@ class MyScores extends ConsumerWidget {
             final game = ref.read(playGameProvider).game;
             ref.read(logProvider).info("MyScores: save $game");
             ref.read(logProvider).sendAnalyticEvent(
-              "Save game",
+              "save_game",
               parameters: {"nbPlayers": game.players.length},
             );
             ref.read(storageProvider).saveGame(game);

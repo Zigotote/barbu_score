@@ -35,13 +35,13 @@ class MyHome extends ConsumerWidget {
       Navigator.of(context).pushNamed(Routes.prepareGame);
     }
     ref.read(logProvider).info("MyHome.loadGame: load $game");
-    ref.read(logProvider).sendAnalyticEvent("Load game");
+    ref.read(logProvider).sendAnalyticEvent("load_game");
   }
 
   /// Starts a new game
   _startGame(BuildContext context, WidgetRef ref) {
     ref.read(logProvider).info("MyHome.startGame: start game");
-    ref.read(logProvider).sendAnalyticEvent("Start game");
+    ref.read(logProvider).sendAnalyticEvent("start_game");
     Navigator.of(context).pushNamed(Routes.createGame);
   }
 

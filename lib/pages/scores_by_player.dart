@@ -49,7 +49,7 @@ class ScoresByPlayer extends ConsumerWidget {
     ref
         .read(logProvider)
         .info("ScoresByPlayer: show scores for ${player.name}");
-    ref.read(logProvider).sendAnalyticEvent("Show scores by player");
+    ref.read(logProvider).sendAnalyticEvent("scores_by_player");
     final players = ref.read(playGameProvider).players;
     final playerScores =
         ref.read(contractsManagerProvider).scoresByContract(player);

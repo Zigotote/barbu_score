@@ -54,7 +54,7 @@ class MySettings extends ConsumerWidget {
                                 "MySettings: save ${contract.name} settings $newSettings",
                               );
                           ref.read(logProvider).sendAnalyticEvent(
-                            "Modify settings",
+                            "modify_settings",
                             parameters: {"contract": contract.name},
                           );
                           final storage = ref.read(storageProvider);

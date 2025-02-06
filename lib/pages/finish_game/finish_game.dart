@@ -15,7 +15,7 @@ class FinishGame extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.read(logProvider).info("FinishGame: finished game");
-    ref.read(logProvider).sendAnalyticEvent("Finish game");
+    ref.read(logProvider).sendAnalyticEvent("finish_game");
     return DefaultPage(
       appBar: MyAppBar(
         "Fin de partie",

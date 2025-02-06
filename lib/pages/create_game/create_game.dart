@@ -44,7 +44,7 @@ class CreateGame extends ConsumerWidget {
                       "CreateGame.buildValidateButton: create game with ${provider.players}",
                     );
                 ref.read(logProvider).sendAnalyticEvent(
-                  "Create game",
+                  "create_game",
                   parameters: {"nbPlayers": provider.players.length},
                 );
 
