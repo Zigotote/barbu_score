@@ -21,7 +21,7 @@ class GamePresentation extends StatelessWidget {
         children: [
           const SizedBox(height: 8),
           const Text(
-            "Le barbu est un jeu pour $kNbPlayersMin à $kNbPlayersMin joueurs se jouant avec un jeu de 52 cartes. L'objectif est de remporter le moins de points possible.",
+            "Le barbu est un jeu pour $kNbPlayersMin à $kNbPlayersMax joueurs se jouant avec un jeu de 52 cartes. L'objectif est de remporter le moins de points possible.",
           ),
           Padding(
             padding: const EdgeInsets.only(top: 24, bottom: 8),

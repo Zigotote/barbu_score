@@ -32,18 +32,18 @@ class MyThemes {
       ),
       textTheme: textTheme.copyWith(
         bodyMedium: textTheme.bodyMedium?.copyWith(fontSize: 16),
-        titleMedium: textTheme.bodyMedium?.copyWith(fontSize: 18),
-        labelLarge: textTheme.labelLarge?.copyWith(fontSize: 22),
+        titleMedium: textTheme.titleMedium?.copyWith(fontSize: 18),
       ),
       dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
       disabledColor: disabledColor,
       dividerColor: onSurfaceColor,
-      dropdownMenuTheme: const DropdownMenuThemeData(
-        inputDecorationTheme: InputDecorationTheme(
+      dropdownMenuTheme: DropdownMenuThemeData(
+        inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
         ),
+        textStyle: textTheme.bodyMedium,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -54,6 +54,9 @@ class MyThemes {
             }
             return onSurfaceColor;
           }),
+          textStyle: WidgetStatePropertyAll(
+            textTheme.titleLarge?.copyWith(fontSize: 22),
+          ),
           iconColor:
               WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
             if (states.contains(WidgetState.disabled)) {

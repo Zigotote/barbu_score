@@ -217,13 +217,8 @@ class TrumpsContractSettings extends AbstractContractSettings {
       contracts.entries
           .where((contract) => contract.value)
           .toList()
-          .map((e) => ContractsInfo.fromName(e.key)
-              .displayName
-              .toLowerCase()
-              .replaceAll("sans ", ""))
-          .toString()
-          .replaceAll('(', "")
-          .replaceAll(')', "")
+          .map((e) => ContractsInfo.fromName(e.key).displayName.toLowerCase())
+          .join(", ")
     ]);
   }
 

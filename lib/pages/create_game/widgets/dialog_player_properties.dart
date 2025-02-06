@@ -103,8 +103,9 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                             : playersWithColor.join(","),
                         overflow: TextOverflow.fade,
                         textAlign: TextAlign.center,
-                        style: theme.textTheme.labelLarge!.copyWith(
+                        style: theme.textTheme.titleLarge?.copyWith(
                           color: theme.scaffoldBackgroundColor,
+                          fontSize: 22,
                         ),
                       ),
                     );
