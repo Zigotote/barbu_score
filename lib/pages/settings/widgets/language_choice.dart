@@ -19,7 +19,38 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
   @override
   void initState() {
     super.initState();
-    selectedIndex = ref.read(localeProvider) == MyLocales.fr.locale ? 0 : 1;
+    selectedIndex = ref.read(localeProvider).languageCode ==
+            MyLocales.fr.locale.languageCode
+        ? 0
+        : 1;
+  }
+
+  /// Builds the option depending on its index and locale
+  Container _buildOption({required int index, required MyLocales locale}) {
+    final tooltip = switch (locale) {
+      MyLocales.fr => context.l10n.french,
+      MyLocales.en => context.l10n.english,
+    };
+    final flag = switch (locale) {
+      MyLocales.fr => "assets/flags/flag_french.png",
+      MyLocales.en => "assets/flags/flag_english.png",
+    };
+    return Container(
+      padding: const EdgeInsets.all(6),
+      width: optionSize,
+      height: optionSize,
+      child: IconButton.outlined(
+        tooltip: tooltip,
+        onPressed: () {
+          ref.read(localeProvider.notifier).changeLocale(locale.locale);
+          setState(() => selectedIndex = index);
+        },
+        icon: Opacity(
+          opacity: selectedIndex == index ? 1 : 0.8,
+          child: Image.asset(flag),
+        ),
+      ),
+    );
   }
 
   @override
@@ -33,43 +64,15 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
           children: [
             Wrap(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  width: optionSize,
-                  height: optionSize,
-                  child: IconButton.outlined(
-                    tooltip: context.l10n.french,
-                    onPressed: () {
-                      ref
-                          .read(localeProvider.notifier)
-                          .changeLocale(MyLocales.fr.locale);
-                      setState(() => selectedIndex = 0);
-                    },
-                    icon: Image.asset("assets/flags/flag_french.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  width: optionSize,
-                  height: optionSize,
-                  child: IconButton.outlined(
-                    tooltip: context.l10n.english,
-                    onPressed: () {
-                      ref
-                          .read(localeProvider.notifier)
-                          .changeLocale(MyLocales.en.locale);
-                      setState(() => selectedIndex = 1);
-                    },
-                    icon: Image.asset("assets/flags/flag_english.png"),
-                  ),
-                ),
+                _buildOption(index: 0, locale: MyLocales.fr),
+                _buildOption(index: 1, locale: MyLocales.en),
               ],
             ),
             AnimatedPositioned(
               left: optionSize * selectedIndex,
               width: optionSize,
               height: optionSize,
-              duration: const Duration(milliseconds: 900),
+              duration: const Duration(milliseconds: 500),
               curve: Curves.fastOutSlowIn,
               child: Container(
                 decoration: BoxDecoration(

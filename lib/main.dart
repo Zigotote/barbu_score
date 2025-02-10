@@ -60,7 +60,6 @@ class MyApp extends ConsumerWidget {
     var themeMode = _getThemeMode(ref);
     return MaterialApp(
       onGenerateTitle: (context) => context.l10n.appTitle,
-      // TODO Océane passer les drapeaux à 80% d'opacité quand ils sont desséléctionnés, 100% quand c'est sélectionné
       // TODO Océane réfélchir où mettre le choiix de la laangue dans la page de paramètres
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
