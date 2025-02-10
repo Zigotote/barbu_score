@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -58,8 +59,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var themeMode = _getThemeMode(ref);
     return MaterialApp(
-      title: 'Barbu Score',
-      // TODO Océane internationaaliser le nom de l'app
+      onGenerateTitle: (context) => context.l10n.appTitle,
       // TODO Océane passer les drapeaux à 80% d'opacité quand ils sont desséléctionnés, 100% quand c'est sélectionné
       // TODO Océane réfélchir où mettre le choiix de la laangue dans la page de paramètres
       localizationsDelegates: AppLocalizations.localizationsDelegates,
