@@ -26,7 +26,7 @@
   "contractsRules": "The Barbu game includes the following contracts:",
   "contractSettings": "Contract settings",
   "contractSettingsTitle": "Settings\n{contract}",
-  "contractsOf": "Contracts of {player}",
+  "contractsOf": "{player}'s contracts",
   "contractsToPlay": "Contracts to play",
   "createPlayers": "Create players",
   "deactivate": "Deactivate",
