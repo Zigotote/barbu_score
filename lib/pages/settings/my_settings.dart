@@ -32,8 +32,12 @@ class MySettings extends ConsumerWidget {
           children: [
             const AppThemeChoice(),
             const LanguageChoice(),
-            Text(context.l10n.contractSettings),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+            Text(
+              context.l10n.contracts,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 16),
             MyGrid(
               isScrollable: false,
               children: ContractsInfo.values.map(
@@ -45,7 +49,7 @@ class MySettings extends ConsumerWidget {
                     text: context.l10n.contractName(contract),
                     onPressed: () {
                       ref.read(logProvider).info(
-                            "MySettings: modify settings for ${contract.name}",
+                            "MySettings: open settings for ${contract.name}",
                           );
                       SnackBarUtils.instance.closeSnackBar(context);
                       Navigator.of(context)

@@ -58,7 +58,6 @@
   "contractPoints": "Points du contrat",
   "contracts": "Contrats",
   "contractsRules": "Le jeu du Barbu comporte les contrats suivants :",
-  "contractSettings": "Paramètres des contrats",
   "contractSettingsTitle": "Paramètres\n{contract}",
   "@contractSettingsTitle": {
     "placeholders": {

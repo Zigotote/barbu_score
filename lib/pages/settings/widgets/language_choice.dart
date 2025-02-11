@@ -57,6 +57,7 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8,
       children: [
         Text(context.l10n.language),
         Stack(

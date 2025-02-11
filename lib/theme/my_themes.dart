@@ -21,6 +21,9 @@ class MyThemes {
       fontFamily: "QuickSand",
       displayColor: onSurfaceColor,
     );
+    final bodyMedium = textTheme.bodyMedium?.copyWith(fontSize: 16);
+    final titleMedium = textTheme.titleMedium?.copyWith(fontSize: 18);
+    final titleLarge = textTheme.titleLarge?.copyWith(fontSize: 22);
     return baseTheme.copyWith(
       colorScheme: baseTheme.colorScheme.copyWith(
         surfaceTint: baseTheme.scaffoldBackgroundColor,
@@ -31,8 +34,9 @@ class MyThemes {
         primary: onSurfaceColor,
       ),
       textTheme: textTheme.copyWith(
-        bodyMedium: textTheme.bodyMedium?.copyWith(fontSize: 16),
-        titleMedium: textTheme.titleMedium?.copyWith(fontSize: 18),
+        bodyMedium: bodyMedium,
+        titleMedium: titleMedium,
+        titleLarge: titleLarge,
       ),
       dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
       disabledColor: disabledColor,
@@ -43,7 +47,7 @@ class MyThemes {
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
         ),
-        textStyle: textTheme.bodyMedium,
+        textStyle: bodyMedium,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -54,9 +58,7 @@ class MyThemes {
             }
             return onSurfaceColor;
           }),
-          textStyle: WidgetStatePropertyAll(
-            textTheme.titleLarge?.copyWith(fontSize: 22),
-          ),
+          textStyle: WidgetStatePropertyAll(titleLarge),
           iconColor:
               WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
             if (states.contains(WidgetState.disabled)) {
