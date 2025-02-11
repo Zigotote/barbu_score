@@ -5,7 +5,7 @@ import 'contract_settings_models.dart';
 
 part 'contract_info.g.dart';
 
-/// List the names of the contracts for a party
+/// List the names of the contracts for a game
 @HiveType(typeId: 13)
 enum ContractsInfo {
   @HiveField(0)
@@ -34,9 +34,9 @@ enum ContractsInfo {
     settingsRoute: Routes.barbuOrNoLastTrickSettings,
   ),
   @HiveField(5)
-  trumps(
-    scoreRoute: Routes.trumpsScores,
-    settingsRoute: Routes.trumpsSettings,
+  salad(
+    scoreRoute: Routes.saladScores,
+    settingsRoute: Routes.saladSettings,
   ),
   @HiveField(6)
   domino(
@@ -61,10 +61,10 @@ enum ContractsInfo {
         return MultipleLooserContractSettings(contract: this, points: 5);
       case ContractsInfo.noLastTrick:
         return OneLooserContractSettings(contract: this, points: 40);
-      case ContractsInfo.trumps:
-        return TrumpsContractSettings(
+      case ContractsInfo.salad:
+        return SaladContractSettings(
           contracts: {
-            for (var contract in TrumpsContractSettings.availableContracts)
+            for (var contract in SaladContractSettings.availableContracts)
               contract.name: true
           },
         );
@@ -78,6 +78,10 @@ enum ContractsInfo {
 
   /// Returns the ContractsInfo from its name
   static ContractsInfo fromName(String name) {
-    return ContractsInfo.values.firstWhere((contract) => contract.name == name);
+    return ContractsInfo.values.firstWhere(
+      (contract) => contract.name == name,
+      // TODO Temporary because it was named trumps and has been renamed
+      orElse: () => ContractsInfo.salad,
+    );
   }
 }

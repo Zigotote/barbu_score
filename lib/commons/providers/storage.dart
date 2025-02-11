@@ -31,8 +31,7 @@ class MyStorage {
         OneLooserContractSettingsAdapter());
     Hive.registerAdapter<MultipleLooserContractSettings>(
         MultipleLooserContractSettingsAdapter());
-    Hive.registerAdapter<TrumpsContractSettings>(
-        TrumpsContractSettingsAdapter());
+    Hive.registerAdapter<SaladContractSettings>(SaladContractSettingsAdapter());
     Hive.registerAdapter<DominoContractSettings>(
         DominoContractSettingsAdapter());
     await Hive.openBox(_settingsBoxName);
@@ -91,7 +90,11 @@ class MyStorage {
 
   /// Gets the settings associated to this contract. Returns default settings if no personalized data saved
   AbstractContractSettings getSettings(ContractsInfo contractsInfo) {
-    final storedSettings = storage?.getString(contractsInfo.name);
+    String? storedSettings = storage?.getString(contractsInfo.name);
+    // TODO Temporary because it was named trumps and has been renamed
+    if (storedSettings == null && contractsInfo == ContractsInfo.salad) {
+      storedSettings = storage?.getString("trumps");
+    }
     if (storedSettings != null) {
       return AbstractContractSettings.fromJson(jsonDecode(storedSettings));
     }

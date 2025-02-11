@@ -17,7 +17,7 @@ main() {
   for (var activeContracts in [
     ContractsInfo.values,
     [ContractsInfo.barbu],
-    [ContractsInfo.barbu, ContractsInfo.trumps, ContractsInfo.domino]
+    [ContractsInfo.barbu, ContractsInfo.salad, ContractsInfo.domino]
   ]) {
     patrolWidgetTest(
         "should display contract rules with active $activeContracts",

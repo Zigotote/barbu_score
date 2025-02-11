@@ -12,7 +12,7 @@ import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_appbar.dart';
 import '../../../commons/widgets/my_subtitle.dart';
 import '../../../main.dart';
-import '../notifiers/trumps_provider.dart';
+import '../notifiers/salad_provider.dart';
 
 class SubContractPage extends ConsumerWidget {
   /// The contract actually displayed
@@ -46,27 +46,27 @@ class SubContractPage extends ConsumerWidget {
   /// Saves this contract and moves to the next player round
   void _saveContract(BuildContext context, WidgetRef ref) {
     final playGame = ref.read(playGameProvider);
-    final bool isPartOfTrumpsContract =
-        ref.exists(trumpsProvider) && !(contract == ContractsInfo.trumps);
+    final bool isPartOfSaladContract =
+        ref.exists(saladProvider) && !(contract == ContractsInfo.salad);
     final contractModel = (ref
         .read(contractsManagerProvider)
         .getContractManager(contract)
         .model as AbstractSubContractModel);
     final bool isFinished = contractModel.setItemsByPlayer(itemsByPlayer);
     ref.read(logProvider).info(
-          "SubContractPage.saveContract: save $contractModel ${isPartOfTrumpsContract ? "in trumps" : ""}",
+          "SubContractPage.saveContract: save $contractModel ${isPartOfSaladContract ? "in salad" : ""}",
         );
 
-    if (isPartOfTrumpsContract) {
-      /// Adds the contract to the trumps contract
-      ref.read(trumpsProvider).addContract(contractModel);
+    if (isPartOfSaladContract) {
+      /// Adds the contract to the salad contract
+      ref.read(saladProvider).addContract(contractModel);
     } else {
       playGame.finishContract(contractModel);
     }
 
     if (isFinished) {
       SnackBarUtils.instance.closeSnackBar(context);
-      if (isPartOfTrumpsContract) {
+      if (isPartOfSaladContract) {
         Navigator.of(context).pop();
       } else {
         Navigator.of(context).popAndPushNamed(

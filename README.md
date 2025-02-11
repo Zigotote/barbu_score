@@ -13,14 +13,19 @@ described [here](https://fvm.app/documentation/getting-started/installation)
 and get the Flutter version set in the .fvmrc file of the repo
 with ```fvm use {barbu_score.version}```
 
-To get all dependencies and create generated files run these commands :
+To get all dependencies and create generated files run these commands:
 
 ```
 fvm flutter pub get
 fvm dart run build_runner build
 ```
 
-And that's it ! Now you can do awesome work to improve this app.
+Translations are generated with this commands, or automatically if the app is running. However, if
+you just want to generate new strings, run this:
+
+```
+fvm flutter gen-l10n
+```
 
 **If you don't want to contribute and just want to play, you can download the app
 in [PlayStore](https://play.google.com/store/apps/details?id=zigotote.barbu_score).**

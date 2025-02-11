@@ -132,7 +132,7 @@ main() {
         for (var (index, player) in game.players.indexed)
           player.name: index == 0 ? 40 : 0
       },
-      ContractsInfo.trumps: {for (var player in game.players) player.name: 0},
+      ContractsInfo.salad: {for (var player in game.players) player.name: 0},
       ContractsInfo.domino: {
         for (var (index, player) in game.players.indexed)
           player.name: -10 * index
@@ -173,7 +173,7 @@ main() {
               +
               1 // domino
               +
-              game.players.length // trumps
+              game.players.length // salad
           ),
     );
     // Empty lines

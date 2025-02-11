@@ -195,12 +195,12 @@ main() {
     });
   });
 
-  group("#TrumpsContractModel", () {
-    const contract = ContractsInfo.trumps;
+  group("#SaladContractModel", () {
+    const contract = ContractsInfo.salad;
 
     for (var replaceSubContract in [true, false]) {
       test("should ${replaceSubContract ? "replace" : "add"} sub contract", () {
-        final model = TrumpsContractModel();
+        final model = SaladContractModel();
         final subContract = OneLooserContractModel(
           contract: ContractsInfo.noQueens,
           itemsByPlayer: {
@@ -244,13 +244,13 @@ main() {
         noLastTrickSettings,
       ];
       test("should be null if no sub contract", () {
-        final model = TrumpsContractModel();
+        final model = SaladContractModel();
 
         expect(model.scores(contract.defaultSettings, subContractSettings),
             isNull);
       });
       test("should be null if no sub contract settings", () {
-        final model = TrumpsContractModel();
+        final model = SaladContractModel();
         model.addSubContract(
           OneLooserContractModel(contract: ContractsInfo.barbu),
         );
@@ -259,7 +259,7 @@ main() {
       });
       test("should be null if sub contract has no associated settings", () {
         const subContract = ContractsInfo.barbu;
-        final model = TrumpsContractModel();
+        final model = SaladContractModel();
         model.addSubContract(OneLooserContractModel(contract: subContract));
 
         expect(
@@ -273,7 +273,7 @@ main() {
       });
       test("should sum sub contract scores", () {
         expect(
-            defaultTrumps.scores(contract.defaultSettings, subContractSettings),
+            defaultSalad.scores(contract.defaultSettings, subContractSettings),
             {
               for (var (index, player) in defaultPlayerNames.indexed)
                 player: index == 0
@@ -290,7 +290,7 @@ main() {
             });
       });
       test("should sum sub contract scores with some removed contracts", () {
-        final settings = TrumpsContractSettings(
+        final settings = SaladContractSettings(
           isActive: true,
           contracts: {
             ContractsInfo.barbu.name: false,
@@ -301,7 +301,7 @@ main() {
           },
         );
 
-        expect(defaultTrumps.scores(settings, subContractSettings), {
+        expect(defaultSalad.scores(settings, subContractSettings), {
           for (var (index, player) in defaultPlayerNames.indexed)
             player: index == 0
                 ? noLastTrickSettings.points + noQueensSettings.points
@@ -311,7 +311,7 @@ main() {
         });
       });
       test("should sum sub contract scores with some missing contracts", () {
-        final model = TrumpsContractModel(
+        final model = SaladContractModel(
           subContracts: [
             defaultBarbu,
             defaultNoQueens,
@@ -372,7 +372,7 @@ main() {
               player: index == 0 ? 1 : 0
           },
         );
-        final model = TrumpsContractModel(
+        final model = SaladContractModel(
           subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
         );
 

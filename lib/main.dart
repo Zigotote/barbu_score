@@ -17,7 +17,7 @@ import 'pages/contract_scores/domino_contract.dart';
 import 'pages/contract_scores/models/contract_route_argument.dart';
 import 'pages/contract_scores/multiple_looser_contract.dart';
 import 'pages/contract_scores/one_looser_contract.dart';
-import 'pages/contract_scores/trumps_contract.dart';
+import 'pages/contract_scores/salad_contract.dart';
 import 'pages/create_game/create_game.dart';
 import 'pages/finish_game/finish_game.dart';
 import 'pages/my_home.dart';
@@ -29,7 +29,7 @@ import 'pages/settings/domino_contract_settings.dart';
 import 'pages/settings/multiple_looser_contract_settings.dart';
 import 'pages/settings/my_settings.dart';
 import 'pages/settings/one_looser_contract_settings.dart';
-import 'pages/settings/trumps_contract_settings.dart';
+import 'pages/settings/salad_contract_settings.dart';
 import 'theme/my_themes.dart';
 import 'theme/theme_provider.dart';
 
@@ -77,7 +77,7 @@ class MyApp extends ConsumerWidget {
             MultipleLooserContractSettingsPage(
                 Routes.getArgument<ContractsInfo>(context)),
         Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
-        Routes.trumpsSettings: (_) => const TrumpsContractSettingsPage(),
+        Routes.saladSettings: (_) => const SaladContractSettingsPage(),
         Routes.createGame: (_) => CreateGame(),
         Routes.prepareGame: (_) => const PrepareGame(),
         Routes.chooseContract: (_) => const ChooseContract(),
@@ -86,7 +86,7 @@ class MyApp extends ConsumerWidget {
         Routes.dominoScores: (_) => const DominoContractPage(),
         Routes.noSomethingScores: (context) => MultipleLooserContractPage(
             Routes.getArgument<ContractRouteArgument>(context)),
-        Routes.trumpsScores: (_) => const TrumpsContractPage(),
+        Routes.saladScores: (_) => const SaladContractPage(),
         Routes.scores: (_) => const MyScores(),
         Routes.scoresByPlayer: (context) =>
             ScoresByPlayer(Routes.getArgument<Player>(context)),
@@ -132,14 +132,14 @@ class Routes {
       "/settings/one_looser_contract_scores";
   static const noSomethingScoresSettings = "/settings/individual_scores";
   static const dominoSettings = "/settings/domino";
-  static const trumpsSettings = "/settings/trumps";
+  static const saladSettings = "/settings/salad";
   static const createGame = "/create_game";
   static const prepareGame = "/prepare_game";
   static const chooseContract = "/choose_contract";
   static const barbuOrNoLastTrickScores = "/one_looser_contract_scores";
   static const dominoScores = "/domino_scores";
   static const noSomethingScores = "/individual_scores";
-  static const trumpsScores = "/trumps_scores";
+  static const saladScores = "/salad_scores";
   static const scores = "/scores";
   static const scoresByPlayer = "/scores/player";
   static const finishGame = "/end_game";

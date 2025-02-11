@@ -47,13 +47,13 @@ main() {
                   ? [
                       defaultBarbu,
                       defaultNoHearts,
-                      defaultTrumps,
+                      defaultSalad,
                       defaultDomino,
                       defaultNoQueens,
                       defaultNoTricks,
                       defaultNoLastTrick
                     ]
-                  : [defaultDomino, defaultTrumps],
+                  : [defaultDomino, defaultSalad],
             ),
           ),
         );
@@ -81,7 +81,7 @@ main() {
               contracts: [
                 defaultBarbu,
                 defaultNoHearts,
-                defaultTrumps,
+                defaultSalad,
                 defaultDomino,
                 defaultNoQueens,
                 defaultNoTricks,

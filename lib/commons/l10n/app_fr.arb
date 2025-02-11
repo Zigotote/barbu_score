@@ -11,8 +11,8 @@
       }
     }
   },
-  "alertCannotActivateTrumps": "Activation impossible",
-  "alertCannotActivateTrumpsDetails": "La salade doit posséder au moins un contrat à jouer pour être activée.",
+  "alertCannotActivateSalad": "Activation impossible",
+  "alertCannotActivateSaladDetails": "La salade doit posséder au moins un contrat à jouer pour être activée.",
   "alertContractPlayed": "Le contrat a déjà été joué",
   "alertContractPlayedBy": "Le contrat a déjà été joué par {players}. S'il est désactivé il sera supprimé de la partie et {nbPlayers, plural, =1{ce joueur devra} other{ces joueurs devront}} choisir un contrat supplémentaire en fin de partie.",
   "@alertContractPlayedBy": {
@@ -26,8 +26,8 @@
     }
   },
   "alertExistingGame": "Une partie sauvegardée existe",
-  "alertTrumpsContractPlayedBy": "Le contrat a déjà été joué par {players}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.",
-  "@alertTrumpsContractPlayedBy": {
+  "alertSaladContractPlayedBy": "Le contrat a déjà été joué par {players}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.",
+  "@alertSaladContractPlayedBy": {
     "placeholders": {
       "players": {
         "type": "String",
@@ -36,8 +36,8 @@
     }
   },
   "appName": "Le Barbu",
-  "appTitle": "Score Barbu",
   "appTheme": "Thème de l'application",
+  "appTitle": "Score Barbu",
   "availableColor": "Couleur disponible",
   "avatar": "Avatar",
   "barbu": "Barbu",
@@ -56,23 +56,23 @@
     }
   },
   "contractPoints": "Points du contrat",
-  "contracts": "Contrats",
-  "contractsRules": "Le jeu du Barbu comporte les contrats suivants :",
   "contractSettingsTitle": "Paramètres\n{contract}",
-  "@contractSettingsTitle": {
-    "placeholders": {
-      "contract": {
-        "type": "String",
-        "example": "Barbu"
-      }
-    }
-  },
+  "contracts": "Contrats",
   "contractsOf": "Contrats de {player}",
   "@contractsOf": {
     "placeholders": {
       "player": {
         "type": "String",
         "example": "Océane"
+      }
+    }
+  },
+  "contractsRules": "Le jeu du Barbu comporte les contrats suivants :",
+  "@contractSettingsTitle": {
+    "placeholders": {
+      "contract": {
+        "type": "String",
+        "example": "Barbu"
       }
     }
   },
@@ -107,10 +107,10 @@
   "fold": "Replier les choix",
   "forGameAt": "Pour une partie à",
   "french": "Français",
-  "gameRound": "Manche de jeu",
-  "gameRoundRules": "Distribuer les cartes entre les joueurs\u00a0: chacun doit en avoir 8.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
   "gamePrinciple": "Principe du jeu",
   "gamePrincipleDetails": "Ce jeu de plis est composé de 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats.",
+  "gameRound": "Manche de jeu",
+  "gameRoundRules": "Distribuer les cartes entre les joueurs\u00a0: chacun doit en avoir 8.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
   "gameSaved": "Partie sauvegardée",
   "go": "C'est parti !",
   "goHome": "Retour à l'accueil",
@@ -149,7 +149,6 @@
   },
   "modifyPlayer": "Modifier le joueur",
   "modifySettings": "Modifier les paramètres",
-  "next": "Suivant",
   "nbCardsRules": "Le jeu se joue avec {nbCards} cartes ({nbPlayers} \u00d7 8).",
   "@nbCardsRules": {
     "placeholders": {
@@ -180,6 +179,7 @@
       }
     }
   },
+  "next": "Suivant",
   "noGameFound": "Aucune partie trouvée",
   "noGameFoundDetails": "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
   "noHearts": "Sans coeurs",
@@ -187,7 +187,6 @@
   "noQueens": "Sans dames",
   "noTricks": "Sans plis",
   "playerName": "Nom du joueur",
-  "players": "joueurs.",
   "playerTurn": "Tour de {player}",
   "@playerTurn": {
     "placeholders": {
@@ -197,6 +196,7 @@
       }
     }
   },
+  "players": "joueurs.",
   "pointsBy": "Points par {item}",
   "@pointsBy": {
     "placeholders": {
@@ -265,8 +265,8 @@
       }
     }
   },
-  "rulesTrumps": "Ce contrat est une combinaison des contrats {contracts}.\nC'est le contrat qui peut faire marquer le plus de points puisque les points de chaque contrat s'additionnent.",
-  "@rulesTrumps": {
+  "rulesSalad": "Ce contrat est une combinaison des contrats {contracts}.\nC'est le contrat qui peut faire marquer le plus de points puisque les points de chaque contrat s'additionnent.",
+  "@rulesSalad": {
     "placeholders": {
       "contracts": {
         "type": "String",
@@ -274,7 +274,12 @@
       }
     }
   },
+  "salad": "Salade",
+  "saladScoresSubtitle": "Quel est le score de chaque contrat ?",
   "saveAndLeave": "Sauvegarder et quitter",
+  "scores": "Scores",
+  "scoresByContract": "Scores par contrat",
+  "scoresNotValid": "Scores incorrects",
   "seePreviousGame": "Revoir la partie précédente avec {players} ?",
   "@seePreviousGame": {
     "placeholders": {
@@ -284,16 +289,11 @@
       }
     }
   },
-  "scores": "Scores",
-  "scoresByContract": "Scores par contrat",
-  "scoresNotValid": "Scores incorrects",
   "settings": "Paramètres",
   "startGame": "Démarrer une partie",
   "table": "La table",
   "total": "Total",
   "tricks": "plis",
-  "trumps": "Salade",
-  "trumpsScoresSubtitle": "Quel est le score de chaque contrat ?",
   "unfold": "Déplier les choix",
   "validate": "Valider",
   "validateModify": "Modifier les scores",

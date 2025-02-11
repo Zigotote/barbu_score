@@ -5,7 +5,7 @@ import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
-import 'package:barbu_score/pages/settings/trumps_contract_settings.dart';
+import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
 import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +19,7 @@ import '../../utils/utils.mocks.dart';
 import 'utils/settings_utils.dart';
 
 main() {
-  final contractModel = TrumpsContractModel(
+  final contractModel = SaladContractModel(
     subContracts: [defaultBarbu],
   );
   final storedGame = createGame(4, [contractModel]);
@@ -73,7 +73,7 @@ main() {
       patrolWidgetTest("should activate contract ${getGameStateText(game)}",
           ($) async {
         await $.pumpWidget(_createPage(storedGame, false));
-        // Alert dialog is displayed if some players played trumps contract
+        // Alert dialog is displayed if some players played salad contract
         if (game?.isFinished == false) {
           await $("Ok").tap();
         }
@@ -92,20 +92,20 @@ main() {
       for (List<ContractsInfo> contractsToDeactivate in [
         [ContractsInfo.barbu],
         [],
-        TrumpsContractSettings.availableContracts.sublist(1)
+        SaladContractSettings.availableContracts.sublist(1)
       ]) {
         patrolWidgetTest(
-            "should remove contracts from trumps : $contractsToDeactivate $gameStateText",
+            "should remove contracts from salad : $contractsToDeactivate $gameStateText",
             ($) async {
           await $.pumpWidget(_createPage(game));
-          // Alert dialog is displayed if some players played trumps contract
+          // Alert dialog is displayed if some players played salad contract
           if (game?.isFinished == false) {
             await $("Ok").tap();
           }
 
           expect(
             _findSwitchs($, true),
-            findsNWidgets(TrumpsContractSettings.availableContracts.length + 1),
+            findsNWidgets(SaladContractSettings.availableContracts.length + 1),
           );
 
           for (var contract in contractsToDeactivate) {
@@ -123,11 +123,11 @@ main() {
       patrolWidgetTest(
           "should deactivate contract if no active contract inside and block its activation $gameStateText",
           ($) async {
-        final nbSwitchs = TrumpsContractSettings.availableContracts.length + 1;
+        final nbSwitchs = SaladContractSettings.availableContracts.length + 1;
 
         final page = _createPage(game);
         await $.pumpWidget(page);
-        // Alert dialog is displayed if some players played trumps contract
+        // Alert dialog is displayed if some players played salad contract
         if (game?.isFinished == false) {
           await $("Ok").tap();
         }
@@ -149,10 +149,10 @@ main() {
       patrolWidgetTest(
           "should reenable contract activation after some contracts are reactivated $gameStateText",
           ($) async {
-        final nbSwitchs = TrumpsContractSettings.availableContracts.length + 1;
+        final nbSwitchs = SaladContractSettings.availableContracts.length + 1;
 
         await $.pumpWidget(_createPage(game));
-        // Alert dialog is displayed if some players played trumps contract
+        // Alert dialog is displayed if some players played salad contract
         if (game?.isFinished == false) {
           await $("Ok").tap();
         }
@@ -171,9 +171,9 @@ main() {
   });
 }
 
-TrumpsContractSettings _getContractSettingsProvider(
+SaladContractSettings _getContractSettingsProvider(
     UncontrolledProviderScope page) {
-  return getContractSettingsProvider(page, ContractsInfo.trumps);
+  return getContractSettingsProvider(page, ContractsInfo.salad);
 }
 
 void _verifyAlert(PatrolTester $, List<Player> players) {
@@ -187,7 +187,7 @@ PatrolFinder _findSwitchs(PatrolTester $, bool value) =>
     $(Switch).which((widget) => (widget as Switch).value == value);
 
 Future<void> _unplayContracts(PatrolTester $) async {
-  for (var contract in TrumpsContractSettings.availableContracts) {
+  for (var contract in SaladContractSettings.availableContracts) {
     await $.tap(
       find.descendant(of: $(Key(contract.name)), matching: $(Switch)),
     );
@@ -197,8 +197,8 @@ Future<void> _unplayContracts(PatrolTester $) async {
 UncontrolledProviderScope _createPage(
     [Game? storedGame, bool isContractActive = true]) {
   final mockStorage = MockMyStorage();
-  when(mockStorage.getSettings(ContractsInfo.trumps)).thenReturn(
-    ContractsInfo.trumps.defaultSettings..isActive = isContractActive,
+  when(mockStorage.getSettings(ContractsInfo.salad)).thenReturn(
+    ContractsInfo.salad.defaultSettings..isActive = isContractActive,
   );
   when(mockStorage.getStoredGame()).thenReturn(storedGame);
 
@@ -208,6 +208,6 @@ UncontrolledProviderScope _createPage(
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(home: const TrumpsContractSettingsPage()),
+    child: FrenchMaterialApp(home: const SaladContractSettingsPage()),
   );
 }

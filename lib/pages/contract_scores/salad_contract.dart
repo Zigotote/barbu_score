@@ -14,12 +14,12 @@ import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
 import 'models/contract_route_argument.dart';
-import 'notifiers/trumps_provider.dart';
+import 'notifiers/salad_provider.dart';
 
-class TrumpsContractPage extends ConsumerWidget {
-  const TrumpsContractPage({super.key});
+class SaladContractPage extends ConsumerWidget {
+  const SaladContractPage({super.key});
 
-  Widget _buildFields(BuildContext context, TrumpsNotifier provider) {
+  Widget _buildFields(BuildContext context, SaladNotifier provider) {
     return MyGrid(
       children: provider.subContracts.map((contract) {
         final contractValues = provider.getFilledContract(contract.name);
@@ -68,12 +68,12 @@ class TrumpsContractPage extends ConsumerWidget {
 
   /// Saves the contract and moves to the next player round
   void _saveContract(
-      BuildContext context, WidgetRef ref, TrumpsNotifier trumpsProvider) {
+      BuildContext context, WidgetRef ref, SaladNotifier saladProvider) {
     ref
         .read(logProvider)
-        .info("TrumpsContractPage.saveContract: save $trumpsProvider");
+        .info("SaladContractPage.saveContract: save $saladProvider");
     final provider = ref.read(playGameProvider);
-    provider.finishContract(trumpsProvider.model);
+    provider.finishContract(saladProvider.model);
 
     Navigator.of(context).popAndPushNamed(
       provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
@@ -82,7 +82,7 @@ class TrumpsContractPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(trumpsProvider);
+    final provider = ref.watch(saladProvider);
     return DefaultPage(
       appBar: MyAppBar(
         context.l10n.playerTurn(ref.watch(playGameProvider).currentPlayer.name),
@@ -92,7 +92,7 @@ class TrumpsContractPage extends ConsumerWidget {
       content: Column(
         spacing: 8,
         children: [
-          MySubtitle(context.l10n.trumpsScoresSubtitle),
+          MySubtitle(context.l10n.saladScoresSubtitle),
           Expanded(child: _buildFields(context, provider)),
         ],
       ),

@@ -9,8 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
-import '../utils/french_material_app.dart';
 
+import '../utils/french_material_app.dart';
 import '../utils/utils.dart';
 import '../utils/utils.mocks.dart';
 
@@ -24,7 +24,7 @@ main() {
   });
   for (var activeContractsTest in [
     [ContractsInfo.barbu],
-    [ContractsInfo.noTricks, ContractsInfo.barbu, ContractsInfo.trumps],
+    [ContractsInfo.noTricks, ContractsInfo.barbu, ContractsInfo.salad],
     ContractsInfo.values
   ]) {
     patrolWidgetTest(
@@ -81,7 +81,7 @@ main() {
           player.name: index % 2 == 0 ? 20 : 0
       },
       ContractsInfo.noLastTrick: null,
-      ContractsInfo.trumps: null,
+      ContractsInfo.salad: null,
       ContractsInfo.domino: null,
     });
     await $.pumpWidget(
@@ -141,7 +141,7 @@ main() {
         for (var (index, player) in game.players.indexed)
           player.name: index == 0 ? 40 : 0
       },
-      ContractsInfo.trumps: {for (var player in game.players) player.name: 0},
+      ContractsInfo.salad: {for (var player in game.players) player.name: 0},
       ContractsInfo.domino: {
         for (var (index, player) in game.players.indexed)
           player.name: -10 * index
@@ -179,7 +179,7 @@ main() {
               +
               1 // domino
               +
-              game.players.length // trumps
+              game.players.length // salad
           ),
     );
     // Empty lines

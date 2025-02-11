@@ -45,7 +45,7 @@ abstract class AbstractContractSettings with EquatableMixin {
           contract: contract,
           isActive: isActive,
         ),
-      ContractsInfo.trumps => TrumpsContractSettings.fromJson(
+      ContractsInfo.salad => SaladContractSettings.fromJson(
           json,
           contract: contract,
           isActive: isActive,
@@ -150,32 +150,32 @@ class MultipleLooserContractSettings extends AbstractContractSettings {
   }
 }
 
-/// A trumps contract settings
+/// A salad contract settings
 @HiveType(typeId: 11)
-class TrumpsContractSettings extends AbstractContractSettings {
-  /// Lists all contract that could be part of a trumps contract
+class SaladContractSettings extends AbstractContractSettings {
+  /// Lists all contract that could be part of a salad contract
   static List<ContractsInfo> availableContracts = ContractsInfo.values
       .where((contract) =>
-          contract != ContractsInfo.trumps && contract != ContractsInfo.domino)
+          contract != ContractsInfo.salad && contract != ContractsInfo.domino)
       .toList();
 
-  /// A map to know if each contract should be part of trumps contract or not
+  /// A map to know if each contract should be part of salad contract or not
   @HiveField(1)
   @Deprecated("should use [contracts] instead")
   final Map<ContractsInfo, bool>? c;
 
-  /// A map to know if each contract should be part of trumps contract or not
+  /// A map to know if each contract should be part of salad contract or not
   final Map<String, bool> contracts;
 
-  TrumpsContractSettings({super.isActive, this.c, Map<String, bool>? contracts})
+  SaladContractSettings({super.isActive, this.c, Map<String, bool>? contracts})
       : assert(c != null || contracts != null),
         contracts = contracts ??
             {
               for (var contract in c!.entries) contract.key.name: contract.value
             },
-        super(contract: ContractsInfo.trumps);
+        super(contract: ContractsInfo.salad);
 
-  TrumpsContractSettings.fromJson(Map<String, dynamic> json,
+  SaladContractSettings.fromJson(Map<String, dynamic> json,
       {required ContractsInfo contract, required super.isActive})
       : contracts = Map.castFrom(jsonDecode(json["contracts"])),
         c = {},
@@ -193,8 +193,8 @@ class TrumpsContractSettings extends AbstractContractSettings {
       .toList();
 
   @override
-  TrumpsContractSettings copy() {
-    return TrumpsContractSettings(isActive: isActive, contracts: contracts);
+  SaladContractSettings copy() {
+    return SaladContractSettings(isActive: isActive, contracts: contracts);
   }
 
   @override

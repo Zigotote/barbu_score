@@ -17,14 +17,14 @@ import '../../utils/utils.mocks.dart';
 main() {
   group("#_alertChangeIsActive", () {
     for (var hasContracts in [true, false]) {
-      patrolWidgetTest("should show alert if trumps contract has no contracts",
+      patrolWidgetTest("should show alert if salad contract has no contracts",
           ($) async {
         final mockStorage = MockMyStorage();
-        const contract = ContractsInfo.trumps;
-        final settings = TrumpsContractSettings(
+        const contract = ContractsInfo.salad;
+        final settings = SaladContractSettings(
           isActive: true,
           contracts: {
-            for (var contract in TrumpsContractSettings.availableContracts)
+            for (var contract in SaladContractSettings.availableContracts)
               contract.name: hasContracts
           },
         );

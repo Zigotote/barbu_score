@@ -19,7 +19,7 @@ extension MyAppLocalizations on AppLocalizations {
       ContractsInfo.noQueens => noQueens,
       ContractsInfo.noTricks => noTricks,
       ContractsInfo.noLastTrick => noLastTrick,
-      ContractsInfo.trumps => trumps,
+      ContractsInfo.salad => salad,
       ContractsInfo.domino => domino,
     };
   }
@@ -41,8 +41,8 @@ extension MyAppLocalizations on AppLocalizations {
       ContractsInfo.noLastTrick => rulesNoLastTrick(
           (contractSettings as OneLooserContractSettings).points,
         ),
-      ContractsInfo.trumps => rulesTrumps(
-          (contractSettings as TrumpsContractSettings)
+      ContractsInfo.salad => rulesSalad(
+          (contractSettings as SaladContractSettings)
               .contracts
               .entries
               .where((contract) => contract.value)

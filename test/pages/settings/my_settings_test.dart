@@ -8,7 +8,7 @@ import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
 import 'package:barbu_score/pages/settings/multiple_looser_contract_settings.dart';
 import 'package:barbu_score/pages/settings/my_settings.dart';
 import 'package:barbu_score/pages/settings/one_looser_contract_settings.dart';
-import 'package:barbu_score/pages/settings/trumps_contract_settings.dart';
+import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
 import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +31,7 @@ main() {
   for (var activeContracts in [
     ContractsInfo.values,
     [ContractsInfo.barbu],
-    [ContractsInfo.barbu, ContractsInfo.trumps, ContractsInfo.domino]
+    [ContractsInfo.barbu, ContractsInfo.salad, ContractsInfo.domino]
   ]) {
     patrolWidgetTest(
         "should display ${activeContracts.length} active contracts from storage",
@@ -166,7 +166,7 @@ Widget _createPage(
             MultipleLooserContractSettingsPage(
                 Routes.getArgument<ContractsInfo>(context)),
         Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
-        Routes.trumpsSettings: (_) => const TrumpsContractSettingsPage(),
+        Routes.saladSettings: (_) => const SaladContractSettingsPage(),
       },
     ),
   );

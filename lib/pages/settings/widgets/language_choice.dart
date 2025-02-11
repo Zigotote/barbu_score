@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../commons/models/my_locales.dart';
 import '../../../commons/providers/locale_provider.dart';
 
+// TODO Océane tester ça si possible
 class LanguageChoice extends ConsumerStatefulWidget {
   const LanguageChoice({super.key});
 

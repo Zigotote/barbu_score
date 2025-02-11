@@ -60,12 +60,12 @@ class ContractSettingsPage extends ConsumerWidget {
   MyAlertDialog? _alertChangeIsActive(
       BuildContext context, ContractSettingsNotifier provider) {
     final typedSettings = provider.settings;
-    if (typedSettings is TrumpsContractSettings &&
+    if (typedSettings is SaladContractSettings &&
         !typedSettings.contracts.containsValue(true)) {
       return MyAlertDialog(
         context: context,
-        title: context.l10n.alertCannotActivateTrumps,
-        content: context.l10n.alertCannotActivateTrumpsDetails,
+        title: context.l10n.alertCannotActivateSalad,
+        content: context.l10n.alertCannotActivateSaladDetails,
         actions: [AlertDialogActionButton(text: "Ok")],
       );
     }
