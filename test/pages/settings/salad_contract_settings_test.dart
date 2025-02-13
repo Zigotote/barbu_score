@@ -42,7 +42,7 @@ main() {
         await $.pumpWidgetAndSettle(page);
 
         _verifyAlert($, storedGame.players);
-        await $("Ok").tap();
+        await $("OK").tap();
 
         // Alert when deactivate contract
         expect(findSwitchValue($), isTrue);
@@ -75,7 +75,7 @@ main() {
         await $.pumpWidget(_createPage(storedGame, false));
         // Alert dialog is displayed if some players played salad contract
         if (game?.isFinished == false) {
-          await $("Ok").tap();
+          await $("OK").tap();
         }
 
         expect(findSwitchValue($), isFalse);
@@ -100,7 +100,7 @@ main() {
           await $.pumpWidget(_createPage(game));
           // Alert dialog is displayed if some players played salad contract
           if (game?.isFinished == false) {
-            await $("Ok").tap();
+            await $("OK").tap();
           }
 
           expect(
@@ -129,7 +129,7 @@ main() {
         await $.pumpWidget(page);
         // Alert dialog is displayed if some players played salad contract
         if (game?.isFinished == false) {
-          await $("Ok").tap();
+          await $("OK").tap();
         }
 
         expect(
@@ -143,7 +143,7 @@ main() {
         // Try to activate contract should show an alert and do nothing else
         await $(Switch).first.tap();
         expect($(MyAlertDialog), findsOneWidget);
-        await $("Ok").tap();
+        await $("OK").tap();
         expect(_getContractSettingsProvider(page).isActive, isFalse);
       });
       patrolWidgetTest(
@@ -154,7 +154,7 @@ main() {
         await $.pumpWidget(_createPage(game));
         // Alert dialog is displayed if some players played salad contract
         if (game?.isFinished == false) {
-          await $("Ok").tap();
+          await $("OK").tap();
         }
 
         await _unplayContracts($);

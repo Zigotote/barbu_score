@@ -66,7 +66,7 @@ class ContractSettingsPage extends ConsumerWidget {
         context: context,
         title: context.l10n.alertCannotActivateSalad,
         content: context.l10n.alertCannotActivateSaladDetails,
-        actions: [AlertDialogActionButton(text: "Ok")],
+        actions: [AlertDialogActionButton(text: "OK")],
       );
     }
     if (provider.settings.isActive &&

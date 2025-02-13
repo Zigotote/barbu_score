@@ -38,7 +38,7 @@ main() {
     await $.pumpWidget(_createPage());
 
     await $.scrollUntilVisible(finder: $(SettingsCard));
-    await $(ElevatedButton).tap();
+    await $(OutlinedButton).tap();
 
     expect($(MySettings), findsOneWidget);
   });

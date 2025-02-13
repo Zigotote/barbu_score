@@ -39,7 +39,7 @@ main() {
           expect($(MyAlertDialog), findsNothing);
         } else {
           expect($(MyAlertDialog), findsOneWidget);
-          expect($("Ok"), findsOneWidget);
+          expect($("OK"), findsOneWidget);
         }
       });
     }
