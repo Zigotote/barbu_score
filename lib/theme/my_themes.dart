@@ -31,7 +31,9 @@ class MyThemes {
         outline: onSurfaceColor,
         primary: onSurfaceColor,
       ),
-      dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
+      dialogTheme: DialogTheme(
+        backgroundColor: baseTheme.scaffoldBackgroundColor,
+      ),
       disabledColor: disabledColor,
       dividerColor: onSurfaceColor,
       dropdownMenuTheme: DropdownMenuThemeData(
