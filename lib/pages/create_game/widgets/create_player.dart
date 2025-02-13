@@ -42,15 +42,13 @@ class CreatePlayer extends StatelessWidget {
 
   /// Builds player icon
   Widget _buildPlayerIcon(BuildContext context, double size) {
-    return TextButton(
+    return IconButton(
+      tooltip: context.l10n.modifyPlayer,
       onPressed: () => _displayDialog(context, player, onRemove),
-      child: Semantics(
-        label: context.l10n.modifyPlayer,
-        child: PlayerIcon(
-          image: player.image,
-          color: player.color,
-          size: size,
-        ),
+      icon: PlayerIcon(
+        image: player.image,
+        color: player.color,
+        size: size,
       ),
     );
   }

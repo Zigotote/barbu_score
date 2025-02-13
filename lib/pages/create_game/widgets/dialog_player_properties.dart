@@ -106,7 +106,6 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                         textAlign: TextAlign.center,
                         style: theme.textTheme.titleLarge?.copyWith(
                           color: theme.scaffoldBackgroundColor,
-                          fontSize: 22,
                         ),
                       ),
                     );
@@ -118,11 +117,11 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                 context.l10n.avatar,
                 playerImages
                     .map(
-                      (image) => TextButton(
+                      (image) => IconButton(
                         key: Key(image),
                         onPressed: () =>
                             provider.changePlayerImage(player, image),
-                        child: PlayerIcon(image: image, size: double.maxFinite),
+                        icon: PlayerIcon(image: image, size: double.maxFinite),
                       ),
                     )
                     .toList(),
