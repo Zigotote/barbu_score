@@ -38,7 +38,7 @@ class _SaladContractSettingsPageState
             content: context.l10n.alertSaladContractPlayedBy(
               playersWithContract.join(", "),
             ),
-            actions: [AlertDialogActionButton(text: "Ok")],
+            actions: [AlertDialogActionButton(text: "OK")],
           ),
         );
       });
@@ -53,8 +53,8 @@ class _SaladContractSettingsPageState
       contract: ContractsInfo.salad,
       children: [
         Text(
-          "Contrats à jouer :",
-          style: Theme.of(context).textTheme.bodyLarge,
+          context.l10n.contractsToPlay,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 8),
         ...SaladContractSettings.availableContracts.map(

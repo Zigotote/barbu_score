@@ -39,7 +39,9 @@ class DominoContractSettingsPage extends ConsumerWidget {
               child: Center(
                 child: Tooltip(
                   message: context.l10n.pointsForNbPlayers(nbPlayers),
-                  child: Text(context.l10n.nbPlayer(nbPlayers)),
+                  child: Text(
+                    "$nbPlayers ${context.l10n.players.substring(0, 1)}.",
+                  ),
                 ),
               ),
             );

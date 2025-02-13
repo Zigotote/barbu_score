@@ -114,17 +114,9 @@
   "gameSaved": "Partie sauvegardée",
   "go": "C'est parti !",
   "goHome": "Retour à l'accueil",
-  "hearts": "coeurs",
+  "heart": "coeur",
   "invertScore": "Inversion du score",
-  "invertScoreDetails": "Si un joueur remporte la totalité des {items}, son score devient négatif.",
-  "@invertScoreDetails": {
-    "placeholders": {
-      "items": {
-        "type": "String",
-        "example": "coeurs"
-      }
-    }
-  },
+  "invertScoreDetails": "Si un joueur remporte tout, son score devient négatif.",
   "keep": "Conserver",
   "language": "Langue",
   "loadGame": "Charger une partie",
@@ -147,6 +139,7 @@
       }
     }
   },
+  "modifyContractsSettings": "Les contrats sont modifiables dans la page de paramètres, pour personnaliser leurs points et variations.",
   "modifyPlayer": "Modifier le joueur",
   "modifySettings": "Modifier les paramètres",
   "nbCardsRules": "Le jeu se joue avec {nbCards} cartes ({nbPlayers} \u00d7 8).",
@@ -170,15 +163,6 @@
       }
     }
   },
-  "nbPlayer": "{nb} j.",
-  "@nbPlayer": {
-    "description": "Short string to display a number of players",
-    "placeholders": {
-      "nb": {
-        "type": "int"
-      }
-    }
-  },
   "next": "Suivant",
   "noGameFound": "Aucune partie trouvée",
   "noGameFoundDetails": "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
@@ -196,7 +180,7 @@
       }
     }
   },
-  "players": "joueurs.",
+  "players": "joueurs",
   "pointsBy": "Points par {item}",
   "@pointsBy": {
     "placeholders": {
@@ -218,11 +202,10 @@
   "prepareGameRules": "Préparation du jeu",
   "presentGame": "Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. L'objectif est de remporter le moins de points possible.",
   "previous": "Précédent",
-  "queens": "dames",
+  "queen": "dame",
   "ranking": "Classement",
   "refuseLoadGame": "Non, nouvelle partie",
   "refuseStartGame": "Non, reprendre la partie",
-  "ruleInvertScores": "Si un joueur remporte tout, son score devient négatif.",
   "rules": "Règles du jeu",
   "rulesBarbu": "Le joueur emportant le roi de coeur (Barbu) marque {points} points.",
   "@rulesBarbu": {
@@ -293,7 +276,7 @@
   "startGame": "Démarrer une partie",
   "table": "La table",
   "total": "Total",
-  "tricks": "plis",
+  "trick": "pli",
   "unfold": "Déplier les choix",
   "validate": "Valider",
   "validateModify": "Modifier les scores",

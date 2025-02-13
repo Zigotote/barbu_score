@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 
@@ -20,8 +21,8 @@ class SettingsCard extends StatelessWidget {
         spacing: 8,
         children: [
           const Icon(Icons.lightbulb_outline),
-          const Text(
-            "Les contrats sont modifiables dans la page de paramètres, pour personnaliser leurs points et variations.",
+          Text(
+            context.l10n.modifyContractsSettings,
             textAlign: TextAlign.center,
           ),
           ElevatedButtonFullWidth(
@@ -32,7 +33,7 @@ class SettingsCard extends StatelessWidget {
               children: [
                 const Icon(Icons.settings),
                 Text(
-                  "Paramètres",
+                  context.l10n.settings,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],

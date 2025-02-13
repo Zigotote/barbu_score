@@ -35,9 +35,7 @@ class MultipleLooserContractSettingsPage extends ConsumerWidget {
         ),
         const SizedBox(height: 16),
         SettingQuestion(
-          tooltip: context.l10n.invertScoreDetails(
-            context.l10n.itemsName(contract),
-          ),
+          tooltip: context.l10n.invertScoreDetails,
           label: context.l10n.invertScore,
           input: MySwitch(
             isActive: settings.invertScore,

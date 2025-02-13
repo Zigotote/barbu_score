@@ -52,7 +52,7 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
                   child: const Icon(Icons.keyboard_arrow_up),
                 ),
               ),
-              Text(context.l10n.players),
+              Text("${context.l10n.players}."),
             ],
           ),
           const SizedBox(height: 16),
