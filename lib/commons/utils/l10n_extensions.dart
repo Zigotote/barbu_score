@@ -29,15 +29,18 @@ extension MyAppLocalizations on AppLocalizations {
     return switch (ContractsInfo.fromName(contractSettings.name)) {
       ContractsInfo.barbu =>
         rulesBarbu((contractSettings as OneLooserContractSettings).points),
-      ContractsInfo.noHearts => "${rulesNoHearts(
-          (contractSettings as MultipleLooserContractSettings).points,
-        )} ${contractSettings.invertScore ? invertScoreDetails : ""}", // TODO Océane tester la présence de invertScoreDetails dans les règles, pour tous les contrats
-      ContractsInfo.noQueens => "${rulesNoQueens(
-          (contractSettings as MultipleLooserContractSettings).points,
-        )} ${contractSettings.invertScore ? invertScoreDetails : ""}",
-      ContractsInfo.noTricks => "${rulesNoTricks(
-          (contractSettings as MultipleLooserContractSettings).points,
-        )} ${contractSettings.invertScore ? invertScoreDetails : ""}",
+      ContractsInfo.noHearts => rulesNoHearts(
+            (contractSettings as MultipleLooserContractSettings).points,
+          ) +
+          (contractSettings.invertScore ? " $invertScoreDetails" : ""),
+      ContractsInfo.noQueens => rulesNoQueens(
+            (contractSettings as MultipleLooserContractSettings).points,
+          ) +
+          (contractSettings.invertScore ? " $invertScoreDetails" : ""),
+      ContractsInfo.noTricks => rulesNoTricks(
+            (contractSettings as MultipleLooserContractSettings).points,
+          ) +
+          (contractSettings.invertScore ? " $invertScoreDetails" : ""),
       ContractsInfo.noLastTrick => rulesNoLastTrick(
           (contractSettings as OneLooserContractSettings).points,
         ),
