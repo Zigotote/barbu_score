@@ -28,7 +28,8 @@ doc/api/
 *.g.dart
 *.mock.dart
 coverage/
-zigotote
+zigotote/
+screenshots/
 
 # FVM Version Cache
 .fvm/

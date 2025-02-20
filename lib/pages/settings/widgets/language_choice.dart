@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../commons/models/my_locales.dart';
 import '../../../commons/providers/locale_provider.dart';
 
-// TODO Océane tester ça si possible
 class LanguageChoice extends ConsumerStatefulWidget {
   const LanguageChoice({super.key});
 
@@ -47,6 +46,7 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
           setState(() => selectedIndex = index);
         },
         icon: Opacity(
+          key: Key(locale.name),
           opacity: selectedIndex == index ? 1 : 0.8,
           child: Image.asset(flag),
         ),

@@ -1,5 +1,7 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
+import 'package:barbu_score/commons/models/my_locales.dart';
+import 'package:barbu_score/commons/providers/locale_provider.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/snackbar.dart';
@@ -11,6 +13,7 @@ import 'package:barbu_score/pages/settings/one_looser_contract_settings.dart';
 import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
 import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -27,6 +30,64 @@ main() {
     expect($("Paramètres"), findsOneWidget);
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
+  });
+  patrolWidgetTest("should change language", ($) async {
+    $.tester.platformDispatcher.localeTestValue = MyLocales.fr.locale;
+    final mockStorage = MockMyStorage();
+    mockActiveContracts(mockStorage);
+    final container = ProviderContainer(
+      overrides: [
+        logProvider.overrideWithValue(MockMyLog()),
+        storageProvider.overrideWithValue(mockStorage),
+      ],
+    );
+
+    await $.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: Consumer(builder: (context, ref, _) {
+          return MaterialApp(
+            supportedLocales: [MyLocales.fr.locale],
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            locale: ref.watch(localeProvider),
+            home: const MySettings(),
+            routes: {
+              Routes.barbuOrNoLastTrickSettings: (context) =>
+                  OneLooserContractSettingsPage(
+                      Routes.getArgument<ContractsInfo>(context)),
+              Routes.noSomethingScoresSettings: (context) =>
+                  MultipleLooserContractSettingsPage(
+                      Routes.getArgument<ContractsInfo>(context)),
+              Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
+              Routes.saladSettings: (_) => const SaladContractSettingsPage(),
+            },
+          );
+        }),
+      ),
+    );
+
+    expect(
+      ($.tester.firstWidget($(Key(MyLocales.fr.name))) as Opacity).opacity,
+      1,
+    );
+    expect(
+      ($.tester.firstWidget($(Key(MyLocales.en.name))) as Opacity).opacity,
+      0.8,
+    );
+
+    await $(IconButton).at(1).tap();
+
+    expect(
+      ($.tester.firstWidget($(Key(MyLocales.fr.name))) as Opacity).opacity,
+      0.8,
+    );
+    expect(
+      ($.tester.firstWidget($(Key(MyLocales.en.name))) as Opacity).opacity,
+      1,
+    );
+    final newLocale = MyLocales.en.locale;
+    verify(mockStorage.saveLocale(newLocale));
+    expect(container.read(localeProvider), newLocale);
   });
   for (var activeContracts in [
     ContractsInfo.values,
