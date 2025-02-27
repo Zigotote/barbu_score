@@ -1,44 +1,32 @@
-import 'package:hive/hive.dart';
-
 import '../../main.dart';
 import 'contract_settings_models.dart';
 
-part 'contract_info.g.dart';
-
 /// List the names of the contracts for a game
-@HiveType(typeId: 13)
 enum ContractsInfo {
-  @HiveField(0)
   barbu(
     scoreRoute: Routes.barbuOrNoLastTrickScores,
     settingsRoute: Routes.barbuOrNoLastTrickSettings,
   ),
-  @HiveField(1)
   noHearts(
     scoreRoute: Routes.noSomethingScores,
     settingsRoute: Routes.noSomethingScoresSettings,
   ),
-  @HiveField(2)
   noQueens(
     scoreRoute: Routes.noSomethingScores,
     settingsRoute: Routes.noSomethingScoresSettings,
   ),
-  @HiveField(3)
   noTricks(
     scoreRoute: Routes.noSomethingScores,
     settingsRoute: Routes.noSomethingScoresSettings,
   ),
-  @HiveField(4)
   noLastTrick(
     scoreRoute: Routes.barbuOrNoLastTrickScores,
     settingsRoute: Routes.barbuOrNoLastTrickSettings,
   ),
-  @HiveField(5)
   salad(
     scoreRoute: Routes.saladScores,
     settingsRoute: Routes.saladSettings,
   ),
-  @HiveField(6)
   domino(
     scoreRoute: Routes.dominoScores,
     settingsRoute: Routes.dominoSettings,
