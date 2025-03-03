@@ -148,6 +148,3 @@ class Routes {
   static T getArgument<T>(BuildContext context) =>
       ModalRoute.of(context)?.settings.arguments as T;
 }
-// TODO Océane faire la migration des données : sauvegarder tous les trumps en salad
-// Et supprimer Hive au passage
-// Puis run tests with coverage

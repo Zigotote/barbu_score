@@ -71,7 +71,7 @@ class SaladContractPage extends ConsumerWidget {
       BuildContext context, WidgetRef ref, SaladNotifier saladProvider) {
     ref
         .read(logProvider)
-        .info("SaladContractPage.saveContract: save $saladProvider");
+        .info("SaladContractPage.saveContract: save ${saladProvider.model}");
     final provider = ref.read(playGameProvider);
     provider.finishContract(saladProvider.model);
 
