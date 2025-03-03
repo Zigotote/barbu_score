@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
@@ -104,6 +106,21 @@ main() {
         expect(storage.getSettings(contract), settings);
       });
     }
+  });
+  group("#locale", () {
+    const locale = Locale("fr");
+    test("should return null when getLocale if no locale saved", () async {
+      await _initializeStorage();
+      expect(MyStorage().getLocale(), isNull);
+    });
+    test("should save and get locale", () async {
+      await _initializeStorage();
+      final storage = MyStorage();
+
+      storage.saveLocale(locale);
+
+      expect(storage.getLocale(), locale);
+    });
   });
 }
 
