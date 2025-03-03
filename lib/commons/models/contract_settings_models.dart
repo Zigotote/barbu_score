@@ -3,21 +3,16 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
 
 import '../utils/constants.dart';
 import 'contract_info.dart';
 
-part 'contract_settings_models.g.dart';
-
 /// An abstract class to save the settings of a contract
 abstract class AbstractContractSettings with EquatableMixin {
   /// The name of the contract
-  @HiveField(3)
   final String name;
 
   /// The indicator to know if the user wants to have this contract in its games or not
-  @HiveField(0)
   bool isActive;
 
   AbstractContractSettings(
@@ -70,10 +65,8 @@ abstract class AbstractContractSettings with EquatableMixin {
 }
 
 /// A class to save the settings for a contract where only one player can loose
-@HiveType(typeId: 9)
 class OneLooserContractSettings extends AbstractContractSettings {
   /// The points for this contract item
-  @HiveField(1)
   int points;
 
   OneLooserContractSettings({
@@ -107,14 +100,11 @@ class OneLooserContractSettings extends AbstractContractSettings {
 }
 
 /// A class to save the settings for a contract where multiple players can have some points
-@HiveType(typeId: 10)
 class MultipleLooserContractSettings extends AbstractContractSettings {
   /// The points for one item
-  @HiveField(1)
   int points;
 
   /// The indicator to know if the score should be inverted if one players wins all contract items
-  @HiveField(2)
   bool invertScore;
 
   MultipleLooserContractSettings({
@@ -151,7 +141,6 @@ class MultipleLooserContractSettings extends AbstractContractSettings {
 }
 
 /// A salad contract settings
-@HiveType(typeId: 11)
 class SaladContractSettings extends AbstractContractSettings {
   /// Lists all contract that could be part of a salad contract
   static List<ContractsInfo> availableContracts = ContractsInfo.values
@@ -160,25 +149,14 @@ class SaladContractSettings extends AbstractContractSettings {
       .toList();
 
   /// A map to know if each contract should be part of salad contract or not
-  @HiveField(1)
-  @Deprecated("should use [contracts] instead")
-  final Map<ContractsInfo, bool>? c;
-
-  /// A map to know if each contract should be part of salad contract or not
   final Map<String, bool> contracts;
 
-  SaladContractSettings({super.isActive, this.c, Map<String, bool>? contracts})
-      : assert(c != null || contracts != null),
-        contracts = contracts ??
-            {
-              for (var contract in c!.entries) contract.key.name: contract.value
-            },
-        super(contract: ContractsInfo.salad);
+  SaladContractSettings({super.isActive, required this.contracts})
+      : super(contract: ContractsInfo.salad);
 
   SaladContractSettings.fromJson(Map<String, dynamic> json,
       {required ContractsInfo contract, required super.isActive})
       : contracts = Map.castFrom(jsonDecode(json["contracts"])),
-        c = {},
         super(contract: contract);
 
   @override
@@ -202,10 +180,8 @@ class SaladContractSettings extends AbstractContractSettings {
 }
 
 /// A domino contract settings
-@HiveType(typeId: 12)
 class DominoContractSettings extends AbstractContractSettings {
   /// The points for each player rank, depending on the number of player in the game
-  @HiveField(1)
   late Map<int, List<int>> points;
 
   DominoContractSettings({

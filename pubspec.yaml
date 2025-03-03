@@ -20,8 +20,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_riverpod: ^2.4.9
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
   intl: any
   json_annotation: ^4.9.0
   non_uniform_border: ^1.0.0
