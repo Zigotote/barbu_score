@@ -3,22 +3,16 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
-import 'package:sprintf/sprintf.dart';
 
 import '../utils/constants.dart';
 import 'contract_info.dart';
 
-part 'contract_settings_models.g.dart';
-
 /// An abstract class to save the settings of a contract
 abstract class AbstractContractSettings with EquatableMixin {
   /// The name of the contract
-  @HiveField(3)
   final String name;
 
   /// The indicator to know if the user wants to have this contract in its games or not
-  @HiveField(0)
   bool isActive;
 
   AbstractContractSettings(
@@ -46,7 +40,7 @@ abstract class AbstractContractSettings with EquatableMixin {
           contract: contract,
           isActive: isActive,
         ),
-      ContractsInfo.trumps => TrumpsContractSettings.fromJson(
+      ContractsInfo.salad => SaladContractSettings.fromJson(
           json,
           contract: contract,
           isActive: isActive,
@@ -63,9 +57,6 @@ abstract class AbstractContractSettings with EquatableMixin {
     return {"name": name, "isActive": isActive};
   }
 
-  /// Fills the rules depending on the contract settings
-  String filledRules(String rules);
-
   /// Copies the object with some overrides
   AbstractContractSettings copy();
 
@@ -74,10 +65,8 @@ abstract class AbstractContractSettings with EquatableMixin {
 }
 
 /// A class to save the settings for a contract where only one player can loose
-@HiveType(typeId: 9)
 class OneLooserContractSettings extends AbstractContractSettings {
   /// The points for this contract item
-  @HiveField(1)
   int points;
 
   OneLooserContractSettings({
@@ -98,11 +87,6 @@ class OneLooserContractSettings extends AbstractContractSettings {
   }
 
   @override
-  String filledRules(String rules) {
-    return sprintf(rules, [points]);
-  }
-
-  @override
   List<Object?> get props => [...super.props, points];
 
   @override
@@ -116,14 +100,11 @@ class OneLooserContractSettings extends AbstractContractSettings {
 }
 
 /// A class to save the settings for a contract where multiple players can have some points
-@HiveType(typeId: 10)
 class MultipleLooserContractSettings extends AbstractContractSettings {
   /// The points for one item
-  @HiveField(1)
   int points;
 
   /// The indicator to know if the score should be inverted if one players wins all contract items
-  @HiveField(2)
   bool invertScore;
 
   MultipleLooserContractSettings({
@@ -146,16 +127,6 @@ class MultipleLooserContractSettings extends AbstractContractSettings {
   }
 
   @override
-  String filledRules(String rules) {
-    String invertScoreSentence = "";
-    if (invertScore) {
-      invertScoreSentence =
-          " Si un joueur remporte tout, son score devient négatif.";
-    }
-    return sprintf(rules, [points]) + invertScoreSentence;
-  }
-
-  @override
   List<Object?> get props => [...super.props, points, invertScore];
 
   @override
@@ -169,35 +140,23 @@ class MultipleLooserContractSettings extends AbstractContractSettings {
   }
 }
 
-/// A trumps contract settings
-@HiveType(typeId: 11)
-class TrumpsContractSettings extends AbstractContractSettings {
-  /// Lists all contract that could be part of a trumps contract
+/// A salad contract settings
+class SaladContractSettings extends AbstractContractSettings {
+  /// Lists all contract that could be part of a salad contract
   static List<ContractsInfo> availableContracts = ContractsInfo.values
       .where((contract) =>
-          contract != ContractsInfo.trumps && contract != ContractsInfo.domino)
+          contract != ContractsInfo.salad && contract != ContractsInfo.domino)
       .toList();
 
-  /// A map to know if each contract should be part of trumps contract or not
-  @HiveField(1)
-  @Deprecated("should use [contracts] instead")
-  final Map<ContractsInfo, bool>? c;
-
-  /// A map to know if each contract should be part of trumps contract or not
+  /// A map to know if each contract should be part of salad contract or not
   final Map<String, bool> contracts;
 
-  TrumpsContractSettings({super.isActive, this.c, Map<String, bool>? contracts})
-      : assert(c != null || contracts != null),
-        contracts = contracts ??
-            {
-              for (var contract in c!.entries) contract.key.name: contract.value
-            },
-        super(contract: ContractsInfo.trumps);
+  SaladContractSettings({super.isActive, required this.contracts})
+      : super(contract: ContractsInfo.salad);
 
-  TrumpsContractSettings.fromJson(Map<String, dynamic> json,
+  SaladContractSettings.fromJson(Map<String, dynamic> json,
       {required ContractsInfo contract, required super.isActive})
       : contracts = Map.castFrom(jsonDecode(json["contracts"])),
-        c = {},
         super(contract: contract);
 
   @override
@@ -212,19 +171,8 @@ class TrumpsContractSettings extends AbstractContractSettings {
       .toList();
 
   @override
-  String filledRules(String rules) {
-    return sprintf(rules, [
-      contracts.entries
-          .where((contract) => contract.value)
-          .toList()
-          .map((e) => ContractsInfo.fromName(e.key).displayName.toLowerCase())
-          .join(", ")
-    ]);
-  }
-
-  @override
-  TrumpsContractSettings copy() {
-    return TrumpsContractSettings(isActive: isActive, contracts: contracts);
+  SaladContractSettings copy() {
+    return SaladContractSettings(isActive: isActive, contracts: contracts);
   }
 
   @override
@@ -232,10 +180,8 @@ class TrumpsContractSettings extends AbstractContractSettings {
 }
 
 /// A domino contract settings
-@HiveType(typeId: 12)
 class DominoContractSettings extends AbstractContractSettings {
   /// The points for each player rank, depending on the number of player in the game
-  @HiveField(1)
   late Map<int, List<int>> points;
 
   DominoContractSettings({
@@ -320,11 +266,6 @@ class DominoContractSettings extends AbstractContractSettings {
       // Rounds the value to the nearest 10
       return points ~/ 10 * 10;
     });
-  }
-
-  @override
-  String filledRules(String rules) {
-    return rules;
   }
 
   @override

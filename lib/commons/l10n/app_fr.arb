@@ -1,0 +1,317 @@
+{
+  "accept": "Oui",
+  "activateContract": "Activer le contrat",
+  "activated": "Activé",
+  "addItem": "Ajouter {item}",
+  "@addItem": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeur"
+      }
+    }
+  },
+  "alertCannotActivateSalad": "Activation impossible",
+  "alertCannotActivateSaladDetails": "La salade doit posséder au moins un contrat à jouer pour être activée.",
+  "alertContractPlayed": "Le contrat a déjà été joué",
+  "alertContractPlayedBy": "Le contrat a déjà été joué par {players}. S'il est désactivé il sera supprimé de la partie et {nbPlayers, plural, =1{ce joueur devra} other{ces joueurs devront}} choisir un contrat supplémentaire en fin de partie.",
+  "@alertContractPlayedBy": {
+    "placeholders": {
+      "players": {
+        "type": "String"
+      },
+      "nbPlayers": {
+        "type": "int"
+      }
+    }
+  },
+  "alertExistingGame": "Une partie sauvegardée existe",
+  "alertSaladContractPlayedBy": "Le contrat a déjà été joué par {players}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.",
+  "@alertSaladContractPlayedBy": {
+    "placeholders": {
+      "players": {
+        "type": "String",
+        "example": "Océane, Léa"
+      }
+    }
+  },
+  "appName": "Le Barbu",
+  "appTheme": "Thème de l'application",
+  "appTitle": "Score Barbu",
+  "availableColor": "Couleur disponible",
+  "avatar": "Avatar",
+  "barbu": "Barbu",
+  "cardsOrder": "Les as sont les cartes les plus fortes. Avant de jouer il faut retirer les cartes les plus faibles jusqu'à obtenir le nombre requis.",
+  "changesSaved": "Modifications sauvegardées",
+  "changesSavedDetails": "Les changements ont été sauvegardés et sont effectifs dès maintenant.",
+  "close": "Fermer",
+  "color": "Couleur",
+  "confirmStartGame": "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec {players} sera perdue.",
+  "@confirmStartGame": {
+    "placeholders": {
+      "players": {
+        "type": "String",
+        "example": "Océane, Léa"
+      }
+    }
+  },
+  "contractPoints": "Points du contrat",
+  "contractSettingsTitle": "Paramètres\n{contract}",
+  "contracts": "Contrats",
+  "contractsOf": "Contrats de {player}",
+  "@contractsOf": {
+    "placeholders": {
+      "player": {
+        "type": "String",
+        "example": "Océane"
+      }
+    }
+  },
+  "contractsRules": "Le jeu du Barbu comporte les contrats suivants :",
+  "@contractSettingsTitle": {
+    "placeholders": {
+      "contract": {
+        "type": "String",
+        "example": "Barbu"
+      }
+    }
+  },
+  "contractsToPlay": "Contrats à jouer",
+  "createPlayers": "Créer les joueurs",
+  "deactivate": "Désactiver",
+  "deactivated": "Désactivé",
+  "deactivatedForGame": "Désactivé pour vos parties.",
+  "delete": "Supprimer",
+  "deletePlayer": "Supprimer le joueur",
+  "domino": "Réussite",
+  "dominoScoreSubtitle": "Quel est l'ordre des joueurs ?",
+  "endGame": "Fin de partie",
+  "english": "Anglais",
+  "errorAddPoints": "Ajout de points impossible",
+  "errorAddPointsDetails": "Le nombre de {item} dépasse le nombre d'éléments pouvant être remporté, fixé à {nbItems}.",
+  "@errorAddPointsDetails": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeurs"
+      },
+      "nbItems": {
+        "type": "int"
+      }
+    }
+  },
+  "errorDomino": "Tous les joueurs n'ont pas été classés.",
+  "errorLaunchGame": "Impossible de lancer une partie",
+  "errorLaunchGameDetails": "Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.",
+  "errorNbItems": "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
+  "fold": "Replier les choix",
+  "forGameAt": "Pour une partie à",
+  "french": "Français",
+  "fromTheDeck": "du paquet.",
+  "gamePrinciple": "Principe du jeu",
+  "gamePrincipleDetails": "Ce jeu de plis est composé de 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats.",
+  "gameRound": "Manche de jeu",
+  "gameRoundRules": "Distribuer les cartes entre les joueurs\u00a0: chacun doit en avoir 8.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
+  "gameSaved": "Partie sauvegardée",
+  "go": "C'est parti !",
+  "goHome": "Retour à l'accueil",
+  "heart": "coeur",
+  "invertScore": "Inversion du score",
+  "invertScoreDetails": "Si un joueur remporte tout, son score devient négatif.",
+  "keep": "Conserver",
+  "language": "Langue",
+  "loadGame": "Charger une partie",
+  "loadGameIndication": "Sélectionnez \"Charger une partie\" pour la poursuivre.",
+  "loadPreviousGame": "Reprendre la partie précédente avec {players} ?",
+  "@loadPreviousGame": {
+    "placeholders": {
+      "players": {
+        "type": "String",
+        "example": "Océane, Léa"
+      }
+    }
+  },
+  "modify": "Modification {contract}",
+  "@modify": {
+    "placeholders": {
+      "contract": {
+        "type": "String",
+        "contract": "Barbu"
+      }
+    }
+  },
+  "modifyContractsSettings": "Les contrats sont modifiables dans la page de paramètres, pour personnaliser leurs points et variations.",
+  "modifyPlayer": "Modifier le joueur",
+  "modifySettings": "Modifier les paramètres",
+  "nbCardsRules": "Le jeu se joue avec {nbCards} cartes ({nbPlayers} \u00d7 8).",
+  "@nbCardsRules": {
+    "placeholders": {
+      "nbCards": {
+        "type": "int",
+        "description": "Number of cards (equals to nbPlayers*8)"
+      },
+      "nbPlayers": {
+        "type": "int"
+      }
+    }
+  },
+  "nbItemsByPlayer": "Nombre de {item} par joueur",
+  "@nbItemsByPlayer": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeur"
+      }
+    }
+  },
+  "next": "Suivant",
+  "noGameFound": "Aucune partie trouvée",
+  "noGameFoundDetails": "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
+  "noHearts": "Sans coeurs",
+  "noLastTrick": "Dernier",
+  "noQueens": "Sans dames",
+  "noTricks": "Sans plis",
+  "playerName": "Nom du joueur",
+  "playerTurn": "Tour de {player}",
+  "@playerTurn": {
+    "placeholders": {
+      "player": {
+        "type": "String",
+        "example": "Océane"
+      }
+    }
+  },
+  "players": "joueurs",
+  "pointsBy": "Points par {item}",
+  "@pointsBy": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeur"
+      }
+    }
+  },
+  "pointsForNbPlayers": "Points à {nb} joueurs",
+  "@pointsForNbPlayers": {
+    "placeholders": {
+      "nb": {
+        "type": "int"
+      }
+    }
+  },
+  "prepareGame": "Préparer la partie",
+  "prepareGameRules": "Préparation du jeu",
+  "presentGame": "Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. L'objectif est de remporter le moins de points possible.",
+  "previous": "Précédent",
+  "queen": "dame",
+  "ranking": "Classement",
+  "refuseLoadGame": "Non, nouvelle partie",
+  "refuseStartGame": "Non, reprendre la partie",
+  "rules": "Règles du jeu",
+  "rulesBarbu": "Le joueur emportant le roi de coeur (Barbu) marque {points} points.",
+  "@rulesBarbu": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "rulesDomino": "Contrairement aux autres contrats, la réussite n'est pas un contrat à plis.\nLe joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il ne peut pas poser de carte il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. L'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.",
+  "rulesNoHearts": "Chaque joueur marque {points} points par coeur remporté.",
+  "@rulesNoHearts": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "rulesNoQueens": "Chaque joueur marque {points} points par dame remportée.",
+  "@rulesNoQueens": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "rulesNoLastTrick": "Le joueur emportant le dernier pli marque {points} points.",
+  "@rulesNoLastTrick": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "rulesNoTricks": "Chaque joueur marque {points} points par pli remporté.",
+  "@rulesNoTricks": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "rulesSalad": "Ce contrat est une combinaison des contrats {contracts}.\nC'est le contrat qui peut faire marquer le plus de points puisque les points de chaque contrat s'additionnent.",
+  "@rulesSalad": {
+    "placeholders": {
+      "contracts": {
+        "type": "String",
+        "example": "Barbu, Sans plis"
+      }
+    }
+  },
+  "salad": "Salade",
+  "saladScoresSubtitle": "Quel est le score de chaque contrat ?",
+  "saveAndLeave": "Sauvegarder et quitter",
+  "scores": "Scores",
+  "scoresByContract": "Scores par contrat",
+  "scoresNotValid": "Scores incorrects",
+  "seePreviousGame": "Revoir la partie précédente avec {players} ?",
+  "@seePreviousGame": {
+    "placeholders": {
+      "players": {
+        "type": "String",
+        "example": "Océane, Léa"
+      }
+    }
+  },
+  "settings": "Paramètres",
+  "startGame": "Démarrer une partie",
+  "table": "La table",
+  "total": "Total",
+  "trick": "pli",
+  "unfold": "Déplier les choix",
+  "validate": "Valider",
+  "validateModify": "Modifier les scores",
+  "validateScores": "Valider les scores",
+  "whoWonItem": "Qui a remporté le {item} ?",
+  "@whoWonItem": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Barbu"
+      }
+    }
+  },
+  "withdrawCards": "Retirer toutes les cartes",
+  "withdrawCardsForPlayers": "A {nbPlayers} joueurs, il faut donc retirer toutes les cartes\u00a0: {cards}.",
+  "@withdrawCardsForPlayers": {
+    "placeholders": {
+      "nbPlayers": {
+        "type": "int"
+      },
+      "cards": {
+        "type": "String",
+        "example": "2, 3, 4, 5",
+        "description": "List of cards to take out of the deck"
+      }
+    }
+  },
+  "withdrawItem": "Retirer {item}",
+  "@withdrawItem": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeur"
+      }
+    }
+  }
+}

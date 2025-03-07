@@ -10,13 +10,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils.mocks.dart';
+import '../../utils/french_material_app.dart';
+import '../../utils/utils.mocks.dart';
 
 main() {
   for (var activeContracts in [
     ContractsInfo.values,
     [ContractsInfo.barbu],
-    [ContractsInfo.barbu, ContractsInfo.trumps, ContractsInfo.domino]
+    [ContractsInfo.barbu, ContractsInfo.salad, ContractsInfo.domino]
   ]) {
     patrolWidgetTest(
         "should display contract rules with active $activeContracts",
@@ -37,7 +38,7 @@ main() {
     await $.pumpWidget(_createPage());
 
     await $.scrollUntilVisible(finder: $(SettingsCard));
-    await $(ElevatedButton).tap();
+    await $(OutlinedButton).tap();
 
     expect($(MySettings), findsOneWidget);
   });
@@ -56,7 +57,7 @@ Widget _createPage([List<ContractsInfo>? activeContracts]) {
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(
+    child: FrenchMaterialApp(
       home: const ContractsRules(0),
       routes: {Routes.settings: (_) => const MySettings()},
     ),

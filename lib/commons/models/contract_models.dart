@@ -25,7 +25,7 @@ abstract class AbstractContractModel with EquatableMixin {
       ContractsInfo.noQueens ||
       ContractsInfo.noTricks =>
         AbstractSubContractModel.fromJson(contract, json),
-      ContractsInfo.trumps => TrumpsContractModel.fromJson(contract, json),
+      ContractsInfo.salad => SaladContractModel.fromJson(contract, json),
       ContractsInfo.domino => DominoContractModel.fromJson(contract, json)
     };
   }
@@ -46,7 +46,7 @@ abstract class AbstractContractModel with EquatableMixin {
   List<Object?> get props => [name];
 }
 
-/// A class to represent a contract that can be part of a trumps contract
+/// A class to represent a contract that can be part of a salad contract
 abstract class AbstractSubContractModel extends AbstractContractModel {
   /// The number of items each player won for this contract
   Map<String, int> _itemsByPlayer;
@@ -191,16 +191,15 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
   }
 }
 
-/// A trumps contract scores
-class TrumpsContractModel extends AbstractContractModel {
+/// A salad contract scores
+class SaladContractModel extends AbstractContractModel {
   final List<AbstractSubContractModel> subContracts;
 
-  TrumpsContractModel({List<AbstractSubContractModel>? subContracts})
+  SaladContractModel({List<AbstractSubContractModel>? subContracts})
       : subContracts = subContracts ?? [],
-        super(contract: ContractsInfo.trumps);
+        super(contract: ContractsInfo.salad);
 
-  TrumpsContractModel.fromJson(
-      ContractsInfo contract, Map<String, dynamic> json)
+  SaladContractModel.fromJson(ContractsInfo contract, Map<String, dynamic> json)
       : subContracts = ((jsonDecode(json["subContracts"]) as List)
             .map(
               (subContractJson) => AbstractSubContractModel.fromJson(
@@ -244,7 +243,7 @@ class TrumpsContractModel extends AbstractContractModel {
     }
     return subContracts
         .map(
-          (subContract) => (settings as TrumpsContractSettings)
+          (subContract) => (settings as SaladContractSettings)
                       .contracts[subContract.name] ==
                   true
               ? subContract.scores(subContractSettings

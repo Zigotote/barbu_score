@@ -12,8 +12,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils.dart';
-import '../../utils.mocks.dart';
+import '../../utils/french_material_app.dart';
+import '../../utils/utils.dart';
+import '../../utils/utils.mocks.dart';
 
 const basePlayerName = "Player";
 
@@ -167,8 +168,11 @@ Widget _createPage(PatrolTester $) {
     container: ProviderContainer(overrides: [
       logProvider.overrideWithValue(MockMyLog()),
     ]),
-    child: MaterialApp(home: CreateGame(), routes: {
-      Routes.prepareGame: (_) => const PrepareGame(),
-    }),
+    child: FrenchMaterialApp(
+      home: CreateGame(),
+      routes: {
+        Routes.prepareGame: (_) => const PrepareGame(),
+      },
+    ),
   );
 }

@@ -9,15 +9,16 @@ import 'package:barbu_score/pages/contract_scores/domino_contract.dart';
 import 'package:barbu_score/pages/contract_scores/models/contract_route_argument.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
 import 'package:barbu_score/pages/contract_scores/one_looser_contract.dart';
-import 'package:barbu_score/pages/contract_scores/trumps_contract.dart';
+import 'package:barbu_score/pages/contract_scores/salad_contract.dart';
 import 'package:barbu_score/pages/my_scores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../utils.dart';
-import '../utils.mocks.dart';
+import '../utils/french_material_app.dart';
+import '../utils/utils.dart';
+import '../utils/utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -32,13 +33,13 @@ main() {
       active: ContractsInfo.values,
       played: [
         OneLooserContractModel(contract: ContractsInfo.barbu),
-        TrumpsContractModel(),
+        SaladContractModel(),
         DominoContractModel(),
       ]
     ),
     (active: [ContractsInfo.barbu], played: <AbstractContractModel>[]),
     (
-      active: [ContractsInfo.barbu, ContractsInfo.trumps, ContractsInfo.domino],
+      active: [ContractsInfo.barbu, ContractsInfo.salad, ContractsInfo.domino],
       played: [OneLooserContractModel(contract: ContractsInfo.barbu)]
     )
   ]) {
@@ -52,7 +53,7 @@ main() {
       for (var contract in ContractsInfo.values) {
         final isActiveContract = activeContracts.contains(contract);
         expect(
-          $(contract.displayName),
+          $(Key(contract.name)),
           isActiveContract ? findsOneWidget : findsNothing,
         );
         if (isActiveContract) {
@@ -76,7 +77,7 @@ main() {
 
       expect($(ElevatedButton), findsNWidgets(activeContracts.length + 1));
       for (var contract in activeContracts) {
-        expect($(contract.displayName), findsOneWidget);
+        expect($(Key(contract.name)), findsOneWidget);
         expect(
           $(Key(contract.name)).which((widget) {
             final onPressed = (widget as ElevatedButton).onPressed;
@@ -141,7 +142,7 @@ Widget _createPage(PatrolTester $,
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(
+    child: FrenchMaterialApp(
       home: const ChooseContract(),
       routes: {
         Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractPage(
@@ -151,7 +152,7 @@ Widget _createPage(PatrolTester $,
               ContractRouteArgument(contractInfo: ContractsInfo.noQueens),
             ),
         Routes.dominoScores: (_) => const DominoContractPage(),
-        Routes.trumpsScores: (_) => const TrumpsContractPage(),
+        Routes.saladScores: (_) => const SaladContractPage(),
         Routes.scores: (_) => const MyScores()
       },
     ),

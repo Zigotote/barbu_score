@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,7 +24,7 @@ class OneLooserContractSettingsPage extends ConsumerWidget {
       contract: contract,
       children: [
         SettingQuestion(
-          label: "Points du contrat",
+          label: context.l10n.contractPoints,
           input: NumberInput(
             points: settings.points,
             onChanged: provider.modifySetting(

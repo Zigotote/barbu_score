@@ -1,7 +1,10 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/contract_info.dart';
+import '../../../commons/models/contract_settings_models.dart';
+import '../../../commons/widgets/alert_dialog.dart';
 import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_appbar.dart';
 import '../notifiers/contract_settings_provider.dart';
@@ -27,7 +30,9 @@ class ContractSettingsPage extends ConsumerWidget {
     final provider = ref.watch(contractSettingsProvider(contract));
     return DefaultPage(
       appBar: MyAppBar(
-        "Paramètres\n${contract.displayName}",
+        context.l10n.contractSettingsTitle(
+          context.l10n.contractName(contract),
+        ),
         context: context,
         hasLeading: true,
       ),
@@ -36,10 +41,10 @@ class ContractSettingsPage extends ConsumerWidget {
         children: [
           const SizedBox(height: 16),
           SettingQuestion(
-            label: "Activer le contrat",
+            label: context.l10n.activateContract,
             input: MySwitch(
               isActive: provider.settings.isActive,
-              alertOnChange: provider.alertChangeIsActive(context),
+              alertOnChange: _alertChangeIsActive(context, provider),
               onChanged: provider.modifySetting(
                 (bool value) => provider.settings.isActive = value,
               ),
@@ -50,5 +55,43 @@ class ContractSettingsPage extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  MyAlertDialog? _alertChangeIsActive(
+      BuildContext context, ContractSettingsNotifier provider) {
+    final typedSettings = provider.settings;
+    if (typedSettings is SaladContractSettings &&
+        !typedSettings.contracts.containsValue(true)) {
+      return MyAlertDialog(
+        context: context,
+        title: context.l10n.alertCannotActivateSalad,
+        content: context.l10n.alertCannotActivateSaladDetails,
+        actions: [AlertDialogActionButton(text: "OK")],
+      );
+    }
+    if (provider.settings.isActive &&
+        (provider.playersWithContract.isNotEmpty)) {
+      return MyAlertDialog(
+        context: context,
+        title: context.l10n.alertContractPlayed,
+        content: context.l10n.alertContractPlayedBy(
+          provider.playersWithContract.join(", "),
+          provider.playersWithContract.length,
+        ),
+        actions: [
+          AlertDialogActionButton(text: context.l10n.keep),
+          AlertDialogActionButton(
+            text: context.l10n.deactivate,
+            isDestructive: true,
+            onPressed: () {
+              provider.modifySetting(
+                (_) => provider.settings.isActive = false,
+              )(null);
+            },
+          ),
+        ],
+      );
+    }
+    return null;
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
@@ -23,7 +24,7 @@ class PrepareGame extends ConsumerWidget {
     final List<Player> players = ref.read(playGameProvider).players;
     return DefaultPage(
       appBar: MyAppBar(
-        "Préparer la partie",
+        context.l10n.prepareGame,
         context: context,
         hasLeading: true,
       ),
@@ -33,23 +34,21 @@ class PrepareGame extends ConsumerWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Column(
+            spacing: 8,
             children: [
-              const Text("Retirer toutes les cartes"),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  getCardsToTakeOut(players.length).join(", "),
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
+              Text(context.l10n.withdrawCards),
+              Text(
+                getCardsToTakeOut(players.length).join(", "),
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
-              const Text("du paquet."),
+              Text(context.l10n.fromTheDeck),
             ],
           ),
           _buildTable(context, players),
         ],
       ),
       bottomWidget: ElevatedButton(
-        child: const Text("C'est parti !"),
+        child: Text(context.l10n.go),
         onPressed: () {
           WakelockPlus.enable();
           Navigator.of(context).popUntil((route) => route.isFirst);
@@ -73,7 +72,7 @@ class PrepareGame extends ConsumerWidget {
               children: [
                 TextItem(
                   text: Text(
-                    "La table",
+                    context.l10n.table,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   space: 8,

@@ -8,7 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../../utils.dart';
+import '../../../utils/french_material_app.dart';
+import '../../../utils/utils.dart';
 
 main() {
   patrolWidgetTest("should display dialog", ($) async {
@@ -121,7 +122,7 @@ Widget _createPage(List<Player> players) {
   );
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(
+    child: FrenchMaterialApp(
       home: DialogChangePlayerInfo(
         player: players[0],
         onDelete: () {},

@@ -10,17 +10,18 @@ import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/models/contract_route_argument.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
-import 'package:barbu_score/pages/contract_scores/notifiers/trumps_provider.dart';
+import 'package:barbu_score/pages/contract_scores/notifiers/salad_provider.dart';
 import 'package:barbu_score/pages/contract_scores/one_looser_contract.dart';
-import 'package:barbu_score/pages/contract_scores/trumps_contract.dart';
+import 'package:barbu_score/pages/contract_scores/salad_contract.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils.dart';
-import '../../utils.mocks.dart';
+import '../../utils/french_material_app.dart';
+import '../../utils/utils.dart';
+import '../../utils/utils.mocks.dart';
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -31,7 +32,7 @@ main() {
     await checkAccessibility($.tester);
   });
   for (var activeContracts in [
-    TrumpsContractSettings.availableContracts,
+    SaladContractSettings.availableContracts,
     [ContractsInfo.barbu],
     [ContractsInfo.noQueens, ContractsInfo.barbu]
   ]) {
@@ -41,18 +42,18 @@ main() {
       await $.pumpWidget(
         _createPage(
           $,
-          settings: TrumpsContractSettings(
+          settings: SaladContractSettings(
             contracts: {
-              for (var contract in TrumpsContractSettings.availableContracts)
+              for (var contract in SaladContractSettings.availableContracts)
                 contract.name: activeContracts.contains(contract)
             },
           ),
         ),
       );
 
-      for (var contract in TrumpsContractSettings.availableContracts) {
+      for (var contract in SaladContractSettings.availableContracts) {
         expect(
-          $(contract.displayName),
+          $(Key(contract.name)),
           activeContracts.contains(contract) ? findsOneWidget : findsNothing,
         );
       }
@@ -62,34 +63,36 @@ main() {
       expect(validateButton.onPressed, isNull);
     });
   }
-  for (var contractToFill in TrumpsContractSettings.availableContracts) {
+  for (var contractToFill in SaladContractSettings.availableContracts) {
     patrolWidgetTest("should fill $contractToFill sub contract", ($) async {
       final mockPlayGame = MockPlayGameNotifier();
       final page = _createPage($, mockPlayGame: mockPlayGame);
       await $.pumpWidget(page);
 
-      expect(page.container.read(trumpsProvider).model.subContracts, isEmpty);
+      expect(page.container.read(saladProvider).model.subContracts, isEmpty);
       final subContractModel = page.container
           .read(contractsManagerProvider)
           .getContractManager(contractToFill)
           .model as AbstractSubContractModel;
       await _fillSubContract($, mockPlayGame, contractToFill, subContractModel);
 
-      // Redirect to trumps contract page
-      expect($(TrumpsContractPage), findsOneWidget);
+      // Redirect to salad contract page
+      expect($(SaladContractPage), findsOneWidget);
       expect($(ElevatedButtonWithIndicator), findsOneWidget);
       expect(
-          $(ElevatedButtonWithIndicator).containing(contractToFill.displayName),
+          $(ElevatedButtonWithIndicator).which(
+            (Widget widget) => widget.key == Key(contractToFill.name),
+          ),
           findsOneWidget);
       final validateButton =
           ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
       expect(validateButton.onPressed, isNull);
 
       // Verifies the contract has been saved
-      final savedTrumpsContracts =
-          page.container.read(trumpsProvider).model.subContracts;
-      expect(savedTrumpsContracts.length, 1);
-      expect(savedTrumpsContracts.first, subContractModel);
+      final savedSaladContracts =
+          page.container.read(saladProvider).model.subContracts;
+      expect(savedSaladContracts.length, 1);
+      expect(savedSaladContracts.first, subContractModel);
     });
   }
   patrolWidgetTest("should modify sub contract", ($) async {
@@ -107,7 +110,7 @@ main() {
 
     await $.pumpWidget(page);
 
-    expect(page.container.read(trumpsProvider).model.subContracts, isEmpty);
+    expect(page.container.read(saladProvider).model.subContracts, isEmpty);
     await _fillSubContract(
       $,
       mockPlayGame,
@@ -118,35 +121,38 @@ main() {
           .model as AbstractSubContractModel,
     );
 
-    // Redirect to trumps contract page
-    expect($(TrumpsContractPage), findsOneWidget);
+    // Redirect to salad contract page
+    expect($(SaladContractPage), findsOneWidget);
 
     // Modify contract
-    await $(contract.displayName).tap();
+    await $(Key(contract.name)).tap();
     await $(ElevatedButtonCustomColor).at(playerSelectedAfterModify).tap();
     await $(ElevatedButton).containing("Modifier les scores").tap();
 
-    // Redirect to trumps contract page
+    // Redirect to salad contract page
     expect($(ElevatedButtonWithIndicator), findsOneWidget);
-    expect($(ElevatedButtonWithIndicator).containing(contract.displayName),
+    expect(
+        $(ElevatedButtonWithIndicator).which(
+          (Widget widget) => widget.key == Key(contract.name),
+        ),
         findsOneWidget);
     final validateButton =
         ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
     expect(validateButton.onPressed, isNull);
 
     // Verifies the contract has been saved
-    final savedTrumpsContracts =
-        page.container.read(trumpsProvider).model.subContracts;
-    expect(savedTrumpsContracts.length, 1);
-    expect(savedTrumpsContracts.first, expectedSubContract);
+    final savedSaladContracts =
+        page.container.read(saladProvider).model.subContracts;
+    expect(savedSaladContracts.length, 1);
+    expect(savedSaladContracts.first, expectedSubContract);
   });
   patrolWidgetTest("should validate when all contracts are filled", ($) async {
     final mockPlayGame = MockPlayGameNotifier();
     final page = _createPage($, mockPlayGame: mockPlayGame);
-    final contractModel = TrumpsContractModel();
+    final contractModel = SaladContractModel();
     await $.pumpWidget(page);
 
-    for (var contract in TrumpsContractSettings.availableContracts) {
+    for (var contract in SaladContractSettings.availableContracts) {
       final subContractModel = page.container
           .read(contractsManagerProvider)
           .getContractManager(contract)
@@ -155,10 +161,10 @@ main() {
       contractModel.addSubContract(subContractModel);
     }
 
-    // Redirect to trumps contract page
-    expect($(TrumpsContractPage), findsOneWidget);
+    // Redirect to salad contract page
+    expect($(SaladContractPage), findsOneWidget);
     expect($(ElevatedButtonWithIndicator),
-        findsNWidgets(TrumpsContractSettings.availableContracts.length));
+        findsNWidgets(SaladContractSettings.availableContracts.length));
     await findValidateScoresButton($).tap();
 
     expect($(ChooseContract), findsOneWidget);
@@ -179,7 +185,7 @@ Future<void> _fillSubContract(PatrolTester $, MockPlayGameNotifier game,
       player.name: index == playerWithItems ? nbItems : 0
   });
   // Navigate to contract
-  await $(contract.displayName).tap();
+  await $(Key(contract.name)).tap();
 
   // Fill contract
   if (contractModel is OneLooserContractModel) {
@@ -198,7 +204,7 @@ Future<void> _fillSubContract(PatrolTester $, MockPlayGameNotifier game,
 }
 
 UncontrolledProviderScope _createPage(PatrolTester $,
-    {TrumpsContractSettings? settings, MockPlayGameNotifier? mockPlayGame}) {
+    {SaladContractSettings? settings, MockPlayGameNotifier? mockPlayGame}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
 
@@ -207,7 +213,7 @@ UncontrolledProviderScope _createPage(PatrolTester $,
   mockPlayGame ??= MockPlayGameNotifier();
   mockGame(mockPlayGame);
   if (settings != null) {
-    when(mockStorage.getSettings(ContractsInfo.trumps)).thenReturn(settings);
+    when(mockStorage.getSettings(ContractsInfo.salad)).thenReturn(settings);
   }
 
   final container = ProviderContainer(
@@ -220,8 +226,8 @@ UncontrolledProviderScope _createPage(PatrolTester $,
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(
-      home: const TrumpsContractPage(),
+    child: FrenchMaterialApp(
+      home: const SaladContractPage(),
       routes: {
         Routes.chooseContract: (_) => const ChooseContract(),
         Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractPage(

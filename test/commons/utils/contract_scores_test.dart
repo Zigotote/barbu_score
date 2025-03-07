@@ -1,7 +1,7 @@
 import 'package:barbu_score/commons/utils/contract_scores.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../utils.dart';
+import '../../utils/utils.dart';
 
 main() {
   test("should return null if no scores", () {

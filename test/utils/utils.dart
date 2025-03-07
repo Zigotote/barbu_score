@@ -9,7 +9,7 @@ import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
-import 'package:barbu_score/pages/contract_scores/notifiers/trumps_provider.dart';
+import 'package:barbu_score/pages/contract_scores/notifiers/salad_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -21,7 +21,7 @@ import 'package:patrol_finders/patrol_finders.dart';
   MockSpec<ContractsManager>(),
   MockSpec<MyStorage>(),
   MockSpec<PlayGameNotifier>(),
-  MockSpec<TrumpsNotifier>(),
+  MockSpec<SaladNotifier>(),
   MockSpec<MyLog>()
 ])
 import 'utils.mocks.dart';
@@ -85,7 +85,7 @@ final defaultDomino = DominoContractModel(
   },
 );
 
-final defaultTrumps = TrumpsContractModel(
+final defaultSalad = SaladContractModel(
   subContracts: [
     defaultBarbu,
     defaultNoQueens,

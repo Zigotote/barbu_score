@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,12 +14,12 @@ import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
 import 'models/contract_route_argument.dart';
-import 'notifiers/trumps_provider.dart';
+import 'notifiers/salad_provider.dart';
 
-class TrumpsContractPage extends ConsumerWidget {
-  const TrumpsContractPage({super.key});
+class SaladContractPage extends ConsumerWidget {
+  const SaladContractPage({super.key});
 
-  Widget _buildFields(BuildContext context, TrumpsNotifier provider) {
+  Widget _buildFields(BuildContext context, SaladNotifier provider) {
     return MyGrid(
       children: provider.subContracts.map((contract) {
         final contractValues = provider.getFilledContract(contract.name);
@@ -33,7 +34,11 @@ class TrumpsContractPage extends ConsumerWidget {
   ElevatedButton _buildContractButton(
       BuildContext context, ContractsInfo contract) {
     return ElevatedButton(
-      child: Text(contract.displayName, textAlign: TextAlign.center),
+      key: Key(contract.name),
+      child: Text(
+        context.l10n.contractName(contract),
+        textAlign: TextAlign.center,
+      ),
       onPressed: () => Navigator.of(context).pushNamed(
         contract.scoreRoute,
         arguments: ContractRouteArgument(contractInfo: contract),
@@ -45,7 +50,8 @@ class TrumpsContractPage extends ConsumerWidget {
   Widget _buildFilledContract(BuildContext context, ContractsInfo contract,
       AbstractSubContractModel contractValues) {
     return ElevatedButtonWithIndicator(
-      text: contract.displayName,
+      key: Key(contract.name),
+      text: context.l10n.contractName(contract),
       onPressed: () => Navigator.of(context).pushNamed(
         contract.scoreRoute,
         arguments: ContractRouteArgument(
@@ -62,12 +68,12 @@ class TrumpsContractPage extends ConsumerWidget {
 
   /// Saves the contract and moves to the next player round
   void _saveContract(
-      BuildContext context, WidgetRef ref, TrumpsNotifier trumpsProvider) {
+      BuildContext context, WidgetRef ref, SaladNotifier saladProvider) {
     ref
         .read(logProvider)
-        .info("TrumpsContractPage.saveContract: save $trumpsProvider");
+        .info("SaladContractPage.saveContract: save ${saladProvider.model}");
     final provider = ref.read(playGameProvider);
-    provider.finishContract(trumpsProvider.model);
+    provider.finishContract(saladProvider.model);
 
     Navigator.of(context).popAndPushNamed(
       provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
@@ -76,17 +82,17 @@ class TrumpsContractPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(trumpsProvider);
+    final provider = ref.watch(saladProvider);
     return DefaultPage(
       appBar: MyAppBar(
-        "Tour de ${ref.watch(playGameProvider).currentPlayer.name}",
+        context.l10n.playerTurn(ref.watch(playGameProvider).currentPlayer.name),
         context: context,
         hasLeading: true,
       ),
       content: Column(
+        spacing: 8,
         children: [
-          const MySubtitle("Quel est le score de chaque contrat ?"),
-          const SizedBox(height: 8),
+          MySubtitle(context.l10n.saladScoresSubtitle),
           Expanded(child: _buildFields(context, provider)),
         ],
       ),
@@ -94,7 +100,7 @@ class TrumpsContractPage extends ConsumerWidget {
         onPressed: provider.isValid
             ? () => _saveContract(context, ref, provider)
             : null,
-        child: const Text("Valider les scores"),
+        child: Text(context.l10n.validateScores),
       ),
     );
   }

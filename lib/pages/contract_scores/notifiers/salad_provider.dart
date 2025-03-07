@@ -7,19 +7,19 @@ import '../../../../commons/models/contract_models.dart';
 import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/providers/contracts_manager.dart';
 
-final trumpsProvider = ChangeNotifierProvider.autoDispose<TrumpsNotifier>(
-  (ref) => TrumpsNotifier(
-    ref.read(contractsManagerProvider).getContractManager(ContractsInfo.trumps),
+final saladProvider = ChangeNotifierProvider.autoDispose<SaladNotifier>(
+  (ref) => SaladNotifier(
+    ref.read(contractsManagerProvider).getContractManager(ContractsInfo.salad),
   ),
 );
 
-class TrumpsNotifier with ChangeNotifier {
-  final TrumpsContractModel model;
-  final TrumpsContractSettings _settings;
+class SaladNotifier with ChangeNotifier {
+  final SaladContractModel model;
+  final SaladContractSettings _settings;
 
-  TrumpsNotifier(ContractManager manager)
-      : model = manager.model as TrumpsContractModel,
-        _settings = manager.settings as TrumpsContractSettings;
+  SaladNotifier(ContractManager manager)
+      : model = manager.model as SaladContractModel,
+        _settings = manager.settings as SaladContractSettings;
 
   bool get isValid =>
       _settings.activeContracts.length == model.subContracts.length;

@@ -1,5 +1,4 @@
-import 'package:barbu_score/commons/models/contract_info.dart';
-import 'package:barbu_score/commons/utils/constants.dart';
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/rules_page.dart';
@@ -14,28 +13,20 @@ class GamePresentation extends StatelessWidget {
   Widget build(BuildContext context) {
     return RulesPage(
       pageIndex: pageIndex,
-      title: "Règles du jeu",
+      title: context.l10n.rules,
       content: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 8),
-          const Text(
-            "Le barbu est un jeu pour $kNbPlayersMin à $kNbPlayersMax joueurs se jouant avec un jeu de 52 cartes. L'objectif est de remporter le moins de points possible.",
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 24, bottom: 8),
-            child: Text(
-              "Principe du jeu",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
+          Text(context.l10n.presentGame),
+          const SizedBox(height: 24),
           Text(
-            "Ce jeu de plis est composé de ${ContractsInfo.values.length} contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.",
+            context.l10n.gamePrinciple,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          const Text(
-            "La partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats.",
-          ),
+          const SizedBox(height: 8),
+          Text(context.l10n.gamePrincipleDetails),
         ],
       ),
     );

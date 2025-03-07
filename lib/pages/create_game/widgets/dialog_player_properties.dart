@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,7 +66,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
             backgroundColor: Colors.transparent,
             side: BorderSide.none,
           ),
-          tooltip: "Fermer",
+          tooltip: context.l10n.close,
         ),
       ),
       iconPadding: const EdgeInsets.only(top: 16, right: 16),
@@ -79,7 +80,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
             children: [
               _buildPropertySelection(
                 context,
-                "Couleur",
+                context.l10n.color,
                 playerColors.map(
                   (color) {
                     final playersWithColor =
@@ -99,13 +100,12 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                                 playerName.characters.first.toUpperCase())
                             .join("/"),
                         semanticsLabel: playersWithColor.isEmpty
-                            ? "Couleur disponible"
+                            ? context.l10n.availableColor
                             : playersWithColor.join(","),
                         overflow: TextOverflow.fade,
                         textAlign: TextAlign.center,
                         style: theme.textTheme.titleLarge?.copyWith(
                           color: theme.scaffoldBackgroundColor,
-                          fontSize: 22,
                         ),
                       ),
                     );
@@ -114,14 +114,14 @@ class DialogChangePlayerInfo extends ConsumerWidget {
               ),
               _buildPropertySelection(
                 context,
-                "Avatar",
+                context.l10n.avatar,
                 playerImages
                     .map(
-                      (image) => TextButton(
+                      (image) => IconButton(
                         key: Key(image),
                         onPressed: () =>
                             provider.changePlayerImage(player, image),
-                        child: PlayerIcon(image: image, size: double.maxFinite),
+                        icon: PlayerIcon(image: image, size: double.maxFinite),
                       ),
                     )
                     .toList(),
@@ -133,13 +133,13 @@ class DialogChangePlayerInfo extends ConsumerWidget {
       actions: [
         ElevatedButtonCustomColor(
           icon: Icons.delete_forever_outlined,
-          text: "Supprimer",
+          text: context.l10n.delete,
           onPressed: onDelete,
           color: theme.colorScheme.error,
         ),
         ElevatedButtonCustomColor(
           icon: Icons.done,
-          text: "Valider",
+          text: context.l10n.validate,
           onPressed: onValidate,
           color: theme.colorScheme.success,
         ),

@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/contract_info.dart';
@@ -13,9 +13,9 @@ final storageProvider = Provider((ref) => MyStorage());
 
 /// A class to handle local storage objects
 class MyStorage {
-  static const _settingsBoxName = "settings";
   static const String _gameKey = "game";
   static const String _isDarkThemeKey = "isDarkTheme";
+  static const String _localeKey = "locale";
 
   /// The object to manipulate local storage
   @visibleForTesting
@@ -23,39 +23,18 @@ class MyStorage {
 
   /// The function to call to init storage
   static init() async {
-    await Hive.initFlutter();
-    Hive.registerAdapter<ContractsInfo>(ContractsInfoAdapter());
-    Hive.registerAdapter<OneLooserContractSettings>(
-        OneLooserContractSettingsAdapter());
-    Hive.registerAdapter<MultipleLooserContractSettings>(
-        MultipleLooserContractSettingsAdapter());
-    Hive.registerAdapter<TrumpsContractSettings>(
-        TrumpsContractSettingsAdapter());
-    Hive.registerAdapter<DominoContractSettings>(
-        DominoContractSettingsAdapter());
-    await Hive.openBox(_settingsBoxName);
-
     storage = await SharedPreferences.getInstance();
-    // Migrates Hive data to SharedPreferences
-    final isDarkTheme = Hive.box(_settingsBoxName).get(_isDarkThemeKey);
-    if (isDarkTheme != null) {
-      storage?.setBool(_isDarkThemeKey, isDarkTheme);
+
+    // Temporary to rename trumps data to salad
+    const oldSaladName = "trumps";
+    final saladSettings = storage?.getString(oldSaladName);
+    if (saladSettings != null) {
+      storage?.setString(ContractsInfo.salad.name, saladSettings);
     }
-    for (var contract in ContractsInfo.values) {
-      final AbstractContractSettings? contractSettings =
-          Hive.box(_settingsBoxName).get(contract.name);
-      if (contractSettings != null) {
-        final json = contractSettings.toJson();
-        if (json["name"]?.isEmpty) {
-          json["name"] = contract.name;
-        }
-        storage?.setString(
-          contract.name,
-          jsonEncode(json),
-        );
-      }
+    final game = storage?.getString(_gameKey);
+    if (game != null) {
+      storage?.setString(_gameKey, jsonEncode(Game.fromJson(jsonDecode(game))));
     }
-    await Hive.box(_settingsBoxName).clear();
   }
 
   /// Gets the game saved in the store
@@ -89,7 +68,7 @@ class MyStorage {
 
   /// Gets the settings associated to this contract. Returns default settings if no personalized data saved
   AbstractContractSettings getSettings(ContractsInfo contractsInfo) {
-    final storedSettings = storage?.getString(contractsInfo.name);
+    String? storedSettings = storage?.getString(contractsInfo.name);
     if (storedSettings != null) {
       return AbstractContractSettings.fromJson(jsonDecode(storedSettings));
     }
@@ -106,5 +85,19 @@ class MyStorage {
   List<ContractsInfo> getActiveContracts() {
     return List<ContractsInfo>.from(ContractsInfo.values)
       ..removeWhere((contract) => !getSettings(contract).isActive);
+  }
+
+  /// Saves the locale to use in the app
+  void saveLocale(Locale locale) {
+    storage?.setString(_localeKey, locale.languageCode);
+  }
+
+  /// Returns the locale saved in the storage, or null if nothing is saved
+  Locale? getLocale() {
+    final savedLocale = storage?.getString(_localeKey);
+    if (savedLocale != null) {
+      return Locale(savedLocale);
+    }
+    return null;
   }
 }

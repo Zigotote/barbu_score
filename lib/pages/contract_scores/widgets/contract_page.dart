@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,7 +12,7 @@ import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_appbar.dart';
 import '../../../commons/widgets/my_subtitle.dart';
 import '../../../main.dart';
-import '../notifiers/trumps_provider.dart';
+import '../notifiers/salad_provider.dart';
 
 class SubContractPage extends ConsumerWidget {
   /// The contract actually displayed
@@ -45,27 +46,27 @@ class SubContractPage extends ConsumerWidget {
   /// Saves this contract and moves to the next player round
   void _saveContract(BuildContext context, WidgetRef ref) {
     final playGame = ref.read(playGameProvider);
-    final bool isPartOfTrumpsContract =
-        ref.exists(trumpsProvider) && !(contract == ContractsInfo.trumps);
+    final bool isPartOfSaladContract =
+        ref.exists(saladProvider) && !(contract == ContractsInfo.salad);
     final contractModel = (ref
         .read(contractsManagerProvider)
         .getContractManager(contract)
         .model as AbstractSubContractModel);
     final bool isFinished = contractModel.setItemsByPlayer(itemsByPlayer);
     ref.read(logProvider).info(
-          "SubContractPage.saveContract: save $contractModel ${isPartOfTrumpsContract ? "in trumps" : ""}",
+          "SubContractPage.saveContract: save $contractModel ${isPartOfSaladContract ? "in salad" : ""}",
         );
 
-    if (isPartOfTrumpsContract) {
-      /// Adds the contract to the trumps contract
-      ref.read(trumpsProvider).addContract(contractModel);
+    if (isPartOfSaladContract) {
+      /// Adds the contract to the salad contract
+      ref.read(saladProvider).addContract(contractModel);
     } else {
       playGame.finishContract(contractModel);
     }
 
     if (isFinished) {
       SnackBarUtils.instance.closeSnackBar(context);
-      if (isPartOfTrumpsContract) {
+      if (isPartOfSaladContract) {
         Navigator.of(context).pop();
       } else {
         Navigator.of(context).popAndPushNamed(
@@ -74,9 +75,8 @@ class SubContractPage extends ConsumerWidget {
     } else {
       SnackBarUtils.instance.openSnackBar(
         context: context,
-        title: "Scores incorrects",
-        text:
-            "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
+        title: context.l10n.scoresNotValid,
+        text: context.l10n.errorNbItems,
       );
     }
   }
@@ -86,11 +86,12 @@ class SubContractPage extends ConsumerWidget {
     String titleText;
     String validateText;
     if (isModification) {
-      titleText = "Modification ${contract.displayName}";
-      validateText = "Modifier les scores";
+      titleText = context.l10n.modify(context.l10n.contractName(contract));
+      validateText = context.l10n.validateModify;
     } else {
-      titleText = "Tour de ${ref.read(playGameProvider).currentPlayer.name}";
-      validateText = "Valider les scores";
+      titleText = context.l10n
+          .playerTurn(ref.read(playGameProvider).currentPlayer.name);
+      validateText = context.l10n.validateScores;
     }
     return DefaultPage(
       appBar: MyAppBar(titleText, context: context, hasLeading: true),

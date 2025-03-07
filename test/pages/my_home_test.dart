@@ -15,15 +15,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../utils.dart';
-import '../utils.mocks.dart';
+import '../utils/french_material_app.dart';
+import '../utils/utils.dart';
+import '../utils/utils.mocks.dart';
 
 const _startGameText = "Démarrer une partie";
 const _loadGameText = "Charger une partie";
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
-    await $.pumpWidget(const MaterialApp(home: MyHome()));
+    await $.pumpWidget(FrenchMaterialApp(home: const MyHome()));
 
     expect($("Le Barbu"), findsOneWidget);
     expect($.tester.takeException(), isNull);
@@ -198,7 +199,7 @@ Widget _createPage(
 
   return UncontrolledProviderScope(
     container: container,
-    child: MaterialApp(
+    child: FrenchMaterialApp(
       home: const MyHome(),
       routes: {
         Routes.createGame: (_) => CreateGame(),

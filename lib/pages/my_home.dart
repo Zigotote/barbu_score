@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -35,13 +36,13 @@ class MyHome extends ConsumerWidget {
       Navigator.of(context).pushNamed(Routes.prepareGame);
     }
     ref.read(logProvider).info("MyHome.loadGame: load $game");
-    ref.read(logProvider).sendAnalyticEvent("Load game");
+    ref.read(logProvider).sendAnalyticEvent("load_game");
   }
 
   /// Starts a new game
   _startGame(BuildContext context, WidgetRef ref) {
     ref.read(logProvider).info("MyHome.startGame: start game");
-    ref.read(logProvider).sendAnalyticEvent("Start game");
+    ref.read(logProvider).sendAnalyticEvent("start_game");
     Navigator.of(context).pushNamed(Routes.createGame);
   }
 
@@ -52,12 +53,11 @@ class MyHome extends ConsumerWidget {
           builder: (BuildContext buildContext) {
             return MyAlertDialog(
               context: context,
-              title: "Impossible de lancer une partie",
-              content:
-                  "Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.",
+              title: context.l10n.errorLaunchGame,
+              content: context.l10n.errorLaunchGameDetails,
               actions: [
                 AlertDialogActionButton(
-                  text: "Modifier les paramètres",
+                  text: context.l10n.modifySettings,
                   onPressed: () {
                     Navigator.of(context).pushNamed(Routes.settings);
                   },
@@ -85,9 +85,8 @@ class MyHome extends ConsumerWidget {
     if (previousGame == null) {
       SnackBarUtils.instance.openSnackBar(
         context: context,
-        title: "Aucune partie trouvée",
-        text:
-            "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
+        title: context.l10n.noGameFound,
+        text: context.l10n.noGameFoundDetails,
       );
       _startGame(context, ref);
     } else {
@@ -96,17 +95,20 @@ class MyHome extends ConsumerWidget {
           builder: (BuildContext buildContext) {
             return MyAlertDialog(
               context: context,
-              title: "Charger une partie",
-              content:
-                  "${previousGame!.isFinished ? "Revoir" : "Reprendre"} la partie précédente avec ${_playerNames(previousGame.players)} ?",
+              title: context.l10n.loadGame,
+              content: previousGame!.isFinished
+                  ? context.l10n
+                      .seePreviousGame(_playerNames(previousGame.players))
+                  : context.l10n
+                      .loadPreviousGame(_playerNames(previousGame.players)),
               actions: [
                 AlertDialogActionButton(
                   isDestructive: true,
-                  text: "Non, nouvelle partie",
+                  text: context.l10n.refuseLoadGame,
                   onPressed: () => _startGame(context, ref),
                 ),
                 AlertDialogActionButton(
-                  text: "Oui",
+                  text: context.l10n.accept,
                   onPressed: () => _loadGame(context, ref, previousGame!),
                 ),
               ],
@@ -128,17 +130,18 @@ class MyHome extends ConsumerWidget {
             builder: (BuildContext buildContext) {
               return MyAlertDialog(
                 context: context,
-                title: "Une partie sauvegardée existe",
-                content:
-                    "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec ${_playerNames(previousGame.players)} sera perdue.",
+                title: context.l10n.alertExistingGame,
+                content: context.l10n.confirmStartGame(
+                  _playerNames(previousGame.players),
+                ),
                 actions: [
                   AlertDialogActionButton(
-                    text: "Non, reprendre la partie",
+                    text: context.l10n.refuseStartGame,
                     onPressed: () => _loadGame(context, ref, previousGame),
                   ),
                   AlertDialogActionButton(
                     isDestructive: true,
-                    text: "Oui",
+                    text: context.l10n.accept,
                     onPressed: () => _startGame(context, ref),
                   ),
                 ],
@@ -170,30 +173,24 @@ class MyHome extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               MyAppBar(
-                "Le Barbu",
+                context.l10n.appName,
                 context: context,
                 isHome: true,
                 hasLeading: false,
               ),
               ElevatedButtonFullWidth(
-                child: const Text(
-                  "Démarrer une partie",
+                child: Text(
+                  context.l10n.startGame,
                   textAlign: TextAlign.center,
                 ),
                 onPressed: () => _confirmStartGame(context, ref),
               ),
               ElevatedButtonFullWidth(
-                child: const Text(
-                  "Charger une partie",
-                  textAlign: TextAlign.center,
-                ),
+                child: Text(context.l10n.loadGame, textAlign: TextAlign.center),
                 onPressed: () => _confirmLoadGame(context, ref),
               ),
               ElevatedButton(
-                child: const Text(
-                  "Règles du jeu",
-                  textAlign: TextAlign.center,
-                ),
+                child: Text(context.l10n.rules, textAlign: TextAlign.center),
                 onPressed: () => Navigator.of(context).pushNamed(Routes.rules),
               ),
               IconButton(
@@ -201,7 +198,7 @@ class MyHome extends ConsumerWidget {
                     Navigator.of(context).pushNamed(Routes.settings),
                 icon: const Icon(Icons.settings),
                 iconSize: 55,
-                tooltip: "Paramètres",
+                tooltip: context.l10n.settings,
               ),
             ],
           ),

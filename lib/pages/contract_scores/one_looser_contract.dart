@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -81,8 +82,9 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
     final players = ref.read(playGameProvider).players;
     return SubContractPage(
       contract: widget.routeArgument.contractInfo,
-      subtitle:
-          "Qui a remporté le ${widget.routeArgument.contractInfo.displayName} ?",
+      subtitle: context.l10n.whoWonItem(
+        context.l10n.contractName(widget.routeArgument.contractInfo),
+      ),
       isModification: widget.routeArgument.isForModification,
       isValid: _selectedPlayer != null,
       itemsByPlayer: {

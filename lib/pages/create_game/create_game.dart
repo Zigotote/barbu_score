@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,14 +20,14 @@ class CreateGame extends ConsumerWidget {
   CreateGame({super.key});
 
   /// Builds the button to add a player
-  Widget _buildAddPlayerButton(Function() addPlayer) {
+  Widget _buildAddPlayerButton(BuildContext context, Function() addPlayer) {
     return Center(
       child: IconButton.outlined(
         padding: const EdgeInsets.all(16),
         onPressed: addPlayer,
-        icon: const Icon(
+        icon: Icon(
           Icons.add,
-          semanticLabel: "Ajouter un joueur",
+          semanticLabel: context.l10n.addItem("joueur"),
         ),
         iconSize: 40,
       ),
@@ -44,7 +45,7 @@ class CreateGame extends ConsumerWidget {
                       "CreateGame.buildValidateButton: create game with ${provider.players}",
                     );
                 ref.read(logProvider).sendAnalyticEvent(
-                  "Create game",
+                  "create_game",
                   parameters: {"nbPlayers": provider.players.length},
                 );
 
@@ -57,7 +58,7 @@ class CreateGame extends ConsumerWidget {
               }
             }
           : null,
-      child: const Text("Suivant"),
+      child: Text(context.l10n.next),
     );
   }
 
@@ -65,7 +66,8 @@ class CreateGame extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final playerProvider = ref.watch(createGameProvider);
     return DefaultPage(
-      appBar: MyAppBar("Créer les joueurs", context: context, hasLeading: true),
+      appBar: MyAppBar(context.l10n.createPlayers,
+          context: context, hasLeading: true),
       content: Form(
         key: _formKey,
         child: ReorderableGridView.count(
@@ -76,7 +78,7 @@ class CreateGame extends ConsumerWidget {
           childAspectRatio: 10 / 8,
           footer: [
             if (playerProvider.players.length < kNbPlayersMax)
-              _buildAddPlayerButton(playerProvider.addPlayer)
+              _buildAddPlayerButton(context, playerProvider.addPlayer)
           ],
           onReorder: playerProvider.movePlayer,
           children: playerProvider.players
