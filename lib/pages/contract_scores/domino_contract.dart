@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -124,8 +125,8 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     } else {
       SnackBarUtils.instance.openSnackBar(
         context: context,
-        title: "Scores incorrects",
-        text: "Tous les joueurs n'ont pas été classés.",
+        title: context.l10n.scoresNotValid,
+        text: context.l10n.errorDomino,
       );
     }
   }
@@ -134,20 +135,20 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   Widget build(BuildContext context) {
     return DefaultPage(
       appBar: MyAppBar(
-        "Tour de ${ref.read(playGameProvider).currentPlayer.name}",
+        context.l10n.playerTurn(ref.read(playGameProvider).currentPlayer.name),
         context: context,
         hasLeading: true,
       ),
       content: Column(
+        spacing: 8,
         children: [
-          const MySubtitle("Quel est l'ordre des joueurs ?"),
-          const SizedBox(height: 8),
+          MySubtitle(context.l10n.dominoScoreSubtitle),
           Expanded(child: _buildFields()),
         ],
       ),
       bottomWidget: ElevatedButton(
         onPressed: () => _saveContract(context, ref),
-        child: const Text("Valider les scores"),
+        child: Text(context.l10n.validateScores),
       ),
     );
   }

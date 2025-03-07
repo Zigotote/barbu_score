@@ -12,8 +12,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils.dart';
-import '../../utils.mocks.dart';
+import '../../utils/french_material_app.dart';
+import '../../utils/utils.dart';
+import '../../utils/utils.mocks.dart';
 import 'utils/settings_utils.dart';
 
 const _defaultContract = ContractsInfo.noHearts;
@@ -30,7 +31,7 @@ main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage());
 
-    expect($("Paramètres\n${_defaultContract.displayName}"), findsOneWidget);
+    expect($("Paramètres\nSans coeurs"), findsOneWidget);
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
   });
@@ -115,8 +116,8 @@ UncontrolledProviderScope _createPage([Game? storedGame]) {
 
   return UncontrolledProviderScope(
     container: container,
-    child: const MaterialApp(
-      home: MultipleLooserContractSettingsPage(_defaultContract),
+    child: FrenchMaterialApp(
+      home: const MultipleLooserContractSettingsPage(_defaultContract),
     ),
   );
 }

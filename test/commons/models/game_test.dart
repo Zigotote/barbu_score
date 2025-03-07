@@ -5,7 +5,7 @@ import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../utils.dart';
+import '../../utils/utils.dart';
 
 main() {
   group("#nextPlayer", () {

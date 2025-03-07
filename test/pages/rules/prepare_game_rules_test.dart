@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
+import '../../utils/french_material_app.dart';
+
 main() {
   for (var testData in [
     (nbPlayers: 3, nbCards: 24),
@@ -14,7 +16,9 @@ main() {
     patrolWidgetTest(
         "should display game preparation for ${testData.nbPlayers}", ($) async {
       await $.pumpWidget(
-        const ProviderScope(child: MaterialApp(home: PrepareGameRules(0))),
+        ProviderScope(
+          child: FrenchMaterialApp(home: const PrepareGameRules(0)),
+        ),
       );
       expect($("Préparation du jeu"), findsOneWidget);
 

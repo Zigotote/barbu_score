@@ -32,7 +32,6 @@
 ## Page paramètres
 
 - créer de nouveaux contrats
-- permettre de changer la langue de l'app ++
 - dans les paramètres des contrats, si un contrat est désactivé, proposer de le désactiver aussi
   dans la salade +
 - dans les paramètres des contrats, ajouter un bouton pour réinitialiser les paramètres +

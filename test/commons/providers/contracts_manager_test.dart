@@ -8,8 +8,8 @@ import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../utils.dart';
-import '../../utils.mocks.dart';
+import '../../utils/utils.dart';
+import '../../utils/utils.mocks.dart';
 
 main() {
   // Custom settings
@@ -72,7 +72,7 @@ main() {
   final domino = DominoContractModel(rankOfPlayer: {
     for (var (index, player) in playerNames.indexed) player: index
   });
-  final trumps = TrumpsContractModel(
+  final salad = SaladContractModel(
     subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
   );
 
@@ -98,7 +98,7 @@ main() {
     for (var (index, player) in playerNames.indexed)
       player: dominoSettings.points[playerNames.length]![index]
   };
-  final trumpsScores = {
+  final saladScores = {
     for (var (index, player) in playerNames.indexed)
       player: index == 0
           ? barbuSettings.points +
@@ -124,8 +124,8 @@ main() {
               .getSettings(ContractsInfo.fromName(contractSettings.name)))
           .thenReturn(contractSettings);
     }
-    when(mockStorage.getSettings(ContractsInfo.trumps))
-        .thenReturn(ContractsInfo.trumps.defaultSettings);
+    when(mockStorage.getSettings(ContractsInfo.salad))
+        .thenReturn(ContractsInfo.salad.defaultSettings);
   });
 
   group("#scoresByContract", () {
@@ -140,7 +140,7 @@ main() {
         ContractsInfo.noTricks,
         ContractsInfo.noLastTrick,
         ContractsInfo.domino,
-        ContractsInfo.trumps,
+        ContractsInfo.salad,
       ]
     ]) {
       final player = Player(
@@ -154,7 +154,7 @@ main() {
           noLastTrick,
           noTricks,
           domino,
-          trumps
+          salad
         ]
             .where((contractScores) => contractsTest
                 .map((ContractsInfo? contract) => contract?.name)
@@ -205,8 +205,8 @@ main() {
               ContractsInfo.domino: contractsTest.contains(ContractsInfo.domino)
                   ? dominoScores
                   : null,
-            ContractsInfo.trumps: contractsTest.contains(ContractsInfo.trumps)
-                ? trumpsScores
+            ContractsInfo.salad: contractsTest.contains(ContractsInfo.salad)
+                ? saladScores
                 : null,
           });
         });
@@ -229,7 +229,7 @@ main() {
                 noLastTrick,
                 noTricks,
                 domino,
-                trumps
+                salad
               ],
             ),
           )
@@ -257,7 +257,7 @@ main() {
         ContractsInfo.domino: dominoScores.map(
           (player, score) => MapEntry(player, score * players.length),
         ),
-        ContractsInfo.trumps: trumpsScores.map(
+        ContractsInfo.salad: saladScores.map(
           (player, score) => MapEntry(player, score * players.length),
         ),
       });
@@ -309,7 +309,7 @@ main() {
         ),
         ContractsInfo.noLastTrick: noLastTricksScores,
         ContractsInfo.domino: dominoScores,
-        ContractsInfo.trumps: null,
+        ContractsInfo.salad: null,
       });
     });
   });

@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,9 +45,12 @@ class RulesPage extends ConsumerWidget {
               heightFactor: 1,
               child: IconButton(
                 onPressed: ref.read(turnPageProvider).previousPage,
-                icon: const Column(
+                icon: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [ArrowIcon(isForward: false), Text("Précédent")],
+                  children: [
+                    const ArrowIcon(isForward: false),
+                    Text(context.l10n.previous),
+                  ],
                 ),
               ),
             ),
@@ -57,9 +61,12 @@ class RulesPage extends ConsumerWidget {
               heightFactor: 1,
               child: IconButton(
                 onPressed: ref.read(turnPageProvider).nextPage,
-                icon: const Column(
+                icon: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [ArrowIcon(isForward: true), Text("Suivant")],
+                  children: [
+                    const ArrowIcon(isForward: true),
+                    Text(context.l10n.next),
+                  ],
                 ),
               ),
             ),

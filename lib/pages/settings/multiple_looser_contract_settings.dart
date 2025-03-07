@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,14 +19,13 @@ class MultipleLooserContractSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String itemName = contract.displayName.replaceFirst("Sans ", "");
     final provider = ref.watch(contractSettingsProvider(contract));
     final settings = provider.settings as MultipleLooserContractSettings;
     return ContractSettingsPage(
       contract: contract,
       children: [
         SettingQuestion(
-          label: "Points par ${itemName.replaceFirst(RegExp(r's$'), "")}",
+          label: context.l10n.pointsBy(context.l10n.itemsName(contract)),
           input: NumberInput(
             points: settings.points,
             onChanged: provider.modifySetting(
@@ -35,9 +35,8 @@ class MultipleLooserContractSettingsPage extends ConsumerWidget {
         ),
         const SizedBox(height: 16),
         SettingQuestion(
-          tooltip:
-              "Si un joueur remporte la totalité des $itemName, son score devient négatif.",
-          label: "Inversion du score",
+          tooltip: context.l10n.invertScoreDetails,
+          label: context.l10n.invertScore,
           input: MySwitch(
             isActive: settings.invertScore,
             onChanged: provider.modifySetting(

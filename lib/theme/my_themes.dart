@@ -13,14 +13,15 @@ class MyThemes {
   static _baseTheme(ThemeData baseTheme) {
     final onSurfaceColor = baseTheme.colorScheme.onSurface;
     final grey = baseTheme.colorScheme.grey;
-    final disabledColor = baseTheme.brightness == Brightness.dark
-        ? const Color(0xffAFAFAF)
-        : const Color(0xff757575);
+    final disabledColor = baseTheme.colorScheme.disabled;
 
     final TextTheme textTheme = baseTheme.textTheme.apply(
       fontFamily: "QuickSand",
       displayColor: onSurfaceColor,
     );
+    final bodyMedium = textTheme.bodyMedium?.copyWith(fontSize: 16);
+    final titleMedium = textTheme.titleMedium?.copyWith(fontSize: 18);
+    final titleLarge = textTheme.titleLarge?.copyWith(fontSize: 22);
     return baseTheme.copyWith(
       colorScheme: baseTheme.colorScheme.copyWith(
         surfaceTint: baseTheme.scaffoldBackgroundColor,
@@ -30,11 +31,9 @@ class MyThemes {
         outline: onSurfaceColor,
         primary: onSurfaceColor,
       ),
-      textTheme: textTheme.copyWith(
-        bodyMedium: textTheme.bodyMedium?.copyWith(fontSize: 16),
-        titleMedium: textTheme.titleMedium?.copyWith(fontSize: 18),
+      dialogTheme: DialogTheme(
+        backgroundColor: baseTheme.scaffoldBackgroundColor,
       ),
-      dialogBackgroundColor: baseTheme.scaffoldBackgroundColor,
       disabledColor: disabledColor,
       dividerColor: onSurfaceColor,
       dropdownMenuTheme: DropdownMenuThemeData(
@@ -43,59 +42,13 @@ class MyThemes {
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
         ),
-        textStyle: textTheme.bodyMedium,
+        textStyle: bodyMedium,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          foregroundColor:
-              WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-            if (states.contains(WidgetState.disabled)) {
-              return disabledColor;
-            }
-            return onSurfaceColor;
-          }),
-          textStyle: WidgetStatePropertyAll(
-            textTheme.titleLarge?.copyWith(fontSize: 22),
-          ),
-          iconColor:
-              WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-            if (states.contains(WidgetState.disabled)) {
-              return disabledColor;
-            }
-            return onSurfaceColor;
-          }),
-          backgroundColor:
-              WidgetStatePropertyAll(baseTheme.scaffoldBackgroundColor),
-          overlayColor: WidgetStatePropertyAll(grey),
-          elevation: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
-            if (states.contains(WidgetState.disabled)) {
-              return 0;
-            }
-            return 10;
-          }),
-          shape: const WidgetStatePropertyAll(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.elliptical(8, 5)),
-            ),
-          ),
-          side: WidgetStateProperty.resolveWith<BorderSide>(
-              (Set<WidgetState> states) {
-            BorderSide border = BorderSide(
-              style: BorderStyle.solid,
-              width: 2,
-              color: onSurfaceColor,
-            );
-            if (states.contains(WidgetState.disabled)) {
-              border = border.copyWith(color: disabledColor, width: 1);
-            }
-            return border;
-          }),
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 16,
-            ),
-          ),
+        style: _buttonStyle(
+          theme: baseTheme,
+          textStyle: titleLarge,
+          hasElevation: true,
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
@@ -123,6 +76,9 @@ class MyThemes {
           borderRadius: BorderRadius.circular(10),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: _buttonStyle(theme: baseTheme, textStyle: titleLarge),
       ),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
@@ -160,11 +116,6 @@ class MyThemes {
         ),
         insetPadding: const EdgeInsets.all(0),
       ),
-      textButtonTheme: const TextButtonThemeData(
-        style: ButtonStyle(
-          padding: WidgetStatePropertyAll(EdgeInsets.zero),
-        ),
-      ),
       tabBarTheme: TabBarTheme(
         indicator: ShapeDecoration(
           color: baseTheme.scaffoldBackgroundColor,
@@ -186,13 +137,87 @@ class MyThemes {
         unselectedLabelColor: disabledColor,
         overlayColor: WidgetStatePropertyAll(grey),
       ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          textStyle: WidgetStatePropertyAll(titleLarge),
+        ),
+      ),
+      textTheme: textTheme.copyWith(
+        bodyMedium: bodyMedium,
+        titleMedium: titleMedium,
+        titleLarge: titleLarge,
+      ),
+    );
+  }
+
+  static ButtonStyle _buttonStyle({
+    required ThemeData theme,
+    required TextStyle? textStyle,
+    bool hasElevation = false,
+  }) {
+    final colorScheme = theme.colorScheme;
+    return ButtonStyle(
+      foregroundColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
+            return colorScheme.disabled;
+          }
+          return colorScheme.onSurface;
+        },
+      ),
+      textStyle: WidgetStatePropertyAll(textStyle),
+      iconColor:
+          WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
+          return colorScheme.disabled;
+        }
+        return colorScheme.onSurface;
+      }),
+      backgroundColor: WidgetStatePropertyAll(theme.scaffoldBackgroundColor),
+      overlayColor: WidgetStatePropertyAll(colorScheme.grey),
+      elevation: hasElevation
+          ? WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
+                return 0;
+              }
+              return 10;
+            })
+          : null,
+      shape: const WidgetStatePropertyAll(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.elliptical(8, 5)),
+        ),
+      ),
+      side: WidgetStateProperty.resolveWith<BorderSide>(
+          (Set<WidgetState> states) {
+        BorderSide border = BorderSide(
+          style: BorderStyle.solid,
+          width: 2,
+          color: colorScheme.onSurface,
+        );
+        if (states.contains(WidgetState.disabled)) {
+          border = border.copyWith(color: colorScheme.disabled, width: 1);
+        }
+        return border;
+      }),
+      padding: const WidgetStatePropertyAll(
+        EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      ),
     );
   }
 }
 
 extension CustomThemeValues on ColorScheme {
+  // The color to use for disabled texts
+  Color get disabled => brightness == Brightness.dark
+      ? const Color(0xffAFAFAF)
+      : const Color(0xff757575);
+
+  // The grey color matching theme
   Color get grey => const Color(0xffafafaf);
 
+  // The color to use for sucess texts
   Color get success =>
       brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
 

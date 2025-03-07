@@ -107,6 +107,8 @@ class ScoreTable extends StatelessWidget {
 
 /// A widget to represent the row of a table
 class ScoreRow {
+  final Key? key;
+
   /// The title of the row
   final String title;
 
@@ -116,14 +118,19 @@ class ScoreRow {
   /// The indicator to know if this line is the final line
   final bool isTotal;
 
-  const ScoreRow(
-      {required this.title, required this.scores, this.isTotal = false});
+  const ScoreRow({
+    required this.title,
+    required this.scores,
+    this.isTotal = false,
+    this.key,
+  });
 
   /// Builds the cells of a row from [scores] map. The values of this map are ordered by the [orderedScoreKeys]
   List<TableViewCell> build(
       TextStyle textStyle, List<String> orderedScoreKeys) {
     return [
       TableViewCell(
+        key: key,
         child: Center(
           child: Text(
             title,

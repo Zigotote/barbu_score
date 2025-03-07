@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,23 +18,23 @@ class MyScores extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
-      appBar: MyAppBar("Scores", context: context, hasLeading: true),
+      appBar: MyAppBar(context.l10n.scores, context: context, hasLeading: true),
       content: const OrderedPlayersScores(),
       bottomWidget: ElevatedButton(
-          child: const Text('Sauvegarder et quitter'),
+          child: Text(context.l10n.saveAndLeave),
           onPressed: () {
             final game = ref.read(playGameProvider).game;
             ref.read(logProvider).info("MyScores: save $game");
             ref.read(logProvider).sendAnalyticEvent(
-              "Save game",
+              "save_game",
               parameters: {"nbPlayers": game.players.length},
             );
             ref.read(storageProvider).saveGame(game);
             Navigator.of(context).popAndPushNamed(Routes.home);
             SnackBarUtils.instance.openSnackBar(
               context: context,
-              title: "Partie sauvegardée",
-              text: "Sélectionnez \"Charger une partie\" pour la poursuivre.",
+              title: context.l10n.gameSaved,
+              text: context.l10n.loadGameIndication,
             );
           }),
     );

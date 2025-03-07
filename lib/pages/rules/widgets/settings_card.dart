@@ -1,7 +1,7 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 
-import '../../../commons/widgets/custom_buttons.dart';
 import '../../../main.dart';
 
 /// A card to go to settings page
@@ -20,22 +20,25 @@ class SettingsCard extends StatelessWidget {
         spacing: 8,
         children: [
           const Icon(Icons.lightbulb_outline),
-          const Text(
-            "Les contrats sont modifiables dans la page de paramètres, pour personnaliser leurs points et variations.",
+          Text(
+            context.l10n.modifyContractsSettings,
             textAlign: TextAlign.center,
           ),
-          ElevatedButtonFullWidth(
-            onPressed: () => Navigator.of(context).pushNamed(Routes.settings),
-            child: Row(
-              spacing: 8,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.settings),
-                Text(
-                  "Paramètres",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: OutlinedButton(
+              onPressed: () => Navigator.of(context).pushNamed(Routes.settings),
+              child: Row(
+                spacing: 8,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.settings),
+                  Text(
+                    context.l10n.settings,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
             ),
           )
         ],

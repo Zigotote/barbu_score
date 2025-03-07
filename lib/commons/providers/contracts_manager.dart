@@ -56,9 +56,9 @@ class ContractsManager {
         model: OneLooserContractModel(contract: ContractsInfo.noLastTrick),
         settings: storage.getSettings(ContractsInfo.noLastTrick),
       ),
-      ContractsInfo.trumps: (
-        model: TrumpsContractModel(),
-        settings: storage.getSettings(ContractsInfo.trumps),
+      ContractsInfo.salad: (
+        model: SaladContractModel(),
+        settings: storage.getSettings(ContractsInfo.salad),
       ),
       ContractsInfo.domino: (
         model: DominoContractModel(),
@@ -89,7 +89,7 @@ class ContractsManager {
         Map<String, int>? scores;
         final AbstractContractModel? contractModel =
             player.contracts.firstWhereOrNull((c) => c.name == contract.name);
-        if (contractModel is TrumpsContractModel) {
+        if (contractModel is SaladContractModel) {
           scores = contractModel.scores(
             contractManager.settings,
             _contracts.values

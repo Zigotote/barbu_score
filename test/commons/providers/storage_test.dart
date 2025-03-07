@@ -1,16 +1,18 @@
+import 'dart:ui';
+
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils.dart';
+import '../../utils/utils.dart';
 
 main() {
   group("#game", () {
     final game = createGame(
       4,
-      [defaultBarbu, defaultNoHearts, defaultTrumps, defaultDomino],
+      [defaultBarbu, defaultNoHearts, defaultSalad, defaultDomino],
     );
     test("should return null when getStoredGame if no game", () async {
       await _initializeStorage();
@@ -68,10 +70,10 @@ main() {
       contract: ContractsInfo.noQueens,
       points: 20,
     );
-    final trumpsSettings = TrumpsContractSettings(
+    final saladSettings = SaladContractSettings(
       isActive: false,
       contracts: {
-        for (var contract in TrumpsContractSettings.availableContracts)
+        for (var contract in SaladContractSettings.availableContracts)
           contract.name: true
       },
     );
@@ -96,7 +98,7 @@ main() {
           noHeartsSettings,
           noTricksSettings,
           dominoSettings,
-          trumpsSettings
+          saladSettings
         ].firstWhere((settings) => settings.name == contract.name);
         final storage = MyStorage();
         storage.saveSettings(contract, settings);
@@ -104,6 +106,21 @@ main() {
         expect(storage.getSettings(contract), settings);
       });
     }
+  });
+  group("#locale", () {
+    const locale = Locale("fr");
+    test("should return null when getLocale if no locale saved", () async {
+      await _initializeStorage();
+      expect(MyStorage().getLocale(), isNull);
+    });
+    test("should save and get locale", () async {
+      await _initializeStorage();
+      final storage = MyStorage();
+
+      storage.saveLocale(locale);
+
+      expect(storage.getLocale(), locale);
+    });
   });
 }
 
