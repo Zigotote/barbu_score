@@ -34,15 +34,14 @@ class PrepareGame extends ConsumerWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Column(
+            spacing: 8,
             children: [
               Text(context.l10n.withdrawCards),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  getCardsToTakeOut(players.length).join(", "),
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
+              Text(
+                getCardsToTakeOut(players.length).join(", "),
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
+              Text(context.l10n.fromTheDeck),
             ],
           ),
           _buildTable(context, players),
