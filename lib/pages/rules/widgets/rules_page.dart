@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_appbar.dart';
@@ -29,8 +30,9 @@ class RulesPage extends ConsumerWidget {
       appBar: MyAppBar(
         title,
         context: context,
+        hasLeading: false,
         trailing: IconButton.outlined(
-          onPressed: Navigator.of(context).pop,
+          onPressed: context.pop,
           icon: const Icon(Icons.close),
           tooltip: "Fermer",
         ),

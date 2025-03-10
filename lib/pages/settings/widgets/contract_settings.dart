@@ -34,7 +34,6 @@ class ContractSettingsPage extends ConsumerWidget {
           context.l10n.contractName(contract),
         ),
         context: context,
-        hasLeading: true,
       ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

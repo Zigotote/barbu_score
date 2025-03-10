@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../commons/models/game.dart';
@@ -31,9 +32,9 @@ class MyHome extends ConsumerWidget {
     }
     if (provider.game.isFinished) {
       ref.read(storageProvider).saveGame(provider.game);
-      Navigator.of(context).pushNamed(Routes.finishGame);
+      context.push(Routes.finishGame);
     } else {
-      Navigator.of(context).pushNamed(Routes.prepareGame);
+      context.push(Routes.prepareGame);
     }
     ref.read(logProvider).info("MyHome.loadGame: load $game");
     ref.read(logProvider).sendAnalyticEvent("load_game");
@@ -43,7 +44,7 @@ class MyHome extends ConsumerWidget {
   _startGame(BuildContext context, WidgetRef ref) {
     ref.read(logProvider).info("MyHome.startGame: start game");
     ref.read(logProvider).sendAnalyticEvent("start_game");
-    Navigator.of(context).pushNamed(Routes.createGame);
+    context.push(Routes.createGame);
   }
 
   bool _verifyHasActiveContracts(BuildContext context, WidgetRef ref) {
@@ -59,7 +60,7 @@ class MyHome extends ConsumerWidget {
                 AlertDialogActionButton(
                   text: context.l10n.modifySettings,
                   onPressed: () {
-                    Navigator.of(context).pushNamed(Routes.settings);
+                    context.push(Routes.settings);
                   },
                 ),
               ],
@@ -159,49 +160,45 @@ class MyHome extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     WakelockPlus.disable();
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/background.png"),
-              fit: BoxFit.fitWidth,
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            MyAppBar(
+              context.l10n.appName,
+              context: context,
+              isHome: true,
+              hasLeading: false,
             ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              MyAppBar(
-                context.l10n.appName,
-                context: context,
-                isHome: true,
-                hasLeading: false,
+            ElevatedButtonFullWidth(
+              child: Text(
+                context.l10n.startGame,
+                textAlign: TextAlign.center,
               ),
-              ElevatedButtonFullWidth(
-                child: Text(
-                  context.l10n.startGame,
-                  textAlign: TextAlign.center,
-                ),
-                onPressed: () => _confirmStartGame(context, ref),
-              ),
-              ElevatedButtonFullWidth(
-                child: Text(context.l10n.loadGame, textAlign: TextAlign.center),
-                onPressed: () => _confirmLoadGame(context, ref),
-              ),
-              ElevatedButton(
-                child: Text(context.l10n.rules, textAlign: TextAlign.center),
-                onPressed: () => Navigator.of(context).pushNamed(Routes.rules),
-              ),
-              IconButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(Routes.settings),
-                icon: const Icon(Icons.settings),
-                iconSize: 55,
-                tooltip: context.l10n.settings,
-              ),
-            ],
-          ),
+              onPressed: () => _confirmStartGame(context, ref),
+            ),
+            ElevatedButtonFullWidth(
+              child: Text(context.l10n.loadGame, textAlign: TextAlign.center),
+              onPressed: () => _confirmLoadGame(context, ref),
+            ),
+            ElevatedButton(
+              child: Text(context.l10n.rules, textAlign: TextAlign.center),
+              onPressed: () => context.push(Routes.rules),
+            ),
+            IconButton(
+              onPressed: () => context.push(Routes.settings),
+              icon: const Icon(Icons.settings),
+              iconSize: 55,
+              tooltip: context.l10n.settings,
+            ),
+          ],
         ),
       ),
     );

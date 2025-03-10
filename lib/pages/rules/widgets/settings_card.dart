@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../main.dart';
 
@@ -27,7 +28,7 @@ class SettingsCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: OutlinedButton(
-              onPressed: () => Navigator.of(context).pushNamed(Routes.settings),
+              onPressed: () => context.push(Routes.settings),
               child: Row(
                 spacing: 8,
                 mainAxisAlignment: MainAxisAlignment.center,
