@@ -2,6 +2,7 @@ import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
@@ -120,8 +121,9 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
 
     if (isFinished) {
       SnackBarUtils.instance.closeSnackBar(context);
-      Navigator.of(context).popAndPushNamed(
-          provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame);
+      context.go(
+        provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
+      );
     } else {
       SnackBarUtils.instance.openSnackBar(
         context: context,
@@ -137,7 +139,6 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
       appBar: MyAppBar(
         context.l10n.playerTurn(ref.read(playGameProvider).currentPlayer.name),
         context: context,
-        hasLeading: true,
       ),
       content: Column(
         spacing: 8,

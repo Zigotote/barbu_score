@@ -12,6 +12,7 @@ import 'package:barbu_score/pages/settings/my_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
@@ -199,14 +200,25 @@ Widget _createPage(
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(
-      home: const MyHome(),
-      routes: {
-        Routes.createGame: (_) => CreateGame(),
-        Routes.settings: (_) => const MySettings(),
-        Routes.prepareGame: (_) => const PrepareGame(),
-        Routes.finishGame: (_) => const FinishGame(),
-      },
+    child: FrenchMaterialApp.router(
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
+          GoRoute(path: Routes.createGame, builder: (_, __) => CreateGame()),
+          GoRoute(
+            path: Routes.settings,
+            builder: (_, __) => const MySettings(),
+          ),
+          GoRoute(
+            path: Routes.prepareGame,
+            builder: (_, __) => const PrepareGame(),
+          ),
+          GoRoute(
+            path: Routes.finishGame,
+            builder: (_, __) => const FinishGame(),
+          ),
+        ],
+      ),
     ),
   );
 }

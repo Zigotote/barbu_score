@@ -15,10 +15,10 @@ import '../commons/widgets/score_table.dart';
 
 /// A page to display the scores for the contracts of a player
 class ScoresByPlayer extends ConsumerWidget {
-  /// The player whose contract scores are shown
-  final Player player;
+  /// The name of the player whose contract scores are shown
+  final String playerName;
 
-  const ScoresByPlayer(this.player, {super.key});
+  const ScoresByPlayer(this.playerName, {super.key});
 
   /// Builds the rows to display player scores for each contract
   List<ScoreRow> _buildPlayerRows(
@@ -53,19 +53,18 @@ class ScoresByPlayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref
-        .read(logProvider)
-        .info("ScoresByPlayer: show scores for ${player.name}");
+    ref.read(logProvider).info("ScoresByPlayer: show scores for $playerName");
     ref.read(logProvider).sendAnalyticEvent("scores_by_player");
     final players = ref.read(playGameProvider).players;
-    final playerScores =
-        ref.read(contractsManagerProvider).scoresByContract(player);
+    final playerScores = ref.read(contractsManagerProvider).scoresByContract(
+          players.firstWhere((player) => player.name == playerName),
+        );
     return DefaultPage(
-      appBar: MyAppBar(context.l10n.scores, context: context, hasLeading: true),
+      appBar: MyAppBar(context.l10n.scores, context: context),
       content: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          MySubtitle(context.l10n.contractsOf(player.name)),
+          MySubtitle(context.l10n.contractsOf(playerName)),
           Expanded(
             child: ScoreTable(
               players: players,

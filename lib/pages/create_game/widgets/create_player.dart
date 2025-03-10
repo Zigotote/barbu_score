@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../commons/models/player.dart';
 import '../../../commons/widgets/colored_container.dart';
@@ -61,10 +62,10 @@ class CreatePlayer extends StatelessWidget {
       context: context,
       builder: (_) => DialogChangePlayerInfo(
         player: player,
-        onValidate: Navigator.of(context).pop,
+        onValidate: context.pop,
         onDelete: () {
           onRemove.call();
-          Navigator.of(context).pop();
+          context.pop();
         },
       ),
     );

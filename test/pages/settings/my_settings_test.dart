@@ -4,6 +4,7 @@ import 'package:barbu_score/commons/models/my_locales.dart';
 import 'package:barbu_score/commons/providers/locale_provider.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/commons/utils/router_extension.dart';
 import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
@@ -16,12 +17,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils/french_material_app.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
+
+final _router = GoRouter(
+  routes: [
+    GoRoute(
+      path: Routes.home,
+      builder: (_, __) => const MySettings(),
+    ),
+    GoRoute(
+      path:
+          "${Routes.barbuOrNoLastTrickSettings}/:${MyGoRouterState.contractParameter}",
+      builder: (_, state) => OneLooserContractSettingsPage(state.contract),
+    ),
+    GoRoute(
+      path:
+          "${Routes.noSomethingScoresSettings}/:${MyGoRouterState.contractParameter}",
+      builder: (_, state) => MultipleLooserContractSettingsPage(state.contract),
+    ),
+    GoRoute(
+        path: Routes.dominoSettings,
+        builder: (_, __) => const DominoContractSettingsPage()),
+    GoRoute(
+      path: Routes.saladSettings,
+      builder: (_, __) => const SaladContractSettingsPage(),
+    ),
+  ],
+);
 
 main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -46,21 +74,11 @@ main() {
       UncontrolledProviderScope(
         container: container,
         child: Consumer(builder: (context, ref, _) {
-          return MaterialApp(
+          return MaterialApp.router(
             supportedLocales: [MyLocales.fr.locale],
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             locale: ref.watch(localeProvider),
-            home: const MySettings(),
-            routes: {
-              Routes.barbuOrNoLastTrickSettings: (context) =>
-                  OneLooserContractSettingsPage(
-                      Routes.getArgument<ContractsInfo>(context)),
-              Routes.noSomethingScoresSettings: (context) =>
-                  MultipleLooserContractSettingsPage(
-                      Routes.getArgument<ContractsInfo>(context)),
-              Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
-              Routes.saladSettings: (_) => const SaladContractSettingsPage(),
-            },
+            routerConfig: _router,
           );
         }),
       ),
@@ -217,18 +235,6 @@ Widget _createPage(
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(
-      home: const MySettings(),
-      routes: {
-        Routes.barbuOrNoLastTrickSettings: (context) =>
-            OneLooserContractSettingsPage(
-                Routes.getArgument<ContractsInfo>(context)),
-        Routes.noSomethingScoresSettings: (context) =>
-            MultipleLooserContractSettingsPage(
-                Routes.getArgument<ContractsInfo>(context)),
-        Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
-        Routes.saladSettings: (_) => const SaladContractSettingsPage(),
-      },
-    ),
+    child: FrenchMaterialApp.router(routerConfig: _router),
   );
 }
