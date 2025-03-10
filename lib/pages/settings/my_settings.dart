@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/providers/log.dart';
@@ -24,7 +25,6 @@ class MySettings extends ConsumerWidget {
       appBar: MyAppBar(
         context.l10n.settings,
         context: context,
-        hasLeading: true,
       ),
       content: SingleChildScrollView(
         child: Column(
@@ -52,12 +52,7 @@ class MySettings extends ConsumerWidget {
                             "MySettings: open settings for ${contract.name}",
                           );
                       SnackBarUtils.instance.closeSnackBar(context);
-                      Navigator.of(context)
-                          .pushNamed(
-                        contract.settingsRoute,
-                        arguments: contract,
-                      )
-                          .then((_) {
+                      context.push(contract.settingsRoute).then((_) {
                         final settingsProvider =
                             ref.read(contractSettingsProvider(contract));
                         final newSettings = settingsProvider.settings;

@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_models.dart';
@@ -67,10 +68,11 @@ class SubContractPage extends ConsumerWidget {
     if (isFinished) {
       SnackBarUtils.instance.closeSnackBar(context);
       if (isPartOfSaladContract) {
-        Navigator.of(context).pop();
+        context.pop();
       } else {
-        Navigator.of(context).popAndPushNamed(
-            playGame.nextPlayer() ? Routes.chooseContract : Routes.finishGame);
+        context.go(
+          playGame.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
+        );
       }
     } else {
       SnackBarUtils.instance.openSnackBar(
@@ -94,7 +96,7 @@ class SubContractPage extends ConsumerWidget {
       validateText = context.l10n.validateScores;
     }
     return DefaultPage(
-      appBar: MyAppBar(titleText, context: context, hasLeading: true),
+      appBar: MyAppBar(titleText, context: context),
       content: Column(
         children: [
           MySubtitle(subtitle),

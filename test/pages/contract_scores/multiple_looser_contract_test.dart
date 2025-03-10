@@ -6,11 +6,11 @@ import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
-import 'package:barbu_score/pages/contract_scores/models/contract_route_argument.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
@@ -146,14 +146,22 @@ Widget _createPage(
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(
-      home: MultipleLooserContractPage(
-        ContractRouteArgument(
-          contractInfo: ContractsInfo.noQueens,
-          contractModel: contractValues,
-        ),
+    child: FrenchMaterialApp.router(
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(
+            path: Routes.home,
+            builder: (_, __) => MultipleLooserContractPage(
+              ContractsInfo.noQueens,
+              contractModel: contractValues,
+            ),
+          ),
+          GoRoute(
+            path: Routes.chooseContract,
+            builder: (_, __) => const ChooseContract(),
+          )
+        ],
       ),
-      routes: {Routes.chooseContract: (_) => const ChooseContract()},
     ),
   );
 }

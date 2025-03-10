@@ -2,6 +2,7 @@ import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
@@ -13,7 +14,6 @@ import '../../commons/widgets/list_layouts.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
-import 'models/contract_route_argument.dart';
 import 'notifiers/salad_provider.dart';
 
 class SaladContractPage extends ConsumerWidget {
@@ -39,10 +39,7 @@ class SaladContractPage extends ConsumerWidget {
         context.l10n.contractName(contract),
         textAlign: TextAlign.center,
       ),
-      onPressed: () => Navigator.of(context).pushNamed(
-        contract.scoreRoute,
-        arguments: ContractRouteArgument(contractInfo: contract),
-      ),
+      onPressed: () => context.push(contract.scoreRoute),
     );
   }
 
@@ -52,13 +49,7 @@ class SaladContractPage extends ConsumerWidget {
     return ElevatedButtonWithIndicator(
       key: Key(contract.name),
       text: context.l10n.contractName(contract),
-      onPressed: () => Navigator.of(context).pushNamed(
-        contract.scoreRoute,
-        arguments: ContractRouteArgument(
-          contractInfo: contract,
-          contractModel: contractValues,
-        ),
-      ),
+      onPressed: () => context.push(contract.scoreRoute, extra: contractValues),
       indicator: Icon(
         Icons.task_alt_outlined,
         color: Theme.of(context).colorScheme.success,
@@ -75,7 +66,7 @@ class SaladContractPage extends ConsumerWidget {
     final provider = ref.read(playGameProvider);
     provider.finishContract(saladProvider.model);
 
-    Navigator.of(context).popAndPushNamed(
+    context.go(
       provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
     );
   }
@@ -87,7 +78,6 @@ class SaladContractPage extends ConsumerWidget {
       appBar: MyAppBar(
         context.l10n.playerTurn(ref.watch(playGameProvider).currentPlayer.name),
         context: context,
-        hasLeading: true,
       ),
       content: Column(
         spacing: 8,

@@ -15,8 +15,6 @@
 - ajouter une icône sur les boutons de contrats ?
 - changer la barre de titre "tour du joueur" en y mettant aussi son icône ? Ou en mettant en ligne
   toutes les icônes et en mettant en avant le joueur en cours ?
-- si on est sur la page du 1er joueur qui reprend la partie, permettre de faire un retour arrière
-  vers la page de préparation de la partie +
 
 ## Page contrat
 
