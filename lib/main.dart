@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import 'commons/models/contract_info.dart';
-import 'commons/models/player.dart';
+import 'commons/models/contract_models.dart';
 import 'commons/providers/locale_provider.dart';
 import 'commons/providers/storage.dart';
+import 'commons/utils/router_extension.dart';
 import 'firebase_options.dart';
 import 'pages/choose_contract.dart';
 import 'pages/contract_scores/domino_contract.dart';
-import 'pages/contract_scores/models/contract_route_argument.dart';
 import 'pages/contract_scores/multiple_looser_contract.dart';
 import 'pages/contract_scores/one_looser_contract.dart';
 import 'pages/contract_scores/salad_contract.dart';
@@ -49,62 +49,115 @@ void main() async {
 
   await MyStorage.init();
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(
+      child: MyApp(
+        // Router is initialized before any ref.watch call to prevent the app from an entire reload when a provider updates
+        // cf https://github.com/flutter/flutter/issues/136579
+        router: GoRouter(
+          initialLocation: Routes.home,
+          routes: [
+            GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
+            GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
+            GoRoute(path: Routes.rules, builder: (_, __) => const MyRules()),
+            GoRoute(
+              path: Routes.settings,
+              builder: (_, __) => const MySettings(),
+            ),
+            GoRoute(
+              path:
+                  "${Routes.barbuOrNoLastTrickSettings}/:${MyGoRouterState.contractParameter}",
+              builder: (_, state) =>
+                  OneLooserContractSettingsPage(state.contract),
+            ),
+            GoRoute(
+              path:
+                  "${Routes.noSomethingScoresSettings}/:${MyGoRouterState.contractParameter}",
+              builder: (_, state) =>
+                  MultipleLooserContractSettingsPage(state.contract),
+            ),
+            GoRoute(
+                path: Routes.dominoSettings,
+                builder: (_, __) => const DominoContractSettingsPage()),
+            GoRoute(
+              path: Routes.saladSettings,
+              builder: (_, __) => const SaladContractSettingsPage(),
+            ),
+            GoRoute(path: Routes.createGame, builder: (_, __) => CreateGame()),
+            GoRoute(
+                path: Routes.prepareGame,
+                builder: (_, __) => const PrepareGame()),
+            GoRoute(
+                path: Routes.chooseContract,
+                builder: (_, __) => const ChooseContract()),
+            GoRoute(
+              path:
+                  "${Routes.barbuOrNoLastTrickScores}/:${MyGoRouterState.contractParameter}",
+              builder: (_, state) => OneLooserContractPage(
+                state.contract,
+                contractModel: state.extra as OneLooserContractModel?,
+              ),
+            ),
+            GoRoute(
+              path: Routes.dominoScores,
+              builder: (_, __) => const DominoContractPage(),
+            ),
+            GoRoute(
+              path:
+                  "${Routes.noSomethingScores}/:${MyGoRouterState.contractParameter}",
+              builder: (_, state) => MultipleLooserContractPage(
+                state.contract,
+                contractModel: state.extra as MultipleLooserContractModel?,
+              ),
+            ),
+            GoRoute(
+              path: Routes.saladScores,
+              builder: (_, __) => const SaladContractPage(),
+            ),
+            GoRoute(path: Routes.scores, builder: (_, __) => const MyScores()),
+            GoRoute(
+              path: Routes.scoresByPlayer,
+              name: Routes.scoresByPlayer,
+              builder: (_, state) => ScoresByPlayer(
+                state.uri.queryParameters[MyGoRouterState.playerParameter]!,
+              ),
+            ),
+            GoRoute(
+              path: Routes.finishGame,
+              builder: (_, __) => const FinishGame(),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+  final GoRouter router;
+
+  const MyApp({super.key, required this.router});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var themeMode = _getThemeMode(ref);
-    return MaterialApp(
+    return MaterialApp.router(
       onGenerateTitle: (context) => context.l10n.appTitle,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: ref.watch(localeProvider),
       theme: MyThemes.light,
       darkTheme: MyThemes.dark,
-      themeMode: themeMode,
-      routes: {
-        Routes.home: (_) => const MyHome(),
-        Routes.rules: (_) => const MyRules(),
-        Routes.settings: (_) => const MySettings(),
-        Routes.barbuOrNoLastTrickSettings: (context) =>
-            OneLooserContractSettingsPage(
-                Routes.getArgument<ContractsInfo>(context)),
-        Routes.noSomethingScoresSettings: (context) =>
-            MultipleLooserContractSettingsPage(
-                Routes.getArgument<ContractsInfo>(context)),
-        Routes.dominoSettings: (_) => const DominoContractSettingsPage(),
-        Routes.saladSettings: (_) => const SaladContractSettingsPage(),
-        Routes.createGame: (_) => CreateGame(),
-        Routes.prepareGame: (_) => const PrepareGame(),
-        Routes.chooseContract: (_) => const ChooseContract(),
-        Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractPage(
-            Routes.getArgument<ContractRouteArgument>(context)),
-        Routes.dominoScores: (_) => const DominoContractPage(),
-        Routes.noSomethingScores: (context) => MultipleLooserContractPage(
-            Routes.getArgument<ContractRouteArgument>(context)),
-        Routes.saladScores: (_) => const SaladContractPage(),
-        Routes.scores: (_) => const MyScores(),
-        Routes.scoresByPlayer: (context) =>
-            ScoresByPlayer(Routes.getArgument<Player>(context)),
-        Routes.finishGame: (_) => const FinishGame(),
-      },
-      initialRoute: Routes.home,
-      // Another ProviderScope so that whole app is not reloaded after theme mode change
-      builder: (context, child) => ProviderScope(
-        child: AnnotatedRegion(
-          value: SystemUiOverlayStyle(
-            systemNavigationBarColor: Theme.of(context).colorScheme.surface,
-            systemNavigationBarIconBrightness:
-                Theme.of(context).brightness == Brightness.dark
-                    ? Brightness.light
-                    : Brightness.dark,
-          ),
-          child: child!,
+      themeMode: _getThemeMode(ref),
+      routerConfig: router,
+      builder: (context, child) => AnnotatedRegion(
+        value: SystemUiOverlayStyle(
+          systemNavigationBarColor: Theme.of(context).colorScheme.surface,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.light
+                  : Brightness.dark,
         ),
+        child: child!,
       ),
     );
   }
@@ -143,8 +196,4 @@ class Routes {
   static const scores = "/scores";
   static const scoresByPlayer = "/scores/player";
   static const finishGame = "/end_game";
-
-  @visibleForTesting
-  static T getArgument<T>(BuildContext context) =>
-      ModalRoute.of(context)?.settings.arguments as T;
 }

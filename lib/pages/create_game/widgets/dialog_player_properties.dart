@@ -2,6 +2,7 @@ import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../commons/models/player.dart';
 import '../../../commons/utils/player_icon_properties.dart';
@@ -60,7 +61,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
       icon: Align(
         alignment: Alignment.centerRight,
         child: IconButton(
-          onPressed: Navigator.of(context).pop,
+          onPressed: context.pop,
           icon: const Icon(Icons.close),
           style: IconButton.styleFrom(
             backgroundColor: Colors.transparent,

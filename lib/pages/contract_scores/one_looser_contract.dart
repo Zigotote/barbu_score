@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,15 +9,17 @@ import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/list_layouts.dart';
-import 'models/contract_route_argument.dart';
 import 'widgets/contract_page.dart';
 
 /// A page to fill the scores for a contract where only one player can loose
 class OneLooserContractPage extends ConsumerStatefulWidget {
-  /// The contract the player choose and the previous values, if it needs to be modified
-  final ContractRouteArgument routeArgument;
+  /// The contract the player choose
+  final ContractsInfo contract;
 
-  const OneLooserContractPage(this.routeArgument, {super.key});
+  /// The saved values for this contract, if it has already been filled
+  final OneLooserContractModel? contractModel;
+
+  const OneLooserContractPage(this.contract, {super.key, this.contractModel});
 
   @override
   ConsumerState<OneLooserContractPage> createState() =>
@@ -37,9 +40,8 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
   initState() {
     super.initState();
     _players = ref.read(playGameProvider).players;
-    if (widget.routeArgument.isForModification) {
-      contractModel =
-          widget.routeArgument.contractModel as OneLooserContractModel;
+    if (widget.contractModel != null) {
+      contractModel = widget.contractModel!;
       final String playerNameWithItem = contractModel.itemsByPlayer.entries
           .firstWhere((player) => player.value == 1)
           .key;
@@ -48,7 +50,7 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
     } else {
       contractModel = ref
           .read(contractsManagerProvider)
-          .getContractManager(widget.routeArgument.contractInfo)
+          .getContractManager(widget.contract)
           .model as OneLooserContractModel;
     }
   }
@@ -81,11 +83,11 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
   Widget build(BuildContext context) {
     final players = ref.read(playGameProvider).players;
     return SubContractPage(
-      contract: widget.routeArgument.contractInfo,
+      contract: widget.contract,
       subtitle: context.l10n.whoWonItem(
-        context.l10n.contractName(widget.routeArgument.contractInfo),
+        context.l10n.contractName(widget.contract),
       ),
-      isModification: widget.routeArgument.isForModification,
+      isModification: widget.contractModel != null,
       isValid: _selectedPlayer != null,
       itemsByPlayer: {
         for (var player in players)

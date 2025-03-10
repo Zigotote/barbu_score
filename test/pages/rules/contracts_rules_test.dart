@@ -7,6 +7,7 @@ import 'package:barbu_score/pages/settings/my_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
@@ -57,9 +58,17 @@ Widget _createPage([List<ContractsInfo>? activeContracts]) {
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(
-      home: const ContractsRules(0),
-      routes: {Routes.settings: (_) => const MySettings()},
+    child: FrenchMaterialApp.router(
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(
+              path: Routes.home, builder: (_, __) => const ContractsRules(0)),
+          GoRoute(
+            path: Routes.settings,
+            builder: (_, __) => const MySettings(),
+          ),
+        ],
+      ),
     ),
   );
 }

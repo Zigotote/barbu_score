@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../commons/models/player.dart';
@@ -23,11 +24,7 @@ class PrepareGame extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<Player> players = ref.read(playGameProvider).players;
     return DefaultPage(
-      appBar: MyAppBar(
-        context.l10n.prepareGame,
-        context: context,
-        hasLeading: true,
-      ),
+      appBar: MyAppBar(context.l10n.prepareGame, context: context),
       content: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,8 +48,7 @@ class PrepareGame extends ConsumerWidget {
         child: Text(context.l10n.go),
         onPressed: () {
           WakelockPlus.enable();
-          Navigator.of(context).popUntil((route) => route.isFirst);
-          Navigator.of(context).pushNamed(Routes.chooseContract);
+          context.push(Routes.chooseContract);
         },
       ),
     );

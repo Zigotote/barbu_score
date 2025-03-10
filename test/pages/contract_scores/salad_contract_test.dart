@@ -5,10 +5,10 @@ import 'package:barbu_score/commons/providers/contracts_manager.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/commons/utils/router_extension.dart';
 import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
-import 'package:barbu_score/pages/contract_scores/models/contract_route_argument.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
 import 'package:barbu_score/pages/contract_scores/notifiers/salad_provider.dart';
 import 'package:barbu_score/pages/contract_scores/one_looser_contract.dart';
@@ -16,6 +16,7 @@ import 'package:barbu_score/pages/contract_scores/salad_contract.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
@@ -226,17 +227,35 @@ UncontrolledProviderScope _createPage(PatrolTester $,
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(
-      home: const SaladContractPage(),
-      routes: {
-        Routes.chooseContract: (_) => const ChooseContract(),
-        Routes.barbuOrNoLastTrickScores: (context) => OneLooserContractPage(
-              Routes.getArgument<ContractRouteArgument>(context),
+    child: FrenchMaterialApp.router(
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(
+            path: Routes.home,
+            builder: (_, __) => const SaladContractPage(),
+          ),
+          GoRoute(
+            path: Routes.chooseContract,
+            builder: (_, __) => const ChooseContract(),
+          ),
+          GoRoute(
+            path:
+                "${Routes.barbuOrNoLastTrickScores}/:${MyGoRouterState.contractParameter}",
+            builder: (_, state) => OneLooserContractPage(
+              state.contract,
+              contractModel: state.extra as OneLooserContractModel?,
             ),
-        Routes.noSomethingScores: (context) => MultipleLooserContractPage(
-              Routes.getArgument<ContractRouteArgument>(context),
+          ),
+          GoRoute(
+            path:
+                "${Routes.noSomethingScores}/:${MyGoRouterState.contractParameter}",
+            builder: (_, state) => MultipleLooserContractPage(
+              state.contract,
+              contractModel: state.extra as MultipleLooserContractModel?,
             ),
-      },
+          ),
+        ],
+      ),
     ),
   );
 }

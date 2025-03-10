@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../commons/providers/log.dart';
 import '../commons/providers/play_game.dart';
@@ -18,7 +19,7 @@ class MyScores extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
-      appBar: MyAppBar(context.l10n.scores, context: context, hasLeading: true),
+      appBar: MyAppBar(context.l10n.scores, context: context),
       content: const OrderedPlayersScores(),
       bottomWidget: ElevatedButton(
           child: Text(context.l10n.saveAndLeave),
@@ -30,7 +31,7 @@ class MyScores extends ConsumerWidget {
               parameters: {"nbPlayers": game.players.length},
             );
             ref.read(storageProvider).saveGame(game);
-            Navigator.of(context).popAndPushNamed(Routes.home);
+            context.go(Routes.home);
             SnackBarUtils.instance.openSnackBar(
               context: context,
               title: context.l10n.gameSaved,

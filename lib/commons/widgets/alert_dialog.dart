@@ -1,5 +1,6 @@
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'custom_buttons.dart';
 
@@ -43,7 +44,7 @@ class MyAlertDialog extends AlertDialog {
                   text: action.text,
                   onPressed: closeOnAction
                       ? () {
-                          Navigator.of(context).pop();
+                          context.pop();
                           action.onPressed?.call();
                         }
                       : action.onPressed ?? () {},

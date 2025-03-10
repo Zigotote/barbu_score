@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../commons/models/player.dart';
 import '../commons/providers/contracts_manager.dart';
@@ -10,7 +11,6 @@ import '../commons/widgets/default_page.dart';
 import '../commons/widgets/list_layouts.dart';
 import '../commons/widgets/my_appbar.dart';
 import '../main.dart';
-import 'contract_scores/models/contract_route_argument.dart';
 
 /// A page for a player to choose his contract
 class ChooseContract extends ConsumerWidget {
@@ -40,11 +40,7 @@ class ChooseContract extends ConsumerWidget {
                           ref.read(logProvider).info(
                                 "ChooseContract: ${player.name} choose ${contract.name}",
                               );
-                          Navigator.of(context).pushNamed(
-                            contract.scoreRoute,
-                            arguments:
-                                ContractRouteArgument(contractInfo: contract),
-                          );
+                          context.push(contract.scoreRoute);
                         },
                   child: Text(
                     context.l10n.contractName(contract),
@@ -57,7 +53,7 @@ class ChooseContract extends ConsumerWidget {
       ),
       bottomWidget: ElevatedButton(
         child: Text(context.l10n.scores),
-        onPressed: () => Navigator.of(context).pushNamed(Routes.scores),
+        onPressed: () => context.push(Routes.scores),
       ),
     );
   }

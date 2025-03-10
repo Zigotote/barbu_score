@@ -4,24 +4,24 @@ import 'contract_settings_models.dart';
 /// List the names of the contracts for a game
 enum ContractsInfo {
   barbu(
-    scoreRoute: Routes.barbuOrNoLastTrickScores,
-    settingsRoute: Routes.barbuOrNoLastTrickSettings,
+    scoreRoute: "${Routes.barbuOrNoLastTrickScores}/barbu",
+    settingsRoute: "${Routes.barbuOrNoLastTrickSettings}/barbu",
   ),
   noHearts(
-    scoreRoute: Routes.noSomethingScores,
-    settingsRoute: Routes.noSomethingScoresSettings,
+    scoreRoute: "${Routes.noSomethingScores}/noHearts",
+    settingsRoute: "${Routes.noSomethingScoresSettings}/noHearts",
   ),
   noQueens(
-    scoreRoute: Routes.noSomethingScores,
-    settingsRoute: Routes.noSomethingScoresSettings,
+    scoreRoute: "${Routes.noSomethingScores}/noQueens",
+    settingsRoute: "${Routes.noSomethingScoresSettings}/noQueens",
   ),
   noTricks(
-    scoreRoute: Routes.noSomethingScores,
-    settingsRoute: Routes.noSomethingScoresSettings,
+    scoreRoute: "${Routes.noSomethingScores}/noTricks",
+    settingsRoute: "${Routes.noSomethingScoresSettings}/noTricks",
   ),
   noLastTrick(
-    scoreRoute: Routes.barbuOrNoLastTrickScores,
-    settingsRoute: Routes.barbuOrNoLastTrickSettings,
+    scoreRoute: "${Routes.barbuOrNoLastTrickScores}/noLastTrick",
+    settingsRoute: "${Routes.barbuOrNoLastTrickSettings}/noLastTrick",
   ),
   salad(
     scoreRoute: Routes.saladScores,

@@ -10,6 +10,7 @@ import 'package:barbu_score/pages/prepare_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils/french_material_app.dart';
@@ -168,11 +169,16 @@ Widget _createPage(PatrolTester $) {
     container: ProviderContainer(overrides: [
       logProvider.overrideWithValue(MockMyLog()),
     ]),
-    child: FrenchMaterialApp(
-      home: CreateGame(),
-      routes: {
-        Routes.prepareGame: (_) => const PrepareGame(),
-      },
+    child: FrenchMaterialApp.router(
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(path: Routes.home, builder: (_, __) => CreateGame()),
+          GoRoute(
+            path: Routes.prepareGame,
+            builder: (_, __) => const PrepareGame(),
+          ),
+        ],
+      ),
     ),
   );
 }

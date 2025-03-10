@@ -1,9 +1,9 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
-import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/providers/contracts_manager.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/commons/utils/router_extension.dart';
 import 'package:barbu_score/commons/widgets/player_score_button.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/my_home.dart';
@@ -12,10 +12,11 @@ import 'package:barbu_score/pages/scores_by_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
-import '../utils/french_material_app.dart';
 
+import '../utils/french_material_app.dart';
 import '../utils/utils.dart';
 import '../utils/utils.mocks.dart';
 
@@ -131,14 +132,21 @@ Widget _createPage(PatrolTester $,
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(
-      home: const MyHome(),
-      initialRoute: Routes.scores,
-      routes: {
-        Routes.scores: (_) => const MyScores(),
-        Routes.scoresByPlayer: (context) =>
-            ScoresByPlayer(Routes.getArgument<Player>(context))
-      },
+    child: FrenchMaterialApp.router(
+      routerConfig: GoRouter(
+        initialLocation: Routes.scores,
+        routes: [
+          GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
+          GoRoute(path: Routes.scores, builder: (_, __) => const MyScores()),
+          GoRoute(
+            path: Routes.scoresByPlayer,
+            name: Routes.scoresByPlayer,
+            builder: (_, state) => ScoresByPlayer(
+              state.uri.queryParameters[MyGoRouterState.playerParameter]!,
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

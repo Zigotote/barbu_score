@@ -8,6 +8,7 @@ import 'package:barbu_score/pages/contract_scores/domino_contract.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
@@ -82,9 +83,18 @@ Widget _createPage([MockPlayGameNotifier? mockPlayGame]) {
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(
-      home: const DominoContractPage(),
-      routes: {Routes.chooseContract: (_) => const ChooseContract()},
+    child: FrenchMaterialApp.router(
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(
+              path: Routes.home,
+              builder: (_, __) => const DominoContractPage()),
+          GoRoute(
+            path: Routes.chooseContract,
+            builder: (_, __) => const ChooseContract(),
+          ),
+        ],
+      ),
     ),
   );
 }

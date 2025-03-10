@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../main.dart';
 import 'my_tabbar.dart';
@@ -12,7 +13,7 @@ class MyAppBar extends AppBar {
     super.key,
     required BuildContext context,
     bool isHome = false,
-    bool hasLeading = false,
+    bool hasLeading = true,
     IconButton? trailing,
     this.tabs,
   }) : super(
@@ -32,15 +33,15 @@ class MyAppBar extends AppBar {
               ),
             ),
           ),
-          leading: hasLeading
+          leading: hasLeading && context.canPop()
               ? IconButton.outlined(
                   tooltip: "Retour",
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     try {
-                      Navigator.of(context).pop();
+                      context.pop();
                     } catch (_) {
-                      Navigator.of(context).pushNamed(Routes.home);
+                      context.push(Routes.home);
                     }
                   })
               : null,

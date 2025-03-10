@@ -2,6 +2,7 @@ import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../commons/providers/log.dart';
@@ -50,7 +51,7 @@ class CreateGame extends ConsumerWidget {
                 );
 
                 ref.read(playGameProvider).init(provider.players);
-                Navigator.of(context).pushNamed(Routes.prepareGame);
+                context.push(Routes.prepareGame);
               } else {
                 ref.read(logProvider).info(
                       "CreateGame.buildValidateButton: cannot create game with ${provider.players}",
@@ -66,8 +67,7 @@ class CreateGame extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final playerProvider = ref.watch(createGameProvider);
     return DefaultPage(
-      appBar: MyAppBar(context.l10n.createPlayers,
-          context: context, hasLeading: true),
+      appBar: MyAppBar(context.l10n.createPlayers, context: context),
       content: Form(
         key: _formKey,
         child: ReorderableGridView.count(

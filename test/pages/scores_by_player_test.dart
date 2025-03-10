@@ -216,6 +216,8 @@ Widget _createPage(
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(home: ScoresByPlayer(mockPlayGame.players[0])),
+    child: FrenchMaterialApp(
+      home: ScoresByPlayer(mockPlayGame.players[0].name),
+    ),
   );
 }

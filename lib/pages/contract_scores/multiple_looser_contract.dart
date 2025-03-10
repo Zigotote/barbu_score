@@ -2,6 +2,7 @@ import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
 import '../../commons/providers/contracts_manager.dart';
@@ -9,15 +10,18 @@ import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/list_layouts.dart';
-import 'models/contract_route_argument.dart';
 import 'widgets/contract_page.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
 class MultipleLooserContractPage extends ConsumerStatefulWidget {
-  /// The contract the player choose and the previous values, if it needs to be modified
-  final ContractRouteArgument routeArgument;
+  /// The contract the player choose
+  final ContractsInfo contract;
 
-  const MultipleLooserContractPage(this.routeArgument, {super.key});
+  /// The saved values for this contract, if it has already been filled
+  final MultipleLooserContractModel? contractModel;
+
+  const MultipleLooserContractPage(this.contract,
+      {super.key, this.contractModel});
 
   @override
   ConsumerState<MultipleLooserContractPage> createState() =>
@@ -39,14 +43,13 @@ class _MultipleLooserContractPageState
   void initState() {
     super.initState();
     _players = ref.read(playGameProvider).players;
-    if (widget.routeArgument.isForModification) {
-      contractModel =
-          widget.routeArgument.contractModel as MultipleLooserContractModel;
+    if (widget.contractModel != null) {
+      contractModel = widget.contractModel!;
       _itemsByPlayer = contractModel.itemsByPlayer;
     } else {
       contractModel = ref
           .read(contractsManagerProvider)
-          .getContractManager(widget.routeArgument.contractInfo)
+          .getContractManager(widget.contract)
           .model as MultipleLooserContractModel;
       _itemsByPlayer = {for (var player in _players) player.name: 0};
     }
@@ -55,8 +58,7 @@ class _MultipleLooserContractPageState
   ///Returns true if the score is valid, false otherwise
   bool get _isValid => contractModel.isValid(_itemsByPlayer);
 
-  String get _itemName =>
-      context.l10n.itemsName(widget.routeArgument.contractInfo);
+  String get _itemName => context.l10n.itemsName(widget.contract);
 
   /// Increases the score of the player, only if the total score is less than the contract max score
   void _increaseScore(Player player) {
@@ -128,9 +130,9 @@ class _MultipleLooserContractPageState
   @override
   Widget build(BuildContext context) {
     return SubContractPage(
-      contract: widget.routeArgument.contractInfo,
+      contract: widget.contract,
       subtitle: context.l10n.nbItemsByPlayer(_itemName),
-      isModification: widget.routeArgument.isForModification,
+      isModification: widget.contractModel != null,
       isValid: _isValid,
       itemsByPlayer: _itemsByPlayer,
       child: _buildFields(),
