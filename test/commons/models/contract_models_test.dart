@@ -330,63 +330,76 @@ main() {
                     : 0
         });
       });
-      test("should sum sub contract scores when one players wons all", () {
-        final barbu = OneLooserContractModel(
-          contract: ContractsInfo.barbu,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? 1 : 0
-          },
-        );
-        const nbNoQueens = 4;
-        final noQueens = MultipleLooserContractModel(
-          contract: ContractsInfo.noQueens,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? nbNoQueens : 0
-          },
-          nbItems: nbNoQueens,
-        );
-        const nbNoTricks = 8;
-        final noTricks = MultipleLooserContractModel(
-          contract: ContractsInfo.noTricks,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? nbNoTricks : 0
-          },
-          nbItems: nbNoTricks,
-        );
-        const nbNoHearts = 8;
-        final noHearts = MultipleLooserContractModel(
-          contract: ContractsInfo.noHearts,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? nbNoHearts : 0
-          },
-          nbItems: nbNoHearts,
-        );
-        final noLastTrick = OneLooserContractModel(
-          contract: ContractsInfo.noLastTrick,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? 1 : 0
-          },
-        );
-        final model = SaladContractModel(
-          subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
-        );
+      for (var invertScore in [true, false]) {
+        test(
+            "should sum sub contract scores when one players wons all and invert scores is $invertScore",
+            () {
+          final barbu = OneLooserContractModel(
+            contract: ContractsInfo.barbu,
+            itemsByPlayer: {
+              for (var (index, player) in defaultPlayerNames.indexed)
+                player: index == 0 ? 1 : 0
+            },
+          );
+          const nbNoQueens = 4;
+          final noQueens = MultipleLooserContractModel(
+            contract: ContractsInfo.noQueens,
+            itemsByPlayer: {
+              for (var (index, player) in defaultPlayerNames.indexed)
+                player: index == 0 ? nbNoQueens : 0
+            },
+            nbItems: nbNoQueens,
+          );
+          const nbNoTricks = 8;
+          final noTricks = MultipleLooserContractModel(
+            contract: ContractsInfo.noTricks,
+            itemsByPlayer: {
+              for (var (index, player) in defaultPlayerNames.indexed)
+                player: index == 0 ? nbNoTricks : 0
+            },
+            nbItems: nbNoTricks,
+          );
+          const nbNoHearts = 8;
+          final noHearts = MultipleLooserContractModel(
+            contract: ContractsInfo.noHearts,
+            itemsByPlayer: {
+              for (var (index, player) in defaultPlayerNames.indexed)
+                player: index == 0 ? nbNoHearts : 0
+            },
+            nbItems: nbNoHearts,
+          );
+          final noLastTrick = OneLooserContractModel(
+            contract: ContractsInfo.noLastTrick,
+            itemsByPlayer: {
+              for (var (index, player) in defaultPlayerNames.indexed)
+                player: index == 0 ? 1 : 0
+            },
+          );
+          final model = SaladContractModel(
+            subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
+          );
+          final settings = contract.defaultSettings as SaladContractSettings;
+          settings.invertScore = invertScore;
 
-        expect(model.scores(contract.defaultSettings, subContractSettings), {
-          for (var (index, player) in defaultPlayerNames.indexed)
-            player: index == 0
-                ? barbuSettings.points +
-                    noLastTrickSettings.points +
-                    -(noQueensSettings.points * noQueens.nbItems) +
-                    -(noHeartsSettings.points * noHearts.nbItems) +
-                    -(noTricksSettings.points * noTricks.nbItems)
-                : 0
+          final expectedScore = invertScore
+              ? ((barbuSettings.points +
+                      noLastTrickSettings.points +
+                      (noQueensSettings.points * noQueens.nbItems) +
+                      (noHeartsSettings.points * noHearts.nbItems) +
+                      (noTricksSettings.points * noTricks.nbItems)) *
+                  -1)
+              : (barbuSettings.points +
+                  noLastTrickSettings.points +
+                  -(noQueensSettings.points * noQueens.nbItems) +
+                  -(noHeartsSettings.points * noHearts.nbItems) +
+                  -(noTricksSettings.points * noTricks.nbItems));
+
+          expect(model.scores(settings, subContractSettings), {
+            for (var (index, player) in defaultPlayerNames.indexed)
+              player: index == 0 ? expectedScore : 0
+          });
         });
-      });
+      }
     });
   });
 

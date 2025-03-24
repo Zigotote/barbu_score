@@ -19,9 +19,7 @@ import '../../utils/utils.mocks.dart';
 import 'utils/settings_utils.dart';
 
 main() {
-  final contractModel = SaladContractModel(
-    subContracts: [defaultBarbu],
-  );
+  final contractModel = SaladContractModel(subContracts: [defaultBarbu]);
   final storedGame = createGame(4, [contractModel]);
   final finishedStoredGame = createGame(4, [contractModel])..isFinished = true;
 
@@ -32,6 +30,21 @@ main() {
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
   });
+
+  for (var game in [null, storedGame, finishedStoredGame]) {
+    patrolWidgetTest("should change invert scores ${getGameStateText(game)}",
+        ($) async {
+      final page = _createPage(game);
+      await $.pumpWidget(page);
+
+      final invertScoreSwitchIndex =
+          SaladContractSettings.availableContracts.length + 1;
+      expect(findSwitchValue($, index: invertScoreSwitchIndex), isFalse);
+
+      await $(Switch).at(invertScoreSwitchIndex).tap();
+      expect(_getContractSettingsProvider(page).invertScore, isTrue);
+    });
+  }
 
   group("activate/deactive contract", () {
     for (var validateDeactivate in [true, false]) {
@@ -107,6 +120,7 @@ main() {
             _findSwitchs($, true),
             findsNWidgets(SaladContractSettings.availableContracts.length + 1),
           );
+          expect(_findSwitchs($, false), findsOneWidget); // Invert score
 
           for (var contract in contractsToDeactivate) {
             await $.tap(
@@ -116,14 +130,14 @@ main() {
 
           expect(
             _findSwitchs($, false),
-            findsNWidgets(contractsToDeactivate.length),
+            findsNWidgets(contractsToDeactivate.length + 1),
           );
         });
       }
       patrolWidgetTest(
           "should deactivate contract if no active contract inside and block its activation $gameStateText",
           ($) async {
-        final nbSwitchs = SaladContractSettings.availableContracts.length + 1;
+        final nbSwitches = SaladContractSettings.availableContracts.length + 1;
 
         final page = _createPage(game);
         await $.pumpWidget(page);
@@ -134,11 +148,11 @@ main() {
 
         expect(
           $(MySwitch).which((widget) => (widget as MySwitch).isActive),
-          findsNWidgets(nbSwitchs),
+          findsNWidgets(nbSwitches),
         );
 
-        await _unplayContracts($);
-        expect(_findSwitchs($, false), findsNWidgets(nbSwitchs));
+        await removeContracts($);
+        expect(_findSwitchs($, false), findsNWidgets(nbSwitches + 1));
 
         // Try to activate contract should show an alert and do nothing else
         await $(Switch).first.tap();
@@ -149,7 +163,7 @@ main() {
       patrolWidgetTest(
           "should reenable contract activation after some contracts are reactivated $gameStateText",
           ($) async {
-        final nbSwitchs = SaladContractSettings.availableContracts.length + 1;
+        final nbSwitchs = SaladContractSettings.availableContracts.length + 2;
 
         await $.pumpWidget(_createPage(game));
         // Alert dialog is displayed if some players played salad contract
@@ -157,10 +171,10 @@ main() {
           await $("OK").tap();
         }
 
-        await _unplayContracts($);
+        await removeContracts($);
         expect(_findSwitchs($, false), findsNWidgets(nbSwitchs));
 
-        await $(Switch).last.tap();
+        await $(Switch).at(2).tap();
         expect(_findSwitchs($, false), findsNWidgets(nbSwitchs - 1));
 
         await $(Switch).first.tap();
@@ -186,7 +200,7 @@ void _verifyAlert(PatrolTester $, List<Player> players) {
 PatrolFinder _findSwitchs(PatrolTester $, bool value) =>
     $(Switch).which((widget) => (widget as Switch).value == value);
 
-Future<void> _unplayContracts(PatrolTester $) async {
+Future<void> removeContracts(PatrolTester $) async {
   for (var contract in SaladContractSettings.availableContracts) {
     await $.tap(
       find.descendant(of: $(Key(contract.name)), matching: $(Switch)),
