@@ -151,17 +151,26 @@ class SaladContractSettings extends AbstractContractSettings {
   /// A map to know if each contract should be part of salad contract or not
   final Map<String, bool> contracts;
 
-  SaladContractSettings({super.isActive, required this.contracts})
+  /// The indicator to know if the score should be inverted if one players wins all tricks
+  bool invertScore;
+
+  SaladContractSettings(
+      {super.isActive, required this.contracts, this.invertScore = false})
       : super(contract: ContractsInfo.salad);
 
   SaladContractSettings.fromJson(Map<String, dynamic> json,
       {required ContractsInfo contract, required super.isActive})
       : contracts = Map.castFrom(jsonDecode(json["contracts"])),
+        invertScore = json["invertScore"] ?? false,
         super(contract: contract);
 
   @override
   Map<String, dynamic> toJson() {
-    return {...super.toJson(), "contracts": jsonEncode(contracts)};
+    return {
+      ...super.toJson(),
+      "contracts": jsonEncode(contracts),
+      "invertScore": invertScore,
+    };
   }
 
   /// Returns the active contracts
@@ -172,11 +181,15 @@ class SaladContractSettings extends AbstractContractSettings {
 
   @override
   SaladContractSettings copy() {
-    return SaladContractSettings(isActive: isActive, contracts: contracts);
+    return SaladContractSettings(
+      isActive: isActive,
+      contracts: contracts,
+      invertScore: invertScore,
+    );
   }
 
   @override
-  List<Object?> get props => [...super.props, contracts];
+  List<Object?> get props => [...super.props, contracts, invertScore];
 }
 
 /// A domino contract settings

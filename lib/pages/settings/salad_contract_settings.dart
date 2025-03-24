@@ -75,6 +75,18 @@ class _SaladContractSettingsPageState
             ),
           ),
         ),
+        // TODO Océane voir où l'afficher et écrire les tests
+        const SizedBox(height: 24),
+        SettingQuestion(
+          tooltip: context.l10n.invertScoreDetails,
+          label: context.l10n.invertScore,
+          input: MySwitch(
+            isActive: settings.invertScore,
+            onChanged: provider.modifySetting(
+              (bool value) => settings.invertScore = value,
+            ),
+          ),
+        ),
       ],
     );
   }

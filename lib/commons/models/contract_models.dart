@@ -84,6 +84,9 @@ abstract class AbstractSubContractModel extends AbstractContractModel {
   /// Returns true if the [itemsByPlayer] are valid, depending on the type of contract
   bool isValid(Map<String, int> itemsByPlayer);
 
+  /// Returns the maximal number of points of the contract
+  int maxPoints(AbstractContractSettings settings);
+
   /// Sets the [itemsByPlayer] from a Map which links all player's names with the number of tricks/cards they won.
   /// Returns true if the map is valid, false otherwise
   bool setItemsByPlayer(Map<String, int> itemsByPlayer) {
@@ -117,6 +120,11 @@ class OneLooserContractModel extends AbstractSubContractModel {
             1 &&
         itemsByPlayer.entries
             .none((entry) => entry.value > 1 || entry.value < 0);
+  }
+
+  @override
+  int maxPoints(AbstractContractSettings settings) {
+    return (settings as OneLooserContractSettings).points;
   }
 
   @override
@@ -163,6 +171,11 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
   }
 
   @override
+  int maxPoints(AbstractContractSettings settings) {
+    return (settings as MultipleLooserContractSettings).points * nbItems;
+  }
+
+  @override
   Map<String, int>? scores(AbstractContractSettings settings) {
     if (_itemsByPlayer.isEmpty) {
       return null;
@@ -170,15 +183,15 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
     final individualScoresSettings = settings as MultipleLooserContractSettings;
     final Map<String, int> scores = {};
 
-    MapEntry<String, int> playerWithAllItems = itemsByPlayer.entries.firstWhere(
-        (playerItems) => playerItems.value == nbItems,
-        orElse: () => const MapEntry("", 0));
-    if (playerWithAllItems.key.isNotEmpty) {
-      int score = playerWithAllItems.value * individualScoresSettings.points;
+    final playerWithAllItems = itemsByPlayer.entries
+        .firstWhereOrNull((playerItems) => playerItems.value == nbItems)
+        ?.key;
+    if (playerWithAllItems != null) {
+      int score = maxPoints(settings);
       if (individualScoresSettings.invertScore) {
         score = -score;
       }
-      scores[playerWithAllItems.key] = score;
+      scores[playerWithAllItems] = score;
       itemsByPlayer.forEach(
         (player, items) => scores.putIfAbsent(player, () => 0),
       );
@@ -241,14 +254,42 @@ class SaladContractModel extends AbstractContractModel {
         .none((settings) => settings.name == contract.name))) {
       return null;
     }
-    return subContracts
+
+    final activeSubContracts = subContracts.where((subContract) =>
+        (settings as SaladContractSettings).contracts[subContract.name] ==
+        true);
+    if ((settings as SaladContractSettings).invertScore) {
+      final playerWithAllItems = activeSubContracts
+          .expand((subContract) => subContract.itemsByPlayer.entries
+              .where((playerScore) => playerScore.value != 0)
+              .map((playerScore) => playerScore.key))
+          .toSet();
+      if (playerWithAllItems.length == 1) {
+        final Map<String, int> scores = {};
+        scores[playerWithAllItems.first] = -1 *
+            activeSubContracts.fold(
+              0,
+              (sum, subContract) =>
+                  sum +
+                  subContract.maxPoints(
+                    subContractSettings.firstWhere(
+                      (setting) => setting.name == subContract.name,
+                    ),
+                  ),
+            );
+        subContracts.first.itemsByPlayer.forEach(
+          (player, items) => scores.putIfAbsent(player, () => 0),
+        );
+        return scores;
+      }
+    }
+    return activeSubContracts
         .map(
-          (subContract) => (settings as SaladContractSettings)
-                      .contracts[subContract.name] ==
-                  true
-              ? subContract.scores(subContractSettings
-                  .firstWhere((setting) => setting.name == subContract.name))
-              : null,
+          (subContract) => subContract.scores(
+            subContractSettings.firstWhere(
+              (setting) => setting.name == subContract.name,
+            ),
+          ),
         )
         .reduce(
           (scores, subContractScores) => scores == null
@@ -259,6 +300,11 @@ class SaladContractModel extends AbstractContractModel {
                       playerScores + (subContractScores?[player] ?? 0),
                 )),
         );
+  }
+
+  @override
+  String toString() {
+    return "${super.toString()} : ${subContracts.join(",")}";
   }
 }
 
