@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,15 +39,15 @@ class PlayerScoreButton extends StatelessWidget {
   }
 
   /// Returns the widget with the friend and the ennemy of the player
-  Widget _buildFriendStatus() {
+  Widget _buildFriendStatus(BuildContext context) {
     const double badgesSize = 27;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const Icon(
+        Icon(
           Icons.heart_broken_outlined,
           size: badgesSize,
-          semanticLabel: "Pire ennemi",
+          semanticLabel: context.l10n.worstEnnemy,
         ),
         PlayerIcon(
           image: worstEnnemy!.image,
@@ -54,10 +55,10 @@ class PlayerScoreButton extends StatelessWidget {
           size: badgesSize,
         ),
         const SizedBox(width: 16),
-        const Icon(
+        Icon(
           Icons.favorite_outline,
           size: badgesSize,
-          semanticLabel: "Meilleur ami",
+          semanticLabel: context.l10n.bestFriend,
         ),
         PlayerIcon(
           image: bestFriend!.image,
@@ -83,8 +84,8 @@ class PlayerScoreButton extends StatelessWidget {
             child: Column(
               children: [
                 Text(player.name, textAlign: TextAlign.center),
-                Text("$score points"),
-                if (_showFriendStatus()) _buildFriendStatus(),
+                Text("$score ${context.l10n.points}"),
+                if (_showFriendStatus()) _buildFriendStatus(context),
               ],
             ),
           ),
