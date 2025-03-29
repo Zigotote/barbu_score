@@ -51,5 +51,6 @@ class MyAlertDialog extends AlertDialog {
                 ),
               )
               .toList(),
+          scrollable: true,
         );
 }

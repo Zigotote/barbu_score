@@ -19,15 +19,37 @@ class ContractSettingsPage extends ConsumerWidget {
   /// The additionnal settings to display for the contract
   final List<Widget> children;
 
+  /// The indicator to kow if the page can be scrolled
+  final bool isScrollable;
+
   const ContractSettingsPage({
     super.key,
     required this.contract,
     required this.children,
+    this.isScrollable = true,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(contractSettingsProvider(contract));
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        SettingQuestion(
+          label: context.l10n.activateContract,
+          input: MySwitch(
+            isActive: provider.settings.isActive,
+            alertOnChange: _alertChangeIsActive(context, provider),
+            onChanged: provider.modifySetting(
+              (bool value) => provider.settings.isActive = value,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        ...children
+      ],
+    );
     return DefaultPage(
       appBar: MyAppBar(
         context.l10n.contractSettingsTitle(
@@ -35,26 +57,7 @@ class ContractSettingsPage extends ConsumerWidget {
         ),
         context: context,
       ),
-      content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-            SettingQuestion(
-              label: context.l10n.activateContract,
-              input: MySwitch(
-                isActive: provider.settings.isActive,
-                alertOnChange: _alertChangeIsActive(context, provider),
-                onChanged: provider.modifySetting(
-                  (bool value) => provider.settings.isActive = value,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ...children
-          ],
-        ),
-      ),
+      content: isScrollable ? SingleChildScrollView(child: content) : content,
     );
   }
 

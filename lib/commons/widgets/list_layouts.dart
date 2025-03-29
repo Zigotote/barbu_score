@@ -12,18 +12,20 @@ class MyGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
+    return GridView.builder(
       physics: isScrollable
           ? const AlwaysScrollableScrollPhysics()
           : const NeverScrollableScrollPhysics(),
-      crossAxisCount:
-          MediaQuery.of(context).orientation == Orientation.landscape ? 4 : 2,
-      crossAxisSpacing: 24,
-      mainAxisSpacing: 24,
-      // TODO Océane ça va pas avec un gros zoom, peut être passer sur LayoutGrid ?
-      childAspectRatio: 1.4,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount:
+            MediaQuery.of(context).orientation == Orientation.landscape ? 4 : 2,
+        mainAxisExtent: 100 * MediaQuery.of(context).textScaler.scale(1),
+        crossAxisSpacing: 24,
+        mainAxisSpacing: 24,
+      ),
       shrinkWrap: true,
-      children: children,
+      itemCount: children.length,
+      itemBuilder: (_, index) => children[index],
     );
   }
 }

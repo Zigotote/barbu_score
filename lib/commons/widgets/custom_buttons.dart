@@ -180,18 +180,30 @@ class ElevatedButtonWithIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        fit: StackFit.expand,
-        children: [
-          ElevatedButton(
-            onPressed: onPressed,
-            child: Text(text, textAlign: TextAlign.center),
-          ),
-          Positioned(right: 8, top: 8, child: indicator)
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8, right: 8),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          fit: StackFit.expand,
+          clipBehavior: Clip.none,
+          children: [
+            ElevatedButton(
+              onPressed: onPressed,
+              child: Text(text, textAlign: TextAlign.center),
+            ),
+            Positioned(
+              right: -8,
+              bottom: -8,
+              child: Container(
+                padding: const EdgeInsets.only(top: 4, left: 4),
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: indicator,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
