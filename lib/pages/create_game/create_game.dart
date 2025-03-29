@@ -15,7 +15,6 @@ import '../../main.dart';
 import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';
 
-// TODO Océane à faire
 class CreateGame extends ConsumerWidget {
   /// Form key used to validate the form
   final _formKey = GlobalKey<FormState>();
