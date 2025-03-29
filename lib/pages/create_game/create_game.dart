@@ -73,7 +73,10 @@ class CreateGame extends ConsumerWidget {
       content: Form(
         key: _formKey,
         child: ReorderableGridView.count(
-          crossAxisCount: 2,
+          crossAxisCount:
+              MediaQuery.of(context).orientation == Orientation.landscape
+                  ? 4
+                  : 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 24,
           dragStartDelay: kPressTimeout,
