@@ -15,6 +15,7 @@
   "availableColor": "Available color",
   "avatar": "Avatar",
   "barbu": "Barbu",
+  "bestFriend": "Best friend",
   "cardsOrder": "Aces are the highest cards. Before playing, the weakest cards must be removed until the required number is reached.",
   "changesSaved": "Changes saved",
   "changesSavedDetails": "The changes have been saved and are effective immediately.",
@@ -78,6 +79,7 @@
   "playerNameHint": "Name of player {nb}",
   "playerTurn": "Turn of {player}",
   "players": "players",
+  "points": "points",
   "pointsBy": "Points by {item}",
   "pointsForNbPlayers": "Points for {nb} players",
   "prepareGame": "Prepare the game",
@@ -115,5 +117,6 @@
   "whoWonItem": "Who won the {item}?",
   "withdrawCards": "Withdraw all cards",
   "withdrawCardsForPlayers": "With {nbPlayers} players, all the cards must therefore be removed: {cards}.",
-  "withdrawItem": "Withdraw {item}"
+  "withdrawItem": "Withdraw {item}",
+  "worstEnnemy": "Worst ennemy"
 }

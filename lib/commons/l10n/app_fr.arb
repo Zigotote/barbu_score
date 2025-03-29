@@ -41,6 +41,7 @@
   "availableColor": "Couleur disponible",
   "avatar": "Avatar",
   "barbu": "Barbu",
+  "bestFriend": "Meilleur ami",
   "cardsOrder": "Les as sont les cartes les plus fortes. Avant de jouer il faut retirer les cartes les plus faibles jusqu'à obtenir le nombre requis.",
   "changesSaved": "Modifications sauvegardées",
   "changesSavedDetails": "Les changements ont été sauvegardés et sont effectifs dès maintenant.",
@@ -189,6 +190,7 @@
     }
   },
   "players": "joueurs",
+  "points": "points",
   "pointsBy": "Points par {item}",
   "@pointsBy": {
     "placeholders": {
@@ -320,5 +322,6 @@
         "example": "coeur"
       }
     }
-  }
+  },
+  "worstEnnemy": "Pire ennemi"
 }
