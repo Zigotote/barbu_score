@@ -16,6 +16,7 @@ import '../commons/widgets/my_appbar.dart';
 import '../commons/widgets/player_icon.dart';
 import '../main.dart';
 
+// TODO Océane à faire
 /// A page to be sure the players and the cards are ready to start
 class PrepareGame extends ConsumerWidget {
   const PrepareGame({super.key});

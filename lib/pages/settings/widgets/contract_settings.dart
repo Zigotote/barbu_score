@@ -35,23 +35,25 @@ class ContractSettingsPage extends ConsumerWidget {
         ),
         context: context,
       ),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 16),
-          SettingQuestion(
-            label: context.l10n.activateContract,
-            input: MySwitch(
-              isActive: provider.settings.isActive,
-              alertOnChange: _alertChangeIsActive(context, provider),
-              onChanged: provider.modifySetting(
-                (bool value) => provider.settings.isActive = value,
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 16),
+            SettingQuestion(
+              label: context.l10n.activateContract,
+              input: MySwitch(
+                isActive: provider.settings.isActive,
+                alertOnChange: _alertChangeIsActive(context, provider),
+                onChanged: provider.modifySetting(
+                  (bool value) => provider.settings.isActive = value,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 16),
-          ...children
-        ],
+            const SizedBox(height: 16),
+            ...children
+          ],
+        ),
       ),
     );
   }

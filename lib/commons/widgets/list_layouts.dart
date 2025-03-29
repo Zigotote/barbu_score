@@ -16,9 +16,11 @@ class MyGrid extends StatelessWidget {
       physics: isScrollable
           ? const AlwaysScrollableScrollPhysics()
           : const NeverScrollableScrollPhysics(),
-      crossAxisCount: 2,
+      crossAxisCount:
+          MediaQuery.of(context).orientation == Orientation.landscape ? 4 : 2,
       crossAxisSpacing: 24,
       mainAxisSpacing: 24,
+      // TODO Océane ça va pas avec un gros zoom, peut être passer sur LayoutGrid ?
       childAspectRatio: 1.4,
       shrinkWrap: true,
       children: children,
