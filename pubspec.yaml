@@ -70,6 +70,7 @@ flutter:
   assets:
     - assets/
     - assets/flags/
+    - assets/icons/
     - assets/icons/dark/
     - assets/icons/light/
     - assets/players/

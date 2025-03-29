@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/error/my_error.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -57,7 +58,7 @@ void main() async {
         router: GoRouter(
           initialLocation: Routes.home,
           routes: [
-            GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
+            GoRoute(path: Routes.home, builder: (_, __) => const MyError()),
             GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
             GoRoute(path: Routes.rules, builder: (_, __) => const MyRules()),
             GoRoute(
