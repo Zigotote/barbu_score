@@ -171,7 +171,14 @@
   "noLastTrick": "Dernier",
   "noQueens": "Sans dames",
   "noTricks": "Sans plis",
-  "playerName": "Nom du joueur",
+  "playerNameHint": "Nom du joueur {nb}",
+  "@playerNameHint": {
+    "placeholders": {
+      "nb": {
+        "type": "int"
+      }
+    }
+  },
   "playerTurn": "Tour de {player}",
   "@playerTurn": {
     "placeholders": {

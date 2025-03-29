@@ -75,7 +75,7 @@
   "noLastTrick": "No last trick",
   "noQueens": "No queens",
   "noTricks": "No tricks",
-  "playerName": "Player's name",
+  "playerNameHint": "Name of player {nb}",
   "playerTurn": "Turn of {player}",
   "players": "players",
   "pointsBy": "Points by {item}",
