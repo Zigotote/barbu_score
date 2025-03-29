@@ -12,6 +12,9 @@ class CreatePlayer extends StatelessWidget {
   /// The player's info
   final Player player;
 
+  /// The index of the player in the list
+  final int index;
+
   /// The function to call if player is deleted
   final Function() onRemove;
 
@@ -21,21 +24,22 @@ class CreatePlayer extends StatelessWidget {
   const CreatePlayer(
       {super.key,
       required this.player,
+      required this.index,
       required this.onRemove,
       required this.onValidate});
 
   /// Build the text field to change player's name
-  Widget _buildPlayerTextField() {
+  Widget _buildPlayerTextField(BuildContext context) {
     return TextFormField(
       textAlign: TextAlign.center,
       initialValue: player.name,
       onChanged: (value) => player.name = value.trim(),
       validator: (_) => onValidate(player),
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         border: InputBorder.none,
         contentPadding: EdgeInsets.zero,
         focusedBorder: InputBorder.none,
-        hintText: "Nom du joueur",
+        hintText: context.l10n.playerNameHint(index + 1),
         isCollapsed: true,
       ),
     );
@@ -90,7 +94,7 @@ class CreatePlayer extends StatelessWidget {
           Positioned(
             top: constraint.maxHeight * 0.8,
             width: constraint.maxWidth,
-            child: _buildPlayerTextField(),
+            child: _buildPlayerTextField(context),
           ),
           Positioned(
             top: 0,

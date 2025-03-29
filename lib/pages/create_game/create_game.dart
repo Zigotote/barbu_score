@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +29,7 @@ class CreateGame extends ConsumerWidget {
         onPressed: addPlayer,
         icon: Icon(
           Icons.add,
-          semanticLabel: context.l10n.addItem("joueur"),
+          semanticLabel: context.l10n.addItem(context.l10n.players),
         ),
         iconSize: 40,
       ),
@@ -82,10 +83,11 @@ class CreateGame extends ConsumerWidget {
           ],
           onReorder: playerProvider.movePlayer,
           children: playerProvider.players
-              .map(
-                (player) => CreatePlayer(
+              .mapIndexed(
+                (index, player) => CreatePlayer(
                   key: ObjectKey(player),
                   player: player,
+                  index: index,
                   onRemove: () => playerProvider.removePlayer(player),
                   onValidate: playerProvider.playerValidator,
                 ),

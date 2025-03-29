@@ -26,6 +26,7 @@ main() {
     expect($.tester.takeException(), isNull);
     expect($("Créer les joueurs"), findsOneWidget);
     expect($(CreatePlayer), findsNWidgets(nbPlayersByDefault));
+    // await checkAccessibility($.tester); not accessible because delete player button is too small. But players can be deleted by clicking on there icon, so it's OK
   });
   for (var nbPlayers = 1; nbPlayers < kNbPlayersMin; nbPlayers++) {
     patrolWidgetTest("should not allow start game if $nbPlayers players",
@@ -58,6 +59,9 @@ main() {
         await $(Icons.add).tap();
       }
       expect($(CreatePlayer), findsNWidgets(nbPlayers));
+      for (var i = 1; i <= nbPlayers; i++) {
+        expect($("Nom du joueur $i"), findsOneWidget);
+      }
 
       await _fillPlayerNames($, nbPlayers);
 
