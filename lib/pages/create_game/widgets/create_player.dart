@@ -92,7 +92,8 @@ class CreatePlayer extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: constraint.maxHeight * 0.8,
+            top: constraint.maxHeight * 0.8 -
+                MediaQuery.of(context).textScaler.scale(6),
             width: constraint.maxWidth,
             child: _buildPlayerTextField(context),
           ),
