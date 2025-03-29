@@ -90,7 +90,7 @@ class SaladContractPage extends ConsumerWidget {
         onPressed: provider.isValid
             ? () => _saveContract(context, ref, provider)
             : null,
-        child: Text(context.l10n.validateScores),
+        child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
       ),
     );
   }
