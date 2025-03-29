@@ -16,7 +16,7 @@ import '../commons/widgets/my_appbar.dart';
 import '../commons/widgets/player_icon.dart';
 import '../main.dart';
 
-// TODO Océane à faire
+// TODO Océane à faire/réfléchir
 /// A page to be sure the players and the cards are ready to start
 class PrepareGame extends ConsumerWidget {
   const PrepareGame({super.key});
@@ -26,24 +26,33 @@ class PrepareGame extends ConsumerWidget {
     final List<Player> players = ref.read(playGameProvider).players;
     return DefaultPage(
       appBar: MyAppBar(context.l10n.prepareGame, context: context),
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Column(
-            spacing: 8,
-            children: [
-              Text(context.l10n.withdrawCards),
-              Text(
-                getCardsToTakeOut(players.length).join(", "),
-                style: Theme.of(context).textTheme.headlineSmall,
+      content: OrientationBuilder(
+        builder: (context, orientation) {
+          return switch (orientation) {
+            Orientation.landscape => Row(
+                children: [
+                  _buildPrepareGameText(context, players),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: _buildTable(context, players),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Text(context.l10n.fromTheDeck),
-            ],
-          ),
-          _buildTable(context, players),
-        ],
+            Orientation.portrait => Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  _buildPrepareGameText(context, players),
+                  _buildTable(context, players),
+                ],
+              ),
+          };
+        },
       ),
       bottomWidget: ElevatedButton(
         child: Text(context.l10n.go),
@@ -55,11 +64,28 @@ class PrepareGame extends ConsumerWidget {
     );
   }
 
+  Column _buildPrepareGameText(BuildContext context, List<Player> players) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 8,
+      children: [
+        Text(context.l10n.withdrawCards),
+        Text(
+          getCardsToTakeOut(players.length).join(", "),
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        Text(context.l10n.fromTheDeck),
+      ],
+    );
+  }
+
   Widget _buildTable(BuildContext context, List<Player> players) {
+    final multiplicator =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 0.5;
     return LayoutBuilder(builder: (context, constraints) {
-      final circleDiameter = constraints.maxWidth * 0.6;
+      final circleDiameter = constraints.maxWidth * 0.6 * multiplicator;
       final circleRadius = circleDiameter / 2;
-      final playerIconSize = constraints.maxWidth * 0.17;
+      final playerIconSize = constraints.maxWidth * 0.17 * multiplicator;
       return Stack(
         alignment: Alignment.center,
         children: [

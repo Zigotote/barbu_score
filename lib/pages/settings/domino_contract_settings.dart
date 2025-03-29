@@ -22,12 +22,16 @@ class DominoContractSettingsPage extends ConsumerWidget {
     return TableView.list(
       pinnedRowCount: 1,
       pinnedColumnCount: 1,
-      columnBuilder: (_) => const TableSpan(
-        extent: FixedTableSpanExtent(60),
+      columnBuilder: (_) => TableSpan(
+        extent: FixedTableSpanExtent(
+          48 + MediaQuery.of(context).textScaler.scale(15),
+        ),
         padding: spanPadding,
       ),
-      rowBuilder: (_) => const TableSpan(
-        extent: FixedTableSpanExtent(48),
+      rowBuilder: (_) => TableSpan(
+        extent: FixedTableSpanExtent(
+          40 + MediaQuery.of(context).textScaler.scale(10),
+        ),
         padding: spanPadding,
       ),
       cells: [
@@ -101,12 +105,10 @@ class DominoContractSettingsPage extends ConsumerWidget {
       final int nbPlayers = index + kNbPlayersMin;
       if (playerIndex < settings.points[nbPlayers]!.length) {
         return TableViewCell(
-          child: Center(
-            child: NumberInput(
-              points: settings.points[nbPlayers]![playerIndex],
-              onChanged: provider.modifySetting(
-                  (value) => settings.points[nbPlayers]?[playerIndex] = value),
-            ),
+          child: NumberInput(
+            points: settings.points[nbPlayers]![playerIndex],
+            onChanged: provider.modifySetting(
+                (value) => settings.points[nbPlayers]?[playerIndex] = value),
           ),
         );
       }
@@ -118,6 +120,7 @@ class DominoContractSettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ContractSettingsPage(
       contract: ContractsInfo.domino,
+      isScrollable: false,
       children: [Flexible(child: _buildDataTable(context, ref))],
     );
   }

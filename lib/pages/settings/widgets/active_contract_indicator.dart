@@ -19,13 +19,12 @@ class ActiveContractIndicator extends StatelessWidget {
           color: isActive ? sucessColor : disabledColor,
           width: 2,
         ),
-        color: isActive
-            ? sucessColor.withOpacity(0.3)
-            : disabledColor.withOpacity(0.3),
       ),
       child: Padding(
         padding: const EdgeInsets.all(4),
-        child: isActive ? const Text("ON") : const Text("OFF"),
+        child: isActive
+            ? Text("ON", style: TextStyle(color: sucessColor))
+            : Text("OFF", style: TextStyle(color: disabledColor)),
       ),
     );
   }
