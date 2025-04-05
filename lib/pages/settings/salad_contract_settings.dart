@@ -1,10 +1,13 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
 import '../../commons/widgets/alert_dialog.dart';
+import '../../commons/widgets/custom_buttons.dart';
+import '../../commons/widgets/list_layouts.dart';
 import 'notifiers/contract_settings_provider.dart';
 import 'widgets/contract_settings.dart';
 import 'widgets/my_switch.dart';
@@ -56,24 +59,32 @@ class _SaladContractSettingsPageState
           context.l10n.contractsToPlay,
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        const SizedBox(height: 8),
-        ...SaladContractSettings.availableContracts.map(
-          (contract) => SettingQuestion(
-            key: Key(contract.name),
-            label: context.l10n.contractName(contract),
-            input: MySwitch(
-              isActive: settings.contracts[contract.name]!,
-              onChanged: provider.modifySetting(
-                (value) {
-                  settings.contracts.update(contract.name, (_) => value);
+        const SizedBox(height: 16),
+        MyGrid(
+          isScrollable: false,
+          children: SaladContractSettings.availableContracts.map((contract) {
+            final isActive = settings.contracts[contract.name]!;
+            return ElevatedButtonWithIndicator(
+              key: Key(contract.name),
+              text: context.l10n.contractName(contract),
+              onPressed: () => provider.modifySetting(
+                (_) {
+                  settings.contracts.update(contract.name, (_) => !isActive);
                   // Deactivate salad contract if no active contract inside it
                   if (!settings.contracts.containsValue(true)) {
                     settings.isActive = false;
                   }
                 },
+              )(null),
+              indicator: Icon(
+                isActive ? Icons.task_alt_outlined : Icons.cancel_outlined,
+                color: isActive
+                    ? Theme.of(context).colorScheme.success
+                    : Theme.of(context).colorScheme.error,
+                size: 40,
               ),
-            ),
-          ),
+            );
+          }).toList(),
         ),
         const SizedBox(height: 24),
         SettingQuestion(
