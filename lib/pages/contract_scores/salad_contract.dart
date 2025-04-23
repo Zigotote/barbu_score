@@ -32,16 +32,13 @@ class SaladContractPage extends ConsumerWidget {
 
   /// Builds a button to fill a contract
   Widget _buildContractButton(BuildContext context, ContractsInfo contract) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8, right: 8),
-      child: ElevatedButton(
-        key: Key(contract.name),
-        child: Text(
-          context.l10n.contractName(contract),
-          textAlign: TextAlign.center,
-        ),
-        onPressed: () => context.push(contract.scoreRoute),
+    return ElevatedButton(
+      key: Key(contract.name),
+      child: Text(
+        context.l10n.contractName(contract),
+        textAlign: TextAlign.center,
       ),
+      onPressed: () => context.push(contract.scoreRoute),
     );
   }
 
@@ -52,10 +49,16 @@ class SaladContractPage extends ConsumerWidget {
       key: Key(contract.name),
       text: context.l10n.contractName(contract),
       onPressed: () => context.push(contract.scoreRoute, extra: contractValues),
-      indicator: Icon(
-        Icons.task_alt_outlined,
-        color: Theme.of(context).colorScheme.success,
-        size: 40,
+      indicator: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        child: Icon(
+          Icons.task_alt_outlined,
+          color: Theme.of(context).colorScheme.success,
+          size: 40,
+        ),
       ),
     );
   }

@@ -119,6 +119,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                 playerImages
                     .map(
                       (image) => IconButton(
+                        //TODO Océane ça plante sur petits téléphones, et voir si je peux améliorer le mode paysage
                         key: Key(image),
                         onPressed: () =>
                             provider.changePlayerImage(player, image),
@@ -145,6 +146,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
           color: theme.colorScheme.success,
         ),
       ],
+      actionsOverflowButtonSpacing: 8,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
         side: const BorderSide(

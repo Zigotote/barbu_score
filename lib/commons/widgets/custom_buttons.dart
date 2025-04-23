@@ -196,11 +196,7 @@ class ElevatedButtonWithIndicator extends StatelessWidget {
             Positioned(
               right: -8,
               bottom: -8,
-              child: Container(
-                padding: const EdgeInsets.only(top: 4, left: 4),
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: indicator,
-              ),
+              child: indicator,
             )
           ],
         ),
