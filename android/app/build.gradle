@@ -24,8 +24,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace 'zigotote.barbu_score'
-    compileSdk 34
-    ndkVersion "26.1.10909125"
+    compileSdk 35
+    ndkVersion "27.0.12077973"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
