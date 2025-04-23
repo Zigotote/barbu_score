@@ -45,14 +45,15 @@ extension MyAppLocalizations on AppLocalizations {
           (contractSettings as OneLooserContractSettings).points,
         ),
       ContractsInfo.salad => rulesSalad(
-          (contractSettings as SaladContractSettings)
-              .contracts
-              .entries
-              .where((contract) => contract.value)
-              .map((entry) =>
-                  contractName(ContractsInfo.fromName(entry.key)).toLowerCase())
-              .join(", "),
-        ),
+            (contractSettings as SaladContractSettings)
+                .contracts
+                .entries
+                .where((contract) => contract.value)
+                .map((entry) => contractName(ContractsInfo.fromName(entry.key))
+                    .toLowerCase())
+                .join(", "),
+          ) +
+          (contractSettings.invertScore ? "\n$invertScoreDetails" : ""),
       ContractsInfo.domino => rulesDomino,
     };
   }
