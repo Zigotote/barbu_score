@@ -79,7 +79,22 @@ main() {
       textRegex: RegExp(r'.*dernier pli.*10.*')
     ),
     (
-      desc: "salad with all contracts",
+      desc: "salad with all contracts and invert score",
+      contract: SaladContractSettings(
+        invertScore: true,
+        contracts: {
+          for (var contract in SaladContractSettings.availableContracts)
+            contract.name: true
+        },
+      ),
+      textRegex: RegExp(
+        r'.*contrats barbu, sans coeurs, sans dames, sans plis, dernier\.(.|\s)*'
+        '$invertScoreRule\$',
+        multiLine: true,
+      )
+    ),
+    (
+      desc: "salad with all contracts, without invert score",
       contract: SaladContractSettings(
         contracts: {
           for (var contract in SaladContractSettings.availableContracts)
@@ -87,7 +102,9 @@ main() {
         },
       ),
       textRegex: RegExp(
-        r'.*contrats barbu, sans coeurs, sans dames, sans plis, dernier\..*',
+        r'.*contrats barbu, sans coeurs, sans dames, sans plis, dernier\.(.|\s)*'
+        '(?<!$invertScoreRule)\$',
+        multiLine: true,
       )
     ),
     (
