@@ -22,7 +22,10 @@ class MyScores extends ConsumerWidget {
       appBar: MyAppBar(context.l10n.scores, context: context),
       content: const OrderedPlayersScores(),
       bottomWidget: ElevatedButton(
-          child: Text(context.l10n.saveAndLeave),
+          child: Text(
+            context.l10n.saveAndLeave,
+            textAlign: TextAlign.center,
+          ),
           onPressed: () {
             final game = ref.read(playGameProvider).game;
             ref.read(logProvider).info("MyScores: save $game");

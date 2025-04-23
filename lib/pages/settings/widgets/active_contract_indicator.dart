@@ -18,7 +18,9 @@ class ActiveContractIndicator extends StatelessWidget {
         border: Border.all(
           color: isActive ? sucessColor : disabledColor,
           width: 2,
+          strokeAlign: BorderSide.strokeAlignInside,
         ),
+        color: Theme.of(context).scaffoldBackgroundColor,
       ),
       child: Padding(
         padding: const EdgeInsets.all(4),
