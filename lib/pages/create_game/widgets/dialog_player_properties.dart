@@ -32,11 +32,9 @@ class DialogChangePlayerInfo extends ConsumerWidget {
       BuildContext context, String text, List<Widget> items) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Text(text, style: Theme.of(context).textTheme.titleLarge),
-        ),
+        Text(text, style: Theme.of(context).textTheme.titleLarge),
         GridView.extent(
           physics: const NeverScrollableScrollPhysics(),
           crossAxisSpacing: 16,
@@ -49,15 +47,74 @@ class DialogChangePlayerInfo extends ConsumerWidget {
     );
   }
 
+  SingleChildScrollView _buildDialogContent(
+      BuildContext context, CreateGameNotifier provider, ThemeData theme) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 16,
+        children: [
+          _buildPropertySelection(
+            context,
+            context.l10n.color,
+            playerColors.map(
+              (color) {
+                final playersWithColor = provider.getPlayersWithColor(color);
+                return TextButton(
+                  key: Key(color.name),
+                  onPressed: () => provider.changePlayerColor(player, color),
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        Theme.of(context).colorScheme.convertPlayerColor(color),
+                  ),
+                  child: Text(
+                    playersWithColor
+                        .map((playerName) =>
+                            playerName.characters.first.toUpperCase())
+                        .join("/"),
+                    semanticsLabel: playersWithColor.isEmpty
+                        ? context.l10n.availableColor
+                        : playersWithColor.join(","),
+                    overflow: TextOverflow.fade,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: theme.scaffoldBackgroundColor,
+                    ),
+                  ),
+                );
+              },
+            ).toList(),
+          ),
+          _buildPropertySelection(
+            context,
+            context.l10n.avatar,
+            playerImages
+                .map(
+                  (image) => IconButton(
+                    key: Key(image),
+                    onPressed: () => provider.changePlayerImage(player, image),
+                    icon: PlayerIcon(image: image, size: double.maxFinite),
+                  ),
+                )
+                .toList(),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(createGameProvider);
     final ThemeData theme = Theme.of(context);
     return AlertDialog(
-      title: PlayerIcon(
-        image: player.image,
-        color: player.color,
-      ),
+      title: MediaQuery.of(context).orientation == Orientation.portrait
+          ? PlayerIcon(
+              image: player.image,
+              color: player.color,
+            )
+          : null,
       icon: Align(
         alignment: Alignment.centerRight,
         child: IconButton(
@@ -71,67 +128,24 @@ class DialogChangePlayerInfo extends ConsumerWidget {
         ),
       ),
       iconPadding: const EdgeInsets.only(top: 16, right: 16),
-      content: SizedBox(
-        width: double.maxFinite,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 16,
-            children: [
-              _buildPropertySelection(
-                context,
-                context.l10n.color,
-                playerColors.map(
-                  (color) {
-                    final playersWithColor =
-                        provider.getPlayersWithColor(color);
-                    return TextButton(
-                      key: Key(color.name),
-                      onPressed: () =>
-                          provider.changePlayerColor(player, color),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Theme.of(context)
-                            .colorScheme
-                            .convertPlayerColor(color),
-                      ),
-                      child: Text(
-                        playersWithColor
-                            .map((playerName) =>
-                                playerName.characters.first.toUpperCase())
-                            .join("/"),
-                        semanticsLabel: playersWithColor.isEmpty
-                            ? context.l10n.availableColor
-                            : playersWithColor.join(","),
-                        overflow: TextOverflow.fade,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          color: theme.scaffoldBackgroundColor,
-                        ),
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
-              _buildPropertySelection(
-                context,
-                context.l10n.avatar,
-                playerImages
-                    .map(
-                      (image) => IconButton(
-                        //TODO Océane ça plante sur petits téléphones, et voir si je peux améliorer le mode paysage
-                        key: Key(image),
-                        onPressed: () =>
-                            provider.changePlayerImage(player, image),
-                        icon: PlayerIcon(image: image, size: double.maxFinite),
-                      ),
-                    )
-                    .toList(),
-              )
-            ],
-          ),
-        ),
-      ),
+      content: MediaQuery.of(context).orientation == Orientation.portrait
+          ? SizedBox(
+              width: double.maxFinite,
+              child: _buildDialogContent(context, provider, theme),
+            )
+          : Row(
+              spacing: 32,
+              children: [
+                PlayerIcon(
+                  image: player.image,
+                  color: player.color,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.55,
+                  child: _buildDialogContent(context, provider, theme),
+                )
+              ],
+            ),
       actions: [
         ElevatedButtonCustomColor(
           icon: Icons.delete_forever_outlined,
