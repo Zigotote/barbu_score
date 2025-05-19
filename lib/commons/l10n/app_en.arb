@@ -68,7 +68,7 @@
   "modifyPlayer": "Modify player",
   "modifySettings": "Modify settings",
   "nbCardsRules": "The game is played with {nbCards} cards ({nbPlayers} \u00d7 8).",
-  "nbItemsByPlayer": "Number of {item} per player",
+  "nbItemsByPlayer": "Number of {item}s per player",
   "next": "Next",
   "noGameFound": "No game found",
   "noGameFoundDetails": "The previous game was not found. Starting a new game.",

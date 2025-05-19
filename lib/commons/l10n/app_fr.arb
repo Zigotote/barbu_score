@@ -156,7 +156,7 @@
       }
     }
   },
-  "nbItemsByPlayer": "Nombre de {item} par joueur",
+  "nbItemsByPlayer": "Nombre de {item}s par joueur",
   "@nbItemsByPlayer": {
     "placeholders": {
       "item": {
