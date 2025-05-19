@@ -30,6 +30,7 @@ class MyStorage {
     final saladSettings = storage?.getString(oldSaladName);
     if (saladSettings != null) {
       storage?.setString(ContractsInfo.salad.name, saladSettings);
+      storage?.remove(oldSaladName);
     }
     final game = storage?.getString(_gameKey);
     if (game != null) {
