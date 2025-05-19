@@ -87,7 +87,7 @@ main() {
     final oldImage = players[0].image;
     expect(findPlayerIcon($).image, oldImage);
 
-    final newImage = playerImages[playerImages.length - 1];
+    final newImage = playerImages[players.length];
     await $(Key(newImage)).tap();
 
     expect(findPlayerIcon($).image, newImage);
