@@ -23,26 +23,26 @@ class PrepareGame extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<Player> players = ref.read(playGameProvider).players;
+    final screenHeight = MediaQuery.of(context).size.height;
     return DefaultPage(
       appBar: MyAppBar(context.l10n.prepareGame, context: context),
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Column(
-            spacing: 8,
+      content: SingleChildScrollView(
+        child: Container(
+          constraints: BoxConstraints(
+            minHeight:
+                screenHeight > 1000 ? screenHeight * 0.85 : screenHeight * 0.80,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            spacing: 16,
             children: [
-              Text(context.l10n.withdrawCards),
-              Text(
-                getCardsToTakeOut(players.length).join(", "),
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              Text(context.l10n.fromTheDeck),
+              _buildPrepareGameText(context, players),
+              _buildTable(context, players),
             ],
           ),
-          _buildTable(context, players),
-        ],
+        ),
       ),
       bottomWidget: ElevatedButton(
         child: Text(context.l10n.go),
@@ -54,53 +54,75 @@ class PrepareGame extends ConsumerWidget {
     );
   }
 
+  Column _buildPrepareGameText(BuildContext context, List<Player> players) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 8,
+      children: [
+        Text(context.l10n.withdrawCards),
+        Text(
+          getCardsToTakeOut(players.length).join(", "),
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        Text(context.l10n.fromTheDeck),
+      ],
+    );
+  }
+
   Widget _buildTable(BuildContext context, List<Player> players) {
+    final multiplicator =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 0.5;
     return LayoutBuilder(builder: (context, constraints) {
-      final circleDiameter = constraints.maxWidth * 0.6;
+      final circleDiameter = constraints.maxWidth * 0.6 * multiplicator;
       final circleRadius = circleDiameter / 2;
-      final playerIconSize = constraints.maxWidth * 0.17;
-      return Stack(
-        alignment: Alignment.center,
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: CircularText(
-              children: [
-                TextItem(
-                  text: Text(
-                    context.l10n.table,
-                    style: Theme.of(context).textTheme.headlineSmall,
+      final playerIconSize = constraints.maxWidth * 0.17 * multiplicator;
+      return Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).textScaler.scale(16) * 3,
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: CircularText(
+                children: [
+                  TextItem(
+                    text: Text(
+                      context.l10n.table,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    space: 8,
+                    startAngle: 270,
+                    startAngleAlignment: StartAngleAlignment.center,
+                  )
+                ],
+                radius: circleRadius + playerIconSize,
+              ),
+            ),
+            Positioned(
+              top: playerIconSize * 0.75,
+              child: Container(
+                width: circleDiameter,
+                height: circleDiameter,
+                margin: EdgeInsets.all(playerIconSize / 2),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    width: 2,
                   ),
-                  space: 8,
-                  startAngle: 270,
-                  startAngleAlignment: StartAngleAlignment.center,
-                )
-              ],
-              radius: circleRadius + playerIconSize,
-            ),
-          ),
-          Positioned(
-            top: playerIconSize * 0.75,
-            child: Container(
-              width: circleDiameter,
-              height: circleDiameter,
-              margin: EdgeInsets.all(playerIconSize / 2),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  width: 2,
+                  shape: BoxShape.circle,
                 ),
-                shape: BoxShape.circle,
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                clipBehavior: Clip.none,
-                children: _buildPlayers(
-                    context, circleRadius, playerIconSize, players),
+                child: Stack(
+                  alignment: Alignment.center,
+                  clipBehavior: Clip.none,
+                  children: _buildPlayers(
+                      context, circleRadius, playerIconSize, players),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     });
   }

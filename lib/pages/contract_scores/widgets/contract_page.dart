@@ -100,12 +100,12 @@ class SubContractPage extends ConsumerWidget {
       content: Column(
         children: [
           MySubtitle(subtitle),
-          child,
+          Expanded(child: child),
         ],
       ),
       bottomWidget: ElevatedButton(
         onPressed: isValid ? () => _saveContract(context, ref) : null,
-        child: Text(validateText),
+        child: Text(validateText, textAlign: TextAlign.center),
       ),
     );
   }

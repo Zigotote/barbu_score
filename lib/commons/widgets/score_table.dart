@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
@@ -45,7 +47,8 @@ class ScoreTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     const spanPadding = TableSpanPadding.all(4);
-    double playerColumnWidth = 60;
+    final textScale = MediaQuery.of(context).textScaler.scale(1);
+    double playerColumnWidth = 50 * textScale;
     return TableView.list(
       pinnedColumnCount: 1,
       pinnedRowCount: 1,
@@ -58,13 +61,13 @@ class ScoreTable extends StatelessWidget {
               (remainingSpace, playerSpace) {
                 double leftSpaceInScreen = remainingSpace - playerSpace - 32;
                 // If left space in screen is too big, playerColumnWidth is increased and leftSpace is calculated again
-                if (leftSpaceInScreen > 110) {
-                  playerColumnWidth = 80;
+                if (leftSpaceInScreen > 110 * textScale) {
+                  playerColumnWidth = 70 * textScale;
                   leftSpaceInScreen =
                       remainingSpace - playerColumnWidth * players.length - 32;
                 }
                 // Column width cannot be less than 70 pixels
-                return leftSpaceInScreen < 70 ? 70 : leftSpaceInScreen;
+                return max(70 * textScale, leftSpaceInScreen);
               },
             ),
             padding: spanPadding,
@@ -76,7 +79,8 @@ class ScoreTable extends StatelessWidget {
         );
       },
       rowBuilder: (int index) {
-        final double rowWidth = index == 0 ? 60 : 40;
+        final double rowWidth =
+            index == 0 ? 40 + (20 * textScale) : 45 * textScale;
         final border = index == 0
             ? null
             : TableSpanDecoration(

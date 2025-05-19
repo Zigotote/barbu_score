@@ -31,8 +31,7 @@ class SaladContractPage extends ConsumerWidget {
   }
 
   /// Builds a button to fill a contract
-  ElevatedButton _buildContractButton(
-      BuildContext context, ContractsInfo contract) {
+  Widget _buildContractButton(BuildContext context, ContractsInfo contract) {
     return ElevatedButton(
       key: Key(contract.name),
       child: Text(
@@ -50,9 +49,16 @@ class SaladContractPage extends ConsumerWidget {
       key: Key(contract.name),
       text: context.l10n.contractName(contract),
       onPressed: () => context.push(contract.scoreRoute, extra: contractValues),
-      indicator: Icon(
-        Icons.task_alt_outlined,
-        color: Theme.of(context).colorScheme.success,
+      indicator: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        child: Icon(
+          Icons.task_alt_outlined,
+          color: Theme.of(context).colorScheme.success,
+          size: 40,
+        ),
       ),
     );
   }
@@ -90,7 +96,7 @@ class SaladContractPage extends ConsumerWidget {
         onPressed: provider.isValid
             ? () => _saveContract(context, ref, provider)
             : null,
-        child: Text(context.l10n.validateScores),
+        child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
       ),
     );
   }

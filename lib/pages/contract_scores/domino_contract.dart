@@ -149,7 +149,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
       ),
       bottomWidget: ElevatedButton(
         onPressed: () => _saveContract(context, ref),
-        child: Text(context.l10n.validateScores),
+        child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
       ),
     );
   }
