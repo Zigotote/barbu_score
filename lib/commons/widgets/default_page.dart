@@ -28,24 +28,31 @@ class DefaultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget page = Scaffold(
       appBar: appBar,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: hasBackground
-            ? const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/background.png"),
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.bottomCenter,
-                ),
-              )
-            : null,
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-        child: content,
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: hasBackground
+              ? BoxDecoration(
+                  image: DecorationImage(
+                    image: const AssetImage("assets/background.png"),
+                    fit: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
+                        ? BoxFit.fill
+                        : BoxFit.fitWidth,
+                    alignment: Alignment.bottomCenter,
+                  ),
+                )
+              : null,
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          child: content,
+        ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-        child: bottomWidget,
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          child: bottomWidget,
+        ),
       ),
     );
     return appBar.tabs == null
