@@ -16,7 +16,6 @@ import '../commons/widgets/my_appbar.dart';
 import '../commons/widgets/player_icon.dart';
 import '../main.dart';
 
-// TODO Océane à faire/réfléchir
 /// A page to be sure the players and the cards are ready to start
 class PrepareGame extends ConsumerWidget {
   const PrepareGame({super.key});
@@ -26,33 +25,17 @@ class PrepareGame extends ConsumerWidget {
     final List<Player> players = ref.read(playGameProvider).players;
     return DefaultPage(
       appBar: MyAppBar(context.l10n.prepareGame, context: context),
-      content: OrientationBuilder(
-        builder: (context, orientation) {
-          return switch (orientation) {
-            Orientation.landscape => Row(
-                children: [
-                  _buildPrepareGameText(context, players),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: _buildTable(context, players),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            Orientation.portrait => Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  _buildPrepareGameText(context, players),
-                  _buildTable(context, players),
-                ],
-              ),
-          };
-        },
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          spacing: 16,
+          children: [
+            _buildPrepareGameText(context, players),
+            _buildTable(context, players),
+          ],
+        ),
       ),
       bottomWidget: ElevatedButton(
         child: Text(context.l10n.go),
@@ -86,48 +69,53 @@ class PrepareGame extends ConsumerWidget {
       final circleDiameter = constraints.maxWidth * 0.6 * multiplicator;
       final circleRadius = circleDiameter / 2;
       final playerIconSize = constraints.maxWidth * 0.17 * multiplicator;
-      return Stack(
-        alignment: Alignment.center,
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: CircularText(
-              children: [
-                TextItem(
-                  text: Text(
-                    context.l10n.table,
-                    style: Theme.of(context).textTheme.headlineSmall,
+      return Padding(
+        padding: EdgeInsets.only(
+          bottom: playerIconSize * MediaQuery.of(context).textScaler.scale(1),
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: CircularText(
+                children: [
+                  TextItem(
+                    text: Text(
+                      context.l10n.table,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    space: 8,
+                    startAngle: 270,
+                    startAngleAlignment: StartAngleAlignment.center,
+                  )
+                ],
+                radius: circleRadius + playerIconSize,
+              ),
+            ),
+            Positioned(
+              top: playerIconSize * 0.75,
+              child: Container(
+                width: circleDiameter,
+                height: circleDiameter,
+                margin: EdgeInsets.all(playerIconSize / 2),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    width: 2,
                   ),
-                  space: 8,
-                  startAngle: 270,
-                  startAngleAlignment: StartAngleAlignment.center,
-                )
-              ],
-              radius: circleRadius + playerIconSize,
-            ),
-          ),
-          Positioned(
-            top: playerIconSize * 0.75,
-            child: Container(
-              width: circleDiameter,
-              height: circleDiameter,
-              margin: EdgeInsets.all(playerIconSize / 2),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  width: 2,
+                  shape: BoxShape.circle,
                 ),
-                shape: BoxShape.circle,
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                clipBehavior: Clip.none,
-                children: _buildPlayers(
-                    context, circleRadius, playerIconSize, players),
+                child: Stack(
+                  alignment: Alignment.center,
+                  clipBehavior: Clip.none,
+                  children: _buildPlayers(
+                      context, circleRadius, playerIconSize, players),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     });
   }
