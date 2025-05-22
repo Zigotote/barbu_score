@@ -50,12 +50,15 @@ class MyAppBar extends AppBar {
               color: Theme.of(context).scaffoldBackgroundColor,
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: isHome
-                  ? Theme.of(context).textTheme.displaySmall
-                  : Theme.of(context).textTheme.headlineSmall,
+            child: Semantics(
+              header: true,
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: isHome
+                    ? Theme.of(context).textTheme.displaySmall
+                    : Theme.of(context).textTheme.headlineSmall,
+              ),
             ),
           ),
           actions: trailing != null ? [trailing] : null,

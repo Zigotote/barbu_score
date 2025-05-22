@@ -8,6 +8,7 @@ import 'package:barbu_score/pages/create_game/create_game.dart';
 import 'package:barbu_score/pages/finish_game/finish_game.dart';
 import 'package:barbu_score/pages/my_home.dart';
 import 'package:barbu_score/pages/prepare_game.dart';
+import 'package:barbu_score/pages/rules/my_rules.dart';
 import 'package:barbu_score/pages/settings/my_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -170,6 +171,22 @@ main() {
       expect($(CreateGame), findsOneWidget);
     });
   });
+
+  patrolWidgetTest("should open rules page", ($) async {
+    await $.pumpWidget(_createPage($));
+
+    await $("Règles du jeu").tap();
+
+    expect($(MyRules), findsOneWidget);
+  });
+
+  patrolWidgetTest("should open settings page", ($) async {
+    await $.pumpWidget(_createPage($));
+
+    await $(Icons.settings).tap();
+
+    expect($(MySettings), findsOneWidget);
+  });
 }
 
 /// Verify go back goes to home
@@ -205,6 +222,7 @@ Widget _createPage(
         routes: [
           GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
           GoRoute(path: Routes.createGame, builder: (_, __) => CreateGame()),
+          GoRoute(path: Routes.rules, builder: (_, __) => const MyRules()),
           GoRoute(
             path: Routes.settings,
             builder: (_, __) => const MySettings(),

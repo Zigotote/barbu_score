@@ -9,7 +9,14 @@ class NumberInput extends StatefulWidget {
   /// The function to call on value changed
   final void Function(int)? onChanged;
 
-  const NumberInput({required this.points, required this.onChanged, super.key});
+  /// The object to control input focus
+  final FocusNode? focusNode;
+
+  const NumberInput(
+      {required this.points,
+      required this.onChanged,
+      this.focusNode,
+      super.key});
 
   @override
   State<NumberInput> createState() => _NumberInputState();
@@ -39,6 +46,7 @@ class _NumberInputState extends State<NumberInput> {
     return SizedBox(
       width: 55,
       child: TextField(
+        focusNode: widget.focusNode,
         controller: _controller,
         textAlign: TextAlign.end,
         keyboardType: const TextInputType.numberWithOptions(

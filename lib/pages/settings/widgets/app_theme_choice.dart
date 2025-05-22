@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
@@ -22,6 +23,12 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   /// The state of the switch (true or false)
   late final SMIInput<bool>? _switchState;
 
+  /// The hint to describe theme state. Initialized to a temporary value because it's required but the state is not ready when the widget is created
+  String _switchHint = " ";
+
+  /// The hint to describe what will happen if switch is tapped. Initialized to a temporary value because it's required but the state is not ready when the widget is created
+  String _switchOnTapHint = " ";
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +49,15 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
 
   /// Updates isDark value and modify switch value accordingly
   void _updateTheme() {
-    _switchState?.change(ref.read(isDarkThemeProvider));
+    final isDarkTheme = ref.read(isDarkThemeProvider);
+    _switchState?.change(isDarkTheme);
+    setState(() {
+      _switchHint =
+          isDarkTheme ? context.l10n.hintDarkMode : context.l10n.hintLightMode;
+      _switchOnTapHint = isDarkTheme
+          ? context.l10n.hintForLightMode
+          : context.l10n.hintForLightMode;
+    });
   }
 
   /// Initializes riverpod animation
@@ -61,26 +76,26 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   _invertTheme() {
     if (_switchState != null) {
       ref.read(isDarkThemeProvider.notifier).changeTheme(!_switchState.value);
-      _switchState.change(!_switchState.value);
+      _updateTheme();
+      SemanticsService.announce(_switchHint, TextDirection.ltr);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MergeSemantics(
-      child: SettingQuestion(
-        label: context.l10n.appTheme,
-        input: GestureDetector(
-          onTap: () => _invertTheme(),
-          onHorizontalDragStart: (_) => _invertTheme(),
-          child: SizedBox(
-            height: 60,
-            width: 60,
-            child: RiveAnimation.asset(
-              "assets/switch.riv",
-              stateMachines: [_riveStateName],
-              onInit: _initStateMachine,
-            ),
+    return SettingQuestion(
+      label: context.l10n.appTheme,
+      onTap: _invertTheme,
+      input: SizedBox(
+        height: 60,
+        width: 60,
+        child: Semantics(
+          label: _switchHint,
+          onTapHint: _switchOnTapHint,
+          child: RiveAnimation.asset(
+            "assets/switch.riv",
+            stateMachines: [_riveStateName],
+            onInit: _initStateMachine,
           ),
         ),
       ),

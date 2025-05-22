@@ -1,7 +1,6 @@
 {
   "accept": "Oui",
   "activateContract": "Activer le contrat",
-  "activated": "Activé",
   "addItem": "Ajouter {item}",
   "@addItem": {
     "placeholders": {
@@ -80,7 +79,6 @@
   "contractsToPlay": "Contrats à jouer",
   "createPlayers": "Créer les joueurs",
   "deactivate": "Désactiver",
-  "deactivated": "Désactivé",
   "deactivatedForGame": "Désactivé pour vos parties.",
   "delete": "Supprimer",
   "deletePlayer": "Supprimer le joueur",
@@ -117,6 +115,10 @@
   "go": "C'est parti !",
   "goHome": "Retour à l'accueil",
   "heart": "coeur",
+  "hintDarkMode": "mode sombre",
+  "hintLightMode": "mode clair",
+  "hintForDarkMode": "passer en mode sombre",
+  "hintForLightMode": "passer en mode clair",
   "invertScore": "Inversion du score",
   "invertScoreDetails": "Si un joueur remporte tout, son score devient négatif.",
   "keep": "Conserver",

@@ -21,22 +21,28 @@ class MultipleLooserContractSettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(contractSettingsProvider(contract));
     final settings = provider.settings as MultipleLooserContractSettings;
+    final numberFocusNode = FocusNode();
     return ContractSettingsPage(
       contract: contract,
       children: [
         SettingQuestion(
           label: context.l10n.pointsBy(context.l10n.itemsName(contract)),
+          onTap: numberFocusNode.requestFocus,
           input: NumberInput(
             points: settings.points,
             onChanged: provider.modifySetting(
               (value) => settings.points = value,
             ),
+            focusNode: numberFocusNode,
           ),
         ),
         const SizedBox(height: 16),
         SettingQuestion(
           tooltip: context.l10n.invertScoreDetails,
           label: context.l10n.invertScore,
+          onTap: () => provider.modifySetting(
+            (_) => settings.invertScore = !settings.invertScore,
+          )(null),
           input: MySwitch(
             isActive: settings.invertScore,
             onChanged: provider.modifySetting(
