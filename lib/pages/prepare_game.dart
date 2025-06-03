@@ -30,7 +30,7 @@ class PrepareGame extends ConsumerWidget {
         child: Container(
           constraints: BoxConstraints(
             minHeight:
-                screenHeight > 1000 ? screenHeight * 0.85 : screenHeight * 0.80,
+                screenHeight > 1000 ? screenHeight * 0.85 : screenHeight * 0.75,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -54,18 +54,20 @@ class PrepareGame extends ConsumerWidget {
     );
   }
 
-  Column _buildPrepareGameText(BuildContext context, List<Player> players) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      spacing: 8,
-      children: [
-        Text(context.l10n.withdrawCards),
-        Text(
-          getCardsToTakeOut(players.length).join(", "),
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
-        Text(context.l10n.fromTheDeck),
-      ],
+  Widget _buildPrepareGameText(BuildContext context, List<Player> players) {
+    return MergeSemantics(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 8,
+        children: [
+          Text(context.l10n.withdrawCards),
+          Text(
+            getCardsToTakeOut(players.length).join(", "),
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          Text(context.l10n.fromTheDeck),
+        ],
+      ),
     );
   }
 

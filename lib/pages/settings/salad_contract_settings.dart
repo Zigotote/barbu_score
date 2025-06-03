@@ -52,24 +52,30 @@ class _SaladContractSettingsPageState
     return ContractSettingsPage(
       contract: ContractsInfo.salad,
       children: [
-        Text(
-          context.l10n.contractsToPlay,
-          style: Theme.of(context).textTheme.titleMedium,
+        Semantics(
+          header: true,
+          child: Text(
+            context.l10n.contractsToPlay,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ),
         const SizedBox(height: 8),
         ...SaladContractSettings.availableContracts.map(
           (contract) => SettingQuestion(
             key: Key(contract.name),
             label: context.l10n.contractName(contract),
+            onTap: () => provider.modifySetting(
+              (_) {
+                settings.contracts.update(contract.name, (value) => !value);
+                _deactivateSaladIfNoContract(settings);
+              },
+            )(null),
             input: MySwitch(
               isActive: settings.contracts[contract.name]!,
               onChanged: provider.modifySetting(
                 (value) {
                   settings.contracts.update(contract.name, (_) => value);
-                  // Deactivate salad contract if no active contract inside it
-                  if (!settings.contracts.containsValue(true)) {
-                    settings.isActive = false;
-                  }
+                  _deactivateSaladIfNoContract(settings);
                 },
               ),
             ),
@@ -79,6 +85,9 @@ class _SaladContractSettingsPageState
         SettingQuestion(
           tooltip: context.l10n.invertScoreDetails,
           label: context.l10n.invertScore,
+          onTap: () => provider.modifySetting(
+            (_) => settings.invertScore = !settings.invertScore,
+          )(null),
           input: MySwitch(
             isActive: settings.invertScore,
             onChanged: provider.modifySetting(
@@ -88,5 +97,12 @@ class _SaladContractSettingsPageState
         ),
       ],
     );
+  }
+
+  /// Deactivate salad contract if no active contract inside it
+  void _deactivateSaladIfNoContract(SaladContractSettings settings) {
+    if (!settings.contracts.containsValue(true)) {
+      settings.isActive = false;
+    }
   }
 }
