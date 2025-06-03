@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
@@ -38,12 +39,11 @@ class ContractSettingsPage extends ConsumerWidget {
         const SizedBox(height: 16),
         SettingQuestion(
           label: context.l10n.activateContract,
+          onTap: () =>
+              _changeIsActive(context, provider, !provider.settings.isActive),
           input: MySwitch(
             isActive: provider.settings.isActive,
-            alertOnChange: _alertChangeIsActive(context, provider),
-            onChanged: provider.modifySetting(
-              (bool value) => provider.settings.isActive = value,
-            ),
+            onChanged: (value) => _changeIsActive(context, provider, value),
           ),
         ),
         const SizedBox(height: 16),
@@ -61,41 +61,61 @@ class ContractSettingsPage extends ConsumerWidget {
     );
   }
 
-  MyAlertDialog? _alertChangeIsActive(
-      BuildContext context, ContractSettingsNotifier provider) {
+  /// If the contract is deactivated but has been played, shows an alert before to confirm the deactivation.
+  /// Otherwise, toggles the contract state
+  void _changeIsActive(
+      BuildContext context, ContractSettingsNotifier provider, bool isActive) {
     final typedSettings = provider.settings;
     if (typedSettings is SaladContractSettings &&
         !typedSettings.contracts.containsValue(true)) {
-      return MyAlertDialog(
+      showDialog(
         context: context,
-        title: context.l10n.alertCannotActivateSalad,
-        content: context.l10n.alertCannotActivateSaladDetails,
-        actions: [AlertDialogActionButton(text: "OK")],
-      );
-    }
-    if (provider.settings.isActive &&
-        (provider.playersWithContract.isNotEmpty)) {
-      return MyAlertDialog(
-        context: context,
-        title: context.l10n.alertContractPlayed,
-        content: context.l10n.alertContractPlayedBy(
-          provider.playersWithContract.join(", "),
-          provider.playersWithContract.length,
+        builder: (_) => MyAlertDialog(
+          context: context,
+          title: context.l10n.alertCannotActivateSalad,
+          content: context.l10n.alertCannotActivateSaladDetails,
+          closeOnAction: false,
+          actions: [
+            AlertDialogActionButton(
+              text: "OK",
+              onPressed: () => context.pop(false),
+            )
+          ],
         ),
-        actions: [
-          AlertDialogActionButton(text: context.l10n.keep),
-          AlertDialogActionButton(
-            text: context.l10n.deactivate,
-            isDestructive: true,
-            onPressed: () {
-              provider.modifySetting(
-                (_) => provider.settings.isActive = false,
-              )(null);
-            },
-          ),
-        ],
       );
+    } else if (!isActive && (provider.playersWithContract.isNotEmpty)) {
+      showDialog(
+        context: context,
+        builder: (_) => MyAlertDialog(
+          context: context,
+          title: context.l10n.alertContractPlayed,
+          content: context.l10n.alertContractPlayedBy(
+            provider.playersWithContract.join(", "),
+            provider.playersWithContract.length,
+          ),
+          closeOnAction: false,
+          actions: [
+            AlertDialogActionButton(
+              text: context.l10n.keep,
+              onPressed: () => context.pop(false),
+            ),
+            AlertDialogActionButton(
+              text: context.l10n.deactivate,
+              isDestructive: true,
+              onPressed: () {
+                provider.modifySetting(
+                  (_) => provider.settings.isActive = false,
+                )(null);
+                context.pop(true);
+              },
+            ),
+          ],
+        ),
+      );
+    } else {
+      provider.modifySetting(
+        (_) => provider.settings.isActive = isActive,
+      )(null);
     }
-    return null;
   }
 }

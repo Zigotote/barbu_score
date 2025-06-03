@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:barbu_score/commons/models/contract_info.dart';
@@ -106,6 +107,23 @@ main() {
         expect(storage.getSettings(contract), settings);
       });
     }
+    for (var activeContracts in [
+      ContractsInfo.values,
+      [ContractsInfo.barbu, ContractsInfo.noHearts],
+      []
+    ]) {
+      test("should get active contracts with $activeContracts", () async {
+        await _initializeStorage(data: {
+          for (ContractsInfo contract in ContractsInfo.values)
+            contract.name: jsonEncode((contract.defaultSettings
+                  ..isActive = activeContracts.contains(contract))
+                .toJson())
+        });
+
+        final storage = MyStorage();
+        expect(storage.getActiveContracts(), activeContracts);
+      });
+    }
   });
   group("#locale", () {
     const locale = Locale("fr");
@@ -124,7 +142,7 @@ main() {
   });
 }
 
-Future<void> _initializeStorage() async {
-  SharedPreferences.setMockInitialValues({});
+Future<void> _initializeStorage({Map<String, Object>? data}) async {
+  SharedPreferences.setMockInitialValues(data ?? {});
   MyStorage.storage = await SharedPreferences.getInstance();
 }

@@ -25,8 +25,13 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
         : 1;
   }
 
+  void _changeLanguage({required int index, required MyLocales locale}) {
+    ref.read(localeProvider.notifier).changeLocale(locale.locale);
+    setState(() => selectedIndex = index);
+  }
+
   /// Builds the option depending on its index and locale
-  Container _buildOption({required int index, required MyLocales locale}) {
+  Widget _buildOption({required int index, required MyLocales locale}) {
     final tooltip = switch (locale) {
       MyLocales.fr => context.l10n.french,
       MyLocales.en => context.l10n.english,
@@ -39,16 +44,20 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
       padding: const EdgeInsets.all(6),
       width: optionSize,
       height: optionSize,
-      child: IconButton.outlined(
-        tooltip: tooltip,
-        onPressed: () {
-          ref.read(localeProvider.notifier).changeLocale(locale.locale);
-          setState(() => selectedIndex = index);
-        },
-        icon: Opacity(
-          key: Key(locale.name),
-          opacity: selectedIndex == index ? 1 : 0.8,
-          child: Image.asset(flag),
+      child: Semantics(
+        label: tooltip,
+        selected: selectedIndex == index,
+        onTap: selectedIndex == index
+            ? null
+            : () => _changeLanguage(index: index, locale: locale),
+        excludeSemantics: true,
+        child: IconButton.outlined(
+          onPressed: () => _changeLanguage(index: index, locale: locale),
+          icon: Opacity(
+            key: Key(locale.name),
+            opacity: selectedIndex == index ? 1 : 0.8,
+            child: Image.asset(flag, excludeFromSemantics: true),
+          ),
         ),
       ),
     );

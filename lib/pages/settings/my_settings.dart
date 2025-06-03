@@ -33,9 +33,12 @@ class MySettings extends ConsumerWidget {
             const AppThemeChoice(),
             const LanguageChoice(),
             const SizedBox(height: 16),
-            Text(
-              context.l10n.contracts,
-              style: Theme.of(context).textTheme.titleLarge,
+            Semantics(
+              header: true,
+              child: Text(
+                context.l10n.contracts,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
             const SizedBox(height: 16),
             MyGrid(
