@@ -94,11 +94,11 @@ void main() {
         final expectedContract = MultipleLooserContractModel(
           contract: ContractsInfo.noQueens,
           nbItems: nbItems,
+          itemsByPlayer: {
+            for (var (index, player) in game.players.indexed)
+              player.name: index == indexPlayerWithItems ? nbItems : 0
+          },
         );
-        expectedContract.setItemsByPlayer({
-          for (var (index, player) in game.players.indexed)
-            player.name: index == indexPlayerWithItems ? nbItems : 0
-        });
 
         await $.pumpWidget(_createPage(mockPlayGame: mockPlayGame));
 

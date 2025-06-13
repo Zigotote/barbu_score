@@ -45,8 +45,7 @@ void main() {
     final mockPlayGame = MockPlayGameNotifier();
     final game = mockGame(mockPlayGame);
     final newFirstPlayerIndex = game.players.length - 1;
-    final expectedContract = DominoContractModel();
-    expectedContract.setRankOfPlayer({
+    final expectedContract = DominoContractModel(rankOfPlayer: {
       for (var (index, player) in game.players.indexed)
         player.name: index == newFirstPlayerIndex ? 0 : index + 1
     });

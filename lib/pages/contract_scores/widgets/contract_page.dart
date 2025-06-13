@@ -50,35 +50,23 @@ class SubContractPage extends ConsumerWidget {
     final bool isPartOfSaladContract =
         ref.exists(saladProvider) && !(contract == ContractsInfo.salad);
     final contractModel = (ref
-        .read(contractsManagerProvider)
-        .getContractManager(contract)
-        .model as AbstractSubContractModel);
-    final bool isFinished = contractModel.setItemsByPlayer(itemsByPlayer);
+            .read(contractsManagerProvider)
+            .getContractManager(contract)
+            .model as AbstractSubContractModel)
+        .copyWith(itemsByPlayer: itemsByPlayer);
     ref.read(logProvider).info(
           "SubContractPage.saveContract: save $contractModel ${isPartOfSaladContract ? "in salad" : ""}",
         );
 
+    SnackBarUtils.instance.closeSnackBar(context);
     if (isPartOfSaladContract) {
       /// Adds the contract to the salad contract
       ref.read(saladProvider).addContract(contractModel);
+      context.pop();
     } else {
       playGame.finishContract(contractModel);
-    }
-
-    if (isFinished) {
-      SnackBarUtils.instance.closeSnackBar(context);
-      if (isPartOfSaladContract) {
-        context.pop();
-      } else {
-        context.go(
-          playGame.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
-        );
-      }
-    } else {
-      SnackBarUtils.instance.openSnackBar(
-        context: context,
-        title: context.l10n.scoresNotValid,
-        text: context.l10n.errorNbItems,
+      context.go(
+        playGame.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
       );
     }
   }

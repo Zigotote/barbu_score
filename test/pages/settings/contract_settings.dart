@@ -58,7 +58,7 @@ void main() {
           ($) async {
         final mockStorage = MockMyStorage();
         const contract = ContractsInfo.barbu;
-        final settings = contract.defaultSettings.copy()
+        final settings = contract.defaultSettings.copyWith()
           ..isActive = testData.isActive;
         final game = createGame(
           4,
