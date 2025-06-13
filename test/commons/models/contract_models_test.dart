@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../utils/utils.dart';
 
-main() {
+void main() {
   group("#OneLooserContractModel", () {
     const contract = ContractsInfo.barbu;
     group("#isValid", () {

@@ -50,7 +50,7 @@ class ContractsRules extends ConsumerWidget {
                           PlayerColors
                               .values[index % PlayerColors.values.length],
                         )
-                        .withOpacity(0.5),
+                        .withValues(alpha: 0.5),
                   ),
                   child: Text(
                     context.l10n.contractName(contract),

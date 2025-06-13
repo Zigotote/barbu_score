@@ -95,7 +95,7 @@ final defaultSalad = SaladContractModel(
   ],
 );
 
-checkAccessibility(WidgetTester tester) async {
+Future<void> checkAccessibility(WidgetTester tester) async {
   await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
   await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));
   await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
@@ -120,7 +120,7 @@ PatrolFinder findValidateScoresButton(PatrolTester $) {
 }
 
 /// Mocks a storage with some active contracts
-mockActiveContracts(MyStorage mockStorage,
+void mockActiveContracts(MyStorage mockStorage,
     [List<ContractsInfo> activeContracts = ContractsInfo.values]) {
   for (var contract in ContractsInfo.values) {
     final contractSettings = contract.defaultSettings;

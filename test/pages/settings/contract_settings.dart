@@ -14,7 +14,7 @@ import '../../utils/french_material_app.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   group("#_alertChangeIsActive", () {
     for (var hasContracts in [true, false]) {
       patrolWidgetTest("should show alert if salad contract has no contracts",

@@ -104,7 +104,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     );
   }
 
-  _saveContract(BuildContext context, WidgetRef ref) {
+  void _saveContract(BuildContext context, WidgetRef ref) {
     final contractModel = (ref
         .read(contractsManagerProvider)
         .getContractManager(ContractsInfo.domino)

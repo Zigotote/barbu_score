@@ -19,7 +19,7 @@ import '../../utils/utils.mocks.dart';
 
 const basePlayerName = "Player";
 
-main() {
+void main() {
   patrolWidgetTest("should display page", ($) async {
     await $.pumpWidget(_createPage($));
 

@@ -73,7 +73,7 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   }
 
   /// Inverts the theme of the app
-  _invertTheme() {
+  void _invertTheme() {
     if (_switchState != null) {
       ref.read(isDarkThemeProvider.notifier).changeTheme(!_switchState.value);
       _updateTheme();

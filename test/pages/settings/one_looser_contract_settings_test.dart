@@ -18,7 +18,7 @@ import 'utils/settings_utils.dart';
 
 const _defaultContract = ContractsInfo.barbu;
 
-main() {
+void main() {
   final storedGame = createGame(4, [defaultBarbu]);
   final finishedStoredGame = createGame(4, [defaultBarbu])..isFinished = true;
 
@@ -75,9 +75,11 @@ main() {
       if (validateDeactivate) {
         await $("Désactiver").tap();
         expect(_getContractSettingsProvider(page).isActive, isFalse);
+        expect(findSwitchValue($), isFalse);
       } else {
         await $("Conserver").tap();
         expect(_getContractSettingsProvider(page).isActive, isTrue);
+        expect(findSwitchValue($), isTrue);
       }
     });
   }

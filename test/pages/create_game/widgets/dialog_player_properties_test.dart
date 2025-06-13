@@ -11,7 +11,7 @@ import 'package:patrol_finders/patrol_finders.dart';
 import '../../../utils/french_material_app.dart';
 import '../../../utils/utils.dart';
 
-main() {
+void main() {
   patrolWidgetTest("should display dialog", ($) async {
     final players = _generatePlayers();
     await $.pumpWidget(_createPage(players));

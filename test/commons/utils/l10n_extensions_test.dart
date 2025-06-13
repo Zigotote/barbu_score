@@ -7,7 +7,7 @@ import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils/french_material_app.dart';
 
-main() {
+void main() {
   const invertScoreRule =
       "Si un joueur remporte tout, son score devient négatif.";
   for (var contractTest in [

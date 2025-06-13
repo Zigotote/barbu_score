@@ -22,7 +22,7 @@ class MyStorage {
   static SharedPreferences? storage;
 
   /// The function to call to init storage
-  static init() async {
+  static Future<void> init() async {
     storage = await SharedPreferences.getInstance();
 
     // Temporary to rename trumps data to salad

@@ -14,7 +14,7 @@ import 'package:patrol_finders/patrol_finders.dart';
 import '../../utils/french_material_app.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   for (var activeContracts in [
     ContractsInfo.values,
     [ContractsInfo.barbu],

@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/utils.dart';
 
-main() {
+void main() {
   group("#game", () {
     final game = createGame(
       4,

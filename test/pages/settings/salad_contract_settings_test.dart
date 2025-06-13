@@ -18,7 +18,7 @@ import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 import 'utils/settings_utils.dart';
 
-main() {
+void main() {
   final contractModel = SaladContractModel(subContracts: [defaultBarbu]);
   final storedGame = createGame(4, [contractModel]);
   final finishedStoredGame = createGame(4, [contractModel])..isFinished = true;
@@ -65,9 +65,11 @@ main() {
         if (validateDeactivate) {
           await $("Désactiver").tap();
           expect(_getContractSettingsProvider(page).isActive, isFalse);
+          expect(findSwitchValue($), isFalse);
         } else {
           await $("Conserver").tap();
           expect(_getContractSettingsProvider(page).isActive, isTrue);
+          expect(findSwitchValue($), isTrue);
         }
       });
     }

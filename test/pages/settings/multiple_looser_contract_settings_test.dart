@@ -19,7 +19,7 @@ import 'utils/settings_utils.dart';
 
 const _defaultContract = ContractsInfo.noHearts;
 
-main() {
+void main() {
   final contractModel = MultipleLooserContractModel(
     contract: _defaultContract,
     nbItems: 4,
@@ -91,9 +91,11 @@ main() {
       if (validateDeactivate) {
         await $("Désactiver").tap();
         expect(_getContractSettingsProvider(page).isActive, isFalse);
+        expect(findSwitchValue($), isFalse);
       } else {
         await $("Conserver").tap();
         expect(_getContractSettingsProvider(page).isActive, isTrue);
+        expect(findSwitchValue($), isTrue);
       }
     });
   }

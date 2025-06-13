@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   // Custom settings
   final mockStorage = MockMyStorage();
   final barbuSettings = OneLooserContractSettings(
