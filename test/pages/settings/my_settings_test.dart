@@ -143,8 +143,8 @@ void main() {
           await $(MySwitch).tap();
           expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
 
-          final modifiedContractSettings = modifiedContract.defaultSettings;
-          modifiedContractSettings.isActive = false;
+          final modifiedContractSettings =
+              modifiedContract.defaultSettings.copyWith(isActive: false);
           when(mockStorage.getSettings(modifiedContract))
               .thenReturn(modifiedContractSettings);
         }
@@ -188,8 +188,8 @@ void main() {
         await $(MySwitch).tap();
         expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
 
-        final modifiedContractSettings = modifiedContract.defaultSettings;
-        modifiedContractSettings.isActive = false;
+        final modifiedContractSettings =
+            modifiedContract.defaultSettings.copyWith(isActive: false);
         when(mockStorage.getSettings(modifiedContract))
             .thenReturn(modifiedContractSettings);
 
@@ -222,8 +222,8 @@ Widget _createPage(
     List<ContractsInfo> activeContracts = ContractsInfo.values}) {
   mockStorage ??= MockMyStorage();
   for (var contract in ContractsInfo.values) {
-    final contractSettings = contract.defaultSettings;
-    contractSettings.isActive = activeContracts.contains(contract);
+    final contractSettings = contract.defaultSettings
+        .copyWith(isActive: activeContracts.contains(contract));
     when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
   }
   final container = ProviderContainer(

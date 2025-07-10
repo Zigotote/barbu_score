@@ -29,8 +29,8 @@ class OneLooserContractSettingsPage extends ConsumerWidget {
           onTap: numberFocusNode.requestFocus,
           input: NumberInput(
             points: settings.points,
-            onChanged: provider.modifySetting(
-              (value) => settings.points = value,
+            onChanged: (value) => provider.updateSettings(
+              settings.copyWith(points: value),
             ),
             focusNode: numberFocusNode,
           ),

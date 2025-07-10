@@ -47,7 +47,7 @@ dev_dependencies:
   json_serializable: ^6.9.0
   meta: any
 
-  # Run with dart run flutter_launcher_icons
+# Run with dart run flutter_launcher_icons
 flutter_launcher_icons:
   android: true
   adaptive_icon_foreground: "assets/logo.png"

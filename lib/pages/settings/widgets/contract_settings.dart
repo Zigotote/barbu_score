@@ -103,9 +103,9 @@ class ContractSettingsPage extends ConsumerWidget {
               text: context.l10n.deactivate,
               isDestructive: true,
               onPressed: () {
-                provider.modifySetting(
-                  (_) => provider.settings.isActive = false,
-                )(null);
+                provider.updateSettings(
+                  provider.settings.copyWith(isActive: false),
+                );
                 context.pop(true);
               },
             ),
@@ -113,9 +113,7 @@ class ContractSettingsPage extends ConsumerWidget {
         ),
       );
     } else {
-      provider.modifySetting(
-        (_) => provider.settings.isActive = isActive,
-      )(null);
+      provider.updateSettings(provider.settings.copyWith(isActive: isActive));
     }
   }
 }

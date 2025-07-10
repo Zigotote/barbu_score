@@ -214,7 +214,7 @@ UncontrolledProviderScope _createPage(
     [Game? storedGame, bool isContractActive = true]) {
   final mockStorage = MockMyStorage();
   when(mockStorage.getSettings(ContractsInfo.salad)).thenReturn(
-    ContractsInfo.salad.defaultSettings..isActive = isContractActive,
+    ContractsInfo.salad.defaultSettings.copyWith(isActive: isContractActive),
   );
   when(mockStorage.getStoredGame()).thenReturn(storedGame);
 

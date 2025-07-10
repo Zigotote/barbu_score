@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../utils/constants.dart';
@@ -8,7 +7,7 @@ import 'contract_info.dart';
 import 'contract_models.dart';
 import 'player_colors.dart';
 
-class Player with EquatableMixin {
+class Player {
   /// The image of the player
   String image;
 
@@ -80,7 +79,4 @@ class Player with EquatableMixin {
   String toString() {
     return "$name : $contracts";
   }
-
-  @override
-  List<Object?> get props => [image, name, contracts, color];
 }

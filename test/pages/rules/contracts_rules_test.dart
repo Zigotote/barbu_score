@@ -48,8 +48,8 @@ void main() {
 Widget _createPage([List<ContractsInfo>? activeContracts]) {
   final mockStorage = MockMyStorage();
   for (var contract in ContractsInfo.values) {
-    final contractSettings = contract.defaultSettings;
-    contractSettings.isActive = activeContracts?.contains(contract) ?? false;
+    final contractSettings = contract.defaultSettings
+        .copyWith(isActive: activeContracts?.contains(contract) ?? false);
     when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
   }
   final container = ProviderContainer(

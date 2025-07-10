@@ -328,8 +328,8 @@ void main() {
           final model = SaladContractModel(
             subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
           );
-          final settings = contract.defaultSettings as SaladContractSettings;
-          settings.invertScore = invertScore;
+          final settings = (contract.defaultSettings as SaladContractSettings)
+              .copyWith(invertScore: invertScore);
 
           final expectedScore = invertScore
               ? ((barbuSettings.points +

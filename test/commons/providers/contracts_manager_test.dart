@@ -173,7 +173,7 @@ void main() {
             when(mockStorage
                     .getSettings(ContractsInfo.fromName(contractSettings.name)))
                 .thenReturn(
-              contractSettings.copyWith()..isActive = !hasInactiveContracts,
+              contractSettings.copyWith(isActive: !hasInactiveContracts),
             );
           }
           final contractsManager =

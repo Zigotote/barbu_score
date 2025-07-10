@@ -19,10 +19,10 @@ class ContractSettingsNotifier with ChangeNotifier {
   final ContractsInfo contract;
 
   /// The settings of the current contract
-  final AbstractContractSettings settings;
+  AbstractContractSettings settings;
 
   ContractSettingsNotifier(this.storage, {required this.contract})
-      : settings = storage.getSettings(contract).copy();
+      : settings = storage.getSettings(contract).copyWith();
 
   /// Returns the name of the players who played this contract, or empty list if no data found or game is finished
   List<String> get playersWithContract {
@@ -35,10 +35,8 @@ class ContractSettingsNotifier with ChangeNotifier {
     return playersWithContract;
   }
 
-  Function(T) modifySetting<T>(Function(T) func) {
-    return (value) {
-      func.call(value);
-      notifyListeners();
-    };
+  void updateSettings(AbstractContractSettings newSettings) {
+    settings = newSettings;
+    notifyListeners();
   }
 }

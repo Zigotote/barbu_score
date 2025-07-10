@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import 'contract_info.dart';
 import 'player.dart';
 
 /// A class to represent a game, with players and a current player
-class Game with EquatableMixin {
+class Game {
   /// The list of players for the game
   final List<Player> players;
 
@@ -62,7 +61,4 @@ class Game with EquatableMixin {
   String toString() {
     return players.toString();
   }
-
-  @override
-  List<Object?> get props => [players, _currentPlayerIndex, isFinished];
 }

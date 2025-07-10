@@ -123,8 +123,8 @@ PatrolFinder findValidateScoresButton(PatrolTester $) {
 void mockActiveContracts(MyStorage mockStorage,
     [List<ContractsInfo> activeContracts = ContractsInfo.values]) {
   for (var contract in ContractsInfo.values) {
-    final contractSettings = contract.defaultSettings;
-    contractSettings.isActive = activeContracts.contains(contract);
+    final contractSettings = contract.defaultSettings
+        .copyWith(isActive: activeContracts.contains(contract));
     when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
   }
   when(mockStorage.getActiveContracts()).thenReturn(activeContracts);
