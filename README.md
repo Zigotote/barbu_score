@@ -44,7 +44,7 @@ Code coverage can be monitored with lcov. This tool can be installed
 with `sudo apt-get install lcov -y`. To generate code coverage files, use these commands :
 
 ```
-fvm flutter test --no-test-assets --coverage
+fvm flutter test --coverage
 lcov -r coverage/lcov.info "lib/commons/l10n/app_localizations_*.dart" -o coverage/lcov_cleaned.info
 genhtml coverage/lcov_cleaned.info -o coverage/html
 open coverage/html/index.html
