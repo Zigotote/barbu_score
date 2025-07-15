@@ -18,7 +18,7 @@ import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 import 'utils/settings_utils.dart';
 
-main() {
+void main() {
   final contractModel = DominoContractModel(
     rankOfPlayer: {
       for (var (index, player) in defaultPlayerNames.indexed) player: index
@@ -78,9 +78,11 @@ main() {
       if (validateDeactivate) {
         await $("Désactiver").tap();
         expect(_getContractSettingsProvider(page).isActive, isFalse);
+        expect(findSwitchValue($), isFalse);
       } else {
         await $("Conserver").tap();
         expect(_getContractSettingsProvider(page).isActive, isTrue);
+        expect(findSwitchValue($), isTrue);
       }
     });
   }

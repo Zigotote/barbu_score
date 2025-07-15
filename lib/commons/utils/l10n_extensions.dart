@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/contract_info.dart';
 import '../models/contract_settings_models.dart';
 import '../models/my_locales.dart';

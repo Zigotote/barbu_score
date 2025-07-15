@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
-import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/log.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
@@ -104,12 +102,8 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     );
   }
 
-  _saveContract(BuildContext context, WidgetRef ref) {
-    final contractModel = (ref
-        .read(contractsManagerProvider)
-        .getContractManager(ContractsInfo.domino)
-        .model as DominoContractModel);
-    final bool isFinished = contractModel.setRankOfPlayer({
+  void _saveContract(BuildContext context, WidgetRef ref) {
+    final contractModel = DominoContractModel(rankOfPlayer: {
       for (var player in orderedPlayers)
         player.name: orderedPlayers.indexOf(player)
     });
@@ -119,18 +113,10 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     final provider = ref.read(playGameProvider);
     provider.finishContract(contractModel);
 
-    if (isFinished) {
-      SnackBarUtils.instance.closeSnackBar(context);
-      context.go(
-        provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
-      );
-    } else {
-      SnackBarUtils.instance.openSnackBar(
-        context: context,
-        title: context.l10n.scoresNotValid,
-        text: context.l10n.errorDomino,
-      );
-    }
+    SnackBarUtils.instance.closeSnackBar(context);
+    context.go(
+      provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
+    );
   }
 
   @override

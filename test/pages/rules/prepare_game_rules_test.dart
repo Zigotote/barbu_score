@@ -6,7 +6,7 @@ import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils/french_material_app.dart';
 
-main() {
+void main() {
   for (var testData in [
     (nbPlayers: 3, nbCards: 24),
     (nbPlayers: 4, nbCards: 32),

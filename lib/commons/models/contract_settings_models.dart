@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
@@ -13,7 +14,7 @@ abstract class AbstractContractSettings with EquatableMixin {
   final String name;
 
   /// The indicator to know if the user wants to have this contract in its games or not
-  bool isActive;
+  final bool isActive;
 
   AbstractContractSettings(
       {this.isActive = true, ContractsInfo? contract, String? name})
@@ -57,8 +58,7 @@ abstract class AbstractContractSettings with EquatableMixin {
     return {"name": name, "isActive": isActive};
   }
 
-  /// Copies the object with some overrides
-  AbstractContractSettings copy();
+  AbstractContractSettings copyWith({bool? isActive});
 
   @override
   List<Object?> get props => [name, isActive];
@@ -67,7 +67,7 @@ abstract class AbstractContractSettings with EquatableMixin {
 /// A class to save the settings for a contract where only one player can loose
 class OneLooserContractSettings extends AbstractContractSettings {
   /// The points for this contract item
-  int points;
+  final int points;
 
   OneLooserContractSettings({
     super.contract,
@@ -90,11 +90,11 @@ class OneLooserContractSettings extends AbstractContractSettings {
   List<Object?> get props => [...super.props, points];
 
   @override
-  OneLooserContractSettings copy() {
+  OneLooserContractSettings copyWith({bool? isActive, int? points}) {
     return OneLooserContractSettings(
       name: name,
-      isActive: isActive,
-      points: points,
+      isActive: isActive ?? this.isActive,
+      points: points ?? this.points,
     );
   }
 }
@@ -102,10 +102,10 @@ class OneLooserContractSettings extends AbstractContractSettings {
 /// A class to save the settings for a contract where multiple players can have some points
 class MultipleLooserContractSettings extends AbstractContractSettings {
   /// The points for one item
-  int points;
+  final int points;
 
   /// The indicator to know if the score should be inverted if one players wins all contract items
-  bool invertScore;
+  final bool invertScore;
 
   MultipleLooserContractSettings({
     super.contract,
@@ -130,12 +130,13 @@ class MultipleLooserContractSettings extends AbstractContractSettings {
   List<Object?> get props => [...super.props, points, invertScore];
 
   @override
-  MultipleLooserContractSettings copy() {
+  MultipleLooserContractSettings copyWith(
+      {bool? isActive, int? points, bool? invertScore}) {
     return MultipleLooserContractSettings(
       name: name,
-      isActive: isActive,
-      points: points,
-      invertScore: invertScore,
+      isActive: isActive ?? this.isActive,
+      points: points ?? this.points,
+      invertScore: invertScore ?? this.invertScore,
     );
   }
 }
@@ -149,18 +150,21 @@ class SaladContractSettings extends AbstractContractSettings {
       .toList();
 
   /// A map to know if each contract should be part of salad contract or not
-  final Map<String, bool> contracts;
+  final Map<String, bool> _contracts;
 
   /// The indicator to know if the score should be inverted if one players wins all tricks
-  bool invertScore;
+  final bool invertScore;
 
   SaladContractSettings(
-      {super.isActive, required this.contracts, this.invertScore = false})
-      : super(contract: ContractsInfo.salad);
+      {super.isActive,
+      required Map<String, bool> contracts,
+      this.invertScore = false})
+      : _contracts = contracts,
+        super(contract: ContractsInfo.salad);
 
   SaladContractSettings.fromJson(Map<String, dynamic> json,
       {required ContractsInfo contract, required super.isActive})
-      : contracts = Map.castFrom(jsonDecode(json["contracts"])),
+      : _contracts = Map.castFrom(jsonDecode(json["contracts"])),
         invertScore = json["invertScore"] ?? false,
         super(contract: contract);
 
@@ -168,34 +172,38 @@ class SaladContractSettings extends AbstractContractSettings {
   Map<String, dynamic> toJson() {
     return {
       ...super.toJson(),
-      "contracts": jsonEncode(contracts),
+      "contracts": jsonEncode(_contracts),
       "invertScore": invertScore,
     };
   }
 
+  UnmodifiableMapView<String, bool> get contracts =>
+      UnmodifiableMapView(_contracts);
+
   /// Returns the active contracts
-  List<ContractsInfo> get activeContracts => contracts.entries
-      .where((contract) => contract.value)
-      .map((contract) => ContractsInfo.fromName(contract.key))
-      .toList();
+  UnmodifiableListView<ContractsInfo> get activeContracts =>
+      UnmodifiableListView(_contracts.entries
+          .where((contract) => contract.value)
+          .map((contract) => ContractsInfo.fromName(contract.key)));
 
   @override
-  SaladContractSettings copy() {
+  SaladContractSettings copyWith(
+      {bool? isActive, Map<String, bool>? contracts, bool? invertScore}) {
     return SaladContractSettings(
-      isActive: isActive,
-      contracts: contracts,
-      invertScore: invertScore,
+      isActive: isActive ?? this.isActive,
+      contracts: contracts ?? _contracts,
+      invertScore: invertScore ?? this.invertScore,
     );
   }
 
   @override
-  List<Object?> get props => [...super.props, contracts, invertScore];
+  List<Object?> get props => [...super.props, _contracts, invertScore];
 }
 
 /// A domino contract settings
 class DominoContractSettings extends AbstractContractSettings {
   /// The points for each player rank, depending on the number of player in the game
-  late Map<int, List<int>> points;
+  late final Map<int, List<int>> _points;
 
   DominoContractSettings({
     super.isActive,
@@ -205,13 +213,13 @@ class DominoContractSettings extends AbstractContractSettings {
   })  : assert((pointsLastPlayer != null && pointsFirstPlayer != null) ||
             points != null),
         super(contract: ContractsInfo.domino) {
-    this.points =
+    _points =
         points ?? generatePointsLists(pointsFirstPlayer!, pointsLastPlayer!);
   }
 
   DominoContractSettings.fromJson(Map<String, dynamic> json,
       {required ContractsInfo contract, required super.isActive})
-      : points = Map.castFrom({
+      : _points = Map.castFrom({
           for (var entry in jsonDecode(json["points"]).entries)
             int.parse(entry.key): List<int>.from(entry.value),
         }),
@@ -223,11 +231,14 @@ class DominoContractSettings extends AbstractContractSettings {
       ...super.toJson(),
       "points": jsonEncode(
         {
-          for (var entry in points.entries) '${entry.key}': entry.value,
+          for (var entry in _points.entries) '${entry.key}': entry.value,
         },
       )
     };
   }
+
+  UnmodifiableMapView<int, List<int>> get points =>
+      UnmodifiableMapView(_points);
 
   /// Generates points lists depending on number players in the game
   Map<int, List<int>> generatePointsLists(
@@ -282,10 +293,12 @@ class DominoContractSettings extends AbstractContractSettings {
   }
 
   @override
-  DominoContractSettings copy() {
-    return DominoContractSettings(isActive: isActive, points: points);
+  DominoContractSettings copyWith(
+      {bool? isActive, Map<int, List<int>>? points}) {
+    return DominoContractSettings(
+        isActive: isActive ?? this.isActive, points: points ?? _points);
   }
 
   @override
-  List<Object?> get props => [...super.props, points];
+  List<Object?> get props => [...super.props, _points];
 }

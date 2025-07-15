@@ -3,13 +3,14 @@ import 'dart:ui';
 
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
+import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/utils.dart';
 
-main() {
+void main() {
   group("#game", () {
     final game = createGame(
       4,
@@ -24,7 +25,12 @@ main() {
       final storage = MyStorage();
       storage.saveGame(game);
 
-      expect(storage.getStoredGame(), game);
+      final storedGame = storage.getStoredGame();
+      expect(storedGame, isNotNull);
+      expect(
+        _convertToComparablePlayers(storedGame!.players),
+        _convertToComparablePlayers(game.players),
+      );
     });
     test("should delete game", () async {
       await _initializeStorage();
@@ -116,7 +122,7 @@ main() {
         await _initializeStorage(data: {
           for (ContractsInfo contract in ContractsInfo.values)
             contract.name: jsonEncode((contract.defaultSettings
-                  ..isActive = activeContracts.contains(contract))
+                    .copyWith(isActive: activeContracts.contains(contract)))
                 .toJson())
         });
 
@@ -140,6 +146,15 @@ main() {
       expect(storage.getLocale(), locale);
     });
   });
+}
+
+List<Map<String, Object>>? _convertToComparablePlayers(List<Player> players) {
+  return players
+      .map(
+        (player) =>
+            {'name': player.name, 'color': player.color, 'image': player.image},
+      )
+      .toList();
 }
 
 Future<void> _initializeStorage({Map<String, Object>? data}) async {

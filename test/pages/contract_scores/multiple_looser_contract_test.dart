@@ -18,7 +18,7 @@ import '../../utils/french_material_app.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage());
 
@@ -94,11 +94,11 @@ main() {
         final expectedContract = MultipleLooserContractModel(
           contract: ContractsInfo.noQueens,
           nbItems: nbItems,
+          itemsByPlayer: {
+            for (var (index, player) in game.players.indexed)
+              player.name: index == indexPlayerWithItems ? nbItems : 0
+          },
         );
-        expectedContract.setItemsByPlayer({
-          for (var (index, player) in game.players.indexed)
-            player.name: index == indexPlayerWithItems ? nbItems : 0
-        });
 
         await $.pumpWidget(_createPage(mockPlayGame: mockPlayGame));
 

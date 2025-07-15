@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../utils/utils.dart';
 
-main() {
+void main() {
   group("#OneLooserContractModel", () {
     const contract = ContractsInfo.barbu;
     group("#isValid", () {
@@ -33,29 +33,6 @@ main() {
           expect(model.isValid(itemsByPlayer), false);
         });
       }
-    });
-    group("#setItemsByPlayer", () {
-      test("should set itemsByPlayer when items are valid", () {
-        final model = OneLooserContractModel(contract: contract);
-        final itemsByPlayer = {
-          for (var (index, player) in defaultPlayerNames.indexed)
-            player: index == 0 ? 1 : 0
-        };
-
-        model.setItemsByPlayer(itemsByPlayer);
-
-        expect(model.itemsByPlayer, itemsByPlayer);
-      });
-      test("should not set itemsByPlayer when items are invalid", () {
-        final model = OneLooserContractModel(contract: contract);
-        final itemsByPlayer = {
-          for (var player in defaultPlayerNames) player: 0
-        };
-
-        model.setItemsByPlayer(itemsByPlayer);
-
-        expect(model.itemsByPlayer, isEmpty);
-      });
     });
     group("#scores", () {
       test("should be null if no itemsByPlayer", () {
@@ -104,34 +81,6 @@ main() {
         expect(model.isValid(itemsByPlayer), nbItems == 1);
       });
     }
-    group("#setItemsByPlayer", () {
-      test("should set itemsByPlayer when items are valid", () {
-        final model = MultipleLooserContractModel(
-          contract: contract,
-          nbItems: nbItemsForContract,
-        );
-        final itemsByPlayer = {
-          for (var player in defaultPlayerNames) player: 1
-        };
-
-        model.setItemsByPlayer(itemsByPlayer);
-
-        expect(model.itemsByPlayer, itemsByPlayer);
-      });
-      test("should not set itemsByPlayer when items are invalid", () {
-        final model = MultipleLooserContractModel(
-          contract: contract,
-          nbItems: nbItemsForContract,
-        );
-        final itemsByPlayer = {
-          for (var player in defaultPlayerNames) player: 0
-        };
-
-        model.setItemsByPlayer(itemsByPlayer);
-
-        expect(model.itemsByPlayer, isEmpty);
-      });
-    });
     group("#scores", () {
       test("should be null if no itemsByPlayer", () {
         final model = MultipleLooserContractModel(
@@ -216,8 +165,9 @@ main() {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index == 1 ? 1 : 0
           };
-          subContract.setItemsByPlayer(expectedItemsByPlayer);
-          model.addSubContract(subContract);
+          model.addSubContract(
+            subContract.copyWith(itemsByPlayer: expectedItemsByPlayer),
+          );
         }
 
         expect(model.subContracts.length, 1);
@@ -378,8 +328,8 @@ main() {
           final model = SaladContractModel(
             subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
           );
-          final settings = contract.defaultSettings as SaladContractSettings;
-          settings.invertScore = invertScore;
+          final settings = (contract.defaultSettings as SaladContractSettings)
+              .copyWith(invertScore: invertScore);
 
           final expectedScore = invertScore
               ? ((barbuSettings.points +
@@ -404,24 +354,6 @@ main() {
   });
 
   group("#DominoContractModel", () {
-    group("#setRankOfPlayer", () {
-      test("should return false if rankOfPlayer is empty", () {
-        final model = DominoContractModel();
-
-        expect(model.setRankOfPlayer({}), isFalse);
-      });
-      test("should return true if rankOfPlayer is not empty", () {
-        final model = DominoContractModel();
-
-        expect(
-          model.setRankOfPlayer({
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index
-          }),
-          isTrue,
-        );
-      });
-    });
     group("#scores", () {
       test("should be null if no rank", () {
         final model = DominoContractModel();
@@ -431,8 +363,7 @@ main() {
       test("should return scores of player, depending on their rank", () {
         final settings =
             ContractsInfo.domino.defaultSettings as DominoContractSettings;
-        final model = DominoContractModel();
-        model.setRankOfPlayer({
+        final model = DominoContractModel(rankOfPlayer: {
           for (var (index, player) in defaultPlayerNames.indexed) player: index
         });
 

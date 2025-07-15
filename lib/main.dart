@@ -4,10 +4,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'commons/l10n/app_localizations.dart';
 import 'commons/models/contract_models.dart';
 import 'commons/providers/locale_provider.dart';
 import 'commons/providers/storage.dart';

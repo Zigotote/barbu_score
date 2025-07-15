@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-main() {
+void main() {
   for (var numberValueTest in [1, -1]) {
     patrolWidgetTest("should call on changed when enter $numberValueTest",
         ($) async {

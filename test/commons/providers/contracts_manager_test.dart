@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   // Custom settings
   final mockStorage = MockMyStorage();
   final barbuSettings = OneLooserContractSettings(
@@ -173,7 +173,7 @@ main() {
             when(mockStorage
                     .getSettings(ContractsInfo.fromName(contractSettings.name)))
                 .thenReturn(
-              contractSettings.copy()..isActive = !hasInactiveContracts,
+              contractSettings.copyWith(isActive: !hasInactiveContracts),
             );
           }
           final contractsManager =
