@@ -24,7 +24,8 @@ List<String> get playerImages {
 }
 
 /// Returns the path of the player image
-_playerImagePath(String imageName) => "assets/players/player$imageName.png";
+String _playerImagePath(String imageName) =>
+    "assets/players/player$imageName.png";
 
 /// Returns the list of colors available to customize the player
 List<PlayerColors> get playerColors {

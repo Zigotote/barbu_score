@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/l10n/app_localizations.dart';
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/my_locales.dart';
@@ -14,7 +15,6 @@ import 'package:barbu_score/pages/settings/one_looser_contract_settings.dart';
 import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
 import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -51,7 +51,7 @@ final _router = GoRouter(
   ],
 );
 
-main() {
+void main() {
   patrolWidgetTest("should display page", ($) async {
     await $.pumpWidget(_createPage());
 
@@ -143,8 +143,8 @@ main() {
           await $(MySwitch).tap();
           expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
 
-          final modifiedContractSettings = modifiedContract.defaultSettings;
-          modifiedContractSettings.isActive = false;
+          final modifiedContractSettings =
+              modifiedContract.defaultSettings.copyWith(isActive: false);
           when(mockStorage.getSettings(modifiedContract))
               .thenReturn(modifiedContractSettings);
         }
@@ -188,8 +188,8 @@ main() {
         await $(MySwitch).tap();
         expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
 
-        final modifiedContractSettings = modifiedContract.defaultSettings;
-        modifiedContractSettings.isActive = false;
+        final modifiedContractSettings =
+            modifiedContract.defaultSettings.copyWith(isActive: false);
         when(mockStorage.getSettings(modifiedContract))
             .thenReturn(modifiedContractSettings);
 
@@ -222,8 +222,8 @@ Widget _createPage(
     List<ContractsInfo> activeContracts = ContractsInfo.values}) {
   mockStorage ??= MockMyStorage();
   for (var contract in ContractsInfo.values) {
-    final contractSettings = contract.defaultSettings;
-    contractSettings.isActive = activeContracts.contains(contract);
+    final contractSettings = contract.defaultSettings
+        .copyWith(isActive: activeContracts.contains(contract));
     when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
   }
   final container = ProviderContainer(

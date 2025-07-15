@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   group("#nextPlayer", () {
     for (var activeContracts in [
       ContractsInfo.values,

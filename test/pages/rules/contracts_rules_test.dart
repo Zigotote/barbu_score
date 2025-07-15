@@ -14,7 +14,7 @@ import 'package:patrol_finders/patrol_finders.dart';
 import '../../utils/french_material_app.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   for (var activeContracts in [
     ContractsInfo.values,
     [ContractsInfo.barbu],
@@ -48,8 +48,8 @@ main() {
 Widget _createPage([List<ContractsInfo>? activeContracts]) {
   final mockStorage = MockMyStorage();
   for (var contract in ContractsInfo.values) {
-    final contractSettings = contract.defaultSettings;
-    contractSettings.isActive = activeContracts?.contains(contract) ?? false;
+    final contractSettings = contract.defaultSettings
+        .copyWith(isActive: activeContracts?.contains(contract) ?? false);
     when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
   }
   final container = ProviderContainer(

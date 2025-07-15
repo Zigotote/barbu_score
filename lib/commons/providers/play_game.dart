@@ -26,12 +26,12 @@ class PlayGameNotifier with ChangeNotifier {
   Player get currentPlayer => game.currentPlayer;
 
   /// Inits the game with the players
-  init(List<Player> players) {
+  void init(List<Player> players) {
     game = Game(players: players);
   }
 
   /// Loads a previous game
-  load(Game game) {
+  void load(Game game) {
     this.game = game;
   }
 

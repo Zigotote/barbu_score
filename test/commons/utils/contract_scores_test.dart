@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../utils/utils.dart';
 
-main() {
+void main() {
   test("should return null if no scores", () {
     expect(sumScores([]), isNull);
   });

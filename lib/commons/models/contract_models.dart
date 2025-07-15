@@ -49,7 +49,7 @@ abstract class AbstractContractModel with EquatableMixin {
 /// A class to represent a contract that can be part of a salad contract
 abstract class AbstractSubContractModel extends AbstractContractModel {
   /// The number of items each player won for this contract
-  Map<String, int> _itemsByPlayer;
+  final Map<String, int> _itemsByPlayer;
 
   AbstractSubContractModel(
       {super.contract, super.name, Map<String, int> itemsByPlayer = const {}})
@@ -77,6 +77,8 @@ abstract class AbstractSubContractModel extends AbstractContractModel {
   @override
   List<Object?> get props => [...super.props, _itemsByPlayer];
 
+  AbstractSubContractModel copyWith({required Map<String, int> itemsByPlayer});
+
   /// The number of item of the players. Used to modify the contract.
   UnmodifiableMapView<String, int> get itemsByPlayer =>
       UnmodifiableMapView(_itemsByPlayer);
@@ -86,16 +88,6 @@ abstract class AbstractSubContractModel extends AbstractContractModel {
 
   /// Returns the maximal number of points of the contract
   int maxPoints(AbstractContractSettings settings);
-
-  /// Sets the [itemsByPlayer] from a Map which links all player's names with the number of tricks/cards they won.
-  /// Returns true if the map is valid, false otherwise
-  bool setItemsByPlayer(Map<String, int> itemsByPlayer) {
-    final canBeSet = isValid(itemsByPlayer);
-    if (canBeSet) {
-      _itemsByPlayer = itemsByPlayer;
-    }
-    return canBeSet;
-  }
 
   @override
   String toString() {
@@ -113,6 +105,11 @@ class OneLooserContractModel extends AbstractSubContractModel {
           contract: contract,
           itemsByPlayer: Map.castFrom(jsonDecode(json["itemsByPlayer"])),
         );
+
+  @override
+  OneLooserContractModel copyWith({required Map<String, int> itemsByPlayer}) {
+    return OneLooserContractModel(name: name, itemsByPlayer: itemsByPlayer);
+  }
 
   @override
   bool isValid(Map<String, int> itemsByPlayer) {
@@ -162,6 +159,16 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
 
   @override
   List<Object?> get props => [...super.props, nbItems];
+
+  @override
+  MultipleLooserContractModel copyWith(
+      {required Map<String, int> itemsByPlayer}) {
+    return MultipleLooserContractModel(
+      name: name,
+      nbItems: nbItems,
+      itemsByPlayer: itemsByPlayer,
+    );
+  }
 
   @override
   bool isValid(Map<String, int> itemsByPlayer) {
@@ -311,7 +318,7 @@ class SaladContractModel extends AbstractContractModel {
 /// A domino contract scores
 class DominoContractModel extends AbstractContractModel {
   /// The rank where each player finished this contract
-  Map<String, int> _rankOfPlayer;
+  final Map<String, int> _rankOfPlayer;
 
   DominoContractModel({Map<String, int> rankOfPlayer = const {}})
       : _rankOfPlayer = rankOfPlayer,
@@ -329,16 +336,6 @@ class DominoContractModel extends AbstractContractModel {
 
   @override
   List<Object?> get props => [...super.props, _rankOfPlayer];
-
-  /// Sets the [rankOfPlayer] from a Map wich links all player's names with its rank.
-  /// Returns true if the map is valid, false otherwise
-  bool setRankOfPlayer(Map<String, int> rankOfPlayer) {
-    if (rankOfPlayer.isEmpty) {
-      return false;
-    }
-    _rankOfPlayer = rankOfPlayer;
-    return true;
-  }
 
   /// Calculates the scores of this contract its settings. Returns null score can't be calculated
   @override

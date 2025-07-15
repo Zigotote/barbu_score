@@ -56,7 +56,7 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
   }
 
   /// Selects the given player
-  _selectPlayer(Player player) {
+  void _selectPlayer(Player player) {
     setState(() {
       _selectedPlayer = player;
     });

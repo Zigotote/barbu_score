@@ -8,7 +8,7 @@ import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils/utils.dart';
 
-main() {
+void main() {
   final players = List.generate(
     4,
     (index) => Player(

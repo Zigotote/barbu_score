@@ -107,8 +107,22 @@ class DominoContractSettingsPage extends ConsumerWidget {
         return TableViewCell(
           child: NumberInput(
             points: settings.points[nbPlayers]![playerIndex],
-            onChanged: provider.modifySetting(
-                (value) => settings.points[nbPlayers]?[playerIndex] = value),
+            onChanged: (value) {
+              settings.points[nbPlayers]?[playerIndex] = value;
+              provider.updateSettings(
+                settings.copyWith(
+                  points: Map.from(settings.points)
+                    ..update(
+                      nbPlayers,
+                      (_) {
+                        final points = settings.points[nbPlayers]!;
+                        points[playerIndex] = value;
+                        return points;
+                      },
+                    ),
+                ),
+              );
+            },
           ),
         );
       }

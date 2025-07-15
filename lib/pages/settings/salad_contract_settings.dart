@@ -64,20 +64,28 @@ class _SaladContractSettingsPageState
           (contract) => SettingQuestion(
             key: Key(contract.name),
             label: context.l10n.contractName(contract),
-            onTap: () => provider.modifySetting(
-              (_) {
-                settings.contracts.update(contract.name, (value) => !value);
-                _deactivateSaladIfNoContract(settings);
-              },
-            )(null),
+            onTap: () {
+              final newContracts = Map<String, bool>.from(settings.contracts)
+                ..update(contract.name, (value) => !value);
+              provider.updateSettings(
+                settings.copyWith(
+                  isActive: !newContracts.containsValue(true) ? false : null,
+                  contracts: newContracts,
+                ),
+              );
+            },
             input: MySwitch(
               isActive: settings.contracts[contract.name]!,
-              onChanged: provider.modifySetting(
-                (value) {
-                  settings.contracts.update(contract.name, (_) => value);
-                  _deactivateSaladIfNoContract(settings);
-                },
-              ),
+              onChanged: (value) {
+                final newContracts = Map<String, bool>.from(settings.contracts)
+                  ..update(contract.name, (_) => value);
+                provider.updateSettings(
+                  settings.copyWith(
+                    isActive: !newContracts.containsValue(true) ? false : null,
+                    contracts: newContracts,
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -85,24 +93,16 @@ class _SaladContractSettingsPageState
         SettingQuestion(
           tooltip: context.l10n.invertScoreDetails,
           label: context.l10n.invertScore,
-          onTap: () => provider.modifySetting(
-            (_) => settings.invertScore = !settings.invertScore,
-          )(null),
+          onTap: () => provider.updateSettings(
+            settings.copyWith(invertScore: !settings.invertScore),
+          ),
           input: MySwitch(
             isActive: settings.invertScore,
-            onChanged: provider.modifySetting(
-              (bool value) => settings.invertScore = value,
-            ),
+            onChanged: (value) =>
+                provider.updateSettings(settings.copyWith(invertScore: value)),
           ),
         ),
       ],
     );
-  }
-
-  /// Deactivate salad contract if no active contract inside it
-  void _deactivateSaladIfNoContract(SaladContractSettings settings) {
-    if (!settings.contracts.containsValue(true)) {
-      settings.isActive = false;
-    }
   }
 }

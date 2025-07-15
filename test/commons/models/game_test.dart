@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../utils/utils.dart';
 
-main() {
+void main() {
   group("#nextPlayer", () {
     final players = List.generate(
       4,

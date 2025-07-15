@@ -24,7 +24,7 @@ import '../utils/utils.mocks.dart';
 const _startGameText = "Démarrer une partie";
 const _loadGameText = "Charger une partie";
 
-main() {
+void main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(FrenchMaterialApp(home: const MyHome()));
 

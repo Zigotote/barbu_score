@@ -24,7 +24,7 @@ class MyHome extends ConsumerWidget {
   }
 
   /// Loads a previous game and resumes it
-  _loadGame(BuildContext context, WidgetRef ref, Game game) {
+  void _loadGame(BuildContext context, WidgetRef ref, Game game) {
     final provider = ref.read(playGameProvider);
     provider.load(game);
     if (!game.isFinished) {
@@ -41,7 +41,7 @@ class MyHome extends ConsumerWidget {
   }
 
   /// Starts a new game
-  _startGame(BuildContext context, WidgetRef ref) {
+  void _startGame(BuildContext context, WidgetRef ref) {
     ref.read(logProvider).info("MyHome.startGame: start game");
     ref.read(logProvider).sendAnalyticEvent("start_game");
     context.push(Routes.createGame);
@@ -72,7 +72,7 @@ class MyHome extends ConsumerWidget {
   }
 
   /// Builds the widgets to load a saved game
-  _confirmLoadGame(BuildContext context, WidgetRef ref) {
+  void _confirmLoadGame(BuildContext context, WidgetRef ref) {
     if (!_verifyHasActiveContracts(context, ref)) {
       return;
     }
@@ -119,7 +119,7 @@ class MyHome extends ConsumerWidget {
   }
 
   /// Builds the widgets to start a new game
-  _confirmStartGame(BuildContext context, WidgetRef ref) {
+  void _confirmStartGame(BuildContext context, WidgetRef ref) {
     if (!_verifyHasActiveContracts(context, ref)) {
       return;
     }

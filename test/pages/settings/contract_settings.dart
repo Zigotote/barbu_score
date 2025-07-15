@@ -14,7 +14,7 @@ import '../../utils/french_material_app.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   group("#_alertChangeIsActive", () {
     for (var hasContracts in [true, false]) {
       patrolWidgetTest("should show alert if salad contract has no contracts",
@@ -58,8 +58,8 @@ main() {
           ($) async {
         final mockStorage = MockMyStorage();
         const contract = ContractsInfo.barbu;
-        final settings = contract.defaultSettings.copy()
-          ..isActive = testData.isActive;
+        final settings =
+            contract.defaultSettings.copyWith(isActive: testData.isActive);
         final game = createGame(
           4,
           testData.hasBeenPlayed ? [defaultBarbu] : [],

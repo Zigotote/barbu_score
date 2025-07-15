@@ -24,7 +24,7 @@ import '../../utils/french_material_app.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage($));
 
@@ -71,11 +71,15 @@ main() {
       await $.pumpWidget(page);
 
       expect(page.container.read(saladProvider).model.subContracts, isEmpty);
-      final subContractModel = page.container
-          .read(contractsManagerProvider)
-          .getContractManager(contractToFill)
-          .model as AbstractSubContractModel;
-      await _fillSubContract($, mockPlayGame, contractToFill, subContractModel);
+      final subContractModel = await _fillSubContract(
+        $,
+        mockPlayGame,
+        contractToFill,
+        page.container
+            .read(contractsManagerProvider)
+            .getContractManager(contractToFill)
+            .model as AbstractSubContractModel,
+      );
 
       // Redirect to salad contract page
       expect($(SaladContractPage), findsOneWidget);
@@ -154,11 +158,15 @@ main() {
     await $.pumpWidget(page);
 
     for (var contract in SaladContractSettings.availableContracts) {
-      final subContractModel = page.container
-          .read(contractsManagerProvider)
-          .getContractManager(contract)
-          .model as AbstractSubContractModel;
-      await _fillSubContract($, mockPlayGame, contract, subContractModel);
+      final subContractModel = await _fillSubContract(
+        $,
+        mockPlayGame,
+        contract,
+        page.container
+            .read(contractsManagerProvider)
+            .getContractManager(contract)
+            .model as AbstractSubContractModel,
+      );
       contractModel.addSubContract(subContractModel);
     }
 
@@ -174,17 +182,16 @@ main() {
   });
 }
 
-/// Fills the subContract and modifies the [contractModel] accordingly
-Future<void> _fillSubContract(PatrolTester $, MockPlayGameNotifier game,
-    ContractsInfo contract, AbstractSubContractModel contractModel) async {
+/// Fills the subContract. Modifies the [contractModel] accordingly and returns it
+Future<AbstractSubContractModel> _fillSubContract(
+    PatrolTester $,
+    MockPlayGameNotifier game,
+    ContractsInfo contract,
+    AbstractSubContractModel contractModel) async {
   const playerWithItems = 0;
   final nbItems = (contractModel is MultipleLooserContractModel)
       ? contractModel.nbItems
       : 1;
-  contractModel.setItemsByPlayer({
-    for (var (index, player) in game.players.indexed)
-      player.name: index == playerWithItems ? nbItems : 0
-  });
   // Navigate to contract
   await $(Key(contract.name)).tap();
 
@@ -202,6 +209,10 @@ Future<void> _fillSubContract(PatrolTester $, MockPlayGameNotifier game,
     }
   }
   await $(findValidateScoresButton($)).tap();
+  return contractModel.copyWith(itemsByPlayer: {
+    for (var (index, player) in game.players.indexed)
+      player.name: index == playerWithItems ? nbItems : 0
+  });
 }
 
 UncontrolledProviderScope _createPage(PatrolTester $,

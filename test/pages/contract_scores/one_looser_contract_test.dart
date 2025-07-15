@@ -18,7 +18,7 @@ import '../../utils/french_material_app.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage($));
 

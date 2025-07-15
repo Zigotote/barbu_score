@@ -16,7 +16,7 @@ import '../../utils/french_material_app.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
-main() {
+void main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage());
 
@@ -45,8 +45,7 @@ main() {
     final mockPlayGame = MockPlayGameNotifier();
     final game = mockGame(mockPlayGame);
     final newFirstPlayerIndex = game.players.length - 1;
-    final expectedContract = DominoContractModel();
-    expectedContract.setRankOfPlayer({
+    final expectedContract = DominoContractModel(rankOfPlayer: {
       for (var (index, player) in game.players.indexed)
         player.name: index == newFirstPlayerIndex ? 0 : index + 1
     });

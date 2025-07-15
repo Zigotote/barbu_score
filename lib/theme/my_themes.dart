@@ -10,7 +10,7 @@ class MyThemes {
 
   static final dark = _baseTheme(ThemeData.dark());
 
-  static _baseTheme(ThemeData baseTheme) {
+  static ThemeData _baseTheme(ThemeData baseTheme) {
     final onSurfaceColor = baseTheme.colorScheme.onSurface;
     final grey = baseTheme.colorScheme.grey;
     final disabledColor = baseTheme.colorScheme.disabled;
@@ -31,7 +31,7 @@ class MyThemes {
         outline: onSurfaceColor,
         primary: onSurfaceColor,
       ),
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         backgroundColor: baseTheme.scaffoldBackgroundColor,
       ),
       disabledColor: disabledColor,
@@ -110,13 +110,14 @@ class MyThemes {
         }),
       ),
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: baseTheme.scaffoldBackgroundColor.withOpacity(0.8),
+        backgroundColor:
+            baseTheme.scaffoldBackgroundColor.withValues(alpha: 0.8),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
         insetPadding: const EdgeInsets.all(0),
       ),
-      tabBarTheme: TabBarTheme(
+      tabBarTheme: TabBarThemeData(
         indicator: ShapeDecoration(
           color: baseTheme.scaffoldBackgroundColor,
           shape: NonUniformBorder(

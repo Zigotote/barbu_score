@@ -14,7 +14,7 @@ class SettingsCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(16)),
-        color: Theme.of(context).colorScheme.grey.withOpacity(0.25),
+        color: Theme.of(context).colorScheme.grey.withValues(alpha: 0.25),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: Column(
