@@ -9,7 +9,7 @@ import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/list_layouts.dart';
-import 'widgets/contract_page.dart';
+import 'widgets/sub_contract_page.dart';
 
 /// A page to fill the scores for a contract where only one player can loose
 class OneLooserContractPage extends ConsumerStatefulWidget {
@@ -87,7 +87,6 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
       subtitle: context.l10n.whoWonItem(
         context.l10n.contractName(widget.contract),
       ),
-      isModification: widget.contractModel != null,
       isValid: _selectedPlayer != null,
       itemsByPlayer: {
         for (var player in players)

@@ -22,9 +22,6 @@ class SubContractPage extends ConsumerWidget {
   /// The subtitle to explain the action that needs to be done
   final String subtitle;
 
-  /// The indicator to know if the contract is being modified
-  final bool isModification;
-
   /// The widgets to fill the scores
   final Widget child;
 
@@ -38,7 +35,6 @@ class SubContractPage extends ConsumerWidget {
     super.key,
     required this.contract,
     required this.subtitle,
-    this.isModification = false,
     required this.isValid,
     required this.itemsByPlayer,
     required this.child,
@@ -73,18 +69,11 @@ class SubContractPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String titleText;
-    String validateText;
-    if (isModification) {
-      titleText = context.l10n.modify(context.l10n.contractName(contract));
-      validateText = context.l10n.validateModify;
-    } else {
-      titleText = context.l10n
-          .playerTurn(ref.read(playGameProvider).currentPlayer.name);
-      validateText = context.l10n.validateScores;
-    }
     return DefaultPage(
-      appBar: MyAppBar(titleText, context: context),
+      appBar: MyPlayerAppBar(
+        player: ref.watch(playGameProvider).currentPlayer,
+        context: context,
+      ),
       content: Column(
         children: [
           MySubtitle(subtitle),
@@ -93,7 +82,7 @@ class SubContractPage extends ConsumerWidget {
       ),
       bottomWidget: ElevatedButton(
         onPressed: isValid ? () => _saveContract(context, ref) : null,
-        child: Text(validateText, textAlign: TextAlign.center),
+        child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
       ),
     );
   }

@@ -60,7 +60,7 @@ class ScoresByPlayer extends ConsumerWidget {
           players.firstWhere((player) => player.name == playerName),
         );
     return DefaultPage(
-      appBar: MyAppBar(context.l10n.scores, context: context),
+      appBar: MyAppBar(Text(context.l10n.scores), context: context),
       content: Column(
         mainAxisSize: MainAxisSize.max,
         children: [

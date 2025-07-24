@@ -132,7 +132,7 @@ void main() {
     // Modify contract
     await $(Key(contract.name)).tap();
     await $(ElevatedButtonCustomColor).at(playerSelectedAfterModify).tap();
-    await $(ElevatedButton).containing("Modifier les scores").tap();
+    await findValidateScoresButton($).tap();
 
     // Redirect to salad contract page
     expect($(ElevatedButtonWithIndicator), findsOneWidget);

@@ -25,7 +25,7 @@ class PrepareGame extends ConsumerWidget {
     final List<Player> players = ref.read(playGameProvider).players;
     final screenHeight = MediaQuery.of(context).size.height;
     return DefaultPage(
-      appBar: MyAppBar(context.l10n.prepareGame, context: context),
+      appBar: MyAppBar(Text(context.l10n.prepareGame), context: context),
       content: SingleChildScrollView(
         child: Container(
           constraints: BoxConstraints(

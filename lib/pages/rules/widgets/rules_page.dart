@@ -28,7 +28,7 @@ class RulesPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
       appBar: MyAppBar(
-        title,
+        Text(title),
         context: context,
         hasLeading: false,
         trailing: IconButton.outlined(

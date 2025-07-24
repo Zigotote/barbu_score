@@ -20,7 +20,7 @@ class FinishGame extends ConsumerWidget {
     ref.read(logProvider).sendAnalyticEvent("finish_game");
     return DefaultPage(
       appBar: MyAppBar(
-        context.l10n.endGame,
+        Text(context.l10n.endGame),
         context: context,
         tabs: [
           Tab(text: context.l10n.ranking),

@@ -10,7 +10,7 @@ import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/list_layouts.dart';
-import 'widgets/contract_page.dart';
+import 'widgets/sub_contract_page.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
 class MultipleLooserContractPage extends ConsumerStatefulWidget {
@@ -132,7 +132,6 @@ class _MultipleLooserContractPageState
     return SubContractPage(
       contract: widget.contract,
       subtitle: context.l10n.nbItemsByPlayer(_itemName),
-      isModification: widget.contractModel != null,
       isValid: _isValid,
       itemsByPlayer: _itemsByPlayer,
       child: _buildFields(),

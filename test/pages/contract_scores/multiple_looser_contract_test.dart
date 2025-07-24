@@ -22,7 +22,8 @@ void main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage());
 
-    expect($("Tour de ${defaultPlayerNames[0]}"), findsOneWidget);
+    expect($("Tour de"), findsOneWidget);
+    expect($(defaultPlayerNames[0]), findsNWidgets(2));
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
   });
@@ -78,10 +79,9 @@ void main() {
 
       expect($("2"), findsNWidgets(2));
       expect($("0"), findsNWidgets(2));
-      final modifyButton = ($.tester
-              .firstWidget($(ElevatedButton).containing("Modifier les scores"))
-          as ElevatedButton);
-      expect(modifyButton.onPressed, isNotNull);
+      final validateButton =
+          ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
+      expect(validateButton.onPressed, isNotNull);
     });
     for (var tooManyTap in [true, false]) {
       patrolWidgetTest(

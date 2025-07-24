@@ -20,7 +20,7 @@ class ChooseContract extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Player player = ref.watch(playGameProvider).currentPlayer;
     return DefaultPage(
-      appBar: MyAppBar(context.l10n.playerTurn(player.name), context: context),
+      appBar: MyPlayerAppBar(player: player, context: context),
       hasBackground: true,
       content: Padding(
         padding: const EdgeInsets.symmetric(

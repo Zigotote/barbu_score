@@ -31,7 +31,8 @@ void main() {
   patrolWidgetTest("should display page", ($) async {
     await $.pumpWidget(_createPage());
 
-    expect($("Paramètres\nSans coeurs"), findsOneWidget);
+    expect($("Paramètres"), findsOneWidget);
+    expect($("Sans coeurs"), findsOneWidget);
     expect($.tester.takeException(), isNull);
     // await checkAccessibility($.tester); not accessible because Switches are considered not accessible, but screen reader is correct
   });

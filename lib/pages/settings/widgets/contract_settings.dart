@@ -52,8 +52,11 @@ class ContractSettingsPage extends ConsumerWidget {
     );
     return DefaultPage(
       appBar: MyAppBar(
-        context.l10n.contractSettingsTitle(
-          context.l10n.contractName(contract),
+        Column(
+          children: [
+            Text(context.l10n.settings),
+            Text(context.l10n.contractName(contract))
+          ],
         ),
         context: context,
       ),
