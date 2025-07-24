@@ -236,12 +236,6 @@ abstract class AppLocalizations {
   /// **'Points du contrat'**
   String get contractPoints;
 
-  /// No description provided for @contractSettingsTitle.
-  ///
-  /// In fr, this message translates to:
-  /// **'Paramètres\n{contract}'**
-  String contractSettingsTitle(String contract);
-
   /// No description provided for @contracts.
   ///
   /// In fr, this message translates to:
@@ -581,8 +575,8 @@ abstract class AppLocalizations {
   /// No description provided for @playerTurn.
   ///
   /// In fr, this message translates to:
-  /// **'Tour de {player}'**
-  String playerTurn(String player);
+  /// **'Tour de'**
+  String get playerTurn;
 
   /// No description provided for @players.
   ///
@@ -787,12 +781,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Valider'**
   String get validate;
-
-  /// No description provided for @validateModify.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifier les scores'**
-  String get validateModify;
 
   /// No description provided for @validateScores.
   ///

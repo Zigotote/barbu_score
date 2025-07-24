@@ -81,8 +81,8 @@ class SaladContractPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(saladProvider);
     return DefaultPage(
-      appBar: MyAppBar(
-        context.l10n.playerTurn(ref.watch(playGameProvider).currentPlayer.name),
+      appBar: MyPlayerAppBar(
+        player: ref.watch(playGameProvider).currentPlayer,
         context: context,
       ),
       content: Column(

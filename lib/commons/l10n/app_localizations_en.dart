@@ -95,11 +95,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contractPoints => 'Contract points';
 
   @override
-  String contractSettingsTitle(String contract) {
-    return 'Settings\n$contract';
-  }
-
-  @override
   String get contracts => 'Contracts';
 
   @override
@@ -290,9 +285,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String playerTurn(String player) {
-    return 'Turn of $player';
-  }
+  String get playerTurn => 'Turn of';
 
   @override
   String get players => 'players';
@@ -415,9 +408,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get validate => 'Validate';
-
-  @override
-  String get validateModify => 'Modify scores';
 
   @override
   String get validateScores => 'Validate scores';

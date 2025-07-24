@@ -56,7 +56,6 @@
     }
   },
   "contractPoints": "Points du contrat",
-  "contractSettingsTitle": "Paramètres\n{contract}",
   "contracts": "Contrats",
   "contractsOf": "Contrats de {player}",
   "@contractsOf": {
@@ -182,15 +181,7 @@
       }
     }
   },
-  "playerTurn": "Tour de {player}",
-  "@playerTurn": {
-    "placeholders": {
-      "player": {
-        "type": "String",
-        "example": "Océane"
-      }
-    }
-  },
+  "playerTurn": "Tour de",
   "players": "joueurs",
   "points": "points",
   "pointsBy": "Points par {item}",
@@ -291,7 +282,6 @@
   "trick": "pli",
   "unfold": "Déplier les choix",
   "validate": "Valider",
-  "validateModify": "Modifier les scores",
   "validateScores": "Valider les scores",
   "whoWonItem": "Qui a remporté le {item} ?",
   "@whoWonItem": {

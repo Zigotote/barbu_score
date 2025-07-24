@@ -23,7 +23,7 @@ class MySettings extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
       appBar: MyAppBar(
-        context.l10n.settings,
+        Text(context.l10n.settings),
         context: context,
       ),
       content: SingleChildScrollView(

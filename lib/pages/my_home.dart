@@ -172,9 +172,11 @@ class MyHome extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             MyAppBar(
-              context.l10n.appName,
+              Text(
+                context.l10n.appName,
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
               context: context,
-              isHome: true,
               hasLeading: false,
             ),
             ElevatedButtonFullWidth(

@@ -23,6 +23,9 @@ class MyThemes {
     final titleMedium = textTheme.titleMedium?.copyWith(fontSize: 18);
     final titleLarge = textTheme.titleLarge?.copyWith(fontSize: 22);
     return baseTheme.copyWith(
+      appBarTheme: AppBarTheme(
+        titleTextStyle: titleLarge?.copyWith(fontSize: 24),
+      ),
       colorScheme: baseTheme.colorScheme.copyWith(
         surfaceTint: baseTheme.scaffoldBackgroundColor,
         error: baseTheme.brightness == Brightness.dark

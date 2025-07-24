@@ -19,7 +19,7 @@ class MyScores extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
-      appBar: MyAppBar(context.l10n.scores, context: context),
+      appBar: MyAppBar(Text(context.l10n.scores), context: context),
       content: const OrderedPlayersScores(),
       bottomWidget: ElevatedButton(
           child: Text(

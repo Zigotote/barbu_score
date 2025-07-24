@@ -122,8 +122,8 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultPage(
-      appBar: MyAppBar(
-        context.l10n.playerTurn(ref.read(playGameProvider).currentPlayer.name),
+      appBar: MyPlayerAppBar(
+        player: ref.watch(playGameProvider).currentPlayer,
         context: context,
       ),
       content: Column(

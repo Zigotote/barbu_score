@@ -13,13 +13,10 @@
 
 - couper le trait du titre sur la droite et mettre un "?" qui affiche toutes les règles ++
 - ajouter une icône sur les boutons de contrats ?
-- changer la barre de titre "tour du joueur" en y mettant aussi son icône ? Ou en mettant en ligne
-  toutes les icônes et en mettant en avant le joueur en cours ?
 
 ## Page contrat
 
 - mettre un "?" sur la droite du titre pour afficher les règles du contrat ++
-- ajouter l'icone du joueur sur les boutons de points des contrats à un perdant ?
 
 ## Page paramètres
 

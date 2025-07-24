@@ -25,7 +25,8 @@ void main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage($));
 
-    expect($("Tour de ${defaultPlayerNames[0]}"), findsOneWidget);
+    expect($("Tour de"), findsOneWidget);
+    expect($(defaultPlayerNames[0]), findsOneWidget);
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
   });

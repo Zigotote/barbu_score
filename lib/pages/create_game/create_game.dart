@@ -68,7 +68,7 @@ class CreateGame extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final playerProvider = ref.watch(createGameProvider);
     return DefaultPage(
-      appBar: MyAppBar(context.l10n.createPlayers, context: context),
+      appBar: MyAppBar(Text(context.l10n.createPlayers), context: context),
       content: Form(
         key: _formKey,
         child: ReorderableGridView.count(
