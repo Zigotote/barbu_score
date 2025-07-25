@@ -99,7 +99,7 @@ void main() {
       final button = playerScoreButtons[index] as PlayerScoreButton;
       expect(button.player, game.players[expectedScore.playerIndex]);
       expect(button.score, expectedScore.score);
-      expect(button.displayMedal, index == 0);
+      expect(button.displayMedal, index == 0 || index == 1);
       expect(
         button.worstEnnemy,
         game.players[expectedScore.worstEnnemyIndex],
