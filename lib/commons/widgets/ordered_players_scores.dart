@@ -81,7 +81,8 @@ class OrderedPlayersScores extends ConsumerWidget {
           return PlayerScoreButton(
             player: player,
             score: playerInfo.value,
-            displayMedal: isGameFinished && index == 0,
+            displayMedal:
+                isGameFinished && playerInfo.value == orderedPlayers[0].value,
             bestFriend:
                 isGameFinished ? _findBestFriend(player, scoresByPlayer) : null,
             worstEnnemy: isGameFinished
