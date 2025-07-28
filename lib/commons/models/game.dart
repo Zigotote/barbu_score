@@ -7,6 +7,8 @@ import 'player.dart';
 
 /// A class to represent a game, with players and a current player
 class Game {
+  final DateTime startDate;
+
   /// The list of players for the game
   final List<Player> players;
 
@@ -17,11 +19,17 @@ class Game {
   bool isFinished;
 
   Game({required this.players})
-      : _currentPlayerIndex = 0,
+      : startDate = DateTime.now(),
+        _currentPlayerIndex = 0,
         isFinished = false;
 
   Game.fromJson(Map<String, dynamic> json)
-      : players = (jsonDecode(json["players"]) as List)
+      :
+        // Temporary to save old games without date
+        startDate = json["startDate"] != null
+            ? DateTime.parse(json["startDate"])
+            : DateTime.now(),
+        players = (jsonDecode(json["players"]) as List)
             .map((player) => Player.fromJson(player))
             .toList(),
         _currentPlayerIndex = json["currentPlayerIndex"],
@@ -29,6 +37,7 @@ class Game {
 
   Map<String, dynamic> toJson() {
     return {
+      "startDate": startDate.toString(),
       "players": jsonEncode(players.map((player) => player.toJson()).toList()),
       "currentPlayerIndex": _currentPlayerIndex,
       "isFinished": isFinished

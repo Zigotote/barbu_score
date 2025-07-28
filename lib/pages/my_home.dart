@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../commons/models/game.dart';
-import '../commons/models/player.dart';
 import '../commons/providers/log.dart';
 import '../commons/providers/play_game.dart';
 import '../commons/providers/storage.dart';
@@ -17,11 +16,6 @@ import '../main.dart';
 
 class MyHome extends ConsumerWidget {
   const MyHome({super.key});
-
-  /// Returns the players names separated by commas
-  String _playerNames(List<Player> players) {
-    return players.map((player) => player.name).join(", ");
-  }
 
   /// Loads a previous game and resumes it
   void _loadGame(BuildContext context, WidgetRef ref, Game game) {
@@ -47,7 +41,7 @@ class MyHome extends ConsumerWidget {
     context.push(Routes.createGame);
   }
 
-  bool _verifyHasActiveContracts(BuildContext context, WidgetRef ref) {
+  bool _hasActiveContracts(BuildContext context, WidgetRef ref) {
     if (ref.read(storageProvider).getActiveContracts().isEmpty) {
       showDialog(
           context: context,
@@ -73,84 +67,29 @@ class MyHome extends ConsumerWidget {
 
   /// Builds the widgets to load a saved game
   void _confirmLoadGame(BuildContext context, WidgetRef ref) {
-    if (!_verifyHasActiveContracts(context, ref)) {
+    if (!_hasActiveContracts(context, ref)) {
       return;
     }
-    Game? previousGame;
-    try {
-      previousGame = ref.read(storageProvider).getStoredGame();
-    } catch (e) {
-      ref.read(logProvider).error("MyHome.confirmLoadGame: $e");
-    }
 
-    if (previousGame == null) {
+    if (ref.read(storageProvider).hasStoredGames()) {
+      context.push(Routes.loadGame);
+    } else {
       SnackBarUtils.instance.openSnackBar(
         context: context,
         title: context.l10n.noGameFound,
         text: context.l10n.noGameFoundDetails,
       );
       _startGame(context, ref);
-    } else {
-      showDialog(
-          context: context,
-          builder: (BuildContext buildContext) {
-            return MyAlertDialog(
-              context: context,
-              title: context.l10n.loadGame,
-              content: previousGame!.isFinished
-                  ? context.l10n
-                      .seePreviousGame(_playerNames(previousGame.players))
-                  : context.l10n
-                      .loadPreviousGame(_playerNames(previousGame.players)),
-              actions: [
-                AlertDialogActionButton(
-                  isDestructive: true,
-                  text: context.l10n.refuseLoadGame,
-                  onPressed: () => _startGame(context, ref),
-                ),
-                AlertDialogActionButton(
-                  text: context.l10n.accept,
-                  onPressed: () => _loadGame(context, ref, previousGame!),
-                ),
-              ],
-            );
-          });
     }
   }
 
   /// Builds the widgets to start a new game
   void _confirmStartGame(BuildContext context, WidgetRef ref) {
-    if (!_verifyHasActiveContracts(context, ref)) {
+    if (!_hasActiveContracts(context, ref)) {
       return;
     }
     try {
-      Game? previousGame = ref.read(storageProvider).getStoredGame();
-      if (previousGame != null && !previousGame.isFinished) {
-        showDialog(
-            context: context,
-            builder: (BuildContext buildContext) {
-              return MyAlertDialog(
-                context: context,
-                title: context.l10n.alertExistingGame,
-                content: context.l10n.confirmStartGame(
-                  _playerNames(previousGame.players),
-                ),
-                actions: [
-                  AlertDialogActionButton(
-                    text: context.l10n.refuseStartGame,
-                    onPressed: () => _loadGame(context, ref, previousGame),
-                  ),
-                  AlertDialogActionButton(
-                    isDestructive: true,
-                    text: context.l10n.accept,
-                    onPressed: () => _startGame(context, ref),
-                  ),
-                ],
-              );
-            });
-      } else {
-        _startGame(context, ref);
-      }
+      _startGame(context, ref);
     } catch (e) {
       ref.read(logProvider).error("MyHome.confirmStartGame: $e");
       _startGame(context, ref);

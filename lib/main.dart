@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/load_game.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -85,8 +86,13 @@ void main() async {
             ),
             GoRoute(path: Routes.createGame, builder: (_, __) => CreateGame()),
             GoRoute(
-                path: Routes.prepareGame,
-                builder: (_, __) => const PrepareGame()),
+              path: Routes.loadGame,
+              builder: (_, __) => const LoadGame(),
+            ),
+            GoRoute(
+              path: Routes.prepareGame,
+              builder: (_, __) => const PrepareGame(),
+            ),
             GoRoute(
                 path: Routes.chooseContract,
                 builder: (_, __) => const ChooseContract()),
@@ -187,6 +193,7 @@ class Routes {
   static const dominoSettings = "/settings/domino";
   static const saladSettings = "/settings/salad";
   static const createGame = "/create_game";
+  static const loadGame = "/load_game";
   static const prepareGame = "/prepare_game";
   static const chooseContract = "/choose_contract";
   static const barbuOrNoLastTrickScores = "/one_looser_contract_scores";

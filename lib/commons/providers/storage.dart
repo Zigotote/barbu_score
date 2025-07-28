@@ -25,17 +25,28 @@ class MyStorage {
   static Future<void> init() async {
     storage = await SharedPreferences.getInstance();
 
-    // Temporary to rename trumps data to salad
-    const oldSaladName = "trumps";
-    final saladSettings = storage?.getString(oldSaladName);
-    if (saladSettings != null) {
-      storage?.setString(ContractsInfo.salad.name, saladSettings);
-      storage?.remove(oldSaladName);
+    // Temporary to save multiple games
+    final storedGame = storage?.get(_gameKey);
+    if (storedGame != null && storedGame is String) {
+      debugPrint("on passe là");
+      storage?.setStringList(_gameKey, [storedGame]);
     }
-    final game = storage?.getString(_gameKey);
-    if (game != null) {
-      storage?.setString(_gameKey, jsonEncode(Game.fromJson(jsonDecode(game))));
+  }
+
+  /// Gets the game saved in the store
+  bool hasStoredGames() {
+    return storage?.getStringList(_gameKey) != null;
+  }
+
+  /// Gets the game saved in the store
+  List<Game>? getStoredGames() {
+    final storedGames = storage?.getStringList(_gameKey);
+    if (storedGames != null) {
+      return storedGames
+          .map((game) => Game.fromJson(jsonDecode(game)))
+          .toList();
     }
+    return null;
   }
 
   /// Gets the game saved in the store
