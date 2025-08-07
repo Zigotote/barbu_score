@@ -12,14 +12,6 @@ plugins {
     // END: FlutterFire Configuration
 }
 
-val localProperties = Properties()
-val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.reader(Charsets.UTF_8).use { reader ->
-        localProperties.load(reader)
-    }
-}
-
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
@@ -28,7 +20,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "zigotote.barbu_score"
-    compileSdk = 35
+    compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
     compileOptions {
