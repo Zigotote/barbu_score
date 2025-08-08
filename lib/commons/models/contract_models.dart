@@ -49,11 +49,10 @@ abstract class AbstractContractModel with EquatableMixin {
 /// A class to represent a contract that can be part of a salad contract
 abstract class AbstractSubContractModel extends AbstractContractModel {
   /// The number of items each player won for this contract
-  final Map<String, int> _itemsByPlayer;
+  final Map<String, int> itemsByPlayer;
 
   AbstractSubContractModel(
-      {super.contract, super.name, Map<String, int> itemsByPlayer = const {}})
-      : _itemsByPlayer = itemsByPlayer;
+      {super.contract, super.name, this.itemsByPlayer = const {}});
 
   factory AbstractSubContractModel.fromJson(
       ContractsInfo contract, Map<String, dynamic> json) {
@@ -71,17 +70,13 @@ abstract class AbstractSubContractModel extends AbstractContractModel {
 
   @override
   Map<String, dynamic> toJson() {
-    return {...super.toJson(), "itemsByPlayer": jsonEncode(_itemsByPlayer)};
+    return {...super.toJson(), "itemsByPlayer": jsonEncode(itemsByPlayer)};
   }
 
   @override
-  List<Object?> get props => [...super.props, _itemsByPlayer];
+  List<Object?> get props => [...super.props, itemsByPlayer];
 
   AbstractSubContractModel copyWith({required Map<String, int> itemsByPlayer});
-
-  /// The number of item of the players. Used to modify the contract.
-  UnmodifiableMapView<String, int> get itemsByPlayer =>
-      UnmodifiableMapView(_itemsByPlayer);
 
   /// Returns true if the [itemsByPlayer] are valid, depending on the type of contract
   bool isValid(Map<String, int> itemsByPlayer);
@@ -91,7 +86,7 @@ abstract class AbstractSubContractModel extends AbstractContractModel {
 
   @override
   String toString() {
-    return "${super.toString()} : $_itemsByPlayer";
+    return "${super.toString()} : $itemsByPlayer";
   }
 }
 
@@ -126,10 +121,10 @@ class OneLooserContractModel extends AbstractSubContractModel {
 
   @override
   Map<String, int>? scores(AbstractContractSettings settings) {
-    if (_itemsByPlayer.isEmpty) {
+    if (itemsByPlayer.isEmpty) {
       return null;
     }
-    return _itemsByPlayer.map(
+    return itemsByPlayer.map(
       (playerName, nbItems) => MapEntry(
           playerName, nbItems * (settings as OneLooserContractSettings).points),
     );
@@ -184,7 +179,7 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
 
   @override
   Map<String, int>? scores(AbstractContractSettings settings) {
-    if (_itemsByPlayer.isEmpty) {
+    if (itemsByPlayer.isEmpty) {
       return null;
     }
     final individualScoresSettings = settings as MultipleLooserContractSettings;
