@@ -100,7 +100,7 @@ void main() {
       expect(savedSaladContracts.first, subContractModel);
     });
   }
-  patrolWidgetTest("should modify sub contract", ($) async {
+  patrolWidgetTest("should modify one looser sub contract", ($) async {
     const contract = ContractsInfo.barbu;
     final mockPlayGame = MockPlayGameNotifier();
     final page = _createPage($, mockPlayGame: mockPlayGame);
@@ -132,6 +132,67 @@ void main() {
     // Modify contract
     await $(Key(contract.name)).tap();
     await $(ElevatedButtonCustomColor).at(playerSelectedAfterModify).tap();
+    await findValidateScoresButton($).tap();
+
+    // Redirect to salad contract page
+    expect($(ElevatedButtonWithIndicator), findsOneWidget);
+    expect(
+        $(ElevatedButtonWithIndicator).which(
+          (Widget widget) => widget.key == Key(contract.name),
+        ),
+        findsOneWidget);
+    final validateButton =
+        ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
+    expect(validateButton.onPressed, isNull);
+
+    // Verifies the contract has been saved
+    final savedSaladContracts =
+        page.container.read(saladProvider).model.subContracts;
+    expect(savedSaladContracts.length, 1);
+    expect(savedSaladContracts.first, expectedSubContract);
+  });
+  patrolWidgetTest("should modify multiple loosers sub contract", ($) async {
+    const contract = ContractsInfo.noQueens;
+    final mockPlayGame = MockPlayGameNotifier();
+    final page = _createPage($, mockPlayGame: mockPlayGame);
+    final playerSelectedAfterModify = mockPlayGame.players.length - 1;
+    final expectedSubContract = MultipleLooserContractModel(
+      contract: contract,
+      nbItems: 4,
+      itemsByPlayer: {
+        for (var (index, player) in mockPlayGame.players.indexed)
+          player.name: index == playerSelectedAfterModify ? 4 : 0
+      },
+    );
+
+    await $.pumpWidget(page);
+
+    expect(page.container.read(saladProvider).model.subContracts, isEmpty);
+    await _fillSubContract(
+      $,
+      mockPlayGame,
+      contract,
+      page.container
+          .read(contractsManagerProvider)
+          .getContractManager(contract)
+          .model as AbstractSubContractModel,
+    );
+
+    // Redirect to salad contract page
+    expect($(SaladContractPage), findsOneWidget);
+
+    // Modify contract
+    await $(Key(contract.name)).tap();
+    for (var i = 0; i < expectedSubContract.nbItems; i++) {
+      await $(ElevatedButtonCustomColor)
+          .containing($(Icons.remove))
+          .at(0)
+          .tap();
+      await $(ElevatedButtonCustomColor)
+          .containing($(Icons.add))
+          .at(playerSelectedAfterModify)
+          .tap();
+    }
     await findValidateScoresButton($).tap();
 
     // Redirect to salad contract page
