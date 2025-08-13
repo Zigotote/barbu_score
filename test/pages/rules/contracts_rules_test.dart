@@ -28,7 +28,7 @@ void main() {
     patrolWidgetTest(
         "should display contract rules with active $activeContracts",
         ($) async {
-      await $.pumpWidget(_createPage(activeContracts));
+      await $.pumpWidget(_createPage(activeContracts: activeContracts));
       expect($("Contrats"), findsOneWidget);
 
       for (var contract in ContractsInfo.values) {
@@ -36,6 +36,20 @@ void main() {
         expect(
           $(Key(contract.name)).containing("Désactivé pour vos parties."),
           activeContracts.contains(contract) ? findsNothing : findsOneWidget,
+        );
+      }
+    });
+    patrolWidgetTest(
+        "should display contract rules with only active contracts $activeContracts",
+        ($) async {
+      await $.pumpWidget(
+          _createPage(activeContracts: activeContracts, isInGame: true));
+      expect($("Contrats"), findsOneWidget);
+
+      for (var contract in ContractsInfo.values) {
+        expect(
+          $(Key(contract.name)),
+          activeContracts.contains(contract) ? findsOneWidget : findsNothing,
         );
       }
     });
@@ -64,7 +78,8 @@ void main() {
   }
 }
 
-Widget _createPage([List<ContractsInfo>? activeContracts]) {
+Widget _createPage(
+    {List<ContractsInfo>? activeContracts, bool isInGame = false}) {
   final mockStorage = MockMyStorage();
   for (var contract in ContractsInfo.values) {
     final contractSettings = contract.defaultSettings
@@ -81,7 +96,9 @@ Widget _createPage([List<ContractsInfo>? activeContracts]) {
       routerConfig: GoRouter(
         routes: [
           GoRoute(
-              path: Routes.home, builder: (_, __) => const ContractsRules(0)),
+            path: Routes.home,
+            builder: (_, __) => ContractsRules(0, isInGame: isInGame),
+          ),
           GoRoute(
             path: Routes.settings,
             builder: (_, __) => const MySettings(),

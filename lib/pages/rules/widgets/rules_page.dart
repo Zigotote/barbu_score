@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_appbar.dart';
+import '../models/rules_page_name.dart';
 import '../notifiers/turn_page.dart';
 import 'arrow_icon.dart';
 
@@ -56,8 +57,8 @@ class RulesPage extends ConsumerWidget {
                 ),
               ),
             ),
-          Text("${pageIndex + 1}/4"),
-          if (pageIndex != 3)
+          Text("${pageIndex + 1}/${RulesPageName.values.length}"),
+          if (pageIndex < RulesPageName.values.length - 1)
             Align(
               alignment: Alignment.centerRight,
               heightFactor: 1,

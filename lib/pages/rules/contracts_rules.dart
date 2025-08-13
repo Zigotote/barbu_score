@@ -12,10 +12,13 @@ import 'widgets/rules_page.dart';
 import 'widgets/settings_card.dart';
 
 class ContractsRules extends ConsumerWidget {
+  /// The indicator to know if rules are displayed during a game
+  final bool isInGame;
+
   /// The position of the page in the order of rules pages
   final int pageIndex;
 
-  const ContractsRules(this.pageIndex, {super.key});
+  const ContractsRules(this.pageIndex, {super.key, this.isInGame = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +33,12 @@ class ContractsRules extends ConsumerWidget {
             padding: const EdgeInsets.only(top: 8),
             child: Text(context.l10n.contractsRules),
           ),
-          ...ContractsInfo.values.mapIndexed((index, contract) {
+          ...ContractsInfo.values.where((contract) {
+            if (isInGame) {
+              return ref.read(storageProvider).getSettings(contract).isActive;
+            }
+            return true;
+          }).mapIndexed((index, contract) {
             final settings = ref.read(storageProvider).getSettings(contract);
             return Column(
               key: Key(contract.name),

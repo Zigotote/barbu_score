@@ -23,6 +23,7 @@ import 'pages/finish_game/finish_game.dart';
 import 'pages/my_home.dart';
 import 'pages/my_scores.dart';
 import 'pages/prepare_game.dart';
+import 'pages/rules/models/rules_page_name.dart';
 import 'pages/rules/my_rules.dart';
 import 'pages/scores_by_player.dart';
 import 'pages/settings/domino_contract_settings.dart';
@@ -59,7 +60,18 @@ void main() async {
           routes: [
             GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
             GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
-            GoRoute(path: Routes.rules, builder: (_, __) => const MyRules()),
+            GoRoute(
+                path: Routes.rules,
+                name: Routes.rules,
+                builder: (_, state) {
+                  final rulesPageName =
+                      state.uri.queryParameters[MyGoRouterState.rulesPage];
+                  return MyRules(
+                    startingPage: rulesPageName != null
+                        ? RulesPageName.fromName(rulesPageName)
+                        : null,
+                  );
+                }),
             GoRoute(
               path: Routes.settings,
               builder: (_, __) => const MySettings(),
