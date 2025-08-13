@@ -35,6 +35,7 @@ class CreatePlayer extends StatelessWidget {
       initialValue: player.name,
       onChanged: (value) => player.name = value.trim(),
       validator: (_) => onValidate(player),
+      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: InputBorder.none,
         contentPadding: EdgeInsets.zero,
