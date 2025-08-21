@@ -15,6 +15,7 @@ import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
 import 'notifiers/salad_provider.dart';
+import 'widgets/rules_button.dart';
 
 class SaladContractPage extends ConsumerWidget {
   const SaladContractPage({super.key});
@@ -84,6 +85,7 @@ class SaladContractPage extends ConsumerWidget {
       appBar: MyPlayerAppBar(
         player: ref.watch(playGameProvider).currentPlayer,
         context: context,
+        trailing: RulesButton(ContractsInfo.salad),
       ),
       content: Column(
         spacing: 8,

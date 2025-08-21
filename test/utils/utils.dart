@@ -131,7 +131,8 @@ void mockActiveContracts(MyStorage mockStorage,
 }
 
 /// Creates a game with [nbPlayers] number of players, and eaach player played [playedContracts]
-Game createGame(int nbPlayers, List<AbstractContractModel>? playedContracts) {
+Game createGame(int nbPlayers,
+    [List<AbstractContractModel> playedContracts = const []]) {
   return Game(
     players: List.generate(
       nbPlayers,
@@ -139,22 +140,23 @@ Game createGame(int nbPlayers, List<AbstractContractModel>? playedContracts) {
         name: defaultPlayerNames[index],
         color: PlayerColors.values[index],
         image: playerImages[index],
-        contracts: playedContracts ?? [],
+        contracts: playedContracts,
       ),
     ),
   );
 }
 
 /// Mocks a game with custom values if given
-/// Returns the game
-Game mockGame(MockPlayGameNotifier mockPlayGame,
-    {List<AbstractContractModel>? playedContracts,
+/// Returns a MockPlayGameNotifier
+MockPlayGameNotifier mockPlayGameNotifier(
+    {List<AbstractContractModel> playedContracts = const [],
     int nbPlayers = nbPlayersByDefault}) {
+  final mockPlayGame = MockPlayGameNotifier();
   final fakeGame = createGame(nbPlayers, playedContracts);
   when(mockPlayGame.game).thenReturn(fakeGame);
   when(mockPlayGame.players).thenReturn(fakeGame.players);
   when(mockPlayGame.currentPlayer).thenReturn(fakeGame.players[0]);
   when(mockPlayGame.nextPlayer()).thenReturn(true);
 
-  return fakeGame;
+  return mockPlayGame;
 }
