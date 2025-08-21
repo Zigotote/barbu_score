@@ -6,12 +6,12 @@ import 'package:go_router/go_router.dart';
 import '../../commons/models/contract_info.dart';
 import '../../commons/providers/log.dart';
 import '../../commons/providers/storage.dart';
+import '../../commons/utils/contract_settings.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/list_layouts.dart';
 import '../../commons/widgets/my_appbar.dart';
-import 'notifiers/contract_settings_provider.dart';
 import 'widgets/active_contract_indicator.dart';
 import 'widgets/app_theme_choice.dart';
 import 'widgets/language_choice.dart';
@@ -55,33 +55,17 @@ class MySettings extends ConsumerWidget {
                             "MySettings: open settings for ${contract.name}",
                           );
                       SnackBarUtils.instance.closeSnackBar(context);
-                      context.push(contract.settingsRoute).then((_) {
-                        final settingsProvider =
-                            ref.read(contractSettingsProvider(contract));
-                        final newSettings = settingsProvider.settings;
-                        if (contractSettings != newSettings) {
-                          ref.read(logProvider).info(
-                                "MySettings: save ${contract.name} settings $newSettings",
-                              );
-                          ref.read(logProvider).sendAnalyticEvent(
-                            "modify_settings",
-                            parameters: {"contract": contract.name},
+                      context.push(contract.settingsRoute).then(
+                            (_) => context.mounted
+                                ? saveContractSettings(
+                                    context,
+                                    ref,
+                                    contract: contract,
+                                    previousSettings: contractSettings,
+                                    notifyUser: true,
+                                  )
+                                : null,
                           );
-                          final storage = ref.read(storageProvider);
-                          storage.saveSettings(contract, newSettings);
-                          if (storage.getStoredGame()?.isFinished == true) {
-                            storage.deleteGame();
-                          }
-                          if (context.mounted) {
-                            SnackBarUtils.instance.openSnackBar(
-                              context: context,
-                              title: context.l10n.changesSaved,
-                              text: context.l10n.changesSavedDetails,
-                            );
-                          }
-                          ref.invalidate(storageProvider);
-                        }
-                      });
                     },
                     indicator: ActiveContractIndicator(
                       isActive: contractSettings.isActive,

@@ -65,8 +65,12 @@ class MyAppBar extends AppBar {
 }
 
 class MyPlayerAppBar extends MyAppBar {
-  MyPlayerAppBar({super.key, required Player player, required super.context})
-      : super(
+  MyPlayerAppBar({
+    super.key,
+    required Player player,
+    required super.context,
+    super.trailing,
+  }) : super(
           Row(
             spacing: 8,
             mainAxisSize: MainAxisSize.min,

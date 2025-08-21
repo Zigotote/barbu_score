@@ -10,8 +10,8 @@ import 'storage.dart';
 
 final contractsManagerProvider = StateProvider.autoDispose<ContractsManager>(
   (ref) => ContractsManager(
-    ref.read(storageProvider),
-    ref.read(playGameProvider).game.players.length,
+    ref.watch(storageProvider),
+    ref.watch(playGameProvider).game.players.length,
   ),
 );
 

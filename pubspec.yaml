@@ -44,6 +44,7 @@ dev_dependencies:
   mockito: ^5.4.5
   patrol_finders: ^2.8.2
   meta: any
+  shared_preferences_platform_interface: ^2.4.1
 
 # Run with dart run flutter_launcher_icons
 flutter_launcher_icons:

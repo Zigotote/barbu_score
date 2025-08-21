@@ -11,6 +11,8 @@ import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart'
 import 'package:barbu_score/pages/contract_scores/one_looser_contract.dart';
 import 'package:barbu_score/pages/contract_scores/salad_contract.dart';
 import 'package:barbu_score/pages/my_scores.dart';
+import 'package:barbu_score/pages/rules/models/rules_page_name.dart';
+import 'package:barbu_score/pages/rules/my_rules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -94,6 +96,19 @@ void main() {
     });
   }
   group("Navigation", () {
+    patrolWidgetTest("should go to rules page", ($) async {
+      await $.pumpWidget(_createPage($));
+
+      await $(Icons.question_mark_outlined).tap();
+      expect($(MyRules), findsOneWidget);
+      expect(
+        $("Le jeu du Barbu comporte les contrats suivants :"),
+        findsOneWidget,
+      );
+
+      await $(Icons.close).tap();
+      expect($(ChooseContract), findsOneWidget);
+    });
     for (var contract in ContractsInfo.values) {
       patrolWidgetTest(
           "should go to $contract score pages and keep contract available",
@@ -151,6 +166,18 @@ Widget _createPage(PatrolTester $,
             path: Routes.home,
             builder: (_, __) => const ChooseContract(),
           ),
+          GoRoute(
+              path: Routes.rules,
+              name: Routes.rules,
+              builder: (_, state) {
+                final rulesPageName =
+                    state.uri.queryParameters[MyGoRouterState.rulesPage];
+                return MyRules(
+                  startingPage: rulesPageName != null
+                      ? RulesPageName.fromName(rulesPageName)
+                      : null,
+                );
+              }),
           GoRoute(
             path:
                 "${Routes.barbuOrNoLastTrickScores}/:${MyGoRouterState.contractParameter}",

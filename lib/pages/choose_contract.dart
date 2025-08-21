@@ -7,10 +7,12 @@ import '../commons/models/player.dart';
 import '../commons/providers/contracts_manager.dart';
 import '../commons/providers/log.dart';
 import '../commons/providers/play_game.dart';
+import '../commons/utils/router_extension.dart';
 import '../commons/widgets/default_page.dart';
 import '../commons/widgets/list_layouts.dart';
 import '../commons/widgets/my_appbar.dart';
 import '../main.dart';
+import 'rules/models/rules_page_name.dart';
 
 /// A page for a player to choose his contract
 class ChooseContract extends ConsumerWidget {
@@ -20,7 +22,20 @@ class ChooseContract extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Player player = ref.watch(playGameProvider).currentPlayer;
     return DefaultPage(
-      appBar: MyPlayerAppBar(player: player, context: context),
+      appBar: MyPlayerAppBar(
+        player: player,
+        context: context,
+        trailing: IconButton.outlined(
+          tooltip: context.l10n.rules,
+          onPressed: () => context.pushNamed(
+            Routes.rules,
+            queryParameters: {
+              MyGoRouterState.rulesPage: RulesPageName.contractRules.name
+            },
+          ),
+          icon: Icon(Icons.question_mark_outlined),
+        ),
+      ),
       hasBackground: true,
       content: Padding(
         padding: const EdgeInsets.symmetric(
@@ -29,7 +44,7 @@ class ChooseContract extends ConsumerWidget {
         ),
         child: MyGrid(
           children: ref
-              .read(contractsManagerProvider)
+              .watch(contractsManagerProvider)
               .activeContracts
               .map(
                 (contract) => ElevatedButton(
