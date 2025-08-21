@@ -7,6 +7,8 @@ import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
+import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 
 import '../../utils/utils.dart';
 
@@ -158,6 +160,9 @@ List<Map<String, Object>>? _convertToComparablePlayers(List<Player> players) {
 }
 
 Future<void> _initializeStorage({Map<String, Object>? data}) async {
-  SharedPreferences.setMockInitialValues(data ?? {});
-  MyStorage.storage = await SharedPreferences.getInstance();
+  SharedPreferencesAsyncPlatform.instance =
+      InMemorySharedPreferencesAsync.withData(data ?? {});
+  MyStorage.storage = await SharedPreferencesWithCache.create(
+    cacheOptions: SharedPreferencesWithCacheOptions(),
+  );
 }

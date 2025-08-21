@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
 
 import '../models/contract_info.dart';
 import '../models/contract_settings_models.dart';
@@ -19,23 +20,21 @@ class MyStorage {
 
   /// The object to manipulate local storage
   @visibleForTesting
-  static SharedPreferences? storage;
+  static SharedPreferencesWithCache? storage;
 
   /// The function to call to init storage
   static Future<void> init() async {
-    storage = await SharedPreferences.getInstance();
+    // TODO temporary to migrate shared preferences data. To remove in a few versions
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await migrateLegacySharedPreferencesToSharedPreferencesAsyncIfNecessary(
+      legacySharedPreferencesInstance: prefs,
+      sharedPreferencesAsyncOptions: SharedPreferencesOptions(),
+      migrationCompletedKey: 'migrationCompleted',
+    );
 
-    // Temporary to rename trumps data to salad
-    const oldSaladName = "trumps";
-    final saladSettings = storage?.getString(oldSaladName);
-    if (saladSettings != null) {
-      storage?.setString(ContractsInfo.salad.name, saladSettings);
-      storage?.remove(oldSaladName);
-    }
-    final game = storage?.getString(_gameKey);
-    if (game != null) {
-      storage?.setString(_gameKey, jsonEncode(Game.fromJson(jsonDecode(game))));
-    }
+    storage = await SharedPreferencesWithCache.create(
+      cacheOptions: SharedPreferencesWithCacheOptions(),
+    );
   }
 
   /// Gets the game saved in the store

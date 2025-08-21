@@ -66,10 +66,6 @@ enum ContractsInfo {
 
   /// Returns the ContractsInfo from its name
   static ContractsInfo fromName(String name) {
-    return ContractsInfo.values.firstWhere(
-      (contract) => contract.name == name,
-      // TODO Temporary because it was named trumps and has been renamed
-      orElse: () => ContractsInfo.salad,
-    );
+    return ContractsInfo.values.firstWhere((contract) => contract.name == name);
   }
 }
