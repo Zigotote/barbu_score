@@ -1,9 +1,14 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/commons/utils/router_extension.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/rules/contracts_rules.dart';
 import 'package:barbu_score/pages/rules/widgets/settings_card.dart';
+import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
+import 'package:barbu_score/pages/settings/multiple_looser_contract_settings.dart';
 import 'package:barbu_score/pages/settings/my_settings.dart';
+import 'package:barbu_score/pages/settings/one_looser_contract_settings.dart';
+import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -43,6 +48,20 @@ void main() {
 
     expect($(MySettings), findsOneWidget);
   });
+  for (var contract in ContractsInfo.values) {
+    patrolWidgetTest("should go to $contract settings page", ($) async {
+      await $.pumpWidget(_createPage());
+
+      final contractSettingsButton = find.descendant(
+        of: $(Key(contract.name)),
+        matching: $(IconButton),
+      );
+      await $.scrollUntilVisible(finder: contractSettingsButton);
+      await $.tap(contractSettingsButton);
+
+      expect($("Paramètres"), findsOneWidget);
+    });
+  }
 }
 
 Widget _createPage([List<ContractsInfo>? activeContracts]) {
@@ -66,6 +85,25 @@ Widget _createPage([List<ContractsInfo>? activeContracts]) {
           GoRoute(
             path: Routes.settings,
             builder: (_, __) => const MySettings(),
+          ),
+          GoRoute(
+            path:
+                "${Routes.barbuOrNoLastTrickSettings}/:${MyGoRouterState.contractParameter}",
+            builder: (_, state) =>
+                OneLooserContractSettingsPage(state.contract),
+          ),
+          GoRoute(
+            path:
+                "${Routes.noSomethingScoresSettings}/:${MyGoRouterState.contractParameter}",
+            builder: (_, state) =>
+                MultipleLooserContractSettingsPage(state.contract),
+          ),
+          GoRoute(
+              path: Routes.dominoSettings,
+              builder: (_, __) => const DominoContractSettingsPage()),
+          GoRoute(
+            path: Routes.saladSettings,
+            builder: (_, __) => const SaladContractSettingsPage(),
           ),
         ],
       ),

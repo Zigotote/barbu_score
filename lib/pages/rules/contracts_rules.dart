@@ -3,6 +3,7 @@ import 'package:barbu_score/theme/my_themes.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/player_colors.dart';
@@ -37,8 +38,7 @@ class ContractsRules extends ConsumerWidget {
               spacing: 8,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
-                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(8),
@@ -52,9 +52,26 @@ class ContractsRules extends ConsumerWidget {
                         )
                         .withValues(alpha: 0.5),
                   ),
-                  child: Text(
-                    context.l10n.contractName(contract),
-                    style: Theme.of(context).textTheme.titleMedium,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    spacing: 8,
+                    children: [
+                      Text(
+                        context.l10n.contractName(contract),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      IconButton(
+                        onPressed: () => context.push(contract.settingsRoute),
+                        icon: Icon(Icons.settings),
+                        tooltip:
+                            "${context.l10n.settings} ${context.l10n.contractName(contract)}",
+                        style: IconButtonTheme.of(context).style?.copyWith(
+                              backgroundColor: WidgetStatePropertyAll(
+                                Colors.transparent,
+                              ),
+                            ),
+                      )
+                    ],
                   ),
                 ),
                 Padding(
