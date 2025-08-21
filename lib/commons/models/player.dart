@@ -30,7 +30,7 @@ class Player {
   factory Player.create(
           {required PlayerColors color, required String image, String? name}) =>
       Player(
-        name: name ?? (kDebugMode && !kIsTest ? image : ""),
+        name: name ?? (kDebugMode && !kIsTest ? image.split("/").last : ""),
         image: image,
         color: color,
         contracts: [],
