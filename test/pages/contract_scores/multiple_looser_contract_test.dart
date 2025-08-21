@@ -28,6 +28,17 @@ void main() {
     await checkAccessibility($.tester);
   });
 
+  patrolWidgetTest("should open and close contract rules", ($) async {
+    await $.pumpWidget(_createPage());
+
+    await $.tap($(Icons.question_mark_outlined));
+    expect($(DraggableScrollableSheet), findsOneWidget);
+    expect($("Règles Sans dames"), findsOneWidget);
+
+    await $.tap($(Icons.close));
+    expect($(DraggableScrollableSheet), findsNothing);
+  });
+
   group("#isNotValid", () {
     patrolWidgetTest("should create page with disabled validate scores button",
         ($) async {
@@ -64,8 +75,8 @@ void main() {
 
   group("#isValid", () {
     patrolWidgetTest("should create page with initial scores", ($) async {
-      final mockPlayGame = MockPlayGameNotifier();
-      final game = mockGame(mockPlayGame);
+      final mockPlayGame = mockPlayGameNotifier();
+      final game = mockPlayGame.game;
       final contract = MultipleLooserContractModel(
         contract: ContractsInfo.noQueens,
         itemsByPlayer: {
@@ -87,8 +98,8 @@ void main() {
       patrolWidgetTest(
           "should validate scores if number of items is correct, ${tooManyTap ? "with" : "without"} too many taps",
           ($) async {
-        final mockPlayGame = MockPlayGameNotifier();
-        final game = mockGame(mockPlayGame);
+        final mockPlayGame = mockPlayGameNotifier();
+        final game = mockPlayGame.game;
         const indexPlayerWithItems = 0;
         const nbItems = 4;
         final expectedContract = MultipleLooserContractModel(
@@ -132,10 +143,7 @@ Widget _createPage(
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
 
-  if (mockPlayGame == null) {
-    mockPlayGame = MockPlayGameNotifier();
-    mockGame(mockPlayGame);
-  }
+  mockPlayGame ??= mockPlayGameNotifier();
   final container = ProviderContainer(
     overrides: [
       logProvider.overrideWithValue(MockMyLog()),

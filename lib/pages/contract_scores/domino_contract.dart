@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
 import '../../commons/providers/log.dart';
@@ -14,6 +15,7 @@ import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
+import 'widgets/rules_button.dart';
 
 /// A page to fill the scores for a domino contract
 class DominoContractPage extends ConsumerStatefulWidget {
@@ -125,6 +127,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
       appBar: MyPlayerAppBar(
         player: ref.watch(playGameProvider).currentPlayer,
         context: context,
+        trailing: RulesButton(ContractsInfo.domino),
       ),
       content: Column(
         spacing: 8,

@@ -13,15 +13,6 @@
 
 - ajouter un mode "aléatoire" pour la partie
 
-## Page choix contrat
-
-- couper le trait du titre sur la droite et mettre un "?" qui affiche toutes les règles ++
-- ajouter une icône sur les boutons de contrats ?
-
-## Page contrat
-
-- mettre un "?" sur la droite du titre pour afficher les règles du contrat ++
-
 ## Page paramètres
 
 - créer de nouveaux contrats

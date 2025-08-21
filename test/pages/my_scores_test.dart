@@ -30,8 +30,8 @@ void main() {
   });
   patrolWidgetTest("should save game and go to home", ($) async {
     final mockStorage = MockMyStorage();
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
+    final game = mockPlayGame.game;
 
     await $.pumpWidget(
       _createPage($, mockStorage: mockStorage, mockPlayGame: mockPlayGame),
@@ -44,8 +44,8 @@ void main() {
     verify(mockStorage.saveGame(game));
   });
   patrolWidgetTest("should go to player scores page", ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
+    final game = mockPlayGame.game;
 
     await $.pumpWidget(_createPage($, mockPlayGame: mockPlayGame));
 
@@ -61,8 +61,8 @@ void main() {
     }
   });
   patrolWidgetTest("should display ordered scores", ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
+    final game = mockPlayGame.game;
     final mockContractManager = MockContractsManager();
     when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
       ContractsInfo.barbu: {
@@ -115,10 +115,7 @@ Widget _createPage(PatrolTester $,
   mockStorage ??= MockMyStorage();
   mockActiveContracts(mockStorage);
 
-  if (mockPlayGame == null) {
-    mockPlayGame = MockPlayGameNotifier();
-    mockGame(mockPlayGame);
-  }
+  mockPlayGame ??= mockPlayGameNotifier();
 
   final container = ProviderContainer(
     overrides: [

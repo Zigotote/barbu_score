@@ -67,11 +67,11 @@
     }
   },
   "contractsRules": "Le jeu du Barbu comporte les contrats suivants :",
-  "@contractSettingsTitle": {
+  "contractRulesTitle": "Règles {contract}",
+  "@contractRulesTitle": {
     "placeholders": {
       "contract": {
-        "type": "String",
-        "example": "Barbu"
+        "type": "String"
       }
     }
   },
@@ -182,6 +182,7 @@
     }
   },
   "playerTurn": "Tour de",
+  "player": "joueur",
   "players": "joueurs",
   "points": "points",
   "pointsBy": "Points par {item}",
@@ -218,9 +219,38 @@
       }
     }
   },
-  "rulesDomino": "Contrairement aux autres contrats, la réussite n'est pas un contrat à plis.\nLe joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il ne peut pas poser de carte il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. L'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.",
+  "rulesBarbuInSalad": "- le roi de coeur (Barbu) vaut {points} points",
+  "@rulesBarbuInSalad": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "rulesDomino": "Contrairement aux autres contrats, la réussite n'est pas un contrat à plis. L'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. L'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.",
+  "rulesDominoDetailed": "L'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\n{player} détermine la valeur d'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d'ouverture. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l'ordre de fin des joueurs, et sont distribués comme suit :\n{points}",
+  "@rulesDominoDetailed": {
+    "placeholders": {
+      "player": {
+        "type": "String",
+        "example": "Océane"
+      },
+      "points": {
+        "type": "String",
+        "example": "- 1er j. : -40 points\n- 2ème j. : -20 points\n- 3ème j. : 20 points\n- 4ème j. : 40 points"
+      }
+    }
+  },
   "rulesNoHearts": "Chaque joueur marque {points} points par coeur remporté.",
   "@rulesNoHearts": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "rulesNoHeartsInSalad": "- chaque coeur vaut {points} points",
+  "@rulesNoHeartsInSalad": {
     "placeholders": {
       "points": {
         "type": "int"
@@ -235,8 +265,24 @@
       }
     }
   },
+  "rulesNoQueensInSalad": "- chaque dame vaut {points} points",
+  "@rulesNoQueensInSalad": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
   "rulesNoLastTrick": "Le joueur emportant le dernier pli marque {points} points.",
   "@rulesNoLastTrick": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "rulesNoLastTrickInSalad": "- le dernier pli vaut {points} points",
+  "@rulesNoLastTrickInSalad": {
     "placeholders": {
       "points": {
         "type": "int"
@@ -251,12 +297,41 @@
       }
     }
   },
+  "rulesNoTricksInSalad": "- chaque pli vaut {points} points",
+  "@rulesNoTricksInSalad": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
   "rulesSalad": "Ce contrat est une combinaison des contrats {contracts}.\nC'est le contrat qui peut faire marquer le plus de points puisque les points de chaque contrat s'additionnent.",
   "@rulesSalad": {
     "placeholders": {
       "contracts": {
         "type": "String",
         "example": "Barbu, Sans plis"
+      }
+    }
+  },
+  "rulesSaladDetailed": "Ce contrat est une combinaison des contrats {contracts}. Les points sont comptés comme suit :\n{itemWithPoints}",
+  "@rulesSaladDetailed": {
+    "placeholders": {
+      "contracts": {
+        "type": "String",
+        "example": "Barbu, Sans plis"
+      },
+      "itemWithPoints": {
+        "type": "String",
+        "example": "- roi de coeur (vaut 50 points)\n- dame (vaut 10 points)"
+      }
+    }
+  },
+  "rulesTrickRound": "{player} démarre le premier pli, et détermine ainsi sa couleur.\nLe joueur ayant posé la carte de cette couleur la plus élevée remporte le pli. Il démarre le pli suivant.",
+  "@rulesTrickRound": {
+    "placeholders": {
+      "player": {
+        "type": "String"
       }
     }
   },

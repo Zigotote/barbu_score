@@ -254,6 +254,12 @@ abstract class AppLocalizations {
   /// **'Le jeu du Barbu comporte les contrats suivants :'**
   String get contractsRules;
 
+  /// No description provided for @contractRulesTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Règles {contract}'**
+  String contractRulesTitle(String contract);
+
   /// No description provided for @contractsToPlay.
   ///
   /// In fr, this message translates to:
@@ -578,6 +584,12 @@ abstract class AppLocalizations {
   /// **'Tour de'**
   String get playerTurn;
 
+  /// No description provided for @player.
+  ///
+  /// In fr, this message translates to:
+  /// **'joueur'**
+  String get player;
+
   /// No description provided for @players.
   ///
   /// In fr, this message translates to:
@@ -662,11 +674,23 @@ abstract class AppLocalizations {
   /// **'Le joueur emportant le roi de coeur (Barbu) marque {points} points.'**
   String rulesBarbu(int points);
 
+  /// No description provided for @rulesBarbuInSalad.
+  ///
+  /// In fr, this message translates to:
+  /// **'- le roi de coeur (Barbu) vaut {points} points'**
+  String rulesBarbuInSalad(int points);
+
   /// No description provided for @rulesDomino.
   ///
   /// In fr, this message translates to:
-  /// **'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il ne peut pas poser de carte il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.'**
+  /// **'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.'**
   String get rulesDomino;
+
+  /// No description provided for @rulesDominoDetailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\n{player} détermine la valeur d\'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s\'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d\'ouverture. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l\'ordre de fin des joueurs, et sont distribués comme suit :\n{points}'**
+  String rulesDominoDetailed(String player, String points);
 
   /// No description provided for @rulesNoHearts.
   ///
@@ -674,11 +698,23 @@ abstract class AppLocalizations {
   /// **'Chaque joueur marque {points} points par coeur remporté.'**
   String rulesNoHearts(int points);
 
+  /// No description provided for @rulesNoHeartsInSalad.
+  ///
+  /// In fr, this message translates to:
+  /// **'- chaque coeur vaut {points} points'**
+  String rulesNoHeartsInSalad(int points);
+
   /// No description provided for @rulesNoQueens.
   ///
   /// In fr, this message translates to:
   /// **'Chaque joueur marque {points} points par dame remportée.'**
   String rulesNoQueens(int points);
+
+  /// No description provided for @rulesNoQueensInSalad.
+  ///
+  /// In fr, this message translates to:
+  /// **'- chaque dame vaut {points} points'**
+  String rulesNoQueensInSalad(int points);
 
   /// No description provided for @rulesNoLastTrick.
   ///
@@ -686,17 +722,41 @@ abstract class AppLocalizations {
   /// **'Le joueur emportant le dernier pli marque {points} points.'**
   String rulesNoLastTrick(int points);
 
+  /// No description provided for @rulesNoLastTrickInSalad.
+  ///
+  /// In fr, this message translates to:
+  /// **'- le dernier pli vaut {points} points'**
+  String rulesNoLastTrickInSalad(int points);
+
   /// No description provided for @rulesNoTricks.
   ///
   /// In fr, this message translates to:
   /// **'Chaque joueur marque {points} points par pli remporté.'**
   String rulesNoTricks(int points);
 
+  /// No description provided for @rulesNoTricksInSalad.
+  ///
+  /// In fr, this message translates to:
+  /// **'- chaque pli vaut {points} points'**
+  String rulesNoTricksInSalad(int points);
+
   /// No description provided for @rulesSalad.
   ///
   /// In fr, this message translates to:
   /// **'Ce contrat est une combinaison des contrats {contracts}.\nC\'est le contrat qui peut faire marquer le plus de points puisque les points de chaque contrat s\'additionnent.'**
   String rulesSalad(String contracts);
+
+  /// No description provided for @rulesSaladDetailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce contrat est une combinaison des contrats {contracts}. Les points sont comptés comme suit :\n{itemWithPoints}'**
+  String rulesSaladDetailed(String contracts, String itemWithPoints);
+
+  /// No description provided for @rulesTrickRound.
+  ///
+  /// In fr, this message translates to:
+  /// **'{player} démarre le premier pli, et détermine ainsi sa couleur.\nLe joueur ayant posé la carte de cette couleur la plus élevée remporte le pli. Il démarre le pli suivant.'**
+  String rulesTrickRound(String player);
 
   /// No description provided for @salad.
   ///

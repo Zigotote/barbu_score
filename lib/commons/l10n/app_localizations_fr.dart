@@ -107,6 +107,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Le jeu du Barbu comporte les contrats suivants :';
 
   @override
+  String contractRulesTitle(String contract) {
+    return 'Règles $contract';
+  }
+
+  @override
   String get contractsToPlay => 'Contrats à jouer';
 
   @override
@@ -289,6 +294,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get playerTurn => 'Tour de';
 
   @override
+  String get player => 'joueur';
+
+  @override
   String get players => 'joueurs';
 
   @override
@@ -338,12 +346,27 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String rulesBarbuInSalad(int points) {
+    return '- le roi de coeur (Barbu) vaut $points points';
+  }
+
+  @override
   String get rulesDomino =>
-      'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il ne peut pas poser de carte il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.';
+      'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.';
+
+  @override
+  String rulesDominoDetailed(String player, String points) {
+    return 'L\'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\n$player détermine la valeur d\'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s\'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d\'ouverture. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l\'ordre de fin des joueurs, et sont distribués comme suit :\n$points';
+  }
 
   @override
   String rulesNoHearts(int points) {
     return 'Chaque joueur marque $points points par coeur remporté.';
+  }
+
+  @override
+  String rulesNoHeartsInSalad(int points) {
+    return '- chaque coeur vaut $points points';
   }
 
   @override
@@ -352,8 +375,18 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String rulesNoQueensInSalad(int points) {
+    return '- chaque dame vaut $points points';
+  }
+
+  @override
   String rulesNoLastTrick(int points) {
     return 'Le joueur emportant le dernier pli marque $points points.';
+  }
+
+  @override
+  String rulesNoLastTrickInSalad(int points) {
+    return '- le dernier pli vaut $points points';
   }
 
   @override
@@ -362,8 +395,23 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String rulesNoTricksInSalad(int points) {
+    return '- chaque pli vaut $points points';
+  }
+
+  @override
   String rulesSalad(String contracts) {
     return 'Ce contrat est une combinaison des contrats $contracts.\nC\'est le contrat qui peut faire marquer le plus de points puisque les points de chaque contrat s\'additionnent.';
+  }
+
+  @override
+  String rulesSaladDetailed(String contracts, String itemWithPoints) {
+    return 'Ce contrat est une combinaison des contrats $contracts. Les points sont comptés comme suit :\n$itemWithPoints';
+  }
+
+  @override
+  String rulesTrickRound(String player) {
+    return '$player démarre le premier pli, et détermine ainsi sa couleur.\nLe joueur ayant posé la carte de cette couleur la plus élevée remporte le pli. Il démarre le pli suivant.';
   }
 
   @override

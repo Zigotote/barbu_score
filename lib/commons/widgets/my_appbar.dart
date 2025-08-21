@@ -16,7 +16,7 @@ class MyAppBar extends AppBar {
     super.key,
     required BuildContext context,
     bool hasLeading = true,
-    IconButton? trailing,
+    Widget? trailing,
     this.tabs,
   }) : super(
           toolbarHeight: _calculateToolbarHeight(context, title),

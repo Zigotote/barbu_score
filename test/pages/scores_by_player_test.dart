@@ -30,8 +30,8 @@ void main() {
     patrolWidgetTest(
         "should display active contracts in table for $activeContractsTest",
         ($) async {
-      final mockPlayGame = MockPlayGameNotifier();
-      final game = mockGame(mockPlayGame);
+      final mockPlayGame = mockPlayGameNotifier();
+      final game = mockPlayGame.game;
       final mockStorage = MockMyStorage();
       mockActiveContracts(mockStorage, activeContractsTest);
       await $.pumpWidget(
@@ -64,8 +64,8 @@ void main() {
     });
   }
   patrolWidgetTest("should display scores with some contracts", ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
+    final game = mockPlayGame.game;
     final mockContractManager = MockContractsManager();
     when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
       ContractsInfo.barbu: {
@@ -119,8 +119,8 @@ void main() {
     expect($("30"), findsOneWidget);
   });
   patrolWidgetTest("should display scores for all contracts", ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
+    final game = mockPlayGame.game;
     final mockContractManager = MockContractsManager();
     when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
       ContractsInfo.barbu: {
@@ -195,10 +195,7 @@ Widget _createPage(
     {MockPlayGameNotifier? mockPlayGame,
     MockContractsManager? mockContractsManager,
     MockMyStorage? mockStorage}) {
-  if (mockPlayGame == null) {
-    mockPlayGame = MockPlayGameNotifier();
-    mockGame(mockPlayGame);
-  }
+  mockPlayGame ??= mockPlayGameNotifier();
   if (mockStorage == null) {
     mockStorage = MockMyStorage();
     mockActiveContracts(mockStorage);
