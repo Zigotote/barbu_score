@@ -25,14 +25,24 @@ void main() {
     await checkAccessibility($.tester);
   });
 
+  patrolWidgetTest("should open and close domino rules", ($) async {
+    await $.pumpWidget(_createPage());
+
+    await $.tap($(Icons.question_mark_outlined));
+    expect($(DraggableScrollableSheet), findsOneWidget);
+    expect($("Règles Réussite"), findsOneWidget);
+
+    await $.tap($(Icons.close));
+    expect($(DraggableScrollableSheet), findsNothing);
+  });
+
   patrolWidgetTest("should create page with default ordered players",
       ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
 
     await $.pumpWidget(_createPage(mockPlayGame));
 
-    for (var (index, player) in game.players.indexed) {
+    for (var (index, player) in mockPlayGame.game.players.indexed) {
       expect(
           $(ReorderableDragStartListener).at(index).containing($(player.name)),
           findsOneWidget);
@@ -41,9 +51,10 @@ void main() {
         ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
     expect(validateButton.onPressed, isNotNull);
   });
+
   patrolWidgetTest("should reorder players and validate", ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
+    final game = mockPlayGame.game;
     final newFirstPlayerIndex = game.players.length - 1;
     final expectedContract = DominoContractModel(rankOfPlayer: {
       for (var (index, player) in game.players.indexed)
@@ -67,11 +78,8 @@ void main() {
 Widget _createPage([MockPlayGameNotifier? mockPlayGame]) {
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
+  mockPlayGame ??= mockPlayGameNotifier();
 
-  if (mockPlayGame == null) {
-    mockPlayGame = MockPlayGameNotifier();
-    mockGame(mockPlayGame);
-  }
   final container = ProviderContainer(
     overrides: [
       logProvider.overrideWithValue(MockMyLog()),

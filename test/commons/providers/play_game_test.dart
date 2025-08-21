@@ -20,7 +20,7 @@ void main() {
           () {
         final mockStorage = MockMyStorage();
         mockActiveContracts(mockStorage, activeContracts);
-        final game = createGame(4, []);
+        final game = createGame(4);
 
         final playGame = PlayGameNotifier(mockStorage);
         playGame.load(game);

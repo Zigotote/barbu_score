@@ -55,7 +55,7 @@ void main() {
           "should ${startGame ? "" : "not "}start game if stored game is ${startGame ? "ignored" : "loaded"}",
           ($) async {
         await $.pumpWidget(
-          _createPage($, storedGame: createGame(nbPlayersByDefault, [])),
+          _createPage($, storedGame: createGame(nbPlayersByDefault)),
         );
 
         await $(_startGameText).tap();
@@ -93,7 +93,7 @@ void main() {
           "should ${loadGame ? "load" : "start"} game if stored game ${loadGame ? "exists" : "is ignored"}",
           ($) async {
         await $.pumpWidget(
-          _createPage($, storedGame: createGame(nbPlayersByDefault, [])),
+          _createPage($, storedGame: createGame(nbPlayersByDefault)),
         );
 
         await $(_loadGameText).tap();

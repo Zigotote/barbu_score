@@ -1,9 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/contract_info.dart';
 import '../models/contract_settings_models.dart';
 import '../models/my_locales.dart';
+import '../providers/storage.dart';
 
 extension BuildContextLocalizations on BuildContext {
   /// Returns the l10n service to translate Strings
@@ -22,6 +24,53 @@ extension MyAppLocalizations on AppLocalizations {
       ContractsInfo.salad => salad,
       ContractsInfo.domino => domino,
     };
+  }
+
+  /// Returns the detailed rules of the contract, depending on its settings
+  String detailedContractRules(
+      String currentPlayer, ContractsInfo contract, MyStorage storage,
+      {int? nbPlayers}) {
+    final contractSettings = storage.getSettings(contract);
+    if (contract == ContractsInfo.salad) {
+      final activeContracts =
+          (contractSettings as SaladContractSettings).activeContracts;
+      final individualContractPoints = activeContracts.map((c) {
+        final subContractSettings = storage.getSettings(c);
+        return switch (c) {
+          ContractsInfo.barbu => rulesBarbuInSalad(
+              (subContractSettings as OneLooserContractSettings).points,
+            ),
+          ContractsInfo.noHearts => rulesNoHeartsInSalad(
+                (subContractSettings as MultipleLooserContractSettings).points,
+              ) +
+              (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
+          ContractsInfo.noQueens => rulesNoQueensInSalad(
+                (subContractSettings as MultipleLooserContractSettings).points,
+              ) +
+              (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
+          ContractsInfo.noTricks => rulesNoTricksInSalad(
+                (subContractSettings as MultipleLooserContractSettings).points,
+              ) +
+              (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
+          ContractsInfo.noLastTrick => rulesNoLastTrickInSalad(
+              (subContractSettings as OneLooserContractSettings).points,
+            ),
+          _ => ""
+        };
+      });
+      return "${rulesTrickRound(currentPlayer)}\n\n${rulesSaladDetailed(activeContracts.map((c) => contractName(c).toLowerCase()).join(", "), individualContractPoints.join("\n"))}${contractSettings.invertScore ? "\n$invertScoreDetails" : ""}";
+    }
+    if (contract == ContractsInfo.domino) {
+      return rulesDominoDetailed(
+        currentPlayer,
+        (contractSettings as DominoContractSettings)
+            .points[nbPlayers!]!
+            .mapIndexed((index, p) =>
+                "- ${ordinalNumber(index + 1)} $player : $p $points")
+            .join("\n"),
+      );
+    }
+    return "${rulesTrickRound(currentPlayer)}\n\n${contractRules(contractSettings)}";
   }
 
   /// Returns the rules of the contract, depending on its settings
@@ -46,11 +95,8 @@ extension MyAppLocalizations on AppLocalizations {
         ),
       ContractsInfo.salad => rulesSalad(
             (contractSettings as SaladContractSettings)
-                .contracts
-                .entries
-                .where((contract) => contract.value)
-                .map((entry) => contractName(ContractsInfo.fromName(entry.key))
-                    .toLowerCase())
+                .activeContracts
+                .map((c) => contractName(c).toLowerCase())
                 .join(", "),
           ) +
           (contractSettings.invertScore ? "\n$invertScoreDetails" : ""),

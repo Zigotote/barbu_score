@@ -146,8 +146,7 @@ Widget _createPage(PatrolTester $,
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage, activeContracts);
 
-  final mockPlayGame = MockPlayGameNotifier();
-  mockGame(mockPlayGame, playedContracts: playedContracts);
+  final mockPlayGame = mockPlayGameNotifier(playedContracts: playedContracts);
 
   final container = ProviderContainer(
     overrides: [

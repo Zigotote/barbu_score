@@ -107,6 +107,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'The Barbu game includes the following contracts:';
 
   @override
+  String contractRulesTitle(String contract) {
+    return '$contract rules';
+  }
+
+  @override
   String get contractsToPlay => 'Contracts to play';
 
   @override
@@ -288,6 +293,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playerTurn => 'Turn of';
 
   @override
+  String get player => 'player';
+
+  @override
   String get players => 'players';
 
   @override
@@ -337,12 +345,27 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String rulesBarbuInSalad(int points) {
+    return '- the king of hearts (Barbu) is worth $points points';
+  }
+
+  @override
   String get rulesDomino =>
-      'Unlike other contracts, Domino is not a trick-taking contract.\nThe player choosing this contract determines the opening value of the Domino (for example, the Jack). If they have a card of that value, they place it on the table; otherwise, they pass their turn.\nThe next player can then place a card of the same suit and a value directly higher or lower (so the 10 or Queen of the previous suit). They can also place a card of the opening value, in another suit. If they cannot place a card, they indicate that they pass.\nThe game continues like this until all players have finished their hand. The objective is to play all of your cards as quickly as possible to score a minimum of points.';
+      'Unlike other contracts, Domino is not a trick-taking contract. The goal of this contract is to lay all the cards on the table, sorted by suit and in ascending order.\nThe player who chooses this contract determines the starting value of the sequence (for example, the jack). If they have a card of that value, they place it on the table; otherwise, they skip their turn.\nThe next player can then play a card of the same suit and of a value directly higher or lower (so the 10 or the queen of the same suit). They can also play another card of the starting value in a different suit. If they play an ace, they may play again. If they cannot play a card, they pass.\nThe game continues in this manner until all players have finished their hands. The objective is to play all your cards as quickly as possible to score the fewest points.';
+
+  @override
+  String rulesDominoDetailed(String player, String points) {
+    return 'The goal of Domino is to lay all the cards on the table, sorted by suit and in ascending order.\n$player determines the starting value of the sequence (for example, the jack), and plays a card of that value if they have one.\nThe next player then plays a card of the same suit and of a value directly higher or lower (so the 10 or the queen of the same suit), or a card of the starting value in a different suit. If they play an ace, they may play again. If they cannot play a card, they pass.\nThe game continues in this manner until all players have finished their hands. Points are awarded based on the order in which players finish, distributed as follows:\n$points';
+  }
 
   @override
   String rulesNoHearts(int points) {
     return 'Each player scores $points points per heart won.';
+  }
+
+  @override
+  String rulesNoHeartsInSalad(int points) {
+    return '- each heart is worth $points points';
   }
 
   @override
@@ -351,8 +374,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String rulesNoQueensInSalad(int points) {
+    return '- each queen is worth $points points';
+  }
+
+  @override
   String rulesNoLastTrick(int points) {
     return 'The player who wins the last trick scores $points points.';
+  }
+
+  @override
+  String rulesNoLastTrickInSalad(int points) {
+    return '- the last trick is worth $points points';
   }
 
   @override
@@ -361,8 +394,23 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String rulesNoTricksInSalad(int points) {
+    return '- each trick is worth $points points';
+  }
+
+  @override
   String rulesSalad(String contracts) {
     return 'This contract is a combination of the $contracts contracts.\nIt is the contract that can score the most points since the points of each contract are added together.';
+  }
+
+  @override
+  String rulesSaladDetailed(String contracts, String itemWithPoints) {
+    return 'This contract is a combination of the contracts $contracts. Points are counted as follows:\n$itemWithPoints';
+  }
+
+  @override
+  String rulesTrickRound(String player) {
+    return '$player starts the first trick, and thereby determines the leading suit.\nThe player who played the highest card of that suit wins the trick and starts the next one.';
   }
 
   @override

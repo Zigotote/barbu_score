@@ -30,8 +30,8 @@ void main() {
     await checkAccessibility($.tester);
   });
   patrolWidgetTest("should change tab in page", ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
+    final game = mockPlayGame.game;
     final mockContractManager = MockContractsManager();
     when(mockContractManager.sumScoresByContract(game.players)).thenReturn({
       ContractsInfo.barbu: {
@@ -61,8 +61,8 @@ void main() {
   });
   patrolWidgetTest("should display ranking and go to player scores page",
       ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
+    final game = mockPlayGame.game;
     final mockContractManager = MockContractsManager();
     when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
       ContractsInfo.barbu: {
@@ -111,8 +111,8 @@ void main() {
     }
   });
   patrolWidgetTest("should display scores by contract", ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
-    final game = mockGame(mockPlayGame);
+    final mockPlayGame = mockPlayGameNotifier();
+    final game = mockPlayGame.game;
     final mockContractManager = MockContractsManager();
     when(mockContractManager.sumScoresByContract(game.players)).thenReturn({
       ContractsInfo.barbu: {
@@ -198,10 +198,7 @@ Widget _createPage(PatrolTester $,
     MockContractsManager? mockContractsManager}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
-  if (mockPlayGame == null) {
-    mockPlayGame = MockPlayGameNotifier();
-    mockGame(mockPlayGame);
-  }
+  mockPlayGame ??= mockPlayGameNotifier();
 
   final container = ProviderContainer(
     overrides: [

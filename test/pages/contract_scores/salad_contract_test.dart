@@ -32,6 +32,18 @@ void main() {
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
   });
+
+  patrolWidgetTest("should open and close salad rules", ($) async {
+    await $.pumpWidget(_createPage($));
+
+    await $.tap($(Icons.question_mark_outlined));
+    expect($(DraggableScrollableSheet), findsOneWidget);
+    expect($("Règles Salade"), findsOneWidget);
+
+    await $.tap($(Icons.close));
+    expect($(DraggableScrollableSheet), findsNothing);
+  });
+
   for (var activeContracts in [
     SaladContractSettings.availableContracts,
     [ContractsInfo.barbu],
@@ -66,7 +78,7 @@ void main() {
   }
   for (var contractToFill in SaladContractSettings.availableContracts) {
     patrolWidgetTest("should fill $contractToFill sub contract", ($) async {
-      final mockPlayGame = MockPlayGameNotifier();
+      final mockPlayGame = mockPlayGameNotifier();
       final page = _createPage($, mockPlayGame: mockPlayGame);
       await $.pumpWidget(page);
 
@@ -102,7 +114,7 @@ void main() {
   }
   patrolWidgetTest("should modify one looser sub contract", ($) async {
     const contract = ContractsInfo.barbu;
-    final mockPlayGame = MockPlayGameNotifier();
+    final mockPlayGame = mockPlayGameNotifier();
     final page = _createPage($, mockPlayGame: mockPlayGame);
     final playerSelectedAfterModify = mockPlayGame.players.length - 1;
     final expectedSubContract = OneLooserContractModel(
@@ -153,7 +165,7 @@ void main() {
   });
   patrolWidgetTest("should modify multiple loosers sub contract", ($) async {
     const contract = ContractsInfo.noQueens;
-    final mockPlayGame = MockPlayGameNotifier();
+    final mockPlayGame = mockPlayGameNotifier();
     final page = _createPage($, mockPlayGame: mockPlayGame);
     final playerSelectedAfterModify = mockPlayGame.players.length - 1;
     final expectedSubContract = MultipleLooserContractModel(
@@ -213,7 +225,7 @@ void main() {
     expect(savedSaladContracts.first, expectedSubContract);
   });
   patrolWidgetTest("should validate when all contracts are filled", ($) async {
-    final mockPlayGame = MockPlayGameNotifier();
+    final mockPlayGame = mockPlayGameNotifier();
     final page = _createPage($, mockPlayGame: mockPlayGame);
     final contractModel = SaladContractModel();
     await $.pumpWidget(page);
@@ -283,8 +295,7 @@ UncontrolledProviderScope _createPage(PatrolTester $,
 
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
-  mockPlayGame ??= MockPlayGameNotifier();
-  mockGame(mockPlayGame);
+  mockPlayGame ??= mockPlayGameNotifier();
   if (settings != null) {
     when(mockStorage.getSettings(ContractsInfo.salad)).thenReturn(settings);
   }

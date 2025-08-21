@@ -9,7 +9,6 @@ import 'package:patrol_finders/patrol_finders.dart';
 
 import '../utils/french_material_app.dart';
 import '../utils/utils.dart';
-import '../utils/utils.mocks.dart';
 
 void main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -32,8 +31,7 @@ Widget _createPage(PatrolTester $, {int nbPlayers = nbPlayersByDefault}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
 
-  final mockPlayGame = MockPlayGameNotifier();
-  mockGame(mockPlayGame, nbPlayers: nbPlayers);
+  final mockPlayGame = mockPlayGameNotifier(nbPlayers: nbPlayers);
 
   final container = ProviderContainer(
     overrides: [playGameProvider.overrideWith((_) => mockPlayGame)],

@@ -14,6 +14,7 @@ import '../../../commons/widgets/my_appbar.dart';
 import '../../../commons/widgets/my_subtitle.dart';
 import '../../../main.dart';
 import '../notifiers/salad_provider.dart';
+import 'rules_button.dart';
 
 class SubContractPage extends ConsumerWidget {
   /// The contract actually displayed
@@ -73,6 +74,7 @@ class SubContractPage extends ConsumerWidget {
       appBar: MyPlayerAppBar(
         player: ref.watch(playGameProvider).currentPlayer,
         context: context,
+        trailing: RulesButton(contract),
       ),
       content: Column(
         children: [
