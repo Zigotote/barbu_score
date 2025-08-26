@@ -66,7 +66,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                   onPressed: () => provider.changePlayerColor(player, color),
                   style: TextButton.styleFrom(
                     backgroundColor:
-                        Theme.of(context).colorScheme.convertPlayerColor(color),
+                        Theme.of(context).colorScheme.convertMyColor(color),
                   ),
                   child: Text(
                     playersWithColor

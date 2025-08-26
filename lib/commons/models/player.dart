@@ -2,17 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../../theme/my_theme_colors.dart';
 import '../utils/constants.dart';
 import 'contract_info.dart';
 import 'contract_models.dart';
-import 'player_colors.dart';
 
 class Player {
   /// The image of the player
   String image;
 
   /// The name of the color key
-  PlayerColors color;
+  MyThemeColors color;
 
   /// The name of the player
   String name;
@@ -28,7 +28,9 @@ class Player {
   });
 
   factory Player.create(
-          {required PlayerColors color, required String image, String? name}) =>
+          {required MyThemeColors color,
+          required String image,
+          String? name}) =>
       Player(
         name: name ?? (kDebugMode && !kIsTest ? image.split("/").last : ""),
         image: image,
@@ -38,7 +40,7 @@ class Player {
 
   Player.fromJson(dynamic json)
       : name = json["name"] as String,
-        color = PlayerColors.fromName(json["color"]),
+        color = MyThemeColors.fromName(json["color"]),
         image = json["image"] as String,
         contracts = ((jsonDecode(json["contracts"]) as List)
             .map((contractData) => AbstractContractModel.fromJson(contractData))

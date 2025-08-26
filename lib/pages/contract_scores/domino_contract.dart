@@ -86,8 +86,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
 
   /// Builds a stack with the name of a player and a drag icon as a leading
   Widget _buildPlayerTile(Player player) {
-    final color =
-        Theme.of(context).colorScheme.convertPlayerColor(player.color);
+    final color = Theme.of(context).colorScheme.convertMyColor(player.color);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(

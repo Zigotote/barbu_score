@@ -1,8 +1,8 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/player.dart';
-import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
+import 'package:barbu_score/theme/my_theme_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../utils/utils.dart';
@@ -13,7 +13,7 @@ void main() {
       4,
       (index) => Player(
         name: defaultPlayerNames[index],
-        color: PlayerColors.values[index],
+        color: MyThemeColors.values[index],
         image: playerImages[index],
         contracts: [],
       ),
@@ -44,7 +44,7 @@ void main() {
             4,
             (index) => Player(
               name: defaultPlayerNames[index],
-              color: PlayerColors.values[index],
+              color: MyThemeColors.values[index],
               image: playerImages[index],
               contracts: [
                 defaultBarbu,

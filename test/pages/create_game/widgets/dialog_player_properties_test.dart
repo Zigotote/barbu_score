@@ -1,8 +1,8 @@
 import 'package:barbu_score/commons/models/player.dart';
-import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/pages/create_game/notifiers/create_game.dart';
 import 'package:barbu_score/pages/create_game/widgets/dialog_player_properties.dart';
+import 'package:barbu_score/theme/my_theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -95,7 +95,7 @@ void main() {
 }
 
 Finder _findPlayerNameInColor(
-    PatrolTester $, PlayerColors color, String playerInitials) {
+    PatrolTester $, MyThemeColors color, String playerInitials) {
   return find.descendant(
     of: $(Key(color.name)),
     matching: $(playerInitials),

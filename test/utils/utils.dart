@@ -2,7 +2,6 @@ import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/player.dart';
-import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/providers/contracts_manager.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
@@ -10,6 +9,7 @@ import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:barbu_score/pages/contract_scores/notifiers/salad_provider.dart';
+import 'package:barbu_score/theme/my_theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -138,7 +138,7 @@ Game createGame(int nbPlayers,
       nbPlayers,
       (index) => Player(
         name: defaultPlayerNames[index],
-        color: PlayerColors.values[index],
+        color: MyThemeColors.values[index],
         image: playerImages[index],
         contracts: playedContracts,
       ),
