@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import '../../commons/models/contract_info.dart';
 import '../../commons/providers/log.dart';
 import '../../commons/providers/storage.dart';
-import '../../commons/utils/contract_settings.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/default_page.dart';
@@ -55,17 +54,22 @@ class MySettings extends ConsumerWidget {
                             "MySettings: open settings for ${contract.name}",
                           );
                       SnackBarUtils.instance.closeSnackBar(context);
-                      context.push(contract.settingsRoute).then(
-                            (_) => context.mounted
-                                ? saveContractSettings(
-                                    context,
-                                    ref,
-                                    contract: contract,
-                                    previousSettings: contractSettings,
-                                    notifyUser: true,
-                                  )
-                                : null,
-                          );
+                      context.push(contract.settingsRoute).then((_) {
+                        final storage = ref.read(storageProvider);
+                        final newSettings = storage.getSettings(contract);
+                        if (contractSettings != newSettings) {
+                          if (storage.getStoredGame()?.isFinished == true) {
+                            storage.deleteGame();
+                          }
+                          if (context.mounted) {
+                            SnackBarUtils.instance.openSnackBar(
+                              context: context,
+                              title: context.l10n.changesSaved,
+                              text: context.l10n.changesSavedDetails,
+                            );
+                          }
+                        }
+                      });
                     },
                     indicator: ActiveContractIndicator(
                       isActive: contractSettings.isActive,

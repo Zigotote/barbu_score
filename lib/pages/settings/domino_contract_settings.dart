@@ -5,19 +5,21 @@ import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
+import '../../commons/providers/storage.dart';
 import '../../commons/utils/constants.dart';
 import '../../commons/utils/player_icon_properties.dart';
+import '../../commons/widgets/default_page.dart';
+import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/player_icon.dart';
-import 'notifiers/contract_settings_provider.dart';
-import 'widgets/contract_settings.dart';
+import 'utils/change_settings.dart';
+import 'widgets/change_contract_activation.dart';
 import 'widgets/number_input.dart';
 
-class DominoContractSettingsPage extends ConsumerWidget {
+class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
   const DominoContractSettingsPage({super.key});
 
-  Widget _buildDataTable(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(contractSettingsProvider(ContractsInfo.domino));
-    final settings = provider.settings as DominoContractSettings;
+  Widget _buildDataTable(
+      BuildContext context, WidgetRef ref, DominoContractSettings settings) {
     const spanPadding = TableSpanPadding.all(4);
     return TableView.list(
       pinnedRowCount: 1,
@@ -59,7 +61,7 @@ class DominoContractSettingsPage extends ConsumerWidget {
                   child: Text(context.l10n.ordinalNumber(position)),
                 ),
               ),
-              ..._buildPointsCells(settings, provider, position - 1),
+              ..._buildPointsCells(ref, settings, position - 1),
             ]
         ]
       ],
@@ -99,8 +101,8 @@ class DominoContractSettingsPage extends ConsumerWidget {
     );
   }
 
-  List<TableViewCell> _buildPointsCells(DominoContractSettings settings,
-      ContractSettingsNotifier provider, int playerIndex) {
+  List<TableViewCell> _buildPointsCells(
+      WidgetRef ref, DominoContractSettings settings, int playerIndex) {
     return List.generate(settings.points.length, (index) {
       final int nbPlayers = index + kNbPlayersMin;
       if (playerIndex < settings.points[nbPlayers]!.length) {
@@ -109,19 +111,7 @@ class DominoContractSettingsPage extends ConsumerWidget {
             points: settings.points[nbPlayers]![playerIndex],
             onChanged: (value) {
               settings.points[nbPlayers]?[playerIndex] = value;
-              provider.updateSettings(
-                settings.copyWith(
-                  points: Map.from(settings.points)
-                    ..update(
-                      nbPlayers,
-                      (_) {
-                        final points = settings.points[nbPlayers]!;
-                        points[playerIndex] = value;
-                        return points;
-                      },
-                    ),
-                ),
-              );
+              saveNewSettings(ref, ContractsInfo.domino, settings);
             },
           ),
         );
@@ -132,10 +122,25 @@ class DominoContractSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ContractSettingsPage(
-      contract: ContractsInfo.domino,
-      isScrollable: false,
-      children: [Flexible(child: _buildDataTable(context, ref))],
+    final settings = ref
+        .read(storageProvider)
+        .getSettings(ContractsInfo.domino)
+        .copyWith() as DominoContractSettings;
+    return DefaultPage(
+      appBar: MyAppBar(
+        Column(
+          children: [Text(context.l10n.settings), Text(context.l10n.domino)],
+        ),
+        context: context,
+      ),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 16,
+        children: [
+          ChangeContractActivation(ContractsInfo.domino, settings),
+          Flexible(child: _buildDataTable(context, ref, settings)),
+        ],
+      ),
     );
   }
 }

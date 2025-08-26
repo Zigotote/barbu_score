@@ -18,7 +18,6 @@ import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils/french_material_app.dart';
-import '../../utils/test_with_screenshot.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
@@ -46,7 +45,7 @@ void main() {
         "should display contract rules with only active contracts $activeContracts",
         ($) async {
       await $.pumpWidget(
-          _createPage(activeContracts: activeContracts, isInGame: true),
+        _createPage(activeContracts: activeContracts, isInGame: true),
       );
       expect($("Contrats"), findsOneWidget);
 
@@ -61,14 +60,18 @@ void main() {
   patrolWidgetTest("should go to settings page", ($) async {
     await $.pumpWidget(_createPage());
 
-    await $.scrollUntilVisible(finder: $(SettingsCard));
-    await $(OutlinedButton).tap();
+    final settingsButton = find.descendant(
+      of: $(SettingsCard),
+      matching: $(OutlinedButton),
+    );
+    await $.scrollUntilVisible(finder: settingsButton);
+    await $(settingsButton).tap();
 
     expect($(MySettings), findsOneWidget);
   });
   for (var isModified in [true, false]) {
     for (var contract in ContractsInfo.values) {
-      patrolWidgetTestScreenshot(
+      patrolWidgetTest(
           "should go to $contract settings page ${isModified ? "and modify it" : ""}",
           ($) async {
         final mockStorage = MockMyStorage();

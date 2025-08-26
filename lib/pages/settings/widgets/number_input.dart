@@ -54,7 +54,7 @@ class _NumberInputState extends State<NumberInput> {
           decimal: false,
         ),
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'-?[0-9]*'))
+          FilteringTextInputFormatter.allow(RegExp(r'^-?\d*$'))
         ],
         enabled: widget.onChanged != null,
       ),

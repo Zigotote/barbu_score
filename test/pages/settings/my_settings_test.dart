@@ -140,13 +140,13 @@ void main() {
         // Deactivate contract
         expect(($.tester.firstWidget($(Switch)) as Switch).value, true);
         if (isModified) {
-          await $(MySwitch).tap();
-          expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
-
           final modifiedContractSettings =
               modifiedContract.defaultSettings.copyWith(isActive: false);
           when(mockStorage.getSettings(modifiedContract))
               .thenReturn(modifiedContractSettings);
+
+          await $(MySwitch).tap();
+          expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
         }
 
         // Go back to global settings page
@@ -185,13 +185,12 @@ void main() {
             .tap(settlePolicy: SettlePolicy.trySettle);
 
         // Deactivate contract
-        await $(MySwitch).tap();
-        expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
-
         final modifiedContractSettings =
             modifiedContract.defaultSettings.copyWith(isActive: false);
         when(mockStorage.getSettings(modifiedContract))
             .thenReturn(modifiedContractSettings);
+        await $(MySwitch).tap();
+        expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
 
         // Go back to global settings page
         await $(Icons.arrow_back).tap(settlePolicy: SettlePolicy.noSettle);

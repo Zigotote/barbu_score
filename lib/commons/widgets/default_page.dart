@@ -48,12 +48,14 @@ class DefaultPage extends StatelessWidget {
           child: content,
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-          child: bottomWidget,
-        ),
-      ),
+      bottomNavigationBar: bottomWidget != null
+          ? SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: bottomWidget,
+              ),
+            )
+          : null,
     );
     return appBar.tabs == null
         ? page
