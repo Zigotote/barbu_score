@@ -4,14 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
+import '../../commons/providers/storage.dart';
 import '../../commons/widgets/alert_dialog.dart';
-import 'notifiers/contract_settings_provider.dart';
-import 'widgets/contract_settings.dart';
+import '../../commons/widgets/default_page.dart';
+import '../../commons/widgets/my_appbar.dart';
+import 'utils/change_settings.dart';
+import 'widgets/change_contract_activation.dart';
 import 'widgets/my_switch.dart';
 import 'widgets/setting_question.dart';
 
 /// A page to edit salad contract settings
-class SaladContractSettingsPage extends ConsumerStatefulWidget {
+class SaladContractSettingsPage extends ConsumerStatefulWidget
+    with ChangeSettings {
   const SaladContractSettingsPage({super.key});
 
   @override
@@ -21,12 +25,18 @@ class SaladContractSettingsPage extends ConsumerStatefulWidget {
 
 class _SaladContractSettingsPageState
     extends ConsumerState<SaladContractSettingsPage> {
+  late SaladContractSettings settings;
+
   @override
   void initState() {
     super.initState();
-    final playersWithContract = ref
-        .read(contractSettingsProvider(ContractsInfo.salad))
-        .playersWithContract;
+    settings = ref
+        .read(storageProvider)
+        .getSettings(ContractsInfo.salad)
+        .copyWith() as SaladContractSettings;
+    final storedGame = ref.read(storageProvider).getStoredGame();
+    final playersWithContract =
+        widget.playersWithContract(ContractsInfo.salad, storedGame);
     if (playersWithContract.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showDialog(
@@ -45,64 +55,73 @@ class _SaladContractSettingsPageState
     }
   }
 
+  void _toggleSubcontractActivation(
+      ContractsInfo subContract, SaladContractSettings settings) {
+    settings.contracts[subContract.name] =
+        !settings.contracts[subContract.name]!;
+    if (!settings.contracts.containsValue(true)) {
+      setState(() => settings.isActive = false);
+    }
+    widget.saveNewSettings(ref, ContractsInfo.salad, settings);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final provider = ref.watch(contractSettingsProvider(ContractsInfo.salad));
-    final settings = provider.settings as SaladContractSettings;
-    return ContractSettingsPage(
-      contract: ContractsInfo.salad,
-      children: [
-        Semantics(
-          header: true,
-          child: Text(
-            context.l10n.contractsToPlay,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+    return DefaultPage(
+      appBar: MyAppBar(
+        Column(
+          children: [
+            Text(context.l10n.settings),
+            Text(context.l10n.contractName(ContractsInfo.salad))
+          ],
         ),
-        const SizedBox(height: 8),
-        ...SaladContractSettings.availableContracts.map(
-          (contract) => SettingQuestion(
-            key: Key(contract.name),
-            label: context.l10n.contractName(contract),
-            onTap: () {
-              final newContracts = Map<String, bool>.from(settings.contracts)
-                ..update(contract.name, (value) => !value);
-              provider.updateSettings(
-                settings.copyWith(
-                  isActive: !newContracts.containsValue(true) ? false : null,
-                  contracts: newContracts,
-                ),
-              );
-            },
-            input: MySwitch(
-              isActive: settings.contracts[contract.name]!,
-              onChanged: (value) {
-                final newContracts = Map<String, bool>.from(settings.contracts)
-                  ..update(contract.name, (_) => value);
-                provider.updateSettings(
-                  settings.copyWith(
-                    isActive: !newContracts.containsValue(true) ? false : null,
-                    contracts: newContracts,
-                  ),
-                );
-              },
+        context: context,
+      ),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ChangeContractActivation(ContractsInfo.salad, settings),
+            SizedBox(height: 16),
+            Semantics(
+              header: true,
+              child: Text(
+                context.l10n.contractsToPlay,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
-          ),
+            const SizedBox(height: 8),
+            ...SaladContractSettings.availableContracts.map(
+              (contract) => SettingQuestion(
+                key: Key(contract.name),
+                label: context.l10n.contractName(contract),
+                onTap: () => _toggleSubcontractActivation(contract, settings),
+                input: MySwitch(
+                  isActive: settings.contracts[contract.name]!,
+                  onChanged: (_) =>
+                      _toggleSubcontractActivation(contract, settings),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            SettingQuestion(
+              tooltip: context.l10n.invertScoreDetails,
+              label: context.l10n.invertScore,
+              onTap: () {
+                settings.invertScore = !settings.invertScore;
+                widget.saveNewSettings(ref, ContractsInfo.salad, settings);
+              },
+              input: MySwitch(
+                isActive: settings.invertScore,
+                onChanged: (value) {
+                  settings.invertScore = value;
+                  widget.saveNewSettings(ref, ContractsInfo.salad, settings);
+                },
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 24),
-        SettingQuestion(
-          tooltip: context.l10n.invertScoreDetails,
-          label: context.l10n.invertScore,
-          onTap: () => provider.updateSettings(
-            settings.copyWith(invertScore: !settings.invertScore),
-          ),
-          input: MySwitch(
-            isActive: settings.invertScore,
-            onChanged: (value) =>
-                provider.updateSettings(settings.copyWith(invertScore: value)),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

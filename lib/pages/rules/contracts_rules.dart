@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/player_colors.dart';
 import '../../commons/providers/storage.dart';
-import '../../commons/utils/contract_settings.dart';
 import 'widgets/rules_page.dart';
 import 'widgets/settings_card.dart';
 
@@ -70,17 +69,7 @@ class ContractsRules extends ConsumerWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       IconButton(
-                        onPressed: () =>
-                            context.push(contract.settingsRoute).then(
-                                  (_) => context.mounted
-                                      ? saveContractSettings(
-                                          context,
-                                          ref,
-                                          contract: contract,
-                                          previousSettings: settings,
-                                        )
-                                      : null,
-                                ),
+                        onPressed: () => context.push(contract.settingsRoute),
                         icon: Icon(Icons.settings),
                         tooltip:
                             "${context.l10n.settings} ${context.l10n.contractName(contract)}",
