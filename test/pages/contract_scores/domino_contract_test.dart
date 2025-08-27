@@ -2,6 +2,8 @@ import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/commons/utils/constants.dart';
+import 'package:barbu_score/commons/widgets/colored_container.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/domino_contract.dart';
@@ -36,43 +38,31 @@ void main() {
     expect($(DraggableScrollableSheet), findsNothing);
   });
 
-  patrolWidgetTest("should create page with default ordered players",
-      ($) async {
-    final mockPlayGame = mockPlayGameNotifier();
+  for (var nbPlayers = kNbPlayersMin; nbPlayers <= kNbPlayersMax; nbPlayers++) {
+    patrolWidgetTest(
+        "should create page with $nbPlayers ordered players and validate",
+        ($) async {
+      final mockPlayGame = mockPlayGameNotifier(nbPlayers: nbPlayers);
+      final game = mockPlayGame.game;
+      final expectedContract = DominoContractModel(rankOfPlayer: {
+        for (var (index, player) in game.players.indexed) player.name: index
+      });
 
-    await $.pumpWidget(_createPage(mockPlayGame));
+      await $.pumpWidget(_createPage(mockPlayGame));
 
-    for (var (index, player) in mockPlayGame.game.players.indexed) {
-      expect(
-          $(ReorderableDragStartListener).at(index).containing($(player.name)),
-          findsOneWidget);
-    }
-    final validateButton =
-        ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
-    expect(validateButton.onPressed, isNotNull);
-  });
+      for (var (index, player) in mockPlayGame.game.players.indexed) {
+        expect(
+          $(ColoredContainer).at(index).containing($(player.name)),
+          findsOneWidget,
+        );
+      }
+      await findValidateScoresButton($).tap();
 
-  patrolWidgetTest("should reorder players and validate", ($) async {
-    final mockPlayGame = mockPlayGameNotifier();
-    final game = mockPlayGame.game;
-    final newFirstPlayerIndex = game.players.length - 1;
-    final expectedContract = DominoContractModel(rankOfPlayer: {
-      for (var (index, player) in game.players.indexed)
-        player.name: index == newFirstPlayerIndex ? 0 : index + 1
+      expect($(ChooseContract), findsOneWidget);
+      verify(mockPlayGame.finishContract(expectedContract));
+      verify(mockPlayGame.nextPlayer());
     });
-
-    await $.pumpWidget(_createPage(mockPlayGame));
-
-    await $.tester.drag(
-      $(ReorderableDragStartListener).at(newFirstPlayerIndex),
-      const Offset(0, -500),
-    );
-    await findValidateScoresButton($).tap();
-
-    expect($(ChooseContract), findsOneWidget);
-    verify(mockPlayGame.finishContract(expectedContract));
-    verify(mockPlayGame.nextPlayer());
-  });
+  }
 }
 
 Widget _createPage([MockPlayGameNotifier? mockPlayGame]) {

@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/string_extension.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -141,10 +142,10 @@ extension MyAppLocalizations on AppLocalizations {
   /// Returns the card name from its index
   String cardName(int index) {
     return switch (index) {
-      14 => ace,
-      13 => king,
-      12 => queen,
-      11 => jack,
+      14 => ace.capitalize(),
+      13 => king.capitalize(),
+      12 => queen.capitalize(),
+      11 => jack.capitalize(),
       _ => "$index"
     };
   }

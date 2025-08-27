@@ -73,6 +73,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bestFriend => 'Meilleur ami';
 
   @override
+  String cardInterval(String firstCard, String lastCard) {
+    return '$firstCard à $lastCard';
+  }
+
+  @override
   String get cardsOrder =>
       'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus fortes jusqu\'à obtenir le nombre requis.';
 
@@ -329,6 +334,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get players => 'joueurs';
+
+  @override
+  String get playersOrder => 'Ordre des joueurs';
 
   @override
   String get points => 'points';

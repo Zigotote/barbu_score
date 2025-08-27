@@ -22,7 +22,7 @@ import 'pages/create_game/create_game.dart';
 import 'pages/finish_game/finish_game.dart';
 import 'pages/my_home.dart';
 import 'pages/my_scores.dart';
-import 'pages/prepare_game.dart';
+import 'pages/prepare_game/prepare_game.dart';
 import 'pages/rules/models/rules_page_name.dart';
 import 'pages/rules/my_rules.dart';
 import 'pages/scores_by_player.dart';

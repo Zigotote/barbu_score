@@ -6,7 +6,7 @@ import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/create_game/create_game.dart';
 import 'package:barbu_score/pages/create_game/widgets/create_player.dart';
 import 'package:barbu_score/pages/create_game/widgets/dialog_player_properties.dart';
-import 'package:barbu_score/pages/prepare_game.dart';
+import 'package:barbu_score/pages/prepare_game/prepare_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

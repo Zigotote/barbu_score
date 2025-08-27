@@ -42,6 +42,19 @@
   "avatar": "Avatar",
   "barbu": "Barbu",
   "bestFriend": "Meilleur ami",
+  "cardInterval": "{firstCard} à {lastCard}",
+  "@cardInterval": {
+    "placeholders": {
+      "firstCard": {
+        "type": "String",
+        "example": "As"
+      },
+      "lastCard": {
+        "type": "String",
+        "example": "7"
+      }
+    }
+  },
   "cardsOrder": "Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus fortes jusqu'à obtenir le nombre requis.",
   "cardsToKeep": "Conserver les cartes",
   "cardsToKeepForPlayers": "A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes\u00a0: {cards}.",
@@ -211,6 +224,7 @@
   "playerTurn": "Tour de",
   "player": "joueur",
   "players": "joueurs",
+  "playersOrder": "Ordre des joueurs",
   "points": "points",
   "pointsBy": "Points par {item}",
   "@pointsBy": {

@@ -200,6 +200,12 @@ abstract class AppLocalizations {
   /// **'Meilleur ami'**
   String get bestFriend;
 
+  /// No description provided for @cardInterval.
+  ///
+  /// In fr, this message translates to:
+  /// **'{firstCard} à {lastCard}'**
+  String cardInterval(String firstCard, String lastCard);
+
   /// No description provided for @cardsOrder.
   ///
   /// In fr, this message translates to:
@@ -625,6 +631,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'joueurs'**
   String get players;
+
+  /// No description provided for @playersOrder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ordre des joueurs'**
+  String get playersOrder;
 
   /// No description provided for @points.
   ///

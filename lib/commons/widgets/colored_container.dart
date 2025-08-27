@@ -5,6 +5,9 @@ import '../../theme/my_theme_colors.dart';
 
 /// A container with a colored border
 class ColoredContainer extends StatelessWidget {
+  /// The alignment of the child of the container
+  final Alignment? alignment;
+
   /// The height of the container
   final double? height;
 
@@ -19,6 +22,7 @@ class ColoredContainer extends StatelessWidget {
 
   const ColoredContainer({
     super.key,
+    this.alignment = Alignment.bottomCenter,
     this.height,
     this.width,
     required this.color,
@@ -30,7 +34,7 @@ class ColoredContainer extends StatelessWidget {
     return Container(
       height: height,
       width: width,
-      alignment: Alignment.bottomCenter,
+      alignment: alignment,
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
       ),
