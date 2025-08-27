@@ -13,7 +13,7 @@ import '../../utils/utils.mocks.dart';
 
 const _defaultContract = ContractsInfo.barbu;
 final _defaultSettings =
-    _defaultContract.defaultSettings as OneLooserContractSettings;
+    _defaultContract.defaultSettings as ContractWithPointsSettings;
 
 void main() {
   patrolWidgetTest("should display page", ($) async {

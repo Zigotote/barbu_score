@@ -32,38 +32,38 @@ class ContractsManager {
   ContractsManager(MyStorage storage, this.nbPlayers) {
     _contracts = {
       ContractsInfo.barbu: (
-        //TODO Océane sûrement à refacto
-        model: nbPlayers <= kNbPlayersMaxForOneDeck
-            ? OneLooserContractModel(contract: ContractsInfo.barbu)
-            : MultipleLooserContractModel(
-                contract: ContractsInfo.barbu,
-                nbItems: getNbDecks(nbPlayers),
-              ),
+        model: ContractWithPointsModel(
+          contract: ContractsInfo.barbu,
+          nbItems: getNbDecks(nbPlayers),
+        ),
         settings: storage.getSettings(ContractsInfo.barbu),
       ),
       ContractsInfo.noHearts: (
-        model: MultipleLooserContractModel(
+        model: ContractWithPointsModel(
           contract: ContractsInfo.noHearts,
           nbItems: nbPlayers * 2,
         ),
         settings: storage.getSettings(ContractsInfo.noHearts),
       ),
       ContractsInfo.noQueens: (
-        model: MultipleLooserContractModel(
+        model: ContractWithPointsModel(
           contract: ContractsInfo.noQueens,
           nbItems: getNbDecks(nbPlayers) * 4,
         ),
         settings: storage.getSettings(ContractsInfo.noQueens),
       ),
       ContractsInfo.noTricks: (
-        model: MultipleLooserContractModel(
+        model: ContractWithPointsModel(
           contract: ContractsInfo.noTricks,
           nbItems: 8,
         ),
         settings: storage.getSettings(ContractsInfo.noTricks),
       ),
       ContractsInfo.noLastTrick: (
-        model: OneLooserContractModel(contract: ContractsInfo.noLastTrick),
+        model: ContractWithPointsModel(
+          contract: ContractsInfo.noLastTrick,
+          nbItems: 1,
+        ),
         settings: storage.getSettings(ContractsInfo.noLastTrick),
       ),
       ContractsInfo.salad: (
@@ -93,13 +93,13 @@ class ContractsManager {
   String getScoresRoute(ContractsInfo contract) {
     return switch (contract) {
       ContractsInfo.barbu => nbPlayers <= kNbPlayersMaxForOneDeck
-          ? "${Routes.onLooserScores}/${contract.name}"
+          ? "${Routes.oneLooserScores}/${contract.name}"
           : "${Routes.noSomethingScores}/${contract.name}",
       ContractsInfo.noHearts ||
       ContractsInfo.noQueens ||
       ContractsInfo.noTricks =>
         "${Routes.noSomethingScores}/${contract.name}",
-      ContractsInfo.noLastTrick => "${Routes.onLooserScores}/${contract.name}",
+      ContractsInfo.noLastTrick => "${Routes.oneLooserScores}/${contract.name}",
       ContractsInfo.salad => Routes.saladScores,
       ContractsInfo.domino => Routes.dominoScores,
     };

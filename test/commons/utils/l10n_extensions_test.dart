@@ -18,7 +18,7 @@ void main() {
     for (var contractTest in [
       (
         desc: "barbu",
-        contract: OneLooserContractSettings(
+        contract: ContractWithPointsSettings(
           contract: ContractsInfo.barbu,
           points: 10,
         ),
@@ -26,15 +26,16 @@ void main() {
       ),
       (
         desc: "no hearts with invertScore",
-        contract: MultipleLooserContractSettings(
+        contract: ContractWithPointsSettings(
           contract: ContractsInfo.noHearts,
           points: 5,
+          invertScore: true,
         ),
         textRegex: RegExp(r'.*5.*coeur.*' '$invertScoreRule\$')
       ),
       (
         desc: "no hearts without invertScores",
-        contract: MultipleLooserContractSettings(
+        contract: ContractWithPointsSettings(
           contract: ContractsInfo.noHearts,
           points: 5,
           invertScore: false,
@@ -43,15 +44,16 @@ void main() {
       ),
       (
         desc: "no queens with invertScores",
-        contract: MultipleLooserContractSettings(
+        contract: ContractWithPointsSettings(
           contract: ContractsInfo.noQueens,
           points: 5,
+          invertScore: true,
         ),
         textRegex: RegExp(r'.*5.*dame.*' '$invertScoreRule\$')
       ),
       (
         desc: "no queens without invertScores",
-        contract: MultipleLooserContractSettings(
+        contract: ContractWithPointsSettings(
           contract: ContractsInfo.noQueens,
           points: 5,
           invertScore: false,
@@ -60,15 +62,16 @@ void main() {
       ),
       (
         desc: "no tricks with invertScores",
-        contract: MultipleLooserContractSettings(
+        contract: ContractWithPointsSettings(
           contract: ContractsInfo.noTricks,
           points: -5,
+          invertScore: true,
         ),
         textRegex: RegExp(r'.*-5.*pli.*' '$invertScoreRule\$')
       ),
       (
         desc: "no tricks without invertScores",
-        contract: MultipleLooserContractSettings(
+        contract: ContractWithPointsSettings(
           contract: ContractsInfo.noTricks,
           points: -5,
           invertScore: false,
@@ -77,7 +80,7 @@ void main() {
       ),
       (
         desc: "no last trick",
-        contract: OneLooserContractSettings(
+        contract: ContractWithPointsSettings(
           contract: ContractsInfo.noLastTrick,
           points: 10,
         ),
@@ -212,7 +215,7 @@ void main() {
           for (var contract in SaladContractSettings.availableContracts) {
             AbstractContractSettings contractSettings = contract.defaultSettings
                 .copyWith(isActive: testData.subContracts.contains(contract));
-            if (contractSettings is MultipleLooserContractSettings) {
+            if (contractSettings is ContractWithPointsSettings) {
               contractSettings = contractSettings.copyWith(
                 invertScore: invertScore,
               );
@@ -241,27 +244,29 @@ void main() {
           );
           for (var contract in SaladContractSettings.availableContracts) {
             final shouldBeDisplayed = testData.subContracts.contains(contract);
+            final subContractSettings =
+                contract.defaultSettings as ContractWithPointsSettings;
             String? contractRule;
             switch (contract) {
               case ContractsInfo.barbu:
                 contractRule =
-                    "- le roi de coeur (Barbu) vaut ${(contract.defaultSettings as OneLooserContractSettings).points} points";
+                    "- le roi de coeur (Barbu) vaut ${subContractSettings.points} points";
                 break;
               case ContractsInfo.noHearts:
                 contractRule =
-                    "- chaque coeur vaut ${(contract.defaultSettings as MultipleLooserContractSettings).points} points";
+                    "- chaque coeur vaut ${subContractSettings.points} points";
                 break;
               case ContractsInfo.noQueens:
                 contractRule =
-                    "- chaque dame vaut ${(contract.defaultSettings as MultipleLooserContractSettings).points} points";
+                    "- chaque dame vaut ${subContractSettings.points} points";
                 break;
               case ContractsInfo.noTricks:
                 contractRule =
-                    "- chaque pli vaut ${(contract.defaultSettings as MultipleLooserContractSettings).points} points";
+                    "- chaque pli vaut ${subContractSettings.points} points";
                 break;
               case ContractsInfo.noLastTrick:
                 contractRule =
-                    "- le dernier pli vaut ${(contract.defaultSettings as OneLooserContractSettings).points} points";
+                    "- le dernier pli vaut ${subContractSettings.points} points";
                 break;
               default:
                 break;

@@ -32,11 +32,15 @@ final defaultPlayerNames = [
   "Charles",
   "Daniel",
   "Emy",
-  "Franklin"
+  "Franklin",
+  "Greg",
+  "Henry",
+  "Izzy",
+  "Jack",
 ];
 const nbPlayersByDefault = 4;
 
-final defaultBarbu = OneLooserContractModel(
+final defaultBarbu = ContractWithPointsModel(
   contract: ContractsInfo.barbu,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -44,7 +48,7 @@ final defaultBarbu = OneLooserContractModel(
   },
 );
 
-final defaultNoQueens = MultipleLooserContractModel(
+final defaultNoQueens = ContractWithPointsModel(
   contract: ContractsInfo.noQueens,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -53,7 +57,7 @@ final defaultNoQueens = MultipleLooserContractModel(
   nbItems: 4,
 );
 
-final defaultNoTricks = MultipleLooserContractModel(
+final defaultNoTricks = ContractWithPointsModel(
   contract: ContractsInfo.noTricks,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -62,7 +66,7 @@ final defaultNoTricks = MultipleLooserContractModel(
   nbItems: 8,
 );
 
-final defaultNoHearts = MultipleLooserContractModel(
+final defaultNoHearts = ContractWithPointsModel(
   contract: ContractsInfo.noHearts,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -71,7 +75,7 @@ final defaultNoHearts = MultipleLooserContractModel(
   nbItems: 8,
 );
 
-final defaultNoLastTrick = OneLooserContractModel(
+final defaultNoLastTrick = ContractWithPointsModel(
   contract: ContractsInfo.noLastTrick,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -130,7 +134,7 @@ void mockActiveContracts(MyStorage mockStorage,
   when(mockStorage.getActiveContracts()).thenReturn(activeContracts);
 }
 
-/// Creates a game with [nbPlayers] number of players, and eaach player played [playedContracts]
+/// Creates a game with [nbPlayers] number of players, and each player played [playedContracts]
 Game createGame(int nbPlayers,
     [List<AbstractContractModel> playedContracts = const []]) {
   return Game(

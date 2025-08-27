@@ -49,7 +49,7 @@ class SubContractPage extends ConsumerWidget {
     final contractModel = (ref
             .read(contractsManagerProvider)
             .getContractManager(contract)
-            .model as AbstractSubContractModel)
+            .model as ContractWithPointsModel)
         .copyWith(itemsByPlayer: itemsByPlayer);
     ref.read(logProvider).info(
           "SubContractPage.saveContract: save $contractModel ${isPartOfSaladContract ? "in salad" : ""}",

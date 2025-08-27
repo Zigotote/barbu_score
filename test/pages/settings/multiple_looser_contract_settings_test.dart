@@ -15,7 +15,7 @@ import 'utils/settings_utils.dart';
 
 const _defaultContract = ContractsInfo.noHearts;
 final _defaultSettings =
-    _defaultContract.defaultSettings as MultipleLooserContractSettings;
+    _defaultContract.defaultSettings as ContractWithPointsSettings;
 
 void main() {
   patrolWidgetTest("should display page", ($) async {

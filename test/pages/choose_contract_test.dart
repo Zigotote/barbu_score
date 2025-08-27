@@ -3,6 +3,7 @@ import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/commons/utils/router_extension.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
@@ -36,7 +37,7 @@ void main() {
     (
       active: ContractsInfo.values,
       played: [
-        OneLooserContractModel(contract: ContractsInfo.barbu),
+        ContractWithPointsModel(contract: ContractsInfo.barbu),
         SaladContractModel(),
         DominoContractModel(),
       ]
@@ -44,7 +45,7 @@ void main() {
     (active: [ContractsInfo.barbu], played: <AbstractContractModel>[]),
     (
       active: [ContractsInfo.barbu, ContractsInfo.salad, ContractsInfo.domino],
-      played: [OneLooserContractModel(contract: ContractsInfo.barbu)]
+      played: [ContractWithPointsModel(contract: ContractsInfo.barbu)]
     )
   ]) {
     final activeContracts = contracts.active;
@@ -102,26 +103,97 @@ void main() {
       await $(Icons.question_mark_outlined).tap();
       expect($(MyRules), findsOneWidget);
       expect(
-        $("Le jeu du Barbu comporte les contrats suivants :"),
+        find.textContaining("Le jeu du Barbu comporte les contrats"),
         findsOneWidget,
       );
 
       await $(Icons.close).tap();
       expect($(ChooseContract), findsOneWidget);
     });
-    for (var contract in ContractsInfo.values) {
+    for (var testData in [
+      (
+        contract: ContractsInfo.barbu,
+        nbPlayers: kNbPlayersMaxForOneDeck,
+        expectedPage: OneLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.barbu,
+        nbPlayers: kNbPlayersMaxForOneDeck + 1,
+        expectedPage: MultipleLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.noHearts,
+        nbPlayers: kNbPlayersMin,
+        expectedPage: MultipleLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.noHearts,
+        nbPlayers: kNbPlayersMax,
+        expectedPage: MultipleLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.noQueens,
+        nbPlayers: kNbPlayersMin,
+        expectedPage: MultipleLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.noQueens,
+        nbPlayers: kNbPlayersMax,
+        expectedPage: MultipleLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.noTricks,
+        nbPlayers: kNbPlayersMin,
+        expectedPage: MultipleLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.noTricks,
+        nbPlayers: kNbPlayersMax,
+        expectedPage: MultipleLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.noLastTrick,
+        nbPlayers: kNbPlayersMin,
+        expectedPage: OneLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.noLastTrick,
+        nbPlayers: kNbPlayersMax,
+        expectedPage: OneLooserContractPage
+      ),
+      (
+        contract: ContractsInfo.salad,
+        nbPlayers: kNbPlayersMin,
+        expectedPage: SaladContractPage
+      ),
+      (
+        contract: ContractsInfo.salad,
+        nbPlayers: kNbPlayersMax,
+        expectedPage: SaladContractPage
+      ),
+      (
+        contract: ContractsInfo.domino,
+        nbPlayers: kNbPlayersMin,
+        expectedPage: DominoContractPage
+      ),
+      (
+        contract: ContractsInfo.domino,
+        nbPlayers: kNbPlayersMax,
+        expectedPage: DominoContractPage
+      ),
+    ]) {
       patrolWidgetTest(
-          "should go to $contract score pages and keep contract available",
+          "should go to ${testData.contract} score pages with ${testData.nbPlayers} players and keep contract available",
           ($) async {
-        await $.pumpWidget(_createPage($));
+        await $.pumpWidget(_createPage($, nbPlayers: testData.nbPlayers));
 
-        await $(Key(contract.name)).tap();
-        expect($("Valider les scores"), findsOneWidget);
+        await $(Key(testData.contract.name)).tap();
+        expect($(testData.expectedPage), findsOneWidget);
 
         await $(IconButton).tap();
         expect($(ChooseContract), findsOneWidget);
         expect(
-            $(Key(contract.name)).which(
+            $(Key(testData.contract.name)).which(
                 (widget) => (widget as ElevatedButton).onPressed != null),
             findsOneWidget);
       });
@@ -140,13 +212,17 @@ void main() {
 
 Widget _createPage(PatrolTester $,
     {List<ContractsInfo> activeContracts = ContractsInfo.values,
+    int nbPlayers = nbPlayersByDefault,
     List<AbstractContractModel> playedContracts = const []}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage, activeContracts);
 
-  final mockPlayGame = mockPlayGameNotifier(playedContracts: playedContracts);
+  final mockPlayGame = mockPlayGameNotifier(
+    playedContracts: playedContracts,
+    nbPlayers: nbPlayers,
+  );
 
   final container = ProviderContainer(
     overrides: [
@@ -179,10 +255,10 @@ Widget _createPage(PatrolTester $,
               }),
           GoRoute(
             path:
-                "${Routes.onLooserScores}/:${MyGoRouterState.contractParameter}",
+                "${Routes.oneLooserScores}/:${MyGoRouterState.contractParameter}",
             builder: (_, state) => OneLooserContractPage(
               state.contract,
-              contractModel: state.extra as OneLooserContractModel?,
+              contractModel: state.extra as ContractWithPointsModel?,
             ),
           ),
           GoRoute(
@@ -190,7 +266,7 @@ Widget _createPage(PatrolTester $,
                 "${Routes.noSomethingScores}/:${MyGoRouterState.contractParameter}",
             builder: (_, state) => MultipleLooserContractPage(
               state.contract,
-              contractModel: state.extra as MultipleLooserContractModel?,
+              contractModel: state.extra as ContractWithPointsModel?,
             ),
           ),
           GoRoute(

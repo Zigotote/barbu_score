@@ -90,7 +90,7 @@ void main() {
         page.container
             .read(contractsManagerProvider)
             .getContractManager(contractToFill)
-            .model as AbstractSubContractModel,
+            .model as ContractWithPointsModel,
       );
 
       // Redirect to salad contract page
@@ -117,7 +117,7 @@ void main() {
     final mockPlayGame = mockPlayGameNotifier();
     final page = _createPage($, mockPlayGame: mockPlayGame);
     final playerSelectedAfterModify = mockPlayGame.players.length - 1;
-    final expectedSubContract = OneLooserContractModel(
+    final expectedSubContract = ContractWithPointsModel(
       contract: contract,
       itemsByPlayer: {
         for (var (index, player) in mockPlayGame.players.indexed)
@@ -135,7 +135,7 @@ void main() {
       page.container
           .read(contractsManagerProvider)
           .getContractManager(contract)
-          .model as AbstractSubContractModel,
+          .model as ContractWithPointsModel,
     );
 
     // Redirect to salad contract page
@@ -168,7 +168,7 @@ void main() {
     final mockPlayGame = mockPlayGameNotifier();
     final page = _createPage($, mockPlayGame: mockPlayGame);
     final playerSelectedAfterModify = mockPlayGame.players.length - 1;
-    final expectedSubContract = MultipleLooserContractModel(
+    final expectedSubContract = ContractWithPointsModel(
       contract: contract,
       nbItems: 4,
       itemsByPlayer: {
@@ -187,7 +187,7 @@ void main() {
       page.container
           .read(contractsManagerProvider)
           .getContractManager(contract)
-          .model as AbstractSubContractModel,
+          .model as ContractWithPointsModel,
     );
 
     // Redirect to salad contract page
@@ -238,7 +238,7 @@ void main() {
         page.container
             .read(contractsManagerProvider)
             .getContractManager(contract)
-            .model as AbstractSubContractModel,
+            .model as ContractWithPointsModel,
       );
       contractModel.addSubContract(subContractModel);
     }
@@ -256,25 +256,22 @@ void main() {
 }
 
 /// Fills the subContract. Modifies the [contractModel] accordingly and returns it
-Future<AbstractSubContractModel> _fillSubContract(
+Future<ContractWithPointsModel> _fillSubContract(
     PatrolTester $,
     MockPlayGameNotifier game,
     ContractsInfo contract,
-    AbstractSubContractModel contractModel) async {
+    ContractWithPointsModel contractModel) async {
   const playerWithItems = 0;
-  final nbItems = (contractModel is MultipleLooserContractModel)
-      ? contractModel.nbItems
-      : 1;
   // Navigate to contract
   await $(Key(contract.name)).tap();
 
   // Fill contract
-  if (contractModel is OneLooserContractModel) {
+  if (contractModel.nbItems == 1) {
     expect($(OneLooserContractPage), findsOneWidget);
     await $(ElevatedButtonCustomColor).at(playerWithItems).tap();
   } else {
     expect($(MultipleLooserContractPage), findsOneWidget);
-    for (var i = 0; i < nbItems; i++) {
+    for (var i = 0; i < contractModel.nbItems; i++) {
       await $(ElevatedButtonCustomColor)
           .containing($(Icons.add))
           .at(playerWithItems)
@@ -284,7 +281,7 @@ Future<AbstractSubContractModel> _fillSubContract(
   await $(findValidateScoresButton($)).tap();
   return contractModel.copyWith(itemsByPlayer: {
     for (var (index, player) in game.players.indexed)
-      player.name: index == playerWithItems ? nbItems : 0
+      player.name: index == playerWithItems ? contractModel.nbItems : 0
   });
 }
 
@@ -323,10 +320,10 @@ UncontrolledProviderScope _createPage(PatrolTester $,
           ),
           GoRoute(
             path:
-                "${Routes.onLooserScores}/:${MyGoRouterState.contractParameter}",
+                "${Routes.oneLooserScores}/:${MyGoRouterState.contractParameter}",
             builder: (_, state) => OneLooserContractPage(
               state.contract,
-              contractModel: state.extra as OneLooserContractModel?,
+              contractModel: state.extra as ContractWithPointsModel?,
             ),
           ),
           GoRoute(
@@ -334,7 +331,7 @@ UncontrolledProviderScope _createPage(PatrolTester $,
                 "${Routes.noSomethingScores}/:${MyGoRouterState.contractParameter}",
             builder: (_, state) => MultipleLooserContractPage(
               state.contract,
-              contractModel: state.extra as MultipleLooserContractModel?,
+              contractModel: state.extra as ContractWithPointsModel?,
             ),
           ),
         ],

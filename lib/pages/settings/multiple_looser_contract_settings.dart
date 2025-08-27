@@ -24,7 +24,7 @@ class MultipleLooserContractSettingsPage extends ConsumerWidget
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.read(storageProvider).getSettings(contract).copyWith()
-        as MultipleLooserContractSettings;
+        as ContractWithPointsSettings;
     final numberFocusNode = FocusNode();
     return DefaultPage(
       appBar: MyAppBar(

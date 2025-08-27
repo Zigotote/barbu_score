@@ -168,7 +168,7 @@ Future<void> _fillPlayerNames(PatrolTester $, int nbPlayers) async {
 
 Widget _createPage(PatrolTester $) {
   // Make screen bigger to avoid scrolling
-  $.tester.view.physicalSize = const Size(1440, 2560);
+  $.tester.view.physicalSize = const Size(1440, 3600);
   return UncontrolledProviderScope(
     container: ProviderContainer(overrides: [
       logProvider.overrideWithValue(MockMyLog()),

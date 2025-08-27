@@ -14,23 +14,26 @@ import '../../utils/utils.mocks.dart';
 void main() {
   // Custom settings
   final mockStorage = MockMyStorage();
-  final barbuSettings = OneLooserContractSettings(
+  final barbuSettings = ContractWithPointsSettings(
     contract: ContractsInfo.barbu,
     points: 30,
   );
-  final noQueensSettings = MultipleLooserContractSettings(
+  final noQueensSettings = ContractWithPointsSettings(
     contract: ContractsInfo.noQueens,
     points: 15,
+    invertScore: true,
   );
-  final noTricksSettings = MultipleLooserContractSettings(
+  final noTricksSettings = ContractWithPointsSettings(
     contract: ContractsInfo.noTricks,
     points: 10,
+    invertScore: true,
   );
-  final noHeartsSettings = MultipleLooserContractSettings(
+  final noHeartsSettings = ContractWithPointsSettings(
     contract: ContractsInfo.noHearts,
     points: 5,
+    invertScore: true,
   );
-  final noLastTrickSettings = OneLooserContractSettings(
+  final noLastTrickSettings = ContractWithPointsSettings(
     contract: ContractsInfo.noLastTrick,
     points: 50,
   );
@@ -40,29 +43,29 @@ void main() {
 
   // Items by players
   final playerNames = defaultPlayerNames.take(4).toList();
-  final barbu = OneLooserContractModel(
+  final barbu = ContractWithPointsModel(
     contract: ContractsInfo.barbu,
     itemsByPlayer: {
       for (var (index, player) in playerNames.indexed)
         player: index == 0 ? 1 : 0
     },
   );
-  final noQueens = MultipleLooserContractModel(
+  final noQueens = ContractWithPointsModel(
     contract: ContractsInfo.noQueens,
     itemsByPlayer: {for (var player in playerNames) player: 1},
     nbItems: 4,
   );
-  final noTricks = MultipleLooserContractModel(
+  final noTricks = ContractWithPointsModel(
     contract: ContractsInfo.noTricks,
     itemsByPlayer: {for (var player in playerNames) player: 2},
     nbItems: 8,
   );
-  final noHearts = MultipleLooserContractModel(
+  final noHearts = ContractWithPointsModel(
     contract: ContractsInfo.noHearts,
     itemsByPlayer: {for (var player in playerNames) player: 2},
     nbItems: 8,
   );
-  final noLastTrick = OneLooserContractModel(
+  final noLastTrick = ContractWithPointsModel(
     contract: ContractsInfo.noLastTrick,
     itemsByPlayer: {
       for (var (index, player) in playerNames.indexed)

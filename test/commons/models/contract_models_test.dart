@@ -6,63 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../utils/utils.dart';
 
 void main() {
-  group("#OneLooserContractModel", () {
-    const contract = ContractsInfo.barbu;
-    group("#isValid", () {
-      for (var nbItems in [0, 1, 2]) {
-        test(
-            "should be ${nbItems == 1 ? "valid" : "invalid"} with $nbItems item",
-            () {
-          final model = OneLooserContractModel(contract: contract);
-          final itemsByPlayer = {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? nbItems : 0
-          };
-
-          expect(model.isValid(itemsByPlayer), nbItems == 1);
-        });
-      }
-      for (var nbItems in [1, 2]) {
-        test("should be invalid with multiple players with $nbItems item", () {
-          final model = OneLooserContractModel(contract: contract);
-          final itemsByPlayer = {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? 1 : nbItems
-          };
-
-          expect(model.isValid(itemsByPlayer), false);
-        });
-      }
-    });
-    group("#scores", () {
-      test("should be null if no itemsByPlayer", () {
-        final model = OneLooserContractModel(contract: contract);
-
-        expect(model.scores(contract.defaultSettings), isNull);
-      });
-      test("should calculate scores from settings", () {
-        final itemsByPlayer = {
-          for (var (index, player) in defaultPlayerNames.indexed)
-            player: index == 0 ? 1 : 0
-        };
-        final model = OneLooserContractModel(
-          contract: contract,
-          itemsByPlayer: itemsByPlayer,
-        );
-
-        final expectedScores = {
-          for (var (index, player) in defaultPlayerNames.indexed)
-            player: index == 0
-                ? (contract.defaultSettings as OneLooserContractSettings).points
-                : 0
-        };
-
-        expect(model.scores(contract.defaultSettings), expectedScores);
-      });
-    });
-  });
-
-  group("#MultipleLooserContractModel", () {
+  group("#ContractWithPointsModel", () {
     const contract = ContractsInfo.noQueens;
     final nbItemsForContract = defaultPlayerNames.length;
 
@@ -70,7 +14,7 @@ void main() {
       test(
           "should be ${nbItems == 1 ? "valid" : "invalid"} with $nbItems item by player",
           () {
-        final model = MultipleLooserContractModel(
+        final model = ContractWithPointsModel(
           contract: contract,
           nbItems: nbItemsForContract,
         );
@@ -83,7 +27,7 @@ void main() {
     }
     group("#scores", () {
       test("should be null if no itemsByPlayer", () {
-        final model = MultipleLooserContractModel(
+        final model = ContractWithPointsModel(
           contract: contract,
           nbItems: nbItemsForContract,
         );
@@ -96,7 +40,7 @@ void main() {
         final itemsByPlayer = {
           for (var player in defaultPlayerNames) player: 1
         };
-        final model = MultipleLooserContractModel(
+        final model = ContractWithPointsModel(
           contract: contract,
           itemsByPlayer: itemsByPlayer,
           nbItems: nbItemsForContract,
@@ -104,8 +48,8 @@ void main() {
 
         final expectedScores = {
           for (var player in defaultPlayerNames)
-            player: (contract.defaultSettings as MultipleLooserContractSettings)
-                .points
+            player:
+                (contract.defaultSettings as ContractWithPointsSettings).points
         };
 
         expect(model.scores(contract.defaultSettings), expectedScores);
@@ -118,13 +62,13 @@ void main() {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index == 0 ? nbItemsForContract : 0
           };
-          final model = MultipleLooserContractModel(
+          final model = ContractWithPointsModel(
             contract: contract,
             itemsByPlayer: itemsByPlayer,
             nbItems: nbItemsForContract,
           );
 
-          final settings = MultipleLooserContractSettings(
+          final settings = ContractWithPointsSettings(
             contract: contract,
             points: 10,
             invertScore: invertScore,
@@ -150,8 +94,9 @@ void main() {
     for (var replaceSubContract in [true, false]) {
       test("should ${replaceSubContract ? "replace" : "add"} sub contract", () {
         final model = SaladContractModel();
-        final subContract = OneLooserContractModel(
+        final subContract = ContractWithPointsModel(
           contract: ContractsInfo.noQueens,
+          nbItems: 4,
           itemsByPlayer: {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index == 0 ? 1 : 0
@@ -177,15 +122,15 @@ void main() {
 
     group("#scores", () {
       final barbuSettings =
-          ContractsInfo.barbu.defaultSettings as OneLooserContractSettings;
-      final noQueensSettings = ContractsInfo.noQueens.defaultSettings
-          as MultipleLooserContractSettings;
-      final noTricksSettings = ContractsInfo.noTricks.defaultSettings
-          as MultipleLooserContractSettings;
-      final noHeartsSettings = ContractsInfo.noHearts.defaultSettings
-          as MultipleLooserContractSettings;
+          ContractsInfo.barbu.defaultSettings as ContractWithPointsSettings;
+      final noQueensSettings =
+          ContractsInfo.noQueens.defaultSettings as ContractWithPointsSettings;
+      final noTricksSettings =
+          ContractsInfo.noTricks.defaultSettings as ContractWithPointsSettings;
+      final noHeartsSettings =
+          ContractsInfo.noHearts.defaultSettings as ContractWithPointsSettings;
       final noLastTrickSettings = ContractsInfo.noLastTrick.defaultSettings
-          as OneLooserContractSettings;
+          as ContractWithPointsSettings;
       final subContractSettings = [
         barbuSettings,
         noQueensSettings,
@@ -200,17 +145,16 @@ void main() {
             isNull);
       });
       test("should be null if no sub contract settings", () {
-        final model = SaladContractModel();
-        model.addSubContract(
-          OneLooserContractModel(contract: ContractsInfo.barbu),
-        );
+        final model = SaladContractModel(subContracts: [
+          ContractWithPointsModel(contract: ContractsInfo.barbu)
+        ]);
 
         expect(model.scores(contract.defaultSettings), isNull);
       });
       test("should be null if sub contract has no associated settings", () {
         const subContract = ContractsInfo.barbu;
-        final model = SaladContractModel();
-        model.addSubContract(OneLooserContractModel(contract: subContract));
+        final model = SaladContractModel(
+            subContracts: [ContractWithPointsModel(contract: subContract)]);
 
         expect(
             model.scores(
@@ -284,7 +228,7 @@ void main() {
         test(
             "should sum sub contract scores when one players wons all and invert scores is $invertScore",
             () {
-          final barbu = OneLooserContractModel(
+          final barbu = ContractWithPointsModel(
             contract: ContractsInfo.barbu,
             itemsByPlayer: {
               for (var (index, player) in defaultPlayerNames.indexed)
@@ -292,7 +236,7 @@ void main() {
             },
           );
           const nbNoQueens = 4;
-          final noQueens = MultipleLooserContractModel(
+          final noQueens = ContractWithPointsModel(
             contract: ContractsInfo.noQueens,
             itemsByPlayer: {
               for (var (index, player) in defaultPlayerNames.indexed)
@@ -301,7 +245,7 @@ void main() {
             nbItems: nbNoQueens,
           );
           const nbNoTricks = 8;
-          final noTricks = MultipleLooserContractModel(
+          final noTricks = ContractWithPointsModel(
             contract: ContractsInfo.noTricks,
             itemsByPlayer: {
               for (var (index, player) in defaultPlayerNames.indexed)
@@ -310,7 +254,7 @@ void main() {
             nbItems: nbNoTricks,
           );
           const nbNoHearts = 8;
-          final noHearts = MultipleLooserContractModel(
+          final noHearts = ContractWithPointsModel(
             contract: ContractsInfo.noHearts,
             itemsByPlayer: {
               for (var (index, player) in defaultPlayerNames.indexed)
@@ -318,7 +262,7 @@ void main() {
             },
             nbItems: nbNoHearts,
           );
-          final noLastTrick = OneLooserContractModel(
+          final noLastTrick = ContractWithPointsModel(
             contract: ContractsInfo.noLastTrick,
             itemsByPlayer: {
               for (var (index, player) in defaultPlayerNames.indexed)

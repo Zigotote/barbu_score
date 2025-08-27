@@ -77,7 +77,7 @@ void main() {
     patrolWidgetTest("should create page with initial scores", ($) async {
       final mockPlayGame = mockPlayGameNotifier();
       final game = mockPlayGame.game;
-      final contract = MultipleLooserContractModel(
+      final contract = ContractWithPointsModel(
         contract: ContractsInfo.noQueens,
         itemsByPlayer: {
           for (var (index, player) in game.players.indexed)
@@ -102,7 +102,7 @@ void main() {
         final game = mockPlayGame.game;
         const indexPlayerWithItems = 0;
         const nbItems = 4;
-        final expectedContract = MultipleLooserContractModel(
+        final expectedContract = ContractWithPointsModel(
           contract: ContractsInfo.noQueens,
           nbItems: nbItems,
           itemsByPlayer: {
@@ -138,7 +138,7 @@ ElevatedButton _findValidateScoresButtonWidget(PatrolTester $) {
 }
 
 Widget _createPage(
-    {MultipleLooserContractModel? contractValues,
+    {ContractWithPointsModel? contractValues,
     MockPlayGameNotifier? mockPlayGame}) {
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);

@@ -18,7 +18,7 @@ class MultipleLooserContractPage extends ConsumerStatefulWidget {
   final ContractsInfo contract;
 
   /// The saved values for this contract, if it has already been filled
-  final MultipleLooserContractModel? contractModel;
+  final ContractWithPointsModel? contractModel;
 
   const MultipleLooserContractPage(this.contract,
       {super.key, this.contractModel});
@@ -37,7 +37,7 @@ class _MultipleLooserContractPageState
   late List<Player> _players;
 
   /// The model of the contract
-  late final MultipleLooserContractModel contractModel;
+  late final ContractWithPointsModel contractModel;
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _MultipleLooserContractPageState
       contractModel = ref
           .read(contractsManagerProvider)
           .getContractManager(widget.contract)
-          .model as MultipleLooserContractModel;
+          .model as ContractWithPointsModel;
       _itemsByPlayer = {for (var player in _players) player.name: 0};
     }
   }

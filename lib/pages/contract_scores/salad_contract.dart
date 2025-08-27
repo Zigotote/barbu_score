@@ -50,7 +50,7 @@ class SaladContractPage extends ConsumerWidget {
 
   /// Builds a Widget for a filled contract, with the button and a tick to know that it has been filled
   Widget _buildFilledContract(BuildContext context, ContractsInfo contract,
-      String scoresRoute, AbstractSubContractModel contractValues) {
+      String scoresRoute, ContractWithPointsModel contractValues) {
     return ElevatedButtonWithIndicator(
       key: Key(contract.name),
       text: context.l10n.contractName(contract),

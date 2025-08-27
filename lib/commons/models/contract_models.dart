@@ -24,7 +24,7 @@ abstract class AbstractContractModel with EquatableMixin {
       ContractsInfo.noHearts ||
       ContractsInfo.noQueens ||
       ContractsInfo.noTricks =>
-        AbstractSubContractModel.fromJson(contract, json),
+        ContractWithPointsModel.fromJson(contract, json),
       ContractsInfo.salad => SaladContractModel.fromJson(contract, json),
       ContractsInfo.domino => DominoContractModel.fromJson(contract, json)
     };
@@ -47,134 +47,53 @@ abstract class AbstractContractModel with EquatableMixin {
 }
 
 /// A class to represent a contract that can be part of a salad contract
-abstract class AbstractSubContractModel extends AbstractContractModel {
+class ContractWithPointsModel extends AbstractContractModel {
   /// The number of items each player won for this contract
   final Map<String, int> itemsByPlayer;
 
-  AbstractSubContractModel(
-      {super.contract, super.name, this.itemsByPlayer = const {}});
+  /// The number of item (card or trick) the deck should have
+  final int nbItems;
 
-  factory AbstractSubContractModel.fromJson(
-      ContractsInfo contract, Map<String, dynamic> json) {
-    return switch (contract) {
-      ContractsInfo.barbu ||
-      ContractsInfo.noLastTrick =>
-        OneLooserContractModel.fromJson(contract, json),
-      ContractsInfo.noHearts ||
-      ContractsInfo.noQueens ||
-      ContractsInfo.noTricks =>
-        MultipleLooserContractModel.fromJson(contract, json),
-      _ => throw UnimplementedError(),
+  ContractWithPointsModel(
+      {super.contract,
+      super.name,
+      this.itemsByPlayer = const {},
+      this.nbItems = 1});
+
+  ContractWithPointsModel.fromJson(
+      ContractsInfo contract, Map<String, dynamic> json)
+      : itemsByPlayer = Map.castFrom(jsonDecode(json["itemsByPlayer"])),
+        nbItems = json["nbItems"],
+        super(contract: contract);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      ...super.toJson(),
+      "itemsByPlayer": jsonEncode(itemsByPlayer),
+      "nbItems": nbItems,
     };
   }
 
   @override
-  Map<String, dynamic> toJson() {
-    return {...super.toJson(), "itemsByPlayer": jsonEncode(itemsByPlayer)};
-  }
+  List<Object?> get props => [...super.props, itemsByPlayer, nbItems];
 
-  @override
-  List<Object?> get props => [...super.props, itemsByPlayer];
-
-  AbstractSubContractModel copyWith({required Map<String, int> itemsByPlayer});
-
-  /// Returns true if the [itemsByPlayer] are valid, depending on the type of contract
-  bool isValid(Map<String, int> itemsByPlayer);
-
-  /// Returns the maximal number of points of the contract
-  int maxPoints(AbstractContractSettings settings);
-
-  @override
-  String toString() {
-    return "${super.toString()} : $itemsByPlayer";
-  }
-}
-
-/// A class to fill the scores for a contract which has only one looser
-class OneLooserContractModel extends AbstractSubContractModel {
-  OneLooserContractModel({super.contract, super.name, super.itemsByPlayer});
-
-  OneLooserContractModel.fromJson(
-      ContractsInfo contract, Map<String, dynamic> json)
-      : super(
-          contract: contract,
-          itemsByPlayer: Map.castFrom(jsonDecode(json["itemsByPlayer"])),
-        );
-
-  @override
-  OneLooserContractModel copyWith({required Map<String, int> itemsByPlayer}) {
-    return OneLooserContractModel(name: name, itemsByPlayer: itemsByPlayer);
-  }
-
-  @override
-  bool isValid(Map<String, int> itemsByPlayer) {
-    return itemsByPlayer.entries.where((entry) => entry.value == 1).length ==
-            1 &&
-        itemsByPlayer.entries
-            .none((entry) => entry.value > 1 || entry.value < 0);
-  }
-
-  @override
-  int maxPoints(AbstractContractSettings settings) {
-    return (settings as OneLooserContractSettings).points;
-  }
-
-  @override
-  Map<String, int>? scores(AbstractContractSettings settings) {
-    if (itemsByPlayer.isEmpty) {
-      return null;
-    }
-    return itemsByPlayer.map(
-      (playerName, nbItems) => MapEntry(
-          playerName, nbItems * (settings as OneLooserContractSettings).points),
-    );
-  }
-}
-
-/// A class to fill the scores for a contract where multiple players can have some points
-class MultipleLooserContractModel extends AbstractSubContractModel {
-  /// The number of item (card or trick) the deck should have
-  final int nbItems;
-
-  MultipleLooserContractModel(
-      {super.contract, super.name, super.itemsByPlayer, required this.nbItems});
-
-  MultipleLooserContractModel.fromJson(
-      ContractsInfo contract, Map<String, dynamic> json)
-      : nbItems = json["nbItems"],
-        super(
-          contract: contract,
-          itemsByPlayer: Map.castFrom(jsonDecode(json["itemsByPlayer"])),
-        );
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {...super.toJson(), "nbItems": nbItems};
-  }
-
-  @override
-  List<Object?> get props => [...super.props, nbItems];
-
-  @override
-  MultipleLooserContractModel copyWith(
-      {required Map<String, int> itemsByPlayer}) {
-    return MultipleLooserContractModel(
+  ContractWithPointsModel copyWith({required Map<String, int> itemsByPlayer}) {
+    return ContractWithPointsModel(
       name: name,
       nbItems: nbItems,
       itemsByPlayer: itemsByPlayer,
     );
   }
 
-  @override
   bool isValid(Map<String, int> itemsByPlayer) {
     final int declaredItems = itemsByPlayer.values
         .fold(0, (previousValue, element) => previousValue + element);
     return declaredItems == nbItems;
   }
 
-  @override
-  int maxPoints(AbstractContractSettings settings) {
-    return (settings as MultipleLooserContractSettings).points * nbItems;
+  int maxPoints(ContractWithPointsSettings settings) {
+    return settings.points * nbItems;
   }
 
   @override
@@ -182,16 +101,8 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
     if (itemsByPlayer.isEmpty) {
       return null;
     }
-    // TODO Océane to improve
-    // Case of one looser contract if 2 decks are used, then multiple players can loose but contract settings is still for one looser
-    if (settings is OneLooserContractSettings) {
-      return itemsByPlayer.map(
-        (playerName, nbItems) =>
-            MapEntry(playerName, nbItems * (settings).points),
-      );
-    }
 
-    final individualScoresSettings = settings as MultipleLooserContractSettings;
+    final contractSettings = settings as ContractWithPointsSettings;
     final Map<String, int> scores = {};
 
     final playerWithAllItems = itemsByPlayer.entries
@@ -199,7 +110,7 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
         ?.key;
     if (playerWithAllItems != null) {
       int score = maxPoints(settings);
-      if (individualScoresSettings.invertScore) {
+      if (contractSettings.invertScore) {
         score = -score;
       }
       scores[playerWithAllItems] = score;
@@ -208,7 +119,7 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
       );
     } else {
       itemsByPlayer.forEach((player, value) {
-        scores[player] = value * individualScoresSettings.points;
+        scores[player] = value * contractSettings.points;
       });
     }
     return scores;
@@ -217,16 +128,16 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
 
 /// A salad contract scores
 class SaladContractModel extends AbstractContractModel {
-  final List<AbstractSubContractModel> subContracts;
+  final List<ContractWithPointsModel> subContracts;
 
-  SaladContractModel({List<AbstractSubContractModel>? subContracts})
+  SaladContractModel({List<ContractWithPointsModel>? subContracts})
       : subContracts = subContracts ?? [],
         super(contract: ContractsInfo.salad);
 
   SaladContractModel.fromJson(ContractsInfo contract, Map<String, dynamic> json)
       : subContracts = ((jsonDecode(json["subContracts"]) as List)
             .map(
-              (subContractJson) => AbstractSubContractModel.fromJson(
+              (subContractJson) => ContractWithPointsModel.fromJson(
                 ContractsInfo.fromName(subContractJson["name"]),
                 subContractJson,
               ),
@@ -247,7 +158,7 @@ class SaladContractModel extends AbstractContractModel {
   @override
   List<Object?> get props => [...super.props, subContracts];
 
-  void addSubContract(AbstractSubContractModel contract) {
+  void addSubContract(ContractWithPointsModel contract) {
     subContracts
         .removeWhere((subContract) => contract.name == subContract.name);
     subContracts.add(contract);
@@ -285,7 +196,7 @@ class SaladContractModel extends AbstractContractModel {
                   subContract.maxPoints(
                     subContractSettings.firstWhere(
                       (setting) => setting.name == subContract.name,
-                    ),
+                    ) as ContractWithPointsSettings,
                   ),
             );
         subContracts.first.itemsByPlayer.forEach(

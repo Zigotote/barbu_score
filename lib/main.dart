@@ -104,10 +104,10 @@ void main() async {
                 builder: (_, __) => const ChooseContract()),
             GoRoute(
               path:
-                  "${Routes.onLooserScores}/:${MyGoRouterState.contractParameter}",
+                  "${Routes.oneLooserScores}/:${MyGoRouterState.contractParameter}",
               builder: (_, state) => OneLooserContractPage(
                 state.contract,
-                contractModel: state.extra as OneLooserContractModel?,
+                contractModel: state.extra as ContractWithPointsModel?,
               ),
             ),
             GoRoute(
@@ -119,7 +119,7 @@ void main() async {
                   "${Routes.noSomethingScores}/:${MyGoRouterState.contractParameter}",
               builder: (_, state) => MultipleLooserContractPage(
                 state.contract,
-                contractModel: state.extra as MultipleLooserContractModel?,
+                contractModel: state.extra as ContractWithPointsModel?,
               ),
             ),
             GoRoute(
@@ -200,7 +200,7 @@ class Routes {
   static const createGame = "/create_game";
   static const prepareGame = "/prepare_game";
   static const chooseContract = "/choose_contract";
-  static const onLooserScores = "/one_looser_contract_scores";
+  static const oneLooserScores = "/one_looser_contract_scores";
   static const dominoScores = "/domino_scores";
   static const noSomethingScores = "/individual_scores";
   static const saladScores = "/salad_scores";

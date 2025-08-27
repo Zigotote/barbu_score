@@ -88,6 +88,7 @@ void main() {
     expect(findPlayerIcon($).image, oldImage);
 
     final newImage = playerImages[players.length];
+    await $.scrollUntilVisible(finder: $(Key(newImage)));
     await $(Key(newImage)).tap();
 
     expect(findPlayerIcon($).image, newImage);

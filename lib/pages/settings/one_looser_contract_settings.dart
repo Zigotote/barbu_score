@@ -22,7 +22,7 @@ class OneLooserContractSettingsPage extends ConsumerWidget with ChangeSettings {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.read(storageProvider).getSettings(contract).copyWith()
-        as OneLooserContractSettings;
+        as ContractWithPointsSettings;
     final numberFocusNode = FocusNode();
     return DefaultPage(
       appBar: MyAppBar(

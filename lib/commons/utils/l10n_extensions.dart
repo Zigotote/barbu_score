@@ -35,25 +35,26 @@ extension MyAppLocalizations on AppLocalizations {
       final activeContracts =
           (contractSettings as SaladContractSettings).activeContracts;
       final individualContractPoints = activeContracts.map((c) {
-        final subContractSettings = storage.getSettings(c);
+        final subContractSettings =
+            storage.getSettings(c) as ContractWithPointsSettings;
         return switch (c) {
           ContractsInfo.barbu => rulesBarbuInSalad(
-              (subContractSettings as OneLooserContractSettings).points,
+              subContractSettings.points,
             ),
           ContractsInfo.noHearts => rulesNoHeartsInSalad(
-                (subContractSettings as MultipleLooserContractSettings).points,
+                subContractSettings.points,
               ) +
               (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
           ContractsInfo.noQueens => rulesNoQueensInSalad(
-                (subContractSettings as MultipleLooserContractSettings).points,
+                subContractSettings.points,
               ) +
               (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
           ContractsInfo.noTricks => rulesNoTricksInSalad(
-                (subContractSettings as MultipleLooserContractSettings).points,
+                subContractSettings.points,
               ) +
               (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
           ContractsInfo.noLastTrick => rulesNoLastTrickInSalad(
-              (subContractSettings as OneLooserContractSettings).points,
+              subContractSettings.points,
             ),
           _ => ""
         };
@@ -77,21 +78,21 @@ extension MyAppLocalizations on AppLocalizations {
   String contractRules(AbstractContractSettings contractSettings) {
     return switch (ContractsInfo.fromName(contractSettings.name)) {
       ContractsInfo.barbu =>
-        rulesBarbu((contractSettings as OneLooserContractSettings).points),
+        rulesBarbu((contractSettings as ContractWithPointsSettings).points),
       ContractsInfo.noHearts => rulesNoHearts(
-            (contractSettings as MultipleLooserContractSettings).points,
+            (contractSettings as ContractWithPointsSettings).points,
           ) +
           (contractSettings.invertScore ? " $invertScoreDetails" : ""),
       ContractsInfo.noQueens => rulesNoQueens(
-            (contractSettings as MultipleLooserContractSettings).points,
+            (contractSettings as ContractWithPointsSettings).points,
           ) +
           (contractSettings.invertScore ? " $invertScoreDetails" : ""),
       ContractsInfo.noTricks => rulesNoTricks(
-            (contractSettings as MultipleLooserContractSettings).points,
+            (contractSettings as ContractWithPointsSettings).points,
           ) +
           (contractSettings.invertScore ? " $invertScoreDetails" : ""),
       ContractsInfo.noLastTrick => rulesNoLastTrick(
-          (contractSettings as OneLooserContractSettings).points,
+          (contractSettings as ContractWithPointsSettings).points,
         ),
       ContractsInfo.salad => rulesSalad(
             (contractSettings as SaladContractSettings)
