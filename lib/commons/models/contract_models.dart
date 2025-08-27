@@ -182,6 +182,15 @@ class MultipleLooserContractModel extends AbstractSubContractModel {
     if (itemsByPlayer.isEmpty) {
       return null;
     }
+    // TODO Océane to improve
+    // Case of one looser contract if 2 decks are used, then multiple players can loose but contract settings is still for one looser
+    if (settings is OneLooserContractSettings) {
+      return itemsByPlayer.map(
+        (playerName, nbItems) =>
+            MapEntry(playerName, nbItems * (settings).points),
+      );
+    }
+
     final individualScoresSettings = settings as MultipleLooserContractSettings;
     final Map<String, int> scores = {};
 

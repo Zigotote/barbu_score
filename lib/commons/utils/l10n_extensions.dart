@@ -136,4 +136,15 @@ extension MyAppLocalizations on AppLocalizations {
     }
     return "$nb";
   }
+
+  /// Returns the card name from its index
+  String cardName(int index) {
+    return switch (index) {
+      14 => ace,
+      13 => king,
+      12 => queen,
+      11 => jack,
+      _ => "$index"
+    };
+  }
 }

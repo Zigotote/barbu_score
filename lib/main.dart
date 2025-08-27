@@ -78,7 +78,7 @@ void main() async {
             ),
             GoRoute(
               path:
-                  "${Routes.barbuOrNoLastTrickSettings}/:${MyGoRouterState.contractParameter}",
+                  "${Routes.onLooserSettings}/:${MyGoRouterState.contractParameter}",
               builder: (_, state) =>
                   OneLooserContractSettingsPage(state.contract),
             ),
@@ -104,7 +104,7 @@ void main() async {
                 builder: (_, __) => const ChooseContract()),
             GoRoute(
               path:
-                  "${Routes.barbuOrNoLastTrickScores}/:${MyGoRouterState.contractParameter}",
+                  "${Routes.onLooserScores}/:${MyGoRouterState.contractParameter}",
               builder: (_, state) => OneLooserContractPage(
                 state.contract,
                 contractModel: state.extra as OneLooserContractModel?,
@@ -193,15 +193,14 @@ class Routes {
   static const home = "/";
   static const rules = "/rules";
   static const settings = "/settings";
-  static const barbuOrNoLastTrickSettings =
-      "/settings/one_looser_contract_scores";
+  static const onLooserSettings = "/settings/one_looser_contract_scores";
   static const noSomethingScoresSettings = "/settings/individual_scores";
   static const dominoSettings = "/settings/domino";
   static const saladSettings = "/settings/salad";
   static const createGame = "/create_game";
   static const prepareGame = "/prepare_game";
   static const chooseContract = "/choose_contract";
-  static const barbuOrNoLastTrickScores = "/one_looser_contract_scores";
+  static const onLooserScores = "/one_looser_contract_scores";
   static const dominoScores = "/domino_scores";
   static const noSomethingScores = "/individual_scores";
   static const saladScores = "/salad_scores";

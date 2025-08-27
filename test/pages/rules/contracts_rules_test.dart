@@ -144,7 +144,7 @@ Widget _createPage(
           ),
           GoRoute(
             path:
-                "${Routes.barbuOrNoLastTrickSettings}/:${MyGoRouterState.contractParameter}",
+                "${Routes.onLooserSettings}/:${MyGoRouterState.contractParameter}",
             builder: (_, state) =>
                 OneLooserContractSettingsPage(state.contract),
           ),

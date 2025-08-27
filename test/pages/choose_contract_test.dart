@@ -179,7 +179,7 @@ Widget _createPage(PatrolTester $,
               }),
           GoRoute(
             path:
-                "${Routes.barbuOrNoLastTrickScores}/:${MyGoRouterState.contractParameter}",
+                "${Routes.onLooserScores}/:${MyGoRouterState.contractParameter}",
             builder: (_, state) => OneLooserContractPage(
               state.contract,
               contractModel: state.extra as OneLooserContractModel?,

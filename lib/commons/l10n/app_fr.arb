@@ -1,5 +1,6 @@
 {
   "accept": "Oui",
+  "ace": "as",
   "activateContract": "Activer le contrat",
   "addItem": "Ajouter {item}",
   "@addItem": {
@@ -41,7 +42,24 @@
   "avatar": "Avatar",
   "barbu": "Barbu",
   "bestFriend": "Meilleur ami",
-  "cardsOrder": "Les as sont les cartes les plus fortes. Avant de jouer il faut retirer les cartes les plus faibles jusqu'à obtenir le nombre requis.",
+  "cardsOrder": "Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus fortes jusqu'à obtenir le nombre requis.",
+  "cardsToKeep": "Conserver les cartes",
+  "cardsToKeepForPlayers": "A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes\u00a0: {cards}.",
+  "@cardsToKeepForPlayers": {
+    "placeholders": {
+      "nbPlayers": {
+        "type": "int"
+      },
+      "nbDecks": {
+        "type": "int"
+      },
+      "cards": {
+        "type": "String",
+        "example": "2, 3, 4, 5",
+        "description": "List of cards to take out of the deck"
+      }
+    }
+  },
   "changesSaved": "Modifications sauvegardées",
   "changesSavedDetails": "Les changements ont été sauvegardés et sont effectifs dès maintenant.",
   "close": "Fermer",
@@ -66,7 +84,7 @@
       }
     }
   },
-  "contractsRules": "Le jeu du Barbu comporte les contrats suivants :",
+  "contractsRules": "Le jeu du Barbu comporte les contrats suivants :",
   "contractRulesTitle": "Règles {contract}",
   "@contractRulesTitle": {
     "placeholders": {
@@ -105,7 +123,14 @@
   "fold": "Replier les choix",
   "forGameAt": "Pour une partie à",
   "french": "Français",
-  "fromTheDeck": "du paquet.",
+  "fromTheDeck": "{nbDecks, plural, =1{du paquet} other{de {nbDecks} paquets}}.",
+  "@fromTheDeck": {
+    "placeholders": {
+      "nbDecks": {
+        "type": "int"
+      }
+    }
+  },
   "gamePrinciple": "Principe du jeu",
   "gamePrincipleDetails": "Ce jeu de plis est composé de 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats.",
   "gameRound": "Manche de jeu",
@@ -120,7 +145,9 @@
   "hintForLightMode": "passer en mode clair",
   "invertScore": "Inversion du score",
   "invertScoreDetails": "Si un joueur remporte tout, son score devient négatif.",
+  "jack": "valet",
   "keep": "Conserver",
+  "king": "roi",
   "language": "Langue",
   "loadGame": "Charger une partie",
   "loadGameIndication": "Sélectionnez \"Charger une partie\" pour la poursuivre.",
@@ -228,7 +255,7 @@
     }
   },
   "rulesDomino": "Contrairement aux autres contrats, la réussite n'est pas un contrat à plis. L'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. L'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.",
-  "rulesDominoDetailed": "L'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\n{player} détermine la valeur d'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d'ouverture. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l'ordre de fin des joueurs, et sont distribués comme suit :\n{points}",
+  "rulesDominoDetailed": "L'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\n{player} détermine la valeur d'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d'ouverture. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l'ordre de fin des joueurs, et sont distribués comme suit :\n{points}",
   "@rulesDominoDetailed": {
     "placeholders": {
       "player": {
@@ -237,7 +264,7 @@
       },
       "points": {
         "type": "String",
-        "example": "- 1er j. : -40 points\n- 2ème j. : -20 points\n- 3ème j. : 20 points\n- 4ème j. : 40 points"
+        "example": "- 1er j. : -40 points\n- 2ème j. : -20 points\n- 3ème j. : 20 points\n- 4ème j. : 40 points"
       }
     }
   },
@@ -314,7 +341,7 @@
       }
     }
   },
-  "rulesSaladDetailed": "Ce contrat est une combinaison des contrats {contracts}. Les points sont comptés comme suit :\n{itemWithPoints}",
+  "rulesSaladDetailed": "Ce contrat est une combinaison des contrats {contracts}. Les points sont comptés comme suit :\n{itemWithPoints}",
   "@rulesSaladDetailed": {
     "placeholders": {
       "contracts": {
@@ -364,20 +391,6 @@
       "item": {
         "type": "String",
         "example": "Barbu"
-      }
-    }
-  },
-  "withdrawCards": "Retirer toutes les cartes",
-  "withdrawCardsForPlayers": "A {nbPlayers} joueurs, il faut donc retirer toutes les cartes\u00a0: {cards}.",
-  "@withdrawCardsForPlayers": {
-    "placeholders": {
-      "nbPlayers": {
-        "type": "int"
-      },
-      "cards": {
-        "type": "String",
-        "example": "2, 3, 4, 5",
-        "description": "List of cards to take out of the deck"
       }
     }
   },

@@ -32,8 +32,7 @@ final _router = GoRouter(
       builder: (_, __) => const MySettings(),
     ),
     GoRoute(
-      path:
-          "${Routes.barbuOrNoLastTrickSettings}/:${MyGoRouterState.contractParameter}",
+      path: "${Routes.onLooserSettings}/:${MyGoRouterState.contractParameter}",
       builder: (_, state) => OneLooserContractSettingsPage(state.contract),
     ),
     GoRoute(

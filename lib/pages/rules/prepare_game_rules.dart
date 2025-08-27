@@ -63,9 +63,12 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
           Text(context.l10n.cardsOrder),
           const SizedBox(height: 16),
           Text(
-            context.l10n.withdrawCardsForPlayers(
+            context.l10n.cardsToKeepForPlayers(
               nbPlayersExample,
-              getCardsToTakeOut(nbPlayersExample).join(", "),
+              getNbDecks(nbPlayersExample),
+              getCardsToKeep(nbPlayersExample)
+                  .map((cardIndex) => context.l10n.cardName(cardIndex))
+                  .join(", "),
             ),
           ),
         ],

@@ -60,12 +60,15 @@ class PrepareGame extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: 8,
         children: [
-          Text(context.l10n.withdrawCards),
+          Text(context.l10n.cardsToKeep),
           Text(
-            getCardsToTakeOut(players.length).join(", "),
+            getCardsToKeep(players.length)
+                .map((cardIndex) => context.l10n.cardName(cardIndex))
+                .join(", "),
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
-          Text(context.l10n.fromTheDeck),
+          Text(context.l10n.fromTheDeck(getNbDecks(players.length))),
         ],
       ),
     );
