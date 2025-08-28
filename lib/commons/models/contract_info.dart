@@ -74,7 +74,6 @@ enum ContractsInfo {
           },
         );
       case ContractsInfo.domino:
-        // TODO Océane migrer les settings personnalisés déjà sauvegardées pour ajouter +6 joueurs
         return DominoContractSettings(
           pointsFirstPlayer: -40,
           pointsLastPlayer: 40,
