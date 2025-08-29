@@ -9,6 +9,7 @@ import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
 import '../models/contract_info.dart';
 import '../models/contract_settings_models.dart';
 import '../models/game.dart';
+import '../utils/constants.dart';
 
 final storageProvider = Provider((ref) => MyStorage());
 
@@ -35,6 +36,27 @@ class MyStorage {
     storage = await SharedPreferencesWithCache.create(
       cacheOptions: SharedPreferencesWithCacheOptions(),
     );
+
+    // TODO Temporary to migrate domino settings for 6+ players
+    final savedDominoSettings = storage?.getString(ContractsInfo.domino.name);
+    if (savedDominoSettings != null) {
+      final dominoSettings =
+          AbstractContractSettings.fromJson(jsonDecode(savedDominoSettings))
+              as DominoContractSettings;
+      if (!dominoSettings.points.containsKey(7)) {
+        final newPoints = Map<int, List<int>>.from(dominoSettings.points);
+        final defaultPoints =
+            (ContractsInfo.domino.defaultSettings as DominoContractSettings)
+                .points;
+        for (var nbPlayer = 7; nbPlayer <= kNbPlayersMax; nbPlayer++) {
+          newPoints[nbPlayer] = defaultPoints[nbPlayer]!;
+        }
+        storage?.setString(
+          ContractsInfo.domino.name,
+          jsonEncode(dominoSettings.copyWith(points: newPoints).toJson()),
+        );
+      }
+    }
   }
 
   /// Gets the game saved in the store

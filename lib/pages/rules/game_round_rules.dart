@@ -3,7 +3,7 @@ import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 
-import '../../commons/models/player_colors.dart';
+import '../../theme/my_theme_colors.dart';
 import 'widgets/rules_page.dart';
 
 class GameRoundRules extends StatelessWidget {
@@ -29,8 +29,8 @@ class GameRoundRules extends StatelessWidget {
               ),
               indicatorBuilder: (_, index) => Indicator.dot(
                 size: 24,
-                color: Theme.of(context).colorScheme.convertPlayerColor(
-                      PlayerColors.values[index % PlayerColors.values.length],
+                color: Theme.of(context).colorScheme.convertMyColor(
+                      MyThemeColors.values[index % MyThemeColors.values.length],
                     ),
               ),
               itemCount: rulesByStep.length,

@@ -1,8 +1,11 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
@@ -43,51 +46,68 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     });
   }
 
-  /// Build each player's button and the box to show which one is currently selected
+  /// Build an orderdable player's list
   Widget _buildFields() {
-    return ReorderableListView.builder(
-      shrinkWrap: true,
-      buildDefaultDragHandles: false,
-      itemCount: orderedPlayers.length,
-      itemBuilder: (_, index) {
-        Player player = orderedPlayers[index];
-        return ReorderableDragStartListener(
-          key: ValueKey(index),
-          index: index,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  (index + 1).toString(),
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(width: 24),
-                Expanded(
-                  child: ColoredContainer(
-                    color: player.color,
-                    child: Center(child: _buildPlayerTile(player)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-      onReorder: (int oldIndex, int newIndex) {
-        if (oldIndex < newIndex) {
-          newIndex -= 1;
+    return LayoutBuilder(builder: (context, constraints) {
+      double childAspectRatio = 3;
+      final shouldHaveMultipleColumns =
+          MediaQuery.of(context).textScaler.scale(60) * orderedPlayers.length >
+              constraints.minHeight;
+      if (!shouldHaveMultipleColumns) {
+        if (MediaQuery.of(context).orientation == Orientation.landscape) {
+          childAspectRatio = constraints.minHeight /
+              MediaQuery.of(context).textScaler.scale(20);
+        } else {
+          childAspectRatio = constraints.minHeight /
+              MediaQuery.of(context).textScaler.scale(60);
         }
-        _movePlayer(oldIndex, newIndex);
-      },
-    );
+      }
+      return ReorderableGridView.count(
+        shrinkWrap: true,
+        dragStartDelay: kPressTimeout,
+        crossAxisCount: shouldHaveMultipleColumns
+            ? MediaQuery.of(context).orientation == Orientation.landscape
+                ? 4
+                : 2
+            : 1,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 40,
+        childAspectRatio: childAspectRatio,
+        onReorder: (int oldIndex, int newIndex) {
+          _movePlayer(oldIndex, newIndex);
+        },
+        children: orderedPlayers
+            .mapIndexed(
+              (index, player) => Row(
+                key: ValueKey(index),
+                spacing: 8,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context)
+                        .textScaler
+                        .scale(orderedPlayers.length >= 10 ? 24 : 12),
+                    child: Text(
+                      (index + 1).toString(),
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  ),
+                  Expanded(
+                    child: ColoredContainer(
+                      color: player.color,
+                      child: Center(child: _buildPlayerTile(player)),
+                    ),
+                  ),
+                ],
+              ),
+            )
+            .toList(),
+      );
+    });
   }
 
   /// Builds a stack with the name of a player and a drag icon as a leading
   Widget _buildPlayerTile(Player player) {
-    final color =
-        Theme.of(context).colorScheme.convertPlayerColor(player.color);
+    final color = Theme.of(context).colorScheme.convertMyColor(player.color);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -96,6 +116,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
             child: Text(
               player.name,
               style: TextStyle(color: color),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           Icon(Icons.drag_handle, color: color)

@@ -1,10 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../main.dart';
 import '../models/contract_info.dart';
 import '../models/contract_models.dart';
 import '../models/contract_settings_models.dart';
 import '../models/player.dart';
+import '../utils/game_helpers.dart';
 import 'play_game.dart';
 import 'storage.dart';
 
@@ -24,36 +26,43 @@ typedef ContractManager = ({
 /// A class to manage the contracts of the game
 class ContractsManager {
   late final Map<ContractsInfo, ContractManager> _contracts;
+  final int nbPlayers;
 
-  ContractsManager(MyStorage storage, int nbPlayers) {
+  ContractsManager(MyStorage storage, this.nbPlayers) {
     _contracts = {
       ContractsInfo.barbu: (
-        model: OneLooserContractModel(contract: ContractsInfo.barbu),
+        model: ContractWithPointsModel(
+          contract: ContractsInfo.barbu,
+          nbItems: getNbDecks(nbPlayers),
+        ),
         settings: storage.getSettings(ContractsInfo.barbu),
       ),
       ContractsInfo.noHearts: (
-        model: MultipleLooserContractModel(
+        model: ContractWithPointsModel(
           contract: ContractsInfo.noHearts,
           nbItems: nbPlayers * 2,
         ),
         settings: storage.getSettings(ContractsInfo.noHearts),
       ),
       ContractsInfo.noQueens: (
-        model: MultipleLooserContractModel(
+        model: ContractWithPointsModel(
           contract: ContractsInfo.noQueens,
-          nbItems: 4,
+          nbItems: getNbDecks(nbPlayers) * 4,
         ),
         settings: storage.getSettings(ContractsInfo.noQueens),
       ),
       ContractsInfo.noTricks: (
-        model: MultipleLooserContractModel(
+        model: ContractWithPointsModel(
           contract: ContractsInfo.noTricks,
           nbItems: 8,
         ),
         settings: storage.getSettings(ContractsInfo.noTricks),
       ),
       ContractsInfo.noLastTrick: (
-        model: OneLooserContractModel(contract: ContractsInfo.noLastTrick),
+        model: ContractWithPointsModel(
+          contract: ContractsInfo.noLastTrick,
+          nbItems: 1,
+        ),
         settings: storage.getSettings(ContractsInfo.noLastTrick),
       ),
       ContractsInfo.salad: (
@@ -79,6 +88,21 @@ class ContractsManager {
             .map((contract) => contract.key)
             .toList(),
       );
+
+  String getScoresRoute(ContractsInfo contract) {
+    return switch (contract) {
+      ContractsInfo.barbu => getNbDecks(nbPlayers) == 1
+          ? "${Routes.oneLooserScores}/${contract.name}"
+          : "${Routes.noSomethingScores}/${contract.name}",
+      ContractsInfo.noHearts ||
+      ContractsInfo.noQueens ||
+      ContractsInfo.noTricks =>
+        "${Routes.noSomethingScores}/${contract.name}",
+      ContractsInfo.noLastTrick => "${Routes.oneLooserScores}/${contract.name}",
+      ContractsInfo.salad => Routes.saladScores,
+      ContractsInfo.domino => Routes.dominoScores,
+    };
+  }
 
   /// Returns the scores of the players, for each contract played by the [player]
   Map<ContractsInfo, Map<String, int>?> scoresByContract(Player player) {

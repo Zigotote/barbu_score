@@ -1,7 +1,7 @@
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 
-import '../models/player_colors.dart';
+import '../../theme/my_theme_colors.dart';
 
 /// An ElevatedButton with a full width
 class ElevatedButtonFullWidth extends StatelessWidget {
@@ -41,7 +41,7 @@ class ElevatedButtonCustomColor extends StatelessWidget {
   final Color? color;
 
   /// The color of the button's text and border, defined by player color
-  final PlayerColors? colorFromPlayer;
+  final MyThemeColors? colorFromPlayer;
 
   /// The function to call on button's pressed
   final Function() onPressed;
@@ -53,7 +53,7 @@ class ElevatedButtonCustomColor extends StatelessWidget {
   final Color? background;
 
   /// The background color of the button, defined by player color
-  final PlayerColors? backgroundFromPlayer;
+  final MyThemeColors? backgroundFromPlayer;
 
   /// The semantics of the button, if its label is not sufficient enough
   final String? semantics;
@@ -99,10 +99,10 @@ class ElevatedButtonCustomColor extends StatelessWidget {
     Key? key,
     String? text,
     IconData? icon,
-    PlayerColors? color,
+    MyThemeColors? color,
     required Function() onPressed,
     double? textSize,
-    PlayerColors? backgroundColor,
+    MyThemeColors? backgroundColor,
     String? semantics,
   }) =>
       ElevatedButtonCustomColor._(
@@ -122,13 +122,12 @@ class ElevatedButtonCustomColor extends StatelessWidget {
     var foregroundColor = color ?? defaultColor;
     if (colorFromPlayer != null) {
       foregroundColor =
-          Theme.of(context).colorScheme.convertPlayerColor(colorFromPlayer!);
+          Theme.of(context).colorScheme.convertMyColor(colorFromPlayer!);
     }
     var backgroundColor = background ?? defaultColor;
     if (backgroundFromPlayer != null) {
-      backgroundColor = Theme.of(context)
-          .colorScheme
-          .convertPlayerColor(backgroundFromPlayer!);
+      backgroundColor =
+          Theme.of(context).colorScheme.convertMyColor(backgroundFromPlayer!);
     }
     final style = ElevatedButton.styleFrom(
       side: BorderSide(color: foregroundColor, width: 2),

@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accept => 'Yes';
 
   @override
+  String get ace => 'ace';
+
+  @override
   String get activateContract => 'Activate contract';
 
   @override
@@ -70,8 +73,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bestFriend => 'Best friend';
 
   @override
+  String cardInterval(String firstCard, String lastCard) {
+    return '$firstCard to $lastCard';
+  }
+
+  @override
   String get cardsOrder =>
-      'Aces are the highest cards. Before playing, the weakest cards must be removed until the required number is reached.';
+      'Aces are the highest cards. Before playing, the strongest cards must be kept until the required number is reached.';
+
+  @override
+  String get cardsToKeep => 'Keep the cards';
+
+  @override
+  String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: 'use $nbDecks decks of cards and ',
+      one: '',
+    );
+    return 'With $nbPlayers players, ${_temp0}only the following cards should be kept: $cards.';
+  }
 
   @override
   String get changesSaved => 'Changes saved';
@@ -173,7 +195,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get french => 'French';
 
   @override
-  String get fromTheDeck => 'from the deck.';
+  String fromTheDeck(int nbDecks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: 'from $nbDecks decks',
+      one: 'from the deck',
+    );
+    return '$_temp0.';
+  }
 
   @override
   String get gamePrinciple => 'Game principle';
@@ -221,7 +251,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'If a player wins all, their score becomes negative.';
 
   @override
+  String get jack => 'jack';
+
+  @override
   String get keep => 'Keep';
+
+  @override
+  String get king => 'king';
 
   @override
   String get language => 'Language';
@@ -299,6 +335,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get players => 'players';
 
   @override
+  String get playersOrder => 'Player\'s order';
+
+  @override
   String get points => 'points';
 
   @override
@@ -319,7 +358,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get presentGame =>
-      'Barbu is a game for 3 to 6 players, played with a deck of cards. The goal is to score as few points as possible.';
+      'Barbu is a game for 3 to 6 players, played with a deck of cards. It can also be played with up to 10 players, using 2 decks of cards. The goal is to score as few points as possible.';
 
   @override
   String get previous => 'Previous';
@@ -463,14 +502,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String whoWonItem(String item) {
     return 'Who won the $item?';
-  }
-
-  @override
-  String get withdrawCards => 'Withdraw all cards';
-
-  @override
-  String withdrawCardsForPlayers(int nbPlayers, String cards) {
-    return 'With $nbPlayers players, all the cards must therefore be removed: $cards.';
   }
 
   @override

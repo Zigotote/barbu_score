@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'Oui'**
   String get accept;
 
+  /// No description provided for @ace.
+  ///
+  /// In fr, this message translates to:
+  /// **'as'**
+  String get ace;
+
   /// No description provided for @activateContract.
   ///
   /// In fr, this message translates to:
@@ -194,11 +200,29 @@ abstract class AppLocalizations {
   /// **'Meilleur ami'**
   String get bestFriend;
 
+  /// No description provided for @cardInterval.
+  ///
+  /// In fr, this message translates to:
+  /// **'{firstCard} à {lastCard}'**
+  String cardInterval(String firstCard, String lastCard);
+
   /// No description provided for @cardsOrder.
   ///
   /// In fr, this message translates to:
-  /// **'Les as sont les cartes les plus fortes. Avant de jouer il faut retirer les cartes les plus faibles jusqu\'à obtenir le nombre requis.'**
+  /// **'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.'**
   String get cardsOrder;
+
+  /// No description provided for @cardsToKeep.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conserver les cartes'**
+  String get cardsToKeep;
+
+  /// No description provided for @cardsToKeepForPlayers.
+  ///
+  /// In fr, this message translates to:
+  /// **'A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes : {cards}.'**
+  String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards);
 
   /// No description provided for @changesSaved.
   ///
@@ -251,7 +275,7 @@ abstract class AppLocalizations {
   /// No description provided for @contractsRules.
   ///
   /// In fr, this message translates to:
-  /// **'Le jeu du Barbu comporte les contrats suivants :'**
+  /// **'Le jeu du Barbu comporte les contrats suivants :'**
   String get contractsRules;
 
   /// No description provided for @contractRulesTitle.
@@ -377,8 +401,8 @@ abstract class AppLocalizations {
   /// No description provided for @fromTheDeck.
   ///
   /// In fr, this message translates to:
-  /// **'du paquet.'**
-  String get fromTheDeck;
+  /// **'{nbDecks, plural, =1{du paquet} other{de {nbDecks} paquets}}.'**
+  String fromTheDeck(int nbDecks);
 
   /// No description provided for @gamePrinciple.
   ///
@@ -464,11 +488,23 @@ abstract class AppLocalizations {
   /// **'Si un joueur remporte tout, son score devient négatif.'**
   String get invertScoreDetails;
 
+  /// No description provided for @jack.
+  ///
+  /// In fr, this message translates to:
+  /// **'valet'**
+  String get jack;
+
   /// No description provided for @keep.
   ///
   /// In fr, this message translates to:
   /// **'Conserver'**
   String get keep;
+
+  /// No description provided for @king.
+  ///
+  /// In fr, this message translates to:
+  /// **'roi'**
+  String get king;
 
   /// No description provided for @language.
   ///
@@ -596,6 +632,12 @@ abstract class AppLocalizations {
   /// **'joueurs'**
   String get players;
 
+  /// No description provided for @playersOrder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ordre des joueurs'**
+  String get playersOrder;
+
   /// No description provided for @points.
   ///
   /// In fr, this message translates to:
@@ -629,7 +671,7 @@ abstract class AppLocalizations {
   /// No description provided for @presentGame.
   ///
   /// In fr, this message translates to:
-  /// **'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. L\'objectif est de remporter le moins de points possible.'**
+  /// **'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes. L\'objectif est de remporter le moins de points possible.'**
   String get presentGame;
 
   /// No description provided for @previous.
@@ -689,7 +731,7 @@ abstract class AppLocalizations {
   /// No description provided for @rulesDominoDetailed.
   ///
   /// In fr, this message translates to:
-  /// **'L\'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\n{player} détermine la valeur d\'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s\'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d\'ouverture. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l\'ordre de fin des joueurs, et sont distribués comme suit :\n{points}'**
+  /// **'L\'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\n{player} détermine la valeur d\'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s\'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d\'ouverture. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l\'ordre de fin des joueurs, et sont distribués comme suit :\n{points}'**
   String rulesDominoDetailed(String player, String points);
 
   /// No description provided for @rulesNoHearts.
@@ -749,7 +791,7 @@ abstract class AppLocalizations {
   /// No description provided for @rulesSaladDetailed.
   ///
   /// In fr, this message translates to:
-  /// **'Ce contrat est une combinaison des contrats {contracts}. Les points sont comptés comme suit :\n{itemWithPoints}'**
+  /// **'Ce contrat est une combinaison des contrats {contracts}. Les points sont comptés comme suit :\n{itemWithPoints}'**
   String rulesSaladDetailed(String contracts, String itemWithPoints);
 
   /// No description provided for @rulesTrickRound.
@@ -853,18 +895,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Qui a remporté le {item} ?'**
   String whoWonItem(String item);
-
-  /// No description provided for @withdrawCards.
-  ///
-  /// In fr, this message translates to:
-  /// **'Retirer toutes les cartes'**
-  String get withdrawCards;
-
-  /// No description provided for @withdrawCardsForPlayers.
-  ///
-  /// In fr, this message translates to:
-  /// **'A {nbPlayers} joueurs, il faut donc retirer toutes les cartes : {cards}.'**
-  String withdrawCardsForPlayers(int nbPlayers, String cards);
 
   /// No description provided for @withdrawItem.
   ///

@@ -7,7 +7,7 @@ import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/create_game/create_game.dart';
 import 'package:barbu_score/pages/finish_game/finish_game.dart';
 import 'package:barbu_score/pages/my_home.dart';
-import 'package:barbu_score/pages/prepare_game.dart';
+import 'package:barbu_score/pages/prepare_game/prepare_game.dart';
 import 'package:barbu_score/pages/rules/my_rules.dart';
 import 'package:barbu_score/pages/settings/my_settings.dart';
 import 'package:flutter/material.dart';

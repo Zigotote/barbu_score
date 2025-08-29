@@ -26,16 +26,11 @@ abstract class AbstractContractSettings {
     final isActive = json["isActive"];
     return switch (contract) {
       ContractsInfo.barbu ||
-      ContractsInfo.noLastTrick =>
-        OneLooserContractSettings.fromJson(
-          json,
-          contract: contract,
-          isActive: isActive,
-        ),
+      ContractsInfo.noLastTrick ||
       ContractsInfo.noHearts ||
       ContractsInfo.noQueens ||
       ContractsInfo.noTricks =>
-        MultipleLooserContractSettings.fromJson(
+        ContractWithPointsSettings.fromJson(
           json,
           contract: contract,
           isActive: isActive,
@@ -76,70 +71,32 @@ abstract class AbstractContractSettings {
   AbstractContractSettings copyWith({bool? isActive});
 }
 
-/// A class to save the settings for a contract where only one player can loose
-class OneLooserContractSettings extends AbstractContractSettings {
-  /// The points for this contract item
-  int points;
-
-  OneLooserContractSettings({
-    super.contract,
-    super.name,
-    super.isActive,
-    required this.points,
-  });
-
-  OneLooserContractSettings.fromJson(Map<String, dynamic> json,
-      {required ContractsInfo contract, required super.isActive})
-      : points = json["points"],
-        super(contract: contract);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {...super.toJson(), "points": points};
-  }
-
-  @override
-  // ignore: hash_and_equals
-  bool operator ==(Object other) {
-    return super == other &&
-        points == (other as OneLooserContractSettings).points;
-  }
-
-  @override
-  String toString() {
-    return "${super.toString()}, points=$points";
-  }
-
-  @override
-  OneLooserContractSettings copyWith({bool? isActive, int? points}) {
-    return OneLooserContractSettings(
-      name: name,
-      isActive: isActive ?? this.isActive,
-      points: points ?? this.points,
-    );
-  }
-}
-
 /// A class to save the settings for a contract where multiple players can have some points
-class MultipleLooserContractSettings extends AbstractContractSettings {
+class ContractWithPointsSettings extends AbstractContractSettings {
+  /// Lists all contract which scores cannot be inverted
+  static List<ContractsInfo> contractsWithoutInvertScore = [
+    ContractsInfo.barbu,
+    ContractsInfo.noLastTrick
+  ];
+
   /// The points for one item
   int points;
 
   /// The indicator to know if the score should be inverted if one players wins all contract items
   bool invertScore;
 
-  MultipleLooserContractSettings({
+  ContractWithPointsSettings({
     super.contract,
     super.name,
     super.isActive,
     required this.points,
-    this.invertScore = true,
+    this.invertScore = false,
   });
 
-  MultipleLooserContractSettings.fromJson(Map<String, dynamic> json,
+  ContractWithPointsSettings.fromJson(Map<String, dynamic> json,
       {required ContractsInfo contract, required super.isActive})
       : points = json["points"],
-        invertScore = json["invertScore"],
+        invertScore = json["invertScore"] ?? false,
         super(contract: contract);
 
   @override
@@ -151,7 +108,7 @@ class MultipleLooserContractSettings extends AbstractContractSettings {
   // ignore: hash_and_equals
   bool operator ==(Object other) {
     return super == other &&
-        points == (other as MultipleLooserContractSettings).points &&
+        points == (other as ContractWithPointsSettings).points &&
         invertScore == other.invertScore;
   }
 
@@ -160,10 +117,14 @@ class MultipleLooserContractSettings extends AbstractContractSettings {
     return "${super.toString()}, points=$points, invertScore=$invertScore";
   }
 
+  /// Returns if the inversion of this contract's score can be changed
+  bool get canInvertScore =>
+      !contractsWithoutInvertScore.contains(ContractsInfo.fromName(name));
+
   @override
-  MultipleLooserContractSettings copyWith(
+  ContractWithPointsSettings copyWith(
       {bool? isActive, int? points, bool? invertScore}) {
-    return MultipleLooserContractSettings(
+    return ContractWithPointsSettings(
       name: name,
       isActive: isActive ?? this.isActive,
       points: points ?? this.points,

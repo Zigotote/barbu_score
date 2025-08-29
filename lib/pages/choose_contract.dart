@@ -21,6 +21,7 @@ class ChooseContract extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Player player = ref.watch(playGameProvider).currentPlayer;
+    final contractsManager = ref.watch(contractsManagerProvider);
     return DefaultPage(
       appBar: MyPlayerAppBar(
         player: player,
@@ -43,9 +44,7 @@ class ChooseContract extends ConsumerWidget {
           horizontal: 8,
         ),
         child: MyGrid(
-          children: ref
-              .watch(contractsManagerProvider)
-              .activeContracts
+          children: contractsManager.activeContracts
               .map(
                 (contract) => ElevatedButton(
                   key: Key(contract.name),
@@ -55,7 +54,9 @@ class ChooseContract extends ConsumerWidget {
                           ref.read(logProvider).info(
                                 "ChooseContract: ${player.name} choose ${contract.name}",
                               );
-                          context.push(contract.scoreRoute);
+                          context.push(
+                            contractsManager.getScoresRoute(contract),
+                          );
                         },
                   child: Text(
                     context.l10n.contractName(contract),

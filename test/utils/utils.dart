@@ -2,7 +2,6 @@ import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/player.dart';
-import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/providers/contracts_manager.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
@@ -10,6 +9,7 @@ import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:barbu_score/pages/contract_scores/notifiers/salad_provider.dart';
+import 'package:barbu_score/theme/my_theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -32,11 +32,15 @@ final defaultPlayerNames = [
   "Charles",
   "Daniel",
   "Emy",
-  "Franklin"
+  "Franklin",
+  "Greg",
+  "Henry",
+  "Izzy",
+  "Jack",
 ];
 const nbPlayersByDefault = 4;
 
-final defaultBarbu = OneLooserContractModel(
+final defaultBarbu = ContractWithPointsModel(
   contract: ContractsInfo.barbu,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -44,7 +48,7 @@ final defaultBarbu = OneLooserContractModel(
   },
 );
 
-final defaultNoQueens = MultipleLooserContractModel(
+final defaultNoQueens = ContractWithPointsModel(
   contract: ContractsInfo.noQueens,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -53,7 +57,7 @@ final defaultNoQueens = MultipleLooserContractModel(
   nbItems: 4,
 );
 
-final defaultNoTricks = MultipleLooserContractModel(
+final defaultNoTricks = ContractWithPointsModel(
   contract: ContractsInfo.noTricks,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -62,7 +66,7 @@ final defaultNoTricks = MultipleLooserContractModel(
   nbItems: 8,
 );
 
-final defaultNoHearts = MultipleLooserContractModel(
+final defaultNoHearts = ContractWithPointsModel(
   contract: ContractsInfo.noHearts,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -71,7 +75,7 @@ final defaultNoHearts = MultipleLooserContractModel(
   nbItems: 8,
 );
 
-final defaultNoLastTrick = OneLooserContractModel(
+final defaultNoLastTrick = ContractWithPointsModel(
   contract: ContractsInfo.noLastTrick,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
@@ -130,7 +134,7 @@ void mockActiveContracts(MyStorage mockStorage,
   when(mockStorage.getActiveContracts()).thenReturn(activeContracts);
 }
 
-/// Creates a game with [nbPlayers] number of players, and eaach player played [playedContracts]
+/// Creates a game with [nbPlayers] number of players, and each player played [playedContracts]
 Game createGame(int nbPlayers,
     [List<AbstractContractModel> playedContracts = const []]) {
   return Game(
@@ -138,7 +142,7 @@ Game createGame(int nbPlayers,
       nbPlayers,
       (index) => Player(
         name: defaultPlayerNames[index],
-        color: PlayerColors.values[index],
+        color: MyThemeColors.values[index],
         image: playerImages[index],
         contracts: playedContracts,
       ),

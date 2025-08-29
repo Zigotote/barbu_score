@@ -1,14 +1,13 @@
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/utils/constants.dart';
-import 'package:barbu_score/commons/widgets/player_icon.dart';
-import 'package:barbu_score/pages/prepare_game.dart';
+import 'package:barbu_score/pages/prepare_game/prepare_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../utils/french_material_app.dart';
-import '../utils/utils.dart';
+import '../../utils/french_material_app.dart';
+import '../../utils/utils.dart';
 
 void main() {
   patrolWidgetTest("should be accessible", ($) async {
@@ -22,7 +21,9 @@ void main() {
     patrolWidgetTest("should display $nbPlayers players", ($) async {
       await $.pumpWidget(_createPage($, nbPlayers: nbPlayers));
 
-      expect($(PlayerIcon), findsNWidgets(nbPlayers));
+      for (var (index, player) in defaultPlayerNames.indexed) {
+        expect($(player), index < nbPlayers ? findsOneWidget : findsNothing);
+      }
     });
   }
 }

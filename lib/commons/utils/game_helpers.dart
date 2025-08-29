@@ -1,4 +1,18 @@
-/// Returns the values of the cards to take out for the game
-List<int> getCardsToTakeOut(int nbPlayers) {
-  return List.generate((52 - nbPlayers * 8) ~/ 4, (index) => 2 + index);
+import 'package:collection/collection.dart';
+
+import 'constants.dart';
+
+/// Returns the values of the cards to keep for the game
+List<int> getCardsToKeep(int nbPlayers) {
+  final cardIndexes = List.generate(13, (index) => index + 2).reversed.toList();
+
+  return cardIndexes.slice(
+    0,
+    ((nbPlayers * 8) / (4 * getNbDecks(nbPlayers))).toInt(),
+  );
+}
+
+/// Returns the number of decks required for this number of players
+int getNbDecks(int nbPlayers) {
+  return nbPlayers <= kNbPlayersMaxForOneDeck ? 1 : 2;
 }

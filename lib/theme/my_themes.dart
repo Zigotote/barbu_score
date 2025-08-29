@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:non_uniform_border/non_uniform_border.dart';
 
-import '../commons/models/player_colors.dart';
+import 'my_theme_colors.dart';
 
 class MyThemes {
   MyThemes._();
@@ -225,7 +225,7 @@ extension CustomThemeValues on ColorScheme {
   Color get success =>
       brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
 
-  Color convertPlayerColor(PlayerColors color) {
+  Color convertMyColor(MyThemeColors color) {
     return brightness == Brightness.dark ? color.dark : color.light;
   }
 }

@@ -12,6 +12,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get accept => 'Oui';
 
   @override
+  String get ace => 'as';
+
+  @override
   String get activateContract => 'Activer le contrat';
 
   @override
@@ -70,8 +73,27 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bestFriend => 'Meilleur ami';
 
   @override
+  String cardInterval(String firstCard, String lastCard) {
+    return '$firstCard à $lastCard';
+  }
+
+  @override
   String get cardsOrder =>
-      'Les as sont les cartes les plus fortes. Avant de jouer il faut retirer les cartes les plus faibles jusqu\'à obtenir le nombre requis.';
+      'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.';
+
+  @override
+  String get cardsToKeep => 'Conserver les cartes';
+
+  @override
+  String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: 'prendre $nbDecks paquets de cartes et ',
+      one: '',
+    );
+    return 'A $nbPlayers joueurs, il faut donc ${_temp0}conserver uniquement les cartes : $cards.';
+  }
 
   @override
   String get changesSaved => 'Modifications sauvegardées';
@@ -104,7 +126,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get contractsRules =>
-      'Le jeu du Barbu comporte les contrats suivants :';
+      'Le jeu du Barbu comporte les contrats suivants :';
 
   @override
   String contractRulesTitle(String contract) {
@@ -173,7 +195,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get french => 'Français';
 
   @override
-  String get fromTheDeck => 'du paquet.';
+  String fromTheDeck(int nbDecks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: 'de $nbDecks paquets',
+      one: 'du paquet',
+    );
+    return '$_temp0.';
+  }
 
   @override
   String get gamePrinciple => 'Principe du jeu';
@@ -221,7 +251,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Si un joueur remporte tout, son score devient négatif.';
 
   @override
+  String get jack => 'valet';
+
+  @override
   String get keep => 'Conserver';
+
+  @override
+  String get king => 'roi';
 
   @override
   String get language => 'Langue';
@@ -300,6 +336,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get players => 'joueurs';
 
   @override
+  String get playersOrder => 'Ordre des joueurs';
+
+  @override
   String get points => 'points';
 
   @override
@@ -320,7 +359,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get presentGame =>
-      'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. L\'objectif est de remporter le moins de points possible.';
+      'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes. L\'objectif est de remporter le moins de points possible.';
 
   @override
   String get previous => 'Précédent';
@@ -356,7 +395,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesDominoDetailed(String player, String points) {
-    return 'L\'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\n$player détermine la valeur d\'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s\'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d\'ouverture. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l\'ordre de fin des joueurs, et sont distribués comme suit :\n$points';
+    return 'L\'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\n$player détermine la valeur d\'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s\'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d\'ouverture. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l\'ordre de fin des joueurs, et sont distribués comme suit :\n$points';
   }
 
   @override
@@ -406,7 +445,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesSaladDetailed(String contracts, String itemWithPoints) {
-    return 'Ce contrat est une combinaison des contrats $contracts. Les points sont comptés comme suit :\n$itemWithPoints';
+    return 'Ce contrat est une combinaison des contrats $contracts. Les points sont comptés comme suit :\n$itemWithPoints';
   }
 
   @override
@@ -464,14 +503,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String whoWonItem(String item) {
     return 'Qui a remporté le $item ?';
-  }
-
-  @override
-  String get withdrawCards => 'Retirer toutes les cartes';
-
-  @override
-  String withdrawCardsForPlayers(int nbPlayers, String cards) {
-    return 'A $nbPlayers joueurs, il faut donc retirer toutes les cartes : $cards.';
   }
 
   @override

@@ -62,22 +62,25 @@ void main() {
   });
   group("#settings", () {
     final barbuSettings =
-        OneLooserContractSettings(contract: ContractsInfo.barbu, points: 100);
-    final noLastTricksSettings = OneLooserContractSettings(
+        ContractWithPointsSettings(contract: ContractsInfo.barbu, points: 100);
+    final noLastTricksSettings = ContractWithPointsSettings(
       contract: ContractsInfo.noLastTrick,
       points: 100,
     );
-    final noHeartsSettings = MultipleLooserContractSettings(
+    final noHeartsSettings = ContractWithPointsSettings(
       contract: ContractsInfo.noHearts,
       points: 20,
+      invertScore: true,
     );
-    final noTricksSettings = MultipleLooserContractSettings(
+    final noTricksSettings = ContractWithPointsSettings(
       contract: ContractsInfo.noTricks,
       points: 20,
+      invertScore: true,
     );
-    final noQueensSettings = MultipleLooserContractSettings(
+    final noQueensSettings = ContractWithPointsSettings(
       contract: ContractsInfo.noQueens,
       points: 20,
+      invertScore: true,
     );
     final saladSettings = SaladContractSettings(
       isActive: false,

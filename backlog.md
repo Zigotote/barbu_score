@@ -5,10 +5,6 @@
 - pouvoir sauvegarder plusieurs parties en même temps ++
 - pouvoir sauvegarder des joueurs et garder leurs statistiques
 
-## Page création de partie
-
-- pouvoir jouer à 8 joueurs +
-
 ## Page choix des joueurs
 
 - ajouter un mode "aléatoire" pour la partie

@@ -22,14 +22,13 @@ import 'pages/create_game/create_game.dart';
 import 'pages/finish_game/finish_game.dart';
 import 'pages/my_home.dart';
 import 'pages/my_scores.dart';
-import 'pages/prepare_game.dart';
+import 'pages/prepare_game/prepare_game.dart';
 import 'pages/rules/models/rules_page_name.dart';
 import 'pages/rules/my_rules.dart';
 import 'pages/scores_by_player.dart';
+import 'pages/settings/contract_with_points_settings.dart';
 import 'pages/settings/domino_contract_settings.dart';
-import 'pages/settings/multiple_looser_contract_settings.dart';
 import 'pages/settings/my_settings.dart';
-import 'pages/settings/one_looser_contract_settings.dart';
 import 'pages/settings/salad_contract_settings.dart';
 import 'theme/my_themes.dart';
 import 'theme/theme_provider.dart';
@@ -78,15 +77,9 @@ void main() async {
             ),
             GoRoute(
               path:
-                  "${Routes.barbuOrNoLastTrickSettings}/:${MyGoRouterState.contractParameter}",
+                  "${Routes.contractWithPointsSettings}/:${MyGoRouterState.contractParameter}",
               builder: (_, state) =>
-                  OneLooserContractSettingsPage(state.contract),
-            ),
-            GoRoute(
-              path:
-                  "${Routes.noSomethingScoresSettings}/:${MyGoRouterState.contractParameter}",
-              builder: (_, state) =>
-                  MultipleLooserContractSettingsPage(state.contract),
+                  ContractWithPointsSettingsPage(state.contract),
             ),
             GoRoute(
                 path: Routes.dominoSettings,
@@ -104,10 +97,10 @@ void main() async {
                 builder: (_, __) => const ChooseContract()),
             GoRoute(
               path:
-                  "${Routes.barbuOrNoLastTrickScores}/:${MyGoRouterState.contractParameter}",
+                  "${Routes.oneLooserScores}/:${MyGoRouterState.contractParameter}",
               builder: (_, state) => OneLooserContractPage(
                 state.contract,
-                contractModel: state.extra as OneLooserContractModel?,
+                contractModel: state.extra as ContractWithPointsModel?,
               ),
             ),
             GoRoute(
@@ -119,7 +112,7 @@ void main() async {
                   "${Routes.noSomethingScores}/:${MyGoRouterState.contractParameter}",
               builder: (_, state) => MultipleLooserContractPage(
                 state.contract,
-                contractModel: state.extra as MultipleLooserContractModel?,
+                contractModel: state.extra as ContractWithPointsModel?,
               ),
             ),
             GoRoute(
@@ -193,15 +186,13 @@ class Routes {
   static const home = "/";
   static const rules = "/rules";
   static const settings = "/settings";
-  static const barbuOrNoLastTrickSettings =
-      "/settings/one_looser_contract_scores";
-  static const noSomethingScoresSettings = "/settings/individual_scores";
+  static const contractWithPointsSettings = "/settings/contracts_with_points";
   static const dominoSettings = "/settings/domino";
   static const saladSettings = "/settings/salad";
   static const createGame = "/create_game";
   static const prepareGame = "/prepare_game";
   static const chooseContract = "/choose_contract";
-  static const barbuOrNoLastTrickScores = "/one_looser_contract_scores";
+  static const oneLooserScores = "/one_looser_contract_scores";
   static const dominoScores = "/domino_scores";
   static const noSomethingScores = "/individual_scores";
   static const saladScores = "/salad_scores";
