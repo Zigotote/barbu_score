@@ -1,5 +1,7 @@
+import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../commons/models/player.dart';
@@ -8,7 +10,7 @@ import '../../../commons/widgets/player_icon.dart';
 import 'dialog_player_properties.dart';
 
 /// Builds the field to modify the player's infos
-class CreatePlayer extends StatelessWidget {
+class CreatePlayer extends ConsumerWidget {
   /// The player's info
   final Player player;
 
@@ -47,10 +49,10 @@ class CreatePlayer extends StatelessWidget {
   }
 
   /// Builds player icon
-  Widget _buildPlayerIcon(BuildContext context, double size) {
+  Widget _buildPlayerIcon(BuildContext context, WidgetRef ref, double size) {
     return IconButton(
       tooltip: context.l10n.modifyPlayer,
-      onPressed: () => _displayDialog(context, player, onRemove),
+      onPressed: () => _displayDialog(context, ref, player, onRemove),
       icon: PlayerIcon(
         image: player.image,
         color: player.color,
@@ -62,7 +64,8 @@ class CreatePlayer extends StatelessWidget {
   /// Displays a dialog to change the player's properties
   /// Changes are reverted if they are not validated
   void _displayDialog(
-      BuildContext context, Player player, Function() onRemove) {
+      BuildContext context, WidgetRef ref, Player player, Function() onRemove) {
+    ref.read(logProvider).sendAnalyticEvent("open_player_properties_dialog");
     showDialog(
       context: context,
       builder: (_) => DialogChangePlayerInfo(
@@ -77,7 +80,7 @@ class CreatePlayer extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return LayoutBuilder(builder: (context, constraint) {
       return Stack(
         alignment: Alignment.center,
@@ -100,7 +103,7 @@ class CreatePlayer extends StatelessWidget {
           ),
           Positioned(
             top: 0,
-            child: _buildPlayerIcon(context, constraint.maxWidth * 0.55),
+            child: _buildPlayerIcon(context, ref, constraint.maxWidth * 0.55),
           ),
           Positioned(
             top: 24,
