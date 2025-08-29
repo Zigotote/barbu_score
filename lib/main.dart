@@ -26,10 +26,9 @@ import 'pages/prepare_game/prepare_game.dart';
 import 'pages/rules/models/rules_page_name.dart';
 import 'pages/rules/my_rules.dart';
 import 'pages/scores_by_player.dart';
+import 'pages/settings/contract_with_points_settings.dart';
 import 'pages/settings/domino_contract_settings.dart';
-import 'pages/settings/multiple_looser_contract_settings.dart';
 import 'pages/settings/my_settings.dart';
-import 'pages/settings/one_looser_contract_settings.dart';
 import 'pages/settings/salad_contract_settings.dart';
 import 'theme/my_themes.dart';
 import 'theme/theme_provider.dart';
@@ -78,15 +77,9 @@ void main() async {
             ),
             GoRoute(
               path:
-                  "${Routes.onLooserSettings}/:${MyGoRouterState.contractParameter}",
+                  "${Routes.contractWithPointsSettings}/:${MyGoRouterState.contractParameter}",
               builder: (_, state) =>
-                  OneLooserContractSettingsPage(state.contract),
-            ),
-            GoRoute(
-              path:
-                  "${Routes.noSomethingScoresSettings}/:${MyGoRouterState.contractParameter}",
-              builder: (_, state) =>
-                  MultipleLooserContractSettingsPage(state.contract),
+                  ContractWithPointsSettingsPage(state.contract),
             ),
             GoRoute(
                 path: Routes.dominoSettings,
@@ -193,8 +186,7 @@ class Routes {
   static const home = "/";
   static const rules = "/rules";
   static const settings = "/settings";
-  static const onLooserSettings = "/settings/one_looser_contract_scores";
-  static const noSomethingScoresSettings = "/settings/individual_scores";
+  static const contractWithPointsSettings = "/settings/contracts_with_points";
   static const dominoSettings = "/settings/domino";
   static const saladSettings = "/settings/salad";
   static const createGame = "/create_game";

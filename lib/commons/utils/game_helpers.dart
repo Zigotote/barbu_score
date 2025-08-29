@@ -6,12 +6,10 @@ import 'constants.dart';
 List<int> getCardsToKeep(int nbPlayers) {
   final cardIndexes = List.generate(13, (index) => index + 2).reversed.toList();
 
-  int nbDeck = 1;
-  if (nbPlayers > kNbPlayersMaxForOneDeck) {
-    nbDeck = 2;
-  }
-
-  return cardIndexes.slice(0, ((nbPlayers * 8) / (4 * nbDeck)).toInt());
+  return cardIndexes.slice(
+    0,
+    ((nbPlayers * 8) / (4 * getNbDecks(nbPlayers))).toInt(),
+  );
 }
 
 /// Returns the number of decks required for this number of players

@@ -213,13 +213,12 @@ void main() {
             ($) async {
           final mockStorage = MockMyStorage();
           for (var contract in SaladContractSettings.availableContracts) {
-            AbstractContractSettings contractSettings = contract.defaultSettings
-                .copyWith(isActive: testData.subContracts.contains(contract));
-            if (contractSettings is ContractWithPointsSettings) {
-              contractSettings = contractSettings.copyWith(
-                invertScore: invertScore,
-              );
-            }
+            ContractWithPointsSettings contractSettings =
+                (contract.defaultSettings as ContractWithPointsSettings)
+                    .copyWith(
+              isActive: testData.subContracts.contains(contract),
+              invertScore: invertScore,
+            );
             when(mockStorage.getSettings(contract))
                 .thenReturn(contractSettings);
           }

@@ -73,6 +73,12 @@ abstract class AbstractContractSettings {
 
 /// A class to save the settings for a contract where multiple players can have some points
 class ContractWithPointsSettings extends AbstractContractSettings {
+  /// Lists all contract which scores cannot be inverted
+  static List<ContractsInfo> contractsWithoutInvertScore = [
+    ContractsInfo.barbu,
+    ContractsInfo.noLastTrick
+  ];
+
   /// The points for one item
   int points;
 
@@ -110,6 +116,10 @@ class ContractWithPointsSettings extends AbstractContractSettings {
   String toString() {
     return "${super.toString()}, points=$points, invertScore=$invertScore";
   }
+
+  /// Returns if the inversion of this contract's score can be changed
+  bool get canInvertScore =>
+      !contractsWithoutInvertScore.contains(ContractsInfo.fromName(name));
 
   @override
   ContractWithPointsSettings copyWith(

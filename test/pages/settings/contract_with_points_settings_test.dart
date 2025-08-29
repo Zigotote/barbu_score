@@ -1,7 +1,8 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
-import 'package:barbu_score/pages/settings/multiple_looser_contract_settings.dart';
+import 'package:barbu_score/pages/settings/contract_with_points_settings.dart';
+import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:barbu_score/pages/settings/widgets/number_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,8 +15,6 @@ import '../../utils/utils.mocks.dart';
 import 'utils/settings_utils.dart';
 
 const _defaultContract = ContractsInfo.noHearts;
-final _defaultSettings =
-    _defaultContract.defaultSettings as ContractWithPointsSettings;
 
 void main() {
   patrolWidgetTest("should display page", ($) async {
@@ -27,27 +26,55 @@ void main() {
     // await checkAccessibility($.tester); not accessible because Switches are considered not accessible, but screen reader is correct
   });
 
-  patrolWidgetTest("should change points", ($) async {
-    final newPoints = -666;
-    final mockStorage = MockMyStorage();
+  for (var contract in [
+    ContractsInfo.barbu,
+    ContractsInfo.noHearts,
+    ContractsInfo.noQueens,
+    ContractsInfo.noTricks,
+    ContractsInfo.noLastTrick
+  ]) {
+    final shouldHaveInvertScore = contract != ContractsInfo.barbu &&
+        contract != ContractsInfo.noLastTrick;
+    patrolWidgetTest(
+        "should ${shouldHaveInvertScore ? "" : "not "}display invert scores for $contract",
+        ($) async {
+      final page = _createPage(contract: contract);
+      await $.pumpWidget(page);
 
-    final page = _createPage(mockStorage);
+      expect(
+        $(MySwitch),
+        shouldHaveInvertScore ? findsNWidgets(2) : findsOneWidget,
+      );
+      expect(
+        $("Inversion du score"),
+        shouldHaveInvertScore ? findsOneWidget : findsNothing,
+      );
+    });
+  }
+
+  patrolWidgetTest("should change points", ($) async {
+    final mockStorage = MockMyStorage();
+    final newPoints = -666;
+    final defaultSettings =
+        _defaultContract.defaultSettings as ContractWithPointsSettings;
+
+    final page = _createPage(mockStorage: mockStorage);
     await $.pumpWidget(page);
 
-    expect($("${_defaultSettings.points}"), findsOneWidget);
+    expect($("${defaultSettings.points}"), findsOneWidget);
 
     await $(NumberInput).enterText("$newPoints");
     verify(
       mockStorage.saveSettings(
         _defaultContract,
-        _defaultSettings.copyWith(points: newPoints),
+        defaultSettings.copyWith(points: newPoints),
       ),
     );
   });
   patrolWidgetTest("should change invert scores", ($) async {
     final mockStorage = MockMyStorage();
 
-    final page = _createPage(mockStorage);
+    final page = _createPage(mockStorage: mockStorage);
     await $.pumpWidget(page);
 
     expect(findSwitchValue($, index: 1), isTrue);
@@ -56,15 +83,17 @@ void main() {
     verify(
       mockStorage.saveSettings(
         _defaultContract,
-        _defaultSettings.copyWith(invertScore: false),
+        (_defaultContract.defaultSettings as ContractWithPointsSettings)
+            .copyWith(invertScore: false),
       ),
     );
   });
 }
 
-UncontrolledProviderScope _createPage([MockMyStorage? mockStorage]) {
+UncontrolledProviderScope _createPage(
+    {MockMyStorage? mockStorage, ContractsInfo contract = _defaultContract}) {
   mockStorage ??= MockMyStorage();
-  when(mockStorage.getSettings(_defaultContract)).thenReturn(_defaultSettings);
+  when(mockStorage.getSettings(contract)).thenReturn(contract.defaultSettings);
 
   final container = ProviderContainer(
     overrides: [storageProvider.overrideWithValue(mockStorage)],
@@ -72,8 +101,6 @@ UncontrolledProviderScope _createPage([MockMyStorage? mockStorage]) {
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp(
-      home: const MultipleLooserContractSettingsPage(_defaultContract),
-    ),
+    child: FrenchMaterialApp(home: ContractWithPointsSettingsPage(contract)),
   );
 }

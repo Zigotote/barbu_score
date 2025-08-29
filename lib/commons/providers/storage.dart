@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +9,7 @@ import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
 import '../models/contract_info.dart';
 import '../models/contract_settings_models.dart';
 import '../models/game.dart';
+import '../utils/constants.dart';
 
 final storageProvider = Provider((ref) => MyStorage());
 
@@ -37,6 +37,7 @@ class MyStorage {
       cacheOptions: SharedPreferencesWithCacheOptions(),
     );
 
+    // TODO Temporary to migrate domino settings for 6+ players
     final savedDominoSettings = storage?.getString(ContractsInfo.domino.name);
     if (savedDominoSettings != null) {
       final dominoSettings =

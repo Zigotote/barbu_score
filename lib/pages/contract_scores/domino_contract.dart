@@ -51,7 +51,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     return LayoutBuilder(builder: (context, constraints) {
       double childAspectRatio = 3;
       final shouldHaveMultipleColumns =
-          MediaQuery.of(context).textScaler.scale(65) * orderedPlayers.length >
+          MediaQuery.of(context).textScaler.scale(60) * orderedPlayers.length >
               constraints.minHeight;
       if (!shouldHaveMultipleColumns) {
         if (MediaQuery.of(context).orientation == Orientation.landscape) {
@@ -59,7 +59,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
               MediaQuery.of(context).textScaler.scale(20);
         } else {
           childAspectRatio = constraints.minHeight /
-              MediaQuery.of(context).textScaler.scale(50);
+              MediaQuery.of(context).textScaler.scale(60);
         }
       }
       return ReorderableGridView.count(

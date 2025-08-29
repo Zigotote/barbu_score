@@ -39,24 +39,24 @@ extension MyAppLocalizations on AppLocalizations {
         final subContractSettings =
             storage.getSettings(c) as ContractWithPointsSettings;
         return switch (c) {
-          ContractsInfo.barbu => rulesBarbuInSalad(
-              subContractSettings.points,
-            ),
-          ContractsInfo.noHearts => rulesNoHeartsInSalad(
-                subContractSettings.points,
-              ) +
-              (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
-          ContractsInfo.noQueens => rulesNoQueensInSalad(
-                subContractSettings.points,
-              ) +
-              (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
-          ContractsInfo.noTricks => rulesNoTricksInSalad(
-                subContractSettings.points,
-              ) +
-              (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
-          ContractsInfo.noLastTrick => rulesNoLastTrickInSalad(
-              subContractSettings.points,
-            ),
+          ContractsInfo.barbu => rulesBarbuInSalad(subContractSettings.points),
+          ContractsInfo.noHearts =>
+            rulesNoHeartsInSalad(subContractSettings.points) +
+                (subContractSettings.invertScore
+                    ? ". $invertScoreDetails"
+                    : ""),
+          ContractsInfo.noQueens =>
+            rulesNoQueensInSalad(subContractSettings.points) +
+                (subContractSettings.invertScore
+                    ? ". $invertScoreDetails"
+                    : ""),
+          ContractsInfo.noTricks =>
+            rulesNoTricksInSalad(subContractSettings.points) +
+                (subContractSettings.invertScore
+                    ? ". $invertScoreDetails"
+                    : ""),
+          ContractsInfo.noLastTrick =>
+            rulesNoLastTrickInSalad(subContractSettings.points),
           _ => ""
         };
       });

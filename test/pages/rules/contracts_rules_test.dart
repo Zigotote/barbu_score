@@ -4,10 +4,9 @@ import 'package:barbu_score/commons/utils/router_extension.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/rules/contracts_rules.dart';
 import 'package:barbu_score/pages/rules/widgets/settings_card.dart';
+import 'package:barbu_score/pages/settings/contract_with_points_settings.dart';
 import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
-import 'package:barbu_score/pages/settings/multiple_looser_contract_settings.dart';
 import 'package:barbu_score/pages/settings/my_settings.dart';
-import 'package:barbu_score/pages/settings/one_looser_contract_settings.dart';
 import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
 import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
@@ -144,15 +143,9 @@ Widget _createPage(
           ),
           GoRoute(
             path:
-                "${Routes.onLooserSettings}/:${MyGoRouterState.contractParameter}",
+                "${Routes.contractWithPointsSettings}/:${MyGoRouterState.contractParameter}",
             builder: (_, state) =>
-                OneLooserContractSettingsPage(state.contract),
-          ),
-          GoRoute(
-            path:
-                "${Routes.noSomethingScoresSettings}/:${MyGoRouterState.contractParameter}",
-            builder: (_, state) =>
-                MultipleLooserContractSettingsPage(state.contract),
+                ContractWithPointsSettingsPage(state.contract),
           ),
           GoRoute(
               path: Routes.dominoSettings,

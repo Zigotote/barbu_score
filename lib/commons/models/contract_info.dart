@@ -7,26 +7,26 @@ import 'contract_settings_models.dart';
 enum ContractsInfo {
   barbu(
     color: MyThemeColors.brown,
-    settingsRoute: "${Routes.onLooserSettings}/barbu",
+    settingsRoute: "${Routes.contractWithPointsSettings}/barbu",
   ),
   noHearts(
     color: MyThemeColors.red,
-    settingsRoute: "${Routes.noSomethingScoresSettings}/noHearts",
+    settingsRoute: "${Routes.contractWithPointsSettings}/noHearts",
   ),
   noQueens(
     color: MyThemeColors.orange,
-    settingsRoute: "${Routes.noSomethingScoresSettings}/noQueens",
+    settingsRoute: "${Routes.contractWithPointsSettings}/noQueens",
   ),
   noTricks(
     color: MyThemeColors.blueGreen,
-    settingsRoute: "${Routes.noSomethingScoresSettings}/noTricks",
+    settingsRoute: "${Routes.contractWithPointsSettings}/noTricks",
   ),
   noLastTrick(
     color: MyThemeColors.darkBlue,
-    settingsRoute: "${Routes.onLooserSettings}/noLastTrick",
+    settingsRoute: "${Routes.contractWithPointsSettings}/noLastTrick",
   ),
   salad(
-    color: MyThemeColors.darkBlue,
+    color: MyThemeColors.green,
     settingsRoute: Routes.saladSettings,
   ),
   domino(

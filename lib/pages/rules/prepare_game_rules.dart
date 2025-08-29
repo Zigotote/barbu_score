@@ -33,7 +33,7 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
             children: [
               Text(context.l10n.forGameAt),
               DropdownMenu(
-                width: 80,
+                width: MediaQuery.of(context).textScaler.scale(90),
                 dropdownMenuEntries: [
                   for (var nbPlayers = kNbPlayersMin;
                       nbPlayers <= kNbPlayersMax;

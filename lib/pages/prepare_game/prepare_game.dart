@@ -63,8 +63,8 @@ class PrepareGame extends ConsumerWidget {
           Text(context.l10n.cardsToKeep),
           Text(
             context.l10n.cardInterval(
-              context.l10n.cardName(cardsToKeep[0]),
               context.l10n.cardName(cardsToKeep[cardsToKeep.length - 1]),
+              context.l10n.cardName(cardsToKeep[0]),
             ),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineSmall,

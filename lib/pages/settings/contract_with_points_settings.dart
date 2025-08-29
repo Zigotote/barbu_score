@@ -9,15 +9,17 @@ import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/my_appbar.dart';
 import 'utils/change_settings.dart';
 import 'widgets/change_contract_activation.dart';
+import 'widgets/my_switch.dart';
 import 'widgets/number_input.dart';
 import 'widgets/setting_question.dart';
 
-/// A page to edit one looser contract settings (like barbu or no last trick)
-class OneLooserContractSettingsPage extends ConsumerWidget with ChangeSettings {
+/// A page to edit the settings for a contract where each player has a different score
+class ContractWithPointsSettingsPage extends ConsumerWidget
+    with ChangeSettings {
   /// The contract that is beeing edited
   final ContractsInfo contract;
 
-  const OneLooserContractSettingsPage(this.contract, {super.key});
+  const ContractWithPointsSettingsPage(this.contract, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,6 +56,22 @@ class OneLooserContractSettingsPage extends ConsumerWidget with ChangeSettings {
                 focusNode: numberFocusNode,
               ),
             ),
+            if (settings.canInvertScore)
+              SettingQuestion(
+                tooltip: context.l10n.invertScoreDetails,
+                label: context.l10n.invertScore,
+                onTap: () {
+                  settings.invertScore = !settings.invertScore;
+                  saveNewSettings(ref, contract, settings);
+                },
+                input: MySwitch(
+                  isActive: settings.invertScore,
+                  onChanged: (value) {
+                    settings.invertScore = value;
+                    saveNewSettings(ref, contract, settings);
+                  },
+                ),
+              ),
           ],
         ),
       ),

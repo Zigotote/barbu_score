@@ -79,7 +79,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get cardsOrder =>
-      'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus fortes jusqu\'à obtenir le nombre requis.';
+      'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.';
 
   @override
   String get cardsToKeep => 'Conserver les cartes';
@@ -359,7 +359,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get presentGame =>
-      'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. L\'objectif est de remporter le moins de points possible.';
+      'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes. L\'objectif est de remporter le moins de points possible.';
 
   @override
   String get previous => 'Précédent';

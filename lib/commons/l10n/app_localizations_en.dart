@@ -358,7 +358,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get presentGame =>
-      'Barbu is a game for 3 to 6 players, played with a deck of cards. The goal is to score as few points as possible.';
+      'Barbu is a game for 3 to 6 players, played with a deck of cards. It can also be played with up to 10 players, using 2 decks of cards. The goal is to score as few points as possible.';
 
   @override
   String get previous => 'Previous';

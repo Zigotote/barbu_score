@@ -6,7 +6,6 @@ import '../models/contract_info.dart';
 import '../models/contract_models.dart';
 import '../models/contract_settings_models.dart';
 import '../models/player.dart';
-import '../utils/constants.dart';
 import '../utils/game_helpers.dart';
 import 'play_game.dart';
 import 'storage.dart';
@@ -92,7 +91,7 @@ class ContractsManager {
 
   String getScoresRoute(ContractsInfo contract) {
     return switch (contract) {
-      ContractsInfo.barbu => nbPlayers <= kNbPlayersMaxForOneDeck
+      ContractsInfo.barbu => getNbDecks(nbPlayers) == 1
           ? "${Routes.oneLooserScores}/${contract.name}"
           : "${Routes.noSomethingScores}/${contract.name}",
       ContractsInfo.noHearts ||

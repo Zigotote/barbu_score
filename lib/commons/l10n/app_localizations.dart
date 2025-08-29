@@ -209,7 +209,7 @@ abstract class AppLocalizations {
   /// No description provided for @cardsOrder.
   ///
   /// In fr, this message translates to:
-  /// **'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus fortes jusqu\'à obtenir le nombre requis.'**
+  /// **'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.'**
   String get cardsOrder;
 
   /// No description provided for @cardsToKeep.
@@ -671,7 +671,7 @@ abstract class AppLocalizations {
   /// No description provided for @presentGame.
   ///
   /// In fr, this message translates to:
-  /// **'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. L\'objectif est de remporter le moins de points possible.'**
+  /// **'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes. L\'objectif est de remporter le moins de points possible.'**
   String get presentGame;
 
   /// No description provided for @previous.
