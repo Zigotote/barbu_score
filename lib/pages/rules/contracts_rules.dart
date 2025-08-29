@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../commons/models/contract_info.dart';
-import '../../commons/models/player_colors.dart';
 import '../../commons/providers/storage.dart';
 import 'widgets/rules_page.dart';
 import 'widgets/settings_card.dart';
@@ -54,10 +53,7 @@ class ContractsRules extends ConsumerWidget {
                     ),
                     color: Theme.of(context)
                         .colorScheme
-                        .convertPlayerColor(
-                          PlayerColors
-                              .values[index % PlayerColors.values.length],
-                        )
+                        .convertMyColor(contract.color)
                         .withValues(alpha: 0.5),
                   ),
                   child: Row(

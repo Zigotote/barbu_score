@@ -14,17 +14,17 @@ import 'widgets/number_input.dart';
 import 'widgets/setting_question.dart';
 
 /// A page to edit the settings for a contract where each player has a different score
-class MultipleLooserContractSettingsPage extends ConsumerWidget
+class ContractWithPointsSettingsPage extends ConsumerWidget
     with ChangeSettings {
   /// The contract that is beeing edited
   final ContractsInfo contract;
 
-  const MultipleLooserContractSettingsPage(this.contract, {super.key});
+  const ContractWithPointsSettingsPage(this.contract, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.read(storageProvider).getSettings(contract).copyWith()
-        as MultipleLooserContractSettings;
+        as ContractWithPointsSettings;
     final numberFocusNode = FocusNode();
     return DefaultPage(
       appBar: MyAppBar(
@@ -56,21 +56,22 @@ class MultipleLooserContractSettingsPage extends ConsumerWidget
                 focusNode: numberFocusNode,
               ),
             ),
-            SettingQuestion(
-              tooltip: context.l10n.invertScoreDetails,
-              label: context.l10n.invertScore,
-              onTap: () {
-                settings.invertScore = !settings.invertScore;
-                saveNewSettings(ref, contract, settings);
-              },
-              input: MySwitch(
-                isActive: settings.invertScore,
-                onChanged: (value) {
-                  settings.invertScore = value;
+            if (settings.canInvertScore)
+              SettingQuestion(
+                tooltip: context.l10n.invertScoreDetails,
+                label: context.l10n.invertScore,
+                onTap: () {
+                  settings.invertScore = !settings.invertScore;
                   saveNewSettings(ref, contract, settings);
                 },
+                input: MySwitch(
+                  isActive: settings.invertScore,
+                  onChanged: (value) {
+                    settings.invertScore = value;
+                    saveNewSettings(ref, contract, settings);
+                  },
+                ),
               ),
-            ),
           ],
         ),
       ),

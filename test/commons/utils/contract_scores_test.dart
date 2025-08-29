@@ -29,7 +29,11 @@ void main() {
       defaultPlayerNames[2]: 0,
       defaultPlayerNames[3]: 20,
       defaultPlayerNames[4]: 0,
-      defaultPlayerNames[5]: -20,
+      defaultPlayerNames[5]: 20,
+      defaultPlayerNames[6]: 0,
+      defaultPlayerNames[7]: 20,
+      defaultPlayerNames[8]: 0,
+      defaultPlayerNames[9]: -20,
     });
     expect(scores, [
       {

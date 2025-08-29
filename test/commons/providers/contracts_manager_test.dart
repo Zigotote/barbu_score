@@ -2,9 +2,9 @@ import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/models/player.dart';
-import 'package:barbu_score/commons/models/player_colors.dart';
 import 'package:barbu_score/commons/providers/contracts_manager.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
+import 'package:barbu_score/theme/my_theme_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -14,23 +14,26 @@ import '../../utils/utils.mocks.dart';
 void main() {
   // Custom settings
   final mockStorage = MockMyStorage();
-  final barbuSettings = OneLooserContractSettings(
+  final barbuSettings = ContractWithPointsSettings(
     contract: ContractsInfo.barbu,
     points: 30,
   );
-  final noQueensSettings = MultipleLooserContractSettings(
+  final noQueensSettings = ContractWithPointsSettings(
     contract: ContractsInfo.noQueens,
     points: 15,
+    invertScore: true,
   );
-  final noTricksSettings = MultipleLooserContractSettings(
+  final noTricksSettings = ContractWithPointsSettings(
     contract: ContractsInfo.noTricks,
     points: 10,
+    invertScore: true,
   );
-  final noHeartsSettings = MultipleLooserContractSettings(
+  final noHeartsSettings = ContractWithPointsSettings(
     contract: ContractsInfo.noHearts,
     points: 5,
+    invertScore: true,
   );
-  final noLastTrickSettings = OneLooserContractSettings(
+  final noLastTrickSettings = ContractWithPointsSettings(
     contract: ContractsInfo.noLastTrick,
     points: 50,
   );
@@ -40,29 +43,29 @@ void main() {
 
   // Items by players
   final playerNames = defaultPlayerNames.take(4).toList();
-  final barbu = OneLooserContractModel(
+  final barbu = ContractWithPointsModel(
     contract: ContractsInfo.barbu,
     itemsByPlayer: {
       for (var (index, player) in playerNames.indexed)
         player: index == 0 ? 1 : 0
     },
   );
-  final noQueens = MultipleLooserContractModel(
+  final noQueens = ContractWithPointsModel(
     contract: ContractsInfo.noQueens,
     itemsByPlayer: {for (var player in playerNames) player: 1},
     nbItems: 4,
   );
-  final noTricks = MultipleLooserContractModel(
+  final noTricks = ContractWithPointsModel(
     contract: ContractsInfo.noTricks,
     itemsByPlayer: {for (var player in playerNames) player: 2},
     nbItems: 8,
   );
-  final noHearts = MultipleLooserContractModel(
+  final noHearts = ContractWithPointsModel(
     contract: ContractsInfo.noHearts,
     itemsByPlayer: {for (var player in playerNames) player: 2},
     nbItems: 8,
   );
-  final noLastTrick = OneLooserContractModel(
+  final noLastTrick = ContractWithPointsModel(
     contract: ContractsInfo.noLastTrick,
     itemsByPlayer: {
       for (var (index, player) in playerNames.indexed)
@@ -145,7 +148,7 @@ void main() {
     ]) {
       final player = Player(
         name: playerNames[0],
-        color: PlayerColors.values[0],
+        color: MyThemeColors.values[0],
         image: playerImages[0],
         contracts: [
           barbu,
@@ -220,7 +223,7 @@ void main() {
           .map(
             (name) => Player(
               name: name,
-              color: PlayerColors.values[0],
+              color: MyThemeColors.values[0],
               image: playerImages[0],
               contracts: [
                 barbu,
@@ -266,25 +269,25 @@ void main() {
       final players = [
         Player(
           name: playerNames[0],
-          color: PlayerColors.values[0],
+          color: MyThemeColors.values[0],
           image: playerImages[0],
           contracts: [barbu, noQueens, noHearts],
         ),
         Player(
           name: playerNames[1],
-          color: PlayerColors.values[1],
+          color: MyThemeColors.values[1],
           image: playerImages[1],
           contracts: [barbu, noHearts, noLastTrick],
         ),
         Player(
           name: playerNames[2],
-          color: PlayerColors.values[2],
+          color: MyThemeColors.values[2],
           image: playerImages[2],
           contracts: [barbu, noHearts, noTricks],
         ),
         Player(
           name: playerNames[3],
-          color: PlayerColors.values[3],
+          color: MyThemeColors.values[3],
           image: playerImages[3],
           contracts: [barbu, noTricks, domino],
         ),

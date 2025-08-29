@@ -27,13 +27,13 @@ class SaladNotifier with ChangeNotifier {
   List<ContractsInfo> get subContracts => _settings.activeContracts;
 
   /// Returns the filled contract which matches the contractName. If there is none, returns null
-  AbstractSubContractModel? getFilledContract(String contractName) {
+  ContractWithPointsModel? getFilledContract(String contractName) {
     return model.subContracts
         .firstWhereOrNull((contract) => contract.name == contractName);
   }
 
   /// Adds a contract to the filledContracts list
-  void addContract(AbstractSubContractModel contract) {
+  void addContract(ContractWithPointsModel contract) {
     model.addSubContract(contract);
     notifyListeners();
   }

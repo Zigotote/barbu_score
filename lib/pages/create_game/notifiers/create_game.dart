@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/player.dart';
-import '../../../commons/models/player_colors.dart';
 import '../../../commons/utils/constants.dart';
 import '../../../commons/utils/player_icon_properties.dart';
+import '../../../theme/my_theme_colors.dart';
 
 final createGameProvider =
     ChangeNotifierProvider.autoDispose<CreateGameNotifier>(
@@ -53,14 +53,14 @@ class CreateGameNotifier with ChangeNotifier {
   }
 
   /// Returns the name of each player who choose this color
-  List<String> getPlayersWithColor(PlayerColors color) {
+  List<String> getPlayersWithColor(MyThemeColors color) {
     return _players
         .where((player) => player.color == color)
         .map((player) => player.name.trim().isEmpty ? "X" : player.name.trim())
         .toList();
   }
 
-  void changePlayerColor(Player player, PlayerColors color) {
+  void changePlayerColor(Player player, MyThemeColors color) {
     _players.firstWhere((p) => p == player).color = color;
     notifyListeners();
   }

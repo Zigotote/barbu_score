@@ -1,4 +1,4 @@
-import '../models/player_colors.dart';
+import '../../theme/my_theme_colors.dart';
 
 final _isDecember = DateTime.now().month == 12;
 
@@ -28,12 +28,12 @@ String _playerImagePath(String imageName) =>
     "assets/players/player$imageName.png";
 
 /// Returns the list of colors available to customize the player
-List<PlayerColors> get playerColors {
+List<MyThemeColors> get playerColors {
   if (_isDecember) {
     return [
-      PlayerColors.red,
-      ...PlayerColors.values.where((color) => color != PlayerColors.red)
+      MyThemeColors.red,
+      ...MyThemeColors.values.where((color) => color != MyThemeColors.red)
     ];
   }
-  return PlayerColors.values;
+  return MyThemeColors.values;
 }

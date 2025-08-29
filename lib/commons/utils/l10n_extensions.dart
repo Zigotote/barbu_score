@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/utils/string_extension.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -35,26 +36,27 @@ extension MyAppLocalizations on AppLocalizations {
       final activeContracts =
           (contractSettings as SaladContractSettings).activeContracts;
       final individualContractPoints = activeContracts.map((c) {
-        final subContractSettings = storage.getSettings(c);
+        final subContractSettings =
+            storage.getSettings(c) as ContractWithPointsSettings;
         return switch (c) {
-          ContractsInfo.barbu => rulesBarbuInSalad(
-              (subContractSettings as OneLooserContractSettings).points,
-            ),
-          ContractsInfo.noHearts => rulesNoHeartsInSalad(
-                (subContractSettings as MultipleLooserContractSettings).points,
-              ) +
-              (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
-          ContractsInfo.noQueens => rulesNoQueensInSalad(
-                (subContractSettings as MultipleLooserContractSettings).points,
-              ) +
-              (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
-          ContractsInfo.noTricks => rulesNoTricksInSalad(
-                (subContractSettings as MultipleLooserContractSettings).points,
-              ) +
-              (subContractSettings.invertScore ? ". $invertScoreDetails" : ""),
-          ContractsInfo.noLastTrick => rulesNoLastTrickInSalad(
-              (subContractSettings as OneLooserContractSettings).points,
-            ),
+          ContractsInfo.barbu => rulesBarbuInSalad(subContractSettings.points),
+          ContractsInfo.noHearts =>
+            rulesNoHeartsInSalad(subContractSettings.points) +
+                (subContractSettings.invertScore
+                    ? ". $invertScoreDetails"
+                    : ""),
+          ContractsInfo.noQueens =>
+            rulesNoQueensInSalad(subContractSettings.points) +
+                (subContractSettings.invertScore
+                    ? ". $invertScoreDetails"
+                    : ""),
+          ContractsInfo.noTricks =>
+            rulesNoTricksInSalad(subContractSettings.points) +
+                (subContractSettings.invertScore
+                    ? ". $invertScoreDetails"
+                    : ""),
+          ContractsInfo.noLastTrick =>
+            rulesNoLastTrickInSalad(subContractSettings.points),
           _ => ""
         };
       });
@@ -77,21 +79,21 @@ extension MyAppLocalizations on AppLocalizations {
   String contractRules(AbstractContractSettings contractSettings) {
     return switch (ContractsInfo.fromName(contractSettings.name)) {
       ContractsInfo.barbu =>
-        rulesBarbu((contractSettings as OneLooserContractSettings).points),
+        rulesBarbu((contractSettings as ContractWithPointsSettings).points),
       ContractsInfo.noHearts => rulesNoHearts(
-            (contractSettings as MultipleLooserContractSettings).points,
+            (contractSettings as ContractWithPointsSettings).points,
           ) +
           (contractSettings.invertScore ? " $invertScoreDetails" : ""),
       ContractsInfo.noQueens => rulesNoQueens(
-            (contractSettings as MultipleLooserContractSettings).points,
+            (contractSettings as ContractWithPointsSettings).points,
           ) +
           (contractSettings.invertScore ? " $invertScoreDetails" : ""),
       ContractsInfo.noTricks => rulesNoTricks(
-            (contractSettings as MultipleLooserContractSettings).points,
+            (contractSettings as ContractWithPointsSettings).points,
           ) +
           (contractSettings.invertScore ? " $invertScoreDetails" : ""),
       ContractsInfo.noLastTrick => rulesNoLastTrick(
-          (contractSettings as OneLooserContractSettings).points,
+          (contractSettings as ContractWithPointsSettings).points,
         ),
       ContractsInfo.salad => rulesSalad(
             (contractSettings as SaladContractSettings)
@@ -135,5 +137,16 @@ extension MyAppLocalizations on AppLocalizations {
       }
     }
     return "$nb";
+  }
+
+  /// Returns the card name from its index
+  String cardName(int index) {
+    return switch (index) {
+      14 => ace.capitalize(),
+      13 => king.capitalize(),
+      12 => queen.capitalize(),
+      11 => jack.capitalize(),
+      _ => "$index"
+    };
   }
 }

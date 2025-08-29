@@ -1,54 +1,71 @@
+import 'package:barbu_score/theme/my_theme_colors.dart';
+
 import '../../main.dart';
 import 'contract_settings_models.dart';
 
 /// List the names of the contracts for a game
 enum ContractsInfo {
   barbu(
-    scoreRoute: "${Routes.barbuOrNoLastTrickScores}/barbu",
-    settingsRoute: "${Routes.barbuOrNoLastTrickSettings}/barbu",
+    color: MyThemeColors.brown,
+    settingsRoute: "${Routes.contractWithPointsSettings}/barbu",
   ),
   noHearts(
-    scoreRoute: "${Routes.noSomethingScores}/noHearts",
-    settingsRoute: "${Routes.noSomethingScoresSettings}/noHearts",
+    color: MyThemeColors.red,
+    settingsRoute: "${Routes.contractWithPointsSettings}/noHearts",
   ),
   noQueens(
-    scoreRoute: "${Routes.noSomethingScores}/noQueens",
-    settingsRoute: "${Routes.noSomethingScoresSettings}/noQueens",
+    color: MyThemeColors.orange,
+    settingsRoute: "${Routes.contractWithPointsSettings}/noQueens",
   ),
   noTricks(
-    scoreRoute: "${Routes.noSomethingScores}/noTricks",
-    settingsRoute: "${Routes.noSomethingScoresSettings}/noTricks",
+    color: MyThemeColors.blueGreen,
+    settingsRoute: "${Routes.contractWithPointsSettings}/noTricks",
   ),
   noLastTrick(
-    scoreRoute: "${Routes.barbuOrNoLastTrickScores}/noLastTrick",
-    settingsRoute: "${Routes.barbuOrNoLastTrickSettings}/noLastTrick",
+    color: MyThemeColors.darkBlue,
+    settingsRoute: "${Routes.contractWithPointsSettings}/noLastTrick",
   ),
   salad(
-    scoreRoute: Routes.saladScores,
+    color: MyThemeColors.green,
     settingsRoute: Routes.saladSettings,
   ),
   domino(
-    scoreRoute: Routes.dominoScores,
+    color: MyThemeColors.purple,
     settingsRoute: Routes.dominoSettings,
   );
 
-  const ContractsInfo({required this.scoreRoute, required this.settingsRoute});
-
-  final String scoreRoute;
+  final MyThemeColors color;
   final String settingsRoute;
+
+  const ContractsInfo({
+    required this.color,
+    required this.settingsRoute,
+  });
 
   AbstractContractSettings get defaultSettings {
     switch (this) {
       case ContractsInfo.barbu:
-        return OneLooserContractSettings(contract: this, points: 50);
+        return ContractWithPointsSettings(contract: this, points: 50);
       case ContractsInfo.noHearts:
-        return MultipleLooserContractSettings(contract: this, points: 5);
+        return ContractWithPointsSettings(
+          contract: this,
+          points: 5,
+          invertScore: true,
+        );
       case ContractsInfo.noQueens:
-        return MultipleLooserContractSettings(contract: this, points: 10);
+        return ContractWithPointsSettings(
+          contract: this,
+          points: 10,
+          invertScore: true,
+        );
       case ContractsInfo.noTricks:
-        return MultipleLooserContractSettings(contract: this, points: 5);
+        return ContractWithPointsSettings(
+          contract: this,
+          points: 5,
+          invertScore: true,
+        );
       case ContractsInfo.noLastTrick:
-        return OneLooserContractSettings(contract: this, points: 40);
+        return ContractWithPointsSettings(contract: this, points: 40);
       case ContractsInfo.salad:
         return SaladContractSettings(
           contracts: {

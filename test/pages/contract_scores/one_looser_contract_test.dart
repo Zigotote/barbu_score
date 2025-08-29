@@ -53,7 +53,7 @@ void main() {
     final mockPlayGame = mockPlayGameNotifier();
     final game = mockPlayGame.game;
     const indexSelectedPlayer = 1;
-    final contract = OneLooserContractModel(
+    final contract = ContractWithPointsModel(
       contract: ContractsInfo.barbu,
       itemsByPlayer: {
         for (var (index, player) in game.players.indexed)
@@ -74,7 +74,7 @@ void main() {
       final mockPlayGame = mockPlayGameNotifier();
       final game = mockPlayGame.game;
       const indexSelectedPlayer = 1;
-      final expectedContract = OneLooserContractModel(
+      final expectedContract = ContractWithPointsModel(
         contract: ContractsInfo.barbu,
         itemsByPlayer: {
           for (var (index, player) in game.players.indexed)
@@ -98,7 +98,7 @@ void main() {
 }
 
 Widget _createPage(PatrolTester $,
-    {OneLooserContractModel? contractValues,
+    {ContractWithPointsModel? contractValues,
     MockPlayGameNotifier? mockPlayGame}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
