@@ -83,6 +83,10 @@ enum ContractsInfo {
 
   /// Returns the ContractsInfo from its name
   static ContractsInfo fromName(String name) {
-    return ContractsInfo.values.firstWhere((contract) => contract.name == name);
+    return ContractsInfo.values.firstWhere(
+      (contract) => contract.name == name,
+      // TODO Temporary to migrate trumps settings to salad settings
+      orElse: () => ContractsInfo.salad,
+    );
   }
 }

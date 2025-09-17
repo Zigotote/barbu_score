@@ -37,6 +37,16 @@ class MyStorage {
       cacheOptions: SharedPreferencesWithCacheOptions(),
     );
 
+    // TODO Temporary to migrate trumps settings to salad settings
+    final saladSettings = storage?.getString(ContractsInfo.salad.name);
+    if (saladSettings != null) {
+      storage?.setString(
+        ContractsInfo.salad.name,
+        jsonEncode(
+          AbstractContractSettings.fromJson(jsonDecode(saladSettings)),
+        ),
+      );
+    }
     // TODO Temporary to migrate domino settings for 6+ players
     final savedDominoSettings = storage?.getString(ContractsInfo.domino.name);
     if (savedDominoSettings != null) {
