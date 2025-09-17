@@ -1,6 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
@@ -21,7 +20,9 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   final String _riveStateName = "Switch theme";
 
   /// The state of the switch (true or false)
-  late final SMIInput<bool>? _switchState;
+  //late final SMIInput<bool>? _switchState;
+  late final riveFileLoader =
+      FileLoader.fromAsset("assets/switch.riv", riveFactory: Factory.flutter);
 
   /// The hint to describe theme state. Initialized to a temporary value because it's required but the state is not ready when the widget is created
   String _switchHint = " ";
@@ -50,7 +51,7 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   /// Updates isDark value and modify switch value accordingly
   void _updateTheme() {
     final isDarkTheme = ref.read(isDarkThemeProvider);
-    _switchState?.change(isDarkTheme);
+    //_switchState?.change(isDarkTheme);
     setState(() {
       _switchHint =
           isDarkTheme ? context.l10n.hintDarkMode : context.l10n.hintLightMode;
@@ -61,7 +62,7 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   }
 
   /// Initializes riverpod animation
-  void _initStateMachine(Artboard artboard) {
+  /*void _initStateMachine(Artboard artboard) {
     final StateMachineController? animationController =
         StateMachineController.fromArtboard(artboard, _riveStateName);
 
@@ -70,15 +71,15 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
       _switchState = animationController.findInput("isDark")!;
       _updateTheme();
     }
-  }
+  }*/
 
   /// Inverts the theme of the app
   void _invertTheme() {
-    if (_switchState != null) {
+    /*if (_switchState != null) {
       ref.read(isDarkThemeProvider.notifier).changeTheme(!_switchState.value);
       _updateTheme();
       SemanticsService.announce(_switchHint, TextDirection.ltr);
-    }
+    }*/
   }
 
   @override
@@ -92,11 +93,26 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
         child: Semantics(
           label: _switchHint,
           onTapHint: _switchOnTapHint,
-          child: RiveAnimation.asset(
+          child: RiveWidgetBuilder(
+            fileLoader: riveFileLoader,
+            builder: (context, state) => switch (state) {
+              RiveLoading() => Center(child: CircularProgressIndicator()),
+              RiveFailed() => ErrorWidget.withDetails(
+                  message: state.error.toString(),
+                  error: FlutterError(state.error.toString()),
+                ),
+              RiveLoaded() => RiveWidget(
+                  controller: state.controller,
+                  fit: Fit.layout,
+                  layoutScaleFactor: 1 / 3,
+                )
+            },
+          ),
+          /*.asset(
             "assets/switch.riv",
             stateMachines: [_riveStateName],
             onInit: _initStateMachine,
-          ),
+          )*/
         ),
       ),
     );

@@ -4,7 +4,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.5.0 <4.0.0"
   flutter: ">=3.32.8"
 
 dependencies:
@@ -26,7 +26,12 @@ dependencies:
   json_annotation: ^4.9.0
   non_uniform_border: ^1.0.0
   reorderable_grid_view: ^2.2.8
-  rive: 0.13.1
+  # TODO Océane migration de rive pour permettre la compatibilité avec Android 16KB (demande playstore)
+  # Mais là tout de suite ça marche pour une histoire de version Dart incompatible. Voir dans quelques versions s'il y a toujours le problème, j'ai jusqu'au 31/05/2026 pour migrer
+  # Issue qui fait que j'ai jamais migré : https://github.com/rive-app/rive-flutter/issues/354
+  # Doc de migration : https://rive.app/docs/runtimes/flutter/migration-guide#quick-migration-checklist
+  # Projet exemple : https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/rive_widget_builder.dart
+  rive: ^0.14.0-dev.10
   shared_preferences: ^2.5.3
   timelines_plus: ^1.0.7
   two_dimensional_scrollables: ^0.3.5
