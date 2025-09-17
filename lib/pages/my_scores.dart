@@ -31,7 +31,7 @@ class MyScores extends ConsumerWidget {
             ref.read(logProvider).info("MyScores: save $game");
             ref.read(logProvider).sendAnalyticEvent(
               "save_game",
-              parameters: {"nbPlayers": game.players.length},
+              parameters: {"nb_players": game.players.length},
             );
             ref.read(storageProvider).saveGame(game);
             context.go(Routes.home);
