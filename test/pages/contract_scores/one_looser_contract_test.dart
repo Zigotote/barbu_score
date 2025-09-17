@@ -39,8 +39,9 @@ void main() {
     expect($(DraggableScrollableSheet), findsNothing);
   });
 
-  patrolWidgetTest("should create page with disabled validate scores button",
-      ($) async {
+  patrolWidgetTest("should create page with disabled validate scores button", (
+    $,
+  ) async {
     await $.pumpWidget(_createPage($));
 
     expect($(ElevatedButtonCustomColor), findsNWidgets(nbPlayersByDefault));
@@ -48,8 +49,9 @@ void main() {
         ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
     expect(validateButton.onPressed, isNull);
   });
-  patrolWidgetTest("should create page with initial selected player",
-      ($) async {
+  patrolWidgetTest("should create page with initial selected player", (
+    $,
+  ) async {
     final mockPlayGame = mockPlayGameNotifier();
     final game = mockPlayGame.game;
     const indexSelectedPlayer = 1;
@@ -57,7 +59,7 @@ void main() {
       contract: ContractsInfo.barbu,
       itemsByPlayer: {
         for (var (index, player) in game.players.indexed)
-          player.name: index == indexSelectedPlayer ? 1 : 0
+          player.name: index == indexSelectedPlayer ? 1 : 0,
       },
     );
 
@@ -69,37 +71,40 @@ void main() {
   });
   for (var changeSelectedPlayer in [true, false]) {
     patrolWidgetTest(
-        "should validate scores if one player is selected and go to next player turn ${changeSelectedPlayer ? "with" : "without"} change of mind",
-        ($) async {
-      final mockPlayGame = mockPlayGameNotifier();
-      final game = mockPlayGame.game;
-      const indexSelectedPlayer = 1;
-      final expectedContract = ContractWithPointsModel(
-        contract: ContractsInfo.barbu,
-        itemsByPlayer: {
-          for (var (index, player) in game.players.indexed)
-            player.name: index == indexSelectedPlayer ? 1 : 0
-        },
-      );
+      "should validate scores if one player is selected and go to next player turn ${changeSelectedPlayer ? "with" : "without"} change of mind",
+      ($) async {
+        final mockPlayGame = mockPlayGameNotifier();
+        final game = mockPlayGame.game;
+        const indexSelectedPlayer = 1;
+        final expectedContract = ContractWithPointsModel(
+          contract: ContractsInfo.barbu,
+          itemsByPlayer: {
+            for (var (index, player) in game.players.indexed)
+              player.name: index == indexSelectedPlayer ? 1 : 0,
+          },
+        );
 
-      await $.pumpWidget(_createPage($, mockPlayGame: mockPlayGame));
+        await $.pumpWidget(_createPage($, mockPlayGame: mockPlayGame));
 
-      if (changeSelectedPlayer) {
-        await $(ElevatedButtonCustomColor).at(0).tap();
-      }
-      await $(ElevatedButtonCustomColor).at(indexSelectedPlayer).tap();
-      await findValidateScoresButton($).tap();
+        if (changeSelectedPlayer) {
+          await $(ElevatedButtonCustomColor).at(0).tap();
+        }
+        await $(ElevatedButtonCustomColor).at(indexSelectedPlayer).tap();
+        await findValidateScoresButton($).tap();
 
-      expect($(ChooseContract), findsOneWidget);
-      verify(mockPlayGame.finishContract(expectedContract));
-      verify(mockPlayGame.nextPlayer());
-    });
+        expect($(ChooseContract), findsOneWidget);
+        verify(mockPlayGame.finishContract(expectedContract));
+        verify(mockPlayGame.nextPlayer());
+      },
+    );
   }
 }
 
-Widget _createPage(PatrolTester $,
-    {ContractWithPointsModel? contractValues,
-    MockPlayGameNotifier? mockPlayGame}) {
+Widget _createPage(
+  PatrolTester $, {
+  ContractWithPointsModel? contractValues,
+  MockPlayGameNotifier? mockPlayGame,
+}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
 
@@ -122,15 +127,15 @@ Widget _createPage(PatrolTester $,
         routes: [
           GoRoute(
             path: Routes.home,
-            builder: (_, __) => OneLooserContractPage(
+            builder: (_, _) => OneLooserContractPage(
               ContractsInfo.barbu,
               contractModel: contractValues,
             ),
           ),
           GoRoute(
             path: Routes.chooseContract,
-            builder: (_, __) => const ChooseContract(),
-          )
+            builder: (_, _) => const ChooseContract(),
+          ),
         ],
       ),
     ),

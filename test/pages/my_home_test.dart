@@ -52,25 +52,26 @@ void main() {
     });
     for (var startGame in [true, false]) {
       patrolWidgetTest(
-          "should ${startGame ? "" : "not "}start game if stored game is ${startGame ? "ignored" : "loaded"}",
-          ($) async {
-        await $.pumpWidget(
-          _createPage($, storedGame: createGame(nbPlayersByDefault)),
-        );
+        "should ${startGame ? "" : "not "}start game if stored game is ${startGame ? "ignored" : "loaded"}",
+        ($) async {
+          await $.pumpWidget(
+            _createPage($, storedGame: createGame(nbPlayersByDefault)),
+          );
 
-        await $(_startGameText).tap();
+          await $(_startGameText).tap();
 
-        expect($(MyAlertDialog), findsOneWidget);
-        if (startGame) {
-          await $("Oui").tap();
-          expect($(CreateGame), findsOneWidget);
-        } else {
-          await $("Non, reprendre la partie").tap();
-          expect($(PrepareGame), findsOneWidget);
-        }
+          expect($(MyAlertDialog), findsOneWidget);
+          if (startGame) {
+            await $("Oui").tap();
+            expect($(CreateGame), findsOneWidget);
+          } else {
+            await $("Non, reprendre la partie").tap();
+            expect($(PrepareGame), findsOneWidget);
+          }
 
-        await _checkGoBack($);
-      });
+          await _checkGoBack($);
+        },
+      );
     }
     patrolWidgetTest("should not start game if no active contract", ($) async {
       await $.pumpWidget(_createPage($, activeContracts: []));
@@ -78,9 +79,9 @@ void main() {
       await $(_startGameText).tap();
 
       expect($(MyAlertDialog), findsOneWidget);
-      await $(MyAlertDialog)
-          .$(ElevatedButton)
-          .tap(settlePolicy: SettlePolicy.trySettle);
+      await $(
+        MyAlertDialog,
+      ).$(ElevatedButton).tap(settlePolicy: SettlePolicy.trySettle);
 
       expect($(MySettings), findsOneWidget);
 
@@ -90,28 +91,30 @@ void main() {
   group("#loadGame", () {
     for (var loadGame in [true, false]) {
       patrolWidgetTest(
-          "should ${loadGame ? "load" : "start"} game if stored game ${loadGame ? "exists" : "is ignored"}",
-          ($) async {
-        await $.pumpWidget(
-          _createPage($, storedGame: createGame(nbPlayersByDefault)),
-        );
-
-        await $(_loadGameText).tap();
-
-        expect($(MyAlertDialog), findsOneWidget);
-        if (loadGame) {
-          await $("Oui").tap();
-          expect($(PrepareGame), findsOneWidget);
-        } else {
-          await $("Non, nouvelle partie").tap();
-          expect($(CreateGame), findsOneWidget);
-        }
-        // should go back to home
-        await _checkGoBack($);
-      });
-    }
-    patrolWidgetTest("should display scores if stored game is finished",
+        "should ${loadGame ? "load" : "start"} game if stored game ${loadGame ? "exists" : "is ignored"}",
         ($) async {
+          await $.pumpWidget(
+            _createPage($, storedGame: createGame(nbPlayersByDefault)),
+          );
+
+          await $(_loadGameText).tap();
+
+          expect($(MyAlertDialog), findsOneWidget);
+          if (loadGame) {
+            await $("Oui").tap();
+            expect($(PrepareGame), findsOneWidget);
+          } else {
+            await $("Non, nouvelle partie").tap();
+            expect($(CreateGame), findsOneWidget);
+          }
+          // should go back to home
+          await _checkGoBack($);
+        },
+      );
+    }
+    patrolWidgetTest("should display scores if stored game is finished", (
+      $,
+    ) async {
       final mockStorage = MockMyStorage();
       final storedGame = Game(players: []);
       storedGame.isFinished = true;
@@ -129,38 +132,38 @@ void main() {
     });
     for (var hasAvailableContract in [true, false]) {
       patrolWidgetTest(
-          "should display ${hasAvailableContract ? "prepare game" : "scores"} if players has${hasAvailableContract ? "" : " not"} available contract",
-          ($) async {
-        final mockStorage = MockMyStorage();
-        final storedGame = createGame(
-          defaultPlayerNames.length,
-          [defaultBarbu],
-        );
+        "should display ${hasAvailableContract ? "prepare game" : "scores"} if players has${hasAvailableContract ? "" : " not"} available contract",
+        ($) async {
+          final mockStorage = MockMyStorage();
+          final storedGame = createGame(defaultPlayerNames.length, [
+            defaultBarbu,
+          ]);
 
-        await $.pumpWidget(
-          _createPage(
-            $,
-            mockStorage: mockStorage,
-            storedGame: storedGame,
-            activeContracts: hasAvailableContract
-                ? ContractsInfo.values
-                : [ContractsInfo.barbu],
-          ),
-        );
+          await $.pumpWidget(
+            _createPage(
+              $,
+              mockStorage: mockStorage,
+              storedGame: storedGame,
+              activeContracts: hasAvailableContract
+                  ? ContractsInfo.values
+                  : [ContractsInfo.barbu],
+            ),
+          );
 
-        await $(_loadGameText).tap();
+          await $(_loadGameText).tap();
 
-        expect($(MyAlertDialog), findsOneWidget);
-        await $("Oui").tap();
+          expect($(MyAlertDialog), findsOneWidget);
+          await $("Oui").tap();
 
-        if (hasAvailableContract) {
-          expect($(PrepareGame), findsOneWidget);
-          verifyNever(mockStorage.saveGame(any));
-        } else {
-          expect($(FinishGame), findsOneWidget);
-          verify(mockStorage.saveGame(any));
-        }
-      });
+          if (hasAvailableContract) {
+            expect($(PrepareGame), findsOneWidget);
+            verifyNever(mockStorage.saveGame(any));
+          } else {
+            expect($(FinishGame), findsOneWidget);
+            verify(mockStorage.saveGame(any));
+          }
+        },
+      );
     }
     patrolWidgetTest("should not load game if no stored game", ($) async {
       await $.pumpWidget(_createPage($));
@@ -220,20 +223,17 @@ Widget _createPage(
     child: FrenchMaterialApp.router(
       routerConfig: GoRouter(
         routes: [
-          GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
-          GoRoute(path: Routes.createGame, builder: (_, __) => CreateGame()),
-          GoRoute(path: Routes.rules, builder: (_, __) => const MyRules()),
-          GoRoute(
-            path: Routes.settings,
-            builder: (_, __) => const MySettings(),
-          ),
+          GoRoute(path: Routes.home, builder: (_, _) => const MyHome()),
+          GoRoute(path: Routes.createGame, builder: (_, _) => CreateGame()),
+          GoRoute(path: Routes.rules, builder: (_, _) => const MyRules()),
+          GoRoute(path: Routes.settings, builder: (_, _) => const MySettings()),
           GoRoute(
             path: Routes.prepareGame,
-            builder: (_, __) => const PrepareGame(),
+            builder: (_, _) => const PrepareGame(),
           ),
           GoRoute(
             path: Routes.finishGame,
-            builder: (_, __) => const FinishGame(),
+            builder: (_, _) => const FinishGame(),
           ),
         ],
       ),

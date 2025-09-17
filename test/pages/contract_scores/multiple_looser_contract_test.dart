@@ -40,15 +40,18 @@ void main() {
   });
 
   group("#isNotValid", () {
-    patrolWidgetTest("should create page with disabled validate scores button",
-        ($) async {
-      await $.pumpWidget(_createPage());
+    patrolWidgetTest(
+      "should create page with disabled validate scores button",
+      ($) async {
+        await $.pumpWidget(_createPage());
 
-      expect($("0"), findsNWidgets(nbPlayersByDefault));
-      expect(_findValidateScoresButtonWidget($).onPressed, isNull);
-    });
-    patrolWidgetTest("should disable validation if items are withdrawn",
-        ($) async {
+        expect($("0"), findsNWidgets(nbPlayersByDefault));
+        expect(_findValidateScoresButtonWidget($).onPressed, isNull);
+      },
+    );
+    patrolWidgetTest("should disable validation if items are withdrawn", (
+      $,
+    ) async {
       await $.pumpWidget(_createPage());
 
       for (var i = 0; i < 4; i++) {
@@ -56,19 +59,17 @@ void main() {
       }
       expect(_findValidateScoresButtonWidget($).onPressed, isNotNull);
 
-      await $(ElevatedButtonCustomColor)
-          .containing($(Icons.remove))
-          .at(0)
-          .tap();
+      await $(
+        ElevatedButtonCustomColor,
+      ).containing($(Icons.remove)).at(0).tap();
       expect(_findValidateScoresButtonWidget($).onPressed, isNull);
     });
     patrolWidgetTest("should not go bellow zero", ($) async {
       await $.pumpWidget(_createPage());
 
-      await $(ElevatedButtonCustomColor)
-          .containing($(Icons.remove))
-          .at(0)
-          .tap();
+      await $(
+        ElevatedButtonCustomColor,
+      ).containing($(Icons.remove)).at(0).tap();
       expect($("0"), findsNWidgets(nbPlayersByDefault));
     });
   });
@@ -81,7 +82,7 @@ void main() {
         contract: ContractsInfo.noQueens,
         itemsByPlayer: {
           for (var (index, player) in game.players.indexed)
-            player.name: index % 2 == 0 ? 2 : 0
+            player.name: index % 2 == 0 ? 2 : 0,
         },
         nbItems: 4,
       );
@@ -96,39 +97,41 @@ void main() {
     });
     for (var tooManyTap in [true, false]) {
       patrolWidgetTest(
-          "should validate scores if number of items is correct, ${tooManyTap ? "with" : "without"} too many taps",
-          ($) async {
-        final mockPlayGame = mockPlayGameNotifier();
-        final game = mockPlayGame.game;
-        const indexPlayerWithItems = 0;
-        const nbItems = 4;
-        final expectedContract = ContractWithPointsModel(
-          contract: ContractsInfo.noQueens,
-          nbItems: nbItems,
-          itemsByPlayer: {
-            for (var (index, player) in game.players.indexed)
-              player.name: index == indexPlayerWithItems ? nbItems : 0
-          },
-        );
+        "should validate scores if number of items is correct, ${tooManyTap ? "with" : "without"} too many taps",
+        ($) async {
+          final mockPlayGame = mockPlayGameNotifier();
+          final game = mockPlayGame.game;
+          const indexPlayerWithItems = 0;
+          const nbItems = 4;
+          final expectedContract = ContractWithPointsModel(
+            contract: ContractsInfo.noQueens,
+            nbItems: nbItems,
+            itemsByPlayer: {
+              for (var (index, player) in game.players.indexed)
+                player.name: index == indexPlayerWithItems ? nbItems : 0,
+            },
+          );
 
-        await $.pumpWidget(_createPage(mockPlayGame: mockPlayGame));
+          await $.pumpWidget(_createPage(mockPlayGame: mockPlayGame));
 
-        for (var i = 0; i < (tooManyTap ? nbItems + 1 : nbItems); i++) {
-          await $(ElevatedButtonCustomColor)
-              .containing($(Icons.add))
-              .at(indexPlayerWithItems)
-              .tap();
-        }
-        expect($("Ajout de points impossible"),
-            tooManyTap ? findsOneWidget : findsNothing);
-        expect($("$nbItems"), findsOneWidget);
-        expect($("0"), findsNWidgets(game.players.length - 1));
-        await findValidateScoresButton($).tap();
+          for (var i = 0; i < (tooManyTap ? nbItems + 1 : nbItems); i++) {
+            await $(
+              ElevatedButtonCustomColor,
+            ).containing($(Icons.add)).at(indexPlayerWithItems).tap();
+          }
+          expect(
+            $("Ajout de points impossible"),
+            tooManyTap ? findsOneWidget : findsNothing,
+          );
+          expect($("$nbItems"), findsOneWidget);
+          expect($("0"), findsNWidgets(game.players.length - 1));
+          await findValidateScoresButton($).tap();
 
-        expect($(ChooseContract), findsOneWidget);
-        verify(mockPlayGame.finishContract(expectedContract));
-        verify(mockPlayGame.nextPlayer());
-      });
+          expect($(ChooseContract), findsOneWidget);
+          verify(mockPlayGame.finishContract(expectedContract));
+          verify(mockPlayGame.nextPlayer());
+        },
+      );
     }
   });
 }
@@ -137,9 +140,10 @@ ElevatedButton _findValidateScoresButtonWidget(PatrolTester $) {
   return $.tester.firstWidget(findValidateScoresButton($));
 }
 
-Widget _createPage(
-    {ContractWithPointsModel? contractValues,
-    MockPlayGameNotifier? mockPlayGame}) {
+Widget _createPage({
+  ContractWithPointsModel? contractValues,
+  MockPlayGameNotifier? mockPlayGame,
+}) {
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
 
@@ -159,15 +163,15 @@ Widget _createPage(
         routes: [
           GoRoute(
             path: Routes.home,
-            builder: (_, __) => MultipleLooserContractPage(
+            builder: (_, _) => MultipleLooserContractPage(
               ContractsInfo.noQueens,
               contractModel: contractValues,
             ),
           ),
           GoRoute(
             path: Routes.chooseContract,
-            builder: (_, __) => const ChooseContract(),
-          )
+            builder: (_, _) => const ChooseContract(),
+          ),
         ],
       ),
     ),

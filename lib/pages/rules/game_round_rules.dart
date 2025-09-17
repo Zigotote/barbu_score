@@ -23,15 +23,15 @@ class GameRoundRules extends StatelessWidget {
           const SizedBox(height: 16),
           FixedTimeline.tileBuilder(
             builder: TimelineTileBuilder.connected(
-              nodePositionBuilder: (_, __) => 0,
-              connectorBuilder: (_, __, ___) => Connector.solidLine(
+              nodePositionBuilder: (_, _) => 0,
+              connectorBuilder: (_, _, _) => Connector.solidLine(
                 color: Theme.of(context).colorScheme.onSurface,
               ),
               indicatorBuilder: (_, index) => Indicator.dot(
                 size: 24,
                 color: Theme.of(context).colorScheme.convertMyColor(
-                      MyThemeColors.values[index % MyThemeColors.values.length],
-                    ),
+                  MyThemeColors.values[index % MyThemeColors.values.length],
+                ),
               ),
               itemCount: rulesByStep.length,
               contentsBuilder: (_, index) => Padding(

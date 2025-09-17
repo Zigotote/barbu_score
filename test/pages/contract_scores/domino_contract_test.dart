@@ -40,28 +40,32 @@ void main() {
 
   for (var nbPlayers = kNbPlayersMin; nbPlayers <= kNbPlayersMax; nbPlayers++) {
     patrolWidgetTest(
-        "should create page with $nbPlayers ordered players and validate",
-        ($) async {
-      final mockPlayGame = mockPlayGameNotifier(nbPlayers: nbPlayers);
-      final game = mockPlayGame.game;
-      final expectedContract = DominoContractModel(rankOfPlayer: {
-        for (var (index, player) in game.players.indexed) player.name: index
-      });
-
-      await $.pumpWidget(_createPage(mockPlayGame));
-
-      for (var (index, player) in mockPlayGame.game.players.indexed) {
-        expect(
-          $(ColoredContainer).at(index).containing($(player.name)),
-          findsOneWidget,
+      "should create page with $nbPlayers ordered players and validate",
+      ($) async {
+        final mockPlayGame = mockPlayGameNotifier(nbPlayers: nbPlayers);
+        final game = mockPlayGame.game;
+        final expectedContract = DominoContractModel(
+          rankOfPlayer: {
+            for (var (index, player) in game.players.indexed)
+              player.name: index,
+          },
         );
-      }
-      await findValidateScoresButton($).tap();
 
-      expect($(ChooseContract), findsOneWidget);
-      verify(mockPlayGame.finishContract(expectedContract));
-      verify(mockPlayGame.nextPlayer());
-    });
+        await $.pumpWidget(_createPage(mockPlayGame));
+
+        for (var (index, player) in mockPlayGame.game.players.indexed) {
+          expect(
+            $(ColoredContainer).at(index).containing($(player.name)),
+            findsOneWidget,
+          );
+        }
+        await findValidateScoresButton($).tap();
+
+        expect($(ChooseContract), findsOneWidget);
+        verify(mockPlayGame.finishContract(expectedContract));
+        verify(mockPlayGame.nextPlayer());
+      },
+    );
   }
 }
 
@@ -84,11 +88,12 @@ Widget _createPage([MockPlayGameNotifier? mockPlayGame]) {
       routerConfig: GoRouter(
         routes: [
           GoRoute(
-              path: Routes.home,
-              builder: (_, __) => const DominoContractPage()),
+            path: Routes.home,
+            builder: (_, _) => const DominoContractPage(),
+          ),
           GoRoute(
             path: Routes.chooseContract,
-            builder: (_, __) => const ChooseContract(),
+            builder: (_, _) => const ChooseContract(),
           ),
         ],
       ),

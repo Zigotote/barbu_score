@@ -40,18 +40,19 @@ void main() {
         ContractWithPointsModel(contract: ContractsInfo.barbu),
         SaladContractModel(),
         DominoContractModel(),
-      ]
+      ],
     ),
     (active: [ContractsInfo.barbu], played: <AbstractContractModel>[]),
     (
       active: [ContractsInfo.barbu, ContractsInfo.salad, ContractsInfo.domino],
-      played: [ContractWithPointsModel(contract: ContractsInfo.barbu)]
-    )
+      played: [ContractWithPointsModel(contract: ContractsInfo.barbu)],
+    ),
   ]) {
     final activeContracts = contracts.active;
     final playedContracts = contracts.played;
-    patrolWidgetTest("should display enabled contracts $activeContracts",
-        ($) async {
+    patrolWidgetTest("should display enabled contracts $activeContracts", (
+      $,
+    ) async {
       await $.pumpWidget(_createPage($, activeContracts: activeContracts));
 
       expect($(ElevatedButton), findsNWidgets(activeContracts.length + 1));
@@ -63,15 +64,17 @@ void main() {
         );
         if (isActiveContract) {
           expect(
-            $(Key(contract.name)).which(
-                (widget) => (widget as ElevatedButton).onPressed != null),
+            $(
+              Key(contract.name),
+            ).which((widget) => (widget as ElevatedButton).onPressed != null),
             findsOneWidget,
           );
         }
       }
     });
-    patrolWidgetTest("should display disabled contracts $activeContracts",
-        ($) async {
+    patrolWidgetTest("should display disabled contracts $activeContracts", (
+      $,
+    ) async {
       await $.pumpWidget(
         _createPage(
           $,
@@ -87,7 +90,8 @@ void main() {
           $(Key(contract.name)).which((widget) {
             final onPressed = (widget as ElevatedButton).onPressed;
             return playedContracts.any(
-                    (playedContract) => contract.name == playedContract.name)
+                  (playedContract) => contract.name == playedContract.name,
+                )
                 ? onPressed == null
                 : onPressed != null;
           }),
@@ -114,89 +118,92 @@ void main() {
       (
         contract: ContractsInfo.barbu,
         nbPlayers: kNbPlayersMaxForOneDeck,
-        expectedPage: OneLooserContractPage
+        expectedPage: OneLooserContractPage,
       ),
       (
         contract: ContractsInfo.barbu,
         nbPlayers: kNbPlayersMaxForOneDeck + 1,
-        expectedPage: MultipleLooserContractPage
+        expectedPage: MultipleLooserContractPage,
       ),
       (
         contract: ContractsInfo.noHearts,
         nbPlayers: kNbPlayersMin,
-        expectedPage: MultipleLooserContractPage
+        expectedPage: MultipleLooserContractPage,
       ),
       (
         contract: ContractsInfo.noHearts,
         nbPlayers: kNbPlayersMax,
-        expectedPage: MultipleLooserContractPage
+        expectedPage: MultipleLooserContractPage,
       ),
       (
         contract: ContractsInfo.noQueens,
         nbPlayers: kNbPlayersMin,
-        expectedPage: MultipleLooserContractPage
+        expectedPage: MultipleLooserContractPage,
       ),
       (
         contract: ContractsInfo.noQueens,
         nbPlayers: kNbPlayersMax,
-        expectedPage: MultipleLooserContractPage
+        expectedPage: MultipleLooserContractPage,
       ),
       (
         contract: ContractsInfo.noTricks,
         nbPlayers: kNbPlayersMin,
-        expectedPage: MultipleLooserContractPage
+        expectedPage: MultipleLooserContractPage,
       ),
       (
         contract: ContractsInfo.noTricks,
         nbPlayers: kNbPlayersMax,
-        expectedPage: MultipleLooserContractPage
+        expectedPage: MultipleLooserContractPage,
       ),
       (
         contract: ContractsInfo.noLastTrick,
         nbPlayers: kNbPlayersMin,
-        expectedPage: OneLooserContractPage
+        expectedPage: OneLooserContractPage,
       ),
       (
         contract: ContractsInfo.noLastTrick,
         nbPlayers: kNbPlayersMax,
-        expectedPage: OneLooserContractPage
+        expectedPage: OneLooserContractPage,
       ),
       (
         contract: ContractsInfo.salad,
         nbPlayers: kNbPlayersMin,
-        expectedPage: SaladContractPage
+        expectedPage: SaladContractPage,
       ),
       (
         contract: ContractsInfo.salad,
         nbPlayers: kNbPlayersMax,
-        expectedPage: SaladContractPage
+        expectedPage: SaladContractPage,
       ),
       (
         contract: ContractsInfo.domino,
         nbPlayers: kNbPlayersMin,
-        expectedPage: DominoContractPage
+        expectedPage: DominoContractPage,
       ),
       (
         contract: ContractsInfo.domino,
         nbPlayers: kNbPlayersMax,
-        expectedPage: DominoContractPage
+        expectedPage: DominoContractPage,
       ),
     ]) {
       patrolWidgetTest(
-          "should go to ${testData.contract} score pages with ${testData.nbPlayers} players and keep contract available",
-          ($) async {
-        await $.pumpWidget(_createPage($, nbPlayers: testData.nbPlayers));
+        "should go to ${testData.contract} score pages with ${testData.nbPlayers} players and keep contract available",
+        ($) async {
+          await $.pumpWidget(_createPage($, nbPlayers: testData.nbPlayers));
 
-        await $(Key(testData.contract.name)).tap();
-        expect($(testData.expectedPage), findsOneWidget);
+          await $(Key(testData.contract.name)).tap();
+          expect($(testData.expectedPage), findsOneWidget);
 
-        await $(IconButton).tap();
-        expect($(ChooseContract), findsOneWidget);
-        expect(
-            $(Key(testData.contract.name)).which(
-                (widget) => (widget as ElevatedButton).onPressed != null),
-            findsOneWidget);
-      });
+          await $(IconButton).tap();
+          expect($(ChooseContract), findsOneWidget);
+          expect(
+            $(
+              Key(testData.contract.name),
+            ).which((widget) => (widget as ElevatedButton).onPressed != null),
+            findsOneWidget,
+          );
+        },
+      );
     }
     patrolWidgetTest("should go to scores page", ($) async {
       await $.pumpWidget(_createPage($));
@@ -210,10 +217,12 @@ void main() {
   });
 }
 
-Widget _createPage(PatrolTester $,
-    {List<ContractsInfo> activeContracts = ContractsInfo.values,
-    int nbPlayers = nbPlayersByDefault,
-    List<AbstractContractModel> playedContracts = const []}) {
+Widget _createPage(
+  PatrolTester $, {
+  List<ContractsInfo> activeContracts = ContractsInfo.values,
+  int nbPlayers = nbPlayersByDefault,
+  List<AbstractContractModel> playedContracts = const [],
+}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
   final mockStorage = MockMyStorage();
@@ -237,22 +246,20 @@ Widget _createPage(PatrolTester $,
     child: FrenchMaterialApp.router(
       routerConfig: GoRouter(
         routes: [
+          GoRoute(path: Routes.home, builder: (_, _) => const ChooseContract()),
           GoRoute(
-            path: Routes.home,
-            builder: (_, __) => const ChooseContract(),
+            path: Routes.rules,
+            name: Routes.rules,
+            builder: (_, state) {
+              final rulesPageName =
+                  state.uri.queryParameters[MyGoRouterState.rulesPage];
+              return MyRules(
+                startingPage: rulesPageName != null
+                    ? RulesPageName.fromName(rulesPageName)
+                    : null,
+              );
+            },
           ),
-          GoRoute(
-              path: Routes.rules,
-              name: Routes.rules,
-              builder: (_, state) {
-                final rulesPageName =
-                    state.uri.queryParameters[MyGoRouterState.rulesPage];
-                return MyRules(
-                  startingPage: rulesPageName != null
-                      ? RulesPageName.fromName(rulesPageName)
-                      : null,
-                );
-              }),
           GoRoute(
             path:
                 "${Routes.oneLooserScores}/:${MyGoRouterState.contractParameter}",
@@ -271,13 +278,13 @@ Widget _createPage(PatrolTester $,
           ),
           GoRoute(
             path: Routes.dominoScores,
-            builder: (_, __) => const DominoContractPage(),
+            builder: (_, _) => const DominoContractPage(),
           ),
           GoRoute(
             path: Routes.saladScores,
-            builder: (_, __) => const SaladContractPage(),
+            builder: (_, _) => const SaladContractPage(),
           ),
-          GoRoute(path: Routes.scores, builder: (_, __) => const MyScores()),
+          GoRoute(path: Routes.scores, builder: (_, _) => const MyScores()),
         ],
       ),
     ),

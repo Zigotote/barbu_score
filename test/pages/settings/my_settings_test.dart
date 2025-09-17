@@ -26,21 +26,19 @@ import '../../utils/utils.mocks.dart';
 
 final _router = GoRouter(
   routes: [
-    GoRoute(
-      path: Routes.home,
-      builder: (_, __) => const MySettings(),
-    ),
+    GoRoute(path: Routes.home, builder: (_, _) => const MySettings()),
     GoRoute(
       path:
           "${Routes.contractWithPointsSettings}/:${MyGoRouterState.contractParameter}",
       builder: (_, state) => ContractWithPointsSettingsPage(state.contract),
     ),
     GoRoute(
-        path: Routes.dominoSettings,
-        builder: (_, __) => const DominoContractSettingsPage()),
+      path: Routes.dominoSettings,
+      builder: (_, _) => const DominoContractSettingsPage(),
+    ),
     GoRoute(
       path: Routes.saladSettings,
-      builder: (_, __) => const SaladContractSettingsPage(),
+      builder: (_, _) => const SaladContractSettingsPage(),
     ),
   ],
 );
@@ -67,14 +65,16 @@ void main() {
     await $.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: Consumer(builder: (context, ref, _) {
-          return MaterialApp.router(
-            supportedLocales: [MyLocales.fr.locale],
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            locale: ref.watch(localeProvider),
-            routerConfig: _router,
-          );
-        }),
+        child: Consumer(
+          builder: (context, ref, _) {
+            return MaterialApp.router(
+              supportedLocales: [MyLocales.fr.locale],
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              locale: ref.watch(localeProvider),
+              routerConfig: _router,
+            );
+          },
+        ),
       ),
     );
 
@@ -104,50 +104,99 @@ void main() {
   for (var activeContracts in [
     ContractsInfo.values,
     [ContractsInfo.barbu],
-    [ContractsInfo.barbu, ContractsInfo.salad, ContractsInfo.domino]
+    [ContractsInfo.barbu, ContractsInfo.salad, ContractsInfo.domino],
   ]) {
     patrolWidgetTest(
-        "should display ${activeContracts.length} active contracts from storage",
-        ($) async {
-      await $.pumpWidget(_createPage(activeContracts: activeContracts));
+      "should display ${activeContracts.length} active contracts from storage",
+      ($) async {
+        await $.pumpWidget(_createPage(activeContracts: activeContracts));
 
-      expect($("ON"), findsNWidgets(activeContracts.length));
-      expect(
-        $("OFF"),
-        findsNWidgets(ContractsInfo.values.length - activeContracts.length),
-      );
-    });
+        expect($("ON"), findsNWidgets(activeContracts.length));
+        expect(
+          $("OFF"),
+          findsNWidgets(ContractsInfo.values.length - activeContracts.length),
+        );
+      },
+    );
   }
   for (var modifiedContract in ContractsInfo.values) {
     for (var isModified in [true, false]) {
       patrolWidgetTest(
-          "should ${isModified ? "reload" : "keep"} $modifiedContract activation on settings ${isModified ? "" : "not "}changed",
-          ($) async {
-        final mockStorage = MockMyStorage();
-        await $.pumpWidget(_createPage(mockStorage: mockStorage));
+        "should ${isModified ? "reload" : "keep"} $modifiedContract activation on settings ${isModified ? "" : "not "}changed",
+        ($) async {
+          final mockStorage = MockMyStorage();
+          await $.pumpWidget(_createPage(mockStorage: mockStorage));
 
-        // Go to contract settings page
-        await $.scrollUntilVisible(finder: $(Key(modifiedContract.name)));
-        await $(Key(modifiedContract.name))
-            .tap(settlePolicy: SettlePolicy.trySettle);
+          // Go to contract settings page
+          await $.scrollUntilVisible(finder: $(Key(modifiedContract.name)));
+          await $(
+            Key(modifiedContract.name),
+          ).tap(settlePolicy: SettlePolicy.trySettle);
 
-        // Deactivate contract
-        expect(($.tester.firstWidget($(Switch)) as Switch).value, true);
-        if (isModified) {
-          final modifiedContractSettings =
-              modifiedContract.defaultSettings.copyWith(isActive: false);
-          when(mockStorage.getSettings(modifiedContract))
-              .thenReturn(modifiedContractSettings);
+          // Deactivate contract
+          expect(($.tester.firstWidget($(Switch)) as Switch).value, true);
+          if (isModified) {
+            final modifiedContractSettings = modifiedContract.defaultSettings
+                .copyWith(isActive: false);
+            when(
+              mockStorage.getSettings(modifiedContract),
+            ).thenReturn(modifiedContractSettings);
 
+            await $(MySwitch).tap();
+            expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
+          }
+
+          // Go back to global settings page
+          await $(Icons.arrow_back).tap(settlePolicy: SettlePolicy.noSettle);
+          await $.pump();
+
+          if (isModified) {
+            expect($("Modifications sauvegardées"), findsOneWidget);
+            expect(
+              $(Key(modifiedContract.name)).containing($("OFF")),
+              findsOneWidget,
+            );
+            expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
+            verify(mockStorage.saveSettings(modifiedContract, any));
+            verifyNever(mockStorage.deleteGame());
+          } else {
+            expect($("Modifications sauvegardées"), findsNothing);
+            expect($("ON"), findsNWidgets(ContractsInfo.values.length));
+            verifyNever(mockStorage.saveSettings(modifiedContract, any));
+            verifyNever(mockStorage.deleteGame());
+          }
+        },
+      );
+    }
+    for (var isGameFinished in [true, false]) {
+      patrolWidgetTest(
+        "should${isGameFinished ? " delete game and" : ""} save settings on $modifiedContract activation changed",
+        ($) async {
+          final mockStorage = MockMyStorage();
+          when(
+            mockStorage.getStoredGame(),
+          ).thenReturn(Game(players: [])..isFinished = isGameFinished);
+          await $.pumpWidget(_createPage(mockStorage: mockStorage));
+
+          // Go to contract settings page
+          await $.scrollUntilVisible(finder: $(Key(modifiedContract.name)));
+          await $(
+            Key(modifiedContract.name),
+          ).tap(settlePolicy: SettlePolicy.trySettle);
+
+          // Deactivate contract
+          final modifiedContractSettings = modifiedContract.defaultSettings
+              .copyWith(isActive: false);
+          when(
+            mockStorage.getSettings(modifiedContract),
+          ).thenReturn(modifiedContractSettings);
           await $(MySwitch).tap();
           expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
-        }
 
-        // Go back to global settings page
-        await $(Icons.arrow_back).tap(settlePolicy: SettlePolicy.noSettle);
-        await $.pump();
+          // Go back to global settings page
+          await $(Icons.arrow_back).tap(settlePolicy: SettlePolicy.noSettle);
+          await $.pump();
 
-        if (isModified) {
           expect($("Modifications sauvegardées"), findsOneWidget);
           expect(
             $(Key(modifiedContract.name)).containing($("OFF")),
@@ -155,54 +204,13 @@ void main() {
           );
           expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
           verify(mockStorage.saveSettings(modifiedContract, any));
-          verifyNever(mockStorage.deleteGame());
-        } else {
-          expect($("Modifications sauvegardées"), findsNothing);
-          expect($("ON"), findsNWidgets(ContractsInfo.values.length));
-          verifyNever(mockStorage.saveSettings(modifiedContract, any));
-          verifyNever(mockStorage.deleteGame());
-        }
-      });
-    }
-    for (var isGameFinished in [true, false]) {
-      patrolWidgetTest(
-          "should${isGameFinished ? " delete game and" : ""} save settings on $modifiedContract activation changed",
-          ($) async {
-        final mockStorage = MockMyStorage();
-        when(mockStorage.getStoredGame())
-            .thenReturn(Game(players: [])..isFinished = isGameFinished);
-        await $.pumpWidget(_createPage(mockStorage: mockStorage));
-
-        // Go to contract settings page
-        await $.scrollUntilVisible(finder: $(Key(modifiedContract.name)));
-        await $(Key(modifiedContract.name))
-            .tap(settlePolicy: SettlePolicy.trySettle);
-
-        // Deactivate contract
-        final modifiedContractSettings =
-            modifiedContract.defaultSettings.copyWith(isActive: false);
-        when(mockStorage.getSettings(modifiedContract))
-            .thenReturn(modifiedContractSettings);
-        await $(MySwitch).tap();
-        expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
-
-        // Go back to global settings page
-        await $(Icons.arrow_back).tap(settlePolicy: SettlePolicy.noSettle);
-        await $.pump();
-
-        expect($("Modifications sauvegardées"), findsOneWidget);
-        expect(
-          $(Key(modifiedContract.name)).containing($("OFF")),
-          findsOneWidget,
-        );
-        expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
-        verify(mockStorage.saveSettings(modifiedContract, any));
-        if (isGameFinished) {
-          verify(mockStorage.deleteGame());
-        } else {
-          verifyNever(mockStorage.deleteGame());
-        }
-      });
+          if (isGameFinished) {
+            verify(mockStorage.deleteGame());
+          } else {
+            verifyNever(mockStorage.deleteGame());
+          }
+        },
+      );
     }
   }
 
@@ -210,13 +218,15 @@ void main() {
   tearDown(() => SnackBarUtils.instance.isSnackBarOpen = false);
 }
 
-Widget _createPage(
-    {MockMyStorage? mockStorage,
-    List<ContractsInfo> activeContracts = ContractsInfo.values}) {
+Widget _createPage({
+  MockMyStorage? mockStorage,
+  List<ContractsInfo> activeContracts = ContractsInfo.values,
+}) {
   mockStorage ??= MockMyStorage();
   for (var contract in ContractsInfo.values) {
-    final contractSettings = contract.defaultSettings
-        .copyWith(isActive: activeContracts.contains(contract));
+    final contractSettings = contract.defaultSettings.copyWith(
+      isActive: activeContracts.contains(contract),
+    );
     when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
   }
   final container = ProviderContainer(
