@@ -48,7 +48,7 @@ class CreateGame extends ConsumerWidget {
                     );
                 ref.read(logProvider).sendAnalyticEvent(
                   "create_game",
-                  parameters: {"nbPlayers": provider.players.length},
+                  parameters: {"nb_players": provider.players.length},
                 );
 
                 ref.read(playGameProvider).init(provider.players);

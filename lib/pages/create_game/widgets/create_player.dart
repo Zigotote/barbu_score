@@ -65,7 +65,7 @@ class CreatePlayer extends ConsumerWidget {
   /// Changes are reverted if they are not validated
   void _displayDialog(
       BuildContext context, WidgetRef ref, Player player, Function() onRemove) {
-    ref.read(logProvider).sendAnalyticEvent("open_player_properties_dialog");
+    ref.read(logProvider).sendAnalyticEvent("open_player_props");
     showDialog(
       context: context,
       builder: (_) => DialogChangePlayerInfo(
