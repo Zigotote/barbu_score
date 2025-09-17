@@ -47,34 +47,36 @@ void main() {
   for (var activeContracts in [
     SaladContractSettings.availableContracts,
     [ContractsInfo.barbu],
-    [ContractsInfo.noQueens, ContractsInfo.barbu]
+    [ContractsInfo.noQueens, ContractsInfo.barbu],
   ]) {
     patrolWidgetTest(
-        "should create page with unfilled contracts $activeContracts",
-        ($) async {
-      await $.pumpWidget(
-        _createPage(
-          $,
-          settings: SaladContractSettings(
-            contracts: {
-              for (var contract in SaladContractSettings.availableContracts)
-                contract.name: activeContracts.contains(contract)
-            },
+      "should create page with unfilled contracts $activeContracts",
+      ($) async {
+        await $.pumpWidget(
+          _createPage(
+            $,
+            settings: SaladContractSettings(
+              contracts: {
+                for (var contract in SaladContractSettings.availableContracts)
+                  contract.name: activeContracts.contains(contract),
+              },
+            ),
           ),
-        ),
-      );
-
-      for (var contract in SaladContractSettings.availableContracts) {
-        expect(
-          $(Key(contract.name)),
-          activeContracts.contains(contract) ? findsOneWidget : findsNothing,
         );
-      }
-      expect($(Icons.task_alt_outlined), findsNothing);
-      final validateButton =
-          ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
-      expect(validateButton.onPressed, isNull);
-    });
+
+        for (var contract in SaladContractSettings.availableContracts) {
+          expect(
+            $(Key(contract.name)),
+            activeContracts.contains(contract) ? findsOneWidget : findsNothing,
+          );
+        }
+        expect($(Icons.task_alt_outlined), findsNothing);
+        final validateButton =
+            ($.tester.firstWidget(findValidateScoresButton($))
+                as ElevatedButton);
+        expect(validateButton.onPressed, isNull);
+      },
+    );
   }
   for (var contractToFill in SaladContractSettings.availableContracts) {
     patrolWidgetTest("should fill $contractToFill sub contract", ($) async {
@@ -88,26 +90,30 @@ void main() {
         mockPlayGame,
         contractToFill,
         page.container
-            .read(contractsManagerProvider)
-            .getContractManager(contractToFill)
-            .model as ContractWithPointsModel,
+                .read(contractsManagerProvider)
+                .getContractManager(contractToFill)
+                .model
+            as ContractWithPointsModel,
       );
 
       // Redirect to salad contract page
       expect($(SaladContractPage), findsOneWidget);
       expect($(ElevatedButtonWithIndicator), findsOneWidget);
       expect(
-          $(ElevatedButtonWithIndicator).which(
-            (Widget widget) => widget.key == Key(contractToFill.name),
-          ),
-          findsOneWidget);
+        $(
+          ElevatedButtonWithIndicator,
+        ).which((Widget widget) => widget.key == Key(contractToFill.name)),
+        findsOneWidget,
+      );
       final validateButton =
           ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
       expect(validateButton.onPressed, isNull);
 
       // Verifies the contract has been saved
-      final savedSaladContracts =
-          page.container.read(saladProvider).model.subContracts;
+      final savedSaladContracts = page.container
+          .read(saladProvider)
+          .model
+          .subContracts;
       expect(savedSaladContracts.length, 1);
       expect(savedSaladContracts.first, subContractModel);
     });
@@ -121,7 +127,7 @@ void main() {
       contract: contract,
       itemsByPlayer: {
         for (var (index, player) in mockPlayGame.players.indexed)
-          player.name: index == playerSelectedAfterModify ? 1 : 0
+          player.name: index == playerSelectedAfterModify ? 1 : 0,
       },
     );
 
@@ -133,9 +139,10 @@ void main() {
       mockPlayGame,
       contract,
       page.container
-          .read(contractsManagerProvider)
-          .getContractManager(contract)
-          .model as ContractWithPointsModel,
+              .read(contractsManagerProvider)
+              .getContractManager(contract)
+              .model
+          as ContractWithPointsModel,
     );
 
     // Redirect to salad contract page
@@ -149,17 +156,20 @@ void main() {
     // Redirect to salad contract page
     expect($(ElevatedButtonWithIndicator), findsOneWidget);
     expect(
-        $(ElevatedButtonWithIndicator).which(
-          (Widget widget) => widget.key == Key(contract.name),
-        ),
-        findsOneWidget);
+      $(
+        ElevatedButtonWithIndicator,
+      ).which((Widget widget) => widget.key == Key(contract.name)),
+      findsOneWidget,
+    );
     final validateButton =
         ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
     expect(validateButton.onPressed, isNull);
 
     // Verifies the contract has been saved
-    final savedSaladContracts =
-        page.container.read(saladProvider).model.subContracts;
+    final savedSaladContracts = page.container
+        .read(saladProvider)
+        .model
+        .subContracts;
     expect(savedSaladContracts.length, 1);
     expect(savedSaladContracts.first, expectedSubContract);
   });
@@ -173,7 +183,7 @@ void main() {
       nbItems: 4,
       itemsByPlayer: {
         for (var (index, player) in mockPlayGame.players.indexed)
-          player.name: index == playerSelectedAfterModify ? 4 : 0
+          player.name: index == playerSelectedAfterModify ? 4 : 0,
       },
     );
 
@@ -185,9 +195,10 @@ void main() {
       mockPlayGame,
       contract,
       page.container
-          .read(contractsManagerProvider)
-          .getContractManager(contract)
-          .model as ContractWithPointsModel,
+              .read(contractsManagerProvider)
+              .getContractManager(contract)
+              .model
+          as ContractWithPointsModel,
     );
 
     // Redirect to salad contract page
@@ -196,31 +207,32 @@ void main() {
     // Modify contract
     await $(Key(contract.name)).tap();
     for (var i = 0; i < expectedSubContract.nbItems; i++) {
-      await $(ElevatedButtonCustomColor)
-          .containing($(Icons.remove))
-          .at(0)
-          .tap();
-      await $(ElevatedButtonCustomColor)
-          .containing($(Icons.add))
-          .at(playerSelectedAfterModify)
-          .tap();
+      await $(
+        ElevatedButtonCustomColor,
+      ).containing($(Icons.remove)).at(0).tap();
+      await $(
+        ElevatedButtonCustomColor,
+      ).containing($(Icons.add)).at(playerSelectedAfterModify).tap();
     }
     await findValidateScoresButton($).tap();
 
     // Redirect to salad contract page
     expect($(ElevatedButtonWithIndicator), findsOneWidget);
     expect(
-        $(ElevatedButtonWithIndicator).which(
-          (Widget widget) => widget.key == Key(contract.name),
-        ),
-        findsOneWidget);
+      $(
+        ElevatedButtonWithIndicator,
+      ).which((Widget widget) => widget.key == Key(contract.name)),
+      findsOneWidget,
+    );
     final validateButton =
         ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
     expect(validateButton.onPressed, isNull);
 
     // Verifies the contract has been saved
-    final savedSaladContracts =
-        page.container.read(saladProvider).model.subContracts;
+    final savedSaladContracts = page.container
+        .read(saladProvider)
+        .model
+        .subContracts;
     expect(savedSaladContracts.length, 1);
     expect(savedSaladContracts.first, expectedSubContract);
   });
@@ -236,17 +248,20 @@ void main() {
         mockPlayGame,
         contract,
         page.container
-            .read(contractsManagerProvider)
-            .getContractManager(contract)
-            .model as ContractWithPointsModel,
+                .read(contractsManagerProvider)
+                .getContractManager(contract)
+                .model
+            as ContractWithPointsModel,
       );
       contractModel.addSubContract(subContractModel);
     }
 
     // Redirect to salad contract page
     expect($(SaladContractPage), findsOneWidget);
-    expect($(ElevatedButtonWithIndicator),
-        findsNWidgets(SaladContractSettings.availableContracts.length));
+    expect(
+      $(ElevatedButtonWithIndicator),
+      findsNWidgets(SaladContractSettings.availableContracts.length),
+    );
     await findValidateScoresButton($).tap();
 
     expect($(ChooseContract), findsOneWidget);
@@ -257,10 +272,11 @@ void main() {
 
 /// Fills the subContract. Modifies the [contractModel] accordingly and returns it
 Future<ContractWithPointsModel> _fillSubContract(
-    PatrolTester $,
-    MockPlayGameNotifier game,
-    ContractsInfo contract,
-    ContractWithPointsModel contractModel) async {
+  PatrolTester $,
+  MockPlayGameNotifier game,
+  ContractsInfo contract,
+  ContractWithPointsModel contractModel,
+) async {
   const playerWithItems = 0;
   // Navigate to contract
   await $(Key(contract.name)).tap();
@@ -272,21 +288,25 @@ Future<ContractWithPointsModel> _fillSubContract(
   } else {
     expect($(MultipleLooserContractPage), findsOneWidget);
     for (var i = 0; i < contractModel.nbItems; i++) {
-      await $(ElevatedButtonCustomColor)
-          .containing($(Icons.add))
-          .at(playerWithItems)
-          .tap();
+      await $(
+        ElevatedButtonCustomColor,
+      ).containing($(Icons.add)).at(playerWithItems).tap();
     }
   }
   await $(findValidateScoresButton($)).tap();
-  return contractModel.copyWith(itemsByPlayer: {
-    for (var (index, player) in game.players.indexed)
-      player.name: index == playerWithItems ? contractModel.nbItems : 0
-  });
+  return contractModel.copyWith(
+    itemsByPlayer: {
+      for (var (index, player) in game.players.indexed)
+        player.name: index == playerWithItems ? contractModel.nbItems : 0,
+    },
+  );
 }
 
-UncontrolledProviderScope _createPage(PatrolTester $,
-    {SaladContractSettings? settings, MockPlayGameNotifier? mockPlayGame}) {
+UncontrolledProviderScope _createPage(
+  PatrolTester $, {
+  SaladContractSettings? settings,
+  MockPlayGameNotifier? mockPlayGame,
+}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
 
@@ -312,11 +332,11 @@ UncontrolledProviderScope _createPage(PatrolTester $,
         routes: [
           GoRoute(
             path: Routes.home,
-            builder: (_, __) => const SaladContractPage(),
+            builder: (_, _) => const SaladContractPage(),
           ),
           GoRoute(
             path: Routes.chooseContract,
-            builder: (_, __) => const ChooseContract(),
+            builder: (_, _) => const ChooseContract(),
           ),
           GoRoute(
             path:

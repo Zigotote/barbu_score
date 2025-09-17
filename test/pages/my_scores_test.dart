@@ -67,17 +67,19 @@ void main() {
     when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
       ContractsInfo.barbu: {
         for (var (index, player) in game.players.indexed)
-          player.name: index == 0 ? 50 : 0
-      }
+          player.name: index == 0 ? 50 : 0,
+      },
     });
     when(mockContractManager.scoresByContract(game.players[1])).thenReturn({
-      ContractsInfo.noQueens: {for (var player in game.players) player.name: 10}
+      ContractsInfo.noQueens: {
+        for (var player in game.players) player.name: 10,
+      },
     });
     when(mockContractManager.scoresByContract(game.players[2])).thenReturn({
       ContractsInfo.noTricks: {
         for (var (index, player) in game.players.indexed)
-          player.name: index % 2 == 0 ? 20 : 0
-      }
+          player.name: index % 2 == 0 ? 20 : 0,
+      },
     });
 
     await $.pumpWidget(
@@ -88,13 +90,14 @@ void main() {
       ),
     );
 
-    final playerScoreButtons =
-        $.tester.widgetList($(PlayerScoreButton)).toList();
+    final playerScoreButtons = $.tester
+        .widgetList($(PlayerScoreButton))
+        .toList();
     for (var (index, expectedScore) in [
       (playerIndex: 1, score: 10),
       (playerIndex: 3, score: 10),
       (playerIndex: 2, score: 30),
-      (playerIndex: 0, score: 80)
+      (playerIndex: 0, score: 80),
     ].indexed) {
       final button = playerScoreButtons[index] as PlayerScoreButton;
       expect(button.player, game.players[expectedScore.playerIndex]);
@@ -106,10 +109,12 @@ void main() {
   });
 }
 
-Widget _createPage(PatrolTester $,
-    {MockMyStorage? mockStorage,
-    MockPlayGameNotifier? mockPlayGame,
-    MockContractsManager? mockContractsManager}) {
+Widget _createPage(
+  PatrolTester $, {
+  MockMyStorage? mockStorage,
+  MockPlayGameNotifier? mockPlayGame,
+  MockContractsManager? mockContractsManager,
+}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
   mockStorage ??= MockMyStorage();
@@ -119,8 +124,9 @@ Widget _createPage(PatrolTester $,
 
   final container = ProviderContainer(
     overrides: [
-      contractsManagerProvider
-          .overrideWith((_) => mockContractsManager ?? MockContractsManager()),
+      contractsManagerProvider.overrideWith(
+        (_) => mockContractsManager ?? MockContractsManager(),
+      ),
       logProvider.overrideWithValue(MockMyLog()),
       playGameProvider.overrideWith((_) => mockPlayGame!),
       storageProvider.overrideWithValue(mockStorage),
@@ -133,8 +139,8 @@ Widget _createPage(PatrolTester $,
       routerConfig: GoRouter(
         initialLocation: Routes.scores,
         routes: [
-          GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
-          GoRoute(path: Routes.scores, builder: (_, __) => const MyScores()),
+          GoRoute(path: Routes.home, builder: (_, _) => const MyHome()),
+          GoRoute(path: Routes.scores, builder: (_, _) => const MyScores()),
           GoRoute(
             path: Routes.scoresByPlayer,
             name: Routes.scoresByPlayer,

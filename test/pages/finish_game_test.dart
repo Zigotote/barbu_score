@@ -36,8 +36,8 @@ void main() {
     when(mockContractManager.sumScoresByContract(game.players)).thenReturn({
       ContractsInfo.barbu: {
         for (var (index, player) in game.players.indexed)
-          player.name: index == 0 ? 50 : 0
-      }
+          player.name: index == 0 ? 50 : 0,
+      },
     });
 
     await $.pumpWidget(
@@ -59,25 +59,28 @@ void main() {
     expect($(OrderedPlayersScores), findsOneWidget);
     expect($(GameTable), findsNothing);
   });
-  patrolWidgetTest("should display ranking and go to player scores page",
-      ($) async {
+  patrolWidgetTest("should display ranking and go to player scores page", (
+    $,
+  ) async {
     final mockPlayGame = mockPlayGameNotifier();
     final game = mockPlayGame.game;
     final mockContractManager = MockContractsManager();
     when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
       ContractsInfo.barbu: {
         for (var (index, player) in game.players.indexed)
-          player.name: index == 0 ? 50 : 0
-      }
+          player.name: index == 0 ? 50 : 0,
+      },
     });
     when(mockContractManager.scoresByContract(game.players[1])).thenReturn({
-      ContractsInfo.noQueens: {for (var player in game.players) player.name: 10}
+      ContractsInfo.noQueens: {
+        for (var player in game.players) player.name: 10,
+      },
     });
     when(mockContractManager.scoresByContract(game.players[2])).thenReturn({
       ContractsInfo.noTricks: {
         for (var (index, player) in game.players.indexed)
-          player.name: index % 2 == 0 ? 20 : 0
-      }
+          player.name: index % 2 == 0 ? 20 : 0,
+      },
     });
 
     await $.pumpWidget(
@@ -88,26 +91,21 @@ void main() {
       ),
     );
 
-    final playerScoreButtons =
-        $.tester.widgetList($(PlayerScoreButton)).toList();
+    final playerScoreButtons = $.tester
+        .widgetList($(PlayerScoreButton))
+        .toList();
     for (var (index, expectedScore) in [
       (playerIndex: 1, score: 10, worstEnnemyIndex: 1, bestFriendIndex: 0),
       (playerIndex: 3, score: 10, worstEnnemyIndex: 1, bestFriendIndex: 0),
       (playerIndex: 2, score: 30, worstEnnemyIndex: 2, bestFriendIndex: 0),
-      (playerIndex: 0, score: 80, worstEnnemyIndex: 0, bestFriendIndex: 1)
+      (playerIndex: 0, score: 80, worstEnnemyIndex: 0, bestFriendIndex: 1),
     ].indexed) {
       final button = playerScoreButtons[index] as PlayerScoreButton;
       expect(button.player, game.players[expectedScore.playerIndex]);
       expect(button.score, expectedScore.score);
       expect(button.displayMedal, index == 0 || index == 1);
-      expect(
-        button.worstEnnemy,
-        game.players[expectedScore.worstEnnemyIndex],
-      );
-      expect(
-        button.bestFriend,
-        game.players[expectedScore.bestFriendIndex],
-      );
+      expect(button.worstEnnemy, game.players[expectedScore.worstEnnemyIndex]);
+      expect(button.bestFriend, game.players[expectedScore.bestFriendIndex]);
     }
   });
   patrolWidgetTest("should display scores by contract", ($) async {
@@ -117,26 +115,26 @@ void main() {
     when(mockContractManager.sumScoresByContract(game.players)).thenReturn({
       ContractsInfo.barbu: {
         for (var (index, player) in game.players.indexed)
-          player.name: index == 0 ? 50 : 0
+          player.name: index == 0 ? 50 : 0,
       },
       ContractsInfo.noHearts: {
-        for (var player in game.players) player.name: 15
+        for (var player in game.players) player.name: 15,
       },
       ContractsInfo.noQueens: {
-        for (var player in game.players) player.name: 20
+        for (var player in game.players) player.name: 20,
       },
       ContractsInfo.noTricks: {
         for (var (index, player) in game.players.indexed)
-          player.name: index % 2 == 0 ? 10 : 0
+          player.name: index % 2 == 0 ? 10 : 0,
       },
       ContractsInfo.noLastTrick: {
         for (var (index, player) in game.players.indexed)
-          player.name: index == 0 ? 40 : 0
+          player.name: index == 0 ? 40 : 0,
       },
       ContractsInfo.salad: {for (var player in game.players) player.name: 0},
       ContractsInfo.domino: {
         for (var (index, player) in game.players.indexed)
-          player.name: -10 * index
+          player.name: -10 * index,
       },
     });
 
@@ -168,14 +166,17 @@ void main() {
     // Zeros for players who didn't score previously
     expect(
       ($("0")),
-      findsNWidgets((game.players.length - 1) * 2 // barbu and no last trick
-              +
-              (game.players.length / 2).round() // no tricks
-              +
-              1 // domino
-              +
-              game.players.length // salad
-          ),
+      findsNWidgets(
+        (game.players.length - 1) *
+                2 // barbu and no last trick
+                +
+            (game.players.length / 2)
+                .round() // no tricks
+                +
+            1 // domino
+            +
+            game.players.length, // salad
+      ),
     );
     // Empty lines
     expect(($("/")), findsNothing);
@@ -193,17 +194,20 @@ void main() {
   });
 }
 
-Widget _createPage(PatrolTester $,
-    {MockPlayGameNotifier? mockPlayGame,
-    MockContractsManager? mockContractsManager}) {
+Widget _createPage(
+  PatrolTester $, {
+  MockPlayGameNotifier? mockPlayGame,
+  MockContractsManager? mockContractsManager,
+}) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 2560);
   mockPlayGame ??= mockPlayGameNotifier();
 
   final container = ProviderContainer(
     overrides: [
-      contractsManagerProvider
-          .overrideWith((_) => mockContractsManager ?? MockContractsManager()),
+      contractsManagerProvider.overrideWith(
+        (_) => mockContractsManager ?? MockContractsManager(),
+      ),
       logProvider.overrideWithValue(MockMyLog()),
       playGameProvider.overrideWith((_) => mockPlayGame!),
     ],
@@ -215,10 +219,10 @@ Widget _createPage(PatrolTester $,
       routerConfig: GoRouter(
         initialLocation: Routes.finishGame,
         routes: [
-          GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
+          GoRoute(path: Routes.home, builder: (_, _) => const MyHome()),
           GoRoute(
             path: Routes.finishGame,
-            builder: (_, __) => const FinishGame(),
+            builder: (_, _) => const FinishGame(),
           ),
           GoRoute(
             path: Routes.scoresByPlayer,

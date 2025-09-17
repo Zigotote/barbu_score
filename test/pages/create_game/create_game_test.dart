@@ -29,8 +29,9 @@ void main() {
     // await checkAccessibility($.tester); not accessible because delete player button is too small. But players can be deleted by clicking on there icon, so it's OK
   });
   for (var nbPlayers = 1; nbPlayers < kNbPlayersMin; nbPlayers++) {
-    patrolWidgetTest("should not allow start game if $nbPlayers players",
-        ($) async {
+    patrolWidgetTest("should not allow start game if $nbPlayers players", (
+      $,
+    ) async {
       await $.pumpWidget(_createPage($));
 
       // Remove players
@@ -40,10 +41,11 @@ void main() {
 
       expect($(CreatePlayer), findsNWidgets(nbPlayers));
       expect(
-          ($.tester.firstWidget($(ElevatedButton).containing($("Suivant")))
-                  as ElevatedButton)
-              .onPressed,
-          isNull);
+        ($.tester.firstWidget($(ElevatedButton).containing($("Suivant")))
+                as ElevatedButton)
+            .onPressed,
+        isNull,
+      );
     });
   }
   for (var nbPlayers = kNbPlayersMin; nbPlayers <= kNbPlayersMax; nbPlayers++) {
@@ -92,24 +94,25 @@ void main() {
   group("Actions in dialog", () {
     for (var tapClose in [true, false]) {
       patrolWidgetTest(
-          "should change player color after tap ${tapClose ? "close" : "validate"} button",
-          ($) async {
-        await $.pumpWidget(_createPage($));
-        expect(findPlayerIcon($).color, playerColors[0]);
+        "should change player color after tap ${tapClose ? "close" : "validate"} button",
+        ($) async {
+          await $.pumpWidget(_createPage($));
+          expect(findPlayerIcon($).color, playerColors[0]);
 
-        await $(PlayerIcon).at(0).tap();
-        expect($(DialogChangePlayerInfo), findsOneWidget);
+          await $(PlayerIcon).at(0).tap();
+          expect($(DialogChangePlayerInfo), findsOneWidget);
 
-        final newPlayerColor = playerColors[nbPlayersByDefault + 1];
-        await $(Key(newPlayerColor.name)).tap();
+          final newPlayerColor = playerColors[nbPlayersByDefault + 1];
+          await $(Key(newPlayerColor.name)).tap();
 
-        if (tapClose) {
-          await $(Icons.close).tap();
-        } else {
-          await $("Valider").tap();
-        }
-        expect(findPlayerIcon($).color, newPlayerColor);
-      });
+          if (tapClose) {
+            await $(Icons.close).tap();
+          } else {
+            await $("Valider").tap();
+          }
+          expect(findPlayerIcon($).color, newPlayerColor);
+        },
+      );
       patrolWidgetTest("should change player icon", ($) async {
         await $.pumpWidget(_createPage($));
         expect(findPlayerIcon($).image, playerImages[0]);
@@ -127,8 +130,9 @@ void main() {
         }
         expect(findPlayerIcon($).image, newPlayerImage);
       });
-      patrolWidgetTest("should show error if 2 players have same color",
-          ($) async {
+      patrolWidgetTest("should show error if 2 players have same color", (
+        $,
+      ) async {
         await $.pumpWidget(_createPage($));
         final firstPlayerColor = playerColors[0];
 
@@ -170,16 +174,16 @@ Widget _createPage(PatrolTester $) {
   // Make screen bigger to avoid scrolling
   $.tester.view.physicalSize = const Size(1440, 3600);
   return UncontrolledProviderScope(
-    container: ProviderContainer(overrides: [
-      logProvider.overrideWithValue(MockMyLog()),
-    ]),
+    container: ProviderContainer(
+      overrides: [logProvider.overrideWithValue(MockMyLog())],
+    ),
     child: FrenchMaterialApp.router(
       routerConfig: GoRouter(
         routes: [
-          GoRoute(path: Routes.home, builder: (_, __) => CreateGame()),
+          GoRoute(path: Routes.home, builder: (_, _) => CreateGame()),
           GoRoute(
             path: Routes.prepareGame,
-            builder: (_, __) => const PrepareGame(),
+            builder: (_, _) => const PrepareGame(),
           ),
         ],
       ),

@@ -46,7 +46,7 @@ class MyList extends StatelessWidget {
       shrinkWrap: true,
       itemCount: itemCount,
       itemBuilder: itemBuilder,
-      separatorBuilder: (_, __) => const SizedBox(height: 24),
+      separatorBuilder: (_, _) => const SizedBox(height: 24),
     );
   }
 }

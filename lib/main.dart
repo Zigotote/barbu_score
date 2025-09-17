@@ -57,23 +57,24 @@ void main() async {
         router: GoRouter(
           initialLocation: Routes.home,
           routes: [
-            GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
-            GoRoute(path: Routes.home, builder: (_, __) => const MyHome()),
+            GoRoute(path: Routes.home, builder: (_, _) => const MyHome()),
+            GoRoute(path: Routes.home, builder: (_, _) => const MyHome()),
             GoRoute(
-                path: Routes.rules,
-                name: Routes.rules,
-                builder: (_, state) {
-                  final rulesPageName =
-                      state.uri.queryParameters[MyGoRouterState.rulesPage];
-                  return MyRules(
-                    startingPage: rulesPageName != null
-                        ? RulesPageName.fromName(rulesPageName)
-                        : null,
-                  );
-                }),
+              path: Routes.rules,
+              name: Routes.rules,
+              builder: (_, state) {
+                final rulesPageName =
+                    state.uri.queryParameters[MyGoRouterState.rulesPage];
+                return MyRules(
+                  startingPage: rulesPageName != null
+                      ? RulesPageName.fromName(rulesPageName)
+                      : null,
+                );
+              },
+            ),
             GoRoute(
               path: Routes.settings,
-              builder: (_, __) => const MySettings(),
+              builder: (_, _) => const MySettings(),
             ),
             GoRoute(
               path:
@@ -82,19 +83,22 @@ void main() async {
                   ContractWithPointsSettingsPage(state.contract),
             ),
             GoRoute(
-                path: Routes.dominoSettings,
-                builder: (_, __) => const DominoContractSettingsPage()),
+              path: Routes.dominoSettings,
+              builder: (_, _) => const DominoContractSettingsPage(),
+            ),
             GoRoute(
               path: Routes.saladSettings,
-              builder: (_, __) => const SaladContractSettingsPage(),
+              builder: (_, _) => const SaladContractSettingsPage(),
             ),
-            GoRoute(path: Routes.createGame, builder: (_, __) => CreateGame()),
+            GoRoute(path: Routes.createGame, builder: (_, _) => CreateGame()),
             GoRoute(
-                path: Routes.prepareGame,
-                builder: (_, __) => const PrepareGame()),
+              path: Routes.prepareGame,
+              builder: (_, _) => const PrepareGame(),
+            ),
             GoRoute(
-                path: Routes.chooseContract,
-                builder: (_, __) => const ChooseContract()),
+              path: Routes.chooseContract,
+              builder: (_, _) => const ChooseContract(),
+            ),
             GoRoute(
               path:
                   "${Routes.oneLooserScores}/:${MyGoRouterState.contractParameter}",
@@ -105,7 +109,7 @@ void main() async {
             ),
             GoRoute(
               path: Routes.dominoScores,
-              builder: (_, __) => const DominoContractPage(),
+              builder: (_, _) => const DominoContractPage(),
             ),
             GoRoute(
               path:
@@ -117,9 +121,9 @@ void main() async {
             ),
             GoRoute(
               path: Routes.saladScores,
-              builder: (_, __) => const SaladContractPage(),
+              builder: (_, _) => const SaladContractPage(),
             ),
-            GoRoute(path: Routes.scores, builder: (_, __) => const MyScores()),
+            GoRoute(path: Routes.scores, builder: (_, _) => const MyScores()),
             GoRoute(
               path: Routes.scoresByPlayer,
               name: Routes.scoresByPlayer,
@@ -129,7 +133,7 @@ void main() async {
             ),
             GoRoute(
               path: Routes.finishGame,
-              builder: (_, __) => const FinishGame(),
+              builder: (_, _) => const FinishGame(),
             ),
           ],
         ),
@@ -159,8 +163,8 @@ class MyApp extends ConsumerWidget {
           systemNavigationBarColor: Theme.of(context).colorScheme.surface,
           systemNavigationBarIconBrightness:
               Theme.of(context).brightness == Brightness.dark
-                  ? Brightness.light
-                  : Brightness.dark,
+              ? Brightness.light
+              : Brightness.dark,
         ),
         child: child!,
       ),
