@@ -27,13 +27,14 @@ class DominoContractPage extends ConsumerStatefulWidget {
   ConsumerState<DominoContractPage> createState() => _DominoContractPageState();
 }
 
-enum PageVersion { buttons, buttonsWithReset, dropdown }
+enum PageVersion { buttons, buttonsWithInsert, dropdown }
 
 class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   PageVersion tmpVersion = PageVersion.buttons;
 
   /// The ordered list of players
   List<String> orderedPlayerNames = [];
+  Map<String, int> orderedPlayers = {};
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   Widget _buildFields(List<Player> players) {
     return switch (tmpVersion) {
       PageVersion.buttons => _buildFieldsV1(players),
-      PageVersion.buttonsWithReset => Container(),
+      PageVersion.buttonsWithInsert => _buildFieldsV2(players),
       PageVersion.dropdown => Container(),
     };
   }
@@ -93,12 +94,74 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     );
   }
 
+  Widget _buildFieldsV2(List<Player> players) {
+    final indicatorSize = MediaQuery.of(context).textScaler.scale(35);
+    return MyGrid(
+      children: players.map((player) {
+        final isOrdered = orderedPlayers.containsKey(player.name);
+        final playerRank = isOrdered
+            ? (orderedPlayers[player.name]! + 1)
+            : null;
+        return ElevatedButtonWithIndicator(
+          text: player.name,
+          color: player.color,
+          onPressed: () {
+            if (isOrdered) {
+              setState(() {
+                orderedPlayers.remove(player.name);
+              });
+            } else {
+              int firstMissingRank = getFirstMissingRank();
+              setState(() => orderedPlayers[player.name] = firstMissingRank);
+            }
+          },
+          indicator: isOrdered
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.convertMyColor(player.color),
+                      width: 2,
+                    ),
+                  ),
+                  height: indicatorSize,
+                  width: indicatorSize,
+                  child: Center(
+                    child: Text(
+                      playerRank.toString(),
+                      semanticsLabel: context.l10n.ordinalNumber(playerRank!),
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                )
+              : null,
+        );
+      }).toList(),
+    );
+  }
+
+  int getFirstMissingRank() {
+    int firstMissingRank = orderedPlayers.length;
+    for (int rank = 0; rank < orderedPlayers.length; rank++) {
+      if (!orderedPlayers.containsValue(rank)) {
+        firstMissingRank = rank;
+        break;
+      }
+    }
+    return firstMissingRank;
+  }
+
   void _saveContract(BuildContext context, WidgetRef ref) {
     final contractModel = DominoContractModel(
-      rankOfPlayer: {
-        for (var playerName in orderedPlayerNames)
-          playerName: orderedPlayerNames.indexOf(playerName),
-      },
+      rankOfPlayer: orderedPlayers.isEmpty
+          ? {
+              for (var playerName in orderedPlayerNames)
+                playerName: orderedPlayerNames.indexOf(playerName),
+            }
+          : orderedPlayers,
     );
     ref
         .read(logProvider)
@@ -139,8 +202,10 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
                         height: tmpSize,
                         width: tmpSize,
                         child: IconButton(
-                          onPressed: () =>
-                              setState(() => tmpVersion = PageVersion.buttons),
+                          onPressed: () => setState(() {
+                            tmpVersion = PageVersion.buttons;
+                            orderedPlayers = {};
+                          }),
                           icon: Icon(Icons.looks_one_rounded),
                         ),
                       ),
@@ -148,9 +213,10 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
                         height: tmpSize,
                         width: tmpSize,
                         child: IconButton(
-                          onPressed: () => setState(
-                            () => tmpVersion = PageVersion.buttonsWithReset,
-                          ),
+                          onPressed: () => setState(() {
+                            tmpVersion = PageVersion.buttonsWithInsert;
+                            orderedPlayerNames = [];
+                          }),
                           icon: Icon(Icons.looks_two_rounded),
                         ),
                       ),
@@ -193,11 +259,21 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
                 ),
               ),
             ),
+          if (tmpVersion == PageVersion.buttonsWithInsert)
+            MySubtitle(
+              context.l10n.dominoScoreSubtitle(
+                context.l10n.ordinalNumber(
+                  min(getFirstMissingRank() + 1, players.length),
+                ),
+              ),
+            ),
           _buildFields(players),
         ],
       ),
       bottomWidget: ElevatedButtonFullWidth(
-        onPressed: players.length == orderedPlayerNames.length
+        onPressed:
+            players.length == orderedPlayerNames.length ||
+                players.length == orderedPlayers.length
             ? () => _saveContract(context, ref)
             : null,
         child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
