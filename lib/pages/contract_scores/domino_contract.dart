@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -35,10 +36,15 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   /// The ordered list of players
   List<String> orderedPlayerNames = [];
   Map<String, int> orderedPlayers = {};
+  late List<TextEditingController> tmpControllers;
 
   @override
   void initState() {
     super.initState();
+    tmpControllers = List.generate(
+      ref.read(playGameProvider).players.length,
+      (_) => TextEditingController(),
+    );
   }
 
   /// Build player's list
@@ -46,7 +52,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     return switch (tmpVersion) {
       PageVersion.buttons => _buildFieldsV1(players),
       PageVersion.buttonsWithInsert => _buildFieldsV2(players),
-      PageVersion.dropdown => Container(),
+      PageVersion.dropdown => _buildFieldsV3(players),
     };
   }
 
@@ -108,11 +114,15 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
           onPressed: () {
             if (isOrdered) {
               setState(() {
+                tmpControllers[orderedPlayers[player.name]!].clear();
                 orderedPlayers.remove(player.name);
               });
             } else {
               int firstMissingRank = getFirstMissingRank();
-              setState(() => orderedPlayers[player.name] = firstMissingRank);
+              setState(() {
+                tmpControllers[firstMissingRank].text = player.name;
+                orderedPlayers[player.name] = firstMissingRank;
+              });
             }
           },
           indicator: isOrdered
@@ -140,6 +150,83 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
               : null,
         );
       }).toList(),
+    );
+  }
+
+  Widget _buildFieldsV3(List<Player> players) {
+    return MyList(
+      itemCount: players.length,
+      itemBuilder: (_, index) {
+        final orderedPlayerName = orderedPlayers.entries
+            .firstWhereOrNull((entry) => entry.value == index)
+            ?.key;
+        return Row(
+          spacing: 8,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(
+                context,
+              ).textScaler.scale(players.length >= 10 ? 60 : 50),
+              child: Text(context.l10n.ordinalNumber(index + 1)),
+            ),
+            DropdownMenu(
+              width: 250,
+              controller: tmpControllers[index],
+              dropdownMenuEntries: [
+                for (var player in players.where(
+                  (player) => !orderedPlayers.containsKey(player.name),
+                ))
+                  DropdownMenuEntry(value: player.name, label: player.name),
+              ],
+              onSelected: (playerName) {
+                if (playerName != null) {
+                  setState(() {
+                    orderedPlayers.remove(orderedPlayerName);
+                    orderedPlayers[playerName] = index;
+                  });
+                }
+              },
+              inputDecorationTheme: InputDecorationTheme(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: orderedPlayerName != null
+                      ? BorderSide(
+                          color: Theme.of(context).colorScheme.convertMyColor(
+                            players
+                                .firstWhere(
+                                  (player) => player.name == orderedPlayerName,
+                                )
+                                .color,
+                          ),
+                        )
+                      : BorderSide(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+              ),
+              textStyle: TextStyle(
+                color: orderedPlayerName != null
+                    ? Theme.of(context).colorScheme.convertMyColor(
+                        players
+                            .firstWhere(
+                              (player) => player.name == orderedPlayerName,
+                            )
+                            .color,
+                      )
+                    : null,
+              ),
+            ),
+            if (orderedPlayerName != null)
+              IconButton.outlined(
+                onPressed: () => setState(() {
+                  tmpControllers[index].clear();
+                  orderedPlayers.remove(orderedPlayerName);
+                }),
+                icon: Icon(Icons.close),
+              ),
+          ],
+        );
+      },
     );
   }
 
@@ -224,8 +311,10 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
                         height: tmpSize,
                         width: tmpSize,
                         child: IconButton(
-                          onPressed: () =>
-                              setState(() => tmpVersion = PageVersion.dropdown),
+                          onPressed: () => setState(() {
+                            tmpVersion = PageVersion.dropdown;
+                            orderedPlayerNames = [];
+                          }),
                           icon: Icon(Icons.looks_3_rounded),
                         ),
                       ),
@@ -267,6 +356,8 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
                 ),
               ),
             ),
+          if (tmpVersion == PageVersion.dropdown)
+            MySubtitle("Quel est l'ordre des joueurs ?"),
           _buildFields(players),
         ],
       ),
