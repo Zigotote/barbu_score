@@ -98,7 +98,10 @@ void main() {
 
       // Redirect to salad contract page
       expect($(SaladContractPage), findsOneWidget);
-      expect($(ElevatedButtonWithIndicator), findsOneWidget);
+      expect(
+        $(ElevatedButtonWithIndicator).containing($(Icon)),
+        findsOneWidget,
+      );
       expect(
         $(
           ElevatedButtonWithIndicator,
@@ -154,7 +157,7 @@ void main() {
     await findValidateScoresButton($).tap();
 
     // Redirect to salad contract page
-    expect($(ElevatedButtonWithIndicator), findsOneWidget);
+    expect($(ElevatedButtonWithIndicator).containing($(Icon)), findsOneWidget);
     expect(
       $(
         ElevatedButtonWithIndicator,
@@ -217,7 +220,7 @@ void main() {
     await findValidateScoresButton($).tap();
 
     // Redirect to salad contract page
-    expect($(ElevatedButtonWithIndicator), findsOneWidget);
+    expect($(ElevatedButtonWithIndicator).containing($(Icon)), findsOneWidget);
     expect(
       $(
         ElevatedButtonWithIndicator,
