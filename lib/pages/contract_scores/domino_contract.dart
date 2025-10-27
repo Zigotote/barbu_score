@@ -27,7 +27,11 @@ class DominoContractPage extends ConsumerStatefulWidget {
   ConsumerState<DominoContractPage> createState() => _DominoContractPageState();
 }
 
+enum PageVersion { buttons, buttonsWithReset, dropdown }
+
 class _DominoContractPageState extends ConsumerState<DominoContractPage> {
+  PageVersion tmpVersion = PageVersion.buttons;
+
   /// The ordered list of players
   List<String> orderedPlayerNames = [];
 
@@ -38,6 +42,14 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
 
   /// Build player's list
   Widget _buildFields(List<Player> players) {
+    return switch (tmpVersion) {
+      PageVersion.buttons => _buildFieldsV1(players),
+      PageVersion.buttonsWithReset => Container(),
+      PageVersion.dropdown => Container(),
+    };
+  }
+
+  Widget _buildFieldsV1(List<Player> players) {
     final indicatorSize = MediaQuery.of(context).textScaler.scale(35);
     return MyGrid(
       children: players.map((player) {
@@ -102,7 +114,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   @override
   Widget build(BuildContext context) {
     final players = ref.watch(playGameProvider).players;
-
+    const double tmpSize = 48;
     return MyDefaultPage(
       appBar: MyPlayerAppBar(
         player: ref.watch(playGameProvider).currentPlayer,
@@ -112,13 +124,75 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
       content: Column(
         spacing: 8,
         children: [
-          MySubtitle(
-            context.l10n.dominoScoreSubtitle(
-              context.l10n.ordinalNumber(
-                min(orderedPlayerNames.length + 1, players.length),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Version : ",
+                style: const TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Stack(
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: tmpSize,
+                        width: tmpSize,
+                        child: IconButton(
+                          onPressed: () =>
+                              setState(() => tmpVersion = PageVersion.buttons),
+                          icon: Icon(Icons.looks_one_rounded),
+                        ),
+                      ),
+                      SizedBox(
+                        height: tmpSize,
+                        width: tmpSize,
+                        child: IconButton(
+                          onPressed: () => setState(
+                            () => tmpVersion = PageVersion.buttonsWithReset,
+                          ),
+                          icon: Icon(Icons.looks_two_rounded),
+                        ),
+                      ),
+                      SizedBox(
+                        height: tmpSize,
+                        width: tmpSize,
+                        child: IconButton(
+                          onPressed: () =>
+                              setState(() => tmpVersion = PageVersion.dropdown),
+                          icon: Icon(Icons.looks_3_rounded),
+                        ),
+                      ),
+                    ],
+                  ),
+                  AnimatedPositioned(
+                    left: tmpSize * PageVersion.values.indexOf(tmpVersion),
+                    width: tmpSize,
+                    height: tmpSize,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.fastOutSlowIn,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          width: 2,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          if (tmpVersion == PageVersion.buttons)
+            MySubtitle(
+              context.l10n.dominoScoreSubtitle(
+                context.l10n.ordinalNumber(
+                  min(orderedPlayerNames.length + 1, players.length),
+                ),
               ),
             ),
-          ),
           _buildFields(players),
         ],
       ),
