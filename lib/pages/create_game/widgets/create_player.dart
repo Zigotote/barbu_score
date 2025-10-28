@@ -23,12 +23,13 @@ class CreatePlayer extends ConsumerWidget {
   /// The function to call to validate the player's info
   final Function(Player) onValidate;
 
-  const CreatePlayer(
-      {super.key,
-      required this.player,
-      required this.index,
-      required this.onRemove,
-      required this.onValidate});
+  const CreatePlayer({
+    super.key,
+    required this.player,
+    required this.index,
+    required this.onRemove,
+    required this.onValidate,
+  });
 
   /// Build the text field to change player's name
   Widget _buildPlayerTextField(BuildContext context) {
@@ -40,7 +41,7 @@ class CreatePlayer extends ConsumerWidget {
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: InputBorder.none,
-        contentPadding: EdgeInsets.zero,
+        contentPadding: EdgeInsets.only(bottom: 8),
         focusedBorder: InputBorder.none,
         hintText: context.l10n.playerNameHint(index + 1),
         isCollapsed: true,
@@ -53,18 +54,18 @@ class CreatePlayer extends ConsumerWidget {
     return IconButton(
       tooltip: context.l10n.modifyPlayer,
       onPressed: () => _displayDialog(context, ref, player, onRemove),
-      icon: PlayerIcon(
-        image: player.image,
-        color: player.color,
-        size: size,
-      ),
+      icon: PlayerIcon(image: player.image, color: player.color, size: size),
     );
   }
 
   /// Displays a dialog to change the player's properties
   /// Changes are reverted if they are not validated
   void _displayDialog(
-      BuildContext context, WidgetRef ref, Player player, Function() onRemove) {
+    BuildContext context,
+    WidgetRef ref,
+    Player player,
+    Function() onRemove,
+  ) {
     ref.read(logProvider).sendAnalyticEvent("open_player_props");
     showDialog(
       context: context,
@@ -81,43 +82,46 @@ class CreatePlayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return LayoutBuilder(builder: (context, constraint) {
-      return Stack(
-        alignment: Alignment.center,
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            bottom: 0,
-            child: ColoredContainer(
-              height: constraint.maxHeight * 0.75,
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        return Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              bottom: 0,
+              child: ColoredContainer(
+                height: constraint.maxHeight * 0.75,
+                width: constraint.maxWidth,
+                color: player.color,
+                child: Container(),
+              ),
+            ),
+            Positioned(
+              top:
+                  constraint.maxHeight * 0.8 -
+                  MediaQuery.of(context).textScaler.scale(6),
               width: constraint.maxWidth,
-              color: player.color,
-              child: Container(),
+              child: _buildPlayerTextField(context),
             ),
-          ),
-          Positioned(
-            top: constraint.maxHeight * 0.8 -
-                MediaQuery.of(context).textScaler.scale(6),
-            width: constraint.maxWidth,
-            child: _buildPlayerTextField(context),
-          ),
-          Positioned(
-            top: 0,
-            child: _buildPlayerIcon(context, ref, constraint.maxWidth * 0.55),
-          ),
-          Positioned(
-            top: 24,
-            right: 0,
-            width: 32,
-            height: 32,
-            child: IconButton.outlined(
-              onPressed: onRemove,
-              icon: const Icon(Icons.close),
-              tooltip: context.l10n.deletePlayer,
+            Positioned(
+              top: 0,
+              child: _buildPlayerIcon(context, ref, constraint.maxWidth * 0.55),
             ),
-          ),
-        ],
-      );
-    });
+            Positioned(
+              top: 24,
+              right: 0,
+              width: 32,
+              height: 32,
+              child: IconButton.outlined(
+                onPressed: onRemove,
+                icon: const Icon(Icons.close),
+                tooltip: context.l10n.deletePlayer,
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

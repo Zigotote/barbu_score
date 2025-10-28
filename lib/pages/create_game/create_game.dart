@@ -91,7 +91,7 @@ class CreateGame extends ConsumerWidget {
                 crossAxisCount: (MediaQuery.of(context).size.width / 200)
                     .round(),
                 crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+                mainAxisSpacing: 24,
                 dragStartDelay: kPressTimeout,
                 childAspectRatio: 10 / 8,
                 footer: [
