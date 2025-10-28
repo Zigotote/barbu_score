@@ -32,6 +32,7 @@ enum PageVersion { buttons, buttonsWithInsert, dropdown }
 
 class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   PageVersion tmpVersion = PageVersion.buttons;
+  bool tmpDisplayVersions = false;
 
   /// The ordered list of players
   List<String> orderedPlayerNames = [];
@@ -274,72 +275,76 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
       content: Column(
         spacing: 8,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Version : ",
-                style: const TextStyle(fontStyle: FontStyle.italic),
-              ),
-              Stack(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        height: tmpSize,
-                        width: tmpSize,
-                        child: IconButton(
-                          onPressed: () => setState(() {
-                            tmpVersion = PageVersion.buttons;
-                            orderedPlayers = {};
-                          }),
-                          icon: Icon(Icons.looks_one_rounded),
+          if (tmpDisplayVersions)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Version : ",
+                  style: const TextStyle(fontStyle: FontStyle.italic),
+                ),
+                Stack(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          height: tmpSize,
+                          width: tmpSize,
+                          child: IconButton(
+                            onPressed: () => setState(() {
+                              tmpVersion = PageVersion.buttons;
+                              tmpDisplayVersions = false;
+                              orderedPlayers = {};
+                            }),
+                            icon: Icon(Icons.looks_one_rounded),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: tmpSize,
-                        width: tmpSize,
-                        child: IconButton(
-                          onPressed: () => setState(() {
-                            tmpVersion = PageVersion.buttonsWithInsert;
-                            orderedPlayerNames = [];
-                          }),
-                          icon: Icon(Icons.looks_two_rounded),
+                        SizedBox(
+                          height: tmpSize,
+                          width: tmpSize,
+                          child: IconButton(
+                            onPressed: () => setState(() {
+                              tmpVersion = PageVersion.buttonsWithInsert;
+                              tmpDisplayVersions = false;
+                              orderedPlayerNames = [];
+                            }),
+                            icon: Icon(Icons.looks_two_rounded),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: tmpSize,
-                        width: tmpSize,
-                        child: IconButton(
-                          onPressed: () => setState(() {
-                            tmpVersion = PageVersion.dropdown;
-                            orderedPlayerNames = [];
-                          }),
-                          icon: Icon(Icons.looks_3_rounded),
+                        SizedBox(
+                          height: tmpSize,
+                          width: tmpSize,
+                          child: IconButton(
+                            onPressed: () => setState(() {
+                              tmpVersion = PageVersion.dropdown;
+                              tmpDisplayVersions = false;
+                              orderedPlayerNames = [];
+                            }),
+                            icon: Icon(Icons.looks_3_rounded),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  AnimatedPositioned(
-                    left: tmpSize * PageVersion.values.indexOf(tmpVersion),
-                    width: tmpSize,
-                    height: tmpSize,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.fastOutSlowIn,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          width: 2,
+                      ],
+                    ),
+                    AnimatedPositioned(
+                      left: tmpSize * PageVersion.values.indexOf(tmpVersion),
+                      width: tmpSize,
+                      height: tmpSize,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.fastOutSlowIn,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            width: 2,
+                          ),
+                          shape: BoxShape.circle,
                         ),
-                        shape: BoxShape.circle,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                  ],
+                ),
+              ],
+            ),
           if (tmpVersion == PageVersion.buttons)
             MySubtitle(
               context.l10n.dominoScoreSubtitle(
@@ -361,13 +366,16 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
           _buildFields(players),
         ],
       ),
-      bottomWidget: ElevatedButtonFullWidth(
-        onPressed:
-            players.length == orderedPlayerNames.length ||
-                players.length == orderedPlayers.length
-            ? () => _saveContract(context, ref)
-            : null,
-        child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
+      bottomWidget: GestureDetector(
+        onLongPress: () => setState(() => tmpDisplayVersions = true),
+        child: ElevatedButtonFullWidth(
+          onPressed:
+              players.length == orderedPlayerNames.length ||
+                  players.length == orderedPlayers.length
+              ? () => _saveContract(context, ref)
+              : null,
+          child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
+        ),
       ),
     );
   }
