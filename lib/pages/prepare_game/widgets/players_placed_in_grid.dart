@@ -9,9 +9,7 @@ import '../../../commons/providers/play_game.dart';
 import '../../../commons/widgets/colored_container.dart';
 
 class PlayersPlacedInGrid extends ConsumerWidget {
-  const PlayersPlacedInGrid({
-    super.key,
-  });
+  const PlayersPlacedInGrid({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,6 +20,7 @@ class PlayersPlacedInGrid extends ConsumerWidget {
         Text(
           context.l10n.playersOrder,
           style: Theme.of(context).textTheme.headlineSmall,
+          textAlign: TextAlign.center,
         ),
         LayoutGrid(
           columnSizes: [1.fr, 1.fr],
@@ -35,9 +34,9 @@ class PlayersPlacedInGrid extends ConsumerWidget {
                   spacing: 8,
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context)
-                          .textScaler
-                          .scale(players.length >= 10 ? 24 : 12),
+                      width: MediaQuery.of(
+                        context,
+                      ).textScaler.scale(players.length >= 10 ? 24 : 12),
                       child: Text(
                         (index + 1).toString(),
                         style: Theme.of(context).textTheme.headlineSmall,
