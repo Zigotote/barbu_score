@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -38,29 +39,41 @@ class CreateGame extends ConsumerWidget {
 
   /// Builds the button to validate the form
   Widget _buildValidateButton(
-      BuildContext context, WidgetRef ref, CreateGameNotifier provider) {
-    return ElevatedButton(
-      onPressed: provider.isValid
-          ? () {
-              if (_formKey.currentState!.validate()) {
-                ref.read(logProvider).info(
-                      "CreateGame.buildValidateButton: create game with ${provider.players}",
-                    );
-                ref.read(logProvider).sendAnalyticEvent(
-                  "create_game",
-                  parameters: {"nb_players": provider.players.length},
-                );
+    BuildContext context,
+    WidgetRef ref,
+    CreateGameNotifier provider,
+  ) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16),
+      child: ElevatedButtonFullWidth(
+        onPressed: provider.isValid
+            ? () {
+                if (_formKey.currentState!.validate()) {
+                  ref
+                      .read(logProvider)
+                      .info(
+                        "CreateGame.buildValidateButton: create game with ${provider.players}",
+                      );
+                  ref
+                      .read(logProvider)
+                      .sendAnalyticEvent(
+                        "create_game",
+                        parameters: {"nb_players": provider.players.length},
+                      );
 
-                ref.read(playGameProvider).init(provider.players);
-                context.push(Routes.prepareGame);
-              } else {
-                ref.read(logProvider).info(
-                      "CreateGame.buildValidateButton: cannot create game with ${provider.players}",
-                    );
+                  ref.read(playGameProvider).init(provider.players);
+                  context.push(Routes.prepareGame);
+                } else {
+                  ref
+                      .read(logProvider)
+                      .info(
+                        "CreateGame.buildValidateButton: cannot create game with ${provider.players}",
+                      );
+                }
               }
-            }
-          : null,
-      child: Text(context.l10n.next),
+            : null,
+        child: Text(context.l10n.validate),
+      ),
     );
   }
 
@@ -69,33 +82,40 @@ class CreateGame extends ConsumerWidget {
     final playerProvider = ref.watch(createGameProvider);
     return DefaultPage(
       appBar: MyAppBar(Text(context.l10n.createPlayers), context: context),
-      content: Form(
-        key: _formKey,
-        child: ReorderableGridView.count(
-          crossAxisCount: (MediaQuery.of(context).size.width / 200).round(),
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          dragStartDelay: kPressTimeout,
-          childAspectRatio: 10 / 8,
-          footer: [
-            if (playerProvider.players.length < kNbPlayersMax)
-              _buildAddPlayerButton(context, playerProvider.addPlayer)
-          ],
-          onReorder: playerProvider.movePlayer,
-          children: playerProvider.players
-              .mapIndexed(
-                (index, player) => CreatePlayer(
-                  key: ObjectKey(player),
-                  player: player,
-                  index: index,
-                  onRemove: () => playerProvider.removePlayer(player),
-                  onValidate: playerProvider.playerValidator,
-                ),
-              )
-              .toList(),
-        ),
+      content: Column(
+        children: [
+          Expanded(
+            child: Form(
+              key: _formKey,
+              child: ReorderableGridView.count(
+                crossAxisCount: (MediaQuery.of(context).size.width / 200)
+                    .round(),
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                dragStartDelay: kPressTimeout,
+                childAspectRatio: 10 / 8,
+                footer: [
+                  if (playerProvider.players.length < kNbPlayersMax)
+                    _buildAddPlayerButton(context, playerProvider.addPlayer),
+                ],
+                onReorder: playerProvider.movePlayer,
+                children: playerProvider.players
+                    .mapIndexed(
+                      (index, player) => CreatePlayer(
+                        key: ObjectKey(player),
+                        player: player,
+                        index: index,
+                        onRemove: () => playerProvider.removePlayer(player),
+                        onValidate: playerProvider.playerValidator,
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ),
+          _buildValidateButton(context, ref, playerProvider),
+        ],
       ),
-      bottomWidget: _buildValidateButton(context, ref, playerProvider),
     );
   }
 }

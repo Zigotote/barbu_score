@@ -18,7 +18,8 @@ class OrderedPlayersScores extends ConsumerWidget {
   /// Calculates the total score of each player for the game
   /// and orders them by score
   List<MapEntry<String, int>> _orderedPlayerScores(
-      Map<Player, Map<String, int>?> scoresByPlayer) {
+    Map<Player, Map<String, int>?> scoresByPlayer,
+  ) {
     final totalScores = sumScores(scoresByPlayer.values.toList());
     final playerScores =
         totalScores ?? {for (var player in scoresByPlayer.keys) player.name: 0};
@@ -28,23 +29,34 @@ class OrderedPlayersScores extends ConsumerWidget {
 
   /// Finds the player's best friend
   Player _findBestFriend(
-      Player player, Map<Player, Map<String, int>?> scoresByPlayer) {
+    Player player,
+    Map<Player, Map<String, int>?> scoresByPlayer,
+  ) {
     return _findPlayerWhere(
-        player, scoresByPlayer, (score1, score2) => score1 > score2);
+      player,
+      scoresByPlayer,
+      (score1, score2) => score1 > score2,
+    );
   }
 
   /// Finds the player's worst ennemy
   Player _findWorstEnnemy(
-      Player player, Map<Player, Map<String, int>?> scoresByPlayer) {
+    Player player,
+    Map<Player, Map<String, int>?> scoresByPlayer,
+  ) {
     return _findPlayerWhere(
-        player, scoresByPlayer, (score1, score2) => score1 < score2);
+      player,
+      scoresByPlayer,
+      (score1, score2) => score1 < score2,
+    );
   }
 
   /// Finds the player where condition applies
   Player _findPlayerWhere(
-      Player player,
-      Map<Player, Map<String, int>?> scoresByPlayer,
-      Function(int, int) condition) {
+    Player player,
+    Map<Player, Map<String, int>?> scoresByPlayer,
+    Function(int, int) condition,
+  ) {
     int? score = scoresByPlayer[player]?[player.name];
     Player playerFound = player;
     for (var scores in scoresByPlayer.entries) {
@@ -66,25 +78,28 @@ class OrderedPlayersScores extends ConsumerWidget {
       for (var player in players)
         player: sumScores(
           contractsManager.scoresByContract(player).values.toList(),
-        )
+        ),
     };
-    final List<MapEntry<String, int>> orderedPlayers =
-        _orderedPlayerScores(scoresByPlayer);
+    final List<MapEntry<String, int>> orderedPlayers = _orderedPlayerScores(
+      scoresByPlayer,
+    );
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: MyList(
         itemCount: players.length,
         itemBuilder: (_, index) {
           final MapEntry<String, int> playerInfo = orderedPlayers[index];
-          final Player player =
-              players.firstWhere((p) => p.name == playerInfo.key);
+          final Player player = players.firstWhere(
+            (p) => p.name == playerInfo.key,
+          );
           return PlayerScoreButton(
             player: player,
             score: playerInfo.value,
             displayMedal:
                 isGameFinished && playerInfo.value == orderedPlayers[0].value,
-            bestFriend:
-                isGameFinished ? _findBestFriend(player, scoresByPlayer) : null,
+            bestFriend: isGameFinished
+                ? _findBestFriend(player, scoresByPlayer)
+                : null,
             worstEnnemy: isGameFinished
                 ? _findWorstEnnemy(player, scoresByPlayer)
                 : null,

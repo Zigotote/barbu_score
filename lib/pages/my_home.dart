@@ -50,22 +50,23 @@ class MyHome extends ConsumerWidget {
   bool _verifyHasActiveContracts(BuildContext context, WidgetRef ref) {
     if (ref.read(storageProvider).getActiveContracts().isEmpty) {
       showDialog(
-          context: context,
-          builder: (BuildContext buildContext) {
-            return MyAlertDialog(
-              context: context,
-              title: context.l10n.errorLaunchGame,
-              content: context.l10n.errorLaunchGameDetails,
-              actions: [
-                AlertDialogActionButton(
-                  text: context.l10n.modifySettings,
-                  onPressed: () {
-                    context.push(Routes.settings);
-                  },
-                ),
-              ],
-            );
-          });
+        context: context,
+        builder: (BuildContext buildContext) {
+          return MyAlertDialog(
+            context: context,
+            title: context.l10n.errorLaunchGame,
+            content: context.l10n.errorLaunchGameDetails,
+            actions: [
+              AlertDialogActionButton(
+                text: context.l10n.modifySettings,
+                onPressed: () {
+                  context.push(Routes.settings);
+                },
+              ),
+            ],
+          );
+        },
+      );
       return false;
     }
     return true;
@@ -92,29 +93,32 @@ class MyHome extends ConsumerWidget {
       _startGame(context, ref);
     } else {
       showDialog(
-          context: context,
-          builder: (BuildContext buildContext) {
-            return MyAlertDialog(
-              context: context,
-              title: context.l10n.loadGame,
-              content: previousGame!.isFinished
-                  ? context.l10n
-                      .seePreviousGame(_playerNames(previousGame.players))
-                  : context.l10n
-                      .loadPreviousGame(_playerNames(previousGame.players)),
-              actions: [
-                AlertDialogActionButton(
-                  isDestructive: true,
-                  text: context.l10n.refuseLoadGame,
-                  onPressed: () => _startGame(context, ref),
-                ),
-                AlertDialogActionButton(
-                  text: context.l10n.accept,
-                  onPressed: () => _loadGame(context, ref, previousGame!),
-                ),
-              ],
-            );
-          });
+        context: context,
+        builder: (BuildContext buildContext) {
+          return MyAlertDialog(
+            context: context,
+            title: context.l10n.loadGame,
+            content: previousGame!.isFinished
+                ? context.l10n.seePreviousGame(
+                    _playerNames(previousGame.players),
+                  )
+                : context.l10n.loadPreviousGame(
+                    _playerNames(previousGame.players),
+                  ),
+            actions: [
+              AlertDialogActionButton(
+                isDestructive: true,
+                text: context.l10n.refuseLoadGame,
+                onPressed: () => _startGame(context, ref),
+              ),
+              AlertDialogActionButton(
+                text: context.l10n.accept,
+                onPressed: () => _loadGame(context, ref, previousGame!),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -127,27 +131,28 @@ class MyHome extends ConsumerWidget {
       Game? previousGame = ref.read(storageProvider).getStoredGame();
       if (previousGame != null && !previousGame.isFinished) {
         showDialog(
-            context: context,
-            builder: (BuildContext buildContext) {
-              return MyAlertDialog(
-                context: context,
-                title: context.l10n.alertExistingGame,
-                content: context.l10n.confirmStartGame(
-                  _playerNames(previousGame.players),
+          context: context,
+          builder: (BuildContext buildContext) {
+            return MyAlertDialog(
+              context: context,
+              title: context.l10n.alertExistingGame,
+              content: context.l10n.confirmStartGame(
+                _playerNames(previousGame.players),
+              ),
+              actions: [
+                AlertDialogActionButton(
+                  text: context.l10n.refuseStartGame,
+                  onPressed: () => _loadGame(context, ref, previousGame),
                 ),
-                actions: [
-                  AlertDialogActionButton(
-                    text: context.l10n.refuseStartGame,
-                    onPressed: () => _loadGame(context, ref, previousGame),
-                  ),
-                  AlertDialogActionButton(
-                    isDestructive: true,
-                    text: context.l10n.accept,
-                    onPressed: () => _startGame(context, ref),
-                  ),
-                ],
-              );
-            });
+                AlertDialogActionButton(
+                  isDestructive: true,
+                  text: context.l10n.accept,
+                  onPressed: () => _startGame(context, ref),
+                ),
+              ],
+            );
+          },
+        );
       } else {
         _startGame(context, ref);
       }
@@ -179,16 +184,22 @@ class MyHome extends ConsumerWidget {
               context: context,
               hasLeading: false,
             ),
-            ElevatedButtonFullWidth(
-              child: Text(
-                context.l10n.startGame,
-                textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: ElevatedButtonFullWidth(
+                child: Text(
+                  context.l10n.startGame,
+                  textAlign: TextAlign.center,
+                ),
+                onPressed: () => _confirmStartGame(context, ref),
               ),
-              onPressed: () => _confirmStartGame(context, ref),
             ),
-            ElevatedButtonFullWidth(
-              child: Text(context.l10n.loadGame, textAlign: TextAlign.center),
-              onPressed: () => _confirmLoadGame(context, ref),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: ElevatedButtonFullWidth(
+                child: Text(context.l10n.loadGame, textAlign: TextAlign.center),
+                onPressed: () => _confirmLoadGame(context, ref),
+              ),
             ),
             ElevatedButton(
               child: Text(context.l10n.rules, textAlign: TextAlign.center),
