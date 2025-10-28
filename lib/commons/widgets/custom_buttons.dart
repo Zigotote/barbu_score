@@ -4,29 +4,16 @@ import 'package:flutter/material.dart';
 import '../../theme/my_theme_colors.dart';
 
 /// An ElevatedButton with a full width
-class ElevatedButtonFullWidth extends StatelessWidget {
-  /// The child of the button
-  final Widget child;
-
-  /// The function to call on pressed action
-  final Function() onPressed;
-
-  const ElevatedButtonFullWidth(
-      {super.key, required this.child, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size.fromHeight(48),
-        ),
-        child: child,
-      ),
-    );
-  }
+class ElevatedButtonFullWidth extends ElevatedButton {
+  ElevatedButtonFullWidth({
+    super.key,
+    required super.child,
+    required super.onPressed,
+  }) : super(
+         style: ElevatedButton.styleFrom(
+           minimumSize: const Size.fromHeight(48),
+         ),
+       );
 }
 
 /// A button with a custom border and text color
@@ -69,10 +56,14 @@ class ElevatedButtonCustomColor extends StatelessWidget {
     this.background,
     this.backgroundFromPlayer,
     this.semantics,
-  })  : assert(color == null || colorFromPlayer == null,
-            "Color should be fixed or come from player"),
-        assert(background == null || backgroundFromPlayer == null,
-            "Background should be fixed or come from player");
+  }) : assert(
+         color == null || colorFromPlayer == null,
+         "Color should be fixed or come from player",
+       ),
+       assert(
+         background == null || backgroundFromPlayer == null,
+         "Background should be fixed or come from player",
+       );
 
   factory ElevatedButtonCustomColor({
     Key? key,
@@ -83,17 +74,16 @@ class ElevatedButtonCustomColor extends StatelessWidget {
     double? textSize,
     Color? backgroundColor,
     String? semantics,
-  }) =>
-      ElevatedButtonCustomColor._(
-        key: key,
-        text: text,
-        icon: icon,
-        color: color,
-        onPressed: onPressed,
-        textSize: textSize,
-        background: backgroundColor,
-        semantics: semantics,
-      );
+  }) => ElevatedButtonCustomColor._(
+    key: key,
+    text: text,
+    icon: icon,
+    color: color,
+    onPressed: onPressed,
+    textSize: textSize,
+    background: backgroundColor,
+    semantics: semantics,
+  );
 
   factory ElevatedButtonCustomColor.player({
     Key? key,
@@ -104,30 +94,31 @@ class ElevatedButtonCustomColor extends StatelessWidget {
     double? textSize,
     MyThemeColors? backgroundColor,
     String? semantics,
-  }) =>
-      ElevatedButtonCustomColor._(
-        key: key,
-        text: text,
-        icon: icon,
-        colorFromPlayer: color,
-        onPressed: onPressed,
-        textSize: textSize,
-        backgroundFromPlayer: backgroundColor,
-        semantics: semantics,
-      );
+  }) => ElevatedButtonCustomColor._(
+    key: key,
+    text: text,
+    icon: icon,
+    colorFromPlayer: color,
+    onPressed: onPressed,
+    textSize: textSize,
+    backgroundFromPlayer: backgroundColor,
+    semantics: semantics,
+  );
 
   @override
   Widget build(BuildContext context) {
     final defaultColor = Theme.of(context).scaffoldBackgroundColor;
     var foregroundColor = color ?? defaultColor;
     if (colorFromPlayer != null) {
-      foregroundColor =
-          Theme.of(context).colorScheme.convertMyColor(colorFromPlayer!);
+      foregroundColor = Theme.of(
+        context,
+      ).colorScheme.convertMyColor(colorFromPlayer!);
     }
     var backgroundColor = background ?? defaultColor;
     if (backgroundFromPlayer != null) {
-      backgroundColor =
-          Theme.of(context).colorScheme.convertMyColor(backgroundFromPlayer!);
+      backgroundColor = Theme.of(
+        context,
+      ).colorScheme.convertMyColor(backgroundFromPlayer!);
     }
     final style = ElevatedButton.styleFrom(
       side: BorderSide(color: foregroundColor, width: 2),
@@ -156,7 +147,9 @@ class ElevatedButtonCustomColor extends StatelessWidget {
           );
     return semantics == null
         ? button
-        : MergeSemantics(child: Semantics(label: semantics, child: button));
+        : MergeSemantics(
+            child: Semantics(label: semantics, child: button),
+          );
   }
 }
 
@@ -171,11 +164,12 @@ class ElevatedButtonWithIndicator extends StatelessWidget {
   /// The indicator to display on top off the button
   final Widget indicator;
 
-  const ElevatedButtonWithIndicator(
-      {super.key,
-      required this.text,
-      required this.onPressed,
-      required this.indicator});
+  const ElevatedButtonWithIndicator({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.indicator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -193,11 +187,7 @@ class ElevatedButtonWithIndicator extends StatelessWidget {
                 onPressed: onPressed,
                 child: Text(text, textAlign: TextAlign.center),
               ),
-              Positioned(
-                right: -8,
-                bottom: -8,
-                child: indicator,
-              )
+              Positioned(right: -8, bottom: -8, child: indicator),
             ],
           ),
         ),

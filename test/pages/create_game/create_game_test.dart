@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
+import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/create_game/create_game.dart';
@@ -41,8 +42,10 @@ void main() {
 
       expect($(CreatePlayer), findsNWidgets(nbPlayers));
       expect(
-        ($.tester.firstWidget($(ElevatedButton).containing($("Suivant")))
-                as ElevatedButton)
+        ($.tester.firstWidget(
+                  $(ElevatedButtonFullWidth).containing($("Valider")),
+                )
+                as ElevatedButtonFullWidth)
             .onPressed,
         isNull,
       );
@@ -68,7 +71,7 @@ void main() {
       await _fillPlayerNames($, nbPlayers);
 
       expect($(CreatePlayer), findsNWidgets(nbPlayers));
-      await $("Suivant").tap();
+      await $("Valider").tap();
 
       expect($(PrepareGame), findsOneWidget);
       for (var nbNames = 0; nbNames < nbPlayers; nbNames++) {
@@ -82,13 +85,13 @@ void main() {
     await $(CreatePlayer).at(0).enterText(basePlayerName);
     await $(CreatePlayer).at(1).enterText(basePlayerName);
 
-    await $("Suivant").tap();
+    await $("Valider").tap();
     expect($("Nom déjà pris."), findsNWidgets(2));
   });
   patrolWidgetTest("should show error if player has no name", ($) async {
     await $.pumpWidget(_createPage($));
 
-    await $("Suivant").tap();
+    await $("Valider").tap();
     expect($("Indiquer un nom."), findsNWidgets(nbPlayersByDefault));
   });
   group("Actions in dialog", () {
@@ -145,7 +148,7 @@ void main() {
         expect(findPlayerIcon($).color, firstPlayerColor);
         expect(findPlayerIcon($, index: 1).color, firstPlayerColor);
         await _fillPlayerNames($, nbPlayersByDefault);
-        await $("Suivant").tap();
+        await $("Valider").tap();
 
         expect($("Couleur déjà prise."), findsNWidgets(2));
         expect($(PrepareGame), findsNothing);
