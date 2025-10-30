@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './my_appbar.dart';
+import 'lines_background.dart';
 
 /// A page with a beautiful layout
 class DefaultPage extends StatelessWidget {
@@ -29,23 +30,15 @@ class DefaultPage extends StatelessWidget {
     Widget page = Scaffold(
       appBar: appBar,
       body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: hasBackground
-              ? BoxDecoration(
-                  image: DecorationImage(
-                    image: const AssetImage("assets/background.png"),
-                    fit: MediaQuery.of(context).orientation ==
-                            Orientation.landscape
-                        ? BoxFit.fill
-                        : BoxFit.fitWidth,
-                    alignment: Alignment.bottomCenter,
-                  ),
-                )
-              : null,
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-          child: content,
+        child: Stack(
+          children: [
+            if (hasBackground) LinesBackground(),
+            Container(
+              height: double.infinity,
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: content,
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: bottomWidget != null

@@ -12,6 +12,7 @@ import '../commons/providers/storage.dart';
 import '../commons/utils/snackbar.dart';
 import '../commons/widgets/alert_dialog.dart';
 import '../commons/widgets/custom_buttons.dart';
+import '../commons/widgets/lines_background.dart';
 import '../commons/widgets/my_appbar.dart';
 import '../main.dart';
 
@@ -166,56 +167,56 @@ class MyHome extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     WakelockPlus.disable();
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background.png"),
-            fit: BoxFit.fitWidth,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            MyAppBar(
-              Text(
-                context.l10n.appName,
-                style: Theme.of(context).textTheme.displaySmall,
-              ),
-              context: context,
-              hasLeading: false,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: ElevatedButtonFullWidth(
-                child: Text(
-                  context.l10n.startGame,
-                  textAlign: TextAlign.center,
+      body: Stack(
+        children: [
+          LinesBackground(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MyAppBar(
+                Text(
+                  context.l10n.appName,
+                  style: Theme.of(context).textTheme.displaySmall,
                 ),
-                onPressed: () => _confirmStartGame(context, ref),
+                context: context,
+                hasLeading: false,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: ElevatedButtonFullWidth(
-                child: Text(context.l10n.loadGame, textAlign: TextAlign.center),
-                onPressed: () => _confirmLoadGame(context, ref),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: ElevatedButtonFullWidth(
+                  child: Text(
+                    context.l10n.startGame,
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () => _confirmStartGame(context, ref),
+                ),
               ),
-            ),
-            ElevatedButton(
-              child: Text(context.l10n.rules, textAlign: TextAlign.center),
-              onPressed: () {
-                SnackBarUtils.instance.closeSnackBar(context);
-                context.push(Routes.rules);
-              },
-            ),
-            IconButton(
-              onPressed: () => context.push(Routes.settings),
-              icon: const Icon(Icons.settings),
-              iconSize: 55,
-              tooltip: context.l10n.settings,
-            ),
-          ],
-        ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: ElevatedButtonFullWidth(
+                  child: Text(
+                    context.l10n.loadGame,
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () => _confirmLoadGame(context, ref),
+                ),
+              ),
+              ElevatedButton(
+                child: Text(context.l10n.rules, textAlign: TextAlign.center),
+                onPressed: () {
+                  SnackBarUtils.instance.closeSnackBar(context);
+                  context.push(Routes.rules);
+                },
+              ),
+              IconButton(
+                onPressed: () => context.push(Routes.settings),
+                icon: const Icon(Icons.settings),
+                iconSize: 55,
+                tooltip: context.l10n.settings,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

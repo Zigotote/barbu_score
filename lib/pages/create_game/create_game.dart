@@ -113,6 +113,7 @@ class CreateGame extends ConsumerWidget {
               ),
             ),
           ),
+          // TODO Océane améliorer pour que ça reste utilisable en mode paysage
           _buildValidateButton(context, ref, playerProvider),
         ],
       ),
