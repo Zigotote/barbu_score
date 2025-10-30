@@ -77,6 +77,9 @@ class CreateGame extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playerProvider = ref.watch(createGameProvider);
+    final hasStickyValidateButton =
+        MediaQuery.orientationOf(context) == Orientation.portrait ||
+        MediaQuery.sizeOf(context).height >= 768;
     return DefaultPage(
       appBar: MyAppBar(Text(context.l10n.createPlayers), context: context),
       content: Column(
@@ -111,10 +114,13 @@ class CreateGame extends ConsumerWidget {
               ),
             ),
           ),
-          // TODO Océane améliorer pour que ça reste utilisable en mode paysage
-          _buildValidateButton(context, ref, playerProvider),
+          if (hasStickyValidateButton)
+            _buildValidateButton(context, ref, playerProvider),
         ],
       ),
+      bottomWidget: hasStickyValidateButton
+          ? null
+          : _buildValidateButton(context, ref, playerProvider),
     );
   }
 }
