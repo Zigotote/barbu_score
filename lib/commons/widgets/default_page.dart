@@ -5,6 +5,9 @@ import 'lines_background.dart';
 
 /// A page with a beautiful layout
 class DefaultPage extends StatelessWidget {
+  /// The padding applied around all the pages in the app
+  static const appPadding = EdgeInsets.all(16);
+
   /// The appbar of the page
   final MyAppBar appBar;
 
@@ -17,12 +20,16 @@ class DefaultPage extends StatelessWidget {
   /// True if the background has to be drawn
   final bool hasBackground;
 
+  /// True if padding has to be applied by default in the page. If not, page is expected to use [appPadding] internally
+  final bool hasPadding;
+
   const DefaultPage({
     super.key,
     required this.appBar,
     required this.content,
     this.bottomWidget,
     this.hasBackground = false,
+    this.hasPadding = true,
   });
 
   @override
@@ -35,7 +42,7 @@ class DefaultPage extends StatelessWidget {
             if (hasBackground) LinesBackground(),
             Container(
               height: double.infinity,
-              padding: const EdgeInsets.all(16),
+              padding: hasPadding ? appPadding : null,
               child: content,
             ),
           ],

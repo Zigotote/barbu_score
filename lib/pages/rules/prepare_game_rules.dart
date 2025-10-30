@@ -26,7 +26,6 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 8),
           Wrap(
             spacing: 8,
             crossAxisAlignment: WrapCrossAlignment.center,
@@ -35,10 +34,12 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
               DropdownMenu(
                 width: MediaQuery.of(context).textScaler.scale(90),
                 dropdownMenuEntries: [
-                  for (var nbPlayers = kNbPlayersMin;
-                      nbPlayers <= kNbPlayersMax;
-                      nbPlayers++)
-                    DropdownMenuEntry(value: nbPlayers, label: "$nbPlayers")
+                  for (
+                    var nbPlayers = kNbPlayersMin;
+                    nbPlayers <= kNbPlayersMax;
+                    nbPlayers++
+                  )
+                    DropdownMenuEntry(value: nbPlayers, label: "$nbPlayers"),
                 ],
                 initialSelection: nbPlayersExample,
                 onSelected: (nbPlayers) =>
@@ -66,9 +67,9 @@ class _PrepareGameRulesState extends State<PrepareGameRules> {
             context.l10n.cardsToKeepForPlayers(
               nbPlayersExample,
               getNbDecks(nbPlayersExample),
-              getCardsToKeep(nbPlayersExample)
-                  .map((cardIndex) => context.l10n.cardName(cardIndex))
-                  .join(", "),
+              getCardsToKeep(
+                nbPlayersExample,
+              ).map((cardIndex) => context.l10n.cardName(cardIndex)).join(", "),
             ),
           ),
         ],

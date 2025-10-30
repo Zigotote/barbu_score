@@ -21,36 +21,38 @@ class MySettings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultPage(
-      appBar: MyAppBar(
-        Text(context.l10n.settings),
-        context: context,
-      ),
+      appBar: MyAppBar(Text(context.l10n.settings), context: context),
+      hasPadding: false,
       content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const AppThemeChoice(),
-            const LanguageChoice(),
-            const SizedBox(height: 16),
-            Semantics(
-              header: true,
-              child: Text(
-                context.l10n.contracts,
-                style: Theme.of(context).textTheme.titleLarge,
+        child: Padding(
+          padding: DefaultPage.appPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const AppThemeChoice(),
+              const LanguageChoice(),
+              const SizedBox(height: 16),
+              Semantics(
+                header: true,
+                child: Text(
+                  context.l10n.contracts,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            MyGrid(
-              isScrollable: false,
-              children: ContractsInfo.values.map(
-                (contract) {
-                  final contractSettings =
-                      ref.watch(storageProvider).getSettings(contract);
+              const SizedBox(height: 16),
+              MyGrid(
+                isScrollable: false,
+                children: ContractsInfo.values.map((contract) {
+                  final contractSettings = ref
+                      .watch(storageProvider)
+                      .getSettings(contract);
                   return ElevatedButtonWithIndicator(
                     key: Key(contract.name),
                     text: context.l10n.contractName(contract),
                     onPressed: () {
-                      ref.read(logProvider).info(
+                      ref
+                          .read(logProvider)
+                          .info(
                             "MySettings: open settings for ${contract.name}",
                           );
                       SnackBarUtils.instance.closeSnackBar(context);
@@ -75,10 +77,10 @@ class MySettings extends ConsumerWidget {
                       isActive: contractSettings.isActive,
                     ),
                   );
-                },
-              ).toList(),
-            ),
-          ],
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );

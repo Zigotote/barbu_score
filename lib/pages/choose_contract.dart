@@ -23,6 +23,7 @@ class ChooseContract extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Player player = ref.watch(playGameProvider).currentPlayer;
     final contractsManager = ref.watch(contractsManagerProvider);
+    // TODO Océane réfléchir comment partager ça avec toutes les pages (scores de contrats)
     return DefaultPage(
       appBar: MyPlayerAppBar(
         player: player,
@@ -39,42 +40,45 @@ class ChooseContract extends ConsumerWidget {
         ),
       ),
       hasBackground: true,
+      hasPadding: false,
       content: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            // TODO Océane ajouter un padding sur tous les boutons scrollables
-            child: MyGrid(
-              isScrollable: false,
-              children: contractsManager.activeContracts
-                  .map(
-                    (contract) => ElevatedButton(
-                      key: Key(contract.name),
-                      onPressed: player.hasPlayedContract(contract)
-                          ? null
-                          : () {
-                              ref
-                                  .read(logProvider)
-                                  .info(
-                                    "ChooseContract: ${player.name} choose ${contract.name}",
-                                  );
-                              context.push(
-                                contractsManager.getScoresRoute(contract),
-                              );
-                            },
-                      child: Text(
-                        context.l10n.contractName(contract),
-                        textAlign: TextAlign.center,
+            child: Padding(
+              padding: DefaultPage.appPadding,
+              child: MyGrid(
+                isScrollable: false,
+                children: contractsManager.activeContracts
+                    .map(
+                      (contract) => ElevatedButton(
+                        key: Key(contract.name),
+                        onPressed: player.hasPlayedContract(contract)
+                            ? null
+                            : () {
+                                ref
+                                    .read(logProvider)
+                                    .info(
+                                      "ChooseContract: ${player.name} choose ${contract.name}",
+                                    );
+                                context.push(
+                                  contractsManager.getScoresRoute(contract),
+                                );
+                              },
+                        child: Text(
+                          context.l10n.contractName(contract),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              ),
             ),
           ),
           SliverFillRemaining(
             hasScrollBody: false,
             child: Container(
               alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.symmetric(vertical: 16),
+              padding: DefaultPage.appPadding,
               child: ElevatedButtonFullWidth(
                 child: Text(context.l10n.scores),
                 onPressed: () => context.push(Routes.scores),
