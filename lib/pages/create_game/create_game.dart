@@ -43,37 +43,34 @@ class CreateGame extends ConsumerWidget {
     WidgetRef ref,
     CreateGameNotifier provider,
   ) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: ElevatedButtonFullWidth(
-        onPressed: provider.isValid
-            ? () {
-                if (_formKey.currentState!.validate()) {
-                  ref
-                      .read(logProvider)
-                      .info(
-                        "CreateGame.buildValidateButton: create game with ${provider.players}",
-                      );
-                  ref
-                      .read(logProvider)
-                      .sendAnalyticEvent(
-                        "create_game",
-                        parameters: {"nb_players": provider.players.length},
-                      );
+    return ElevatedButtonFullWidth(
+      onPressed: provider.isValid
+          ? () {
+              if (_formKey.currentState!.validate()) {
+                ref
+                    .read(logProvider)
+                    .info(
+                      "CreateGame.buildValidateButton: create game with ${provider.players}",
+                    );
+                ref
+                    .read(logProvider)
+                    .sendAnalyticEvent(
+                      "create_game",
+                      parameters: {"nb_players": provider.players.length},
+                    );
 
-                  ref.read(playGameProvider).init(provider.players);
-                  context.push(Routes.prepareGame);
-                } else {
-                  ref
-                      .read(logProvider)
-                      .info(
-                        "CreateGame.buildValidateButton: cannot create game with ${provider.players}",
-                      );
-                }
+                ref.read(playGameProvider).init(provider.players);
+                context.push(Routes.prepareGame);
+              } else {
+                ref
+                    .read(logProvider)
+                    .info(
+                      "CreateGame.buildValidateButton: cannot create game with ${provider.players}",
+                    );
               }
-            : null,
-        child: Text(context.l10n.validate),
-      ),
+            }
+          : null,
+      child: Text(context.l10n.validate),
     );
   }
 
@@ -83,6 +80,7 @@ class CreateGame extends ConsumerWidget {
     return DefaultPage(
       appBar: MyAppBar(Text(context.l10n.createPlayers), context: context),
       content: Column(
+        spacing: 16,
         children: [
           Expanded(
             child: Form(

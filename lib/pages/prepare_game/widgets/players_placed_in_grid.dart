@@ -16,6 +16,7 @@ class PlayersPlacedInGrid extends ConsumerWidget {
     final List<Player> players = ref.read(playGameProvider).players;
     return Column(
       spacing: 16,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           context.l10n.playersOrder,

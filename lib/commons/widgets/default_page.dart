@@ -35,7 +35,7 @@ class DefaultPage extends StatelessWidget {
             if (hasBackground) LinesBackground(),
             Container(
               height: double.infinity,
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              padding: const EdgeInsets.all(16),
               child: content,
             ),
           ],
@@ -44,7 +44,7 @@ class DefaultPage extends StatelessWidget {
       bottomNavigationBar: bottomWidget != null
           ? SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 child: bottomWidget,
               ),
             )
