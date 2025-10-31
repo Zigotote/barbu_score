@@ -8,8 +8,8 @@ import '../../commons/models/contract_settings_models.dart';
 import '../../commons/providers/storage.dart';
 import '../../commons/utils/constants.dart';
 import '../../commons/utils/player_icon_properties.dart';
-import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/my_appbar.dart';
+import '../../commons/widgets/my_default_page.dart';
 import '../../commons/widgets/player_icon.dart';
 import 'utils/change_settings.dart';
 import 'widgets/change_contract_activation.dart';
@@ -19,7 +19,10 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
   const DominoContractSettingsPage({super.key});
 
   Widget _buildDataTable(
-      BuildContext context, WidgetRef ref, DominoContractSettings settings) {
+    BuildContext context,
+    WidgetRef ref,
+    DominoContractSettings settings,
+  ) {
     const spanPadding = TableSpanPadding.all(4);
     return TableView.list(
       pinnedRowCount: 1,
@@ -51,7 +54,7 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
                 ),
               ),
             );
-          })
+          }),
         ],
         ...[
           for (int position = 1; position <= kNbPlayersMax; position++)
@@ -62,8 +65,8 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
                 ),
               ),
               ..._buildPointsCells(ref, settings, position - 1),
-            ]
-        ]
+            ],
+        ],
       ],
     );
   }
@@ -73,36 +76,36 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
       child: Stack(
         alignment: Alignment.center,
         clipBehavior: Clip.none,
-        children: List.generate(
-          5,
-          (index) {
-            const double basePadding = 110;
-            const double baseSize = 36;
-            // Applicates a ratio to other icons than the first one
-            final ratio = index == 0 ? 1 : (1 - 0.15 * (index / 2).round());
-            final playerIcon = PlayerIcon(
-              image: playerImages[index],
-              color: playerColors[index],
-              size: baseSize * ratio,
-            );
-            if (index % 2 == 0) {
-              return Padding(
-                padding: EdgeInsets.only(left: basePadding * (1 - ratio)),
-                child: playerIcon,
-              );
-            }
+        children: List.generate(5, (index) {
+          const double basePadding = 110;
+          const double baseSize = 36;
+          // Applicates a ratio to other icons than the first one
+          final ratio = index == 0 ? 1 : (1 - 0.15 * (index / 2).round());
+          final playerIcon = PlayerIcon(
+            image: playerImages[index],
+            color: playerColors[index],
+            size: baseSize * ratio,
+          );
+          if (index % 2 == 0) {
             return Padding(
-              padding: EdgeInsets.only(right: basePadding * (1 - ratio)),
+              padding: EdgeInsets.only(left: basePadding * (1 - ratio)),
               child: playerIcon,
             );
-          },
-        ).reversed.toList(),
+          }
+          return Padding(
+            padding: EdgeInsets.only(right: basePadding * (1 - ratio)),
+            child: playerIcon,
+          );
+        }).reversed.toList(),
       ),
     );
   }
 
   List<TableViewCell> _buildPointsCells(
-      WidgetRef ref, DominoContractSettings settings, int playerIndex) {
+    WidgetRef ref,
+    DominoContractSettings settings,
+    int playerIndex,
+  ) {
     return List.generate(settings.points.length, (index) {
       final int nbPlayers = index + kNbPlayersMin;
       if (playerIndex < settings.points[nbPlayers]!.length) {
@@ -122,24 +125,28 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref
-        .read(storageProvider)
-        .getSettings(ContractsInfo.domino)
-        .copyWith() as DominoContractSettings;
-    return DefaultPage(
+    final settings =
+        ref.read(storageProvider).getSettings(ContractsInfo.domino).copyWith()
+            as DominoContractSettings;
+    return Scaffold(
       appBar: MyAppBar(
         Column(
           children: [Text(context.l10n.settings), Text(context.l10n.domino)],
         ),
         context: context,
       ),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          ChangeContractActivation(ContractsInfo.domino, settings),
-          Flexible(child: _buildDataTable(context, ref, settings)),
-        ],
+      body: SafeArea(
+        child: Padding(
+          padding: MyDefaultPage.appPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 16,
+            children: [
+              ChangeContractActivation(ContractsInfo.domino, settings),
+              Flexible(child: _buildDataTable(context, ref, settings)),
+            ],
+          ),
+        ),
       ),
     );
   }

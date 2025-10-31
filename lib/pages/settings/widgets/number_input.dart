@@ -12,11 +12,12 @@ class NumberInput extends StatefulWidget {
   /// The object to control input focus
   final FocusNode? focusNode;
 
-  const NumberInput(
-      {required this.points,
-      required this.onChanged,
-      this.focusNode,
-      super.key});
+  const NumberInput({
+    required this.points,
+    required this.onChanged,
+    this.focusNode,
+    super.key,
+  });
 
   @override
   State<NumberInput> createState() => _NumberInputState();
@@ -44,7 +45,7 @@ class _NumberInputState extends State<NumberInput> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 55,
+      width: MediaQuery.textScalerOf(context).scale(55),
       child: TextField(
         focusNode: widget.focusNode,
         controller: _controller,
@@ -54,7 +55,7 @@ class _NumberInputState extends State<NumberInput> {
           decimal: false,
         ),
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^-?\d*$'))
+          FilteringTextInputFormatter.allow(RegExp(r'^-?\d*$')),
         ],
         enabled: widget.onChanged != null,
       ),

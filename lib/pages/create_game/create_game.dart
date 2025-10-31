@@ -10,8 +10,8 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import '../../commons/providers/log.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/constants.dart';
-import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/my_appbar.dart';
+import '../../commons/widgets/my_default_page.dart';
 import '../../main.dart';
 import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';
@@ -43,79 +43,98 @@ class CreateGame extends ConsumerWidget {
     WidgetRef ref,
     CreateGameNotifier provider,
   ) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: ElevatedButtonFullWidth(
-        onPressed: provider.isValid
-            ? () {
-                if (_formKey.currentState!.validate()) {
-                  ref
-                      .read(logProvider)
-                      .info(
-                        "CreateGame.buildValidateButton: create game with ${provider.players}",
-                      );
-                  ref
-                      .read(logProvider)
-                      .sendAnalyticEvent(
-                        "create_game",
-                        parameters: {"nb_players": provider.players.length},
-                      );
+    return ElevatedButtonFullWidth(
+      onPressed: provider.isValid
+          ? () {
+              if (_formKey.currentState!.validate()) {
+                ref
+                    .read(logProvider)
+                    .info(
+                      "CreateGame.buildValidateButton: create game with ${provider.players}",
+                    );
+                ref
+                    .read(logProvider)
+                    .sendAnalyticEvent(
+                      "create_game",
+                      parameters: {"nb_players": provider.players.length},
+                    );
 
-                  ref.read(playGameProvider).init(provider.players);
-                  context.push(Routes.prepareGame);
-                } else {
-                  ref
-                      .read(logProvider)
-                      .info(
-                        "CreateGame.buildValidateButton: cannot create game with ${provider.players}",
-                      );
-                }
+                ref.read(playGameProvider).init(provider.players);
+                context.push(Routes.prepareGame);
+              } else {
+                ref
+                    .read(logProvider)
+                    .info(
+                      "CreateGame.buildValidateButton: cannot create game with ${provider.players}",
+                    );
               }
-            : null,
-        child: Text(context.l10n.validate),
-      ),
+            }
+          : null,
+      child: Text(context.l10n.validate),
     );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playerProvider = ref.watch(createGameProvider);
-    return DefaultPage(
+    final hasStickyValidateButton =
+        MediaQuery.orientationOf(context) == Orientation.portrait ||
+        MediaQuery.sizeOf(context).height >= 768;
+    return Scaffold(
       appBar: MyAppBar(Text(context.l10n.createPlayers), context: context),
-      content: Column(
-        children: [
-          Expanded(
-            child: Form(
-              key: _formKey,
-              child: ReorderableGridView.count(
-                crossAxisCount: (MediaQuery.of(context).size.width / 200)
-                    .round(),
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 24,
-                dragStartDelay: kPressTimeout,
-                childAspectRatio: 10 / 8,
-                footer: [
-                  if (playerProvider.players.length < kNbPlayersMax)
-                    _buildAddPlayerButton(context, playerProvider.addPlayer),
-                ],
-                onReorder: playerProvider.movePlayer,
-                children: playerProvider.players
-                    .mapIndexed(
-                      (index, player) => CreatePlayer(
-                        key: ObjectKey(player),
-                        player: player,
-                        index: index,
-                        onRemove: () => playerProvider.removePlayer(player),
-                        onValidate: playerProvider.playerValidator,
-                      ),
-                    )
-                    .toList(),
+      body: SafeArea(
+        child: Padding(
+          padding: MyDefaultPage.appPadding,
+          child: Column(
+            spacing: 16,
+            children: [
+              Expanded(
+                child: Form(
+                  key: _formKey,
+                  child: ReorderableGridView.count(
+                    physics: MyDefaultPage.physics,
+                    crossAxisCount: (MediaQuery.of(context).size.width / 200)
+                        .round(),
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 24,
+                    dragStartDelay: kPressTimeout,
+                    childAspectRatio: 10 / 8,
+                    footer: [
+                      if (playerProvider.players.length < kNbPlayersMax)
+                        _buildAddPlayerButton(
+                          context,
+                          playerProvider.addPlayer,
+                        ),
+                    ],
+                    onReorder: playerProvider.movePlayer,
+                    children: playerProvider.players
+                        .mapIndexed(
+                          (index, player) => CreatePlayer(
+                            key: ObjectKey(player),
+                            player: player,
+                            index: index,
+                            onRemove: () => playerProvider.removePlayer(player),
+                            onValidate: playerProvider.playerValidator,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+              if (hasStickyValidateButton)
+                _buildValidateButton(context, ref, playerProvider),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: hasStickyValidateButton
+          ? null
+          : SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: _buildValidateButton(context, ref, playerProvider),
               ),
             ),
-          ),
-          _buildValidateButton(context, ref, playerProvider),
-        ],
-      ),
     );
   }
 }

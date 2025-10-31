@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_appbar.dart';
+import '../../../commons/widgets/my_default_page.dart';
 import '../models/rules_page_name.dart';
 import '../notifiers/turn_page.dart';
 import 'arrow_icon.dart';
@@ -19,15 +19,16 @@ class RulesPage extends ConsumerWidget {
   /// The position of the page in the order of rules pages
   final int pageIndex;
 
-  const RulesPage(
-      {super.key,
-      required this.title,
-      required this.content,
-      required this.pageIndex});
+  const RulesPage({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.pageIndex,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultPage(
+    return MyDefaultPage(
       appBar: MyAppBar(
         Text(title),
         context: context,
@@ -35,10 +36,10 @@ class RulesPage extends ConsumerWidget {
         trailing: IconButton.outlined(
           onPressed: context.pop,
           icon: const Icon(Icons.close),
-          tooltip: "Fermer",
+          tooltip: context.l10n.close,
         ),
       ),
-      content: SingleChildScrollView(child: content),
+      content: content,
       bottomWidget: Stack(
         alignment: Alignment.center,
         children: [

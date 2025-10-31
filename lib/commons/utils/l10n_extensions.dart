@@ -29,8 +29,11 @@ extension MyAppLocalizations on AppLocalizations {
 
   /// Returns the detailed rules of the contract, depending on its settings
   String detailedContractRules(
-      String currentPlayer, ContractsInfo contract, MyStorage storage,
-      {int? nbPlayers}) {
+    String currentPlayer,
+    ContractsInfo contract,
+    MyStorage storage, {
+    int? nbPlayers,
+  }) {
     final contractSettings = storage.getSettings(contract);
     if (contract == ContractsInfo.salad) {
       final activeContracts =
@@ -55,9 +58,10 @@ extension MyAppLocalizations on AppLocalizations {
                 (subContractSettings.invertScore
                     ? ". $invertScoreDetails"
                     : ""),
-          ContractsInfo.noLastTrick =>
-            rulesNoLastTrickInSalad(subContractSettings.points),
-          _ => ""
+          ContractsInfo.noLastTrick => rulesNoLastTrickInSalad(
+            subContractSettings.points,
+          ),
+          _ => "",
         };
       });
       return "${rulesTrickRound(currentPlayer)}\n\n${rulesSaladDetailed(activeContracts.map((c) => contractName(c).toLowerCase()).join(", "), individualContractPoints.join("\n"))}${contractSettings.invertScore ? "\n$invertScoreDetails" : ""}";
@@ -65,10 +69,11 @@ extension MyAppLocalizations on AppLocalizations {
     if (contract == ContractsInfo.domino) {
       return rulesDominoDetailed(
         currentPlayer,
-        (contractSettings as DominoContractSettings)
-            .points[nbPlayers!]!
-            .mapIndexed((index, p) =>
-                "- ${ordinalNumber(index + 1)} $player : $p $points")
+        (contractSettings as DominoContractSettings).points[nbPlayers!]!
+            .mapIndexed(
+              (index, p) =>
+                  "- ${ordinalNumber(index + 1)} $player : $p $points",
+            )
             .join("\n"),
       );
     }
@@ -78,30 +83,28 @@ extension MyAppLocalizations on AppLocalizations {
   /// Returns the rules of the contract, depending on its settings
   String contractRules(AbstractContractSettings contractSettings) {
     return switch (ContractsInfo.fromName(contractSettings.name)) {
-      ContractsInfo.barbu =>
-        rulesBarbu((contractSettings as ContractWithPointsSettings).points),
-      ContractsInfo.noHearts => rulesNoHearts(
-            (contractSettings as ContractWithPointsSettings).points,
-          ) +
-          (contractSettings.invertScore ? " $invertScoreDetails" : ""),
-      ContractsInfo.noQueens => rulesNoQueens(
-            (contractSettings as ContractWithPointsSettings).points,
-          ) +
-          (contractSettings.invertScore ? " $invertScoreDetails" : ""),
-      ContractsInfo.noTricks => rulesNoTricks(
-            (contractSettings as ContractWithPointsSettings).points,
-          ) +
-          (contractSettings.invertScore ? " $invertScoreDetails" : ""),
+      ContractsInfo.barbu => rulesBarbu(
+        (contractSettings as ContractWithPointsSettings).points,
+      ),
+      ContractsInfo.noHearts =>
+        rulesNoHearts((contractSettings as ContractWithPointsSettings).points) +
+            (contractSettings.invertScore ? " $invertScoreDetails" : ""),
+      ContractsInfo.noQueens =>
+        rulesNoQueens((contractSettings as ContractWithPointsSettings).points) +
+            (contractSettings.invertScore ? " $invertScoreDetails" : ""),
+      ContractsInfo.noTricks =>
+        rulesNoTricks((contractSettings as ContractWithPointsSettings).points) +
+            (contractSettings.invertScore ? " $invertScoreDetails" : ""),
       ContractsInfo.noLastTrick => rulesNoLastTrick(
-          (contractSettings as ContractWithPointsSettings).points,
-        ),
-      ContractsInfo.salad => rulesSalad(
-            (contractSettings as SaladContractSettings)
-                .activeContracts
-                .map((c) => contractName(c).toLowerCase())
-                .join(", "),
-          ) +
-          (contractSettings.invertScore ? "\n$invertScoreDetails" : ""),
+        (contractSettings as ContractWithPointsSettings).points,
+      ),
+      ContractsInfo.salad =>
+        rulesSalad(
+              (contractSettings as SaladContractSettings).activeContracts
+                  .map((c) => contractName(c).toLowerCase())
+                  .join(", "),
+            ) +
+            (contractSettings.invertScore ? "\n$invertScoreDetails" : ""),
       ContractsInfo.domino => rulesDomino,
     };
   }
@@ -109,10 +112,13 @@ extension MyAppLocalizations on AppLocalizations {
   /// Returns the name of the item won for this contract
   String itemsName(ContractsInfo contract) {
     return switch (contract) {
+      ContractsInfo.barbu => barbu,
       ContractsInfo.noHearts => heart,
       ContractsInfo.noQueens => queen,
       ContractsInfo.noTricks => trick,
-      _ => "",
+      ContractsInfo.noLastTrick => noLastTrick,
+      ContractsInfo.salad => salad,
+      ContractsInfo.domino => domino,
     };
   }
 
@@ -146,7 +152,7 @@ extension MyAppLocalizations on AppLocalizations {
       13 => king.capitalize(),
       12 => queen.capitalize(),
       11 => jack.capitalize(),
-      _ => "$index"
+      _ => "$index",
     };
   }
 }

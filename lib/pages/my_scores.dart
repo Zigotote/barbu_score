@@ -7,8 +7,9 @@ import '../commons/providers/log.dart';
 import '../commons/providers/play_game.dart';
 import '../commons/providers/storage.dart';
 import '../commons/utils/snackbar.dart';
-import '../commons/widgets/default_page.dart';
+import '../commons/widgets/custom_buttons.dart';
 import '../commons/widgets/my_appbar.dart';
+import '../commons/widgets/my_default_page.dart';
 import '../commons/widgets/ordered_players_scores.dart';
 import '../main.dart';
 
@@ -18,29 +19,29 @@ class MyScores extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultPage(
+    return MyDefaultPage(
       appBar: MyAppBar(Text(context.l10n.scores), context: context),
       content: const OrderedPlayersScores(),
-      bottomWidget: ElevatedButton(
-          child: Text(
-            context.l10n.saveAndLeave,
-            textAlign: TextAlign.center,
-          ),
-          onPressed: () {
-            final game = ref.read(playGameProvider).game;
-            ref.read(logProvider).info("MyScores: save $game");
-            ref.read(logProvider).sendAnalyticEvent(
-              "save_game",
-              parameters: {"nb_players": game.players.length},
-            );
-            ref.read(storageProvider).saveGame(game);
-            context.go(Routes.home);
-            SnackBarUtils.instance.openSnackBar(
-              context: context,
-              title: context.l10n.gameSaved,
-              text: context.l10n.loadGameIndication,
-            );
-          }),
+      bottomWidget: ElevatedButtonFullWidth(
+        child: Text(context.l10n.saveAndLeave, textAlign: TextAlign.center),
+        onPressed: () {
+          final game = ref.read(playGameProvider).game;
+          ref.read(logProvider).info("MyScores: save $game");
+          ref
+              .read(logProvider)
+              .sendAnalyticEvent(
+                "save_game",
+                parameters: {"nb_players": game.players.length},
+              );
+          ref.read(storageProvider).saveGame(game);
+          context.go(Routes.home);
+          SnackBarUtils.instance.openSnackBar(
+            context: context,
+            title: context.l10n.gameSaved,
+            text: context.l10n.loadGameIndication,
+          );
+        },
+      ),
     );
   }
 }

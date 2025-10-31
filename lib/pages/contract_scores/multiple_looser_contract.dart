@@ -9,7 +9,7 @@ import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/custom_buttons.dart';
-import '../../commons/widgets/list_layouts.dart';
+import '../../commons/widgets/my_list_layouts.dart';
 import 'widgets/sub_contract_page.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
@@ -20,8 +20,10 @@ class MultipleLooserContractPage extends ConsumerStatefulWidget {
   /// The saved values for this contract, if it has already been filled
   final ContractWithPointsModel? contractModel;
 
-  const MultipleLooserContractPage(this.contract,
-      {super.key, this.contractModel});
+  const MultipleLooserContractPage(this.contract, {
+    super.key,
+    this.contractModel,
+  });
 
   @override
   ConsumerState<MultipleLooserContractPage> createState() =>
@@ -42,15 +44,19 @@ class _MultipleLooserContractPageState
   @override
   void initState() {
     super.initState();
-    _players = ref.read(playGameProvider).players;
+    _players = ref
+        .read(playGameProvider)
+        .players;
     if (widget.contractModel != null) {
       contractModel = widget.contractModel!;
       _itemsByPlayer = contractModel.itemsByPlayer;
     } else {
-      contractModel = ref
+      contractModel =
+      ref
           .read(contractsManagerProvider)
           .getContractManager(widget.contract)
-          .model as ContractWithPointsModel;
+          .model
+      as ContractWithPointsModel;
       _itemsByPlayer = {for (var player in _players) player.name: 0};
     }
   }
@@ -66,8 +72,10 @@ class _MultipleLooserContractPageState
       SnackBarUtils.instance.openSnackBar(
         context: context,
         title: context.l10n.errorAddPoints,
-        text: context.l10n
-            .errorAddPointsDetails(_itemName, contractModel.nbItems),
+        text: context.l10n.errorAddPointsDetails(
+          _itemName,
+          contractModel.nbItems,
+        ),
       );
     } else {
       int playerScore = _itemsByPlayer[player.name]!;
@@ -92,36 +100,30 @@ class _MultipleLooserContractPageState
       itemCount: _itemsByPlayer.length,
       itemBuilder: (_, index) {
         Player player = _players[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            spacing: 16,
-            children: [
-              ElevatedButtonCustomColor.player(
-                icon: Icons.remove,
-                color: player.color,
-                onPressed: () => _decreaseScore(player),
-                semantics: context.l10n.withdrawItem(_itemName),
+        return Row(
+          spacing: 16,
+          children: [
+            ElevatedButtonCustomColor.player(
+              icon: Icons.remove,
+              color: player.color,
+              onPressed: () => _decreaseScore(player),
+              semantics: context.l10n.withdrawItem(_itemName),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(player.name, textAlign: TextAlign.center),
+                  Text(_itemsByPlayer[player.name].toString()),
+                ],
               ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Text(
-                      player.name,
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(_itemsByPlayer[player.name].toString())
-                  ],
-                ),
-              ),
-              ElevatedButtonCustomColor.player(
-                icon: Icons.add,
-                color: player.color,
-                onPressed: () => _increaseScore(player),
-                semantics: context.l10n.addItem(_itemName),
-              )
-            ],
-          ),
+            ),
+            ElevatedButtonCustomColor.player(
+              icon: Icons.add,
+              color: player.color,
+              onPressed: () => _increaseScore(player),
+              semantics: context.l10n.addItem(_itemName),
+            ),
+          ],
         );
       },
     );

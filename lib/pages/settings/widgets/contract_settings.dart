@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/widgets/alert_dialog.dart';
-import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_appbar.dart';
+import '../../../commons/widgets/my_default_page.dart';
 import '../notifiers/contract_settings_provider.dart';
 import 'my_switch.dart';
 import 'setting_question.dart';
@@ -20,14 +20,10 @@ class ContractSettingsPage extends ConsumerWidget {
   /// The additionnal settings to display for the contract
   final List<Widget> children;
 
-  /// The indicator to kow if the page can be scrolled
-  final bool isScrollable;
-
   const ContractSettingsPage({
     super.key,
     required this.contract,
     required this.children,
-    this.isScrollable = true,
   });
 
   @override
@@ -47,27 +43,30 @@ class ContractSettingsPage extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 16),
-        ...children
+        ...children,
       ],
     );
-    return DefaultPage(
+    return MyDefaultPage(
       appBar: MyAppBar(
         Column(
           children: [
             Text(context.l10n.settings),
-            Text(context.l10n.contractName(contract))
+            Text(context.l10n.contractName(contract)),
           ],
         ),
         context: context,
       ),
-      content: isScrollable ? SingleChildScrollView(child: content) : content,
+      content: content,
     );
   }
 
   /// If the contract is deactivated but has been played, shows an alert before to confirm the deactivation.
   /// Otherwise, toggles the contract state
-  void _changeIsActive(BuildContext context, ContractSettingsNotifier provider,
-      bool isActive) async {
+  void _changeIsActive(
+    BuildContext context,
+    ContractSettingsNotifier provider,
+    bool isActive,
+  ) async {
     final typedSettings = provider.settings;
     if (typedSettings is SaladContractSettings &&
         !typedSettings.contracts.containsValue(true)) {
@@ -82,7 +81,7 @@ class ContractSettingsPage extends ConsumerWidget {
             AlertDialogActionButton(
               text: "OK",
               onPressed: () => context.pop(false),
-            )
+            ),
           ],
         ),
       );

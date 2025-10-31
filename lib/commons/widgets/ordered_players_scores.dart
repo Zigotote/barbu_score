@@ -5,7 +5,7 @@ import '../models/player.dart';
 import '../providers/contracts_manager.dart';
 import '../providers/play_game.dart';
 import '../utils/contract_scores.dart';
-import 'list_layouts.dart';
+import 'my_list_layouts.dart';
 import 'player_score_button.dart';
 
 /// A list to display the scores of each player, sorted to have the best player at top
@@ -40,7 +40,7 @@ class OrderedPlayersScores extends ConsumerWidget {
   }
 
   /// Finds the player's worst ennemy
-  Player _findWorstEnnemy(
+  Player _findWorstEnemy(
     Player player,
     Map<Player, Map<String, int>?> scoresByPlayer,
   ) {
@@ -83,29 +83,26 @@ class OrderedPlayersScores extends ConsumerWidget {
     final List<MapEntry<String, int>> orderedPlayers = _orderedPlayerScores(
       scoresByPlayer,
     );
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-      child: MyList(
-        itemCount: players.length,
-        itemBuilder: (_, index) {
-          final MapEntry<String, int> playerInfo = orderedPlayers[index];
-          final Player player = players.firstWhere(
-            (p) => p.name == playerInfo.key,
-          );
-          return PlayerScoreButton(
-            player: player,
-            score: playerInfo.value,
-            displayMedal:
-                isGameFinished && playerInfo.value == orderedPlayers[0].value,
-            bestFriend: isGameFinished
-                ? _findBestFriend(player, scoresByPlayer)
-                : null,
-            worstEnnemy: isGameFinished
-                ? _findWorstEnnemy(player, scoresByPlayer)
-                : null,
-          );
-        },
-      ),
+    return MyList(
+      itemCount: players.length,
+      itemBuilder: (_, index) {
+        final MapEntry<String, int> playerInfo = orderedPlayers[index];
+        final Player player = players.firstWhere(
+          (p) => p.name == playerInfo.key,
+        );
+        return PlayerScoreButton(
+          player: player,
+          score: playerInfo.value,
+          displayMedal:
+              isGameFinished && playerInfo.value == orderedPlayers[0].value,
+          bestFriend: isGameFinished
+              ? _findBestFriend(player, scoresByPlayer)
+              : null,
+          worstEnnemy: isGameFinished
+              ? _findWorstEnemy(player, scoresByPlayer)
+              : null,
+        );
+      },
     );
   }
 }
