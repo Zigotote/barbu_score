@@ -80,47 +80,60 @@ class CreateGame extends ConsumerWidget {
     final hasStickyValidateButton =
         MediaQuery.orientationOf(context) == Orientation.portrait ||
         MediaQuery.sizeOf(context).height >= 768;
-    return DefaultPage(
+    return Scaffold(
       appBar: MyAppBar(Text(context.l10n.createPlayers), context: context),
-      content: Column(
-        spacing: 16,
-        children: [
-          Expanded(
-            child: Form(
-              key: _formKey,
-              child: ReorderableGridView.count(
-                crossAxisCount: (MediaQuery.of(context).size.width / 200)
-                    .round(),
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 24,
-                dragStartDelay: kPressTimeout,
-                childAspectRatio: 10 / 8,
-                footer: [
-                  if (playerProvider.players.length < kNbPlayersMax)
-                    _buildAddPlayerButton(context, playerProvider.addPlayer),
-                ],
-                onReorder: playerProvider.movePlayer,
-                children: playerProvider.players
-                    .mapIndexed(
-                      (index, player) => CreatePlayer(
-                        key: ObjectKey(player),
-                        player: player,
-                        index: index,
-                        onRemove: () => playerProvider.removePlayer(player),
-                        onValidate: playerProvider.playerValidator,
-                      ),
-                    )
-                    .toList(),
+      body: SafeArea(
+        child: Padding(
+          padding: DefaultPage.appPadding,
+          child: Column(
+            spacing: 16,
+            children: [
+              Expanded(
+                child: Form(
+                  key: _formKey,
+                  child: ReorderableGridView.count(
+                    crossAxisCount: (MediaQuery.of(context).size.width / 200)
+                        .round(),
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 24,
+                    dragStartDelay: kPressTimeout,
+                    childAspectRatio: 10 / 8,
+                    footer: [
+                      if (playerProvider.players.length < kNbPlayersMax)
+                        _buildAddPlayerButton(
+                          context,
+                          playerProvider.addPlayer,
+                        ),
+                    ],
+                    onReorder: playerProvider.movePlayer,
+                    children: playerProvider.players
+                        .mapIndexed(
+                          (index, player) => CreatePlayer(
+                            key: ObjectKey(player),
+                            player: player,
+                            index: index,
+                            onRemove: () => playerProvider.removePlayer(player),
+                            onValidate: playerProvider.playerValidator,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+              if (hasStickyValidateButton)
+                _buildValidateButton(context, ref, playerProvider),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: hasStickyValidateButton
+          ? null
+          : SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: _buildValidateButton(context, ref, playerProvider),
               ),
             ),
-          ),
-          if (hasStickyValidateButton)
-            _buildValidateButton(context, ref, playerProvider),
-        ],
-      ),
-      bottomWidget: hasStickyValidateButton
-          ? null
-          : _buildValidateButton(context, ref, playerProvider),
     );
   }
 }

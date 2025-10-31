@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/custom_buttons.dart';
+import 'package:barbu_score/commons/widgets/default_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +11,6 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import '../../commons/models/player.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/game_helpers.dart';
-import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../main.dart';
 import 'widgets/players_placed_in_circle.dart';
@@ -23,29 +23,44 @@ class PrepareGame extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<Player> players = ref.read(playGameProvider).players;
-    return DefaultPage(
+    return Scaffold(
       appBar: MyAppBar(Text(context.l10n.prepareGame), context: context),
-      content: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(child: _buildPrepareGameText(context, players)),
-          SliverPadding(padding: EdgeInsets.only(top: 16)),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              spacing: 16,
-              children: [
-                Expanded(child: Center(child: _buildTable(context, players))),
-                ElevatedButtonFullWidth(
-                  child: Text(context.l10n.go),
-                  onPressed: () {
-                    WakelockPlus.enable();
-                    context.push(Routes.chooseContract);
-                  },
-                ),
-              ],
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: DefaultPage.appPadding,
+                child: _buildPrepareGameText(context, players),
+              ),
             ),
-          ),
-        ],
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                spacing: 16,
+                children: [
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: DefaultPage.appPadding,
+                      child: _buildTable(context, players),
+                    ),
+                  ),
+                  Padding(
+                    padding: DefaultPage.appPadding,
+                    child: ElevatedButtonFullWidth(
+                      child: Text(context.l10n.go),
+                      onPressed: () {
+                        WakelockPlus.enable();
+                        context.push(Routes.chooseContract);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

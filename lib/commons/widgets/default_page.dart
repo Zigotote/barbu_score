@@ -11,7 +11,7 @@ class DefaultPage extends StatelessWidget {
   /// The appbar of the page
   final MyAppBar appBar;
 
-  /// The widget for the content of the page
+  /// The widget for the content of the page (should be of type sliver)
   final Widget content;
 
   /// The widget to display at the bottom of the page
@@ -40,11 +40,7 @@ class DefaultPage extends StatelessWidget {
         child: Stack(
           children: [
             if (hasBackground) LinesBackground(),
-            Container(
-              height: double.infinity,
-              padding: hasPadding ? appPadding : null,
-              child: content,
-            ),
+            Container(padding: hasPadding ? appPadding : null, child: content),
           ],
         ),
       ),

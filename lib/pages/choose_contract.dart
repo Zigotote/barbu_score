@@ -23,7 +23,7 @@ class ChooseContract extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Player player = ref.watch(playGameProvider).currentPlayer;
     final contractsManager = ref.watch(contractsManagerProvider);
-    // TODO Océane réfléchir comment partager ça avec toutes les pages (scores de contrats)
+    // TODO Océane réfléchir comment partager ça avec toutes les pages (scores de contrats + scores des joueurs + page de fin)
     return DefaultPage(
       appBar: MyPlayerAppBar(
         player: player,
