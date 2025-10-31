@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,8 +10,8 @@ import '../../../commons/providers/contracts_manager.dart';
 import '../../../commons/providers/log.dart';
 import '../../../commons/providers/play_game.dart';
 import '../../../commons/utils/snackbar.dart';
-import '../../../commons/widgets/default_page.dart';
 import '../../../commons/widgets/my_appbar.dart';
+import '../../../commons/widgets/my_default_page.dart';
 import '../../../commons/widgets/my_subtitle.dart';
 import '../../../main.dart';
 import '../notifiers/salad_provider.dart';
@@ -46,12 +47,13 @@ class SubContractPage extends ConsumerWidget {
     final playGame = ref.read(playGameProvider);
     final bool isPartOfSaladContract =
         ref.exists(saladProvider) && !(contract == ContractsInfo.salad);
-    final contractModel = (ref
-            .read(contractsManagerProvider)
-            .getContractManager(contract)
-            .model as ContractWithPointsModel)
-        .copyWith(itemsByPlayer: itemsByPlayer);
-    ref.read(logProvider).info(
+    final contractModel =
+        (ref.read(contractsManagerProvider).getContractManager(contract).model
+                as ContractWithPointsModel)
+            .copyWith(itemsByPlayer: itemsByPlayer);
+    ref
+        .read(logProvider)
+        .info(
           "SubContractPage.saveContract: save $contractModel ${isPartOfSaladContract ? "in salad" : ""}",
         );
 
@@ -70,19 +72,14 @@ class SubContractPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultPage(
+    return MyDefaultPage(
       appBar: MyPlayerAppBar(
         player: ref.watch(playGameProvider).currentPlayer,
         context: context,
         trailing: RulesButton(contract),
       ),
-      content: Column(
-        children: [
-          MySubtitle(subtitle),
-          Expanded(child: child),
-        ],
-      ),
-      bottomWidget: ElevatedButton(
+      content: Column(children: [MySubtitle(subtitle), child]),
+      bottomWidget: ElevatedButtonFullWidth(
         onPressed: isValid ? () => _saveContract(context, ref) : null,
         child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
       ),

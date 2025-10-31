@@ -9,9 +9,9 @@ import '../commons/providers/log.dart';
 import '../commons/providers/play_game.dart';
 import '../commons/utils/router_extension.dart';
 import '../commons/widgets/custom_buttons.dart';
-import '../commons/widgets/default_page.dart';
-import '../commons/widgets/list_layouts.dart';
 import '../commons/widgets/my_appbar.dart';
+import '../commons/widgets/my_default_page.dart';
+import '../commons/widgets/my_list_layouts.dart';
 import '../main.dart';
 import 'rules/models/rules_page_name.dart';
 
@@ -23,8 +23,7 @@ class ChooseContract extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Player player = ref.watch(playGameProvider).currentPlayer;
     final contractsManager = ref.watch(contractsManagerProvider);
-    // TODO Océane réfléchir comment partager ça avec toutes les pages (scores de contrats + scores des joueurs + page de fin)
-    return DefaultPage(
+    return MyDefaultPage(
       appBar: MyPlayerAppBar(
         player: player,
         context: context,
@@ -40,52 +39,32 @@ class ChooseContract extends ConsumerWidget {
         ),
       ),
       hasBackground: true,
-      hasPadding: false,
-      content: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: DefaultPage.appPadding,
-              child: MyGrid(
-                isScrollable: false,
-                children: contractsManager.activeContracts
-                    .map(
-                      (contract) => ElevatedButton(
-                        key: Key(contract.name),
-                        onPressed: player.hasPlayedContract(contract)
-                            ? null
-                            : () {
-                                ref
-                                    .read(logProvider)
-                                    .info(
-                                      "ChooseContract: ${player.name} choose ${contract.name}",
-                                    );
-                                context.push(
-                                  contractsManager.getScoresRoute(contract),
-                                );
-                              },
-                        child: Text(
-                          context.l10n.contractName(contract),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    )
-                    .toList(),
+      content: MyGrid(
+        children: contractsManager.activeContracts
+            .map(
+              (contract) => ElevatedButton(
+                key: Key(contract.name),
+                onPressed: player.hasPlayedContract(contract)
+                    ? null
+                    : () {
+                        ref
+                            .read(logProvider)
+                            .info(
+                              "ChooseContract: ${player.name} choose ${contract.name}",
+                            );
+                        context.push(contractsManager.getScoresRoute(contract));
+                      },
+                child: Text(
+                  context.l10n.contractName(contract),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              padding: DefaultPage.appPadding,
-              child: ElevatedButtonFullWidth(
-                child: Text(context.l10n.scores),
-                onPressed: () => context.push(Routes.scores),
-              ),
-            ),
-          ),
-        ],
+            )
+            .toList(),
+      ),
+      bottomWidget: ElevatedButtonFullWidth(
+        child: Text(context.l10n.scores),
+        onPressed: () => context.push(Routes.scores),
       ),
     );
   }

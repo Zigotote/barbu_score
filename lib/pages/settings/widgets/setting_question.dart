@@ -28,20 +28,18 @@ class SettingQuestion extends StatelessWidget {
       onTap: onTap,
       child: MergeSemantics(
         child: Row(
+          spacing: 8,
           children: [
             if (tooltip != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Tooltip(
-                  message: tooltip,
-                  triggerMode: TooltipTriggerMode.tap,
-                  showDuration: const Duration(seconds: 3),
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Icon(Icons.info_outline_rounded),
-                ),
+              Tooltip(
+                message: tooltip,
+                triggerMode: TooltipTriggerMode.tap,
+                showDuration: const Duration(seconds: 3),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                child: const Icon(Icons.info_outline_rounded),
               ),
             Expanded(child: Text(label)),
-            input
+            input,
           ],
         ),
       ),

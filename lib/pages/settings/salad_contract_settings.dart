@@ -6,8 +6,8 @@ import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
 import '../../commons/providers/storage.dart';
 import '../../commons/widgets/alert_dialog.dart';
-import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/my_appbar.dart';
+import '../../commons/widgets/my_default_page.dart';
 import 'utils/change_settings.dart';
 import 'widgets/change_contract_activation.dart';
 import 'widgets/my_switch.dart';
@@ -30,13 +30,14 @@ class _SaladContractSettingsPageState
   @override
   void initState() {
     super.initState();
-    settings = ref
-        .read(storageProvider)
-        .getSettings(ContractsInfo.salad)
-        .copyWith() as SaladContractSettings;
+    settings =
+        ref.read(storageProvider).getSettings(ContractsInfo.salad).copyWith()
+            as SaladContractSettings;
     final storedGame = ref.read(storageProvider).getStoredGame();
-    final playersWithContract =
-        widget.playersWithContract(ContractsInfo.salad, storedGame);
+    final playersWithContract = widget.playersWithContract(
+      ContractsInfo.salad,
+      storedGame,
+    );
     if (playersWithContract.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showDialog(
@@ -56,7 +57,9 @@ class _SaladContractSettingsPageState
   }
 
   void _toggleSubcontractActivation(
-      ContractsInfo subContract, SaladContractSettings settings) {
+    ContractsInfo subContract,
+    SaladContractSettings settings,
+  ) {
     settings.contracts[subContract.name] =
         !settings.contracts[subContract.name]!;
     if (!settings.contracts.containsValue(true)) {
@@ -67,60 +70,58 @@ class _SaladContractSettingsPageState
 
   @override
   Widget build(BuildContext context) {
-    return DefaultPage(
+    return MyDefaultPage(
       appBar: MyAppBar(
         Column(
           children: [
             Text(context.l10n.settings),
-            Text(context.l10n.contractName(ContractsInfo.salad))
+            Text(context.l10n.contractName(ContractsInfo.salad)),
           ],
         ),
         context: context,
       ),
-      content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ChangeContractActivation(ContractsInfo.salad, settings),
-            SizedBox(height: 16),
-            Semantics(
-              header: true,
-              child: Text(
-                context.l10n.contractsToPlay,
-                style: Theme.of(context).textTheme.titleMedium,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ChangeContractActivation(ContractsInfo.salad, settings),
+          SizedBox(height: 16),
+          Semantics(
+            header: true,
+            child: Text(
+              context.l10n.contractsToPlay,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          const SizedBox(height: 8),
+          ...SaladContractSettings.availableContracts.map(
+            (contract) => SettingQuestion(
+              key: Key(contract.name),
+              label: context.l10n.contractName(contract),
+              onTap: () => _toggleSubcontractActivation(contract, settings),
+              input: MySwitch(
+                isActive: settings.contracts[contract.name]!,
+                onChanged: (_) =>
+                    _toggleSubcontractActivation(contract, settings),
               ),
             ),
-            const SizedBox(height: 8),
-            ...SaladContractSettings.availableContracts.map(
-              (contract) => SettingQuestion(
-                key: Key(contract.name),
-                label: context.l10n.contractName(contract),
-                onTap: () => _toggleSubcontractActivation(contract, settings),
-                input: MySwitch(
-                  isActive: settings.contracts[contract.name]!,
-                  onChanged: (_) =>
-                      _toggleSubcontractActivation(contract, settings),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            SettingQuestion(
-              tooltip: context.l10n.invertScoreDetails,
-              label: context.l10n.invertScore,
-              onTap: () {
-                settings.invertScore = !settings.invertScore;
+          ),
+          const SizedBox(height: 24),
+          SettingQuestion(
+            tooltip: context.l10n.invertScoreDetails,
+            label: context.l10n.invertScore,
+            onTap: () {
+              settings.invertScore = !settings.invertScore;
+              widget.saveNewSettings(ref, ContractsInfo.salad, settings);
+            },
+            input: MySwitch(
+              isActive: settings.invertScore,
+              onChanged: (value) {
+                settings.invertScore = value;
                 widget.saveNewSettings(ref, ContractsInfo.salad, settings);
               },
-              input: MySwitch(
-                isActive: settings.invertScore,
-                onChanged: (value) {
-                  settings.invertScore = value;
-                  widget.saveNewSettings(ref, ContractsInfo.salad, settings);
-                },
-              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

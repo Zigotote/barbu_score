@@ -7,6 +7,7 @@ import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
+import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/commons/widgets/player_icon.dart';
 import 'package:barbu_score/pages/contract_scores/notifiers/salad_provider.dart';
 import 'package:barbu_score/theme/my_theme_colors.dart';
@@ -22,7 +23,7 @@ import 'package:patrol_finders/patrol_finders.dart';
   MockSpec<MyStorage>(),
   MockSpec<PlayGameNotifier>(),
   MockSpec<SaladNotifier>(),
-  MockSpec<MyLog>()
+  MockSpec<MyLog>(),
 ])
 import 'utils.mocks.dart';
 
@@ -44,7 +45,7 @@ final defaultBarbu = ContractWithPointsModel(
   contract: ContractsInfo.barbu,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
-      player: index == 0 ? 1 : 0
+      player: index == 0 ? 1 : 0,
   },
 );
 
@@ -52,7 +53,7 @@ final defaultNoQueens = ContractWithPointsModel(
   contract: ContractsInfo.noQueens,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
-      player: index < 4 ? 1 : 0
+      player: index < 4 ? 1 : 0,
   },
   nbItems: 4,
 );
@@ -61,7 +62,7 @@ final defaultNoTricks = ContractWithPointsModel(
   contract: ContractsInfo.noTricks,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
-      player: index < 4 ? 2 : 0
+      player: index < 4 ? 2 : 0,
   },
   nbItems: 8,
 );
@@ -70,7 +71,7 @@ final defaultNoHearts = ContractWithPointsModel(
   contract: ContractsInfo.noHearts,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
-      player: index < 4 ? 2 : 0
+      player: index < 4 ? 2 : 0,
   },
   nbItems: 8,
 );
@@ -79,13 +80,13 @@ final defaultNoLastTrick = ContractWithPointsModel(
   contract: ContractsInfo.noLastTrick,
   itemsByPlayer: {
     for (var (index, player) in defaultPlayerNames.indexed)
-      player: index == 0 ? 1 : 0
+      player: index == 0 ? 1 : 0,
   },
 );
 
 final defaultDomino = DominoContractModel(
   rankOfPlayer: {
-    for (var (index, player) in defaultPlayerNames.indexed) player: index
+    for (var (index, player) in defaultPlayerNames.indexed) player: index,
   },
 );
 
@@ -95,7 +96,7 @@ final defaultSalad = SaladContractModel(
     defaultNoQueens,
     defaultNoHearts,
     defaultNoLastTrick,
-    defaultNoTricks
+    defaultNoTricks,
   ],
 );
 
@@ -111,8 +112,8 @@ Future<void> checkAccessibility(WidgetTester tester) async {
 String getGameStateText(Game? game) {
   return game != null
       ? game.isFinished
-          ? "with finished game"
-          : "with stored game"
+            ? "with finished game"
+            : "with stored game"
       : "";
 }
 
@@ -120,23 +121,28 @@ PlayerIcon findPlayerIcon(PatrolTester $, {int index = 0}) =>
     ($.tester.widgetList($(PlayerIcon)).toList()[index] as PlayerIcon);
 
 PatrolFinder findValidateScoresButton(PatrolTester $) {
-  return $(ElevatedButton).containing("Valider les scores");
+  return $(ElevatedButtonFullWidth).containing("Valider les scores");
 }
 
 /// Mocks a storage with some active contracts
-void mockActiveContracts(MyStorage mockStorage,
-    [List<ContractsInfo> activeContracts = ContractsInfo.values]) {
+void mockActiveContracts(
+  MyStorage mockStorage, [
+  List<ContractsInfo> activeContracts = ContractsInfo.values,
+]) {
   for (var contract in ContractsInfo.values) {
-    final contractSettings = contract.defaultSettings
-        .copyWith(isActive: activeContracts.contains(contract));
+    final contractSettings = contract.defaultSettings.copyWith(
+      isActive: activeContracts.contains(contract),
+    );
     when(mockStorage.getSettings(contract)).thenReturn(contractSettings);
   }
   when(mockStorage.getActiveContracts()).thenReturn(activeContracts);
 }
 
 /// Creates a game with [nbPlayers] number of players, and each player played [playedContracts]
-Game createGame(int nbPlayers,
-    [List<AbstractContractModel> playedContracts = const []]) {
+Game createGame(
+  int nbPlayers, [
+  List<AbstractContractModel> playedContracts = const [],
+]) {
   return Game(
     players: List.generate(
       nbPlayers,
@@ -152,9 +158,10 @@ Game createGame(int nbPlayers,
 
 /// Mocks a game with custom values if given
 /// Returns a MockPlayGameNotifier
-MockPlayGameNotifier mockPlayGameNotifier(
-    {List<AbstractContractModel> playedContracts = const [],
-    int nbPlayers = nbPlayersByDefault}) {
+MockPlayGameNotifier mockPlayGameNotifier({
+  List<AbstractContractModel> playedContracts = const [],
+  int nbPlayers = nbPlayersByDefault,
+}) {
   final mockPlayGame = MockPlayGameNotifier();
   final fakeGame = createGame(nbPlayers, playedContracts);
   when(mockPlayGame.game).thenReturn(fakeGame);

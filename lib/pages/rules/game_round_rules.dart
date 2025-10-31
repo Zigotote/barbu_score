@@ -32,7 +32,10 @@ class GameRoundRules extends StatelessWidget {
           ),
           itemCount: rulesByStep.length,
           contentsBuilder: (_, index) => Padding(
-            padding: const EdgeInsets.only(left: 8, bottom: 16),
+            padding: EdgeInsets.only(
+              left: 8,
+              bottom: index < rulesByStep.length - 1 ? 16 : 0,
+            ),
             child: Text(rulesByStep[index]),
           ),
         ),

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/custom_buttons.dart';
-import 'package:barbu_score/commons/widgets/default_page.dart';
+import 'package:barbu_score/commons/widgets/my_default_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -27,27 +27,27 @@ class PrepareGame extends ConsumerWidget {
       appBar: MyAppBar(Text(context.l10n.prepareGame), context: context),
       body: SafeArea(
         child: CustomScrollView(
+          physics: MyDefaultPage.physics,
           slivers: [
             SliverToBoxAdapter(
               child: Padding(
-                padding: DefaultPage.appPadding,
+                padding: MyDefaultPage.appPadding,
                 child: _buildPrepareGameText(context, players),
               ),
             ),
             SliverFillRemaining(
               hasScrollBody: false,
               child: Column(
-                spacing: 16,
                 children: [
                   Expanded(
                     child: Container(
                       alignment: Alignment.center,
-                      padding: DefaultPage.appPadding,
+                      padding: MyDefaultPage.appPadding,
                       child: _buildTable(context, players),
                     ),
                   ),
                   Padding(
-                    padding: DefaultPage.appPadding,
+                    padding: MyDefaultPage.appPadding,
                     child: ElevatedButtonFullWidth(
                       child: Text(context.l10n.go),
                       onPressed: () {

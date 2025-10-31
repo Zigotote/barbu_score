@@ -15,9 +15,10 @@ class GameTable extends ConsumerWidget {
 
   /// Builds the rows to display player scores for each contract
   List<ScoreRow> _buildPlayerRows(
-      BuildContext context,
-      Map<ContractsInfo, Map<String, int>?> contractScores,
-      List<Player> players) {
+    BuildContext context,
+    Map<ContractsInfo, Map<String, int>?> contractScores,
+    List<Player> players,
+  ) {
     return contractScores.entries.map((contractScore) {
       return ScoreRow(
         title: context.l10n.contractName(contractScore.key),
@@ -28,9 +29,10 @@ class GameTable extends ConsumerWidget {
 
   /// Builds the row to display total scores
   ScoreRow _buildTotalRow(
-      BuildContext context,
-      Map<ContractsInfo, Map<String, int>?> contractScores,
-      List<Player> players) {
+    BuildContext context,
+    Map<ContractsInfo, Map<String, int>?> contractScores,
+    List<Player> players,
+  ) {
     final totalScores = sumScores(contractScores.values.toList());
     return ScoreRow(
       title: context.l10n.total,
@@ -42,20 +44,14 @@ class GameTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final players = ref.read(playGameProvider).players;
-    final contractScores =
-        ref.read(contractsManagerProvider).sumScoresByContract(players);
-    return Column(
-      children: [
-        const SizedBox(height: 16),
-        Expanded(
-          child: ScoreTable(
-            players: players,
-            rows: [
-              ..._buildPlayerRows(context, contractScores, players),
-              _buildTotalRow(context, contractScores, players)
-            ],
-          ),
-        ),
+    final contractScores = ref
+        .read(contractsManagerProvider)
+        .sumScoresByContract(players);
+    return ScoreTable(
+      players: players,
+      rows: [
+        ..._buildPlayerRows(context, contractScores, players),
+        _buildTotalRow(context, contractScores, players),
       ],
     );
   }

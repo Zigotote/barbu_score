@@ -10,8 +10,8 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import '../../commons/providers/log.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/constants.dart';
-import '../../commons/widgets/default_page.dart';
 import '../../commons/widgets/my_appbar.dart';
+import '../../commons/widgets/my_default_page.dart';
 import '../../main.dart';
 import 'notifiers/create_game.dart';
 import 'widgets/create_player.dart';
@@ -84,7 +84,7 @@ class CreateGame extends ConsumerWidget {
       appBar: MyAppBar(Text(context.l10n.createPlayers), context: context),
       body: SafeArea(
         child: Padding(
-          padding: DefaultPage.appPadding,
+          padding: MyDefaultPage.appPadding,
           child: Column(
             spacing: 16,
             children: [
@@ -92,6 +92,7 @@ class CreateGame extends ConsumerWidget {
                 child: Form(
                   key: _formKey,
                   child: ReorderableGridView.count(
+                    physics: MyDefaultPage.physics,
                     crossAxisCount: (MediaQuery.of(context).size.width / 200)
                         .round(),
                     crossAxisSpacing: 16,
