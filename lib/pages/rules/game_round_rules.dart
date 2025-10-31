@@ -18,29 +18,27 @@ class GameRoundRules extends StatelessWidget {
     return RulesPage(
       pageIndex: pageIndex,
       title: context.l10n.gameRound,
-      content: Column(
-        children: [
-          const SizedBox(height: 16),
-          FixedTimeline.tileBuilder(
-            builder: TimelineTileBuilder.connected(
-              nodePositionBuilder: (_, _) => 0,
-              connectorBuilder: (_, _, _) => Connector.solidLine(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-              indicatorBuilder: (_, index) => Indicator.dot(
-                size: 24,
-                color: Theme.of(context).colorScheme.convertMyColor(
-                  MyThemeColors.values[index % MyThemeColors.values.length],
-                ),
-              ),
-              itemCount: rulesByStep.length,
-              contentsBuilder: (_, index) => Padding(
-                padding: const EdgeInsets.only(left: 8, bottom: 16),
-                child: Text(rulesByStep[index]),
-              ),
+      content: FixedTimeline.tileBuilder(
+        builder: TimelineTileBuilder.connected(
+          nodePositionBuilder: (_, _) => 0,
+          connectorBuilder: (_, _, _) => Connector.solidLine(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+          indicatorBuilder: (_, index) => Indicator.dot(
+            size: 24,
+            color: Theme.of(context).colorScheme.convertMyColor(
+              MyThemeColors.values[index % MyThemeColors.values.length],
             ),
           ),
-        ],
+          itemCount: rulesByStep.length,
+          contentsBuilder: (_, index) => Padding(
+            padding: EdgeInsets.only(
+              left: 8,
+              bottom: index < rulesByStep.length - 1 ? 16 : 0,
+            ),
+            child: Text(rulesByStep[index]),
+          ),
+        ),
       ),
     );
   }

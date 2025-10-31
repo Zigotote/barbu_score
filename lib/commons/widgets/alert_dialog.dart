@@ -24,33 +24,34 @@ class AlertDialogActionButton {
 
 /// A custom alert dialog
 class MyAlertDialog extends AlertDialog {
-  MyAlertDialog(
-      {super.key,
-      required BuildContext context,
-      required String title,
-      required String content,
-      required List<AlertDialogActionButton> actions,
-      bool closeOnAction = true})
-      : super(
-          title: Text(title),
-          content: Text(content),
-          actions: actions
-              .map(
-                (action) => ElevatedButtonCustomColor(
-                  color: action.isDestructive
-                      ? Theme.of(context).colorScheme.error
-                      : Theme.of(context).colorScheme.success,
-                  textSize: 16,
-                  text: action.text,
-                  onPressed: closeOnAction
-                      ? () {
-                          context.pop();
-                          action.onPressed?.call();
-                        }
-                      : action.onPressed ?? () {},
-                ),
-              )
-              .toList(),
-          scrollable: true,
-        );
+  MyAlertDialog({
+    super.key,
+    required BuildContext context,
+    required String title,
+    required String content,
+    required List<AlertDialogActionButton> actions,
+    bool closeOnAction = true,
+  }) : super(
+         title: Text(title),
+         content: Text(content),
+         actionsOverflowButtonSpacing: 16,
+         actions: actions
+             .map(
+               (action) => ElevatedButtonCustomColor(
+                 color: action.isDestructive
+                     ? Theme.of(context).colorScheme.error
+                     : Theme.of(context).colorScheme.success,
+                 textSize: 16,
+                 text: action.text,
+                 onPressed: closeOnAction
+                     ? () {
+                         context.pop();
+                         action.onPressed?.call();
+                       }
+                     : action.onPressed ?? () {},
+               ),
+             )
+             .toList(),
+         scrollable: true,
+       );
 }

@@ -8,7 +8,7 @@ import '../../commons/models/player.dart';
 import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/widgets/custom_buttons.dart';
-import '../../commons/widgets/list_layouts.dart';
+import '../../commons/widgets/my_list_layouts.dart';
 import 'widgets/sub_contract_page.dart';
 
 /// A page to fill the scores for a contract where only one player can loose
@@ -45,13 +45,16 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
       final String playerNameWithItem = contractModel.itemsByPlayer.entries
           .firstWhere((player) => player.value == 1)
           .key;
-      _selectedPlayer =
-          _players.firstWhere((player) => player.name == playerNameWithItem);
+      _selectedPlayer = _players.firstWhere(
+        (player) => player.name == playerNameWithItem,
+      );
     } else {
-      contractModel = ref
-          .read(contractsManagerProvider)
-          .getContractManager(widget.contract)
-          .model as ContractWithPointsModel;
+      contractModel =
+          ref
+                  .read(contractsManagerProvider)
+                  .getContractManager(widget.contract)
+                  .model
+              as ContractWithPointsModel;
     }
   }
 
@@ -65,17 +68,15 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
   /// Build each player's button and the box to show which one is currently selected
   Widget _buildFields() {
     return MyGrid(
-      children: _players.map(
-        (player) {
-          final isPlayerSelected = _selectedPlayer == player;
-          return ElevatedButtonCustomColor.player(
-            text: player.name,
-            color: isPlayerSelected ? null : player.color,
-            onPressed: () => _selectPlayer(player),
-            backgroundColor: isPlayerSelected ? player.color : null,
-          );
-        },
-      ).toList(),
+      children: _players.map((player) {
+        final isPlayerSelected = _selectedPlayer == player;
+        return ElevatedButtonCustomColor.player(
+          text: player.name,
+          color: isPlayerSelected ? null : player.color,
+          onPressed: () => _selectPlayer(player),
+          backgroundColor: isPlayerSelected ? player.color : null,
+        );
+      }).toList(),
     );
   }
 
@@ -90,7 +91,7 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
       isValid: _selectedPlayer != null,
       itemsByPlayer: {
         for (var player in players)
-          player.name: player == _selectedPlayer ? 1 : 0
+          player.name: player == _selectedPlayer ? 1 : 0,
       },
       child: _buildFields(),
     );

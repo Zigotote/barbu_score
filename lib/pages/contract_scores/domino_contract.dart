@@ -14,8 +14,9 @@ import '../../commons/providers/log.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/colored_container.dart';
-import '../../commons/widgets/default_page.dart';
+import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
+import '../../commons/widgets/my_default_page.dart';
 import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
 import 'widgets/rules_button.dart';
@@ -48,61 +49,66 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
 
   /// Build an orderdable player's list
   Widget _buildFields() {
-    return LayoutBuilder(builder: (context, constraints) {
-      double childAspectRatio = 3;
-      final shouldHaveMultipleColumns =
-          MediaQuery.of(context).textScaler.scale(60) * orderedPlayers.length >
-              constraints.minHeight;
-      if (!shouldHaveMultipleColumns) {
-        if (MediaQuery.of(context).orientation == Orientation.landscape) {
-          childAspectRatio = constraints.minHeight /
-              MediaQuery.of(context).textScaler.scale(20);
-        } else {
-          childAspectRatio = constraints.minHeight /
-              MediaQuery.of(context).textScaler.scale(60);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double childAspectRatio = 3;
+        final shouldHaveMultipleColumns =
+            MediaQuery.of(context).textScaler.scale(60) *
+                orderedPlayers.length >
+            constraints.minHeight;
+        if (!shouldHaveMultipleColumns) {
+          if (MediaQuery.of(context).orientation == Orientation.landscape) {
+            childAspectRatio =
+                constraints.minHeight /
+                MediaQuery.of(context).textScaler.scale(20);
+          } else {
+            childAspectRatio =
+                constraints.minHeight /
+                MediaQuery.of(context).textScaler.scale(60);
+          }
         }
-      }
-      return ReorderableGridView.count(
-        shrinkWrap: true,
-        dragStartDelay: kPressTimeout,
-        crossAxisCount: shouldHaveMultipleColumns
-            ? MediaQuery.of(context).orientation == Orientation.landscape
-                ? 4
-                : 2
-            : 1,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 40,
-        childAspectRatio: childAspectRatio,
-        onReorder: (int oldIndex, int newIndex) {
-          _movePlayer(oldIndex, newIndex);
-        },
-        children: orderedPlayers
-            .mapIndexed(
-              (index, player) => Row(
-                key: ValueKey(index),
-                spacing: 8,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context)
-                        .textScaler
-                        .scale(orderedPlayers.length >= 10 ? 24 : 12),
-                    child: Text(
-                      (index + 1).toString(),
-                      style: Theme.of(context).textTheme.headlineSmall,
+        return ReorderableGridView.count(
+          shrinkWrap: true,
+          dragStartDelay: kPressTimeout,
+          crossAxisCount: shouldHaveMultipleColumns
+              ? MediaQuery.of(context).orientation == Orientation.landscape
+                    ? 4
+                    : 2
+              : 1,
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 40,
+          childAspectRatio: childAspectRatio,
+          onReorder: (int oldIndex, int newIndex) {
+            _movePlayer(oldIndex, newIndex);
+          },
+          children: orderedPlayers
+              .mapIndexed(
+                (index, player) => Row(
+                  key: ValueKey(index),
+                  spacing: 8,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(
+                        context,
+                      ).textScaler.scale(orderedPlayers.length >= 10 ? 24 : 12),
+                      child: Text(
+                        (index + 1).toString(),
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: ColoredContainer(
-                      color: player.color,
-                      child: Center(child: _buildPlayerTile(player)),
+                    Expanded(
+                      child: ColoredContainer(
+                        color: player.color,
+                        child: Center(child: _buildPlayerTile(player)),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
-            .toList(),
-      );
-    });
+                  ],
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
   }
 
   /// Builds a stack with the name of a player and a drag icon as a leading
@@ -119,17 +125,19 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          Icon(Icons.drag_handle, color: color)
+          Icon(Icons.drag_handle, color: color),
         ],
       ),
     );
   }
 
   void _saveContract(BuildContext context, WidgetRef ref) {
-    final contractModel = DominoContractModel(rankOfPlayer: {
-      for (var player in orderedPlayers)
-        player.name: orderedPlayers.indexOf(player)
-    });
+    final contractModel = DominoContractModel(
+      rankOfPlayer: {
+        for (var player in orderedPlayers)
+          player.name: orderedPlayers.indexOf(player),
+      },
+    );
     ref
         .read(logProvider)
         .info("DominoContractPage.saveContract: save $contractModel");
@@ -144,7 +152,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultPage(
+    return MyDefaultPage(
       appBar: MyPlayerAppBar(
         player: ref.watch(playGameProvider).currentPlayer,
         context: context,
@@ -154,10 +162,10 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
         spacing: 8,
         children: [
           MySubtitle(context.l10n.dominoScoreSubtitle),
-          Expanded(child: _buildFields()),
+          _buildFields(),
         ],
       ),
-      bottomWidget: ElevatedButton(
+      bottomWidget: ElevatedButtonFullWidth(
         onPressed: () => _saveContract(context, ref),
         child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
       ),

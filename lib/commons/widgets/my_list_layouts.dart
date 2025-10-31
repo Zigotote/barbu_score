@@ -5,17 +5,12 @@ class MyGrid extends StatelessWidget {
   /// The function to build each item
   final List<Widget> children;
 
-  /// The indicator to know if grid should be scrollable
-  final bool isScrollable;
-
-  const MyGrid({super.key, required this.children, this.isScrollable = true});
+  const MyGrid({super.key, required this.children});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      physics: isScrollable
-          ? const AlwaysScrollableScrollPhysics()
-          : const NeverScrollableScrollPhysics(),
+      physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount:
             MediaQuery.of(context).orientation == Orientation.landscape ? 4 : 2,
@@ -43,6 +38,7 @@ class MyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: itemCount,
       itemBuilder: itemBuilder,

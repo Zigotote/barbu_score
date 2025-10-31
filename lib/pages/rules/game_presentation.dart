@@ -18,7 +18,6 @@ class GamePresentation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 8),
           Text(context.l10n.presentGame),
           const SizedBox(height: 24),
           Text(

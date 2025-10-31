@@ -55,7 +55,7 @@ void main() {
     ) async {
       await $.pumpWidget(_createPage($, activeContracts: activeContracts));
 
-      expect($(ElevatedButton), findsNWidgets(activeContracts.length + 1));
+      expect($(ElevatedButton), findsNWidgets(activeContracts.length));
       for (var contract in ContractsInfo.values) {
         final isActiveContract = activeContracts.contains(contract);
         expect(
@@ -83,7 +83,7 @@ void main() {
         ),
       );
 
-      expect($(ElevatedButton), findsNWidgets(activeContracts.length + 1));
+      expect($(ElevatedButton), findsNWidgets(activeContracts.length));
       for (var contract in activeContracts) {
         expect($(Key(contract.name)), findsOneWidget);
         expect(
