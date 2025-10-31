@@ -1,5 +1,4 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/commons/widgets/my_default_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +9,7 @@ import '../commons/providers/log.dart';
 import '../commons/providers/play_game.dart';
 import '../commons/utils/contract_scores.dart';
 import '../commons/widgets/my_appbar.dart';
+import '../commons/widgets/my_default_page.dart';
 import '../commons/widgets/my_subtitle.dart';
 import '../commons/widgets/score_table.dart';
 

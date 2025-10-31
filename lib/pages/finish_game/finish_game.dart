@@ -1,16 +1,16 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/commons/widgets/custom_buttons.dart';
-import 'package:barbu_score/commons/widgets/my_default_page.dart';
-import 'package:barbu_score/commons/widgets/ordered_players_scores.dart';
-import 'package:barbu_score/pages/finish_game/widgets/game_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../commons/providers/log.dart';
+import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
+import '../../commons/widgets/my_default_page.dart';
+import '../../commons/widgets/ordered_players_scores.dart';
 import '../../main.dart';
+import 'widgets/game_table.dart';
 
 /// A page to display the scores of each player at the end of the game
 class FinishGame extends ConsumerWidget {

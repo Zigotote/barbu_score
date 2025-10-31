@@ -1,5 +1,4 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/gestures.dart';
@@ -15,6 +14,7 @@ import '../../commons/providers/log.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/colored_container.dart';
+import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
 import '../../commons/widgets/my_subtitle.dart';

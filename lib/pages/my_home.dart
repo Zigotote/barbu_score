@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/my_default_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -182,7 +183,9 @@ class MyHome extends ConsumerWidget {
                 hasLeading: false,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: EdgeInsets.symmetric(
+                  horizontal: MyDefaultPage.appPadding.horizontal / 2,
+                ),
                 child: ElevatedButtonFullWidth(
                   child: Text(
                     context.l10n.startGame,
@@ -192,7 +195,9 @@ class MyHome extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: EdgeInsets.symmetric(
+                  horizontal: MyDefaultPage.appPadding.horizontal / 2,
+                ),
                 child: ElevatedButtonFullWidth(
                   child: Text(
                     context.l10n.loadGame,
