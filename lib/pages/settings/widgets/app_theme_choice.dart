@@ -49,11 +49,15 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
 
   /// Updates isDark value and modify switch value accordingly
   void _updateTheme() {
-    final isDarkTheme = ref.read(isDarkThemeProvider);
+    final isDarkTheme =
+        ref.read(isDarkThemeProvider) ??
+        WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+            Brightness.dark;
     _switchState?.change(isDarkTheme);
     setState(() {
-      _switchHint =
-          isDarkTheme ? context.l10n.hintDarkMode : context.l10n.hintLightMode;
+      _switchHint = isDarkTheme
+          ? context.l10n.hintDarkMode
+          : context.l10n.hintLightMode;
       _switchOnTapHint = isDarkTheme
           ? context.l10n.hintForLightMode
           : context.l10n.hintForLightMode;
