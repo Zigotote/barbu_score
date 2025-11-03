@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:turn_page_transition/turn_page_transition.dart';
 
+import '../../commons/providers/log.dart';
 import 'contracts_rules.dart';
 import 'game_presentation.dart';
 import 'game_round_rules.dart';
@@ -23,6 +24,7 @@ class _MyRulesState extends ConsumerState<MyRules> {
   @override
   void initState() {
     super.initState();
+    ref.read(logProvider).sendAnalyticEvent("rules");
     final startingPage = widget.startingPage;
     if (startingPage != null) {
       WidgetsBinding.instance.addPostFrameCallback(
@@ -43,8 +45,10 @@ class _MyRulesState extends ConsumerState<MyRules> {
           RulesPageName.gamePresentation => GamePresentation(index),
           RulesPageName.prepareGame => PrepareGameRules(index),
           RulesPageName.gameRound => GameRoundRules(index),
-          RulesPageName.contractRules =>
-            ContractsRules(index, isInGame: widget.startingPage != null),
+          RulesPageName.contractRules => ContractsRules(
+            index,
+            isInGame: widget.startingPage != null,
+          ),
         };
       },
       useOnTap: false,
