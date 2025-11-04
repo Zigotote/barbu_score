@@ -78,7 +78,10 @@ class SubContractPage extends ConsumerWidget {
         context: context,
         trailing: RulesButton(contract),
       ),
-      content: Column(children: [MySubtitle(subtitle), child]),
+      content: Column(
+        spacing: MyDefaultPage.appPadding.top,
+        children: [MySubtitle(subtitle), child],
+      ),
       bottomWidget: ElevatedButtonFullWidth(
         onPressed: isValid ? () => _saveContract(context, ref) : null,
         child: Text(context.l10n.validateScores, textAlign: TextAlign.center),

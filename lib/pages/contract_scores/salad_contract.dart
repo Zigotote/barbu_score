@@ -110,7 +110,7 @@ class SaladContractPage extends ConsumerWidget {
         trailing: RulesButton(ContractsInfo.salad),
       ),
       content: Column(
-        spacing: 8,
+        spacing: MyDefaultPage.appPadding.top,
         children: [
           MySubtitle(context.l10n.saladScoresSubtitle),
           _buildFields(context, provider, ref.read(contractsManagerProvider)),

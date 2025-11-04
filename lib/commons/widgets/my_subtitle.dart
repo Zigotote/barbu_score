@@ -9,14 +9,11 @@ class MySubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Center(
-        child: Text(
-          subtitle,
-          style: Theme.of(context).textTheme.titleSmall,
-          textAlign: TextAlign.center,
-        ),
+    return Center(
+      child: Text(
+        subtitle,
+        style: Theme.of(context).textTheme.titleSmall,
+        textAlign: TextAlign.center,
       ),
     );
   }

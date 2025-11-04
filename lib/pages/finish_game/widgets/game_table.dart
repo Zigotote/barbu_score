@@ -8,10 +8,18 @@ import '../../../commons/providers/contracts_manager.dart';
 import '../../../commons/providers/play_game.dart';
 import '../../../commons/utils/contract_scores.dart';
 import '../../../commons/widgets/score_table.dart';
+import '../../../commons/widgets/score_table_v2.dart';
 
 /// A table to display the scores of players for the entire game
-class GameTable extends ConsumerWidget {
+class GameTable extends ConsumerStatefulWidget {
   const GameTable({super.key});
+
+  @override
+  ConsumerState<GameTable> createState() => _GameTableState();
+}
+
+class _GameTableState extends ConsumerState<GameTable> {
+  bool tmpChangeAxis = false;
 
   /// Builds the rows to display player scores for each contract
   List<ScoreRow> _buildPlayerRows(
@@ -23,6 +31,31 @@ class GameTable extends ConsumerWidget {
       return ScoreRow(
         title: context.l10n.contractName(contractScore.key),
         scores: contractScore.value,
+      );
+    }).toList();
+  }
+
+  /// Builds the rows to display player scores for each contract
+  List<ScoreRowV2> _buildPlayerRowsV2(
+    BuildContext context,
+    List<Player> players,
+    Map<ContractsInfo, Map<String, int>?> contractScores,
+  ) {
+    return players.map((player) {
+      int total = 0;
+      final playerScores = Map.fromEntries(
+        contractScores.entries.map((contractScore) {
+          total += contractScore.value?[player.name] ?? 0;
+          return MapEntry(
+            context.l10n.contractName(contractScore.key),
+            contractScore.value?[player.name],
+          );
+        }),
+      );
+      return ScoreRowV2(
+        key: Key(player.name),
+        player: player,
+        scores: {...playerScores, "Total": total},
       );
     }).toList();
   }
@@ -42,17 +75,25 @@ class GameTable extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final players = ref.read(playGameProvider).players;
     final contractScores = ref
         .read(contractsManagerProvider)
         .sumScoresByContract(players);
-    return ScoreTable(
-      players: players,
-      rows: [
-        ..._buildPlayerRows(context, contractScores, players),
-        _buildTotalRow(context, contractScores, players),
-      ],
+    return GestureDetector(
+      onLongPress: () => setState(() => tmpChangeAxis = !tmpChangeAxis),
+      child: tmpChangeAxis
+          ? ScoreTableV2(
+              contracts: ref.read(contractsManagerProvider).activeContracts,
+              rows: _buildPlayerRowsV2(context, players, contractScores),
+            )
+          : ScoreTable(
+              players: players,
+              rows: [
+                ..._buildPlayerRows(context, contractScores, players),
+                _buildTotalRow(context, contractScores, players),
+              ],
+            ),
     );
   }
 }

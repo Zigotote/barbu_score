@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/score_table_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,11 +15,18 @@ import '../commons/widgets/my_subtitle.dart';
 import '../commons/widgets/score_table.dart';
 
 /// A page to display the scores for the contracts of a player
-class ScoresByPlayer extends ConsumerWidget {
+class ScoresByPlayer extends ConsumerStatefulWidget {
   /// The name of the player whose contract scores are shown
   final String playerName;
 
   const ScoresByPlayer(this.playerName, {super.key});
+
+  @override
+  ConsumerState<ScoresByPlayer> createState() => _ScoresByPlayerState();
+}
+
+class _ScoresByPlayerState extends ConsumerState<ScoresByPlayer> {
+  bool tmpChangeAxis = false;
 
   /// Builds the rows to display player scores for each contract
   List<ScoreRow> _buildPlayerRows(
@@ -51,15 +59,42 @@ class ScoresByPlayer extends ConsumerWidget {
     );
   }
 
+  /// Builds the rows to display player scores for each contract
+  List<ScoreRowV2> _buildPlayerRowsV2(
+    BuildContext context,
+    List<Player> players,
+    Map<ContractsInfo, Map<String, int>?> contractScores,
+  ) {
+    return players.map((player) {
+      int total = 0;
+      final playerScores = Map.fromEntries(
+        contractScores.entries.map((contractScore) {
+          total += contractScore.value?[player.name] ?? 0;
+          return MapEntry(
+            context.l10n.contractName(contractScore.key),
+            contractScore.value?[player.name],
+          );
+        }),
+      );
+      return ScoreRowV2(
+        key: Key(player.name),
+        player: player,
+        scores: {...playerScores, "Total": total},
+      );
+    }).toList();
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(logProvider).info("ScoresByPlayer: show scores for $playerName");
+  Widget build(BuildContext context) {
+    ref
+        .read(logProvider)
+        .info("ScoresByPlayer: show scores for ${widget.playerName}");
     ref.read(logProvider).sendAnalyticEvent("scores_by_player");
     final players = ref.read(playGameProvider).players;
     final playerScores = ref
         .read(contractsManagerProvider)
         .scoresByContract(
-          players.firstWhere((player) => player.name == playerName),
+          players.firstWhere((player) => player.name == widget.playerName),
         );
     return Scaffold(
       appBar: MyAppBar(Text(context.l10n.scores), context: context),
@@ -68,16 +103,39 @@ class ScoresByPlayer extends ConsumerWidget {
           padding: MyDefaultPage.appPadding,
           child: Column(
             mainAxisSize: MainAxisSize.max,
+            spacing: 24,
             children: [
-              MySubtitle(context.l10n.contractsOf(playerName)),
+              Row(
+                spacing: 8,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MySubtitle(context.l10n.contractsOf(widget.playerName)),
+                  IconButton.outlined(
+                    onPressed: () =>
+                        setState(() => tmpChangeAxis = !tmpChangeAxis),
+                    icon: Icon(Icons.rotate_left),
+                  ),
+                ],
+              ),
               Expanded(
-                child: ScoreTable(
-                  players: players,
-                  rows: [
-                    ..._buildPlayerRows(context, playerScores, players),
-                    _buildTotalRow(context, playerScores, players),
-                  ],
-                ),
+                child: tmpChangeAxis
+                    ? ScoreTableV2(
+                        contracts: ref
+                            .read(contractsManagerProvider)
+                            .activeContracts,
+                        rows: _buildPlayerRowsV2(
+                          context,
+                          players,
+                          playerScores,
+                        ),
+                      )
+                    : ScoreTable(
+                        players: players,
+                        rows: [
+                          ..._buildPlayerRows(context, playerScores, players),
+                          _buildTotalRow(context, playerScores, players),
+                        ],
+                      ),
               ),
             ],
           ),

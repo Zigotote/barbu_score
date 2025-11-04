@@ -159,7 +159,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
         trailing: RulesButton(ContractsInfo.domino),
       ),
       content: Column(
-        spacing: 8,
+        spacing: MyDefaultPage.appPadding.top,
         children: [
           MySubtitle(context.l10n.dominoScoreSubtitle),
           _buildFields(),
