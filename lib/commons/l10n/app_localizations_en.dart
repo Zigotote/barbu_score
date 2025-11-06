@@ -9,6 +9,23 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get about => 'About';
+
+  @override
+  String get aboutLea => 'Léa LOUESDON, creator of graphic elements';
+
+  @override
+  String get aboutOceane =>
+      'Océane GILLARD, responsible for application development';
+
+  @override
+  String get aboutTheApp =>
+      'The Score Barbu app is developed by enthusiasts who are committed to meeting the needs of Barbu players as best they can!';
+
+  @override
+  String get aboutTheTeam => 'The team consists of:';
+
+  @override
   String get accept => 'Yes';
 
   @override
@@ -61,6 +78,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Barbu Score';
 
   @override
+  String appVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get askForFeedback =>
+      'Have you detected a problem or have a suggestion for improvement? You can report it to us by email:';
+
+  @override
   String get availableColor => 'Available color';
 
   @override
@@ -71,6 +97,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bestFriend => 'Best friend';
+
+  @override
+  String get bug => 'A bug';
 
   @override
   String cardInterval(String firstCard, String lastCard) {
@@ -112,6 +141,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String confirmStartGame(String players) {
     return 'Confirm creation of a new game? If yes, the previous game with $players will be lost.';
   }
+
+  @override
+  String get contact => 'Contact';
+
+  @override
+  String get contactByMail => 'Contact by mail';
+
+  @override
+  String get contactReason => 'What would you like to report?';
 
   @override
   String get contractPoints => 'Contract points';
@@ -184,6 +222,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorNbItems =>
       'The number of items added does not match the expected number. Please try again.';
+
+  @override
+  String get feature => 'A feature';
 
   @override
   String get fold => 'Collapse the choices';
@@ -289,6 +330,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get modifySettings => 'Modify settings';
 
   @override
+  String get moreInfo => 'More information';
+
+  @override
   String nbCardsRules(int nbCards, int nbPlayers) {
     return 'The game is played with $nbCards cards ($nbPlayers × 8).';
   }
@@ -319,6 +363,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noTricks => 'No tricks';
+
+  @override
+  String get other => 'Other';
 
   @override
   String playerNameHint(int nb) {
@@ -370,10 +417,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ranking => 'Ranking';
 
   @override
+  String get rateApp => 'Rate app';
+
+  @override
   String get refuseLoadGame => 'No, new game';
 
   @override
   String get refuseStartGame => 'No, resume game';
+
+  @override
+  String get reportBug => 'Report a bug';
+
+  @override
+  String get reportBugMail =>
+      'Hello,\n\nI’d like to report a bug I encountered in the application. Please find the details below:\n\n- Bug description (describe what happened, what you were doing when the issue occurred, etc.): \n\n- Steps to reproduce (list the steps needed to make the issue happen again):\n\n- Expected behavior (describe what should have happened instead)';
+
+  @override
+  String get requestFeature => 'Request a feature';
+
+  @override
+  String get requestFeatureMail =>
+      'Hello,\n\nI’d like to suggest a new feature for the application to be able to...';
 
   @override
   String get rules => 'Game rules';

@@ -2,6 +2,7 @@ import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:in_app_review/in_app_review.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/providers/log.dart';
@@ -11,8 +12,11 @@ import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
 import '../../commons/widgets/my_list_layouts.dart';
+import '../../main.dart';
+import 'notifiers/device_info_provider.dart';
 import 'widgets/active_contract_indicator.dart';
 import 'widgets/app_theme_choice.dart';
+import 'widgets/contact_button.dart';
 import 'widgets/language_choice.dart';
 
 class MySettings extends ConsumerWidget {
@@ -20,6 +24,7 @@ class MySettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appVersion = ref.watch(deviceInfoProvider).value?.appVersion;
     return MyDefaultPage(
       appBar: MyAppBar(Text(context.l10n.settings), context: context),
       content: Column(
@@ -72,8 +77,31 @@ class MySettings extends ConsumerWidget {
               );
             }).toList(),
           ),
+          const SizedBox(height: 16),
+          Semantics(
+            header: true,
+            child: Text(
+              context.l10n.moreInfo,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButtonFullWidth(
+            onPressed: () => context.push(Routes.about),
+            child: Text(context.l10n.about),
+          ),
+          const SizedBox(height: 24),
+          ContactButton(),
+          const SizedBox(height: 24),
+          ElevatedButtonFullWidth(
+            onPressed: () => InAppReview.instance.openStoreListing(),
+            child: Text(context.l10n.rateApp),
+          ),
         ],
       ),
+      bottomWidget: appVersion != null
+          ? Text(context.l10n.appVersion(appVersion))
+          : null,
     );
   }
 }

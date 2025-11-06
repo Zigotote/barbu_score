@@ -28,6 +28,7 @@ import 'pages/rules/my_rules.dart';
 import 'pages/scores_by_player.dart';
 import 'pages/settings/contract_with_points_settings.dart';
 import 'pages/settings/domino_contract_settings.dart';
+import 'pages/settings/my_about.dart';
 import 'pages/settings/my_settings.dart';
 import 'pages/settings/salad_contract_settings.dart';
 import 'theme/my_themes.dart';
@@ -76,6 +77,7 @@ void main() async {
               path: Routes.settings,
               builder: (_, _) => const MySettings(),
             ),
+            GoRoute(path: Routes.about, builder: (_, _) => const MyAbout()),
             GoRoute(
               path:
                   "${Routes.contractWithPointsSettings}/:${MyGoRouterState.contractParameter}",
@@ -193,6 +195,7 @@ class Routes {
   static const contractWithPointsSettings = "/settings/contracts_with_points";
   static const dominoSettings = "/settings/domino";
   static const saladSettings = "/settings/salad";
+  static const about = "/about";
   static const createGame = "/create_game";
   static const prepareGame = "/prepare_game";
   static const chooseContract = "/choose_contract";

@@ -10,6 +10,7 @@ import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/settings/contract_with_points_settings.dart';
 import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
+import 'package:barbu_score/pages/settings/my_about.dart';
 import 'package:barbu_score/pages/settings/my_settings.dart';
 import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
 import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
@@ -40,6 +41,7 @@ final _router = GoRouter(
       path: Routes.saladSettings,
       builder: (_, _) => const SaladContractSettingsPage(),
     ),
+    GoRoute(path: Routes.about, builder: (_, _) => const MyAbout()),
   ],
 );
 
@@ -213,6 +215,14 @@ void main() {
       );
     }
   }
+
+  patrolWidgetTest("should open about page", ($) async {
+    await $.pumpWidget(_createPage());
+
+    await $("A propos").tap();
+
+    expect($(MyAbout), findsOneWidget);
+  });
 
   // The state of the singleton is shared during tests so the snackbar cannot be opened multiple times
   tearDown(() => SnackBarUtils.instance.isSnackBarOpen = false);

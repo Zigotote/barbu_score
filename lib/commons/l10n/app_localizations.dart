@@ -98,6 +98,36 @@ abstract class AppLocalizations {
     Locale('fr'),
   ];
 
+  /// No description provided for @about.
+  ///
+  /// In fr, this message translates to:
+  /// **'A propos'**
+  String get about;
+
+  /// No description provided for @aboutLea.
+  ///
+  /// In fr, this message translates to:
+  /// **'Léa LOUESDON, créatrice des éléments graphiques'**
+  String get aboutLea;
+
+  /// No description provided for @aboutOceane.
+  ///
+  /// In fr, this message translates to:
+  /// **'Océane GILLARD, chargée du développement de l\'application'**
+  String get aboutOceane;
+
+  /// No description provided for @aboutTheApp.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs de Barbu !'**
+  String get aboutTheApp;
+
+  /// No description provided for @aboutTheTeam.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'équipe est composée de : '**
+  String get aboutTheTeam;
+
   /// No description provided for @accept.
   ///
   /// In fr, this message translates to:
@@ -176,6 +206,18 @@ abstract class AppLocalizations {
   /// **'Score Barbu'**
   String get appTitle;
 
+  /// No description provided for @appVersion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Version {version}'**
+  String appVersion(String version);
+
+  /// No description provided for @askForFeedback.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez détecté un problème ou avez une suggestion d\'amélioration ? Vous pouvez nous le signaler par mail :'**
+  String get askForFeedback;
+
   /// No description provided for @availableColor.
   ///
   /// In fr, this message translates to:
@@ -199,6 +241,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Meilleur ami'**
   String get bestFriend;
+
+  /// No description provided for @bug.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un bug'**
+  String get bug;
 
   /// No description provided for @cardInterval.
   ///
@@ -253,6 +301,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Confirmer la création d\'une nouvelle partie ? Si oui, la partie précédente avec {players} sera perdue.'**
   String confirmStartGame(String players);
+
+  /// No description provided for @contact.
+  ///
+  /// In fr, this message translates to:
+  /// **'Contact'**
+  String get contact;
+
+  /// No description provided for @contactByMail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Contacter par mail'**
+  String get contactByMail;
+
+  /// No description provided for @contactReason.
+  ///
+  /// In fr, this message translates to:
+  /// **'Que souhaitez-vous signaler ?'**
+  String get contactReason;
 
   /// No description provided for @contractPoints.
   ///
@@ -379,6 +445,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Le nombre d\'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.'**
   String get errorNbItems;
+
+  /// No description provided for @feature.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une suggestion'**
+  String get feature;
 
   /// No description provided for @fold.
   ///
@@ -554,6 +626,12 @@ abstract class AppLocalizations {
   /// **'Modifier les paramètres'**
   String get modifySettings;
 
+  /// No description provided for @moreInfo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus d\'informations'**
+  String get moreInfo;
+
   /// No description provided for @nbCardsRules.
   ///
   /// In fr, this message translates to:
@@ -607,6 +685,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Sans plis'**
   String get noTricks;
+
+  /// No description provided for @other.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autre'**
+  String get other;
 
   /// No description provided for @playerNameHint.
   ///
@@ -692,6 +776,12 @@ abstract class AppLocalizations {
   /// **'Classement'**
   String get ranking;
 
+  /// No description provided for @rateApp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Evaluer l\'application'**
+  String get rateApp;
+
   /// No description provided for @refuseLoadGame.
   ///
   /// In fr, this message translates to:
@@ -703,6 +793,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Non, reprendre la partie'**
   String get refuseStartGame;
+
+  /// No description provided for @reportBug.
+  ///
+  /// In fr, this message translates to:
+  /// **'Signaler un bug'**
+  String get reportBug;
+
+  /// No description provided for @reportBugMail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bonjour,\n\nJe souhaiterai signaler un bug rencontré sur l’application. Voici les détails :\n\n- Description du bug (expliquez ce qu\'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.) :\n\n- Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise) : \n\n- Comportement attendu (ce qui aurait dû se passer) :'**
+  String get reportBugMail;
+
+  /// No description provided for @requestFeature.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une amélioration'**
+  String get requestFeature;
+
+  /// No description provided for @requestFeatureMail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bonjour,\n\nJe souhaiterai proposer une nouvelle fonctionnalité pour l\'application, afin de...'**
+  String get requestFeatureMail;
 
   /// No description provided for @rules.
   ///

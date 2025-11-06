@@ -21,15 +21,19 @@ class DialogChangePlayerInfo extends ConsumerWidget {
   /// The function to call on deleted button pressed
   final Function() onDelete;
 
-  const DialogChangePlayerInfo(
-      {super.key,
-      required this.player,
-      required this.onValidate,
-      required this.onDelete});
+  const DialogChangePlayerInfo({
+    super.key,
+    required this.player,
+    required this.onValidate,
+    required this.onDelete,
+  });
 
   /// Builds the title and list of items the player can modify
   Widget _buildPropertySelection(
-      BuildContext context, String text, List<Widget> items) {
+    BuildContext context,
+    String text,
+    List<Widget> items,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
@@ -48,7 +52,10 @@ class DialogChangePlayerInfo extends ConsumerWidget {
   }
 
   SingleChildScrollView _buildDialogContent(
-      BuildContext context, CreateGameNotifier provider, ThemeData theme) {
+    BuildContext context,
+    CreateGameNotifier provider,
+    ThemeData theme,
+  ) {
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -58,38 +65,39 @@ class DialogChangePlayerInfo extends ConsumerWidget {
           _buildPropertySelection(
             context,
             context.l10n.color,
-            playerColors.map(
-              (color) {
-                final playersWithColor = provider.getPlayersWithColor(color);
-                return TextButton(
-                  key: Key(color.name),
-                  onPressed: () => provider.changePlayerColor(player, color),
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.convertMyColor(color),
+            playerColors.map((color) {
+              final playersWithColor = provider.getPlayersWithColor(color);
+              return TextButton(
+                key: Key(color.name),
+                onPressed: () => provider.changePlayerColor(player, color),
+                style: TextButton.styleFrom(
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.convertMyColor(color),
+                ),
+                child: Text(
+                  playersWithColor
+                      .map(
+                        (playerName) =>
+                            playerName.characters.first.toUpperCase(),
+                      )
+                      .join("/"),
+                  semanticsLabel: playersWithColor.isEmpty
+                      ? context.l10n.availableColor
+                      : playersWithColor.join(","),
+                  overflow: TextOverflow.fade,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: theme.scaffoldBackgroundColor,
                   ),
-                  child: Text(
-                    playersWithColor
-                        .map((playerName) =>
-                            playerName.characters.first.toUpperCase())
-                        .join("/"),
-                    semanticsLabel: playersWithColor.isEmpty
-                        ? context.l10n.availableColor
-                        : playersWithColor.join(","),
-                    overflow: TextOverflow.fade,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      color: theme.scaffoldBackgroundColor,
-                    ),
-                  ),
-                );
-              },
-            ).toList(),
+                ),
+              );
+            }).toList(),
           ),
           _buildPropertySelection(
             context,
             context.l10n.avatar,
-            playerImages
+            _getPlayerImages()
                 .map(
                   (image) => IconButton(
                     key: Key(image),
@@ -98,10 +106,20 @@ class DialogChangePlayerInfo extends ConsumerWidget {
                   ),
                 )
                 .toList(),
-          )
+          ),
         ],
       ),
     );
+  }
+
+  List<String> _getPlayerImages() {
+    final displayOceane = player.name.replaceAll("é", "e").startsWith("Oce");
+    final displayLea = player.name.trim().replaceAll("é", "e") == "Lea";
+    return [
+      ...playerImages,
+      if (displayOceane) oceaneImagePath,
+      if (displayLea) leaImagePath,
+    ];
   }
 
   @override
@@ -110,10 +128,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
     final ThemeData theme = Theme.of(context);
     return AlertDialog(
       title: MediaQuery.of(context).orientation == Orientation.portrait
-          ? PlayerIcon(
-              image: player.image,
-              color: player.color,
-            )
+          ? PlayerIcon(image: player.image, color: player.color)
           : null,
       icon: Align(
         alignment: Alignment.centerRight,
@@ -136,14 +151,11 @@ class DialogChangePlayerInfo extends ConsumerWidget {
           : Row(
               spacing: 32,
               children: [
-                PlayerIcon(
-                  image: player.image,
-                  color: player.color,
-                ),
+                PlayerIcon(image: player.image, color: player.color),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.55,
                   child: _buildDialogContent(context, provider, theme),
-                )
+                ),
               ],
             ),
       actions: [
@@ -163,10 +175,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
       actionsOverflowButtonSpacing: 8,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
-        side: const BorderSide(
-          style: BorderStyle.solid,
-          width: 2,
-        ),
+        side: const BorderSide(style: BorderStyle.solid, width: 2),
       ),
     );
   }
