@@ -1,4 +1,9 @@
 {
+  "about": "A propos",
+  "aboutLea": "Léa LOUESDON, créatrice des éléments graphiques",
+  "aboutOceane": "Océane GILLARD, chargée du développement de l'application",
+  "aboutTheApp": "L'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs de Barbu !",
+  "aboutTheTeam": "L'équipe est composée de : ",
   "accept": "Oui",
   "ace": "as",
   "activateContract": "Activer le contrat",
@@ -38,10 +43,21 @@
   "appName": "Le Barbu",
   "appTheme": "Thème de l'application",
   "appTitle": "Score Barbu",
+  "appVersion": "Version {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "3.0.0"
+      }
+    }
+  },
+  "askForFeedback": "Vous avez détecté un problème ou avez une suggestion d'amélioration ? Vous pouvez nous le signaler par mail :",
   "availableColor": "Couleur disponible",
   "avatar": "Avatar",
   "barbu": "Barbu",
   "bestFriend": "Meilleur ami",
+  "bug": "Un bug",
   "cardInterval": "{firstCard} à {lastCard}",
   "@cardInterval": {
     "placeholders": {
@@ -86,6 +102,9 @@
       }
     }
   },
+  "contact": "Contact",
+  "contactByMail": "Contacter par mail",
+  "contactReason": "Que souhaitez-vous signaler ?",
   "contractPoints": "Points du contrat",
   "contracts": "Contrats",
   "contractsOf": "Contrats de {player}",
@@ -133,6 +152,7 @@
   "errorLaunchGame": "Impossible de lancer une partie",
   "errorLaunchGameDetails": "Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.",
   "errorNbItems": "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
+  "feature": "Une suggestion",
   "fold": "Replier les choix",
   "forGameAt": "Pour une partie à",
   "french": "Français",
@@ -185,6 +205,7 @@
   "modifyContractsSettings": "Les contrats sont modifiables dans la page de paramètres, pour personnaliser leurs points et variations.",
   "modifyPlayer": "Modifier le joueur",
   "modifySettings": "Modifier les paramètres",
+  "moreInfo": "Plus d'informations",
   "nbCardsRules": "Le jeu se joue avec {nbCards} cartes ({nbPlayers} \u00d7 8).",
   "@nbCardsRules": {
     "placeholders": {
@@ -213,6 +234,7 @@
   "noLastTrick": "Dernier",
   "noQueens": "Sans dames",
   "noTricks": "Sans plis",
+  "other": "Autre",
   "playerNameHint": "Nom du joueur {nb}",
   "@playerNameHint": {
     "placeholders": {
@@ -249,8 +271,13 @@
   "previous": "Précédent",
   "queen": "dame",
   "ranking": "Classement",
+  "rateApp": "Evaluer l'application",
   "refuseLoadGame": "Non, nouvelle partie",
   "refuseStartGame": "Non, reprendre la partie",
+  "reportBug": "Signaler un bug",
+  "reportBugMail": "Bonjour,\n\nJe souhaiterai signaler un bug rencontré sur l’application. Voici les détails :\n\n- Description du bug (expliquez ce qu'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.) :\n\n- Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise) : \n\n- Comportement attendu (ce qui aurait dû se passer) :",
+  "requestFeature": "Ajouter une amélioration",
+  "requestFeatureMail": "Bonjour,\n\nJe souhaiterai proposer une nouvelle fonctionnalité pour l'application, afin de...",
   "rules": "Règles du jeu",
   "rulesBarbu": "Le joueur emportant le roi de coeur (Barbu) marque {points} points.",
   "@rulesBarbu": {

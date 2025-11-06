@@ -1,5 +1,8 @@
 import '../../theme/my_theme_colors.dart';
 
+const oceaneImagePath = "assets/players/oceane.png";
+const leaImagePath = "assets/players/lea.png";
+
 final _isDecember = DateTime.now().month == 12;
 
 /// Returns the list of player images available
@@ -32,7 +35,7 @@ List<MyThemeColors> get playerColors {
   if (_isDecember) {
     return [
       MyThemeColors.red,
-      ...MyThemeColors.values.where((color) => color != MyThemeColors.red)
+      ...MyThemeColors.values.where((color) => color != MyThemeColors.red),
     ];
   }
   return MyThemeColors.values;
