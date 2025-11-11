@@ -193,7 +193,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get domino => 'Réussite';
 
   @override
-  String get dominoScoreSubtitle => 'Quel est l\'ordre des joueurs ?';
+  String dominoScoreSubtitle(String rank) {
+    return 'Qui a fini $rank ?';
+  }
 
   @override
   String get endGame => 'Fin de partie';

@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../commons/models/contract_info.dart';
-import '../../commons/models/contract_models.dart';
 import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/log.dart';
 import '../../commons/providers/play_game.dart';
@@ -30,56 +29,25 @@ class SaladContractPage extends ConsumerWidget {
       children: provider.subContracts.map((contract) {
         final contractValues = provider.getFilledContract(contract.name);
         final scoresRoute = contractsManager.getScoresRoute(contract);
-        return contractValues == null
-            ? _buildContractButton(context, contract, scoresRoute)
-            : _buildFilledContract(
-                context,
-                contract,
-                scoresRoute,
-                contractValues,
-              );
+        return ElevatedButtonWithIndicator(
+          key: Key(contract.name),
+          text: context.l10n.contractName(contract),
+          onPressed: () => context.push(scoresRoute, extra: contractValues),
+          indicator: contractValues != null
+              ? Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  child: Icon(
+                    Icons.task_alt_outlined,
+                    color: Theme.of(context).colorScheme.success,
+                    size: 40,
+                  ),
+                )
+              : null,
+        );
       }).toList(),
-    );
-  }
-
-  /// Builds a button to fill a contract
-  Widget _buildContractButton(
-    BuildContext context,
-    ContractsInfo contract,
-    String scoresRoute,
-  ) {
-    return ElevatedButton(
-      key: Key(contract.name),
-      child: Text(
-        context.l10n.contractName(contract),
-        textAlign: TextAlign.center,
-      ),
-      onPressed: () => context.push(scoresRoute),
-    );
-  }
-
-  /// Builds a Widget for a filled contract, with the button and a tick to know that it has been filled
-  Widget _buildFilledContract(
-    BuildContext context,
-    ContractsInfo contract,
-    String scoresRoute,
-    ContractWithPointsModel contractValues,
-  ) {
-    return ElevatedButtonWithIndicator(
-      key: Key(contract.name),
-      text: context.l10n.contractName(contract),
-      onPressed: () => context.push(scoresRoute, extra: contractValues),
-      indicator: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
-        child: Icon(
-          Icons.task_alt_outlined,
-          color: Theme.of(context).colorScheme.success,
-          size: 40,
-        ),
-      ),
     );
   }
 

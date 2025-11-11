@@ -395,8 +395,8 @@ abstract class AppLocalizations {
   /// No description provided for @dominoScoreSubtitle.
   ///
   /// In fr, this message translates to:
-  /// **'Quel est l\'ordre des joueurs ?'**
-  String get dominoScoreSubtitle;
+  /// **'Qui a fini {rank} ?'**
+  String dominoScoreSubtitle(String rank);
 
   /// No description provided for @endGame.
   ///

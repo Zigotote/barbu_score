@@ -193,7 +193,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get domino => 'Domino';
 
   @override
-  String get dominoScoreSubtitle => 'What is the order of the players?';
+  String dominoScoreSubtitle(String rank) {
+    return 'Who finished $rank?';
+  }
 
   @override
   String get endGame => 'End of game';

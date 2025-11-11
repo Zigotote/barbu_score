@@ -1,22 +1,20 @@
+import 'dart:math';
+
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
 import '../../commons/providers/log.dart';
 import '../../commons/providers/play_game.dart';
-import '../../commons/utils/snackbar.dart';
-import '../../commons/widgets/colored_container.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
+import '../../commons/widgets/my_list_layouts.dart';
 import '../../commons/widgets/my_subtitle.dart';
 import '../../main.dart';
 import 'widgets/rules_button.dart';
@@ -31,120 +29,74 @@ class DominoContractPage extends ConsumerStatefulWidget {
 
 class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   /// The ordered list of players
-  late List<Player> orderedPlayers;
+  Map<String, int> orderedPlayers = {};
 
-  @override
-  void initState() {
-    super.initState();
-    orderedPlayers = List.from(ref.read(playGameProvider).players);
-  }
-
-  /// Moves a player from oldIndex to newIndex
-  void _movePlayer(int oldIndex, int newIndex) {
-    setState(() {
-      Player player = orderedPlayers.removeAt(oldIndex);
-      orderedPlayers.insert(newIndex, player);
-    });
-  }
-
-  /// Build an orderdable player's list
-  Widget _buildFields() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double childAspectRatio = 3;
-        final shouldHaveMultipleColumns =
-            MediaQuery.of(context).textScaler.scale(60) *
-                orderedPlayers.length >
-            constraints.minHeight;
-        if (!shouldHaveMultipleColumns) {
-          if (MediaQuery.of(context).orientation == Orientation.landscape) {
-            childAspectRatio =
-                constraints.minHeight /
-                MediaQuery.of(context).textScaler.scale(20);
-          } else {
-            childAspectRatio =
-                constraints.minHeight /
-                MediaQuery.of(context).textScaler.scale(60);
-          }
-        }
-        return ReorderableGridView.count(
-          shrinkWrap: true,
-          dragStartDelay: kPressTimeout,
-          crossAxisCount: shouldHaveMultipleColumns
-              ? MediaQuery.of(context).orientation == Orientation.landscape
-                    ? 4
-                    : 2
-              : 1,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 40,
-          childAspectRatio: childAspectRatio,
-          onReorder: (int oldIndex, int newIndex) {
-            _movePlayer(oldIndex, newIndex);
+  /// Builds the grid of players to order
+  Widget _buildFields(List<Player> players) {
+    final indicatorSize = MediaQuery.of(context).textScaler.scale(40);
+    return MyGrid(
+      children: players.map((player) {
+        final isOrdered = orderedPlayers.containsKey(player.name);
+        final playerRank = isOrdered
+            ? (orderedPlayers[player.name]! + 1)
+            : null;
+        return ElevatedButtonWithIndicator(
+          text: player.name,
+          color: player.color,
+          onPressed: () {
+            if (isOrdered) {
+              setState(() => orderedPlayers.remove(player.name));
+            } else {
+              int firstMissingRank = _getFirstMissingRank();
+              setState(() => orderedPlayers[player.name] = firstMissingRank);
+            }
           },
-          children: orderedPlayers
-              .mapIndexed(
-                (index, player) => Row(
-                  key: ValueKey(index),
-                  spacing: 8,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(
+          indicator: isOrdered
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Theme.of(
                         context,
-                      ).textScaler.scale(orderedPlayers.length >= 10 ? 24 : 12),
-                      child: Text(
-                        (index + 1).toString(),
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
+                      ).colorScheme.convertMyColor(player.color),
+                      width: 2,
                     ),
-                    Expanded(
-                      child: ColoredContainer(
-                        color: player.color,
-                        child: Center(child: _buildPlayerTile(player)),
-                      ),
+                  ),
+                  height: indicatorSize,
+                  width: indicatorSize,
+                  child: Center(
+                    child: Text(
+                      playerRank.toString(),
+                      semanticsLabel: context.l10n.ordinalNumber(playerRank!),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ],
-                ),
-              )
-              .toList(),
+                  ),
+                )
+              : null,
         );
-      },
+      }).toList(),
     );
   }
 
-  /// Builds a stack with the name of a player and a drag icon as a leading
-  Widget _buildPlayerTile(Player player) {
-    final color = Theme.of(context).colorScheme.convertMyColor(player.color);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              player.name,
-              style: TextStyle(color: color),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Icon(Icons.drag_handle, color: color),
-        ],
-      ),
-    );
+  /// Returns the first missing rank in player's list
+  int _getFirstMissingRank() {
+    for (int rank = 0; rank < orderedPlayers.length; rank++) {
+      if (!orderedPlayers.containsValue(rank)) {
+        return rank;
+      }
+    }
+    return orderedPlayers.length;
   }
 
   void _saveContract(BuildContext context, WidgetRef ref) {
-    final contractModel = DominoContractModel(
-      rankOfPlayer: {
-        for (var player in orderedPlayers)
-          player.name: orderedPlayers.indexOf(player),
-      },
-    );
+    final contractModel = DominoContractModel(rankOfPlayer: orderedPlayers);
     ref
         .read(logProvider)
         .info("DominoContractPage.saveContract: save $contractModel");
     final provider = ref.read(playGameProvider);
     provider.finishContract(contractModel);
 
-    SnackBarUtils.instance.closeSnackBar(context);
     context.go(
       provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
     );
@@ -152,6 +104,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
 
   @override
   Widget build(BuildContext context) {
+    final players = ref.watch(playGameProvider).players;
     return MyDefaultPage(
       appBar: MyPlayerAppBar(
         player: ref.watch(playGameProvider).currentPlayer,
@@ -161,12 +114,20 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
       content: Column(
         spacing: 8,
         children: [
-          MySubtitle(context.l10n.dominoScoreSubtitle),
-          _buildFields(),
+          MySubtitle(
+            context.l10n.dominoScoreSubtitle(
+              context.l10n.ordinalNumber(
+                min(_getFirstMissingRank() + 1, players.length),
+              ),
+            ),
+          ),
+          _buildFields(players),
         ],
       ),
       bottomWidget: ElevatedButtonFullWidth(
-        onPressed: () => _saveContract(context, ref),
+        onPressed: players.length == orderedPlayers.length
+            ? () => _saveContract(context, ref)
+            : null,
         child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
       ),
     );
