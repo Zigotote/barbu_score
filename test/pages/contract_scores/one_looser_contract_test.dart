@@ -45,9 +45,7 @@ void main() {
     await $.pumpWidget(_createPage($));
 
     expect($(ElevatedButtonCustomColor), findsNWidgets(nbPlayersByDefault));
-    final validateButton =
-        ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
-    expect(validateButton.onPressed, isNull);
+    expect(findValidateScoresButtonWidget($).onPressed, isNull);
   });
   patrolWidgetTest("should create page with initial selected player", (
     $,
@@ -65,9 +63,7 @@ void main() {
 
     await $.pumpWidget(_createPage($, contractValues: contract));
 
-    final validateButton =
-        ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
-    expect(validateButton.onPressed, isNotNull);
+    expect(findValidateScoresButtonWidget($).onPressed, isNotNull);
   });
   for (var changeSelectedPlayer in [true, false]) {
     patrolWidgetTest(
@@ -84,7 +80,7 @@ void main() {
           },
         );
 
-        await $.pumpWidget(_createPage($, mockPlayGame: mockPlayGame));
+      await $.pumpWidget(_createPage($, mockPlayGame: mockPlayGame));
 
         if (changeSelectedPlayer) {
           await $(ElevatedButtonCustomColor).at(0).tap();

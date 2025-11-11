@@ -46,7 +46,7 @@ void main() {
         await $.pumpWidget(_createPage());
 
         expect($("0"), findsNWidgets(nbPlayersByDefault));
-        expect(_findValidateScoresButtonWidget($).onPressed, isNull);
+        expect(findValidateScoresButtonWidget($).onPressed, isNull);
       },
     );
     patrolWidgetTest("should disable validation if items are withdrawn", (
@@ -57,12 +57,12 @@ void main() {
       for (var i = 0; i < 4; i++) {
         await $(ElevatedButtonCustomColor).containing($(Icons.add)).at(0).tap();
       }
-      expect(_findValidateScoresButtonWidget($).onPressed, isNotNull);
+      expect(findValidateScoresButtonWidget($).onPressed, isNotNull);
 
       await $(
         ElevatedButtonCustomColor,
       ).containing($(Icons.remove)).at(0).tap();
-      expect(_findValidateScoresButtonWidget($).onPressed, isNull);
+      expect(findValidateScoresButtonWidget($).onPressed, isNull);
     });
     patrolWidgetTest("should not go bellow zero", ($) async {
       await $.pumpWidget(_createPage());
@@ -134,10 +134,6 @@ void main() {
       );
     }
   });
-}
-
-ElevatedButton _findValidateScoresButtonWidget(PatrolTester $) {
-  return $.tester.firstWidget(findValidateScoresButton($));
 }
 
 Widget _createPage({

@@ -124,6 +124,10 @@ PatrolFinder findValidateScoresButton(PatrolTester $) {
   return $(ElevatedButtonFullWidth).containing("Valider les scores");
 }
 
+ElevatedButton findValidateScoresButtonWidget(PatrolTester $) {
+  return $.tester.firstWidget(findValidateScoresButton($));
+}
+
 /// Mocks a storage with some active contracts
 void mockActiveContracts(
   MyStorage mockStorage, [

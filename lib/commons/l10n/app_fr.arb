@@ -132,7 +132,15 @@
   "delete": "Supprimer",
   "deletePlayer": "Supprimer le joueur",
   "domino": "Réussite",
-  "dominoScoreSubtitle": "Quel est l'ordre des joueurs ?",
+  "dominoScoreSubtitle": "Qui a fini {rank} ?",
+  "@dominoScoreSubtitle": {
+    "placeholders": {
+      "rank": {
+        "type": "String",
+        "example": "3ème"
+      }
+    }
+  },
   "endGame": "Fin de partie",
   "english": "Anglais",
   "errorAddPoints": "Ajout de points impossible",

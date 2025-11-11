@@ -48,7 +48,7 @@
   "delete": "Delete",
   "deletePlayer": "Delete player",
   "domino": "Domino",
-  "dominoScoreSubtitle": "What is the order of the players?",
+  "dominoScoreSubtitle": "Who finished {rank}?",
   "endGame": "End of game",
   "english": "English",
   "errorAddPoints": "Adding points impossible",

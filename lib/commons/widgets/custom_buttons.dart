@@ -161,21 +161,34 @@ class ElevatedButtonWithIndicator extends StatelessWidget {
   /// The function to call on button's pressed
   final Function() onPressed;
 
-  /// The indicator to display on top off the button
-  final Widget indicator;
+  /// The indicator to display on top off the button. Optional so that in a list with and with indicators, all the buttons have the same size
+  final Widget? indicator;
+
+  /// The color of border and text for the button (follows theme's color by default)
+  final MyThemeColors? color;
 
   const ElevatedButtonWithIndicator({
     super.key,
     required this.text,
     required this.onPressed,
     required this.indicator,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    return MergeSemantics(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 8, right: 8),
+    ButtonStyle? buttonStyle;
+    if (color != null) {
+      final themeColor = Theme.of(context).colorScheme.convertMyColor(color!);
+      buttonStyle = ElevatedButton.styleFrom(
+        side: BorderSide(color: themeColor, width: 2),
+        foregroundColor: themeColor,
+        iconColor: themeColor,
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.only(right: 8, bottom: 8),
+      child: MergeSemantics(
         child: GestureDetector(
           onTap: onPressed,
           child: Stack(
@@ -185,9 +198,11 @@ class ElevatedButtonWithIndicator extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: onPressed,
+                style: buttonStyle,
                 child: Text(text, textAlign: TextAlign.center),
               ),
-              Positioned(right: -8, bottom: -8, child: indicator),
+              if (indicator != null)
+                Positioned(right: -8, bottom: -8, child: indicator!),
             ],
           ),
         ),
