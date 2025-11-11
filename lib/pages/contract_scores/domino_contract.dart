@@ -120,6 +120,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
                 min(_getFirstMissingRank() + 1, players.length),
               ),
             ),
+            backgroundColor: ContractsInfo.domino.color,
           ),
           _buildFields(players),
         ],

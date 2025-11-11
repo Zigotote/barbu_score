@@ -37,18 +37,20 @@ class RulesButton extends ConsumerWidget {
             builder: (_, controller) => SingleChildScrollView(
               controller: controller,
               child: Column(
-                spacing: 8,
+                spacing: 16,
                 children: [
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(28.0),
                       ),
-                      color: Theme.of(context).colorScheme
-                          .convertMyColor(contract.color)
-                          .withValues(alpha: 0.5),
+                      color: Theme.of(context).colorScheme.convertMyColor(
+                        contract.color,
+                        isBackgroundColor: true,
+                      ),
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
                           width: double.infinity,
@@ -59,8 +61,9 @@ class RulesButton extends ConsumerWidget {
                                 width: 32,
                                 height: 4,
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.onSurface
-                                      .withValues(alpha: 0.6),
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                               ),
@@ -81,13 +84,13 @@ class RulesButton extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        AppBar(
-                          backgroundColor: Colors.transparent,
-                          automaticallyImplyLeading: false,
-                          title: Text(
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                          child: Text(
                             context.l10n.contractRulesTitle(
                               context.l10n.contractName(contract),
                             ),
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
                       ],

@@ -1,5 +1,4 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -82,16 +81,7 @@ class SubContractPage extends ConsumerWidget {
       content: Column(
         spacing: 24,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(28.0)),
-              color: Theme.of(context).colorScheme
-                  .convertMyColor(contract.color)
-                  .withValues(alpha: 0.5),
-            ),
-            padding: EdgeInsets.all(8),
-            child: MySubtitle(subtitle),
-          ),
+          MySubtitle(subtitle, backgroundColor: contract.color),
           child,
         ],
       ),

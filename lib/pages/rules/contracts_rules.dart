@@ -54,9 +54,10 @@ class ContractsRules extends ConsumerWidget {
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(20),
                         ),
-                        color: Theme.of(context).colorScheme
-                            .convertMyColor(contract.color)
-                            .withValues(alpha: 0.5),
+                        color: Theme.of(context).colorScheme.convertMyColor(
+                          contract.color,
+                          isBackgroundColor: true,
+                        ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
