@@ -14,7 +14,6 @@ import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils/french_material_app.dart';
-import '../../utils/test_with_screenshot.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
@@ -51,7 +50,7 @@ void main() {
     expect(findValidateScoresButtonWidget($).onPressed, isNull);
   });
 
-  patrolWidgetTestScreenshot("should rank players and validate", ($) async {
+  patrolWidgetTest("should rank players and validate", ($) async {
     final mockPlayGame = mockPlayGameNotifier();
     final game = mockPlayGame.game;
     final expectedContract = DominoContractModel(

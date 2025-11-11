@@ -31,6 +31,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
   /// The ordered list of players
   Map<String, int> orderedPlayers = {};
 
+  /// Builds the grid of players to order
   Widget _buildFields(List<Player> players) {
     final indicatorSize = MediaQuery.of(context).textScaler.scale(40);
     return MyGrid(
@@ -46,7 +47,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
             if (isOrdered) {
               setState(() => orderedPlayers.remove(player.name));
             } else {
-              int firstMissingRank = getFirstMissingRank();
+              int firstMissingRank = _getFirstMissingRank();
               setState(() => orderedPlayers[player.name] = firstMissingRank);
             }
           },
@@ -78,7 +79,8 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     );
   }
 
-  int getFirstMissingRank() {
+  /// Returns the first missing rank in player's list
+  int _getFirstMissingRank() {
     for (int rank = 0; rank < orderedPlayers.length; rank++) {
       if (!orderedPlayers.containsValue(rank)) {
         return rank;
@@ -115,7 +117,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
           MySubtitle(
             context.l10n.dominoScoreSubtitle(
               context.l10n.ordinalNumber(
-                min(getFirstMissingRank() + 1, players.length),
+                min(_getFirstMissingRank() + 1, players.length),
               ),
             ),
           ),
