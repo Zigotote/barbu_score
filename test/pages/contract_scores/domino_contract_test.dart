@@ -14,6 +14,7 @@ import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../../utils/french_material_app.dart';
+import '../../utils/test_with_screenshot.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
@@ -50,7 +51,7 @@ void main() {
     expect(findValidateScoresButtonWidget($).onPressed, isNull);
   });
 
-  patrolWidgetTest("should rank players and validate", ($) async {
+  patrolWidgetTestScreenshot("should rank players and validate", ($) async {
     final mockPlayGame = mockPlayGameNotifier();
     final game = mockPlayGame.game;
     final expectedContract = DominoContractModel(
@@ -58,7 +59,7 @@ void main() {
         for (var (index, player) in game.players.indexed) player.name: index,
       },
     );
-    await $.pumpWidget(_createPage());
+    await $.pumpWidget(_createPage(mockPlayGame));
 
     for (var playerRank = 0; playerRank < game.players.length; playerRank++) {
       await $(ElevatedButtonWithIndicator).at(playerRank).tap();
@@ -69,6 +70,40 @@ void main() {
         findsOneWidget,
       );
     }
+    expect($("Qui a fini 4ème ?"), findsOneWidget);
+    await findValidateScoresButton($).tap();
+
+    expect($(ChooseContract), findsOneWidget);
+    verify(mockPlayGame.finishContract(expectedContract));
+    verify(mockPlayGame.nextPlayer());
+  });
+
+  patrolWidgetTest("should modify players rank and validate", ($) async {
+    final mockPlayGame = mockPlayGameNotifier(nbPlayers: 4);
+    final game = mockPlayGame.game;
+    final expectedContract = DominoContractModel(
+      rankOfPlayer: {
+        defaultPlayerNames[0]: 0,
+        defaultPlayerNames[1]: 3,
+        defaultPlayerNames[2]: 2,
+        defaultPlayerNames[3]: 1,
+      },
+    );
+    await $.pumpWidget(_createPage(mockPlayGame));
+
+    for (var playerRank = 0; playerRank < game.players.length; playerRank++) {
+      await $(ElevatedButtonWithIndicator).at(playerRank).tap();
+    }
+
+    // Remove 2 players to invert theme
+    await $(ElevatedButtonWithIndicator).at(1).tap();
+    await $(ElevatedButtonWithIndicator).at(3).tap();
+    expect($("Qui a fini 2ème ?"), findsOneWidget);
+
+    // Set 2 players places
+    await $(ElevatedButtonWithIndicator).at(3).tap();
+    await $(ElevatedButtonWithIndicator).at(1).tap();
+
     await findValidateScoresButton($).tap();
 
     expect($(ChooseContract), findsOneWidget);
