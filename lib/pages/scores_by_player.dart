@@ -68,6 +68,7 @@ class ScoresByPlayer extends ConsumerWidget {
           padding: MyDefaultPage.appPadding,
           child: Column(
             mainAxisSize: MainAxisSize.max,
+            spacing: 24,
             children: [
               MySubtitle(context.l10n.contractsOf(playerName)),
               Expanded(

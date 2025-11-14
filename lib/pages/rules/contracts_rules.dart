@@ -51,13 +51,13 @@ class ContractsRules extends ConsumerWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(8),
-                          topLeft: Radius.circular(8),
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(20),
                         ),
-                        color: Theme.of(context).colorScheme
-                            .convertMyColor(contract.color)
-                            .withValues(alpha: 0.5),
+                        color: Theme.of(context).colorScheme.convertMyColor(
+                          contract.color,
+                          isBackgroundColor: true,
+                        ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
