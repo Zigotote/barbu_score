@@ -57,25 +57,20 @@ class MyThemes {
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
           padding: const WidgetStatePropertyAll(EdgeInsets.zero),
-          backgroundColor:
-              WidgetStatePropertyAll(baseTheme.scaffoldBackgroundColor),
+          backgroundColor: WidgetStatePropertyAll(
+            baseTheme.scaffoldBackgroundColor,
+          ),
           foregroundColor: WidgetStatePropertyAll(onSurfaceColor),
           overlayColor: WidgetStatePropertyAll(grey),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 1,
-            color: onSurfaceColor,
-          ),
+          borderSide: BorderSide(width: 1, color: onSurfaceColor),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 2,
-            color: onSurfaceColor,
-          ),
+          borderSide: BorderSide(width: 2, color: onSurfaceColor),
           borderRadius: BorderRadius.circular(10),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
@@ -113,8 +108,9 @@ class MyThemes {
         }),
       ),
       snackBarTheme: SnackBarThemeData(
-        backgroundColor:
-            baseTheme.scaffoldBackgroundColor.withValues(alpha: 0.8),
+        backgroundColor: baseTheme.scaffoldBackgroundColor.withValues(
+          alpha: 0.8,
+        ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
@@ -162,17 +158,18 @@ class MyThemes {
   }) {
     final colorScheme = theme.colorScheme;
     return ButtonStyle(
-      foregroundColor: WidgetStateProperty.resolveWith<Color>(
-        (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return colorScheme.disabled;
-          }
-          return colorScheme.onSurface;
-        },
-      ),
+      foregroundColor: WidgetStateProperty.resolveWith<Color>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.disabled)) {
+          return colorScheme.disabled;
+        }
+        return colorScheme.onSurface;
+      }),
       textStyle: WidgetStatePropertyAll(textStyle),
-      iconColor:
-          WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+      iconColor: WidgetStateProperty.resolveWith<Color>((
+        Set<WidgetState> states,
+      ) {
         if (states.contains(WidgetState.disabled)) {
           return colorScheme.disabled;
         }
@@ -193,8 +190,9 @@ class MyThemes {
           borderRadius: BorderRadius.all(Radius.elliptical(8, 5)),
         ),
       ),
-      side: WidgetStateProperty.resolveWith<BorderSide>(
-          (Set<WidgetState> states) {
+      side: WidgetStateProperty.resolveWith<BorderSide>((
+        Set<WidgetState> states,
+      ) {
         BorderSide border = BorderSide(
           style: BorderStyle.solid,
           width: 2,
@@ -225,7 +223,10 @@ extension CustomThemeValues on ColorScheme {
   Color get success =>
       brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
 
-  Color convertMyColor(MyThemeColors color) {
-    return brightness == Brightness.dark ? color.dark : color.light;
+  Color convertMyColor(MyThemeColors color, {bool isBackgroundColor = false}) {
+    final double alpha = isBackgroundColor ? 0.5 : 1;
+    return brightness == Brightness.dark
+        ? color.dark.withValues(alpha: alpha)
+        : color.light.withValues(alpha: alpha);
   }
 }

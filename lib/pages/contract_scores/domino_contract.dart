@@ -112,7 +112,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
         trailing: RulesButton(ContractsInfo.domino),
       ),
       content: Column(
-        spacing: 8,
+        spacing: 24,
         children: [
           MySubtitle(
             context.l10n.dominoScoreSubtitle(
@@ -120,6 +120,7 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
                 min(_getFirstMissingRank() + 1, players.length),
               ),
             ),
+            backgroundColor: ContractsInfo.domino.color,
           ),
           _buildFields(players),
         ],
