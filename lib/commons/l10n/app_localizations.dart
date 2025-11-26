@@ -230,6 +230,12 @@ abstract class AppLocalizations {
   /// **'Avatar'**
   String get avatar;
 
+  /// No description provided for @back.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retour'**
+  String get back;
+
   /// No description provided for @barbu.
   ///
   /// In fr, this message translates to:

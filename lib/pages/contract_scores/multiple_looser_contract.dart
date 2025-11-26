@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/commons/widgets/custom_buttons.dart';
+import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
@@ -9,6 +10,7 @@ import '../../commons/models/player.dart';
 import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
+import '../../commons/widgets/colored_container.dart';
 import 'widgets/sub_contract_page.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
@@ -94,36 +96,51 @@ class _MultipleLooserContractPageState
   }
 
   Widget _buildFields() {
-    return Wrap(
-      spacing: 48,
-      runSpacing: 24,
+    final int nbColumns =
+        (MediaQuery.sizeOf(context).width /
+                MediaQuery.textScalerOf(context).scale(500))
+            .ceil();
+    return LayoutGrid(
+      columnSizes: List.filled(nbColumns, 1.fr),
+      rowSizes: List.filled((_players.length / nbColumns).ceil(), auto),
+      rowGap: 16,
+      columnGap: 16,
       children: _players
           .map(
-            (player) => Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // TODO Océane réfléchir pour que ça marche bien en mode paysage, et pour que les +/- ne se retrouvent pas trop loin du nom du joueur
-                Text(player.name),
-                SizedBox(width: 16),
-                IconButtonCustomColor(
-                  icon: Icons.remove,
-                  onPressed: () => _decreaseScore(player),
-                  tooltip: context.l10n.withdrawItem(_itemName),
-                  color: player.color,
-                ),
-                Container(
-                  width: MediaQuery.textScalerOf(context).scale(20),
-                  alignment: Alignment.center,
-                  child: Text(_itemsByPlayer[player.name].toString()),
-                ),
-                IconButtonCustomColor(
-                  icon: Icons.add,
-                  onPressed: () => _increaseScore(player),
-                  tooltip: context.l10n.addItem(_itemName),
-                  color: player.color,
-                ),
-              ],
+            (player) => ColoredContainer(
+              color: player.color,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(child: Text(player.name)),
+                  SizedBox(width: 16),
+                  IconButton(
+                    icon: Icon(
+                      Icons.remove,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.convertMyColor(player.color),
+                    ),
+                    onPressed: () => _decreaseScore(player),
+                    tooltip: context.l10n.withdrawItem(_itemName),
+                  ),
+                  Container(
+                    width: MediaQuery.textScalerOf(context).scale(20),
+                    alignment: Alignment.center,
+                    child: Text(_itemsByPlayer[player.name].toString()),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.convertMyColor(player.color),
+                    ),
+                    onPressed: () => _increaseScore(player),
+                    tooltip: context.l10n.addItem(_itemName),
+                  ),
+                ],
+              ),
             ),
           )
           .toList(),

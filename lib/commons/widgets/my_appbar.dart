@@ -19,44 +19,45 @@ class MyAppBar extends AppBar {
     Widget? trailing,
     this.tabs,
   }) : super(
-          toolbarHeight: _calculateToolbarHeight(context, title),
-          automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          centerTitle: true,
-          forceMaterialTransparency: true,
-          elevation: 0,
-          flexibleSpace: SafeArea(
-            child: Container(
-              alignment: Alignment.center,
-              height: _calculateToolbarHeight(context, title),
-              child: Divider(
-                thickness: 1,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-          ),
-          leading: hasLeading && context.canPop()
-              ? IconButton.outlined(
-                  tooltip: "Retour",
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    try {
-                      context.pop();
-                    } catch (_) {
-                      context.push(Routes.home);
-                    }
-                  })
-              : null,
-          title: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Semantics(header: true, child: title),
-          ),
-          actions: trailing != null ? [trailing] : null,
-          bottom: tabs == null ? null : MyTabBar(tabs),
-        );
+         toolbarHeight: _calculateToolbarHeight(context, title),
+         automaticallyImplyLeading: false,
+         titleSpacing: 0,
+         centerTitle: true,
+         forceMaterialTransparency: true,
+         elevation: 0,
+         flexibleSpace: SafeArea(
+           child: Container(
+             alignment: Alignment.center,
+             height: _calculateToolbarHeight(context, title),
+             child: Divider(
+               thickness: 1,
+               color: Theme.of(context).colorScheme.onSurface,
+             ),
+           ),
+         ),
+         leading: hasLeading && context.canPop()
+             ? IconButton.outlined(
+                 tooltip: context.l10n.back,
+                 icon: const Icon(Icons.arrow_back),
+                 onPressed: () {
+                   try {
+                     context.pop();
+                   } catch (_) {
+                     context.push(Routes.home);
+                   }
+                 },
+               )
+             : null,
+         title: Container(
+           decoration: BoxDecoration(
+             color: Theme.of(context).scaffoldBackgroundColor,
+           ),
+           padding: const EdgeInsets.symmetric(horizontal: 16),
+           child: Semantics(header: true, child: title),
+         ),
+         actions: trailing != null ? [trailing] : null,
+         bottom: tabs == null ? null : MyTabBar(tabs),
+       );
 
   static double _calculateToolbarHeight(BuildContext context, Widget title) {
     return (Theme.of(context).textTheme.titleLarge?.fontSize ?? 1) *
@@ -71,23 +72,19 @@ class MyPlayerAppBar extends MyAppBar {
     required super.context,
     super.trailing,
   }) : super(
-          Row(
-            spacing: 8,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PlayerIcon(
-                image: player.image,
-                color: player.color,
-                size: 60,
-              ),
-              Flexible(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text(context.l10n.playerTurn), Text(player.name)],
-                ),
-              )
-            ],
-          ),
-        );
+         Row(
+           spacing: 8,
+           mainAxisSize: MainAxisSize.min,
+           children: [
+             PlayerIcon(image: player.image, color: player.color, size: 60),
+             Flexible(
+               child: Column(
+                 mainAxisSize: MainAxisSize.min,
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [Text(context.l10n.playerTurn), Text(player.name)],
+               ),
+             ),
+           ],
+         ),
+       );
 }

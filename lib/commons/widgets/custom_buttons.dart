@@ -153,38 +153,6 @@ class ElevatedButtonCustomColor extends StatelessWidget {
   }
 }
 
-class IconButtonCustomColor extends StatelessWidget {
-  final IconData icon;
-
-  final String tooltip;
-
-  final VoidCallback? onPressed;
-
-  final MyThemeColors color;
-
-  const IconButtonCustomColor({
-    super.key,
-    required this.color,
-    required this.icon,
-    this.onPressed,
-    required this.tooltip,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final buttonColor = Theme.of(context).colorScheme.convertMyColor(color);
-    return IconButton.outlined(
-      onPressed: onPressed,
-      icon: Icon(icon),
-      tooltip: tooltip,
-      style: ButtonStyle(
-        side: WidgetStatePropertyAll(BorderSide(color: buttonColor)),
-        foregroundColor: WidgetStatePropertyAll(buttonColor),
-      ),
-    );
-  }
-}
-
 /// A button with an indicator on top
 class ElevatedButtonWithIndicator extends StatelessWidget {
   /// The text of the button

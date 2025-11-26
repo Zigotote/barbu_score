@@ -93,6 +93,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get avatar => 'Avatar';
 
   @override
+  String get back => 'Back';
+
+  @override
   String get barbu => 'Barbu';
 
   @override
