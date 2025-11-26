@@ -34,7 +34,7 @@ class MyAlertDialog extends AlertDialog {
   }) : super(
          title: Text(title),
          content: Text(content),
-         actionsOverflowButtonSpacing: 16,
+         actionsOverflowButtonSpacing: 8,
          actions: actions
              .map(
                (action) => ElevatedButtonCustomColor(

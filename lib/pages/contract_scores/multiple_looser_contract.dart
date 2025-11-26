@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,8 +9,6 @@ import '../../commons/models/player.dart';
 import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
-import '../../commons/widgets/custom_buttons.dart';
-import '../../commons/widgets/my_list_layouts.dart';
 import 'widgets/sub_contract_page.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
@@ -20,7 +19,8 @@ class MultipleLooserContractPage extends ConsumerStatefulWidget {
   /// The saved values for this contract, if it has already been filled
   final ContractWithPointsModel? contractModel;
 
-  const MultipleLooserContractPage(this.contract, {
+  const MultipleLooserContractPage(
+    this.contract, {
     super.key,
     this.contractModel,
   });
@@ -44,19 +44,17 @@ class _MultipleLooserContractPageState
   @override
   void initState() {
     super.initState();
-    _players = ref
-        .read(playGameProvider)
-        .players;
+    _players = ref.read(playGameProvider).players;
     if (widget.contractModel != null) {
       contractModel = widget.contractModel!;
       _itemsByPlayer = contractModel.itemsByPlayer;
     } else {
       contractModel =
-      ref
-          .read(contractsManagerProvider)
-          .getContractManager(widget.contract)
-          .model
-      as ContractWithPointsModel;
+          ref
+                  .read(contractsManagerProvider)
+                  .getContractManager(widget.contract)
+                  .model
+              as ContractWithPointsModel;
       _itemsByPlayer = {for (var player in _players) player.name: 0};
     }
   }
@@ -96,36 +94,39 @@ class _MultipleLooserContractPageState
   }
 
   Widget _buildFields() {
-    return MyList(
-      itemCount: _itemsByPlayer.length,
-      itemBuilder: (_, index) {
-        Player player = _players[index];
-        return Row(
-          spacing: 16,
-          children: [
-            ElevatedButtonCustomColor.player(
-              icon: Icons.remove,
-              color: player.color,
-              onPressed: () => _decreaseScore(player),
-              semantics: context.l10n.withdrawItem(_itemName),
+    return Wrap(
+      spacing: 48,
+      runSpacing: 24,
+      children: _players
+          .map(
+            (player) => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // TODO Océane réfléchir pour que ça marche bien en mode paysage, et pour que les +/- ne se retrouvent pas trop loin du nom du joueur
+                Text(player.name),
+                SizedBox(width: 16),
+                IconButtonCustomColor(
+                  icon: Icons.remove,
+                  onPressed: () => _decreaseScore(player),
+                  tooltip: context.l10n.withdrawItem(_itemName),
+                  color: player.color,
+                ),
+                Container(
+                  width: MediaQuery.textScalerOf(context).scale(20),
+                  alignment: Alignment.center,
+                  child: Text(_itemsByPlayer[player.name].toString()),
+                ),
+                IconButtonCustomColor(
+                  icon: Icons.add,
+                  onPressed: () => _increaseScore(player),
+                  tooltip: context.l10n.addItem(_itemName),
+                  color: player.color,
+                ),
+              ],
             ),
-            Expanded(
-              child: Column(
-                children: [
-                  Text(player.name, textAlign: TextAlign.center),
-                  Text(_itemsByPlayer[player.name].toString()),
-                ],
-              ),
-            ),
-            ElevatedButtonCustomColor.player(
-              icon: Icons.add,
-              color: player.color,
-              onPressed: () => _increaseScore(player),
-              semantics: context.l10n.addItem(_itemName),
-            ),
-          ],
-        );
-      },
+          )
+          .toList(),
     );
   }
 

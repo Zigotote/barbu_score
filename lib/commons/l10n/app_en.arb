@@ -7,7 +7,7 @@
   "accept": "Yes",
   "ace": "ace",
   "activateContract": "Activate contract",
-  "addItem": "Add {item}",
+  "addItem": "Add one {item}",
   "alertCannotActivateSalad": "Cannot activate",
   "alertCannotActivateSaladDetails": "The salad must have at least one contract to be played to be activated.",
   "alertContractPlayed": "The contract has already been played",
@@ -151,6 +151,6 @@
   "validate": "Validate",
   "validateScores": "Validate scores",
   "whoWonItem": "Who won the {item}?",
-  "withdrawItem": "Withdraw {item}",
+  "withdrawItem": "Withdraw one {item}",
   "worstEnnemy": "Worst ennemy"
 }

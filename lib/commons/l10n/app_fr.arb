@@ -7,7 +7,7 @@
   "accept": "Oui",
   "ace": "as",
   "activateContract": "Activer le contrat",
-  "addItem": "Ajouter {item}",
+  "addItem": "Ajouter {item, select, dame{une} other{un}} {item}",
   "@addItem": {
     "placeholders": {
       "item": {
@@ -443,7 +443,7 @@
       }
     }
   },
-  "withdrawItem": "Retirer {item}",
+  "withdrawItem": "Retirer {item, select, dame{une} other{un}} {item}",
   "@withdrawItem": {
     "placeholders": {
       "item": {

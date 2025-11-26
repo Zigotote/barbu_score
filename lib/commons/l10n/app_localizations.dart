@@ -149,7 +149,7 @@ abstract class AppLocalizations {
   /// No description provided for @addItem.
   ///
   /// In fr, this message translates to:
-  /// **'Ajouter {item}'**
+  /// **'Ajouter {item, select, dame{une} other{un}} {item}'**
   String addItem(String item);
 
   /// No description provided for @alertCannotActivateSalad.
@@ -1013,7 +1013,7 @@ abstract class AppLocalizations {
   /// No description provided for @withdrawItem.
   ///
   /// In fr, this message translates to:
-  /// **'Retirer {item}'**
+  /// **'Retirer {item, select, dame{une} other{un}} {item}'**
   String withdrawItem(String item);
 
   /// No description provided for @worstEnnemy.
