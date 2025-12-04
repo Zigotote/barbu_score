@@ -3,7 +3,6 @@ import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
-import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
@@ -55,21 +54,17 @@ void main() {
       await $.pumpWidget(_createPage());
 
       for (var i = 0; i < 4; i++) {
-        await $(ElevatedButtonCustomColor).containing($(Icons.add)).at(0).tap();
+        await $(IconButton).containing($(Icons.add)).at(0).tap();
       }
       expect(findValidateScoresButtonWidget($).onPressed, isNotNull);
 
-      await $(
-        ElevatedButtonCustomColor,
-      ).containing($(Icons.remove)).at(0).tap();
+      await $(IconButton).containing($(Icons.remove)).at(0).tap();
       expect(findValidateScoresButtonWidget($).onPressed, isNull);
     });
     patrolWidgetTest("should not go bellow zero", ($) async {
       await $.pumpWidget(_createPage());
 
-      await $(
-        ElevatedButtonCustomColor,
-      ).containing($(Icons.remove)).at(0).tap();
+      await $(IconButton).containing($(Icons.remove)).at(0).tap();
       expect($("0"), findsNWidgets(nbPlayersByDefault));
     });
   });
@@ -116,7 +111,7 @@ void main() {
 
           for (var i = 0; i < (tooManyTap ? nbItems + 1 : nbItems); i++) {
             await $(
-              ElevatedButtonCustomColor,
+              IconButton,
             ).containing($(Icons.add)).at(indexPlayerWithItems).tap();
           }
           expect(

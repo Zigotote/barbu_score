@@ -194,7 +194,7 @@ void main() {
           await $(Key(testData.contract.name)).tap();
           expect($(testData.expectedPage), findsOneWidget);
 
-          await $(IconButton).tap();
+          await $(IconButton).containing($(Icons.arrow_back)).tap();
           expect($(ChooseContract), findsOneWidget);
           expect(
             $(
