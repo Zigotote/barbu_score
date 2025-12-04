@@ -36,7 +36,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String addItem(String item) {
-    return 'Add $item';
+    return 'Add one $item';
   }
 
   @override
@@ -91,6 +91,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get avatar => 'Avatar';
+
+  @override
+  String get back => 'Back';
 
   @override
   String get barbu => 'Barbu';
@@ -572,7 +575,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String withdrawItem(String item) {
-    return 'Withdraw $item';
+    return 'Withdraw one $item';
   }
 
   @override

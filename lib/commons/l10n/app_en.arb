@@ -7,7 +7,7 @@
   "accept": "Yes",
   "ace": "ace",
   "activateContract": "Activate contract",
-  "addItem": "Add {item}",
+  "addItem": "Add one {item}",
   "alertCannotActivateSalad": "Cannot activate",
   "alertCannotActivateSaladDetails": "The salad must have at least one contract to be played to be activated.",
   "alertContractPlayed": "The contract has already been played",
@@ -21,6 +21,7 @@
   "askForFeedback": "Have you detected a problem or have a suggestion for improvement? You can report it to us by email:",
   "availableColor": "Available color",
   "avatar": "Avatar",
+  "back": "Back",
   "barbu": "Barbu",
   "bestFriend": "Best friend",
   "bug": "A bug",
@@ -151,6 +152,6 @@
   "validate": "Validate",
   "validateScores": "Validate scores",
   "whoWonItem": "Who won the {item}?",
-  "withdrawItem": "Withdraw {item}",
+  "withdrawItem": "Withdraw one {item}",
   "worstEnnemy": "Worst ennemy"
 }

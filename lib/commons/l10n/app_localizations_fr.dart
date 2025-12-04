@@ -36,7 +36,8 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String addItem(String item) {
-    return 'Ajouter $item';
+    String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
+    return 'Ajouter $_temp0 $item';
   }
 
   @override
@@ -91,6 +92,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get avatar => 'Avatar';
+
+  @override
+  String get back => 'Retour';
 
   @override
   String get barbu => 'Barbu';
@@ -573,7 +577,8 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String withdrawItem(String item) {
-    return 'Retirer $item';
+    String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
+    return 'Retirer $_temp0 $item';
   }
 
   @override

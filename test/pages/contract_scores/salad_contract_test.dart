@@ -210,11 +210,9 @@ void main() {
     // Modify contract
     await $(Key(contract.name)).tap();
     for (var i = 0; i < expectedSubContract.nbItems; i++) {
+      await $(IconButton).containing($(Icons.remove)).at(0).tap();
       await $(
-        ElevatedButtonCustomColor,
-      ).containing($(Icons.remove)).at(0).tap();
-      await $(
-        ElevatedButtonCustomColor,
+        IconButton,
       ).containing($(Icons.add)).at(playerSelectedAfterModify).tap();
     }
     await findValidateScoresButton($).tap();
@@ -291,9 +289,7 @@ Future<ContractWithPointsModel> _fillSubContract(
   } else {
     expect($(MultipleLooserContractPage), findsOneWidget);
     for (var i = 0; i < contractModel.nbItems; i++) {
-      await $(
-        ElevatedButtonCustomColor,
-      ).containing($(Icons.add)).at(playerWithItems).tap();
+      await $(IconButton).containing($(Icons.add)).at(playerWithItems).tap();
     }
   }
   await $(findValidateScoresButton($)).tap();

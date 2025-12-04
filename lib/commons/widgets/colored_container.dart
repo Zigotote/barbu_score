@@ -35,13 +35,9 @@ class ColoredContainer extends StatelessWidget {
       height: height,
       width: width,
       alignment: alignment,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(10),
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(
           color: Theme.of(context).colorScheme.convertMyColor(color),
           width: 2,
