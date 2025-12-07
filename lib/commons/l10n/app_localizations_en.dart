@@ -435,7 +435,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportBugMail =>
-      'Hello,\n\nI’d like to report a bug I encountered in the application. Please find the details below:\n\n- Bug description (describe what happened, what you were doing when the issue occurred, etc.): \n\n- Steps to reproduce (list the steps needed to make the issue happen again):\n\n- Expected behavior (describe what should have happened instead)';
+      'Hello,\n\nI’d like to report a bug I encountered in the application. Please find the details below:\n\n- Bug description (describe what happened, what you were doing when the issue occurred, etc.): \n\n- Steps to reproduce (list the steps needed to make the issue happen again):\n\n- Expected behavior (describe what should have happened instead)';
 
   @override
   String get requestFeature => 'Request a feature';
@@ -454,7 +454,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesBarbuInSalad(int points) {
-    return '- the king of hearts (Barbu) is worth $points points';
+    return '- the king of hearts (Barbu) is worth $points points';
   }
 
   @override
@@ -473,7 +473,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesNoHeartsInSalad(int points) {
-    return '- each heart is worth $points points';
+    return '- each heart is worth $points points';
   }
 
   @override
@@ -483,7 +483,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesNoQueensInSalad(int points) {
-    return '- each queen is worth $points points';
+    return '- each queen is worth $points points';
   }
 
   @override
@@ -493,7 +493,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesNoLastTrickInSalad(int points) {
-    return '- the last trick is worth $points points';
+    return '- the last trick is worth $points points';
   }
 
   @override
@@ -503,7 +503,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesNoTricksInSalad(int points) {
-    return '- each trick is worth $points points';
+    return '- each trick is worth $points points';
   }
 
   @override

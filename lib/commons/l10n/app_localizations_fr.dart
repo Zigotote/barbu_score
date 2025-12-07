@@ -20,10 +20,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get aboutTheApp =>
-      'L\'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs de Barbu !';
+      'L\'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs de Barbu !';
 
   @override
-  String get aboutTheTeam => 'L\'équipe est composée de : ';
+  String get aboutTheTeam => 'L\'équipe est composée de : ';
 
   @override
   String get accept => 'Oui';
@@ -85,7 +85,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get askForFeedback =>
-      'Vous avez détecté un problème ou avez une suggestion d\'amélioration ? Vous pouvez nous le signaler par mail :';
+      'Vous avez détecté un problème ou avez une suggestion d\'amélioration ? Vous pouvez nous le signaler par mail :';
 
   @override
   String get availableColor => 'Couleur disponible';
@@ -143,7 +143,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String confirmStartGame(String players) {
-    return 'Confirmer la création d\'une nouvelle partie ? Si oui, la partie précédente avec $players sera perdue.';
+    return 'Confirmer la création d\'une nouvelle partie ? Si oui, la partie précédente avec $players sera perdue.';
   }
 
   @override
@@ -153,7 +153,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get contactByMail => 'Contacter par mail';
 
   @override
-  String get contactReason => 'Que souhaitez-vous signaler ?';
+  String get contactReason => 'Que souhaitez-vous signaler ?';
 
   @override
   String get contractPoints => 'Points du contrat';
@@ -198,7 +198,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String dominoScoreSubtitle(String rank) {
-    return 'Qui a fini $rank ?';
+    return 'Qui a fini $rank ?';
   }
 
   @override
@@ -270,7 +270,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get gameSaved => 'Partie sauvegardée';
 
   @override
-  String get go => 'C\'est parti !';
+  String get go => 'C\'est parti !';
 
   @override
   String get goHome => 'Retour à l\'accueil';
@@ -318,7 +318,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String loadPreviousGame(String players) {
-    return 'Reprendre la partie précédente avec $players ?';
+    return 'Reprendre la partie précédente avec $players ?';
   }
 
   @override
@@ -437,7 +437,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get reportBugMail =>
-      'Bonjour,\n\nJe souhaiterai signaler un bug rencontré sur l’application. Voici les détails :\n\n- Description du bug (expliquez ce qu\'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.) :\n\n- Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise) : \n\n- Comportement attendu (ce qui aurait dû se passer) :';
+      'Bonjour,\n\nJe souhaiterai signaler un bug rencontré sur l’application. Voici les détails :\n\n- Description du bug (expliquez ce qu\'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.) :\n\n- Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise) : \n\n- Comportement attendu (ce qui aurait dû se passer) :';
 
   @override
   String get requestFeature => 'Ajouter une amélioration';
@@ -456,7 +456,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesBarbuInSalad(int points) {
-    return '- le roi de coeur (Barbu) vaut $points points';
+    return '- le roi de coeur (Barbu) vaut $points points';
   }
 
   @override
@@ -475,7 +475,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesNoHeartsInSalad(int points) {
-    return '- chaque coeur vaut $points points';
+    return '- chaque coeur vaut $points points';
   }
 
   @override
@@ -485,7 +485,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesNoQueensInSalad(int points) {
-    return '- chaque dame vaut $points points';
+    return '- chaque dame vaut $points points';
   }
 
   @override
@@ -495,7 +495,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesNoLastTrickInSalad(int points) {
-    return '- le dernier pli vaut $points points';
+    return '- le dernier pli vaut $points points';
   }
 
   @override
@@ -505,7 +505,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesNoTricksInSalad(int points) {
-    return '- chaque pli vaut $points points';
+    return '- chaque pli vaut $points points';
   }
 
   @override
@@ -527,7 +527,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get salad => 'Salade';
 
   @override
-  String get saladScoresSubtitle => 'Quel est le score de chaque contrat ?';
+  String get saladScoresSubtitle => 'Quel est le score de chaque contrat ?';
 
   @override
   String get saveAndLeave => 'Sauvegarder et quitter';
@@ -543,7 +543,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String seePreviousGame(String players) {
-    return 'Revoir la partie précédente avec $players ?';
+    return 'Revoir la partie précédente avec $players ?';
   }
 
   @override
@@ -572,7 +572,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String whoWonItem(String item) {
-    return 'Qui a remporté le $item ?';
+    return 'Qui a remporté le $item ?';
   }
 
   @override

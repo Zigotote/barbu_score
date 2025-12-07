@@ -2,8 +2,8 @@
   "about": "A propos",
   "aboutLea": "Léa LOUESDON, créatrice des éléments graphiques",
   "aboutOceane": "Océane GILLARD, chargée du développement de l'application",
-  "aboutTheApp": "L'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs de Barbu !",
-  "aboutTheTeam": "L'équipe est composée de : ",
+  "aboutTheApp": "L'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs de Barbu\u00A0!",
+  "aboutTheTeam": "L'équipe est composée de\u00A0: ",
   "accept": "Oui",
   "ace": "as",
   "activateContract": "Activer le contrat",
@@ -52,7 +52,7 @@
       }
     }
   },
-  "askForFeedback": "Vous avez détecté un problème ou avez une suggestion d'amélioration ? Vous pouvez nous le signaler par mail :",
+  "askForFeedback": "Vous avez détecté un problème ou avez une suggestion d'amélioration\u00A0? Vous pouvez nous le signaler par mail\u00A0:",
   "availableColor": "Couleur disponible",
   "avatar": "Avatar",
   "back": "Retour",
@@ -94,7 +94,7 @@
   "changesSavedDetails": "Les changements ont été sauvegardés et sont effectifs dès maintenant.",
   "close": "Fermer",
   "color": "Couleur",
-  "confirmStartGame": "Confirmer la création d'une nouvelle partie ? Si oui, la partie précédente avec {players} sera perdue.",
+  "confirmStartGame": "Confirmer la création d'une nouvelle partie\u00A0? Si oui, la partie précédente avec {players} sera perdue.",
   "@confirmStartGame": {
     "placeholders": {
       "players": {
@@ -105,7 +105,7 @@
   },
   "contact": "Contact",
   "contactByMail": "Contacter par mail",
-  "contactReason": "Que souhaitez-vous signaler ?",
+  "contactReason": "Que souhaitez-vous signaler\u00A0?",
   "contractPoints": "Points du contrat",
   "contracts": "Contrats",
   "contractsOf": "Contrats de {player}",
@@ -133,7 +133,7 @@
   "delete": "Supprimer",
   "deletePlayer": "Supprimer le joueur",
   "domino": "Réussite",
-  "dominoScoreSubtitle": "Qui a fini {rank} ?",
+  "dominoScoreSubtitle": "Qui a fini {rank}\u00A0?",
   "@dominoScoreSubtitle": {
     "placeholders": {
       "rank": {
@@ -178,7 +178,7 @@
   "gameRound": "Manche de jeu",
   "gameRoundRules": "Distribuer les cartes entre les joueurs\u00a0: chacun doit en avoir 8.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
   "gameSaved": "Partie sauvegardée",
-  "go": "C'est parti !",
+  "go": "C'est parti\u00A0!",
   "goHome": "Retour à l'accueil",
   "heart": "coeur",
   "hintDarkMode": "mode sombre",
@@ -193,7 +193,7 @@
   "language": "Langue",
   "loadGame": "Charger une partie",
   "loadGameIndication": "Sélectionnez \"Charger une partie\" pour la poursuivre.",
-  "loadPreviousGame": "Reprendre la partie précédente avec {players} ?",
+  "loadPreviousGame": "Reprendre la partie précédente avec {players}\u00A0?",
   "@loadPreviousGame": {
     "placeholders": {
       "players": {
@@ -284,7 +284,7 @@
   "refuseLoadGame": "Non, nouvelle partie",
   "refuseStartGame": "Non, reprendre la partie",
   "reportBug": "Signaler un bug",
-  "reportBugMail": "Bonjour,\n\nJe souhaiterai signaler un bug rencontré sur l’application. Voici les détails :\n\n- Description du bug (expliquez ce qu'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.) :\n\n- Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise) : \n\n- Comportement attendu (ce qui aurait dû se passer) :",
+  "reportBugMail": "Bonjour,\n\nJe souhaiterai signaler un bug rencontré sur l’application. Voici les détails\u00A0:\n\n-\u00A0Description du bug (expliquez ce qu'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.)\u00A0:\n\n-\u00A0Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise)\u00A0: \n\n-\u00A0Comportement attendu (ce qui aurait dû se passer)\u00A0:",
   "requestFeature": "Ajouter une amélioration",
   "requestFeatureMail": "Bonjour,\n\nJe souhaiterai proposer une nouvelle fonctionnalité pour l'application, afin de...",
   "rules": "Règles du jeu",
@@ -296,7 +296,7 @@
       }
     }
   },
-  "rulesBarbuInSalad": "- le roi de coeur (Barbu) vaut {points} points",
+  "rulesBarbuInSalad": "-\u00A0le roi de coeur (Barbu) vaut {points} points",
   "@rulesBarbuInSalad": {
     "placeholders": {
       "points": {
@@ -314,7 +314,7 @@
       },
       "points": {
         "type": "String",
-        "example": "- 1er j. : -40 points\n- 2ème j. : -20 points\n- 3ème j. : 20 points\n- 4ème j. : 40 points"
+        "example": "-\u00A01er j. : -40 points\n-\u00A02ème j. : -20 points\n-\u00A03ème j. : 20 points\n-\u00A04ème j. : 40 points"
       }
     }
   },
@@ -326,7 +326,7 @@
       }
     }
   },
-  "rulesNoHeartsInSalad": "- chaque coeur vaut {points} points",
+  "rulesNoHeartsInSalad": "-\u00A0chaque coeur vaut {points} points",
   "@rulesNoHeartsInSalad": {
     "placeholders": {
       "points": {
@@ -342,7 +342,7 @@
       }
     }
   },
-  "rulesNoQueensInSalad": "- chaque dame vaut {points} points",
+  "rulesNoQueensInSalad": "-\u00A0chaque dame vaut {points} points",
   "@rulesNoQueensInSalad": {
     "placeholders": {
       "points": {
@@ -358,7 +358,7 @@
       }
     }
   },
-  "rulesNoLastTrickInSalad": "- le dernier pli vaut {points} points",
+  "rulesNoLastTrickInSalad": "-\u00A0le dernier pli vaut {points} points",
   "@rulesNoLastTrickInSalad": {
     "placeholders": {
       "points": {
@@ -374,7 +374,7 @@
       }
     }
   },
-  "rulesNoTricksInSalad": "- chaque pli vaut {points} points",
+  "rulesNoTricksInSalad": "-\u00A0chaque pli vaut {points} points",
   "@rulesNoTricksInSalad": {
     "placeholders": {
       "points": {
@@ -400,7 +400,7 @@
       },
       "itemWithPoints": {
         "type": "String",
-        "example": "- roi de coeur (vaut 50 points)\n- dame (vaut 10 points)"
+        "example": "-\u00A0roi de coeur (vaut 50 points)\n-\u00A0dame (vaut 10 points)"
       }
     }
   },
@@ -413,12 +413,12 @@
     }
   },
   "salad": "Salade",
-  "saladScoresSubtitle": "Quel est le score de chaque contrat ?",
+  "saladScoresSubtitle": "Quel est le score de chaque contrat\u00A0?",
   "saveAndLeave": "Sauvegarder et quitter",
   "scores": "Scores",
   "scoresByContract": "Scores par contrat",
   "scoresNotValid": "Scores incorrects",
-  "seePreviousGame": "Revoir la partie précédente avec {players} ?",
+  "seePreviousGame": "Revoir la partie précédente avec {players}\u00A0?",
   "@seePreviousGame": {
     "placeholders": {
       "players": {
@@ -435,7 +435,7 @@
   "unfold": "Déplier les choix",
   "validate": "Valider",
   "validateScores": "Valider les scores",
-  "whoWonItem": "Qui a remporté le {item} ?",
+  "whoWonItem": "Qui a remporté le {item}\u00A0?",
   "@whoWonItem": {
     "placeholders": {
       "item": {

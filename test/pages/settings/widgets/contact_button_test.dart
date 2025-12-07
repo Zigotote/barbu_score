@@ -13,7 +13,7 @@ void main() {
 
       await $("Contact").tap();
 
-      expect($("Que souhaitez-vous signaler ?"), findsOneWidget);
+      expect($("Que souhaitez-vous signaler ?"), findsOneWidget);
       await checkAccessibility($.tester);
     },
   );

@@ -31,7 +31,10 @@ void main() {
           points: 5,
           invertScore: true,
         ),
-        textRegex: RegExp(r'.*5.*coeur.*' '$invertScoreRule\$')
+        textRegex: RegExp(
+          r'.*5.*coeur.*'
+          '$invertScoreRule\$',
+        ),
       ),
       (
         desc: "no hearts without invertScores",
@@ -40,7 +43,10 @@ void main() {
           points: 5,
           invertScore: false,
         ),
-        textRegex: RegExp(r'.*5.*coeur.*' '(?<!$invertScoreRule)\$')
+        textRegex: RegExp(
+          r'.*5.*coeur.*'
+          '(?<!$invertScoreRule)\$',
+        ),
       ),
       (
         desc: "no queens with invertScores",
@@ -49,7 +55,10 @@ void main() {
           points: 5,
           invertScore: true,
         ),
-        textRegex: RegExp(r'.*5.*dame.*' '$invertScoreRule\$')
+        textRegex: RegExp(
+          r'.*5.*dame.*'
+          '$invertScoreRule\$',
+        ),
       ),
       (
         desc: "no queens without invertScores",
@@ -58,7 +67,10 @@ void main() {
           points: 5,
           invertScore: false,
         ),
-        textRegex: RegExp(r'.*5.*dame.*' '(?<!$invertScoreRule)\$')
+        textRegex: RegExp(
+          r'.*5.*dame.*'
+          '(?<!$invertScoreRule)\$',
+        ),
       ),
       (
         desc: "no tricks with invertScores",
@@ -67,7 +79,10 @@ void main() {
           points: -5,
           invertScore: true,
         ),
-        textRegex: RegExp(r'.*-5.*pli.*' '$invertScoreRule\$')
+        textRegex: RegExp(
+          r'.*-5.*pli.*'
+          '$invertScoreRule\$',
+        ),
       ),
       (
         desc: "no tricks without invertScores",
@@ -76,7 +91,10 @@ void main() {
           points: -5,
           invertScore: false,
         ),
-        textRegex: RegExp(r'.*-5.*pli.*' '(?<!$invertScoreRule)\$')
+        textRegex: RegExp(
+          r'.*-5.*pli.*'
+          '(?<!$invertScoreRule)\$',
+        ),
       ),
       (
         desc: "no last trick",
@@ -84,7 +102,7 @@ void main() {
           contract: ContractsInfo.noLastTrick,
           points: 10,
         ),
-        textRegex: RegExp(r'.*dernier pli.*10.*')
+        textRegex: RegExp(r'.*dernier pli.*10.*'),
       ),
       (
         desc: "salad with all contracts and invert score",
@@ -92,28 +110,28 @@ void main() {
           invertScore: true,
           contracts: {
             for (var contract in SaladContractSettings.availableContracts)
-              contract.name: true
+              contract.name: true,
           },
         ),
         textRegex: RegExp(
           r'.*contrats barbu, sans coeurs, sans dames, sans plis, dernier\.(.|\s)*'
           '$invertScoreRule\$',
           multiLine: true,
-        )
+        ),
       ),
       (
         desc: "salad with all contracts, without invert score",
         contract: SaladContractSettings(
           contracts: {
             for (var contract in SaladContractSettings.availableContracts)
-              contract.name: true
+              contract.name: true,
           },
         ),
         textRegex: RegExp(
           r'.*contrats barbu, sans coeurs, sans dames, sans plis, dernier\.(.|\s)*'
           '(?<!$invertScoreRule)\$',
           multiLine: true,
-        )
+        ),
       ),
       (
         desc: "salad with some contracts",
@@ -122,12 +140,12 @@ void main() {
             for (var contract in [
               ContractsInfo.barbu,
               ContractsInfo.noHearts,
-              ContractsInfo.noLastTrick
+              ContractsInfo.noLastTrick,
             ])
-              contract.name: true
+              contract.name: true,
           },
         ),
-        textRegex: RegExp(r'.*contrats barbu, sans coeurs, dernier\..*')
+        textRegex: RegExp(r'.*contrats barbu, sans coeurs, dernier\..*'),
       ),
       (
         desc: "domino",
@@ -135,7 +153,7 @@ void main() {
           pointsFirstPlayer: 10,
           pointsLastPlayer: 10,
         ),
-        textRegex: RegExp(r'.*réussite.*')
+        textRegex: RegExp(r'.*réussite.*'),
       ),
     ]) {
       patrolWidgetTest("should display ${contractTest.desc} rule", ($) async {
@@ -153,14 +171,18 @@ void main() {
     }
   });
   group("#detailedContractRules", () {
-    for (var nbPlayers = kNbPlayersMin;
-        nbPlayers <= kNbPlayersMax;
-        nbPlayers++) {
-      patrolWidgetTest("should display domino rules for $nbPlayers players",
-          ($) async {
+    for (
+      var nbPlayers = kNbPlayersMin;
+      nbPlayers <= kNbPlayersMax;
+      nbPlayers++
+    ) {
+      patrolWidgetTest("should display domino rules for $nbPlayers players", (
+        $,
+      ) async {
         final mockStorage = MockMyStorage();
-        when(mockStorage.getSettings(ContractsInfo.domino))
-            .thenReturn(ContractsInfo.domino.defaultSettings);
+        when(
+          mockStorage.getSettings(ContractsInfo.domino),
+        ).thenReturn(ContractsInfo.domino.defaultSettings);
         await $.pumpWidget(
           _createDetailedRulesPage(
             ContractsInfo.domino,
@@ -198,105 +220,108 @@ void main() {
         subContracts: SaladContractSettings.availableContracts,
         nbSubContractWithInvertScores: 3,
       ),
-      (
-        subContracts: [ContractsInfo.barbu],
-        nbSubContractWithInvertScores: 0,
-      ),
+      (subContracts: [ContractsInfo.barbu], nbSubContractWithInvertScores: 0),
       (
         subContracts: [ContractsInfo.noQueens, ContractsInfo.barbu],
         nbSubContractWithInvertScores: 1,
-      )
+      ),
     ]) {
       for (var invertScore in [true, false]) {
         patrolWidgetTest(
-            "should display salad contract rules with contracts ${testData.subContracts} ${invertScore ? "with" : "without"} invert score",
-            ($) async {
-          final mockStorage = MockMyStorage();
-          for (var contract in SaladContractSettings.availableContracts) {
-            ContractWithPointsSettings contractSettings =
-                (contract.defaultSettings as ContractWithPointsSettings)
-                    .copyWith(
-              isActive: testData.subContracts.contains(contract),
-              invertScore: invertScore,
-            );
-            when(mockStorage.getSettings(contract))
-                .thenReturn(contractSettings);
-          }
-          when(mockStorage.getSettings(ContractsInfo.salad)).thenReturn(
-            SaladContractSettings(
-              contracts: {
-                for (var contract in SaladContractSettings.availableContracts)
-                  contract.name: testData.subContracts.contains(contract)
-              },
-              invertScore: invertScore,
-            ),
-          );
-          await $.pumpWidget(
-            _createDetailedRulesPage(ContractsInfo.salad, mockStorage),
-          );
-
-          expect(
-            find.textContaining(
-              "${defaultPlayerNames[0]} démarre le premier pli",
-            ),
-            findsOneWidget,
-          );
-          for (var contract in SaladContractSettings.availableContracts) {
-            final shouldBeDisplayed = testData.subContracts.contains(contract);
-            final subContractSettings =
-                contract.defaultSettings as ContractWithPointsSettings;
-            String? contractRule;
-            switch (contract) {
-              case ContractsInfo.barbu:
-                contractRule =
-                    "- le roi de coeur (Barbu) vaut ${subContractSettings.points} points";
-                break;
-              case ContractsInfo.noHearts:
-                contractRule =
-                    "- chaque coeur vaut ${subContractSettings.points} points";
-                break;
-              case ContractsInfo.noQueens:
-                contractRule =
-                    "- chaque dame vaut ${subContractSettings.points} points";
-                break;
-              case ContractsInfo.noTricks:
-                contractRule =
-                    "- chaque pli vaut ${subContractSettings.points} points";
-                break;
-              case ContractsInfo.noLastTrick:
-                contractRule =
-                    "- le dernier pli vaut ${subContractSettings.points} points";
-                break;
-              default:
-                break;
+          "should display salad contract rules with contracts ${testData.subContracts} ${invertScore ? "with" : "without"} invert score",
+          ($) async {
+            final mockStorage = MockMyStorage();
+            for (var contract in SaladContractSettings.availableContracts) {
+              ContractWithPointsSettings contractSettings =
+                  (contract.defaultSettings as ContractWithPointsSettings)
+                      .copyWith(
+                        isActive: testData.subContracts.contains(contract),
+                        invertScore: invertScore,
+                      );
+              when(
+                mockStorage.getSettings(contract),
+              ).thenReturn(contractSettings);
             }
-            expect(
-              find.textContaining(contractRule!),
-              shouldBeDisplayed ? findsOneWidget : findsNothing,
+            when(mockStorage.getSettings(ContractsInfo.salad)).thenReturn(
+              SaladContractSettings(
+                contracts: {
+                  for (var contract in SaladContractSettings.availableContracts)
+                    contract.name: testData.subContracts.contains(contract),
+                },
+                invertScore: invertScore,
+              ),
             );
-          }
-          if (invertScore) {
+            await $.pumpWidget(
+              _createDetailedRulesPage(ContractsInfo.salad, mockStorage),
+            );
+
             expect(
               find.textContaining(
-                RegExp(
-                  r'(.*'
-                  '$invertScoreRule\n.*){${testData.nbSubContractWithInvertScores}}(\n)?$invertScoreRule\$',
-                ),
+                "${defaultPlayerNames[0]} démarre le premier pli",
               ),
               findsOneWidget,
             );
-          } else {
-            expect(find.textContaining(invertScoreRule), findsNothing);
-          }
-        });
+            for (var contract in SaladContractSettings.availableContracts) {
+              final shouldBeDisplayed = testData.subContracts.contains(
+                contract,
+              );
+              final subContractSettings =
+                  contract.defaultSettings as ContractWithPointsSettings;
+              String? contractRule;
+              switch (contract) {
+                case ContractsInfo.barbu:
+                  contractRule =
+                      "- le roi de coeur (Barbu) vaut ${subContractSettings.points} points";
+                  break;
+                case ContractsInfo.noHearts:
+                  contractRule =
+                      "- chaque coeur vaut ${subContractSettings.points} points";
+                  break;
+                case ContractsInfo.noQueens:
+                  contractRule =
+                      "- chaque dame vaut ${subContractSettings.points} points";
+                  break;
+                case ContractsInfo.noTricks:
+                  contractRule =
+                      "- chaque pli vaut ${subContractSettings.points} points";
+                  break;
+                case ContractsInfo.noLastTrick:
+                  contractRule =
+                      "- le dernier pli vaut ${subContractSettings.points} points";
+                  break;
+                default:
+                  break;
+              }
+              expect(
+                find.textContaining(contractRule!),
+                shouldBeDisplayed ? findsOneWidget : findsNothing,
+              );
+            }
+            if (invertScore) {
+              expect(
+                find.textContaining(
+                  RegExp(
+                    r'(.*'
+                    '$invertScoreRule\n.*){${testData.nbSubContractWithInvertScores}}(\n)?$invertScoreRule\$',
+                  ),
+                ),
+                findsOneWidget,
+              );
+            } else {
+              expect(find.textContaining(invertScoreRule), findsNothing);
+            }
+          },
+        );
       }
     }
   });
 }
 
 Widget _createDetailedRulesPage(
-    ContractsInfo contract, MockMyStorage mockStorage,
-    {int? nbPlayers}) {
+  ContractsInfo contract,
+  MockMyStorage mockStorage, {
+  int? nbPlayers,
+}) {
   return FrenchMaterialApp(
     home: Builder(
       builder: (context) => Text(

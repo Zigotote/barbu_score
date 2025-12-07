@@ -28,7 +28,7 @@ void main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage($));
 
-    expect($("Quel est le score de chaque contrat ?"), findsOneWidget);
+    expect($("Quel est le score de chaque contrat ?"), findsOneWidget);
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
   });

@@ -119,13 +119,13 @@ abstract class AppLocalizations {
   /// No description provided for @aboutTheApp.
   ///
   /// In fr, this message translates to:
-  /// **'L\'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs de Barbu !'**
+  /// **'L\'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs de Barbu !'**
   String get aboutTheApp;
 
   /// No description provided for @aboutTheTeam.
   ///
   /// In fr, this message translates to:
-  /// **'L\'équipe est composée de : '**
+  /// **'L\'équipe est composée de : '**
   String get aboutTheTeam;
 
   /// No description provided for @accept.
@@ -215,7 +215,7 @@ abstract class AppLocalizations {
   /// No description provided for @askForFeedback.
   ///
   /// In fr, this message translates to:
-  /// **'Vous avez détecté un problème ou avez une suggestion d\'amélioration ? Vous pouvez nous le signaler par mail :'**
+  /// **'Vous avez détecté un problème ou avez une suggestion d\'amélioration ? Vous pouvez nous le signaler par mail :'**
   String get askForFeedback;
 
   /// No description provided for @availableColor.
@@ -305,7 +305,7 @@ abstract class AppLocalizations {
   /// No description provided for @confirmStartGame.
   ///
   /// In fr, this message translates to:
-  /// **'Confirmer la création d\'une nouvelle partie ? Si oui, la partie précédente avec {players} sera perdue.'**
+  /// **'Confirmer la création d\'une nouvelle partie ? Si oui, la partie précédente avec {players} sera perdue.'**
   String confirmStartGame(String players);
 
   /// No description provided for @contact.
@@ -323,7 +323,7 @@ abstract class AppLocalizations {
   /// No description provided for @contactReason.
   ///
   /// In fr, this message translates to:
-  /// **'Que souhaitez-vous signaler ?'**
+  /// **'Que souhaitez-vous signaler ?'**
   String get contactReason;
 
   /// No description provided for @contractPoints.
@@ -401,7 +401,7 @@ abstract class AppLocalizations {
   /// No description provided for @dominoScoreSubtitle.
   ///
   /// In fr, this message translates to:
-  /// **'Qui a fini {rank} ?'**
+  /// **'Qui a fini {rank} ?'**
   String dominoScoreSubtitle(String rank);
 
   /// No description provided for @endGame.
@@ -515,7 +515,7 @@ abstract class AppLocalizations {
   /// No description provided for @go.
   ///
   /// In fr, this message translates to:
-  /// **'C\'est parti !'**
+  /// **'C\'est parti !'**
   String get go;
 
   /// No description provided for @goHome.
@@ -605,7 +605,7 @@ abstract class AppLocalizations {
   /// No description provided for @loadPreviousGame.
   ///
   /// In fr, this message translates to:
-  /// **'Reprendre la partie précédente avec {players} ?'**
+  /// **'Reprendre la partie précédente avec {players} ?'**
   String loadPreviousGame(String players);
 
   /// No description provided for @modify.
@@ -809,7 +809,7 @@ abstract class AppLocalizations {
   /// No description provided for @reportBugMail.
   ///
   /// In fr, this message translates to:
-  /// **'Bonjour,\n\nJe souhaiterai signaler un bug rencontré sur l’application. Voici les détails :\n\n- Description du bug (expliquez ce qu\'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.) :\n\n- Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise) : \n\n- Comportement attendu (ce qui aurait dû se passer) :'**
+  /// **'Bonjour,\n\nJe souhaiterai signaler un bug rencontré sur l’application. Voici les détails :\n\n- Description du bug (expliquez ce qu\'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.) :\n\n- Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise) : \n\n- Comportement attendu (ce qui aurait dû se passer) :'**
   String get reportBugMail;
 
   /// No description provided for @requestFeature.
@@ -839,7 +839,7 @@ abstract class AppLocalizations {
   /// No description provided for @rulesBarbuInSalad.
   ///
   /// In fr, this message translates to:
-  /// **'- le roi de coeur (Barbu) vaut {points} points'**
+  /// **'- le roi de coeur (Barbu) vaut {points} points'**
   String rulesBarbuInSalad(int points);
 
   /// No description provided for @rulesDomino.
@@ -863,7 +863,7 @@ abstract class AppLocalizations {
   /// No description provided for @rulesNoHeartsInSalad.
   ///
   /// In fr, this message translates to:
-  /// **'- chaque coeur vaut {points} points'**
+  /// **'- chaque coeur vaut {points} points'**
   String rulesNoHeartsInSalad(int points);
 
   /// No description provided for @rulesNoQueens.
@@ -875,7 +875,7 @@ abstract class AppLocalizations {
   /// No description provided for @rulesNoQueensInSalad.
   ///
   /// In fr, this message translates to:
-  /// **'- chaque dame vaut {points} points'**
+  /// **'- chaque dame vaut {points} points'**
   String rulesNoQueensInSalad(int points);
 
   /// No description provided for @rulesNoLastTrick.
@@ -887,7 +887,7 @@ abstract class AppLocalizations {
   /// No description provided for @rulesNoLastTrickInSalad.
   ///
   /// In fr, this message translates to:
-  /// **'- le dernier pli vaut {points} points'**
+  /// **'- le dernier pli vaut {points} points'**
   String rulesNoLastTrickInSalad(int points);
 
   /// No description provided for @rulesNoTricks.
@@ -899,7 +899,7 @@ abstract class AppLocalizations {
   /// No description provided for @rulesNoTricksInSalad.
   ///
   /// In fr, this message translates to:
-  /// **'- chaque pli vaut {points} points'**
+  /// **'- chaque pli vaut {points} points'**
   String rulesNoTricksInSalad(int points);
 
   /// No description provided for @rulesSalad.
@@ -929,7 +929,7 @@ abstract class AppLocalizations {
   /// No description provided for @saladScoresSubtitle.
   ///
   /// In fr, this message translates to:
-  /// **'Quel est le score de chaque contrat ?'**
+  /// **'Quel est le score de chaque contrat ?'**
   String get saladScoresSubtitle;
 
   /// No description provided for @saveAndLeave.
@@ -959,7 +959,7 @@ abstract class AppLocalizations {
   /// No description provided for @seePreviousGame.
   ///
   /// In fr, this message translates to:
-  /// **'Revoir la partie précédente avec {players} ?'**
+  /// **'Revoir la partie précédente avec {players} ?'**
   String seePreviousGame(String players);
 
   /// No description provided for @settings.
@@ -1013,7 +1013,7 @@ abstract class AppLocalizations {
   /// No description provided for @whoWonItem.
   ///
   /// In fr, this message translates to:
-  /// **'Qui a remporté le {item} ?'**
+  /// **'Qui a remporté le {item} ?'**
   String whoWonItem(String item);
 
   /// No description provided for @withdrawItem.
