@@ -21,7 +21,7 @@ void main() {
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage());
 
-    expect($("Qui a fini 1er ?"), findsOneWidget);
+    expect($("Qui a fini 1er ?"), findsOneWidget);
     expect($.tester.takeException(), isNull);
     await checkAccessibility($.tester);
   });
@@ -69,7 +69,7 @@ void main() {
         findsOneWidget,
       );
     }
-    expect($("Qui a fini 4ème ?"), findsOneWidget);
+    expect($("Qui a fini 4ème ?"), findsOneWidget);
     await findValidateScoresButton($).tap();
 
     expect($(ChooseContract), findsOneWidget);
@@ -97,7 +97,7 @@ void main() {
     // Remove 2 players to invert theme
     await $(ElevatedButtonWithIndicator).at(1).tap();
     await $(ElevatedButtonWithIndicator).at(3).tap();
-    expect($("Qui a fini 2ème ?"), findsOneWidget);
+    expect($("Qui a fini 2ème ?"), findsOneWidget);
 
     // Set 2 players places
     await $(ElevatedButtonWithIndicator).at(3).tap();
