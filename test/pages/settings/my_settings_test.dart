@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/l10n/app_localizations.dart';
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/models/my_locales.dart';
 import 'package:barbu_score/commons/providers/locale_provider.dart';
 import 'package:barbu_score/commons/providers/log.dart';
@@ -217,9 +218,11 @@ void main() {
   }
 
   patrolWidgetTest("should open about page", ($) async {
+    final aboutText = "A propos";
     await $.pumpWidget(_createPage());
 
-    await $("A propos").tap();
+    await $.scrollUntilVisible(finder: $(aboutText));
+    await $(aboutText).tap();
 
     expect($(MyAbout), findsOneWidget);
   });
@@ -233,6 +236,7 @@ Widget _createPage({
   List<ContractsInfo> activeContracts = ContractsInfo.values,
 }) {
   mockStorage ??= MockMyStorage();
+  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   for (var contract in ContractsInfo.values) {
     final contractSettings = contract.defaultSettings.copyWith(
       isActive: activeContracts.contains(contract),

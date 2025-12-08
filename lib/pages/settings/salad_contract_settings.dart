@@ -70,6 +70,7 @@ class _SaladContractSettingsPageState
 
   @override
   Widget build(BuildContext context) {
+    final gameSettings = ref.read(storageProvider).getGameSettings();
     return MyDefaultPage(
       appBar: MyAppBar(
         Column(
@@ -107,7 +108,7 @@ class _SaladContractSettingsPageState
           ),
           const SizedBox(height: 24),
           SettingQuestion(
-            tooltip: context.l10n.invertScoreDetails,
+            tooltip: context.l10n.detailedInvertScoreRules(gameSettings),
             label: context.l10n.invertScore,
             onTap: () {
               settings.invertScore = !settings.invertScore;

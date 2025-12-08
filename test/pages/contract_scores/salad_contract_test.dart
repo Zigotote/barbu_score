@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/contracts_manager.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
@@ -310,6 +311,7 @@ UncontrolledProviderScope _createPage(
   $.tester.view.physicalSize = const Size(1440, 2560);
 
   final mockStorage = MockMyStorage();
+  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   mockActiveContracts(mockStorage);
   mockPlayGame ??= mockPlayGameNotifier();
   if (settings != null) {

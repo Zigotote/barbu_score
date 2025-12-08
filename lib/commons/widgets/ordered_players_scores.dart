@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/player.dart';
 import '../providers/contracts_manager.dart';
 import '../providers/play_game.dart';
+import '../providers/storage.dart';
 import '../utils/contract_scores.dart';
 import 'my_list_layouts.dart';
 import 'player_score_button.dart';
@@ -16,38 +17,44 @@ class OrderedPlayersScores extends ConsumerWidget {
   const OrderedPlayersScores({super.key, this.isGameFinished = false});
 
   /// Calculates the total score of each player for the game
-  /// and orders them by score
+  /// and order them by score
   List<MapEntry<String, int>> _orderedPlayerScores(
+    bool ascending,
     Map<Player, Map<String, int>?> scoresByPlayer,
   ) {
+    final multiplicator = ascending ? 1 : -1;
     final totalScores = sumScores(scoresByPlayer.values.toList());
     final playerScores =
         totalScores ?? {for (var player in scoresByPlayer.keys) player.name: 0};
-    return playerScores.entries.toList()
-      ..sort((player1, player2) => player1.value.compareTo(player2.value));
+    return playerScores.entries.toList()..sort(
+      (player1, player2) =>
+          player1.value.compareTo(player2.value) * multiplicator,
+    );
   }
 
   /// Finds the player's best friend
   Player _findBestFriend(
     Player player,
+    bool goalIsMinScore,
     Map<Player, Map<String, int>?> scoresByPlayer,
   ) {
     return _findPlayerWhere(
       player,
       scoresByPlayer,
-      (score1, score2) => score1 > score2,
+      (score1, score2) => goalIsMinScore ? score1 > score2 : score1 < score2,
     );
   }
 
   /// Finds the player's worst ennemy
   Player _findWorstEnemy(
     Player player,
+    bool goalIsMinScore,
     Map<Player, Map<String, int>?> scoresByPlayer,
   ) {
     return _findPlayerWhere(
       player,
       scoresByPlayer,
-      (score1, score2) => score1 < score2,
+      (score1, score2) => goalIsMinScore ? score1 < score2 : score1 > score2,
     );
   }
 
@@ -80,7 +87,12 @@ class OrderedPlayersScores extends ConsumerWidget {
           contractsManager.scoresByContract(player).values.toList(),
         ),
     };
+    final goalIsMinScore = ref
+        .read(storageProvider)
+        .getGameSettings()
+        .goalIsMinScore;
     final List<MapEntry<String, int>> orderedPlayers = _orderedPlayerScores(
+      goalIsMinScore,
       scoresByPlayer,
     );
     return MyList(
@@ -96,10 +108,10 @@ class OrderedPlayersScores extends ConsumerWidget {
           displayMedal:
               isGameFinished && playerInfo.value == orderedPlayers[0].value,
           bestFriend: isGameFinished
-              ? _findBestFriend(player, scoresByPlayer)
+              ? _findBestFriend(player, goalIsMinScore, scoresByPlayer)
               : null,
           worstEnnemy: isGameFinished
-              ? _findWorstEnemy(player, scoresByPlayer)
+              ? _findWorstEnemy(player, goalIsMinScore, scoresByPlayer)
               : null,
         );
       },

@@ -482,6 +482,12 @@ abstract class AppLocalizations {
   /// **'{nbDecks, plural, =1{du paquet} other{de {nbDecks} paquets}}.'**
   String fromTheDeck(int nbDecks);
 
+  /// No description provided for @game.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partie'**
+  String get game;
+
   /// No description provided for @gamePrinciple.
   ///
   /// In fr, this message translates to:
@@ -511,6 +517,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Partie sauvegardée'**
   String get gameSaved;
+
+  /// No description provided for @gameScoreObjective.
+  ///
+  /// In fr, this message translates to:
+  /// **'Objectif : moins de points'**
+  String get gameScoreObjective;
 
   /// No description provided for @go.
   ///
@@ -560,11 +572,17 @@ abstract class AppLocalizations {
   /// **'Inversion du score'**
   String get invertScore;
 
-  /// No description provided for @invertScoreDetails.
+  /// No description provided for @invertScoreNegativeDetails.
   ///
   /// In fr, this message translates to:
   /// **'Si un joueur remporte tout, son score devient négatif.'**
-  String get invertScoreDetails;
+  String get invertScoreNegativeDetails;
+
+  /// No description provided for @invertScorePositiveDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Si un joueur remporte tout, son score devient positif.'**
+  String get invertScorePositiveDetails;
 
   /// No description provided for @jack.
   ///
@@ -761,8 +779,20 @@ abstract class AppLocalizations {
   /// No description provided for @presentGame.
   ///
   /// In fr, this message translates to:
-  /// **'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes. L\'objectif est de remporter le moins de points possible.'**
+  /// **'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes.'**
   String get presentGame;
+
+  /// No description provided for @presentGameGoalMaxScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'objectif est de marquer le plus de points possible.'**
+  String get presentGameGoalMaxScore;
+
+  /// No description provided for @presentGameGoalMinScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'objectif est de marquer le moins de points possible.'**
+  String get presentGameGoalMinScore;
 
   /// No description provided for @previous.
   ///
@@ -845,7 +875,7 @@ abstract class AppLocalizations {
   /// No description provided for @rulesDomino.
   ///
   /// In fr, this message translates to:
-  /// **'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.'**
+  /// **'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible.'**
   String get rulesDomino;
 
   /// No description provided for @rulesDominoDetailed.

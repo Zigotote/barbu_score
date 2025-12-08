@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
 import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
@@ -31,12 +32,9 @@ void main() {
 
   patrolWidgetTest("should show alert if contract has been played", ($) async {
     final mockStorage = MockMyStorage();
-    final game = createGame(
-      4,
-      [
-        SaladContractModel(subContracts: [defaultBarbu])
-      ],
-    );
+    final game = createGame(4, [
+      SaladContractModel(subContracts: [defaultBarbu]),
+    ]);
     when(mockStorage.getStoredGame()).thenReturn(game);
 
     final page = _createPage(mockStorage);
@@ -72,106 +70,109 @@ void main() {
   group("add/remove contracts", () {
     for (List<ContractsInfo> contractsToDeactivate in [
       [ContractsInfo.barbu],
-      SaladContractSettings.availableContracts.sublist(1)
+      SaladContractSettings.availableContracts.sublist(1),
     ]) {
       patrolWidgetTest(
-          "should remove contracts from salad : $contractsToDeactivate",
-          ($) async {
-        final mockStorage = MockMyStorage();
-        await $.pumpWidget(_createPage(mockStorage));
+        "should remove contracts from salad : $contractsToDeactivate",
+        ($) async {
+          final mockStorage = MockMyStorage();
+          await $.pumpWidget(_createPage(mockStorage));
 
-        expect(
-          _findSwitches($, true),
-          findsNWidgets(SaladContractSettings.availableContracts.length + 1),
-        );
-        expect(_findSwitches($, false), findsOneWidget); // Invert score
-
-        for (var contract in contractsToDeactivate) {
-          await $.tap(
-            find.descendant(of: $(Key(contract.name)), matching: $(Switch)),
+          expect(
+            _findSwitches($, true),
+            findsNWidgets(SaladContractSettings.availableContracts.length + 1),
           );
-        }
+          expect(_findSwitches($, false), findsOneWidget); // Invert score
+
+          for (var contract in contractsToDeactivate) {
+            await $.tap(
+              find.descendant(of: $(Key(contract.name)), matching: $(Switch)),
+            );
+          }
+
+          expect(
+            _findSwitches($, false),
+            findsNWidgets(contractsToDeactivate.length + 1),
+          );
+          verify(
+            mockStorage.saveSettings(
+              ContractsInfo.salad,
+              _defaultSettings.copyWith(
+                contracts: {
+                  for (var contract in SaladContractSettings.availableContracts)
+                    contract.name: !contractsToDeactivate.contains(contract),
+                },
+              ),
+            ),
+          );
+        },
+      );
+    }
+    patrolWidgetTest(
+      "should deactivate contract if no active contract inside and block its activation",
+      ($) async {
+        final nbSwitches = SaladContractSettings.availableContracts.length + 1;
+        final mockStorage = MockMyStorage();
+
+        final page = _createPage(mockStorage);
+        await $.pumpWidget(page);
 
         expect(
-          _findSwitches($, false),
-          findsNWidgets(contractsToDeactivate.length + 1),
+          $(MySwitch).which((widget) => (widget as MySwitch).isActive),
+          findsNWidgets(nbSwitches),
         );
+
+        await _removeContracts($);
+        expect(_findSwitches($, false), findsNWidgets(nbSwitches + 1));
         verify(
           mockStorage.saveSettings(
             ContractsInfo.salad,
             _defaultSettings.copyWith(
+              isActive: false,
               contracts: {
                 for (var contract in SaladContractSettings.availableContracts)
-                  contract.name: !contractsToDeactivate.contains(contract)
+                  contract.name: false,
               },
             ),
           ),
         );
-      });
-    }
-    patrolWidgetTest(
-        "should deactivate contract if no active contract inside and block its activation",
-        ($) async {
-      final nbSwitches = SaladContractSettings.availableContracts.length + 1;
-      final mockStorage = MockMyStorage();
 
-      final page = _createPage(mockStorage);
-      await $.pumpWidget(page);
-
-      expect(
-        $(MySwitch).which((widget) => (widget as MySwitch).isActive),
-        findsNWidgets(nbSwitches),
-      );
-
-      await _removeContracts($);
-      expect(_findSwitches($, false), findsNWidgets(nbSwitches + 1));
-      verify(
-        mockStorage.saveSettings(
-          ContractsInfo.salad,
-          _defaultSettings.copyWith(
-            isActive: false,
-            contracts: {
-              for (var contract in SaladContractSettings.availableContracts)
-                contract.name: false
-            },
+        // Try to activate contract should show an alert and do nothing else
+        await $(Switch).first.tap();
+        expect($(MyAlertDialog), findsOneWidget);
+        await $("OK").tap();
+        verifyNever(
+          mockStorage.saveSettings(
+            ContractsInfo.salad,
+            _defaultSettings.copyWith(
+              isActive: true,
+              contracts: {
+                for (var contract in SaladContractSettings.availableContracts)
+                  contract.name: false,
+              },
+            ),
           ),
-        ),
-      );
-
-      // Try to activate contract should show an alert and do nothing else
-      await $(Switch).first.tap();
-      expect($(MyAlertDialog), findsOneWidget);
-      await $("OK").tap();
-      verifyNever(
-        mockStorage.saveSettings(
-          ContractsInfo.salad,
-          _defaultSettings.copyWith(
-            isActive: true,
-            contracts: {
-              for (var contract in SaladContractSettings.availableContracts)
-                contract.name: false
-            },
-          ),
-        ),
-      );
-    });
+        );
+      },
+    );
     patrolWidgetTest(
-        "should reenable contract activation after some contracts are reactivated",
-        ($) async {
-      final nbSwitchs = SaladContractSettings.availableContracts.length + 2;
+      "should reenable contract activation after some contracts are reactivated",
+      ($) async {
+        final nbSwitchs = SaladContractSettings.availableContracts.length + 2;
 
-      await $.pumpWidget(_createPage());
+        await $.pumpWidget(_createPage());
 
-      await _removeContracts($);
-      expect(_findSwitches($, false), findsNWidgets(nbSwitchs));
+        await _removeContracts($);
+        expect(_findSwitches($, false), findsNWidgets(nbSwitchs));
 
-      await $(Switch).at(2).tap();
-      expect(_findSwitches($, false), findsNWidgets(nbSwitchs - 1));
+        await $(Switch).at(2).tap();
+        expect(_findSwitches($, false), findsNWidgets(nbSwitchs - 1));
 
-      await $(Switch).first.tap();
-      expect($(MyAlertDialog), findsNothing);
-      expect(_findSwitches($, false), findsNWidgets(nbSwitchs - 2));
-    });
+        await $(Switch).first.tap();
+        expect($(MyAlertDialog), findsNothing);
+        expect(_findSwitches($, false), findsNWidgets(nbSwitchs - 2));
+      },
+    );
   });
 }
 
@@ -186,12 +187,15 @@ Future<void> _removeContracts(PatrolTester $) async {
   }
 }
 
-UncontrolledProviderScope _createPage(
-    [MockMyStorage? mockStorage, bool isContractActive = true]) {
+UncontrolledProviderScope _createPage([
+  MockMyStorage? mockStorage,
+  bool isContractActive = true,
+]) {
   mockStorage ??= MockMyStorage();
-  when(mockStorage.getSettings(ContractsInfo.salad)).thenReturn(
-    _defaultSettings.copyWith(isActive: isContractActive),
-  );
+  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
+  when(
+    mockStorage.getSettings(ContractsInfo.salad),
+  ).thenReturn(_defaultSettings.copyWith(isActive: isContractActive));
 
   final container = ProviderContainer(
     overrides: [storageProvider.overrideWithValue(mockStorage)],

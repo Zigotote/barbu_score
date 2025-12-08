@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -253,6 +254,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get game => 'Partie';
+
+  @override
   String get gamePrinciple => 'Principe du jeu';
 
   @override
@@ -268,6 +272,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get gameSaved => 'Partie sauvegardée';
+
+  @override
+  String get gameScoreObjective => 'Objectif : moins de points';
 
   @override
   String get go => 'C\'est parti !';
@@ -294,8 +301,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get invertScore => 'Inversion du score';
 
   @override
-  String get invertScoreDetails =>
+  String get invertScoreNegativeDetails =>
       'Si un joueur remporte tout, son score devient négatif.';
+
+  @override
+  String get invertScorePositiveDetails =>
+      'Si un joueur remporte tout, son score devient positif.';
 
   @override
   String get jack => 'valet';
@@ -412,7 +423,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get presentGame =>
-      'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes. L\'objectif est de remporter le moins de points possible.';
+      'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes.';
+
+  @override
+  String get presentGameGoalMaxScore =>
+      'L\'objectif est de marquer le plus de points possible.';
+
+  @override
+  String get presentGameGoalMinScore =>
+      'L\'objectif est de marquer le moins de points possible.';
 
   @override
   String get previous => 'Précédent';
@@ -461,7 +480,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rulesDomino =>
-      'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.';
+      'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible.';
 
   @override
   String rulesDominoDetailed(String player, String points) {

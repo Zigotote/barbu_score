@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -252,6 +253,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get game => 'Game';
+
+  @override
   String get gamePrinciple => 'Game principle';
 
   @override
@@ -267,6 +271,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gameSaved => 'Game saved';
+
+  @override
+  String get gameScoreObjective => 'Goal: fewer points';
 
   @override
   String get go => 'Let\'s go!';
@@ -293,8 +300,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invertScore => 'Invert score';
 
   @override
-  String get invertScoreDetails =>
+  String get invertScoreNegativeDetails =>
       'If a player wins all, their score becomes negative.';
+
+  @override
+  String get invertScorePositiveDetails =>
+      'If a player wins all, their score becomes positive.';
 
   @override
   String get jack => 'jack';
@@ -410,7 +421,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get presentGame =>
-      'Barbu is a game for 3 to 6 players, played with a deck of cards. It can also be played with up to 10 players, using 2 decks of cards. The goal is to score as few points as possible.';
+      'Barbu is a game for 3 to 6 players, played with a deck of cards. It can also be played with up to 10 players, using 2 decks of cards.';
+
+  @override
+  String get presentGameGoalMaxScore =>
+      'The goal is to score as many points as possible.';
+
+  @override
+  String get presentGameGoalMinScore =>
+      'The goal is to score as few points as possible.';
 
   @override
   String get previous => 'Previous';
@@ -459,7 +478,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rulesDomino =>
-      'Unlike other contracts, Domino is not a trick-taking contract. The goal of this contract is to lay all the cards on the table, sorted by suit and in ascending order.\nThe player who chooses this contract determines the starting value of the sequence (for example, the jack). If they have a card of that value, they place it on the table; otherwise, they skip their turn.\nThe next player can then play a card of the same suit and of a value directly higher or lower (so the 10 or the queen of the same suit). They can also play another card of the starting value in a different suit. If they play an ace, they may play again. If they cannot play a card, they pass.\nThe game continues in this manner until all players have finished their hands. The objective is to play all your cards as quickly as possible to score the fewest points.';
+      'Unlike other contracts, Domino is not a trick-taking contract. The goal of this contract is to lay all the cards on the table, sorted by suit and in ascending order.\nThe player who chooses this contract determines the starting value of the sequence (for example, the jack). If they have a card of that value, they place it on the table; otherwise, they skip their turn.\nThe next player can then play a card of the same suit and of a value directly higher or lower (so the 10 or the queen of the same suit). They can also play another card of the starting value in a different suit. If they play an ace, they may play again. If they cannot play a card, they pass.\nThe game continues in this manner until all players have finished their hands. The objective is to play all your cards as quickly as possible.';
 
   @override
   String rulesDominoDetailed(String player, String points) {

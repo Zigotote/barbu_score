@@ -173,11 +173,13 @@
       }
     }
   },
+  "game": "Partie",
   "gamePrinciple": "Principe du jeu",
   "gamePrincipleDetails": "Ce jeu de plis est composé de 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats.",
   "gameRound": "Manche de jeu",
   "gameRoundRules": "Distribuer les cartes entre les joueurs\u00a0: chacun doit en avoir 8.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
   "gameSaved": "Partie sauvegardée",
+  "gameScoreObjective": "Objectif\u00a0: moins de points",
   "go": "C'est parti\u00A0!",
   "goHome": "Retour à l'accueil",
   "heart": "coeur",
@@ -186,7 +188,8 @@
   "hintForDarkMode": "passer en mode sombre",
   "hintForLightMode": "passer en mode clair",
   "invertScore": "Inversion du score",
-  "invertScoreDetails": "Si un joueur remporte tout, son score devient négatif.",
+  "invertScoreNegativeDetails": "Si un joueur remporte tout, son score devient négatif.",
+  "invertScorePositiveDetails": "Si un joueur remporte tout, son score devient positif.",
   "jack": "valet",
   "keep": "Conserver",
   "king": "roi",
@@ -276,7 +279,9 @@
   },
   "prepareGame": "Préparer la partie",
   "prepareGameRules": "Préparation du jeu",
-  "presentGame": "Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu'à 10 joueurs, avec 2 paquets de cartes. L'objectif est de remporter le moins de points possible.",
+  "presentGame": "Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu'à 10 joueurs, avec 2 paquets de cartes.",
+  "presentGameGoalMaxScore": "L'objectif est de marquer le plus de points possible.",
+  "presentGameGoalMinScore": "L'objectif est de marquer le moins de points possible.",
   "previous": "Précédent",
   "queen": "dame",
   "ranking": "Classement",
@@ -304,7 +309,7 @@
       }
     }
   },
-  "rulesDomino": "Contrairement aux autres contrats, la réussite n'est pas un contrat à plis. L'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. L'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.",
+  "rulesDomino": "Contrairement aux autres contrats, la réussite n'est pas un contrat à plis. L'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. L'objectif est de poser toutes ses cartes le plus rapidement possible.",
   "rulesDominoDetailed": "L'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\n{player} détermine la valeur d'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d'ouverture. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l'ordre de fin des joueurs, et sont distribués comme suit :\n{points}",
   "@rulesDominoDetailed": {
     "placeholders": {

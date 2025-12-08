@@ -9,6 +9,7 @@ import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
 import '../models/contract_info.dart';
 import '../models/contract_settings_models.dart';
 import '../models/game.dart';
+import '../models/game_settings.dart';
 import '../utils/constants.dart';
 
 final storageProvider = Provider((ref) => MyStorage());
@@ -16,6 +17,7 @@ final storageProvider = Provider((ref) => MyStorage());
 /// A class to handle local storage objects
 class MyStorage {
   static const String _gameKey = "game";
+  static const String _gameSettingsKey = "gameSettings";
   static const String _isDarkThemeKey = "isDarkTheme";
   static const String _localeKey = "locale";
 
@@ -98,6 +100,20 @@ class MyStorage {
     storage?.setBool(_isDarkThemeKey, isDarkTheme);
   }
 
+  /// Returns the game settings. If nothing saved, returns default game settings.
+  GameSettings getGameSettings() {
+    String? storedSettings = storage?.getString(_gameSettingsKey);
+    if (storedSettings != null) {
+      return GameSettings.fromJson(jsonDecode(storedSettings));
+    }
+    return GameSettings();
+  }
+
+  /// Saves new game settings
+  void saveGameSettings(GameSettings settings) {
+    storage?.setString(_gameSettingsKey, jsonEncode(settings.toJson()));
+  }
+
   /// Gets the settings associated to this contract. Returns default settings if no personalized data saved
   AbstractContractSettings getSettings(ContractsInfo contractsInfo) {
     String? storedSettings = storage?.getString(contractsInfo.name);
@@ -109,7 +125,9 @@ class MyStorage {
 
   /// Saves contract settings and deletes the current game
   void saveSettings(
-      ContractsInfo contractsInfo, AbstractContractSettings settings) {
+    ContractsInfo contractsInfo,
+    AbstractContractSettings settings,
+  ) {
     storage?.setString(contractsInfo.name, jsonEncode(settings.toJson()));
   }
 

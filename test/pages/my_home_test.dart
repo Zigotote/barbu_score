@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
@@ -208,6 +209,7 @@ Widget _createPage(
   $.tester.view.physicalSize = const Size(1440, 2560);
 
   mockStorage ??= MockMyStorage();
+  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   when(mockStorage.getStoredGame()).thenReturn(storedGame);
   mockActiveContracts(mockStorage, activeContracts);
 

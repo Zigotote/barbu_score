@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
@@ -18,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 import '../utils/french_material_app.dart';
@@ -227,6 +229,7 @@ Widget _createPage(
   $.tester.view.physicalSize = const Size(1440, 2560);
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage, activeContracts);
+  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
 
   final mockPlayGame = mockPlayGameNotifier(
     playedContracts: playedContracts,

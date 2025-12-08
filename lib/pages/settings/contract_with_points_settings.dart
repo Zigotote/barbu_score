@@ -26,6 +26,7 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
     final settings =
         ref.read(storageProvider).getSettings(contract).copyWith()
             as ContractWithPointsSettings;
+    final gameSettings = ref.read(storageProvider).getGameSettings();
     final numberFocusNode = FocusNode();
     return MyDefaultPage(
       appBar: MyAppBar(
@@ -58,7 +59,7 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
           ),
           if (settings.canInvertScore)
             SettingQuestion(
-              tooltip: context.l10n.invertScoreDetails,
+              tooltip: context.l10n.detailedInvertScoreRules(gameSettings),
               label: context.l10n.invertScore,
               onTap: () {
                 settings.invertScore = !settings.invertScore;

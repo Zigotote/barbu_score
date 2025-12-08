@@ -33,6 +33,11 @@ class MySettings extends ConsumerWidget {
           const AppThemeChoice(),
           const LanguageChoice(),
           const SizedBox(height: 16),
+          ElevatedButtonFullWidth(
+            child: Text(context.l10n.game),
+            onPressed: () => context.push(Routes.gameSettings),
+          ),
+          const SizedBox(height: 16),
           Semantics(
             header: true,
             child: Text(
