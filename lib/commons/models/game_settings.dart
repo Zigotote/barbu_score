@@ -16,13 +16,11 @@ class GameSettings {
 
   GameSettings({
     this.goalIsMinScore = true,
-    this.fixedNbTricks = 8,
-    this.nbTricksByPlayer,
+    int? fixedNbTricks,
+    Map<int, int>? nbTricksByPlayer,
     this.withdrawRandomCards = false,
-  }) : assert(
-         fixedNbTricks == null || nbTricksByPlayer == null,
-         "Only fixedNbTricks or nbTricksByPlayer should be used",
-       );
+  }) : fixedNbTricks = nbTricksByPlayer == null ? (fixedNbTricks ?? 8) : null,
+       nbTricksByPlayer = fixedNbTricks == null ? nbTricksByPlayer : null;
 
   GameSettings.fromJson(Map<String, dynamic> json)
     : goalIsMinScore = json["goalIsMinScore"],
@@ -40,10 +38,34 @@ class GameSettings {
       "goalIsMinScore": goalIsMinScore,
       "fixedNbTricks": fixedNbTricks,
       "nbTricksByPlayer": nbTricksByPlayer != null
-          ? jsonEncode(nbTricksByPlayer)
+          ? jsonEncode({
+              for (var entry in nbTricksByPlayer!.entries)
+                '${entry.key}': '${entry.value}',
+            })
           : null,
       "withdrawRandomCards": withdrawRandomCards,
     };
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    goalIsMinScore,
+    fixedNbTricks,
+    nbTricksByPlayer,
+    withdrawRandomCards,
+  );
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is GameSettings &&
+            goalIsMinScore == other.goalIsMinScore &&
+            fixedNbTricks == other.fixedNbTricks &&
+            (nbTricksByPlayer?.entries.every(
+                  (entry) => entry.value == other.nbTricksByPlayer?[entry.key],
+                ) ??
+                true) &&
+            withdrawRandomCards == other.withdrawRandomCards;
   }
 
   GameSettings copyWith({
