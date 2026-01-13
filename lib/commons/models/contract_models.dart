@@ -12,9 +12,11 @@ abstract class AbstractContractModel with EquatableMixin {
   final String name;
 
   AbstractContractModel({ContractsInfo? contract, String? name})
-      : assert(name == null || contract == null,
-            "Only name or contract should be used"),
-        name = name ?? contract!.name;
+    : assert(
+        name == null || contract == null,
+        "Only name or contract should be used",
+      ),
+      name = name ?? contract!.name;
 
   factory AbstractContractModel.fromJson(Map<String, dynamic> json) {
     final contract = ContractsInfo.fromName(json["name"]);
@@ -23,10 +25,12 @@ abstract class AbstractContractModel with EquatableMixin {
       ContractsInfo.noLastTrick ||
       ContractsInfo.noHearts ||
       ContractsInfo.noQueens ||
-      ContractsInfo.noTricks =>
-        ContractWithPointsModel.fromJson(contract, json),
+      ContractsInfo.noTricks => ContractWithPointsModel.fromJson(
+        contract,
+        json,
+      ),
       ContractsInfo.salad => SaladContractModel.fromJson(contract, json),
-      ContractsInfo.domino => DominoContractModel.fromJson(contract, json)
+      ContractsInfo.domino => DominoContractModel.fromJson(contract, json),
     };
   }
 
@@ -54,17 +58,19 @@ class ContractWithPointsModel extends AbstractContractModel {
   /// The number of item (card or trick) the deck should have
   final int nbItems;
 
-  ContractWithPointsModel(
-      {super.contract,
-      super.name,
-      this.itemsByPlayer = const {},
-      this.nbItems = 1});
+  ContractWithPointsModel({
+    super.contract,
+    super.name,
+    this.itemsByPlayer = const {},
+    this.nbItems = 1,
+  });
 
   ContractWithPointsModel.fromJson(
-      ContractsInfo contract, Map<String, dynamic> json)
-      : itemsByPlayer = Map.castFrom(jsonDecode(json["itemsByPlayer"])),
-        nbItems = json["nbItems"] ?? 1,
-        super(contract: contract);
+    ContractsInfo contract,
+    Map<String, dynamic> json,
+  ) : itemsByPlayer = Map.castFrom(jsonDecode(json["itemsByPlayer"])),
+      nbItems = json["nbItems"] ?? 1,
+      super(contract: contract);
 
   @override
   Map<String, dynamic> toJson() {
@@ -86,10 +92,13 @@ class ContractWithPointsModel extends AbstractContractModel {
     );
   }
 
-  bool isValid(Map<String, int> itemsByPlayer) {
-    final int declaredItems = itemsByPlayer.values
-        .fold(0, (previousValue, element) => previousValue + element);
-    return declaredItems == nbItems;
+  /// Verifies if the contract is valid, meaning if the sum of items by player is equal to [nbItems]
+  bool isValid(Map<String, int> itemsByPlayer, [int nbWithdrawnItems = 0]) {
+    final int declaredItems = itemsByPlayer.values.fold(
+      0,
+      (previousValue, element) => previousValue + element,
+    );
+    return declaredItems + nbWithdrawnItems == nbItems;
   }
 
   int maxPoints(ContractWithPointsSettings settings) {
@@ -131,19 +140,19 @@ class SaladContractModel extends AbstractContractModel {
   final List<ContractWithPointsModel> subContracts;
 
   SaladContractModel({List<ContractWithPointsModel>? subContracts})
-      : subContracts = subContracts ?? [],
-        super(contract: ContractsInfo.salad);
+    : subContracts = subContracts ?? [],
+      super(contract: ContractsInfo.salad);
 
   SaladContractModel.fromJson(ContractsInfo contract, Map<String, dynamic> json)
-      : subContracts = ((jsonDecode(json["subContracts"]) as List)
-            .map(
-              (subContractJson) => ContractWithPointsModel.fromJson(
-                ContractsInfo.fromName(subContractJson["name"]),
-                subContractJson,
-              ),
-            )
-            .toList()),
-        super(contract: contract);
+    : subContracts = ((jsonDecode(json["subContracts"]) as List)
+          .map(
+            (subContractJson) => ContractWithPointsModel.fromJson(
+              ContractsInfo.fromName(subContractJson["name"]),
+              subContractJson,
+            ),
+          )
+          .toList()),
+      super(contract: contract);
 
   @override
   Map<String, dynamic> toJson() {
@@ -151,7 +160,7 @@ class SaladContractModel extends AbstractContractModel {
       ...super.toJson(),
       "subContracts": jsonEncode(
         subContracts.map((subContract) => subContract.toJson()).toList(),
-      )
+      ),
     };
   }
 
@@ -159,44 +168,56 @@ class SaladContractModel extends AbstractContractModel {
   List<Object?> get props => [...super.props, subContracts];
 
   void addSubContract(ContractWithPointsModel contract) {
-    subContracts
-        .removeWhere((subContract) => contract.name == subContract.name);
+    subContracts.removeWhere(
+      (subContract) => contract.name == subContract.name,
+    );
     subContracts.add(contract);
   }
 
   /// Calculates the scores of this contract from a list of settings. Returns null if scores can't be calculated
   @override
-  Map<String, int>? scores(AbstractContractSettings settings,
-      [List<AbstractContractSettings>? subContractSettings]) {
+  Map<String, int>? scores(
+    AbstractContractSettings settings, [
+    List<AbstractContractSettings>? subContractSettings,
+  ]) {
     if (subContractSettings == null || subContracts.isEmpty) {
       return null;
     }
     // Checks if all sub contract has settings
-    if (subContracts.any((contract) => subContractSettings
-        .none((settings) => settings.name == contract.name))) {
+    if (subContracts.any(
+      (contract) => subContractSettings.none(
+        (settings) => settings.name == contract.name,
+      ),
+    )) {
       return null;
     }
 
-    final activeSubContracts = subContracts.where((subContract) =>
-        (settings as SaladContractSettings).contracts[subContract.name] ==
-        true);
+    final activeSubContracts = subContracts.where(
+      (subContract) =>
+          (settings as SaladContractSettings).contracts[subContract.name] ==
+          true,
+    );
     if ((settings as SaladContractSettings).invertScore) {
       final playerWithAllItems = activeSubContracts
-          .expand((subContract) => subContract.itemsByPlayer.entries
-              .where((playerScore) => playerScore.value != 0)
-              .map((playerScore) => playerScore.key))
+          .expand(
+            (subContract) => subContract.itemsByPlayer.entries
+                .where((playerScore) => playerScore.value != 0)
+                .map((playerScore) => playerScore.key),
+          )
           .toSet();
       if (playerWithAllItems.length == 1) {
         final Map<String, int> scores = {};
-        scores[playerWithAllItems.first] = -1 *
+        scores[playerWithAllItems.first] =
+            -1 *
             activeSubContracts.fold(
               0,
               (sum, subContract) =>
                   sum +
                   subContract.maxPoints(
                     subContractSettings.firstWhere(
-                      (setting) => setting.name == subContract.name,
-                    ) as ContractWithPointsSettings,
+                          (setting) => setting.name == subContract.name,
+                        )
+                        as ContractWithPointsSettings,
                   ),
             );
         subContracts.first.itemsByPlayer.forEach(
@@ -216,8 +237,7 @@ class SaladContractModel extends AbstractContractModel {
         .reduce(
           (scores, subContractScores) => scores == null
               ? subContractScores
-              : (scores
-                ..updateAll(
+              : (scores..updateAll(
                   (player, playerScores) =>
                       playerScores + (subContractScores?[player] ?? 0),
                 )),
@@ -236,13 +256,14 @@ class DominoContractModel extends AbstractContractModel {
   final Map<String, int> _rankOfPlayer;
 
   DominoContractModel({Map<String, int> rankOfPlayer = const {}})
-      : _rankOfPlayer = rankOfPlayer,
-        super(contract: ContractsInfo.domino);
+    : _rankOfPlayer = rankOfPlayer,
+      super(contract: ContractsInfo.domino);
 
   DominoContractModel.fromJson(
-      ContractsInfo contract, Map<String, dynamic> json)
-      : _rankOfPlayer = Map.castFrom(jsonDecode(json["rankOfPlayer"])),
-        super(contract: contract);
+    ContractsInfo contract,
+    Map<String, dynamic> json,
+  ) : _rankOfPlayer = Map.castFrom(jsonDecode(json["rankOfPlayer"])),
+      super(contract: contract);
 
   @override
   Map<String, dynamic> toJson() {

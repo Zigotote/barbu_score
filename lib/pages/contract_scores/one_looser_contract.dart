@@ -1,5 +1,7 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/contract_scores/utils/save_contract.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/rules_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,11 +10,13 @@ import '../../commons/models/player.dart';
 import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/widgets/custom_buttons.dart';
+import '../../commons/widgets/my_appbar.dart';
+import '../../commons/widgets/my_default_page.dart';
 import '../../commons/widgets/my_list_layouts.dart';
-import 'widgets/sub_contract_page.dart';
+import '../../commons/widgets/my_subtitle.dart';
 
 /// A page to fill the scores for a contract where only one player can loose
-class OneLooserContractPage extends ConsumerStatefulWidget {
+class OneLooserContractPage extends ConsumerStatefulWidget with SaveContract {
   /// The contract the player choose
   final ContractsInfo contract;
 
@@ -82,18 +86,42 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
 
   @override
   Widget build(BuildContext context) {
-    final players = ref.read(playGameProvider).players;
-    return SubContractPage(
-      contract: widget.contract,
-      subtitle: context.l10n.whoWonItem(
-        context.l10n.contractName(widget.contract),
+    return MyDefaultPage(
+      appBar: MyPlayerAppBar(
+        player: ref.watch(playGameProvider).currentPlayer,
+        context: context,
+        trailing: RulesButton(widget.contract),
       ),
-      isValid: _selectedPlayer != null,
-      itemsByPlayer: {
-        for (var player in players)
-          player.name: player == _selectedPlayer ? 1 : 0,
-      },
-      child: _buildFields(),
+      content: Column(
+        spacing: 24,
+        children: [
+          MySubtitle(
+            context.l10n.whoWonItem(context.l10n.contractName(widget.contract)),
+            backgroundColor: widget.contract.color,
+          ),
+          _buildFields(),
+        ],
+      ),
+      bottomWidget: ElevatedButtonFullWidth(
+        onPressed: _selectedPlayer != null
+            ? () => widget.saveContract(
+                context,
+                ref,
+                (ref
+                            .read(contractsManagerProvider)
+                            .getContractManager(widget.contract)
+                            .model
+                        as ContractWithPointsModel)
+                    .copyWith(
+                      itemsByPlayer: {
+                        for (var player in _players)
+                          player.name: player == _selectedPlayer ? 1 : 0,
+                      },
+                    ),
+              )
+            : null,
+        child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
+      ),
     );
   }
 }

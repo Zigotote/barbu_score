@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/utils/constants.dart';
 import 'widgets/rules_page.dart';
 
+// TODO Océane à adapter selon les gameSettings
 class PrepareGameRules extends ConsumerStatefulWidget {
   /// The index of the page in the order of rules pages
   final int pageIndex;

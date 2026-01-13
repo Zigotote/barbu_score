@@ -107,7 +107,7 @@ class GameSettings {
 
     return cardIndexes.slice(
       0,
-      (getNbCards(nbPlayers) / (4 * getNbDecks(nbPlayers))).toInt(),
+      (getNbCards(nbPlayers) / (4 * getNbDecks(nbPlayers))).ceil(),
     );
   }
 

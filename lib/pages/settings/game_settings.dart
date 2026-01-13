@@ -11,6 +11,7 @@ import '../../commons/widgets/my_default_page.dart';
 import 'widgets/my_switch.dart';
 import 'widgets/setting_question.dart';
 
+// TODO Océane tester cette page quand elle aura été finalisée + bloquer l'édition si une partie est en cours
 /// A page to edit game settings
 class GameSettingsPage extends ConsumerStatefulWidget {
   const GameSettingsPage({super.key});

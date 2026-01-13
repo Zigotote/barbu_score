@@ -10,10 +10,11 @@ class SnackBarUtils {
 
   static SnackBarUtils instance = _instance;
 
-  void openSnackBar(
-      {required BuildContext context,
-      required String title,
-      required String text}) {
+  void openSnackBar({
+    required BuildContext context,
+    required String title,
+    required String text,
+  }) {
     if (!_instance._isSnackBarOpen) {
       _instance._isSnackBarOpen = true;
       final TextTheme textTheme = Theme.of(context).textTheme;

@@ -263,7 +263,7 @@ abstract class AppLocalizations {
   /// No description provided for @cardsOrder.
   ///
   /// In fr, this message translates to:
-  /// **'Les as sont les cartes les plus fortes. (TODO Océane à paramétrer selon les gameSettings) Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.'**
+  /// **'Les as sont les cartes les plus fortes.'**
   String get cardsOrder;
 
   /// No description provided for @cardsToKeep.
@@ -275,7 +275,7 @@ abstract class AppLocalizations {
   /// No description provided for @cardsToKeepForPlayers.
   ///
   /// In fr, this message translates to:
-  /// **'(TODO Océane à paramétrer selon les gameSettings) A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes : {cards}.'**
+  /// **'Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis. (TODO Océane à paramétrer en fr et en selon les gameSettings)A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes : {cards}.'**
   String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards);
 
   /// No description provided for @changesSaved.
@@ -416,17 +416,17 @@ abstract class AppLocalizations {
   /// **'Anglais'**
   String get english;
 
-  /// No description provided for @errorAddPoints.
+  /// No description provided for @errorAddItems.
   ///
   /// In fr, this message translates to:
-  /// **'Ajout de points impossible'**
-  String get errorAddPoints;
+  /// **'Ajout d\'éléments impossible'**
+  String get errorAddItems;
 
-  /// No description provided for @errorAddPointsDetails.
+  /// No description provided for @errorAddItemsDetails.
   ///
   /// In fr, this message translates to:
   /// **'Le nombre de {item} dépasse le nombre d\'éléments pouvant être remporté, fixé à {nbItems}.'**
-  String errorAddPointsDetails(String item, int nbItems);
+  String errorAddItemsDetails(String item, int nbItems);
 
   /// No description provided for @errorDomino.
   ///

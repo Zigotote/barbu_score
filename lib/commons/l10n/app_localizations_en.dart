@@ -207,10 +207,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get english => 'English';
 
   @override
-  String get errorAddPoints => 'Adding points impossible';
+  String get errorAddItems =>
+      'Adding items impossible (TODO Océane vérifier la trad)';
 
   @override
-  String errorAddPointsDetails(String item, int nbItems) {
+  String errorAddItemsDetails(String item, int nbItems) {
     return 'The number of $item exceeds the number of items that can be won, fixed at $nbItems.';
   }
 

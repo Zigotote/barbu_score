@@ -17,6 +17,7 @@ import '../../main.dart';
 import 'widgets/players_placed_in_circle.dart';
 import 'widgets/players_placed_in_grid.dart';
 
+// TODO Océane à adapter selon les gameSettings
 /// A page to be sure the players and the cards are ready to start
 class PrepareGame extends ConsumerWidget {
   const PrepareGame({super.key});

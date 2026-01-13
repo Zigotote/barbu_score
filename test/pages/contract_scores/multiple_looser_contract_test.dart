@@ -4,6 +4,7 @@ import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
@@ -18,7 +19,12 @@ import '../../utils/french_material_app.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
+final _defaultNbItems = 4;
+
 void main() {
+  // The state of the singleton is shared during tests so the snackbar cannot be opened multiple times
+  tearDown(() => SnackBarUtils.instance.isSnackBarOpen = false);
+
   patrolWidgetTest("should be accessible", ($) async {
     await $.pumpWidget(_createPage());
 
@@ -68,59 +74,132 @@ void main() {
       await $(IconButton).containing($(Icons.remove)).at(0).tap();
       expect($("0"), findsNWidgets(nbPlayersByDefault));
     });
+    patrolWidgetTest("should not go above max number of items", ($) async {
+      await $.pumpWidget(_createPage());
+
+      for (var i = 0; i < _defaultNbItems + 1; i++) {
+        await $(IconButton).containing($(Icons.add)).at(0).tap();
+      }
+      expect($("Ajout d'éléments impossible"), findsOneWidget);
+      expect($("$_defaultNbItems"), findsOneWidget);
+    });
+  });
+
+  group("#withdrawnCards", () {
+    patrolWidgetTest(
+      "should create page without withdrawn cards field if no random cards are removed",
+      ($) async {
+        await $.pumpWidget(_createPage());
+
+        expect($(Icons.delete_outlined), findsNothing);
+      },
+    );
+    patrolWidgetTest(
+      "should create page with withdrawn cards field if random cards can be removed",
+      ($) async {
+        await $.pumpWidget(_createPage(withdrawRandomCards: true));
+
+        expect($(Icons.delete_outlined), findsOneWidget);
+        expect($("0"), findsNWidgets(nbPlayersByDefault + 1));
+      },
+    );
+    patrolWidgetTest("should not withdraw negative number of items", ($) async {
+      await $.pumpWidget(_createPage(withdrawRandomCards: true));
+
+      await $(IconButton).containing($(Icons.remove)).last.tap();
+      expect($("0"), findsNWidgets(nbPlayersByDefault + 1));
+    });
+    patrolWidgetTest("should not add more withdrawn items than max", ($) async {
+      await $.pumpWidget(_createPage(withdrawRandomCards: true));
+
+      for (var i = 0; i < _defaultNbItems + 1; i++) {
+        await $(IconButton).containing($(Icons.add)).last.tap();
+      }
+      await $.pump();
+      expect($("Ajout d'éléments impossible"), findsOneWidget);
+      expect($("$_defaultNbItems"), findsOneWidget);
+    });
   });
 
   group("#isValid", () {
-    patrolWidgetTest("should create page with initial scores", ($) async {
-      final mockPlayGame = mockPlayGameNotifier();
-      final game = mockPlayGame.game;
-      final contract = ContractWithPointsModel(
-        contract: ContractsInfo.noQueens,
-        itemsByPlayer: {
-          for (var (index, player) in game.players.indexed)
-            player.name: index % 2 == 0 ? 2 : 0,
-        },
-        nbItems: 4,
-      );
-
-      await $.pumpWidget(_createPage(contractValues: contract));
-
-      expect($("2"), findsNWidgets(2));
-      expect($("0"), findsNWidgets(2));
-      final validateButton =
-          ($.tester.firstWidget(findValidateScoresButton($)) as ElevatedButton);
-      expect(validateButton.onPressed, isNotNull);
-    });
-    for (var tooManyTap in [true, false]) {
+    for (var withdrawRandomCards in [true, false]) {
+      final withdrawnCardsText = withdrawRandomCards
+          ? "with withdrawn cards"
+          : "";
       patrolWidgetTest(
-        "should validate scores if number of items is correct, ${tooManyTap ? "with" : "without"} too many taps",
+        "should create page with initial items $withdrawnCardsText",
+        ($) async {
+          final mockPlayGame = mockPlayGameNotifier();
+          final game = mockPlayGame.game;
+          final contract = ContractWithPointsModel(
+            contract: ContractsInfo.noQueens,
+            itemsByPlayer: {
+              for (var (index, player) in game.players.indexed)
+                player.name: index % 2 == 0
+                    ? withdrawRandomCards
+                          ? 1
+                          : 2
+                    : 0,
+            },
+            nbItems: 4,
+          );
+
+          await $.pumpWidget(
+            _createPage(
+              contractValues: contract,
+              withdrawRandomCards: withdrawRandomCards,
+            ),
+          );
+
+          expect($("1"), withdrawRandomCards ? findsNWidgets(2) : findsNothing);
+          expect($("2"), findsNWidgets(withdrawRandomCards ? 1 : 2));
+          expect($("0"), findsNWidgets(2));
+          final validateButton =
+              ($.tester.firstWidget(findValidateScoresButton($))
+                  as ElevatedButton);
+          expect(validateButton.onPressed, isNotNull);
+        },
+      );
+      patrolWidgetTest(
+        "should validate scores if number of items is correct $withdrawnCardsText",
         ($) async {
           final mockPlayGame = mockPlayGameNotifier();
           final game = mockPlayGame.game;
           const indexPlayerWithItems = 0;
-          const nbItems = 4;
+          final nbItemsForPlayer = withdrawRandomCards ? 1 : _defaultNbItems;
+          final nbWithdrawnCards = _defaultNbItems - nbItemsForPlayer;
           final expectedContract = ContractWithPointsModel(
             contract: ContractsInfo.noQueens,
-            nbItems: nbItems,
+            nbItems: _defaultNbItems,
             itemsByPlayer: {
               for (var (index, player) in game.players.indexed)
-                player.name: index == indexPlayerWithItems ? nbItems : 0,
+                player.name: index == indexPlayerWithItems
+                    ? nbItemsForPlayer
+                    : 0,
             },
           );
 
-          await $.pumpWidget(_createPage(mockPlayGame: mockPlayGame));
+          await $.pumpWidget(
+            _createPage(
+              mockPlayGame: mockPlayGame,
+              withdrawRandomCards: withdrawRandomCards,
+            ),
+          );
 
-          for (var i = 0; i < (tooManyTap ? nbItems + 1 : nbItems); i++) {
+          for (var i = 0; i < nbItemsForPlayer; i++) {
             await $(
               IconButton,
             ).containing($(Icons.add)).at(indexPlayerWithItems).tap();
           }
-          expect(
-            $("Ajout de points impossible"),
-            tooManyTap ? findsOneWidget : findsNothing,
-          );
-          expect($("$nbItems"), findsOneWidget);
+          for (var i = 0; i < nbWithdrawnCards; i++) {
+            await $(IconButton).containing($(Icons.add)).last.tap();
+          }
+          expect($("Ajout d'éléments impossible"), findsNothing);
+          expect($("$nbItemsForPlayer"), findsOneWidget);
           expect($("0"), findsNWidgets(game.players.length - 1));
+          if (withdrawRandomCards) {
+            expect($("$nbWithdrawnCards"), findsOneWidget);
+          }
           await findValidateScoresButton($).tap();
 
           expect($(ChooseContract), findsOneWidget);
@@ -135,9 +214,12 @@ void main() {
 Widget _createPage({
   ContractWithPointsModel? contractValues,
   MockPlayGameNotifier? mockPlayGame,
+  bool withdrawRandomCards = false,
 }) {
   final mockStorage = MockMyStorage();
-  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
+  when(
+    mockStorage.getGameSettings(),
+  ).thenReturn(GameSettings(withdrawRandomCards: withdrawRandomCards));
   mockActiveContracts(mockStorage);
 
   mockPlayGame ??= mockPlayGameNotifier();

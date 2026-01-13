@@ -1,26 +1,24 @@
 import 'dart:math';
 
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/contract_scores/utils/save_contract.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
-import '../../commons/providers/log.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
 import '../../commons/widgets/my_list_layouts.dart';
 import '../../commons/widgets/my_subtitle.dart';
-import '../../main.dart';
 import 'widgets/rules_button.dart';
 
 /// A page to fill the scores for a domino contract
-class DominoContractPage extends ConsumerStatefulWidget {
+class DominoContractPage extends ConsumerStatefulWidget with SaveContract {
   const DominoContractPage({super.key});
 
   @override
@@ -89,19 +87,6 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
     return orderedPlayers.length;
   }
 
-  void _saveContract(BuildContext context, WidgetRef ref) {
-    final contractModel = DominoContractModel(rankOfPlayer: orderedPlayers);
-    ref
-        .read(logProvider)
-        .info("DominoContractPage.saveContract: save $contractModel");
-    final provider = ref.read(playGameProvider);
-    provider.finishContract(contractModel);
-
-    context.go(
-      provider.nextPlayer() ? Routes.chooseContract : Routes.finishGame,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final players = ref.watch(playGameProvider).players;
@@ -127,7 +112,11 @@ class _DominoContractPageState extends ConsumerState<DominoContractPage> {
       ),
       bottomWidget: ElevatedButtonFullWidth(
         onPressed: players.length == orderedPlayers.length
-            ? () => _saveContract(context, ref)
+            ? () => widget.saveContract(
+                context,
+                ref,
+                DominoContractModel(rankOfPlayer: orderedPlayers),
+              )
             : null,
         child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
       ),

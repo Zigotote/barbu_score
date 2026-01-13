@@ -111,8 +111,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get cardsOrder =>
-      'Les as sont les cartes les plus fortes. (TODO Océane à paramétrer selon les gameSettings) Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.';
+  String get cardsOrder => 'Les as sont les cartes les plus fortes.';
 
   @override
   String get cardsToKeep => 'Conserver les cartes';
@@ -125,7 +124,7 @@ class AppLocalizationsFr extends AppLocalizations {
       other: 'prendre $nbDecks paquets de cartes et ',
       one: '',
     );
-    return '(TODO Océane à paramétrer selon les gameSettings) A $nbPlayers joueurs, il faut donc ${_temp0}conserver uniquement les cartes : $cards.';
+    return 'Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis. (TODO Océane à paramétrer en fr et en selon les gameSettings)A $nbPlayers joueurs, il faut donc ${_temp0}conserver uniquement les cartes : $cards.';
   }
 
   @override
@@ -208,10 +207,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get english => 'Anglais';
 
   @override
-  String get errorAddPoints => 'Ajout de points impossible';
+  String get errorAddItems => 'Ajout d\'éléments impossible';
 
   @override
-  String errorAddPointsDetails(String item, int nbItems) {
+  String errorAddItemsDetails(String item, int nbItems) {
     return 'Le nombre de $item dépasse le nombre d\'éléments pouvant être remporté, fixé à $nbItems.';
   }
 

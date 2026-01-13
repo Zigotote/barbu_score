@@ -72,9 +72,9 @@
       }
     }
   },
-  "cardsOrder": "Les as sont les cartes les plus fortes. (TODO Océane à paramétrer selon les gameSettings) Avant de jouer il faut conserver les cartes les plus élevées jusqu'à obtenir le nombre requis.",
+  "cardsOrder": "Les as sont les cartes les plus fortes.",
   "cardsToKeep": "Conserver les cartes",
-  "cardsToKeepForPlayers": "(TODO Océane à paramétrer selon les gameSettings) A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes\u00a0: {cards}.",
+  "cardsToKeepForPlayers": "Avant de jouer il faut conserver les cartes les plus élevées jusqu'à obtenir le nombre requis. (TODO Océane à paramétrer en fr et en selon les gameSettings)A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes\u00a0: {cards}.",
   "@cardsToKeepForPlayers": {
     "placeholders": {
       "nbPlayers": {
@@ -144,9 +144,9 @@
   },
   "endGame": "Fin de partie",
   "english": "Anglais",
-  "errorAddPoints": "Ajout de points impossible",
-  "errorAddPointsDetails": "Le nombre de {item} dépasse le nombre d'éléments pouvant être remporté, fixé à {nbItems}.",
-  "@errorAddPointsDetails": {
+  "errorAddItems": "Ajout d'éléments impossible",
+  "errorAddItemsDetails": "Le nombre de {item} dépasse le nombre d'éléments pouvant être remporté, fixé à {nbItems}.",
+  "@errorAddItemsDetails": {
     "placeholders": {
       "item": {
         "type": "String",

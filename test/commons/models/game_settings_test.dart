@@ -52,6 +52,23 @@ void main() {
         },
       );
     }
+    test("should keep Pierrick's cards for 5 players", () {
+      expect(GameSettings(nbTricksByPlayer: {5: 10}).getCardsToKeep(5), [
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+      ]);
+    });
   });
 
   group("#getNbDecks", () {
