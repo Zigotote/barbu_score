@@ -263,7 +263,7 @@ abstract class AppLocalizations {
   /// No description provided for @cardsOrder.
   ///
   /// In fr, this message translates to:
-  /// **'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.'**
+  /// **'Les as sont les cartes les plus fortes. (TODO Océane à paramétrer selon les gameSettings) Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.'**
   String get cardsOrder;
 
   /// No description provided for @cardsToKeep.
@@ -275,7 +275,7 @@ abstract class AppLocalizations {
   /// No description provided for @cardsToKeepForPlayers.
   ///
   /// In fr, this message translates to:
-  /// **'A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes : {cards}.'**
+  /// **'(TODO Océane à paramétrer selon les gameSettings) A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes : {cards}.'**
   String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards);
 
   /// No description provided for @changesSaved.
@@ -497,7 +497,7 @@ abstract class AppLocalizations {
   /// No description provided for @gamePrincipleDetails.
   ///
   /// In fr, this message translates to:
-  /// **'Ce jeu de plis est composé de 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.'**
+  /// **'Ce jeu de plis est composé de (TODO Océane paramétrer ça) 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.'**
   String get gamePrincipleDetails;
 
   /// No description provided for @gameRound.
@@ -509,7 +509,7 @@ abstract class AppLocalizations {
   /// No description provided for @gameRoundRules.
   ///
   /// In fr, this message translates to:
-  /// **'Distribuer les cartes entre les joueurs : chacun doit en avoir 8.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.'**
+  /// **'Distribuer les cartes entre les joueurs.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.'**
   String get gameRoundRules;
 
   /// No description provided for @gameSaved.
@@ -659,8 +659,8 @@ abstract class AppLocalizations {
   /// No description provided for @nbCardsRules.
   ///
   /// In fr, this message translates to:
-  /// **'Le jeu se joue avec {nbCards} cartes ({nbPlayers} × 8).'**
-  String nbCardsRules(int nbCards, int nbPlayers);
+  /// **'Le jeu se joue avec {nbCards} cartes ({nbPlayers} × {nbTricks}).'**
+  String nbCardsRules(int nbCards, int nbPlayers, int nbTricks);
 
   /// No description provided for @nbItemsByPlayer.
   ///
@@ -779,7 +779,7 @@ abstract class AppLocalizations {
   /// No description provided for @presentGame.
   ///
   /// In fr, this message translates to:
-  /// **'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes.'**
+  /// **'Le barbu est un jeu de cartes pour 3 à 10 joueurs.'**
   String get presentGame;
 
   /// No description provided for @presentGameGoalMaxScore.

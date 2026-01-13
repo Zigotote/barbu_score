@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:barbu_score/commons/utils/constants.dart';
+import 'package:collection/collection.dart';
+
 /// A class to represent game settings
 class GameSettings {
   /// Indicates if the best player is the one with the smallest or bigger score
@@ -9,7 +12,7 @@ class GameSettings {
   final int? fixedNbTricks;
 
   /// The number of tricks by round, depending on the number of players in the game. If null, [fixedNbTricks] is required
-  final Map<int, int>? nbTricksByPlayer;
+  Map<int, int>? nbTricksByPlayer;
 
   /// Indicates if random cards are withdrawn for each round. If not, the smallest ones are always taken out
   final bool withdrawRandomCards;
@@ -19,7 +22,9 @@ class GameSettings {
     int? fixedNbTricks,
     Map<int, int>? nbTricksByPlayer,
     this.withdrawRandomCards = false,
-  }) : fixedNbTricks = nbTricksByPlayer == null ? (fixedNbTricks ?? 8) : null,
+  }) : fixedNbTricks = nbTricksByPlayer == null
+           ? (fixedNbTricks ?? kNbTricksByRound)
+           : null,
        nbTricksByPlayer = fixedNbTricks == null ? nbTricksByPlayer : null;
 
   GameSettings.fromJson(Map<String, dynamic> json)
@@ -84,5 +89,30 @@ class GameSettings {
           : nbTricksByPlayer ?? this.nbTricksByPlayer,
       withdrawRandomCards: withdrawRandomCards ?? this.withdrawRandomCards,
     );
+  }
+
+  /// Returns the number of tricks by round for a specific number of players. If nothing saved, returns [kNbTricksByRound]
+  int getNbTricksByRound(int nbPlayers) =>
+      fixedNbTricks ?? nbTricksByPlayer?[nbPlayers] ?? kNbTricksByRound;
+
+  /// Returns the number of cards to use for a game with [nbPlayers]
+  int getNbCards(int nbPlayers) => nbPlayers * getNbTricksByRound(nbPlayers);
+
+  /// Returns the values of the cards to keep for the game
+  List<int> getCardsToKeep(int nbPlayers) {
+    final cardIndexes = List.generate(
+      13,
+      (index) => index + 2,
+    ).reversed.toList();
+
+    return cardIndexes.slice(
+      0,
+      (getNbCards(nbPlayers) / (4 * getNbDecks(nbPlayers))).toInt(),
+    );
+  }
+
+  /// Returns the number of decks required for this number of cards
+  int getNbDecks(int nbPlayers) {
+    return (getNbCards(nbPlayers) / 52).ceil();
   }
 }

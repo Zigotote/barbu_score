@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/models/contract_models.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
@@ -114,6 +115,7 @@ void main() {
 Widget _createPage([MockPlayGameNotifier? mockPlayGame]) {
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
+  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   mockPlayGame ??= mockPlayGameNotifier();
 
   final container = ProviderContainer(

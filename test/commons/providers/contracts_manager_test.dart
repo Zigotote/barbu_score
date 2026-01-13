@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/providers/contracts_manager.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
@@ -37,9 +38,11 @@ void main() {
     contract: ContractsInfo.noLastTrick,
     points: 50,
   );
-  final dominoSettings = DominoContractSettings(points: {
-    4: [-10, -5, 5, 10]
-  });
+  final dominoSettings = DominoContractSettings(
+    points: {
+      4: [-10, -5, 5, 10],
+    },
+  );
 
   // Items by players
   final playerNames = defaultPlayerNames.take(4).toList();
@@ -47,7 +50,7 @@ void main() {
     contract: ContractsInfo.barbu,
     itemsByPlayer: {
       for (var (index, player) in playerNames.indexed)
-        player: index == 0 ? 1 : 0
+        player: index == 0 ? 1 : 0,
     },
   );
   final noQueens = ContractWithPointsModel(
@@ -69,12 +72,14 @@ void main() {
     contract: ContractsInfo.noLastTrick,
     itemsByPlayer: {
       for (var (index, player) in playerNames.indexed)
-        player: index == 0 ? 1 : 0
+        player: index == 0 ? 1 : 0,
     },
   );
-  final domino = DominoContractModel(rankOfPlayer: {
-    for (var (index, player) in playerNames.indexed) player: index
-  });
+  final domino = DominoContractModel(
+    rankOfPlayer: {
+      for (var (index, player) in playerNames.indexed) player: index,
+    },
+  );
   final salad = SaladContractModel(
     subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
   );
@@ -82,36 +87,36 @@ void main() {
   // Expected scores
   final barbuScores = {
     for (var (index, player) in playerNames.indexed)
-      player: index == 0 ? barbuSettings.points : 0
+      player: index == 0 ? barbuSettings.points : 0,
   };
   final noHeartsScores = {
-    for (var player in playerNames) player: noHeartsSettings.points * 2
+    for (var player in playerNames) player: noHeartsSettings.points * 2,
   };
   final noQueensScores = {
-    for (var player in playerNames) player: noQueensSettings.points
+    for (var player in playerNames) player: noQueensSettings.points,
   };
   final noTricksScores = {
-    for (var player in playerNames) player: noTricksSettings.points * 2
+    for (var player in playerNames) player: noTricksSettings.points * 2,
   };
   final noLastTricksScores = {
     for (var (index, player) in playerNames.indexed)
-      player: index == 0 ? noLastTrickSettings.points : 0
+      player: index == 0 ? noLastTrickSettings.points : 0,
   };
   final dominoScores = {
     for (var (index, player) in playerNames.indexed)
-      player: dominoSettings.points[playerNames.length]![index]
+      player: dominoSettings.points[playerNames.length]![index],
   };
   final saladScores = {
     for (var (index, player) in playerNames.indexed)
       player: index == 0
           ? barbuSettings.points +
-              noHeartsSettings.points * 2 +
-              noQueensSettings.points +
-              noTricksSettings.points * 2 +
-              noLastTrickSettings.points
+                noHeartsSettings.points * 2 +
+                noQueensSettings.points +
+                noTricksSettings.points * 2 +
+                noLastTrickSettings.points
           : noHeartsSettings.points * 2 +
-              noQueensSettings.points +
-              noTricksSettings.points * 2
+                noQueensSettings.points +
+                noTricksSettings.points * 2,
   };
 
   setUp(() {
@@ -121,14 +126,16 @@ void main() {
       noTricksSettings,
       noHeartsSettings,
       noLastTrickSettings,
-      dominoSettings
+      dominoSettings,
     ]) {
-      when(mockStorage
-              .getSettings(ContractsInfo.fromName(contractSettings.name)))
-          .thenReturn(contractSettings);
+      when(
+        mockStorage.getSettings(ContractsInfo.fromName(contractSettings.name)),
+      ).thenReturn(contractSettings);
     }
-    when(mockStorage.getSettings(ContractsInfo.salad))
-        .thenReturn(ContractsInfo.salad.defaultSettings);
+    when(
+      mockStorage.getSettings(ContractsInfo.salad),
+    ).thenReturn(ContractsInfo.salad.defaultSettings);
+    when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   });
 
   group("#scoresByContract", () {
@@ -144,75 +151,76 @@ void main() {
         ContractsInfo.noLastTrick,
         ContractsInfo.domino,
         ContractsInfo.salad,
-      ]
+      ],
     ]) {
       final player = Player(
         name: playerNames[0],
         color: MyThemeColors.values[0],
         image: playerImages[0],
-        contracts: [
-          barbu,
-          noQueens,
-          noHearts,
-          noLastTrick,
-          noTricks,
-          domino,
-          salad
-        ]
-            .where((contractScores) => contractsTest
-                .map((ContractsInfo? contract) => contract?.name)
-                .contains(contractScores.name))
-            .toList(),
+        contracts:
+            [barbu, noQueens, noHearts, noLastTrick, noTricks, domino, salad]
+                .where(
+                  (contractScores) => contractsTest
+                      .map((ContractsInfo? contract) => contract?.name)
+                      .contains(contractScores.name),
+                )
+                .toList(),
       );
       for (bool hasInactiveContracts in [true, false]) {
         test(
-            "should calculate scores by contract for a player with $contractsTest ${hasInactiveContracts ? "with some inactive contracts" : ""}",
-            () {
-          for (var contractSettings in [
-            noTricksSettings,
-            noQueensSettings,
-            dominoSettings
-          ]) {
-            when(mockStorage
-                    .getSettings(ContractsInfo.fromName(contractSettings.name)))
-                .thenReturn(
-              contractSettings.copyWith(isActive: !hasInactiveContracts),
+          "should calculate scores by contract for a player with $contractsTest ${hasInactiveContracts ? "with some inactive contracts" : ""}",
+          () {
+            for (var contractSettings in [
+              noTricksSettings,
+              noQueensSettings,
+              dominoSettings,
+            ]) {
+              when(
+                mockStorage.getSettings(
+                  ContractsInfo.fromName(contractSettings.name),
+                ),
+              ).thenReturn(
+                contractSettings.copyWith(isActive: !hasInactiveContracts),
+              );
+            }
+            final contractsManager = ContractsManager(
+              mockStorage,
+              playerNames.length,
             );
-          }
-          final contractsManager =
-              ContractsManager(mockStorage, playerNames.length);
 
-          expect(contractsManager.scoresByContract(player), {
-            ContractsInfo.barbu: contractsTest.contains(ContractsInfo.barbu)
-                ? barbuScores
-                : null,
-            ContractsInfo.noHearts:
-                contractsTest.contains(ContractsInfo.noHearts)
-                    ? noHeartsScores
-                    : null,
-            if (!hasInactiveContracts)
-              ContractsInfo.noQueens:
-                  contractsTest.contains(ContractsInfo.noQueens)
-                      ? noQueensScores
-                      : null,
-            if (!hasInactiveContracts)
-              ContractsInfo.noTricks:
-                  contractsTest.contains(ContractsInfo.noTricks)
-                      ? noTricksScores
-                      : null,
-            ContractsInfo.noLastTrick:
-                contractsTest.contains(ContractsInfo.noLastTrick)
-                    ? noLastTricksScores
-                    : null,
-            if (!hasInactiveContracts)
-              ContractsInfo.domino: contractsTest.contains(ContractsInfo.domino)
-                  ? dominoScores
+            expect(contractsManager.scoresByContract(player), {
+              ContractsInfo.barbu: contractsTest.contains(ContractsInfo.barbu)
+                  ? barbuScores
                   : null,
-            ContractsInfo.salad: contractsTest.contains(ContractsInfo.salad)
-                ? saladScores
-                : null,
-          });
-        });
+              ContractsInfo.noHearts:
+                  contractsTest.contains(ContractsInfo.noHearts)
+                  ? noHeartsScores
+                  : null,
+              if (!hasInactiveContracts)
+                ContractsInfo.noQueens:
+                    contractsTest.contains(ContractsInfo.noQueens)
+                    ? noQueensScores
+                    : null,
+              if (!hasInactiveContracts)
+                ContractsInfo.noTricks:
+                    contractsTest.contains(ContractsInfo.noTricks)
+                    ? noTricksScores
+                    : null,
+              ContractsInfo.noLastTrick:
+                  contractsTest.contains(ContractsInfo.noLastTrick)
+                  ? noLastTricksScores
+                  : null,
+              if (!hasInactiveContracts)
+                ContractsInfo.domino:
+                    contractsTest.contains(ContractsInfo.domino)
+                    ? dominoScores
+                    : null,
+              ContractsInfo.salad: contractsTest.contains(ContractsInfo.salad)
+                  ? saladScores
+                  : null,
+            });
+          },
+        );
       }
     }
   });
@@ -232,14 +240,16 @@ void main() {
                 noLastTrick,
                 noTricks,
                 domino,
-                salad
+                salad,
               ],
             ),
           )
           .toList();
 
-      final contractsManager =
-          ContractsManager(mockStorage, playerNames.length);
+      final contractsManager = ContractsManager(
+        mockStorage,
+        playerNames.length,
+      );
 
       expect(contractsManager.sumScoresByContract(players), {
         ContractsInfo.barbu: barbuScores.map(
@@ -296,8 +306,10 @@ void main() {
       const nbNoHearts = 3;
       const nbNoTricks = 2;
 
-      final contractsManager =
-          ContractsManager(mockStorage, playerNames.length);
+      final contractsManager = ContractsManager(
+        mockStorage,
+        playerNames.length,
+      );
 
       expect(contractsManager.sumScoresByContract(players), {
         ContractsInfo.barbu: barbuScores.map(

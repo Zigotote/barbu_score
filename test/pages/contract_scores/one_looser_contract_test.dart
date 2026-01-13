@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
@@ -80,7 +81,7 @@ void main() {
           },
         );
 
-      await $.pumpWidget(_createPage($, mockPlayGame: mockPlayGame));
+        await $.pumpWidget(_createPage($, mockPlayGame: mockPlayGame));
 
         if (changeSelectedPlayer) {
           await $(ElevatedButtonCustomColor).at(0).tap();
@@ -106,6 +107,7 @@ Widget _createPage(
 
   final mockStorage = MockMyStorage();
   mockActiveContracts(mockStorage);
+  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
 
   mockPlayGame ??= mockPlayGameNotifier();
   final container = ProviderContainer(

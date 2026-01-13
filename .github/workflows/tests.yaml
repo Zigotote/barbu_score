@@ -30,7 +30,7 @@ jobs:
       - name: Setup LCOV
         uses: hrishikesh-kadam/setup-lcov@v1
       - name: Generate coverage file
-        run: lcov -r coverage/lcov.info "lib/commons/l10n/app_localizations_*.dart" -o coverage/lcov_cleaned.info
+        run: lcov -r coverage/lcov.info "lib/commons/l10n/" -o coverage/lcov_cleaned.info
       - name: Report Code Coverage
         uses: zgosalvez/github-actions-report-lcov@v4
         with:

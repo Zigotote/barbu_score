@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 /// A widget to enter some points
 class NumberInput extends StatefulWidget {
-  /// The contract to wich the score is linked
-  final int points;
+  /// The initial value of the input
+  final int value;
 
   /// The function to call on value changed
   final void Function(int)? onChanged;
@@ -13,7 +13,7 @@ class NumberInput extends StatefulWidget {
   final FocusNode? focusNode;
 
   const NumberInput({
-    required this.points,
+    required this.value,
     required this.onChanged,
     this.focusNode,
     super.key,
@@ -30,7 +30,7 @@ class _NumberInputState extends State<NumberInput> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.points.toString());
+    _controller = TextEditingController(text: widget.value.toString());
     _controller.addListener(
       () => widget.onChanged?.call(int.tryParse(_controller.text) ?? 0),
     );

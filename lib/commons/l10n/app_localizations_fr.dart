@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -113,7 +112,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get cardsOrder =>
-      'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.';
+      'Les as sont les cartes les plus fortes. (TODO Océane à paramétrer selon les gameSettings) Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.';
 
   @override
   String get cardsToKeep => 'Conserver les cartes';
@@ -126,7 +125,7 @@ class AppLocalizationsFr extends AppLocalizations {
       other: 'prendre $nbDecks paquets de cartes et ',
       one: '',
     );
-    return 'A $nbPlayers joueurs, il faut donc ${_temp0}conserver uniquement les cartes : $cards.';
+    return '(TODO Océane à paramétrer selon les gameSettings) A $nbPlayers joueurs, il faut donc ${_temp0}conserver uniquement les cartes : $cards.';
   }
 
   @override
@@ -261,14 +260,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get gamePrincipleDetails =>
-      'Ce jeu de plis est composé de 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.';
+      'Ce jeu de plis est composé de (TODO Océane paramétrer ça) 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.';
 
   @override
   String get gameRound => 'Manche de jeu';
 
   @override
   String get gameRoundRules =>
-      'Distribuer les cartes entre les joueurs : chacun doit en avoir 8.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.';
+      'Distribuer les cartes entre les joueurs.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.';
 
   @override
   String get gameSaved => 'Partie sauvegardée';
@@ -351,8 +350,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get moreInfo => 'Plus d\'informations';
 
   @override
-  String nbCardsRules(int nbCards, int nbPlayers) {
-    return 'Le jeu se joue avec $nbCards cartes ($nbPlayers × 8).';
+  String nbCardsRules(int nbCards, int nbPlayers, int nbTricks) {
+    return 'Le jeu se joue avec $nbCards cartes ($nbPlayers × $nbTricks).';
   }
 
   @override
@@ -423,7 +422,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get presentGame =>
-      'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes.';
+      'Le barbu est un jeu de cartes pour 3 à 10 joueurs.';
 
   @override
   String get presentGameGoalMaxScore =>

@@ -6,7 +6,6 @@ import '../models/contract_info.dart';
 import '../models/contract_models.dart';
 import '../models/contract_settings_models.dart';
 import '../models/player.dart';
-import '../utils/game_helpers.dart';
 import 'play_game.dart';
 import 'storage.dart';
 
@@ -20,20 +19,22 @@ final contractsManagerProvider = StateProvider.autoDispose<ContractsManager>(
 /// An object to bind all contracts data together
 typedef ContractManager = ({
   AbstractContractModel model,
-  AbstractContractSettings settings
+  AbstractContractSettings settings,
 });
 
 /// A class to manage the contracts of the game
 class ContractsManager {
   late final Map<ContractsInfo, ContractManager> _contracts;
-  final int nbPlayers;
+  late final int _nbDecks;
 
-  ContractsManager(MyStorage storage, this.nbPlayers) {
+  ContractsManager(MyStorage storage, int nbPlayers) {
+    final gameSettings = storage.getGameSettings();
+    _nbDecks = gameSettings.getNbDecks(nbPlayers);
     _contracts = {
       ContractsInfo.barbu: (
         model: ContractWithPointsModel(
           contract: ContractsInfo.barbu,
-          nbItems: getNbDecks(nbPlayers),
+          nbItems: _nbDecks,
         ),
         settings: storage.getSettings(ContractsInfo.barbu),
       ),
@@ -47,14 +48,14 @@ class ContractsManager {
       ContractsInfo.noQueens: (
         model: ContractWithPointsModel(
           contract: ContractsInfo.noQueens,
-          nbItems: getNbDecks(nbPlayers) * 4,
+          nbItems: _nbDecks * 4,
         ),
         settings: storage.getSettings(ContractsInfo.noQueens),
       ),
       ContractsInfo.noTricks: (
         model: ContractWithPointsModel(
           contract: ContractsInfo.noTricks,
-          nbItems: 8,
+          nbItems: gameSettings.getNbTricksByRound(nbPlayers),
         ),
         settings: storage.getSettings(ContractsInfo.noTricks),
       ),
@@ -91,13 +92,13 @@ class ContractsManager {
 
   String getScoresRoute(ContractsInfo contract) {
     return switch (contract) {
-      ContractsInfo.barbu => getNbDecks(nbPlayers) == 1
-          ? "${Routes.oneLooserScores}/${contract.name}"
-          : "${Routes.noSomethingScores}/${contract.name}",
+      ContractsInfo.barbu =>
+        _nbDecks == 1
+            ? "${Routes.oneLooserScores}/${contract.name}"
+            : "${Routes.noSomethingScores}/${contract.name}",
       ContractsInfo.noHearts ||
       ContractsInfo.noQueens ||
-      ContractsInfo.noTricks =>
-        "${Routes.noSomethingScores}/${contract.name}",
+      ContractsInfo.noTricks => "${Routes.noSomethingScores}/${contract.name}",
       ContractsInfo.noLastTrick => "${Routes.oneLooserScores}/${contract.name}",
       ContractsInfo.salad => Routes.saladScores,
       ContractsInfo.domino => Routes.dominoScores,
@@ -108,36 +109,36 @@ class ContractsManager {
   Map<ContractsInfo, Map<String, int>?> scoresByContract(Player player) {
     return Map.fromEntries(
       _contracts.entries.where((contract) => contract.value.settings.isActive),
-    ).map(
-      (contract, contractManager) {
-        Map<String, int>? scores;
-        final AbstractContractModel? contractModel =
-            player.contracts.firstWhereOrNull((c) => c.name == contract.name);
-        if (contractModel is SaladContractModel) {
-          scores = contractModel.scores(
-            contractManager.settings,
-            _contracts.values
-                .map((contractManager) => contractManager.settings)
-                .toList(),
-          );
-        } else {
-          scores = contractModel?.scores(contractManager.settings);
-        }
-        return MapEntry(contract, scores);
-      },
-    );
+    ).map((contract, contractManager) {
+      Map<String, int>? scores;
+      final AbstractContractModel? contractModel = player.contracts
+          .firstWhereOrNull((c) => c.name == contract.name);
+      if (contractModel is SaladContractModel) {
+        scores = contractModel.scores(
+          contractManager.settings,
+          _contracts.values
+              .map((contractManager) => contractManager.settings)
+              .toList(),
+        );
+      } else {
+        scores = contractModel?.scores(contractManager.settings);
+      }
+      return MapEntry(contract, scores);
+    });
   }
 
   /// Sums the scores of the players, sorted by contract
   Map<ContractsInfo, Map<String, int>?> sumScoresByContract(
-      List<Player> players) {
-    return players.map((player) => scoresByContract(player)).reduce(
+    List<Player> players,
+  ) {
+    return players
+        .map((player) => scoresByContract(player))
+        .reduce(
           (sum, contractScores) => sum
             ..updateAll(
               (contract, playerScores) => playerScores == null
                   ? contractScores[contract]
-                  : (playerScores
-                    ..updateAll(
+                  : (playerScores..updateAll(
                       (player, score) =>
                           score + (contractScores[contract]?[player] ?? 0),
                     )),

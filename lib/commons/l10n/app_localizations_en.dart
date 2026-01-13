@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -267,7 +266,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gameRoundRules =>
-      'Distribute the cards among the players: each player must have 8 cards.*The first player chooses the contract he wishes to play and announces it to the other players.*He starts the trick by playing a card, which determines the suit of the trick.*Each player plays a card in clockwise order.*If a player does not have a card of the required suit, they can play any card from their hand. The value of this card will be considered as null.*At the end of the round, the player who played the highest-value card wins the trick. He will start the next trick.*The round ends when all players have played all their cards.*Points are then counted according to the contract chosen by the first player.*The player to the left of the previous first player starts the next round.';
+      'Distribute the cards among the players.*The first player chooses the contract he wishes to play and announces it to the other players.*He starts the trick by playing a card, which determines the suit of the trick.*Each player plays a card in clockwise order.*If a player does not have a card of the required suit, they can play any card from their hand. The value of this card will be considered as null.*At the end of the round, the player who played the highest-value card wins the trick. He will start the next trick.*The round ends when all players have played all their cards.*Points are then counted according to the contract chosen by the first player.*The player to the left of the previous first player starts the next round.';
 
   @override
   String get gameSaved => 'Game saved';
@@ -349,8 +348,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moreInfo => 'More information';
 
   @override
-  String nbCardsRules(int nbCards, int nbPlayers) {
-    return 'The game is played with $nbCards cards ($nbPlayers × 8).';
+  String nbCardsRules(int nbCards, int nbPlayers, int nbTricks) {
+    return 'The game is played with $nbCards cards ($nbPlayers × $nbTricks).';
   }
 
   @override
@@ -420,8 +419,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get prepareGameRules => 'Game setup';
 
   @override
-  String get presentGame =>
-      'Barbu is a game for 3 to 6 players, played with a deck of cards. It can also be played with up to 10 players, using 2 decks of cards.';
+  String get presentGame => 'Barbu is a card game for 3 to 10 players.';
 
   @override
   String get presentGameGoalMaxScore =>

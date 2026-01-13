@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:barbu_score/commons/models/game_settings.dart';
+import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +10,6 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../commons/models/player.dart';
 import '../../commons/providers/play_game.dart';
-import '../../commons/utils/game_helpers.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
@@ -23,6 +24,7 @@ class PrepareGame extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<Player> players = ref.read(playGameProvider).players;
+    final gameSettings = ref.read(storageProvider).getGameSettings();
     return Scaffold(
       appBar: MyAppBar(Text(context.l10n.prepareGame), context: context),
       body: SafeArea(
@@ -32,7 +34,7 @@ class PrepareGame extends ConsumerWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding: MyDefaultPage.appPadding,
-                child: _buildPrepareGameText(context, players),
+                child: _buildPrepareGameText(context, gameSettings, players),
               ),
             ),
             SliverFillRemaining(
@@ -65,8 +67,12 @@ class PrepareGame extends ConsumerWidget {
     );
   }
 
-  Widget _buildPrepareGameText(BuildContext context, List<Player> players) {
-    final cardsToKeep = getCardsToKeep(players.length);
+  Widget _buildPrepareGameText(
+    BuildContext context,
+    GameSettings gameSettings,
+    List<Player> players,
+  ) {
+    final cardsToKeep = gameSettings.getCardsToKeep(players.length);
     return MergeSemantics(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +87,9 @@ class PrepareGame extends ConsumerWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
-          Text(context.l10n.fromTheDeck(getNbDecks(players.length))),
+          Text(
+            context.l10n.fromTheDeck(gameSettings.getNbDecks(players.length)),
+          ),
         ],
       ),
     );

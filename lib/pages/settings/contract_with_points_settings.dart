@@ -47,7 +47,7 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
             label: context.l10n.contractPoints,
             onTap: numberFocusNode.requestFocus,
             input: NumberInput(
-              points: settings.points,
+              value: settings.points,
               onChanged: (value) {
                 if (value != settings.points) {
                   settings.points = value;

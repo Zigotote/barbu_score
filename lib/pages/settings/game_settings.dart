@@ -1,4 +1,7 @@
+import 'package:barbu_score/commons/models/game_settings.dart';
+import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/settings/widgets/number_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,12 +12,35 @@ import 'widgets/my_switch.dart';
 import 'widgets/setting_question.dart';
 
 /// A page to edit game settings
-class GameSettingsPage extends ConsumerWidget {
+class GameSettingsPage extends ConsumerStatefulWidget {
   const GameSettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.read(storageProvider).getGameSettings();
+  ConsumerState<GameSettingsPage> createState() => _GameSettingsPageState();
+}
+
+class _GameSettingsPageState extends ConsumerState<GameSettingsPage> {
+  late GameSettings settings;
+  late final MyStorage storage;
+
+  @override
+  void initState() {
+    super.initState();
+    settings = ref.read(storageProvider).getGameSettings();
+    storage = ref.read(storageProvider);
+  }
+
+  @override
+  void dispose() {
+    storage.saveGameSettings(
+      settings,
+    ); // TODO Océane réfléchir comment faire ça bien parce que là je pourrais pas envoyer d'événement d'analytic, parce que je peux pas lire le ref ici
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final fixedNbTricksFocusNode = FocusNode();
     return MyDefaultPage(
       appBar: MyAppBar(
         Column(
@@ -29,29 +55,77 @@ class GameSettingsPage extends ConsumerWidget {
             label: context.l10n.gameScoreObjective,
             input: MySwitch(
               isActive: settings.goalIsMinScore,
-              onChanged: (value) => ref
-                  .read(storageProvider)
-                  .saveGameSettings(settings.copyWith(goalIsMinScore: value)),
-            ),
-            onTap: () => ref
-                .read(storageProvider)
-                .saveGameSettings(
-                  settings.copyWith(goalIsMinScore: !settings.goalIsMinScore),
-                ),
-          ),
-          /*const SizedBox(height: 8),
-          ...SaladContractSettings.availableContracts.map(
-            (contract) => SettingQuestion(
-              key: Key(contract.name),
-              label: context.l10n.contractName(contract),
-              onTap: () => _toggleSubcontractActivation(contract, settings),
-              input: MySwitch(
-                isActive: settings.contracts[contract.name]!,
-                onChanged: (_) =>
-                    _toggleSubcontractActivation(contract, settings),
+              onChanged: (value) => setState(
+                () => settings = settings.copyWith(goalIsMinScore: value),
               ),
             ),
-          ),*/
+            onTap: () => setState(
+              () => settings = settings.copyWith(
+                goalIsMinScore: !settings.goalIsMinScore,
+              ),
+            ),
+          ),
+          SettingQuestion(
+            label: "Nombre de plis fixe ?",
+            input: MySwitch(
+              isActive: settings.fixedNbTricks != null,
+              onChanged: (value) => setState(
+                () => settings = value
+                    ? settings.copyWith(fixedNbTricks: kNbTricksByRound)
+                    : settings.copyWith(
+                        nbTricksByPlayer: kNbTricksByRoundByPlayer,
+                      ),
+              ),
+            ),
+            onTap: () =>
+                (value) => setState(
+                  () => settings = value
+                      ? settings.copyWith(fixedNbTricks: kNbTricksByRound)
+                      : settings.copyWith(
+                          nbTricksByPlayer: kNbTricksByRoundByPlayer,
+                        ),
+                ),
+          ),
+          if (settings.fixedNbTricks != null)
+            SettingQuestion(
+              label: "Nombre de plis par manche",
+              input: NumberInput(
+                value: settings.fixedNbTricks!,
+                onChanged: (value) => setState(
+                  () => settings = settings.copyWith(fixedNbTricks: value),
+                ),
+              ),
+              onTap: fixedNbTricksFocusNode.requestFocus,
+            ),
+          if (settings.nbTricksByPlayer != null) ...[
+            Text("Nombre de plis par manche selon le nombre de joueurs"),
+            ...List.generate(kNbPlayersMax - kNbPlayersMin, (index) {
+              final nbPlayers = index + kNbPlayersMin;
+              return SettingQuestion(
+                label: "$nbPlayers joueurs",
+                input: NumberInput(
+                  value: settings.getNbTricksByRound(nbPlayers),
+                  onChanged: (value) =>
+                      settings.nbTricksByPlayer![nbPlayers] = value,
+                ),
+                onTap: () {},
+              );
+            }),
+          ],
+          SettingQuestion(
+            label: "Cartes retirées aléatoirement ?",
+            input: MySwitch(
+              isActive: settings.withdrawRandomCards,
+              onChanged: (value) => setState(
+                () => settings = settings.copyWith(withdrawRandomCards: value),
+              ),
+            ),
+            onTap: () => setState(
+              () => settings = settings.copyWith(
+                withdrawRandomCards: !settings.withdrawRandomCards,
+              ),
+            ),
+          ),
         ],
       ),
     );
