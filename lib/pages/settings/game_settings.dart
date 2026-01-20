@@ -35,7 +35,7 @@ class _GameSettingsPageState extends ConsumerState<GameSettingsPage> {
   void dispose() {
     storage.saveGameSettings(
       settings,
-    ); // TODO Océane réfléchir comment faire ça bien parce que là je pourrais pas envoyer d'événement d'analytic, parce que je peux pas lire le ref ici
+    ); // TODO Océane ça marche pas comme ça, faut repasser comme pour l'édition de contrat
     super.dispose();
   }
 

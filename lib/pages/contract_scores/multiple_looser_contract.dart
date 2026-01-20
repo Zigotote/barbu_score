@@ -178,9 +178,7 @@ class _MultipleLooserContractPageState
             }
           },
           icon: Icon(Icons.remove),
-          tooltip: context.l10n.addItem(
-            _itemName,
-          ), // TODO Océane gérer la traduction
+          tooltip: context.l10n.withdrawCard,
         ),
         Stack(
           alignment: Alignment.center,
@@ -188,6 +186,7 @@ class _MultipleLooserContractPageState
             Icon(
               Icons.delete_outlined,
               size: MediaQuery.textScalerOf(context).scale(60),
+              semanticLabel: context.l10n.withdrawnCards,
             ),
             Positioned(
               bottom: MediaQuery.textScalerOf(context).scale(15),
@@ -198,9 +197,7 @@ class _MultipleLooserContractPageState
         IconButton(
           onPressed: () => _addItem(),
           icon: Icon(Icons.add),
-          tooltip: context.l10n.withdrawItem(
-            _itemName,
-          ), // TODO Océane gérer la traduction
+          tooltip: context.l10n.addCard,
         ),
       ],
     );

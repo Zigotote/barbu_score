@@ -35,6 +35,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get activateContract => 'Activate contract';
 
   @override
+  String get addCard => 'Add a card';
+
+  @override
   String addItem(String item) {
     return 'Add one $item';
   }
@@ -124,7 +127,12 @@ class AppLocalizationsEn extends AppLocalizations {
       other: 'use $nbDecks decks of cards and ',
       one: '',
     );
-    return 'With $nbPlayers players, ${_temp0}only the following cards should be kept: $cards.';
+    return 'With $nbPlayers players, ${_temp0}only the following cards should be kept: $cards';
+  }
+
+  @override
+  String cardsToKeepPartially(int nbCards, String card) {
+    return 'as well as $nbCards cards with a value of $card and of the suit clubs, diamonds, or spades';
   }
 
   @override
@@ -207,8 +215,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get english => 'English';
 
   @override
-  String get errorAddItems =>
-      'Adding items impossible (TODO Océane vérifier la trad)';
+  String get errorAddItems => 'Unable to add item';
 
   @override
   String errorAddItemsDetails(String item, int nbItems) {
@@ -234,6 +241,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fold => 'Collapse the choices';
+
+  @override
+  String get forbiddenIfBarbuDiscarded =>
+      'This contract cannot be chosen if the king of hearts is among the discarded cards.';
 
   @override
   String get forGameAt => 'For a game of';
@@ -267,7 +278,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gameRoundRules =>
-      'Distribute the cards among the players.*The first player chooses the contract he wishes to play and announces it to the other players.*He starts the trick by playing a card, which determines the suit of the trick.*Each player plays a card in clockwise order.*If a player does not have a card of the required suit, they can play any card from their hand. The value of this card will be considered as null.*At the end of the round, the player who played the highest-value card wins the trick. He will start the next trick.*The round ends when all players have played all their cards.*Points are then counted according to the contract chosen by the first player.*The player to the left of the previous first player starts the next round.';
+      'Distribute the same number of cards among the players.*The first player chooses the contract he wishes to play and announces it to the other players.*He starts the trick by playing a card, which determines the suit of the trick.*Each player plays a card in clockwise order.*If a player does not have a card of the required suit, they can play any card from their hand. The value of this card will be considered as null.*At the end of the round, the player who played the highest-value card wins the trick. He will start the next trick.*The round ends when all players have played all their cards.*Points are then counted according to the contract chosen by the first player.*The player to the left of the previous first player starts the next round.';
 
   @override
   String get gameSaved => 'Game saved';
@@ -349,8 +360,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moreInfo => 'More information';
 
   @override
-  String nbCardsRules(int nbCards, int nbPlayers, int nbTricks) {
-    return 'The game is played with $nbCards cards ($nbPlayers × $nbTricks).';
+  String nbCardsRules(int nbCards, int nbTricks) {
+    return 'The game is played with $nbCards cards ($nbTricks cards by player).';
+  }
+
+  @override
+  String nbDecksRules(int nbDecks, int nbCardsByDeck) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: '$nbDecks decks',
+      one: '1 deck',
+    );
+    return 'The game is played with $_temp0 of $nbCardsByDeck cards.';
   }
 
   @override
@@ -592,9 +614,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get withdrawCard => 'Withdraw a card';
+
+  @override
   String withdrawItem(String item) {
     return 'Withdraw one $item';
   }
+
+  @override
+  String get withdrawnCards => 'Cards withdrawn';
 
   @override
   String get worstEnnemy => 'Worst ennemy';

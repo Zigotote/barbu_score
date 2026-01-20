@@ -16,4 +16,4 @@ const kNbTricksByRoundByPlayer = {
   8: 6,
   9: 10,
   10: 10,
-}; // TODO Océane réfléchir comment adapter ces valeurs, là c'est au pif
+}; // TODO Océane MAINTENANT essayer de plutôt demander la taille du deck plutôt que le nombre de plis par joueur

@@ -35,6 +35,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get activateContract => 'Activer le contrat';
 
   @override
+  String get addCard => 'Ajouter une carte';
+
+  @override
   String addItem(String item) {
     String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
     return 'Ajouter $_temp0 $item';
@@ -124,7 +127,12 @@ class AppLocalizationsFr extends AppLocalizations {
       other: 'prendre $nbDecks paquets de cartes et ',
       one: '',
     );
-    return 'Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis. (TODO Océane à paramétrer en fr et en selon les gameSettings)A $nbPlayers joueurs, il faut donc ${_temp0}conserver uniquement les cartes : $cards.';
+    return 'Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis. A $nbPlayers joueurs, il faut donc ${_temp0}conserver uniquement les cartes : $cards';
+  }
+
+  @override
+  String cardsToKeepPartially(int nbCards, String card) {
+    return 'ainsi que $nbCards cartes de valeur $card et de couleur trèfle, carreau ou pique';
   }
 
   @override
@@ -235,6 +243,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get fold => 'Replier les choix';
 
   @override
+  String get forbiddenIfBarbuDiscarded =>
+      'Ce contrat ne peut pas être choisi si le roi de coeur se trouve parmi les cartes défaussées.';
+
+  @override
   String get forGameAt => 'Pour une partie à';
 
   @override
@@ -266,7 +278,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get gameRoundRules =>
-      'Distribuer les cartes entre les joueurs.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.';
+      'Distribuer le même nombre de cartes entre les joueurs.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.';
 
   @override
   String get gameSaved => 'Partie sauvegardée';
@@ -349,8 +361,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get moreInfo => 'Plus d\'informations';
 
   @override
-  String nbCardsRules(int nbCards, int nbPlayers, int nbTricks) {
-    return 'Le jeu se joue avec $nbCards cartes ($nbPlayers × $nbTricks).';
+  String nbCardsRules(int nbCards, int nbTricks) {
+    return 'Le jeu se joue avec $nbCards cartes ($nbTricks cartes par joueur).';
+  }
+
+  @override
+  String nbDecksRules(int nbDecks, int nbCardsByDeck) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: '$nbDecks paquets',
+      one: '1 paquet',
+    );
+    return 'Le jeu se joue avec $_temp0 de $nbCardsByDeck cartes.';
   }
 
   @override
@@ -593,10 +616,16 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get withdrawCard => 'Retirer une carte';
+
+  @override
   String withdrawItem(String item) {
     String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
     return 'Retirer $_temp0 $item';
   }
+
+  @override
+  String get withdrawnCards => 'Cartes retirées';
 
   @override
   String get worstEnnemy => 'Pire ennemi';

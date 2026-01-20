@@ -146,6 +146,12 @@ abstract class AppLocalizations {
   /// **'Activer le contrat'**
   String get activateContract;
 
+  /// No description provided for @addCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une carte'**
+  String get addCard;
+
   /// No description provided for @addItem.
   ///
   /// In fr, this message translates to:
@@ -275,8 +281,14 @@ abstract class AppLocalizations {
   /// No description provided for @cardsToKeepForPlayers.
   ///
   /// In fr, this message translates to:
-  /// **'Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis. (TODO Océane à paramétrer en fr et en selon les gameSettings)A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes : {cards}.'**
+  /// **'Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis. A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes : {cards}'**
   String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards);
+
+  /// No description provided for @cardsToKeepPartially.
+  ///
+  /// In fr, this message translates to:
+  /// **'ainsi que {nbCards} cartes de valeur {card} et de couleur trèfle, carreau ou pique'**
+  String cardsToKeepPartially(int nbCards, String card);
 
   /// No description provided for @changesSaved.
   ///
@@ -464,6 +476,12 @@ abstract class AppLocalizations {
   /// **'Replier les choix'**
   String get fold;
 
+  /// No description provided for @forbiddenIfBarbuDiscarded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce contrat ne peut pas être choisi si le roi de coeur se trouve parmi les cartes défaussées.'**
+  String get forbiddenIfBarbuDiscarded;
+
   /// No description provided for @forGameAt.
   ///
   /// In fr, this message translates to:
@@ -509,7 +527,7 @@ abstract class AppLocalizations {
   /// No description provided for @gameRoundRules.
   ///
   /// In fr, this message translates to:
-  /// **'Distribuer les cartes entre les joueurs.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.'**
+  /// **'Distribuer le même nombre de cartes entre les joueurs.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.'**
   String get gameRoundRules;
 
   /// No description provided for @gameSaved.
@@ -659,8 +677,14 @@ abstract class AppLocalizations {
   /// No description provided for @nbCardsRules.
   ///
   /// In fr, this message translates to:
-  /// **'Le jeu se joue avec {nbCards} cartes ({nbPlayers} × {nbTricks}).'**
-  String nbCardsRules(int nbCards, int nbPlayers, int nbTricks);
+  /// **'Le jeu se joue avec {nbCards} cartes ({nbTricks} cartes par joueur).'**
+  String nbCardsRules(int nbCards, int nbTricks);
+
+  /// No description provided for @nbDecksRules.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le jeu se joue avec {nbDecks, plural, =1{1 paquet} other{{nbDecks} paquets}} de {nbCardsByDeck} cartes.'**
+  String nbDecksRules(int nbDecks, int nbCardsByDeck);
 
   /// No description provided for @nbItemsByPlayer.
   ///
@@ -1046,11 +1070,23 @@ abstract class AppLocalizations {
   /// **'Qui a remporté le {item} ?'**
   String whoWonItem(String item);
 
+  /// No description provided for @withdrawCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer une carte'**
+  String get withdrawCard;
+
   /// No description provided for @withdrawItem.
   ///
   /// In fr, this message translates to:
   /// **'Retirer {item, select, dame{une} other{un}} {item}'**
   String withdrawItem(String item);
+
+  /// No description provided for @withdrawnCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cartes retirées'**
+  String get withdrawnCards;
 
   /// No description provided for @worstEnnemy.
   ///

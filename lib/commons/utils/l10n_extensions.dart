@@ -94,9 +94,11 @@ extension MyAppLocalizations on AppLocalizations {
     final gameSettings = storage.getGameSettings();
     final contractSettings = storage.getSettings(contract);
     return switch (ContractsInfo.fromName(contractSettings.name)) {
-      ContractsInfo.barbu => rulesBarbu(
-        (contractSettings as ContractWithPointsSettings).points,
-      ),
+      ContractsInfo.barbu =>
+        rulesBarbu((contractSettings as ContractWithPointsSettings).points) +
+            (gameSettings.withdrawRandomCards
+                ? "\n$forbiddenIfBarbuDiscarded"
+                : ""),
       ContractsInfo.noHearts =>
         rulesNoHearts((contractSettings as ContractWithPointsSettings).points) +
             (contractSettings.invertScore

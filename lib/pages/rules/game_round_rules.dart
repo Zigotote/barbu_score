@@ -6,7 +6,6 @@ import 'package:timelines_plus/timelines_plus.dart';
 import '../../theme/my_theme_colors.dart';
 import 'widgets/rules_page.dart';
 
-// TODO Océane à adapter selon les gameSettings
 class GameRoundRules extends StatelessWidget {
   /// The index of the page in the order of rules pages
   final int pageIndex;

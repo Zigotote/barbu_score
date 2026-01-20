@@ -98,16 +98,30 @@ class GameSettings {
   /// Returns the number of cards to use for a game with [nbPlayers]
   int getNbCards(int nbPlayers) => nbPlayers * getNbTricksByRound(nbPlayers);
 
-  /// Returns the values of the cards to keep for the game
-  List<int> getCardsToKeep(int nbPlayers) {
+  int getNbCardsOfEachValue(int nbPlayers) => 4 * getNbDecks(nbPlayers);
+
+  /// Returns the values of the cards to keep for the game, link to the number of each card (from 1 to 4)
+  Map<int, int> getCardsToKeep(int nbPlayers) {
     final cardIndexes = List.generate(
       13,
       (index) => index + 2,
     ).reversed.toList();
+    final nbCardsOfEachValue = getNbCardsOfEachValue(nbPlayers);
 
-    return cardIndexes.slice(
+    final nbCardsInFinalDeck = getNbCards(nbPlayers);
+    final cardsValues = cardIndexes.slice(
       0,
-      (getNbCards(nbPlayers) / (4 * getNbDecks(nbPlayers))).ceil(),
+      (nbCardsInFinalDeck / nbCardsOfEachValue).ceil(),
+    );
+    return Map.fromIterable(
+      cardsValues,
+      value: (value) {
+        if (value == cardsValues.last) {
+          final nbRemainingCards = nbCardsInFinalDeck % nbCardsOfEachValue;
+          return nbRemainingCards == 0 ? nbCardsOfEachValue : nbRemainingCards;
+        }
+        return nbCardsOfEachValue;
+      },
     );
   }
 

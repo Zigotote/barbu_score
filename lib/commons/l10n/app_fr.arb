@@ -7,6 +7,7 @@
   "accept": "Oui",
   "ace": "as",
   "activateContract": "Activer le contrat",
+  "addCard": "Ajouter une carte",
   "addItem": "Ajouter {item, select, dame{une} other{un}} {item}",
   "@addItem": {
     "placeholders": {
@@ -74,7 +75,7 @@
   },
   "cardsOrder": "Les as sont les cartes les plus fortes.",
   "cardsToKeep": "Conserver les cartes",
-  "cardsToKeepForPlayers": "Avant de jouer il faut conserver les cartes les plus élevées jusqu'à obtenir le nombre requis. (TODO Océane à paramétrer en fr et en selon les gameSettings)A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes\u00a0: {cards}.",
+  "cardsToKeepForPlayers": "Avant de jouer il faut conserver les cartes les plus élevées jusqu'à obtenir le nombre requis. A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes\u00a0: {cards}",
   "@cardsToKeepForPlayers": {
     "placeholders": {
       "nbPlayers": {
@@ -87,6 +88,18 @@
         "type": "String",
         "example": "as, roi, dame",
         "description": "List of cards to keep from the deck"
+      }
+    }
+  },
+  "cardsToKeepPartially": "ainsi que {nbCards} cartes de valeur {card} et de couleur trèfle, carreau ou pique",
+  "@cardsToKeepPartially": {
+    "placeholders": {
+      "nbCards": {
+        "type": "int"
+      },
+      "card": {
+        "type": "String",
+        "example": "2"
       }
     }
   },
@@ -163,6 +176,7 @@
   "errorNbItems": "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
   "feature": "Une suggestion",
   "fold": "Replier les choix",
+  "forbiddenIfBarbuDiscarded": "Ce contrat ne peut pas être choisi si le roi de coeur se trouve parmi les cartes défaussées.",
   "forGameAt": "Pour une partie à",
   "french": "Français",
   "fromTheDeck": "{nbDecks, plural, =1{du paquet} other{de {nbDecks} paquets}}.",
@@ -177,7 +191,7 @@
   "gamePrinciple": "Principe du jeu",
   "gamePrincipleDetails": "Ce jeu de plis est composé de (TODO Océane paramétrer ça) 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats.",
   "gameRound": "Manche de jeu",
-  "gameRoundRules": "Distribuer les cartes entre les joueurs.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
+  "gameRoundRules": "Distribuer le même nombre de cartes entre les joueurs.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
   "gameSaved": "Partie sauvegardée",
   "gameScoreObjective": "Objectif\u00a0: moins de points",
   "go": "C'est parti\u00A0!",
@@ -218,17 +232,25 @@
   "modifyPlayer": "Modifier le joueur",
   "modifySettings": "Modifier les paramètres",
   "moreInfo": "Plus d'informations",
-  "nbCardsRules": "Le jeu se joue avec {nbCards} cartes ({nbPlayers} \u00d7 {nbTricks}).",
+  "nbCardsRules": "Le jeu se joue avec {nbCards} cartes ({nbTricks} cartes par joueur).",
   "@nbCardsRules": {
     "placeholders": {
       "nbCards": {
         "type": "int",
-        "description": "Number of cards (equals to nbPlayers*nbTricks)"
-      },
-      "nbPlayers": {
-        "type": "int"
+        "description": "Number of cards in the deck"
       },
       "nbTricks": {
+        "type": "int"
+      }
+    }
+  },
+  "nbDecksRules": "Le jeu se joue avec {nbDecks, plural, =1{1 paquet} other{{nbDecks} paquets}} de {nbCardsByDeck} cartes.",
+  "@nbDecksRules": {
+    "placeholders": {
+      "nbDecks": {
+        "type": "int"
+      },
+      "nbCardsByDeck": {
         "type": "int"
       }
     }
@@ -452,6 +474,7 @@
       }
     }
   },
+  "withdrawCard": "Retirer une carte",
   "withdrawItem": "Retirer {item, select, dame{une} other{un}} {item}",
   "@withdrawItem": {
     "placeholders": {
@@ -461,5 +484,6 @@
       }
     }
   },
+  "withdrawnCards": "Cartes retirées",
   "worstEnnemy": "Pire ennemi"
 }
