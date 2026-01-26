@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:collection/collection.dart';
 
@@ -8,46 +6,33 @@ class GameSettings {
   /// Indicates if the best player is the one with the smallest or bigger score
   final bool goalIsMinScore;
 
-  /// The number of tricks by round, if it's the same no matter how many players are playing. If not this value is null and [nbTricksByPlayer] is required.
+  /// The number of tricks by round, if it's the same no matter how many players are playing. If null, [nbCardsInDeck] is required.
   final int? fixedNbTricks;
 
-  /// The number of tricks by round, depending on the number of players in the game. If null, [fixedNbTricks] is required
-  Map<int, int>? nbTricksByPlayer;
+  /// The number of cards in the deck used to play. Equals to [kNbCardsInDeck] by default
+  final int nbCardsInDeck;
 
   /// Indicates if random cards are withdrawn for each round. If not, the smallest ones are always taken out
   final bool withdrawRandomCards;
 
   GameSettings({
     this.goalIsMinScore = true,
-    int? fixedNbTricks,
-    Map<int, int>? nbTricksByPlayer,
+    this.fixedNbTricks = kNbTricksByRound,
+    this.nbCardsInDeck = kNbCardsInDeck,
     this.withdrawRandomCards = false,
-  }) : fixedNbTricks = nbTricksByPlayer == null
-           ? (fixedNbTricks ?? kNbTricksByRound)
-           : null,
-       nbTricksByPlayer = fixedNbTricks == null ? nbTricksByPlayer : null;
+  });
 
   GameSettings.fromJson(Map<String, dynamic> json)
     : goalIsMinScore = json["goalIsMinScore"],
       fixedNbTricks = json["fixedNbTricks"],
-      nbTricksByPlayer = json["nbTricksByPlayer"] != null
-          ? Map.castFrom({
-              for (var entry in jsonDecode(json["nbTricksByPlayer"]).entries)
-                int.parse(entry.key): int.parse(entry.value),
-            })
-          : null,
+      nbCardsInDeck = json["nbCardsInDeck"],
       withdrawRandomCards = json["withdrawRandomCards"];
 
   Map<String, dynamic> toJson() {
     return {
       "goalIsMinScore": goalIsMinScore,
       "fixedNbTricks": fixedNbTricks,
-      "nbTricksByPlayer": nbTricksByPlayer != null
-          ? jsonEncode({
-              for (var entry in nbTricksByPlayer!.entries)
-                '${entry.key}': '${entry.value}',
-            })
-          : null,
+      "nbCardsInDeck": nbCardsInDeck,
       "withdrawRandomCards": withdrawRandomCards,
     };
   }
@@ -56,7 +41,7 @@ class GameSettings {
   int get hashCode => Object.hash(
     goalIsMinScore,
     fixedNbTricks,
-    nbTricksByPlayer,
+    nbCardsInDeck,
     withdrawRandomCards,
   );
 
@@ -66,47 +51,57 @@ class GameSettings {
         other is GameSettings &&
             goalIsMinScore == other.goalIsMinScore &&
             fixedNbTricks == other.fixedNbTricks &&
-            (nbTricksByPlayer?.entries.every(
-                  (entry) => entry.value == other.nbTricksByPlayer?[entry.key],
-                ) ??
-                true) &&
+            nbCardsInDeck == other.nbCardsInDeck &&
             withdrawRandomCards == other.withdrawRandomCards;
   }
 
   GameSettings copyWith({
     bool? goalIsMinScore,
+    bool deleteFixedNbTricks = false,
     int? fixedNbTricks,
-    Map<int, int>? nbTricksByPlayer,
+    int? nbCardsInDeck,
     bool? withdrawRandomCards,
   }) {
     return GameSettings(
       goalIsMinScore: goalIsMinScore ?? this.goalIsMinScore,
-      fixedNbTricks: nbTricksByPlayer != null
+      fixedNbTricks: deleteFixedNbTricks
           ? null
           : fixedNbTricks ?? this.fixedNbTricks,
-      nbTricksByPlayer: fixedNbTricks != null
-          ? null
-          : nbTricksByPlayer ?? this.nbTricksByPlayer,
+      nbCardsInDeck: nbCardsInDeck ?? this.nbCardsInDeck,
       withdrawRandomCards: withdrawRandomCards ?? this.withdrawRandomCards,
     );
   }
 
-  /// Returns the number of tricks by round for a specific number of players. If nothing saved, returns [kNbTricksByRound]
-  int getNbTricksByRound(int nbPlayers) =>
-      fixedNbTricks ?? nbTricksByPlayer?[nbPlayers] ?? kNbTricksByRound;
-
   /// Returns the number of cards to use for a game with [nbPlayers]
   int getNbCards(int nbPlayers) => nbPlayers * getNbTricksByRound(nbPlayers);
 
+  /// Returns the number of cards of each value in the final deck
   int getNbCardsOfEachValue(int nbPlayers) => 4 * getNbDecks(nbPlayers);
 
-  /// Returns the values of the cards to keep for the game, link to the number of each card (from 1 to 4)
+  /// Returns the number of tricks by round for a specific number of players
+  int getNbTricksByRound(int nbPlayers) {
+    if (fixedNbTricks != null) {
+      return fixedNbTricks!;
+    }
+    final int nbTricksWithOneDeck = (nbCardsInDeck / nbPlayers).floor();
+    // If there is 6 or more tricks, the game can be played with one deck
+    if (nbTricksWithOneDeck >= 6) {
+      return nbTricksWithOneDeck;
+    }
+    return (nbCardsInDeck * 2 / nbPlayers).floor();
+  }
+
+  /// Returns the values of the cards to keep for the game, link to the number of each card (from 1 to 8)
   Map<int, int> getCardsToKeep(int nbPlayers) {
     final cardIndexes = List.generate(
       13,
       (index) => index + 2,
     ).reversed.toList();
     final nbCardsOfEachValue = getNbCardsOfEachValue(nbPlayers);
+
+    if (withdrawRandomCards) {
+      return Map.fromIterable(cardIndexes, value: (_) => nbCardsOfEachValue);
+    }
 
     final nbCardsInFinalDeck = getNbCards(nbPlayers);
     final cardsValues = cardIndexes.slice(
@@ -127,6 +122,6 @@ class GameSettings {
 
   /// Returns the number of decks required for this number of cards
   int getNbDecks(int nbPlayers) {
-    return (getNbCards(nbPlayers) / 52).ceil();
+    return (getNbCards(nbPlayers) / nbCardsInDeck).ceil();
   }
 }

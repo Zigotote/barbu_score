@@ -4,21 +4,17 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("#copyWith", () {
-    test("should change from fixedNbTricks to nbTricksByPlayer", () {
-      final newGameSettings = GameSettings(
-        fixedNbTricks: 8,
-      ).copyWith(nbTricksByPlayer: kNbTricksByRoundByPlayer);
+    test("should delete fixedNbTricks", () {
+      final newGameSettings = GameSettings().copyWith(
+        deleteFixedNbTricks: true,
+      );
 
-      expect(newGameSettings.nbTricksByPlayer, kNbTricksByRoundByPlayer);
       expect(newGameSettings.fixedNbTricks, isNull);
     });
-    test("should change from nbTricksByPlayer to fixedNbTricks", () {
-      final newGameSettings = GameSettings(
-        nbTricksByPlayer: kNbTricksByRoundByPlayer,
-      ).copyWith(fixedNbTricks: 8);
+    test("should override fixedNbTricks", () {
+      final newGameSettings = GameSettings().copyWith(fixedNbTricks: 66);
 
-      expect(newGameSettings.nbTricksByPlayer, isNull);
-      expect(newGameSettings.fixedNbTricks, 8);
+      expect(newGameSettings.fixedNbTricks, 66);
     });
     test("should change other values", () {
       final newGameSettings = GameSettings(
@@ -26,8 +22,105 @@ void main() {
         withdrawRandomCards: true,
       ).copyWith(goalIsMinScore: false, withdrawRandomCards: false);
 
+      expect(newGameSettings.fixedNbTricks, kNbTricksByRound);
+      expect(newGameSettings.nbCardsInDeck, kNbCardsInDeck);
       expect(newGameSettings.goalIsMinScore, false);
       expect(newGameSettings.withdrawRandomCards, false);
+    });
+  });
+
+  group("#getNbDecks", () {
+    for (var testData in [
+      (nbPlayers: 3, nbDecks: 1),
+      (nbPlayers: 4, nbDecks: 1),
+      (nbPlayers: 5, nbDecks: 1),
+      (nbPlayers: 6, nbDecks: 1),
+      (nbPlayers: 7, nbDecks: 2),
+      (nbPlayers: 8, nbDecks: 2),
+      (nbPlayers: 9, nbDecks: 2),
+      (nbPlayers: 10, nbDecks: 2),
+    ]) {
+      test(
+        "should have ${testData.nbDecks} deck for ${testData.nbPlayers} players and fixedNbTricks",
+        () {
+          expect(
+            GameSettings().getNbDecks(testData.nbPlayers),
+            testData.nbDecks,
+          );
+        },
+      );
+    }
+
+    for (var testData in [
+      (nbPlayers: 3, nbDecks: 1),
+      (nbPlayers: 4, nbDecks: 1),
+      (nbPlayers: 5, nbDecks: 1),
+      (nbPlayers: 6, nbDecks: 1),
+      (nbPlayers: 7, nbDecks: 1),
+      (nbPlayers: 8, nbDecks: 1),
+      (nbPlayers: 9, nbDecks: 2),
+      (nbPlayers: 10, nbDecks: 2),
+    ]) {
+      test(
+        "should have ${testData.nbDecks} deck for ${testData.nbPlayers} players and optimized nb tricks",
+        () {
+          expect(
+            GameSettings(fixedNbTricks: null).getNbDecks(testData.nbPlayers),
+            testData.nbDecks,
+          );
+        },
+      );
+    }
+  });
+
+  group("#getNbTricksByRound", () {
+    for (var testData in [
+      (nbPlayers: 3, nbTricks: 17),
+      (nbPlayers: 4, nbTricks: 13),
+      (nbPlayers: 5, nbTricks: 10),
+      (nbPlayers: 6, nbTricks: 8),
+      (nbPlayers: 7, nbTricks: 7),
+      (nbPlayers: 8, nbTricks: 6),
+      (nbPlayers: 9, nbTricks: 11),
+      (nbPlayers: 10, nbTricks: 10),
+    ]) {
+      test(
+        "should have ${testData.nbTricks} tricks for ${testData.nbPlayers} players with 52 cards",
+        () {
+          expect(
+            GameSettings(
+              fixedNbTricks: null,
+            ).getNbTricksByRound(testData.nbPlayers),
+            testData.nbTricks,
+          );
+        },
+      );
+    }
+    for (var testData in [
+      (nbPlayers: 3, nbTricks: 10),
+      (nbPlayers: 4, nbTricks: 8),
+      (nbPlayers: 5, nbTricks: 6),
+      (nbPlayers: 6, nbTricks: 10),
+      (nbPlayers: 7, nbTricks: 9),
+      (nbPlayers: 8, nbTricks: 8),
+      (nbPlayers: 9, nbTricks: 7),
+      (nbPlayers: 10, nbTricks: 6),
+    ]) {
+      test(
+        "should have ${testData.nbTricks} tricks for ${testData.nbPlayers} players with 32 cards",
+        () {
+          expect(
+            GameSettings(
+              fixedNbTricks: null,
+              nbCardsInDeck: 32,
+            ).getNbTricksByRound(testData.nbPlayers),
+            testData.nbTricks,
+          );
+        },
+      );
+    }
+    test("should have fixedNbTricks if given", () {
+      expect(GameSettings(fixedNbTricks: 66).getNbTricksByRound(3), 66);
     });
   });
 
@@ -138,7 +231,7 @@ void main() {
       ),
     ]) {
       test(
-        "should keep ${testData.cardsToKeep.length} cards for ${testData.nbPlayers} players",
+        "should keep ${testData.cardsToKeep.length} cards for ${testData.nbPlayers} players with fixedNbTricks",
         () {
           expect(
             GameSettings().getCardsToKeep(testData.nbPlayers),
@@ -147,62 +240,176 @@ void main() {
         },
       );
     }
-    test("should keep Pierrick's cards for 5 players", () {
-      expect(GameSettings(nbTricksByPlayer: {5: 10}).getCardsToKeep(5), {
-        14: 4,
-        13: 4,
-        12: 4,
-        11: 4,
-        10: 4,
-        9: 4,
-        8: 4,
-        7: 4,
-        6: 4,
-        5: 4,
-        4: 4,
-        3: 4,
-        2: 2,
-      });
-    });
-    test("should keep Pierrick's cards for 10 players", () {
-      expect(GameSettings(nbTricksByPlayer: {10: 10}).getCardsToKeep(10), {
-        14: 8,
-        13: 8,
-        12: 8,
-        11: 8,
-        10: 8,
-        9: 8,
-        8: 8,
-        7: 8,
-        6: 8,
-        5: 8,
-        4: 8,
-        3: 8,
-        2: 4,
-      });
-    });
-  });
-
-  group("#getNbDecks", () {
     for (var testData in [
-      (nbPlayers: 3, nbDecks: 1),
-      (nbPlayers: 4, nbDecks: 1),
-      (nbPlayers: 5, nbDecks: 1),
-      (nbPlayers: 6, nbDecks: 1),
-      (nbPlayers: 7, nbDecks: 2),
-      (nbPlayers: 8, nbDecks: 2),
-      (nbPlayers: 9, nbDecks: 2),
-      (nbPlayers: 10, nbDecks: 2),
-    ]) {
-      test(
-        "should have ${testData.nbDecks} for ${testData.nbPlayers} cards",
-        () {
-          expect(
-            GameSettings().getNbDecks(testData.nbPlayers),
-            testData.nbDecks,
-          );
+      (
+        nbPlayers: 3,
+        cardsToKeep: {
+          14: 4,
+          13: 4,
+          12: 4,
+          11: 4,
+          10: 4,
+          9: 4,
+          8: 4,
+          7: 4,
+          6: 4,
+          5: 4,
+          4: 4,
+          3: 4,
+          2: 3,
         },
-      );
+      ),
+      (
+        nbPlayers: 4,
+        cardsToKeep: Map.fromIterable([
+          14,
+          13,
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+        ], value: (_) => 4),
+      ),
+      (
+        nbPlayers: 5,
+        cardsToKeep: {
+          14: 4,
+          13: 4,
+          12: 4,
+          11: 4,
+          10: 4,
+          9: 4,
+          8: 4,
+          7: 4,
+          6: 4,
+          5: 4,
+          4: 4,
+          3: 4,
+          2: 2,
+        },
+      ),
+      (
+        nbPlayers: 6,
+        cardsToKeep: Map.fromIterable([
+          14,
+          13,
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+        ], value: (_) => 4),
+      ),
+      (
+        nbPlayers: 7,
+        cardsToKeep: {
+          14: 4,
+          13: 4,
+          12: 4,
+          11: 4,
+          10: 4,
+          9: 4,
+          8: 4,
+          7: 4,
+          6: 4,
+          5: 4,
+          4: 4,
+          3: 4,
+          2: 1,
+        },
+      ),
+      (
+        nbPlayers: 8,
+        cardsToKeep: Map.fromIterable([
+          14,
+          13,
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+        ], value: (_) => 4),
+      ),
+      (
+        nbPlayers: 9,
+        cardsToKeep: {
+          14: 8,
+          13: 8,
+          12: 8,
+          11: 8,
+          10: 8,
+          9: 8,
+          8: 8,
+          7: 8,
+          6: 8,
+          5: 8,
+          4: 8,
+          3: 8,
+          2: 3,
+        },
+      ),
+      (
+        nbPlayers: 10,
+        cardsToKeep: {
+          14: 8,
+          13: 8,
+          12: 8,
+          11: 8,
+          10: 8,
+          9: 8,
+          8: 8,
+          7: 8,
+          6: 8,
+          5: 8,
+          4: 8,
+          3: 8,
+          2: 4,
+        },
+      ),
+    ]) {
+      test("should keep optimized cards for ${testData.nbPlayers} players", () {
+        expect(
+          GameSettings(fixedNbTricks: null).getCardsToKeep(testData.nbPlayers),
+          testData.cardsToKeep,
+        );
+      });
     }
+    test("should keep all cards if withdrawRandomCard", () {
+      expect(
+        GameSettings(withdrawRandomCards: true).getCardsToKeep(3),
+        Map.fromIterable([
+          14,
+          13,
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+        ], value: (_) => 4),
+      );
+    });
   });
 }

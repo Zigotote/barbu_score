@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -120,19 +121,30 @@ class AppLocalizationsFr extends AppLocalizations {
   String get cardsToKeep => 'Conserver les cartes';
 
   @override
-  String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards) {
+  String cardsToKeepForPlayers(
+    int nbPlayers,
+    int nbDecks,
+    int nbCardsInDeck,
+    String cards,
+  ) {
     String _temp0 = intl.Intl.pluralLogic(
       nbDecks,
       locale: localeName,
-      other: 'prendre $nbDecks paquets de cartes et ',
-      one: '',
+      other: 'de $nbDecks paquets',
+      one: 'd\'un paquet',
     );
-    return 'Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis. A $nbPlayers joueurs, il faut donc ${_temp0}conserver uniquement les cartes : $cards';
+    return 'Avant de jouer il faut conserver les cartes les plus élevées $_temp0 de $nbCardsInDeck cartes jusqu\'à obtenir le nombre requis. A $nbPlayers joueurs, il faut donc conserver uniquement les cartes : $cards';
   }
 
   @override
   String cardsToKeepPartially(int nbCards, String card) {
-    return 'ainsi que $nbCards cartes de valeur $card et de couleur trèfle, carreau ou pique';
+    String _temp0 = intl.Intl.pluralLogic(
+      nbCards,
+      locale: localeName,
+      other: '$nbCards cartes',
+      one: '1 carte',
+    );
+    return 'ainsi que $_temp0 de valeur $card et de couleur trèfle, carreau ou pique';
   }
 
   @override
@@ -617,6 +629,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get withdrawCard => 'Retirer une carte';
+
+  @override
+  String withdrawnCardsRules(int nbTricks) {
+    return 'A chaque manche, les joueurs reçoivent $nbTricks cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.';
+  }
 
   @override
   String withdrawItem(String item) {

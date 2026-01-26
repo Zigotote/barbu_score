@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/my_dropdown.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/utils/constants.dart';
 import 'widgets/rules_page.dart';
 
-// TODO Océane écrire les TUs
 class PrepareGameRules extends ConsumerStatefulWidget {
   /// The index of the page in the order of rules pages
   final int pageIndex;
@@ -30,14 +30,21 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
           Text(
             context.l10n.nbDecksRules(
               gameSettings.getNbDecks(nbPlayersExample),
-              52,
+              gameSettings.nbCardsInDeck,
             ),
           ),
           const SizedBox(height: 8),
           Text(context.l10n.cardsOrder),
+          const SizedBox(height: 16),
+          Text(
+            context.l10n.withdrawnCardsRules(
+              gameSettings.getNbTricksByRound(nbPlayersExample),
+            ),
+          ),
         ],
       );
     }
+
     String cardsToKeepText;
     final cardsToKeep = gameSettings.getCardsToKeep(nbPlayersExample);
     final cardToKeepPartially = cardsToKeep.entries.firstWhereOrNull(
@@ -47,11 +54,12 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
     );
     if (cardToKeepPartially != null) {
       cardsToKeepText =
-          "${context.l10n.cardsToKeepForPlayers(nbPlayersExample, gameSettings.getNbDecks(nbPlayersExample), cardsToKeep.entries.where((cardEntry) => cardEntry.key != cardToKeepPartially.key).map((cardEntry) => context.l10n.cardName(cardEntry.key)).join(", "))} ${context.l10n.cardsToKeepPartially(cardToKeepPartially.value, context.l10n.cardName(cardToKeepPartially.key))}.";
+          "${context.l10n.cardsToKeepForPlayers(nbPlayersExample, gameSettings.getNbDecks(nbPlayersExample), gameSettings.nbCardsInDeck, cardsToKeep.entries.where((cardEntry) => cardEntry.key != cardToKeepPartially.key).map((cardEntry) => context.l10n.cardName(cardEntry.key)).join(", "))} ${context.l10n.cardsToKeepPartially(cardToKeepPartially.value, context.l10n.cardName(cardToKeepPartially.key))}.";
     } else {
       cardsToKeepText = context.l10n.cardsToKeepForPlayers(
         nbPlayersExample,
         gameSettings.getNbDecks(nbPlayersExample),
+        gameSettings.nbCardsInDeck,
         "${cardsToKeep.entries.map((cardEntry) => context.l10n.cardName(cardEntry.key)).join(", ")}.",
       );
     }
@@ -86,8 +94,8 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(context.l10n.forGameAt),
-              DropdownMenu(
-                width: MediaQuery.of(context).textScaler.scale(90),
+              MyDropdownMenu(
+                context: context,
                 dropdownMenuEntries: [
                   for (
                     var nbPlayers = kNbPlayersMin;
@@ -99,14 +107,6 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
                 initialSelection: nbPlayersExample,
                 onSelected: (nbPlayers) =>
                     setState(() => nbPlayersExample = nbPlayers ?? 4),
-                trailingIcon: Semantics(
-                  label: context.l10n.unfold,
-                  child: const Icon(Icons.keyboard_arrow_down),
-                ),
-                selectedTrailingIcon: Semantics(
-                  label: context.l10n.fold,
-                  child: const Icon(Icons.keyboard_arrow_up),
-                ),
               ),
               Text("${context.l10n.players}."),
             ],

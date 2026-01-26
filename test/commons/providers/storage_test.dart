@@ -153,27 +153,11 @@ void main() {
         expect(MyStorage().getGameSettings(), GameSettings());
       },
     );
-    test(
-      "should return save and get game settings with fixedNbTricks",
-      () async {
-        final gameSettings = GameSettings(
-          goalIsMinScore: false,
-          fixedNbTricks: 8,
-          withdrawRandomCards: true,
-        );
-        await _initializeStorage();
-        final storage = MyStorage();
-
-        storage.saveGameSettings(gameSettings);
-
-        expect(storage.getGameSettings(), gameSettings);
-      },
-    );
-    test("should save and get game settings with nbTricksByPlayer", () async {
+    test("should return save and get game settings", () async {
       final gameSettings = GameSettings(
-        goalIsMinScore: true,
-        nbTricksByPlayer: {3: 8, 10: 2},
-        withdrawRandomCards: false,
+        goalIsMinScore: false,
+        fixedNbTricks: 8,
+        withdrawRandomCards: true,
       );
       await _initializeStorage();
       final storage = MyStorage();

@@ -75,13 +75,16 @@
   },
   "cardsOrder": "Les as sont les cartes les plus fortes.",
   "cardsToKeep": "Conserver les cartes",
-  "cardsToKeepForPlayers": "Avant de jouer il faut conserver les cartes les plus élevées jusqu'à obtenir le nombre requis. A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes\u00a0: {cards}",
+  "cardsToKeepForPlayers": "Avant de jouer il faut conserver les cartes les plus élevées {nbDecks, plural, =1{d'un paquet} other{de {nbDecks} paquets}} de {nbCardsInDeck} cartes jusqu'à obtenir le nombre requis. A {nbPlayers} joueurs, il faut donc conserver uniquement les cartes\u00a0: {cards}",
   "@cardsToKeepForPlayers": {
     "placeholders": {
       "nbPlayers": {
         "type": "int"
       },
       "nbDecks": {
+        "type": "int"
+      },
+      "nbCardsInDeck": {
         "type": "int"
       },
       "cards": {
@@ -91,7 +94,7 @@
       }
     }
   },
-  "cardsToKeepPartially": "ainsi que {nbCards} cartes de valeur {card} et de couleur trèfle, carreau ou pique",
+  "cardsToKeepPartially": "ainsi que {nbCards, plural, =1{1 carte} other{{nbCards} cartes}} de valeur {card} et de couleur trèfle, carreau ou pique",
   "@cardsToKeepPartially": {
     "placeholders": {
       "nbCards": {
@@ -475,6 +478,15 @@
     }
   },
   "withdrawCard": "Retirer une carte",
+  "withdrawnCardsRules": "A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.",
+  "@withdrawnCardsRules": {
+    "placeholders": {
+      "nbTricks": {
+        "type": "int",
+        "example": "coeur"
+      }
+    }
+  },
   "withdrawItem": "Retirer {item, select, dame{une} other{un}} {item}",
   "@withdrawItem": {
     "placeholders": {

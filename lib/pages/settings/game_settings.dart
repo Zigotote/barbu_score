@@ -1,6 +1,7 @@
 import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/my_dropdown.dart';
 import 'package:barbu_score/pages/settings/widgets/number_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,29 +68,31 @@ class _GameSettingsPageState extends ConsumerState<GameSettingsPage> {
             ),
           ),
           SettingQuestion(
-            label: "Nombre de plis fixe ?",
+            label: "Nombre de cartes optimisé ?",
             input: MySwitch(
-              isActive: settings.fixedNbTricks != null,
+              isActive: settings.fixedNbTricks == null,
               onChanged: (value) => setState(
-                () => settings = value
-                    ? settings.copyWith(fixedNbTricks: kNbTricksByRound)
-                    : settings.copyWith(
-                        nbTricksByPlayer: kNbTricksByRoundByPlayer,
-                      ),
+                () => settings = (value
+                    ? settings.copyWith(
+                        deleteFixedNbTricks: true,
+                        nbCardsInDeck: kNbCardsInDeck,
+                      )
+                    : settings.copyWith(fixedNbTricks: kNbTricksByRound)),
               ),
             ),
             onTap: () =>
                 (value) => setState(
-                  () => settings = value
-                      ? settings.copyWith(fixedNbTricks: kNbTricksByRound)
-                      : settings.copyWith(
-                          nbTricksByPlayer: kNbTricksByRoundByPlayer,
-                        ),
+                  () => settings = (value
+                      ? settings.copyWith(
+                          deleteFixedNbTricks: true,
+                          nbCardsInDeck: kNbCardsInDeck,
+                        )
+                      : settings.copyWith(fixedNbTricks: kNbTricksByRound)),
                 ),
           ),
           if (settings.fixedNbTricks != null)
             SettingQuestion(
-              label: "Nombre de plis par manche",
+              label: "Nombre de cartes par joueur",
               input: NumberInput(
                 value: settings.fixedNbTricks!,
                 onChanged: (value) => setState(
@@ -98,21 +101,24 @@ class _GameSettingsPageState extends ConsumerState<GameSettingsPage> {
               ),
               onTap: fixedNbTricksFocusNode.requestFocus,
             ),
-          if (settings.nbTricksByPlayer != null) ...[
-            Text("Nombre de plis par manche selon le nombre de joueurs"),
-            ...List.generate(kNbPlayersMax - kNbPlayersMin, (index) {
-              final nbPlayers = index + kNbPlayersMin;
-              return SettingQuestion(
-                label: "$nbPlayers joueurs",
-                input: NumberInput(
-                  value: settings.getNbTricksByRound(nbPlayers),
-                  onChanged: (value) =>
-                      settings.nbTricksByPlayer![nbPlayers] = value,
+          SettingQuestion(
+            label: "Nombre de cartes dans un paquet",
+            input: MyDropdownMenu(
+              context: context,
+              dropdownMenuEntries: [
+                DropdownMenuEntry(value: 32, label: "32"),
+                DropdownMenuEntry(
+                  value: kNbCardsInDeck,
+                  label: "$kNbCardsInDeck",
                 ),
-                onTap: () {},
-              );
-            }),
-          ],
+              ],
+              initialSelection: settings.nbCardsInDeck,
+              onSelected: (value) => setState(
+                () => settings = settings.copyWith(nbCardsInDeck: value),
+              ),
+            ),
+            onTap: () {},
+          ),
           SettingQuestion(
             label: "Cartes retirées aléatoirement ?",
             input: MySwitch(

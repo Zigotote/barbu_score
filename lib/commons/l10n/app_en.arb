@@ -29,8 +29,8 @@
   "cardInterval": "{firstCard} to {lastCard}",
   "cardsOrder": "Aces are the highest cards. Before playing, the strongest cards must be kept until the required number is reached.",
   "cardsToKeep": "Keep the cards",
-  "cardsToKeepForPlayers": "With {nbPlayers} players, {nbDecks, plural, =1{} other{use {nbDecks} decks of cards and }}only the following cards should be kept: {cards}",
-  "cardsToKeepPartially": "as well as {nbCards} cards with a value of {card} and of the suit clubs, diamonds, or spades",
+  "cardsToKeepForPlayers": "Before playing, keep the highest cards from {nbDecks, plural, =1{one deck} other{{nbDecks} decks}} of {nbCardsInDeck} cards until you have the required number.",
+  "cardsToKeepPartially": "as well as {nbCards, plural, =1{1 card} other{{nbCards} cards}} with a value of {card} and a suit of clubs, diamonds, or spades",
   "changesSaved": "Changes saved",
   "changesSavedDetails": "The changes have been saved and are effective immediately.",
   "close": "Close",
@@ -164,6 +164,7 @@
   "whoWonItem": "Who won the {item}?",
   "withdrawItem": "Withdraw one {item}",
   "withdrawCard": "Withdraw a card",
+  "withdrawnCardsRules": "Each round, players receive {nbTricks} cards each. Extra cards are set aside face up and then reshuffled at the end of the round.",
   "withdrawnCards": "Cards withdrawn",
   "worstEnnemy": "Worst ennemy"
 }

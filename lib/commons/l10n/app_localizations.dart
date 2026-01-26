@@ -281,13 +281,18 @@ abstract class AppLocalizations {
   /// No description provided for @cardsToKeepForPlayers.
   ///
   /// In fr, this message translates to:
-  /// **'Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis. A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes : {cards}'**
-  String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards);
+  /// **'Avant de jouer il faut conserver les cartes les plus élevées {nbDecks, plural, =1{d\'un paquet} other{de {nbDecks} paquets}} de {nbCardsInDeck} cartes jusqu\'à obtenir le nombre requis. A {nbPlayers} joueurs, il faut donc conserver uniquement les cartes : {cards}'**
+  String cardsToKeepForPlayers(
+    int nbPlayers,
+    int nbDecks,
+    int nbCardsInDeck,
+    String cards,
+  );
 
   /// No description provided for @cardsToKeepPartially.
   ///
   /// In fr, this message translates to:
-  /// **'ainsi que {nbCards} cartes de valeur {card} et de couleur trèfle, carreau ou pique'**
+  /// **'ainsi que {nbCards, plural, =1{1 carte} other{{nbCards} cartes}} de valeur {card} et de couleur trèfle, carreau ou pique'**
   String cardsToKeepPartially(int nbCards, String card);
 
   /// No description provided for @changesSaved.
@@ -1075,6 +1080,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Retirer une carte'**
   String get withdrawCard;
+
+  /// No description provided for @withdrawnCardsRules.
+  ///
+  /// In fr, this message translates to:
+  /// **'A chaque manche, les joueurs reçoivent {nbTricks} chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.'**
+  String withdrawnCardsRules(int nbTricks);
 
   /// No description provided for @withdrawItem.
   ///

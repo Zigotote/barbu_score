@@ -120,19 +120,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cardsToKeep => 'Keep the cards';
 
   @override
-  String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards) {
+  String cardsToKeepForPlayers(
+    int nbPlayers,
+    int nbDecks,
+    int nbCardsInDeck,
+    String cards,
+  ) {
     String _temp0 = intl.Intl.pluralLogic(
       nbDecks,
       locale: localeName,
-      other: 'use $nbDecks decks of cards and ',
-      one: '',
+      other: '$nbDecks decks',
+      one: 'one deck',
     );
-    return 'With $nbPlayers players, ${_temp0}only the following cards should be kept: $cards';
+    return 'Before playing, keep the highest cards from $_temp0 of $nbCardsInDeck cards until you have the required number.';
   }
 
   @override
   String cardsToKeepPartially(int nbCards, String card) {
-    return 'as well as $nbCards cards with a value of $card and of the suit clubs, diamonds, or spades';
+    String _temp0 = intl.Intl.pluralLogic(
+      nbCards,
+      locale: localeName,
+      other: '$nbCards cards',
+      one: '1 card',
+    );
+    return 'as well as $_temp0 with a value of $card and a suit of clubs, diamonds, or spades';
   }
 
   @override
@@ -615,6 +626,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get withdrawCard => 'Withdraw a card';
+
+  @override
+  String withdrawnCardsRules(int nbTricks) {
+    return 'Each round, players receive $nbTricks each. Extra cards are set aside face up and then reshuffled at the end of the round.';
+  }
 
   @override
   String withdrawItem(String item) {
