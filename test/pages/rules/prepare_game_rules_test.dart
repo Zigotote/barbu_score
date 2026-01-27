@@ -135,7 +135,7 @@ void main() {
       "should display game preparation for ${testData.nbPlayers} players with 32 cards and optimized tricks",
       ($) async {
         await $.pumpWidget(
-          _createPage(GameSettings(fixedNbTricks: null, nbCardsInDeck: 32)),
+          _createPage(GameSettings(fixedNbTricks: false, nbCardsInDeck: 32)),
         );
 
         await $(Icons.keyboard_arrow_down).tap();

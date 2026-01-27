@@ -6,8 +6,8 @@ class GameSettings {
   /// Indicates if the best player is the one with the smallest or bigger score
   final bool goalIsMinScore;
 
-  /// The number of tricks by round, if it's the same no matter how many players are playing. If null, [nbCardsInDeck] is required.
-  final int? fixedNbTricks;
+  /// Indicates if the number of tricks is fixed, no matter how many players there is. If not, optimized tricks is calculated.
+  final bool fixedNbTricks;
 
   /// The number of cards in the deck used to play. Equals to [kNbCardsInDeck] by default
   final int nbCardsInDeck;
@@ -17,10 +17,13 @@ class GameSettings {
 
   GameSettings({
     this.goalIsMinScore = true,
-    this.fixedNbTricks = kNbTricksByRound,
+    this.fixedNbTricks = true,
     this.nbCardsInDeck = kNbCardsInDeck,
     this.withdrawRandomCards = false,
-  });
+  }) : assert(
+         fixedNbTricks && nbCardsInDeck == kNbCardsInDeck || !fixedNbTricks,
+         "If fixedNbTricks is true, nbCardsInDeck should be kNbCardsInDeck",
+       );
 
   GameSettings.fromJson(Map<String, dynamic> json)
     : goalIsMinScore = json["goalIsMinScore"],
@@ -57,17 +60,16 @@ class GameSettings {
 
   GameSettings copyWith({
     bool? goalIsMinScore,
-    bool deleteFixedNbTricks = false,
-    int? fixedNbTricks,
+    bool? fixedNbTricks,
     int? nbCardsInDeck,
     bool? withdrawRandomCards,
   }) {
     return GameSettings(
       goalIsMinScore: goalIsMinScore ?? this.goalIsMinScore,
-      fixedNbTricks: deleteFixedNbTricks
-          ? null
-          : fixedNbTricks ?? this.fixedNbTricks,
-      nbCardsInDeck: nbCardsInDeck ?? this.nbCardsInDeck,
+      fixedNbTricks: fixedNbTricks ?? this.fixedNbTricks,
+      nbCardsInDeck: fixedNbTricks == true
+          ? kNbCardsInDeck
+          : nbCardsInDeck ?? this.nbCardsInDeck,
       withdrawRandomCards: withdrawRandomCards ?? this.withdrawRandomCards,
     );
   }
@@ -80,8 +82,8 @@ class GameSettings {
 
   /// Returns the number of tricks by round for a specific number of players
   int getNbTricksByRound(int nbPlayers) {
-    if (fixedNbTricks != null) {
-      return fixedNbTricks!;
+    if (fixedNbTricks) {
+      return kNbTricksByRound;
     }
     final int nbTricksWithOneDeck = (nbCardsInDeck / nbPlayers).floor();
     // If there is 6 or more tricks, the game can be played with one deck

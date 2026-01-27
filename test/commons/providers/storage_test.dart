@@ -156,7 +156,7 @@ void main() {
     test("should return save and get game settings", () async {
       final gameSettings = GameSettings(
         goalIsMinScore: false,
-        fixedNbTricks: 8,
+        fixedNbTricks: false,
         withdrawRandomCards: true,
       );
       await _initializeStorage();

@@ -4,17 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("#copyWith", () {
-    test("should delete fixedNbTricks", () {
-      final newGameSettings = GameSettings().copyWith(
-        deleteFixedNbTricks: true,
-      );
+    test("should set fixedNbTricks to true", () {
+      final newGameSettings = GameSettings(
+        fixedNbTricks: false,
+        nbCardsInDeck: 32,
+      ).copyWith(fixedNbTricks: true);
 
-      expect(newGameSettings.fixedNbTricks, isNull);
-    });
-    test("should override fixedNbTricks", () {
-      final newGameSettings = GameSettings().copyWith(fixedNbTricks: 66);
-
-      expect(newGameSettings.fixedNbTricks, 66);
+      expect(newGameSettings.fixedNbTricks, true);
+      expect(newGameSettings.nbCardsInDeck, kNbCardsInDeck);
     });
     test("should change other values", () {
       final newGameSettings = GameSettings(
@@ -22,7 +19,7 @@ void main() {
         withdrawRandomCards: true,
       ).copyWith(goalIsMinScore: false, withdrawRandomCards: false);
 
-      expect(newGameSettings.fixedNbTricks, kNbTricksByRound);
+      expect(newGameSettings.fixedNbTricks, true);
       expect(newGameSettings.nbCardsInDeck, kNbCardsInDeck);
       expect(newGameSettings.goalIsMinScore, false);
       expect(newGameSettings.withdrawRandomCards, false);
@@ -65,7 +62,7 @@ void main() {
         "should have ${testData.nbDecks} deck for ${testData.nbPlayers} players and optimized nb tricks",
         () {
           expect(
-            GameSettings(fixedNbTricks: null).getNbDecks(testData.nbPlayers),
+            GameSettings(fixedNbTricks: false).getNbDecks(testData.nbPlayers),
             testData.nbDecks,
           );
         },
@@ -89,7 +86,7 @@ void main() {
         () {
           expect(
             GameSettings(
-              fixedNbTricks: null,
+              fixedNbTricks: false,
             ).getNbTricksByRound(testData.nbPlayers),
             testData.nbTricks,
           );
@@ -111,7 +108,7 @@ void main() {
         () {
           expect(
             GameSettings(
-              fixedNbTricks: null,
+              fixedNbTricks: false,
               nbCardsInDeck: 32,
             ).getNbTricksByRound(testData.nbPlayers),
             testData.nbTricks,
@@ -119,9 +116,6 @@ void main() {
         },
       );
     }
-    test("should have fixedNbTricks if given", () {
-      expect(GameSettings(fixedNbTricks: 66).getNbTricksByRound(3), 66);
-    });
   });
 
   group("#getCardsToKeep", () {
@@ -386,7 +380,7 @@ void main() {
     ]) {
       test("should keep optimized cards for ${testData.nbPlayers} players", () {
         expect(
-          GameSettings(fixedNbTricks: null).getCardsToKeep(testData.nbPlayers),
+          GameSettings(fixedNbTricks: false).getCardsToKeep(testData.nbPlayers),
           testData.cardsToKeep,
         );
       });
