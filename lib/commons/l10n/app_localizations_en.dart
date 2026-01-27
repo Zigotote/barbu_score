@@ -143,7 +143,7 @@ class AppLocalizationsEn extends AppLocalizations {
       other: '$nbCards cards',
       one: '1 card',
     );
-    return 'as well as $_temp0 with a value of $card and a suit of clubs, diamonds, or spades';
+    return 'and $_temp0 with a value of $card and a suit of clubs, diamonds, or spades';
   }
 
   @override
@@ -204,6 +204,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deactivatedForGame => 'Disabled for your games.';
+
+  @override
+  String decksOfCards(int nbDecks, int nbCards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: '$nbDecks decks',
+      one: '1 deck',
+    );
+    return '$_temp0 of $nbCards cards.';
+  }
 
   @override
   String get delete => 'Delete';
@@ -351,6 +362,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String loadPreviousGame(String players) {
     return 'Resume the previous game with $players?';
   }
+
+  @override
+  String get mix => 'Mix';
 
   @override
   String modify(String contract) {
@@ -629,7 +643,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String withdrawnCardsRules(int nbTricks) {
-    return 'Each round, players receive $nbTricks each. Extra cards are set aside face up and then reshuffled at the end of the round.';
+    return 'Each round, players receive $nbTricks cards each. Extra cards are set aside face up and then reshuffled at the end of the round.';
   }
 
   @override

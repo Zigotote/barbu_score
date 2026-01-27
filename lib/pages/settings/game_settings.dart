@@ -95,6 +95,7 @@ class _GameSettingsPageState extends ConsumerState<GameSettingsPage> {
               label: "Nombre de cartes par joueur",
               input: NumberInput(
                 value: settings.fixedNbTricks!,
+                // TODO Océane attention, ça doit être strictement supérieur à 0
                 onChanged: (value) => setState(
                   () => settings = settings.copyWith(fixedNbTricks: value),
                 ),

@@ -292,7 +292,7 @@ abstract class AppLocalizations {
   /// No description provided for @cardsToKeepPartially.
   ///
   /// In fr, this message translates to:
-  /// **'ainsi que {nbCards, plural, =1{1 carte} other{{nbCards} cartes}} de valeur {card} et de couleur trèfle, carreau ou pique'**
+  /// **'et {nbCards} {nbCards, plural, =1{carte} other{cartes}} de valeur {card} et de couleur ♣, ♦ ou ♠'**
   String cardsToKeepPartially(int nbCards, String card);
 
   /// No description provided for @changesSaved.
@@ -396,6 +396,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Désactivé pour vos parties.'**
   String get deactivatedForGame;
+
+  /// No description provided for @decksOfCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'{nbDecks, plural, =1{1 paquet} other{{nbDecks} paquets}} de {nbCards} cartes.'**
+  String decksOfCards(int nbDecks, int nbCards);
 
   /// No description provided for @delete.
   ///
@@ -648,6 +654,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Reprendre la partie précédente avec {players} ?'**
   String loadPreviousGame(String players);
+
+  /// No description provided for @mix.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mélanger'**
+  String get mix;
 
   /// No description provided for @modify.
   ///
@@ -1084,7 +1096,7 @@ abstract class AppLocalizations {
   /// No description provided for @withdrawnCardsRules.
   ///
   /// In fr, this message translates to:
-  /// **'A chaque manche, les joueurs reçoivent {nbTricks} chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.'**
+  /// **'A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.'**
   String withdrawnCardsRules(int nbTricks);
 
   /// No description provided for @withdrawItem.

@@ -48,7 +48,7 @@ class ContractsManager {
       ContractsInfo.noQueens: (
         model: ContractWithPointsModel(
           contract: ContractsInfo.noQueens,
-          nbItems: _nbDecks * 4,
+          nbItems: gameSettings.getCardsToKeep(nbPlayers)[12] ?? _nbDecks * 4,
         ),
         settings: storage.getSettings(ContractsInfo.noQueens),
       ),

@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -141,10 +140,10 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       nbCards,
       locale: localeName,
-      other: '$nbCards cartes',
-      one: '1 carte',
+      other: 'cartes',
+      one: 'carte',
     );
-    return 'ainsi que $_temp0 de valeur $card et de couleur trèfle, carreau ou pique';
+    return 'et $nbCards $_temp0 de valeur $card et de couleur ♣, ♦ ou ♠';
   }
 
   @override
@@ -205,6 +204,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get deactivatedForGame => 'Désactivé pour vos parties.';
+
+  @override
+  String decksOfCards(int nbDecks, int nbCards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: '$nbDecks paquets',
+      one: '1 paquet',
+    );
+    return '$_temp0 de $nbCards cartes.';
+  }
 
   @override
   String get delete => 'Supprimer';
@@ -353,6 +363,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String loadPreviousGame(String players) {
     return 'Reprendre la partie précédente avec $players ?';
   }
+
+  @override
+  String get mix => 'Mélanger';
 
   @override
   String modify(String contract) {

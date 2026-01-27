@@ -94,7 +94,7 @@
       }
     }
   },
-  "cardsToKeepPartially": "ainsi que {nbCards, plural, =1{1 carte} other{{nbCards} cartes}} de valeur {card} et de couleur trèfle, carreau ou pique",
+  "cardsToKeepPartially": "et {nbCards} {nbCards, plural, =1{carte} other{cartes}} de valeur {card} et de couleur \u2663, \u2666 ou \u2660",
   "@cardsToKeepPartially": {
     "placeholders": {
       "nbCards": {
@@ -146,6 +146,17 @@
   "createPlayers": "Créer les joueurs",
   "deactivate": "Désactiver",
   "deactivatedForGame": "Désactivé pour vos parties.",
+  "decksOfCards": "{nbDecks, plural, =1{1 paquet} other{{nbDecks} paquets}} de {nbCards} cartes.",
+  "@decksOfCards": {
+    "placeholders": {
+      "nbDecks": {
+        "type": "int"
+      },
+      "nbCards": {
+        "type": "int"
+      }
+    }
+  },
   "delete": "Supprimer",
   "deletePlayer": "Supprimer le joueur",
   "domino": "Réussite",
@@ -222,6 +233,7 @@
       }
     }
   },
+  "mix": "Mélanger",
   "modify": "Modification {contract}",
   "@modify": {
     "placeholders": {

@@ -106,7 +106,8 @@ void main() {
     ),
     (
       nbPlayers: 7,
-      nbCardsByPlayer: 9,
+      nbCardsByPlayer:
+          9, // TODO Océane dans ce cas on a 7 cartes 7 à conserver (donc un coeur supplémentaire)
       nbDecks: 2,
       hasCardsToKeepPartially: true,
     ),
@@ -118,7 +119,8 @@ void main() {
     ),
     (
       nbPlayers: 9,
-      nbCardsByPlayer: 7,
+      nbCardsByPlayer:
+          7, // TODO Océane dans ce cas on a 7 cartes 7 à conserver (donc un coeur supplémentaire)
       nbDecks: 2,
       hasCardsToKeepPartially: true,
     ),
