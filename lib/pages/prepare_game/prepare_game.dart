@@ -103,7 +103,7 @@ class PrepareGame extends ConsumerWidget {
         children: [
           Text(context.l10n.cardsToKeep),
           Text(
-            "${context.l10n.cardInterval(context.l10n.cardName(cardsToKeep.entries.lastWhere((cardEntry) => cardEntry.value == gameSettings.getNbCardsOfEachValue(players.length)).key), context.l10n.cardName(cardsToKeep.entries.first.key))}${cardToKeepPartially != null ? " ${context.l10n.cardsToKeepPartially(cardToKeepPartially.value, context.l10n.cardName(cardToKeepPartially.key))}" : ""}",
+            "${cardToKeepPartially != null ? "${context.l10n.cardToKeepPartially("${cardToKeepPartially.value}", context.l10n.cardName(cardToKeepPartially.key))} ${context.l10n.and} " : ""}${context.l10n.cardInterval(context.l10n.cardName(cardsToKeep.entries.lastWhere((cardEntry) => cardEntry.value == gameSettings.getNbCardsOfEachValue(players.length)).key), context.l10n.cardName(cardsToKeep.entries.first.key))}",
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineSmall,
           ),

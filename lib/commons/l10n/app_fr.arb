@@ -41,6 +41,7 @@
       }
     }
   },
+  "and": "et",
   "appName": "Le Barbu",
   "appTheme": "Thème de l'application",
   "appTitle": "Score Barbu",
@@ -94,11 +95,11 @@
       }
     }
   },
-  "cardsToKeepPartially": "et {nbCards} {nbCards, plural, =1{carte} other{cartes}} de valeur {card} et de couleur \u2663, \u2666 ou \u2660",
-  "@cardsToKeepPartially": {
+  "cardToKeepPartially": "{card}{nbCards, select, 1{\u2663} 2{\u2663\u2660} 3{\u2663\u2666\u2660} 4{\u2663\u2660} 5{\u2663\u2660 et un \u2666} 6{\u2663\u2666\u2660} 7{\u2663\u2666\u2660 et un \u2665} other{}}",
+  "@cardToKeepPartially": {
     "placeholders": {
       "nbCards": {
-        "type": "int"
+        "type": "String"
       },
       "card": {
         "type": "String",

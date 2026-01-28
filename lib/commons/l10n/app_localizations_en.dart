@@ -72,6 +72,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get and => 'and';
+
+  @override
   String get appName => 'The Barbu';
 
   @override
@@ -136,14 +139,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String cardsToKeepPartially(int nbCards, String card) {
-    String _temp0 = intl.Intl.pluralLogic(
-      nbCards,
-      locale: localeName,
-      other: '$nbCards cards',
-      one: '1 card',
-    );
-    return 'and $_temp0 with a value of $card and a suit of clubs, diamonds, or spades';
+  String cardToKeepPartially(String nbCards, String card) {
+    String _temp0 = intl.Intl.selectLogic(nbCards, {
+      '1': '♣',
+      '2': '♣♦',
+      '3': '♣♦♠',
+      '4': '♣♦',
+      '5': '♣♦ and a ♠',
+      '6': '♣♦♠',
+      '7': '♣♦♠ and a ♥',
+      'other': '',
+    });
+    return '$card$_temp0';
   }
 
   @override

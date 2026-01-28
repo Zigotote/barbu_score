@@ -82,53 +82,109 @@ void main() {
   for (var testData in [
     (
       nbPlayers: 3,
+      nbCardsByPlayer: 17,
+      nbDecks: 1,
+      cardsToKeep: r'As.*3 et 2♣♦♠',
+    ),
+    (nbPlayers: 4, nbCardsByPlayer: 13, nbDecks: 1, cardsToKeep: 'As.*2'),
+    (
+      nbPlayers: 5,
       nbCardsByPlayer: 10,
       nbDecks: 1,
-      hasCardsToKeepPartially: true,
+      cardsToKeep: r'As.*3 et 2♣♠',
+    ),
+    (nbPlayers: 6, nbCardsByPlayer: 8, nbDecks: 1, cardsToKeep: r'As.*3'),
+    (nbPlayers: 7, nbCardsByPlayer: 7, nbDecks: 1, cardsToKeep: r'As.*3 et 2♣'),
+    (nbPlayers: 8, nbCardsByPlayer: 6, nbDecks: 1, cardsToKeep: r'As.*3'),
+    (
+      nbPlayers: 9,
+      nbCardsByPlayer: 11,
+      nbDecks: 2,
+      cardsToKeep: r'As.*3 et 2♣♦♠',
     ),
     (
-      nbPlayers: 4,
-      nbCardsByPlayer: 8,
-      nbDecks: 1,
-      hasCardsToKeepPartially: false,
+      nbPlayers: 10,
+      nbCardsByPlayer: 10,
+      nbDecks: 2,
+      cardsToKeep: r'As.*3 et 2♣♠',
     ),
+  ]) {
+    patrolWidgetTest(
+      "should display game preparation for ${testData.nbPlayers} players with 52 cards and optimized tricks",
+      ($) async {
+        await $.pumpWidget(
+          _createPage(GameSettings(fixedNbTricks: false, nbCardsInDeck: 52)),
+        );
+
+        await $(Icons.keyboard_arrow_down).tap();
+        await $("${testData.nbPlayers}").tap();
+
+        final nbDecksText = testData.nbDecks == 1
+            ? "d'un paquet"
+            : "de ${testData.nbDecks} paquets";
+        expect(
+          $(
+            "Le jeu se joue avec ${testData.nbCardsByPlayer * testData.nbPlayers} cartes (${testData.nbCardsByPlayer} cartes par joueur).",
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.textContaining(
+            RegExp(
+              r'Avant de jouer.*'
+              '$nbDecksText'
+              ' de 52 cartes.*'
+              '${testData.nbPlayers}'
+              r' joueurs.*'
+              '${testData.cardsToKeep}'
+              '.',
+            ),
+          ),
+          findsOneWidget,
+        );
+      },
+    );
+  }
+  for (var testData in [
+    (
+      nbPlayers: 3,
+      nbCardsByPlayer: 10,
+      nbDecks: 1,
+      cardsToKeep: r'As.*8 et 7♣♠',
+    ),
+    (nbPlayers: 4, nbCardsByPlayer: 8, nbDecks: 1, cardsToKeep: 'As.*7'),
     (
       nbPlayers: 5,
       nbCardsByPlayer: 6,
       nbDecks: 1,
-      hasCardsToKeepPartially: true,
+      cardsToKeep: r'As.*8 et 7♣♠',
     ),
     (
       nbPlayers: 6,
       nbCardsByPlayer: 10,
       nbDecks: 2,
-      hasCardsToKeepPartially: true,
+      cardsToKeep: r'As.*8 et 7♣♠',
     ),
     (
       nbPlayers: 7,
       nbCardsByPlayer:
           9, // TODO Océane dans ce cas on a 7 cartes 7 à conserver (donc un coeur supplémentaire)
       nbDecks: 2,
-      hasCardsToKeepPartially: true,
+      cardsToKeep: r'As.*8 et 7♣♦♠ et un ♥',
     ),
-    (
-      nbPlayers: 8,
-      nbCardsByPlayer: 8,
-      nbDecks: 2,
-      hasCardsToKeepPartially: false,
-    ),
+    (nbPlayers: 8, nbCardsByPlayer: 8, nbDecks: 2, cardsToKeep: r'As.*7'),
     (
       nbPlayers: 9,
       nbCardsByPlayer:
           7, // TODO Océane dans ce cas on a 7 cartes 7 à conserver (donc un coeur supplémentaire)
       nbDecks: 2,
-      hasCardsToKeepPartially: true,
+      cardsToKeep: r'As.*8 et 7♣♦♠ et un ♥',
     ),
     (
       nbPlayers: 10,
       nbCardsByPlayer: 6,
       nbDecks: 2,
-      hasCardsToKeepPartially: true,
+      cardsToKeep: r'As.*8 et 7♣♠',
     ),
   ]) {
     patrolWidgetTest(
@@ -144,9 +200,6 @@ void main() {
         final nbDecksText = testData.nbDecks == 1
             ? "d'un paquet"
             : "de ${testData.nbDecks} paquets";
-        final cardsToKeepPartiallyText = testData.hasCardsToKeepPartially
-            ? "et de couleur trèfle, carreau ou pique"
-            : r'\d';
         expect(
           $(
             "Le jeu se joue avec ${testData.nbCardsByPlayer * testData.nbPlayers} cartes (${testData.nbCardsByPlayer} cartes par joueur).",
@@ -161,7 +214,7 @@ void main() {
               ' de 32 cartes.*'
               '${testData.nbPlayers}'
               r' joueurs.*'
-              '$cardsToKeepPartiallyText'
+              '${testData.cardsToKeep}'
               '.',
             ),
           ),

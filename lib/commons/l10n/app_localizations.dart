@@ -194,6 +194,12 @@ abstract class AppLocalizations {
   /// **'Le contrat a déjà été joué par {players}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.'**
   String alertSaladContractPlayedBy(String players);
 
+  /// No description provided for @and.
+  ///
+  /// In fr, this message translates to:
+  /// **'et'**
+  String get and;
+
   /// No description provided for @appName.
   ///
   /// In fr, this message translates to:
@@ -289,11 +295,11 @@ abstract class AppLocalizations {
     String cards,
   );
 
-  /// No description provided for @cardsToKeepPartially.
+  /// No description provided for @cardToKeepPartially.
   ///
   /// In fr, this message translates to:
-  /// **'et {nbCards} {nbCards, plural, =1{carte} other{cartes}} de valeur {card} et de couleur ♣, ♦ ou ♠'**
-  String cardsToKeepPartially(int nbCards, String card);
+  /// **'{card}{nbCards, select, 1{♣} 2{♣♠} 3{♣♦♠} 4{♣♠} 5{♣♠ et un ♦} 6{♣♦♠} 7{♣♦♠ et un ♥} other{}}'**
+  String cardToKeepPartially(String nbCards, String card);
 
   /// No description provided for @changesSaved.
   ///

@@ -54,7 +54,7 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
     );
     if (cardToKeepPartially != null) {
       cardsToKeepText =
-          "${context.l10n.cardsToKeepForPlayers(nbPlayersExample, gameSettings.getNbDecks(nbPlayersExample), gameSettings.nbCardsInDeck, cardsToKeep.entries.where((cardEntry) => cardEntry.key != cardToKeepPartially.key).map((cardEntry) => context.l10n.cardName(cardEntry.key)).join(", "))} ${context.l10n.cardsToKeepPartially(cardToKeepPartially.value, context.l10n.cardName(cardToKeepPartially.key))}.";
+          "${context.l10n.cardsToKeepForPlayers(nbPlayersExample, gameSettings.getNbDecks(nbPlayersExample), gameSettings.nbCardsInDeck, cardsToKeep.entries.where((cardEntry) => cardEntry.key != cardToKeepPartially.key).map((cardEntry) => context.l10n.cardName(cardEntry.key)).join(", "))} ${context.l10n.and} ${context.l10n.cardToKeepPartially("${cardToKeepPartially.value}", context.l10n.cardName(cardToKeepPartially.key))}.";
     } else {
       cardsToKeepText = context.l10n.cardsToKeepForPlayers(
         nbPlayersExample,

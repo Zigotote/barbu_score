@@ -378,12 +378,82 @@ void main() {
         },
       ),
     ]) {
-      test("should keep optimized cards for ${testData.nbPlayers} players", () {
-        expect(
-          GameSettings(fixedNbTricks: false).getCardsToKeep(testData.nbPlayers),
-          testData.cardsToKeep,
-        );
-      });
+      test(
+        "should keep optimized cards for ${testData.nbPlayers} players and 52 cards",
+        () {
+          expect(
+            GameSettings(
+              fixedNbTricks: false,
+            ).getCardsToKeep(testData.nbPlayers),
+            testData.cardsToKeep,
+          );
+        },
+      );
+    }
+    for (var testData in [
+      (
+        nbPlayers: 3,
+        cardsToKeep: {14: 4, 13: 4, 12: 4, 11: 4, 10: 4, 9: 4, 8: 4, 7: 2},
+      ),
+      (
+        nbPlayers: 4,
+        cardsToKeep: Map.fromIterable([
+          14,
+          13,
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+        ], value: (_) => 4),
+      ),
+      (
+        nbPlayers: 5,
+        cardsToKeep: {14: 4, 13: 4, 12: 4, 11: 4, 10: 4, 9: 4, 8: 4, 7: 2},
+      ),
+      (
+        nbPlayers: 6,
+        cardsToKeep: {14: 8, 13: 8, 12: 8, 11: 8, 10: 8, 9: 8, 8: 8, 7: 4},
+      ),
+      (
+        nbPlayers: 7,
+        cardsToKeep: {14: 8, 13: 8, 12: 8, 11: 8, 10: 8, 9: 8, 8: 8, 7: 7},
+      ),
+      (
+        nbPlayers: 8,
+        cardsToKeep: Map.fromIterable([
+          14,
+          13,
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+        ], value: (_) => 8),
+      ),
+      (
+        nbPlayers: 9,
+        cardsToKeep: {14: 8, 13: 8, 12: 8, 11: 8, 10: 8, 9: 8, 8: 8, 7: 7},
+      ),
+      (
+        nbPlayers: 10,
+        cardsToKeep: {14: 8, 13: 8, 12: 8, 11: 8, 10: 8, 9: 8, 8: 8, 7: 4},
+      ),
+    ]) {
+      test(
+        "should keep optimized cards for ${testData.nbPlayers} players and 32 cards",
+        () {
+          expect(
+            GameSettings(
+              fixedNbTricks: false,
+              nbCardsInDeck: 32,
+            ).getCardsToKeep(testData.nbPlayers),
+            testData.cardsToKeep,
+          );
+        },
+      );
     }
     test("should keep all cards if withdrawRandomCard", () {
       expect(

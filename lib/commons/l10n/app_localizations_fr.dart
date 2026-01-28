@@ -73,6 +73,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get and => 'et';
+
+  @override
   String get appName => 'Le Barbu';
 
   @override
@@ -136,14 +139,18 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String cardsToKeepPartially(int nbCards, String card) {
-    String _temp0 = intl.Intl.pluralLogic(
-      nbCards,
-      locale: localeName,
-      other: 'cartes',
-      one: 'carte',
-    );
-    return 'et $nbCards $_temp0 de valeur $card et de couleur ♣, ♦ ou ♠';
+  String cardToKeepPartially(String nbCards, String card) {
+    String _temp0 = intl.Intl.selectLogic(nbCards, {
+      '1': '♣',
+      '2': '♣♠',
+      '3': '♣♦♠',
+      '4': '♣♠',
+      '5': '♣♠ et un ♦',
+      '6': '♣♦♠',
+      '7': '♣♦♠ et un ♥',
+      'other': '',
+    });
+    return '$card$_temp0';
   }
 
   @override
