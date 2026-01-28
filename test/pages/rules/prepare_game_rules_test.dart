@@ -167,16 +167,14 @@ void main() {
     ),
     (
       nbPlayers: 7,
-      nbCardsByPlayer:
-          9, // TODO Océane dans ce cas on a 7 cartes 7 à conserver (donc un coeur supplémentaire)
+      nbCardsByPlayer: 9,
       nbDecks: 2,
       cardsToKeep: r'As.*8 et 7♣♦♠ et un ♥',
     ),
     (nbPlayers: 8, nbCardsByPlayer: 8, nbDecks: 2, cardsToKeep: r'As.*7'),
     (
       nbPlayers: 9,
-      nbCardsByPlayer:
-          7, // TODO Océane dans ce cas on a 7 cartes 7 à conserver (donc un coeur supplémentaire)
+      nbCardsByPlayer: 7,
       nbDecks: 2,
       cardsToKeep: r'As.*8 et 7♣♦♠ et un ♥',
     ),

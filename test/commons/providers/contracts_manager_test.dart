@@ -4,6 +4,7 @@ import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/providers/contracts_manager.dart';
+import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/commons/utils/player_icon_properties.dart';
 import 'package:barbu_score/theme/my_theme_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -136,6 +137,143 @@ void main() {
       mockStorage.getSettings(ContractsInfo.salad),
     ).thenReturn(ContractsInfo.salad.defaultSettings);
     when(mockStorage.getGameSettings()).thenReturn(GameSettings());
+  });
+
+  group("#constructor", () {
+    for (
+      var nbPlayers = kNbPlayersMin;
+      nbPlayers <= kNbPlayersMax;
+      nbPlayers++
+    ) {
+      test(
+        "should create ContractsManager for $nbPlayers players with fixed tricks",
+        () {
+          final contractsManager = ContractsManager(mockStorage, nbPlayers);
+          final nbDecks = nbPlayers <= 6 ? 1 : 2;
+
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.barbu).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            nbDecks,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.noHearts).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            nbPlayers * 2,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.noQueens).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            nbDecks * 4,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.noTricks).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            kNbTricksByRound,
+          );
+        },
+      );
+    }
+    for (var testData in [
+      (nbPlayers: 3, nbDecks: 1, nbCardsByPlayer: 17, nbHearts: 12),
+      (nbPlayers: 4, nbDecks: 1, nbCardsByPlayer: 13, nbHearts: 13),
+      (nbPlayers: 5, nbDecks: 1, nbCardsByPlayer: 10, nbHearts: 12),
+      (nbPlayers: 6, nbDecks: 1, nbCardsByPlayer: 8, nbHearts: 12),
+      (nbPlayers: 7, nbDecks: 1, nbCardsByPlayer: 7, nbHearts: 12),
+      (nbPlayers: 8, nbDecks: 1, nbCardsByPlayer: 6, nbHearts: 12),
+      (nbPlayers: 9, nbDecks: 2, nbCardsByPlayer: 11, nbHearts: 24),
+      (nbPlayers: 10, nbDecks: 2, nbCardsByPlayer: 10, nbHearts: 24),
+    ]) {
+      test(
+        "should create ContractsManager for ${testData.nbPlayers} players with 52 cards and optimized tricks",
+        () {
+          when(
+            mockStorage.getGameSettings(),
+          ).thenReturn(GameSettings(fixedNbTricks: false));
+          final contractsManager = ContractsManager(
+            mockStorage,
+            testData.nbPlayers,
+          );
+
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.barbu).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbDecks,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.noHearts).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbHearts,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.noQueens).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbDecks * 4,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.noTricks).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbCardsByPlayer,
+          );
+        },
+      );
+    }
+    for (var testData in [
+      (nbPlayers: 3, nbDecks: 1, nbCardsByPlayer: 10, nbHearts: 7),
+      (nbPlayers: 4, nbDecks: 1, nbCardsByPlayer: 8, nbHearts: 8),
+      (nbPlayers: 5, nbDecks: 1, nbCardsByPlayer: 6, nbHearts: 7),
+      (nbPlayers: 6, nbDecks: 2, nbCardsByPlayer: 10, nbHearts: 14),
+      (nbPlayers: 7, nbDecks: 2, nbCardsByPlayer: 9, nbHearts: 15),
+      (nbPlayers: 8, nbDecks: 2, nbCardsByPlayer: 8, nbHearts: 16),
+      (nbPlayers: 9, nbDecks: 2, nbCardsByPlayer: 7, nbHearts: 15),
+      (nbPlayers: 10, nbDecks: 2, nbCardsByPlayer: 6, nbHearts: 14),
+    ]) {
+      test(
+        "should create ContractsManager for ${testData.nbPlayers} players with 32 cards and optimized tricks",
+        () {
+          when(
+            mockStorage.getGameSettings(),
+          ).thenReturn(GameSettings(fixedNbTricks: false, nbCardsInDeck: 32));
+          final contractsManager = ContractsManager(
+            mockStorage,
+            testData.nbPlayers,
+          );
+
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.barbu).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbDecks,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.noHearts).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbHearts,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.noQueens).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbDecks * 4,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.noTricks).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbCardsByPlayer,
+          );
+        },
+      );
+    }
   });
 
   group("#scoresByContract", () {

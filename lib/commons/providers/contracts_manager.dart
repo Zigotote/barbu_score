@@ -41,14 +41,22 @@ class ContractsManager {
       ContractsInfo.noHearts: (
         model: ContractWithPointsModel(
           contract: ContractsInfo.noHearts,
-          nbItems: nbPlayers * 2,
+          nbItems: (gameSettings
+              .getCardsToKeep(nbPlayers)
+              .values
+              .fold(
+                0,
+                (acc, nbCards) =>
+                    acc +
+                    (nbCards <= (3 * _nbDecks) ? 0 : nbCards % (3 * _nbDecks)),
+              )),
         ),
         settings: storage.getSettings(ContractsInfo.noHearts),
       ),
       ContractsInfo.noQueens: (
         model: ContractWithPointsModel(
           contract: ContractsInfo.noQueens,
-          nbItems: gameSettings.getCardsToKeep(nbPlayers)[12] ?? _nbDecks * 4,
+          nbItems: _nbDecks * 4,
         ),
         settings: storage.getSettings(ContractsInfo.noQueens),
       ),

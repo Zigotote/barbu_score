@@ -18,7 +18,6 @@ import '../../main.dart';
 import 'widgets/players_placed_in_circle.dart';
 import 'widgets/players_placed_in_grid.dart';
 
-// TODO Océane temporaire, je suis pas 100% convaincue par la traduction en cas de retrait partiel de cartes
 /// A page to be sure the players and the cards are ready to start
 class PrepareGame extends ConsumerWidget {
   const PrepareGame({super.key});
