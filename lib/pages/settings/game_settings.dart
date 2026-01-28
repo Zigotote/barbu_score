@@ -85,7 +85,10 @@ class _GameSettingsPageState extends ConsumerState<GameSettingsPage> {
               input: MyDropdownMenu(
                 context: context,
                 dropdownMenuEntries: [
-                  DropdownMenuEntry(value: 32, label: "32"),
+                  DropdownMenuEntry(
+                    value: kNbCardsInSmallDeck,
+                    label: "$kNbCardsInSmallDeck",
+                  ),
                   DropdownMenuEntry(
                     value: kNbCardsInDeck,
                     label: "$kNbCardsInDeck",

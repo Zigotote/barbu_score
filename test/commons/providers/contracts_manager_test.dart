@@ -189,7 +189,7 @@ void main() {
       (nbPlayers: 10, nbDecks: 2, nbCardsByPlayer: 10, nbHearts: 24),
     ]) {
       test(
-        "should create ContractsManager for ${testData.nbPlayers} players with 52 cards and optimized tricks",
+        "should create ContractsManager for ${testData.nbPlayers} players with $kNbCardsInDeck cards and optimized tricks",
         () {
           when(
             mockStorage.getGameSettings(),
@@ -237,11 +237,14 @@ void main() {
       (nbPlayers: 10, nbDecks: 2, nbCardsByPlayer: 6, nbHearts: 14),
     ]) {
       test(
-        "should create ContractsManager for ${testData.nbPlayers} players with 32 cards and optimized tricks",
+        "should create ContractsManager for ${testData.nbPlayers} players with $kNbCardsInSmallDeck cards and optimized tricks",
         () {
-          when(
-            mockStorage.getGameSettings(),
-          ).thenReturn(GameSettings(fixedNbTricks: false, nbCardsInDeck: 32));
+          when(mockStorage.getGameSettings()).thenReturn(
+            GameSettings(
+              fixedNbTricks: false,
+              nbCardsInDeck: kNbCardsInSmallDeck,
+            ),
+          );
           final contractsManager = ContractsManager(
             mockStorage,
             testData.nbPlayers,

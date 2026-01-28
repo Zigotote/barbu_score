@@ -37,7 +37,7 @@ void main() {
       );
 
       expect($("Mélanger"), findsOneWidget);
-      expect($("1 paquet de 52 cards"), findsOneWidget);
+      expect($("1 paquet de $kNbCardsInDeck cartes."), findsOneWidget);
     });
     for (var testData in [
       (nbPlayers: 3, nbDecks: 1, cardsToKeep: "2♣♦♠ et 3 à As"),
@@ -50,16 +50,13 @@ void main() {
       (nbPlayers: 10, nbDecks: 2, cardsToKeep: "2♣♠ et 3 à As"),
     ]) {
       patrolWidgetTest(
-        "should display game preparation for ${testData.nbPlayers} players with 52 cards and optimized tricks",
+        "should display game preparation for ${testData.nbPlayers} players with $kNbCardsInDeck cards and optimized tricks",
         ($) async {
           await $.pumpWidget(
             _createPage(
               $,
               nbPlayers: testData.nbPlayers,
-              gameSettings: GameSettings(
-                fixedNbTricks: false,
-                nbCardsInDeck: 52,
-              ),
+              gameSettings: GameSettings(fixedNbTricks: false),
             ),
           );
 
@@ -86,7 +83,7 @@ void main() {
       (nbPlayers: 10, nbDecks: 2, cardsToKeep: "7♣♠ et 8 à As"),
     ]) {
       patrolWidgetTest(
-        "should display game preparation for ${testData.nbPlayers} players with 32 cards and optimized tricks",
+        "should display game preparation for ${testData.nbPlayers} players with $kNbCardsInSmallDeck cards and optimized tricks",
         ($) async {
           await $.pumpWidget(
             _createPage(
@@ -94,7 +91,7 @@ void main() {
               nbPlayers: testData.nbPlayers,
               gameSettings: GameSettings(
                 fixedNbTricks: false,
-                nbCardsInDeck: 32,
+                nbCardsInDeck: kNbCardsInSmallDeck,
               ),
             ),
           );

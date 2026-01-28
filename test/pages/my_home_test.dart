@@ -3,6 +3,7 @@ import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/create_game/create_game.dart';
@@ -117,7 +118,7 @@ void main() {
       $,
     ) async {
       final mockStorage = MockMyStorage();
-      final storedGame = Game(players: []);
+      final storedGame = createGame(kNbPlayersMin);
       storedGame.isFinished = true;
 
       await $.pumpWidget(

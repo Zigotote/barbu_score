@@ -8,3 +8,4 @@ const int kNbPlayersMax = 10;
 
 const int kNbTricksByRound = 8;
 const int kNbCardsInDeck = 52;
+const int kNbCardsInSmallDeck = 32;

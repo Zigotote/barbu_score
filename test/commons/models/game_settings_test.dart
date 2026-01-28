@@ -7,7 +7,7 @@ void main() {
     test("should set fixedNbTricks to true", () {
       final newGameSettings = GameSettings(
         fixedNbTricks: false,
-        nbCardsInDeck: 32,
+        nbCardsInDeck: kNbCardsInSmallDeck,
       ).copyWith(fixedNbTricks: true);
 
       expect(newGameSettings.fixedNbTricks, true);
@@ -82,7 +82,7 @@ void main() {
       (nbPlayers: 10, nbTricks: 10),
     ]) {
       test(
-        "should have ${testData.nbTricks} tricks for ${testData.nbPlayers} players with 52 cards",
+        "should have ${testData.nbTricks} tricks for ${testData.nbPlayers} players with $kNbCardsInDeck cards",
         () {
           expect(
             GameSettings(
@@ -104,12 +104,12 @@ void main() {
       (nbPlayers: 10, nbTricks: 6),
     ]) {
       test(
-        "should have ${testData.nbTricks} tricks for ${testData.nbPlayers} players with 32 cards",
+        "should have ${testData.nbTricks} tricks for ${testData.nbPlayers} players with $kNbCardsInSmallDeck cards",
         () {
           expect(
             GameSettings(
               fixedNbTricks: false,
-              nbCardsInDeck: 32,
+              nbCardsInDeck: kNbCardsInSmallDeck,
             ).getNbTricksByRound(testData.nbPlayers),
             testData.nbTricks,
           );
@@ -379,7 +379,7 @@ void main() {
       ),
     ]) {
       test(
-        "should keep optimized cards for ${testData.nbPlayers} players and 52 cards",
+        "should keep optimized cards for ${testData.nbPlayers} players and $kNbCardsInDeck cards",
         () {
           expect(
             GameSettings(
@@ -443,12 +443,12 @@ void main() {
       ),
     ]) {
       test(
-        "should keep optimized cards for ${testData.nbPlayers} players and 32 cards",
+        "should keep optimized cards for ${testData.nbPlayers} players and $kNbCardsInSmallDeck cards",
         () {
           expect(
             GameSettings(
               fixedNbTricks: false,
-              nbCardsInDeck: 32,
+              nbCardsInDeck: kNbCardsInSmallDeck,
             ).getCardsToKeep(testData.nbPlayers),
             testData.cardsToKeep,
           );

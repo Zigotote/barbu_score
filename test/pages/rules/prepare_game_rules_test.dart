@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
+import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/pages/rules/prepare_game_rules.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +23,7 @@ void main() {
     (nbPlayers: 10, nbCards: 80, nbDecks: 2),
   ]) {
     patrolWidgetTest(
-      "should display game preparation for ${testData.nbPlayers} players with 52 cards",
+      "should display game preparation for ${testData.nbPlayers} players with $kNbCardsInDeck cards",
       ($) async {
         await $.pumpWidget(_createPage());
         expect($("Préparation du jeu"), findsOneWidget);
@@ -54,7 +55,7 @@ void main() {
       },
     );
     patrolWidgetTest(
-      "should display game preparation for ${testData.nbPlayers} players with 52 cards and withdrawRandomCards",
+      "should display game preparation for ${testData.nbPlayers} players with $kNbCardsInDeck cards and withdrawRandomCards",
       ($) async {
         await $.pumpWidget(
           _createPage(GameSettings(withdrawRandomCards: true)),
@@ -67,7 +68,7 @@ void main() {
             ? "1 paquet"
             : "${testData.nbDecks} paquets";
         expect(
-          $("Le jeu se joue avec $nbDecksText de 52 cartes."),
+          $("Le jeu se joue avec $nbDecksText de $kNbCardsInDeck cartes."),
           findsOneWidget,
         );
         expect(
@@ -110,11 +111,9 @@ void main() {
     ),
   ]) {
     patrolWidgetTest(
-      "should display game preparation for ${testData.nbPlayers} players with 52 cards and optimized tricks",
+      "should display game preparation for ${testData.nbPlayers} players with $kNbCardsInDeck cards and optimized tricks",
       ($) async {
-        await $.pumpWidget(
-          _createPage(GameSettings(fixedNbTricks: false, nbCardsInDeck: 52)),
-        );
+        await $.pumpWidget(_createPage(GameSettings(fixedNbTricks: false)));
 
         await $(Icons.keyboard_arrow_down).tap();
         await $("${testData.nbPlayers}").tap();
@@ -186,10 +185,15 @@ void main() {
     ),
   ]) {
     patrolWidgetTest(
-      "should display game preparation for ${testData.nbPlayers} players with 32 cards and optimized tricks",
+      "should display game preparation for ${testData.nbPlayers} players with kNbCardsInSmallDeck cards and optimized tricks",
       ($) async {
         await $.pumpWidget(
-          _createPage(GameSettings(fixedNbTricks: false, nbCardsInDeck: 32)),
+          _createPage(
+            GameSettings(
+              fixedNbTricks: false,
+              nbCardsInDeck: kNbCardsInSmallDeck,
+            ),
+          ),
         );
 
         await $(Icons.keyboard_arrow_down).tap();
