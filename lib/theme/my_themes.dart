@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:flutter/material.dart';
 import 'package:non_uniform_border/non_uniform_border.dart';
 
