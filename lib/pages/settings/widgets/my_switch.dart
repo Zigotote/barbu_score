@@ -5,11 +5,7 @@ class MySwitch extends StatefulWidget {
   final bool isActive;
   final Function(bool)? onChanged;
 
-  const MySwitch({
-    super.key,
-    required this.isActive,
-    required this.onChanged,
-  });
+  const MySwitch({super.key, required this.isActive, required this.onChanged});
 
   @override
   State<StatefulWidget> createState() => _MySwitch();
@@ -34,6 +30,12 @@ class _MySwitch extends State<MySwitch> {
   Widget build(BuildContext context) {
     return Switch(
       value: value,
+      thumbIcon: WidgetStateProperty.resolveWith((states) {
+        if (states.any((element) => (element == WidgetState.selected))) {
+          return Icon(Icons.check);
+        }
+        return Icon(Icons.close);
+      }),
       onChanged: widget.onChanged != null
           ? (bool newValue) async {
               if (await widget.onChanged!(newValue) != false) {

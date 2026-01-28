@@ -66,7 +66,7 @@ class _GameSettingsPageState extends ConsumerState<GameSettingsPage> {
             ),
           ),
           SettingQuestion(
-            label: "Nombre de cartes optimisé ?",
+            label: "Nombre de plis optimisé",
             input: MySwitch(
               isActive: !settings.fixedNbTricks,
               onChanged: (value) => setState(
