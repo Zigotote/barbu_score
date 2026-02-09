@@ -34,6 +34,7 @@ class MyThemes {
             : Colors.red.shade900,
         outline: onSurfaceColor,
         primary: onSurfaceColor,
+        secondary: grey,
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: baseTheme.scaffoldBackgroundColor,
@@ -62,7 +63,6 @@ class MyThemes {
             baseTheme.scaffoldBackgroundColor,
           ),
           foregroundColor: WidgetStatePropertyAll(onSurfaceColor),
-          overlayColor: WidgetStatePropertyAll(grey),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -97,6 +97,17 @@ class MyThemes {
             return baseTheme.colorScheme.success;
           }
           return Colors.transparent;
+        }),
+        thumbIcon: WidgetStateProperty.resolveWith((states) {
+          if (states.any((element) => (element == WidgetState.selected))) {
+            return Icon(
+              Icons.check,
+              color: states.any((element) => (element == WidgetState.disabled))
+                  ? grey
+                  : baseTheme.colorScheme.success,
+            );
+          }
+          return Icon(Icons.close);
         }),
         thumbColor: WidgetStateProperty.resolveWith((states) {
           if (states.any((element) => (element == WidgetState.selected))) {
@@ -136,7 +147,6 @@ class MyThemes {
         indicatorSize: TabBarIndicatorSize.tab,
         labelColor: onSurfaceColor,
         unselectedLabelColor: disabledColor,
-        overlayColor: WidgetStatePropertyAll(grey),
       ),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
@@ -177,7 +187,6 @@ class MyThemes {
         return colorScheme.onSurface;
       }),
       backgroundColor: WidgetStatePropertyAll(theme.scaffoldBackgroundColor),
-      overlayColor: WidgetStatePropertyAll(colorScheme.grey),
       elevation: hasElevation
           ? WidgetStateProperty.resolveWith((Set<WidgetState> states) {
               if (states.contains(WidgetState.disabled)) {

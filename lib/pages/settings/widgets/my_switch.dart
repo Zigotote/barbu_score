@@ -30,12 +30,6 @@ class _MySwitch extends State<MySwitch> {
   Widget build(BuildContext context) {
     return Switch(
       value: value,
-      thumbIcon: WidgetStateProperty.resolveWith((states) {
-        if (states.any((element) => (element == WidgetState.selected))) {
-          return Icon(Icons.check);
-        }
-        return Icon(Icons.close);
-      }),
       onChanged: widget.onChanged != null
           ? (bool newValue) async {
               if (await widget.onChanged!(newValue) != false) {
