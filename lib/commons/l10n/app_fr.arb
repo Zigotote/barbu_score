@@ -42,6 +42,7 @@
     }
   },
   "and": "et",
+  "application": "Application",
   "appName": "Le Barbu",
   "appTheme": "Thème de l'application",
   "appTitle": "Score Barbu",
@@ -158,6 +159,8 @@
       }
     }
   },
+  "deckQuestion": "Type de paquet",
+  "defaultNbTricks": "8 plis",
   "delete": "Supprimer",
   "deletePlayer": "Supprimer le joueur",
   "domino": "Réussite",
@@ -208,7 +211,6 @@
   "gameRound": "Manche de jeu",
   "gameRoundRules": "Distribuer le même nombre de cartes entre les joueurs.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
   "gameSaved": "Partie sauvegardée",
-  "gameScoreObjective": "Objectif\u00a0: moins de points",
   "go": "C'est parti\u00A0!",
   "goHome": "Retour à l'accueil",
   "heart": "coeur",
@@ -234,6 +236,9 @@
       }
     }
   },
+  "lowest": "Plus faibles",
+  "maxScore": "Score élevé",
+  "minScore": "Score faible",
   "mix": "Mélanger",
   "modify": "Modification {contract}",
   "@modify": {
@@ -248,6 +253,15 @@
   "modifyPlayer": "Modifier le joueur",
   "modifySettings": "Modifier les paramètres",
   "moreInfo": "Plus d'informations",
+  "nbCards": "{nbCards} cartes",
+  "@nbCards": {
+    "placeholders": {
+      "nbCards": {
+        "type": "int",
+        "description": "Number of cards in the deck"
+      }
+    }
+  },
   "nbCardsRules": "Le jeu se joue avec {nbCards} cartes ({nbTricks} cartes par joueur).",
   "@nbCardsRules": {
     "placeholders": {
@@ -280,6 +294,8 @@
       }
     }
   },
+  "nbTricksTooltip": "Un nombre de plis optimisé revient à distribuer équitablement toutes les cartes du jeu entre les joueurs.",
+  "nbTricksQuestion": "Nombre de plis",
   "next": "Suivant",
   "noGameFound": "Aucune partie trouvée",
   "noGameFoundDetails": "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
@@ -287,6 +303,8 @@
   "noLastTrick": "Dernier",
   "noQueens": "Sans dames",
   "noTricks": "Sans plis",
+  "objective": "Objectif",
+  "optimized": "Optimisé",
   "other": "Autre",
   "playerNameHint": "Nom du joueur {nb}",
   "@playerNameHint": {
@@ -325,6 +343,7 @@
   "presentGameGoalMinScore": "L'objectif est de marquer le moins de points possible.",
   "previous": "Précédent",
   "queen": "dame",
+  "randoms": "Aléatoires",
   "ranking": "Classement",
   "rateApp": "Evaluer l'application",
   "refuseLoadGame": "Non, nouvelle partie",

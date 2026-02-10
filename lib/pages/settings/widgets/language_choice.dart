@@ -19,7 +19,8 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
   @override
   void initState() {
     super.initState();
-    selectedIndex = ref.read(localeProvider).languageCode ==
+    selectedIndex =
+        ref.read(localeProvider).languageCode ==
             MyLocales.fr.locale.languageCode
         ? 0
         : 1;
@@ -65,8 +66,8 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       spacing: 8,
       children: [
         Text(context.l10n.language),
@@ -96,7 +97,7 @@ class _LanguageChoiceState extends ConsumerState<LanguageChoice> {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

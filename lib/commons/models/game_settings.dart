@@ -58,6 +58,11 @@ class GameSettings {
             withdrawRandomCards == other.withdrawRandomCards;
   }
 
+  @override
+  String toString() {
+    return "goalIsMinScore=$goalIsMinScore; fixedNbTricks=$fixedNbTricks; nbCardsInDeck=$nbCardsInDeck; withdrawRandomCards=$withdrawRandomCards";
+  }
+
   GameSettings copyWith({
     bool? goalIsMinScore,
     bool? fixedNbTricks,

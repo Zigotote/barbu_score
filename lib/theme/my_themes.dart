@@ -42,10 +42,12 @@ class MyThemes {
       disabledColor: disabledColor,
       dividerColor: onSurfaceColor,
       dropdownMenuTheme: DropdownMenuThemeData(
-        inputDecorationTheme: const InputDecorationTheme(
+        inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
+          filled: true,
+          fillColor: baseTheme.scaffoldBackgroundColor,
         ),
         textStyle: bodyMedium,
       ),
@@ -85,6 +87,16 @@ class MyThemes {
             allowEnterRouteSnapshotting: false,
           ),
         },
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+            if (states.contains(WidgetState.selected)) {
+              return baseTheme.colorScheme.success.withValues(alpha: 0.25);
+            }
+            return baseTheme.scaffoldBackgroundColor;
+          }),
+        ),
       ),
       switchTheme: SwitchThemeData(
         trackOutlineWidth: const WidgetStatePropertyAll(1),
@@ -221,7 +233,7 @@ class MyThemes {
 }
 
 extension CustomThemeValues on ColorScheme {
-  // The color to use for disabled texts
+  /// The color to use for disabled texts
   Color get disabled => brightness == Brightness.dark
       ? const Color(0xffAFAFAF)
       : const Color(0xff757575);
@@ -229,7 +241,17 @@ extension CustomThemeValues on ColorScheme {
   // The grey color matching theme
   Color get grey => const Color(0xffafafaf);
 
-  // The color to use for sucess texts
+  /// The background grey color, used to display text on top
+  Color get greyBackground => brightness == Brightness.dark
+      ? const Color(0xff222126)
+      : const Color(0xffeee8ef);
+
+  /// The background grey color, used to display text on top
+  Color get onGreyBackground => brightness == Brightness.dark
+      ? const Color(0xffafafaf)
+      : const Color(0xff646464);
+
+  /// The color to use for sucess texts
   Color get success =>
       brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
 

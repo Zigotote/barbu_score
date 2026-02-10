@@ -1,5 +1,4 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/pages/settings/game_settings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -77,10 +76,6 @@ void main() async {
             GoRoute(
               path: Routes.settings,
               builder: (_, _) => const MySettings(),
-            ),
-            GoRoute(
-              path: Routes.gameSettings,
-              builder: (_, _) => const GameSettingsPage(),
             ),
             GoRoute(path: Routes.about, builder: (_, _) => const MyAbout()),
             GoRoute(
@@ -197,7 +192,6 @@ class Routes {
   static const home = "/";
   static const rules = "/rules";
   static const settings = "/settings";
-  static const gameSettings = "/settings/game";
   static const contractWithPointsSettings = "/settings/contracts_with_points";
   static const dominoSettings = "/settings/domino";
   static const saladSettings = "/settings/salad";

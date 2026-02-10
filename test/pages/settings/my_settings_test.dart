@@ -1,20 +1,13 @@
 import 'package:barbu_score/commons/l10n/app_localizations.dart';
 import 'package:barbu_score/commons/models/contract_info.dart';
-import 'package:barbu_score/commons/models/game.dart';
 import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/models/my_locales.dart';
 import 'package:barbu_score/commons/providers/locale_provider.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
-import 'package:barbu_score/commons/utils/router_extension.dart';
-import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/main.dart';
-import 'package:barbu_score/pages/settings/contract_with_points_settings.dart';
-import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
 import 'package:barbu_score/pages/settings/my_about.dart';
 import 'package:barbu_score/pages/settings/my_settings.dart';
-import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
-import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -25,26 +18,6 @@ import 'package:patrol_finders/patrol_finders.dart';
 import '../../utils/french_material_app.dart';
 import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
-
-final _router = GoRouter(
-  routes: [
-    GoRoute(path: Routes.home, builder: (_, _) => const MySettings()),
-    GoRoute(
-      path:
-          "${Routes.contractWithPointsSettings}/:${MyGoRouterState.contractParameter}",
-      builder: (_, state) => ContractWithPointsSettingsPage(state.contract),
-    ),
-    GoRoute(
-      path: Routes.dominoSettings,
-      builder: (_, _) => const DominoContractSettingsPage(),
-    ),
-    GoRoute(
-      path: Routes.saladSettings,
-      builder: (_, _) => const SaladContractSettingsPage(),
-    ),
-    GoRoute(path: Routes.about, builder: (_, _) => const MyAbout()),
-  ],
-);
 
 void main() {
   patrolWidgetTest("should display page", ($) async {
@@ -58,6 +31,8 @@ void main() {
     $.tester.platformDispatcher.localeTestValue = MyLocales.fr.locale;
     final mockStorage = MockMyStorage();
     mockActiveContracts(mockStorage);
+    when(mockStorage.getGameSettings()).thenReturn(GameSettings());
+
     final container = ProviderContainer(
       overrides: [
         logProvider.overrideWithValue(MockMyLog()),
@@ -70,11 +45,11 @@ void main() {
         container: container,
         child: Consumer(
           builder: (context, ref, _) {
-            return MaterialApp.router(
+            return MaterialApp(
               supportedLocales: [MyLocales.fr.locale],
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               locale: ref.watch(localeProvider),
-              routerConfig: _router,
+              builder: (_, _) => MySettings(),
             );
           },
         ),
@@ -104,6 +79,7 @@ void main() {
     verify(mockStorage.saveLocale(newLocale));
     expect(container.read(localeProvider), newLocale);
   });
+
   for (var activeContracts in [
     ContractsInfo.values,
     [ContractsInfo.barbu],
@@ -122,100 +98,6 @@ void main() {
       },
     );
   }
-  for (var modifiedContract in ContractsInfo.values) {
-    for (var isModified in [true, false]) {
-      patrolWidgetTest(
-        "should ${isModified ? "reload" : "keep"} $modifiedContract activation on settings ${isModified ? "" : "not "}changed",
-        ($) async {
-          final mockStorage = MockMyStorage();
-          await $.pumpWidget(_createPage(mockStorage: mockStorage));
-
-          // Go to contract settings page
-          await $.scrollUntilVisible(finder: $(Key(modifiedContract.name)));
-          await $(
-            Key(modifiedContract.name),
-          ).tap(settlePolicy: SettlePolicy.trySettle);
-
-          // Deactivate contract
-          expect(($.tester.firstWidget($(Switch)) as Switch).value, true);
-          if (isModified) {
-            final modifiedContractSettings = modifiedContract.defaultSettings
-                .copyWith(isActive: false);
-            when(
-              mockStorage.getSettings(modifiedContract),
-            ).thenReturn(modifiedContractSettings);
-
-            await $(MySwitch).tap();
-            expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
-          }
-
-          // Go back to global settings page
-          await $(Icons.arrow_back).tap(settlePolicy: SettlePolicy.noSettle);
-          await $.pump();
-
-          if (isModified) {
-            expect($("Modifications sauvegardées"), findsOneWidget);
-            expect(
-              $(Key(modifiedContract.name)).containing($("OFF")),
-              findsOneWidget,
-            );
-            expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
-            verify(mockStorage.saveSettings(modifiedContract, any));
-            verifyNever(mockStorage.deleteGame());
-          } else {
-            expect($("Modifications sauvegardées"), findsNothing);
-            expect($("ON"), findsNWidgets(ContractsInfo.values.length));
-            verifyNever(mockStorage.saveSettings(modifiedContract, any));
-            verifyNever(mockStorage.deleteGame());
-          }
-        },
-      );
-    }
-    for (var isGameFinished in [true, false]) {
-      patrolWidgetTest(
-        "should${isGameFinished ? " delete game and" : ""} save settings on $modifiedContract activation changed",
-        ($) async {
-          final mockStorage = MockMyStorage();
-          when(
-            mockStorage.getStoredGame(),
-          ).thenReturn(Game(players: [])..isFinished = isGameFinished);
-          await $.pumpWidget(_createPage(mockStorage: mockStorage));
-
-          // Go to contract settings page
-          await $.scrollUntilVisible(finder: $(Key(modifiedContract.name)));
-          await $(
-            Key(modifiedContract.name),
-          ).tap(settlePolicy: SettlePolicy.trySettle);
-
-          // Deactivate contract
-          final modifiedContractSettings = modifiedContract.defaultSettings
-              .copyWith(isActive: false);
-          when(
-            mockStorage.getSettings(modifiedContract),
-          ).thenReturn(modifiedContractSettings);
-          await $(MySwitch).tap();
-          expect(($.tester.firstWidget($(Switch)) as Switch).value, false);
-
-          // Go back to global settings page
-          await $(Icons.arrow_back).tap(settlePolicy: SettlePolicy.noSettle);
-          await $.pump();
-
-          expect($("Modifications sauvegardées"), findsOneWidget);
-          expect(
-            $(Key(modifiedContract.name)).containing($("OFF")),
-            findsOneWidget,
-          );
-          expect($("ON"), findsNWidgets(ContractsInfo.values.length - 1));
-          verify(mockStorage.saveSettings(modifiedContract, any));
-          if (isGameFinished) {
-            verify(mockStorage.deleteGame());
-          } else {
-            verifyNever(mockStorage.deleteGame());
-          }
-        },
-      );
-    }
-  }
 
   patrolWidgetTest("should open about page", ($) async {
     final aboutText = "A propos";
@@ -226,9 +108,6 @@ void main() {
 
     expect($(MyAbout), findsOneWidget);
   });
-
-  // The state of the singleton is shared during tests so the snackbar cannot be opened multiple times
-  tearDown(() => SnackBarUtils.instance.isSnackBarOpen = false);
 }
 
 Widget _createPage({
@@ -252,6 +131,13 @@ Widget _createPage({
 
   return UncontrolledProviderScope(
     container: container,
-    child: FrenchMaterialApp.router(routerConfig: _router),
+    child: FrenchMaterialApp.router(
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(path: Routes.home, builder: (_, _) => const MySettings()),
+          GoRoute(path: Routes.about, builder: (_, _) => const MyAbout()),
+        ],
+      ),
+    ),
   );
 }

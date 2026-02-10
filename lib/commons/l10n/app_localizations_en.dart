@@ -75,6 +75,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get and => 'and';
 
   @override
+  String get application => 'Application';
+
+  @override
   String get appName => 'The Barbu';
 
   @override
@@ -224,6 +227,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get deckQuestion => 'Deck type';
+
+  @override
+  String get defaultNbTricks => '8 tricks';
+
+  @override
   String get delete => 'Delete';
 
   @override
@@ -313,9 +322,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gameSaved => 'Game saved';
 
   @override
-  String get gameScoreObjective => 'Goal: fewer points';
-
-  @override
   String get go => 'Let\'s go!';
 
   @override
@@ -371,6 +377,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get lowest => 'Lowest';
+
+  @override
+  String get maxScore => 'Highest score';
+
+  @override
+  String get minScore => 'Lowest score';
+
+  @override
   String get mix => 'Mix';
 
   @override
@@ -390,6 +405,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moreInfo => 'More information';
+
+  @override
+  String nbCards(int nbCards) {
+    return '$nbCards cards';
+  }
 
   @override
   String nbCardsRules(int nbCards, int nbTricks) {
@@ -413,6 +433,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get nbTricksTooltip =>
+      'An optimized number of tricks means distributing all the cards in the deck evenly among the players.';
+
+  @override
+  String get nbTricksQuestion => 'Number of tricks';
+
+  @override
   String get next => 'Next';
 
   @override
@@ -433,6 +460,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noTricks => 'No tricks';
+
+  @override
+  String get objective => 'Objective';
+
+  @override
+  String get optimized => 'Optimized';
 
   @override
   String get other => 'Other';
@@ -489,6 +522,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get queen => 'queen';
+
+  @override
+  String get randoms => 'Random';
 
   @override
   String get ranking => 'Ranking';

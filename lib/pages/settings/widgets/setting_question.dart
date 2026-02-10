@@ -1,3 +1,4 @@
+import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 
 /// A layout for a question with an user input field
@@ -27,19 +28,32 @@ class SettingQuestion extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: MergeSemantics(
-        child: Row(
-          spacing: 8,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 4,
           children: [
-            if (tooltip != null)
-              Tooltip(
-                message: tooltip,
-                triggerMode: TooltipTriggerMode.tap,
-                showDuration: const Duration(seconds: 3),
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                child: const Icon(Icons.info_outline_rounded),
+            SizedBox(
+              width: double.infinity,
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Semantics(hint: tooltip, child: Text(label)),
+                  input,
+                ],
               ),
-            Expanded(child: Text(label)),
-            input,
+            ),
+            if (tooltip != null)
+              ExcludeSemantics(
+                child: Text(
+                  tooltip!,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.onGreyBackground,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

@@ -76,6 +76,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get and => 'et';
 
   @override
+  String get application => 'Application';
+
+  @override
   String get appName => 'Le Barbu';
 
   @override
@@ -224,6 +227,12 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get deckQuestion => 'Type de paquet';
+
+  @override
+  String get defaultNbTricks => '8 plis';
+
+  @override
   String get delete => 'Supprimer';
 
   @override
@@ -313,9 +322,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get gameSaved => 'Partie sauvegardée';
 
   @override
-  String get gameScoreObjective => 'Objectif : moins de points';
-
-  @override
   String get go => 'C\'est parti !';
 
   @override
@@ -372,6 +378,15 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get lowest => 'Plus faibles';
+
+  @override
+  String get maxScore => 'Score élevé';
+
+  @override
+  String get minScore => 'Score faible';
+
+  @override
   String get mix => 'Mélanger';
 
   @override
@@ -391,6 +406,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get moreInfo => 'Plus d\'informations';
+
+  @override
+  String nbCards(int nbCards) {
+    return '$nbCards cartes';
+  }
 
   @override
   String nbCardsRules(int nbCards, int nbTricks) {
@@ -414,6 +434,13 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get nbTricksTooltip =>
+      'Un nombre de plis optimisé revient à distribuer équitablement toutes les cartes du jeu entre les joueurs.';
+
+  @override
+  String get nbTricksQuestion => 'Nombre de plis';
+
+  @override
   String get next => 'Suivant';
 
   @override
@@ -434,6 +461,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get noTricks => 'Sans plis';
+
+  @override
+  String get objective => 'Objectif';
+
+  @override
+  String get optimized => 'Optimisé';
 
   @override
   String get other => 'Autre';
@@ -491,6 +524,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get queen => 'dame';
+
+  @override
+  String get randoms => 'Aléatoires';
 
   @override
   String get ranking => 'Classement';

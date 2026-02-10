@@ -4,6 +4,7 @@ import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/constants.dart';
+import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/create_game/create_game.dart';
@@ -185,13 +186,41 @@ void main() {
     expect($(MyRules), findsOneWidget);
   });
 
-  patrolWidgetTest("should open settings page", ($) async {
-    await $.pumpWidget(_createPage($));
+  group("#settings", () {
+    patrolWidgetTest("should open settings page and go back", ($) async {
+      final mockStorage = MockMyStorage();
+      await $.pumpWidget(_createPage($, mockStorage: mockStorage));
 
-    await $(Icons.settings).tap();
+      await $(Icons.settings).tap();
 
-    expect($(MySettings), findsOneWidget);
+      expect($(MySettings), findsOneWidget);
+
+      await _checkGoBack($);
+      verifyNever(mockStorage.saveGameSettings(any));
+    });
+
+    patrolWidgetTest(
+      "should modify game settings and show message on go back",
+      ($) async {
+        final mockStorage = MockMyStorage();
+        await $.pumpWidget(_createPage($, mockStorage: mockStorage));
+
+        // Navigate to settings page
+        await $(Icons.settings).tap();
+
+        // Modifies settings
+        await $("Score élevé").tap();
+
+        // Navigates back
+        await $(Icons.arrow_back).tap();
+        expect($("Modifications sauvegardées"), findsOneWidget);
+        verify(mockStorage.saveGameSettings(any));
+      },
+    );
   });
+
+  // The state of the singleton is shared during tests so the snackbar cannot be opened multiple times
+  tearDown(() => SnackBarUtils.instance.isSnackBarOpen = false);
 }
 
 /// Verify go back goes to home

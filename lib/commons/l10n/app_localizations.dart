@@ -200,6 +200,12 @@ abstract class AppLocalizations {
   /// **'et'**
   String get and;
 
+  /// No description provided for @application.
+  ///
+  /// In fr, this message translates to:
+  /// **'Application'**
+  String get application;
+
   /// No description provided for @appName.
   ///
   /// In fr, this message translates to:
@@ -409,6 +415,18 @@ abstract class AppLocalizations {
   /// **'{nbDecks, plural, =1{1 paquet} other{{nbDecks} paquets}} de {nbCards} cartes.'**
   String decksOfCards(int nbDecks, int nbCards);
 
+  /// No description provided for @deckQuestion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Type de paquet'**
+  String get deckQuestion;
+
+  /// No description provided for @defaultNbTricks.
+  ///
+  /// In fr, this message translates to:
+  /// **'8 plis'**
+  String get defaultNbTricks;
+
   /// No description provided for @delete.
   ///
   /// In fr, this message translates to:
@@ -553,12 +571,6 @@ abstract class AppLocalizations {
   /// **'Partie sauvegardée'**
   String get gameSaved;
 
-  /// No description provided for @gameScoreObjective.
-  ///
-  /// In fr, this message translates to:
-  /// **'Objectif : moins de points'**
-  String get gameScoreObjective;
-
   /// No description provided for @go.
   ///
   /// In fr, this message translates to:
@@ -661,6 +673,24 @@ abstract class AppLocalizations {
   /// **'Reprendre la partie précédente avec {players} ?'**
   String loadPreviousGame(String players);
 
+  /// No description provided for @lowest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus faibles'**
+  String get lowest;
+
+  /// No description provided for @maxScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Score élevé'**
+  String get maxScore;
+
+  /// No description provided for @minScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Score faible'**
+  String get minScore;
+
   /// No description provided for @mix.
   ///
   /// In fr, this message translates to:
@@ -697,6 +727,12 @@ abstract class AppLocalizations {
   /// **'Plus d\'informations'**
   String get moreInfo;
 
+  /// No description provided for @nbCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'{nbCards} cartes'**
+  String nbCards(int nbCards);
+
   /// No description provided for @nbCardsRules.
   ///
   /// In fr, this message translates to:
@@ -714,6 +750,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Nombre de {item}s par joueur'**
   String nbItemsByPlayer(String item);
+
+  /// No description provided for @nbTricksTooltip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un nombre de plis optimisé revient à distribuer équitablement toutes les cartes du jeu entre les joueurs.'**
+  String get nbTricksTooltip;
+
+  /// No description provided for @nbTricksQuestion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nombre de plis'**
+  String get nbTricksQuestion;
 
   /// No description provided for @next.
   ///
@@ -756,6 +804,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Sans plis'**
   String get noTricks;
+
+  /// No description provided for @objective.
+  ///
+  /// In fr, this message translates to:
+  /// **'Objectif'**
+  String get objective;
+
+  /// No description provided for @optimized.
+  ///
+  /// In fr, this message translates to:
+  /// **'Optimisé'**
+  String get optimized;
 
   /// No description provided for @other.
   ///
@@ -852,6 +912,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'dame'**
   String get queen;
+
+  /// No description provided for @randoms.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aléatoires'**
+  String get randoms;
 
   /// No description provided for @ranking.
   ///
