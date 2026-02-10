@@ -138,7 +138,7 @@ class AppLocalizationsEn extends AppLocalizations {
       other: '$nbDecks decks',
       one: 'one deck',
     );
-    return 'Before playing, keep the highest cards from $_temp0 of $nbCardsInDeck cards until you have the required number.';
+    return 'Before playing, keep the highest cards from $_temp0 of $nbCardsInDeck cards until you have the required number. With $nbPlayers players, you should therefore only keep the following cards: $cards';
   }
 
   @override
@@ -253,10 +253,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get english => 'English';
 
   @override
-  String get errorAddItems => 'Unable to add item';
+  String get errorAddItem => 'Unable to add item';
 
   @override
-  String errorAddItemsDetails(String item, int nbItems) {
+  String errorAddItemDetails(String item, int nbItems) {
     return 'The number of $item exceeds the number of items that can be won, fixed at $nbItems.';
   }
 
@@ -323,6 +323,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get go => 'Let\'s go!';
+
+  @override
+  String get goal => 'Goal';
 
   @override
   String get goHome => 'Go back to home';
@@ -460,9 +463,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noTricks => 'No tricks';
-
-  @override
-  String get objective => 'Objective';
 
   @override
   String get optimized => 'Optimized';
@@ -695,7 +695,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get withdrawnCards => 'Cards withdrawn';
+  String get withdrawnCards => 'Withdrawn cards';
 
   @override
   String get worstEnnemy => 'Worst ennemy';

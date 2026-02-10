@@ -463,17 +463,17 @@ abstract class AppLocalizations {
   /// **'Anglais'**
   String get english;
 
-  /// No description provided for @errorAddItems.
+  /// No description provided for @errorAddItem.
   ///
   /// In fr, this message translates to:
-  /// **'Ajout d\'éléments impossible'**
-  String get errorAddItems;
+  /// **'Ajout d\'élément impossible'**
+  String get errorAddItem;
 
-  /// No description provided for @errorAddItemsDetails.
+  /// No description provided for @errorAddItemDetails.
   ///
   /// In fr, this message translates to:
   /// **'Le nombre de {item} dépasse le nombre d\'éléments pouvant être remporté, fixé à {nbItems}.'**
-  String errorAddItemsDetails(String item, int nbItems);
+  String errorAddItemDetails(String item, int nbItems);
 
   /// No description provided for @errorDomino.
   ///
@@ -576,6 +576,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'C\'est parti !'**
   String get go;
+
+  /// No description provided for @goal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Objectif'**
+  String get goal;
 
   /// No description provided for @goHome.
   ///
@@ -804,12 +810,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Sans plis'**
   String get noTricks;
-
-  /// No description provided for @objective.
-  ///
-  /// In fr, this message translates to:
-  /// **'Objectif'**
-  String get objective;
 
   /// No description provided for @optimized.
   ///

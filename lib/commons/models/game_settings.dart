@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 
 /// A class to represent game settings
 class GameSettings {
-  /// Indicates if the best player is the one with the smallest or bigger score
+  /// Indicates if the best player is the one with the lowest or highest score
   final bool goalIsMinScore;
 
   /// Indicates if the number of tricks is fixed, no matter how many players there is. If not, optimized tricks is calculated.

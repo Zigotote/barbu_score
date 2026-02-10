@@ -88,8 +88,8 @@ class _MultipleLooserContractPageState
     if (_isValid) {
       SnackBarUtils.instance.openSnackBar(
         context: context,
-        title: context.l10n.errorAddItems,
-        text: context.l10n.errorAddItemsDetails(
+        title: context.l10n.errorAddItem,
+        text: context.l10n.errorAddItemDetails(
           _itemName,
           contractModel.nbItems,
         ),

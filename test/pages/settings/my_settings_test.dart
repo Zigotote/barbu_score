@@ -45,11 +45,18 @@ void main() {
         container: container,
         child: Consumer(
           builder: (context, ref, _) {
-            return MaterialApp(
+            return MaterialApp.router(
               supportedLocales: [MyLocales.fr.locale],
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               locale: ref.watch(localeProvider),
-              builder: (_, _) => MySettings(),
+              routerConfig: GoRouter(
+                routes: [
+                  GoRoute(
+                    path: Routes.home,
+                    builder: (_, _) => const MySettings(),
+                  ),
+                ],
+              ),
             );
           },
         ),

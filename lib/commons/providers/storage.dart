@@ -123,7 +123,7 @@ class MyStorage {
     return contractsInfo.defaultSettings;
   }
 
-  /// Saves contract settings and deletes the current game
+  /// Saves contract settings
   void saveSettings(
     ContractsInfo contractsInfo,
     AbstractContractSettings settings,

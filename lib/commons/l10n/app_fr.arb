@@ -175,9 +175,9 @@
   },
   "endGame": "Fin de partie",
   "english": "Anglais",
-  "errorAddItems": "Ajout d'éléments impossible",
-  "errorAddItemsDetails": "Le nombre de {item} dépasse le nombre d'éléments pouvant être remporté, fixé à {nbItems}.",
-  "@errorAddItemsDetails": {
+  "errorAddItem": "Ajout d'élément impossible",
+  "errorAddItemDetails": "Le nombre de {item} dépasse le nombre d'éléments pouvant être remporté, fixé à {nbItems}.",
+  "@errorAddItemDetails": {
     "placeholders": {
       "item": {
         "type": "String",
@@ -212,6 +212,7 @@
   "gameRoundRules": "Distribuer le même nombre de cartes entre les joueurs.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
   "gameSaved": "Partie sauvegardée",
   "go": "C'est parti\u00A0!",
+  "goal": "Objectif",
   "goHome": "Retour à l'accueil",
   "heart": "coeur",
   "hintDarkMode": "mode sombre",
@@ -303,7 +304,6 @@
   "noLastTrick": "Dernier",
   "noQueens": "Sans dames",
   "noTricks": "Sans plis",
-  "objective": "Objectif",
   "optimized": "Optimisé",
   "other": "Autre",
   "playerNameHint": "Nom du joueur {nb}",

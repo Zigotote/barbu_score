@@ -24,7 +24,7 @@ class GameSettingsWidget extends ConsumerWidget {
     return MyCard(
       children: [
         SettingQuestion(
-          label: context.l10n.objective,
+          label: context.l10n.goal,
           input: SegmentedButton(
             key: Key("goal"),
             segments: [

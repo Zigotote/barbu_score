@@ -253,10 +253,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get english => 'Anglais';
 
   @override
-  String get errorAddItems => 'Ajout d\'éléments impossible';
+  String get errorAddItem => 'Ajout d\'élément impossible';
 
   @override
-  String errorAddItemsDetails(String item, int nbItems) {
+  String errorAddItemDetails(String item, int nbItems) {
     return 'Le nombre de $item dépasse le nombre d\'éléments pouvant être remporté, fixé à $nbItems.';
   }
 
@@ -323,6 +323,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get go => 'C\'est parti !';
+
+  @override
+  String get goal => 'Objectif';
 
   @override
   String get goHome => 'Retour à l\'accueil';
@@ -461,9 +464,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get noTricks => 'Sans plis';
-
-  @override
-  String get objective => 'Objectif';
 
   @override
   String get optimized => 'Optimisé';

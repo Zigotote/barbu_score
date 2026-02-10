@@ -80,7 +80,7 @@ void main() {
       for (var i = 0; i < _defaultNbItems + 1; i++) {
         await $(IconButton).containing($(Icons.add)).at(0).tap();
       }
-      expect($("Ajout d'éléments impossible"), findsOneWidget);
+      expect($("Ajout d'élément impossible"), findsOneWidget);
       expect($("$_defaultNbItems"), findsOneWidget);
     });
   });
@@ -116,7 +116,7 @@ void main() {
         await $(IconButton).containing($(Icons.add)).last.tap();
       }
       await $.pump();
-      expect($("Ajout d'éléments impossible"), findsOneWidget);
+      expect($("Ajout d'élément impossible"), findsOneWidget);
       expect($("$_defaultNbItems"), findsOneWidget);
     });
   });
