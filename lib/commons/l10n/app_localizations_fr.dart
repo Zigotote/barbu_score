@@ -309,7 +309,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get gamePrincipleDetails =>
-      'Ce jeu de plis est composé de (TODO Océane paramétrer ça) 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.';
+      'Ce jeu de plis est composé de différents contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.';
 
   @override
   String get gameRound => 'Manche de jeu';

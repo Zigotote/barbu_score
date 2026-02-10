@@ -309,7 +309,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gamePrincipleDetails =>
-      'This trick-taking game consists of 7 contracts that must be completed by all players. Each contract has specific rules that will be applied during the round of play.\nThe game ends when all players have completed all the contracts.';
+      'This trick-taking game consists of different contracts that must be completed by all players. Each contract has specific rules that will be applied during the round of play.\nThe game ends when all players have completed all the contracts.';
 
   @override
   String get gameRound => 'Round of play';

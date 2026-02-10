@@ -73,7 +73,7 @@
   "fromTheDeck": "{nbDecks, plural, =1{from the deck} other{from {nbDecks} decks}}.",
   "game": "Game",
   "gamePrinciple": "Game principle",
-  "gamePrincipleDetails": "This trick-taking game consists of 7 contracts that must be completed by all players. Each contract has specific rules that will be applied during the round of play.\nThe game ends when all players have completed all the contracts.",
+  "gamePrincipleDetails": "This trick-taking game consists of different contracts that must be completed by all players. Each contract has specific rules that will be applied during the round of play.\nThe game ends when all players have completed all the contracts.",
   "gameRound": "Round of play",
   "gameRoundRules": "Distribute the same number of cards among the players.*The first player chooses the contract he wishes to play and announces it to the other players.*He starts the trick by playing a card, which determines the suit of the trick.*Each player plays a card in clockwise order.*If a player does not have a card of the required suit, they can play any card from their hand. The value of this card will be considered as null.*At the end of the round, the player who played the highest-value card wins the trick. He will start the next trick.*The round ends when all players have played all their cards.*Points are then counted according to the contract chosen by the first player.*The player to the left of the previous first player starts the next round.",
   "gameSaved": "Game saved",
