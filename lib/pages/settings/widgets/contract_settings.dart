@@ -62,7 +62,7 @@ class ContractSettingsPage extends ConsumerWidget {
 
   /// If the contract is deactivated but has been played, shows an alert before to confirm the deactivation.
   /// Otherwise, toggles the contract state
-  void _changeIsActive(
+  Future<bool> _changeIsActive(
     BuildContext context,
     ContractSettingsNotifier provider,
     bool isActive,
@@ -70,7 +70,7 @@ class ContractSettingsPage extends ConsumerWidget {
     final typedSettings = provider.settings;
     if (typedSettings is SaladContractSettings &&
         !typedSettings.contracts.containsValue(true)) {
-      return showDialog(
+      return await showDialog(
         context: context,
         builder: (_) => MyAlertDialog(
           context: context,
@@ -86,7 +86,7 @@ class ContractSettingsPage extends ConsumerWidget {
         ),
       );
     } else if (!isActive && (provider.playersWithContract.isNotEmpty)) {
-      return showDialog(
+      return await showDialog(
         context: context,
         builder: (_) => MyAlertDialog(
           context: context,
@@ -116,6 +116,7 @@ class ContractSettingsPage extends ConsumerWidget {
       );
     } else {
       provider.updateSettings(provider.settings.copyWith(isActive: isActive));
+      return true;
     }
   }
 }
