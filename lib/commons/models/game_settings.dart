@@ -127,6 +127,11 @@ class GameSettings {
     );
   }
 
+  /// The number of withdrawn cards from the deck used to play
+  int getNbWithdrawnCardsByRound(int nbPlayers) => withdrawRandomCards
+      ? nbCardsInDeck * getNbDecks(nbPlayers) - getNbCards(nbPlayers)
+      : 0;
+
   /// Returns the number of decks required for this number of cards
   int getNbDecks(int nbPlayers) {
     return (getNbCards(nbPlayers) / nbCardsInDeck).ceil();

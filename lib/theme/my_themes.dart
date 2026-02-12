@@ -96,6 +96,14 @@ class MyThemes {
             }
             return baseTheme.scaffoldBackgroundColor;
           }),
+          foregroundColor: WidgetStateProperty.resolveWith<Color>((
+            Set<WidgetState> states,
+          ) {
+            if (states.contains(WidgetState.disabled)) {
+              return baseTheme.colorScheme.disabled;
+            }
+            return baseTheme.colorScheme.onSurface;
+          }),
         ),
       ),
       switchTheme: SwitchThemeData(

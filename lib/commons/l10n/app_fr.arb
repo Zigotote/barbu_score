@@ -191,10 +191,21 @@
   "errorDomino": "Tous les joueurs n'ont pas été classés.",
   "errorLaunchGame": "Impossible de lancer une partie",
   "errorLaunchGameDetails": "Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.",
-  "errorNbItems": "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
+  "errorAddWithdrawnCard": "Ajout de carte défaussée impossible",
+  "errorAddWithdrawnCardDetails": "Le nombre de {item} dépasse le nombre de cartes dans la défausse, fixé à {nbItems}.",
+  "@errorAddWithdrawnCardDetails": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeurs"
+      },
+      "nbItems": {
+        "type": "int"
+      }
+    }
+  },
   "feature": "Une suggestion",
   "fold": "Replier les choix",
-  "forbiddenIfBarbuDiscarded": "Ce contrat ne peut pas être choisi si le roi de coeur se trouve parmi les cartes défaussées.",
   "forGameAt": "Pour une partie à",
   "french": "Français",
   "fromTheDeck": "{nbDecks, plural, =1{du paquet} other{de {nbDecks} paquets}}.",
@@ -510,15 +521,6 @@
     }
   },
   "withdrawCard": "Retirer une carte",
-  "withdrawnCardsRules": "A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.",
-  "@withdrawnCardsRules": {
-    "placeholders": {
-      "nbTricks": {
-        "type": "int",
-        "example": "coeur"
-      }
-    }
-  },
   "withdrawItem": "Retirer {item, select, dame{une} other{un}} {item}",
   "@withdrawItem": {
     "placeholders": {
@@ -528,6 +530,17 @@
       }
     }
   },
+  "withdrawNbCards": "Défausser {nbCards} {nbCards, plural, =1{carte} other{cartes}}.",
+  "withdrawnCardsRules": "A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.",
+  "@withdrawnCardsRules": {
+    "placeholders": {
+      "nbTricks": {
+        "type": "int",
+        "example": "coeur"
+      }
+    }
+  },
   "withdrawnCards": "Cartes retirées",
+  "withdrawnCardsName": "{item}s {item, select, dame{retirées} other{retirés}}",
   "worstEnnemy": "Pire ennemi"
 }

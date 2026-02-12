@@ -1,7 +1,9 @@
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/pages/contract_scores/utils/save_contract.dart';
 import 'package:barbu_score/pages/contract_scores/widgets/rules_button.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/withdrawn_cards.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -47,6 +49,9 @@ class _MultipleLooserContractPageState
   /// The number of cards with points removed from the deck for this round (only displayed if random cards are withdrawn in game settings)
   late int nbWithdrawnCards;
 
+  /// The settings for the game
+  late GameSettings _gameSettings;
+
   /// The players of the game
   late List<Player> _players;
 
@@ -57,6 +62,7 @@ class _MultipleLooserContractPageState
   void initState() {
     super.initState();
     _players = ref.read(playGameProvider).players;
+    _gameSettings = ref.read(storageProvider).getGameSettings();
     if (widget.contractModel != null) {
       contractModel = widget.contractModel!;
       _itemsByPlayer = contractModel.itemsByPlayer;
@@ -83,8 +89,8 @@ class _MultipleLooserContractPageState
 
   String get _itemName => context.l10n.itemsName(widget.contract);
 
-  /// Adds one item to the [player] if given, to [nbWithdrawnCards] if not. Only if item still can be added
-  void _addItem([Player? player]) {
+  /// Adds one item to the [player] if item can still be added
+  void _addItem(Player player) {
     if (_isValid) {
       SnackBarUtils.instance.openSnackBar(
         context: context,
@@ -94,13 +100,11 @@ class _MultipleLooserContractPageState
           contractModel.nbItems,
         ),
       );
-    } else if (player != null) {
+    } else {
       int nbItems = _itemsByPlayer[player.name]!;
       setState(() {
         _itemsByPlayer[player.name] = nbItems + 1;
       });
-    } else {
-      setState(() => nbWithdrawnCards++);
     }
   }
 
@@ -111,6 +115,31 @@ class _MultipleLooserContractPageState
       setState(() {
         _itemsByPlayer[player.name] = nbItems - 1;
       });
+    }
+  }
+
+  /// Adds one card to the [nbWithdrawnCards] if cards can still be added
+  void _addWithdrawnCard(int maxWithdrawnCards) {
+    if (nbWithdrawnCards + 1 > maxWithdrawnCards) {
+      SnackBarUtils.instance.openSnackBar(
+        context: context,
+        title: context.l10n.errorAddWithdrawnCard,
+        text: context.l10n.errorAddWithdrawnCardDetails(
+          _itemName,
+          maxWithdrawnCards,
+        ),
+      );
+    } else if (_isValid) {
+      SnackBarUtils.instance.openSnackBar(
+        context: context,
+        title: context.l10n.errorAddItem,
+        text: context.l10n.errorAddItemDetails(
+          _itemName,
+          contractModel.nbItems,
+        ),
+      );
+    } else {
+      setState(() => nbWithdrawnCards++);
     }
   }
 
@@ -166,45 +195,11 @@ class _MultipleLooserContractPageState
     );
   }
 
-  /// Builds the field to fill the number of important withdrawn cards for this round
-  Widget _buildWithdrawCards() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        IconButton(
-          onPressed: () {
-            if (nbWithdrawnCards >= 1) {
-              setState(() => nbWithdrawnCards--);
-            }
-          },
-          icon: Icon(Icons.remove),
-          tooltip: context.l10n.withdrawCard,
-        ),
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            Icon(
-              Icons.delete_outlined,
-              size: MediaQuery.textScalerOf(context).scale(60),
-              semanticLabel: context.l10n.withdrawnCards,
-            ),
-            Positioned(
-              bottom: MediaQuery.textScalerOf(context).scale(15),
-              child: Text("$nbWithdrawnCards"),
-            ),
-          ],
-        ),
-        IconButton(
-          onPressed: () => _addItem(),
-          icon: Icon(Icons.add),
-          tooltip: context.l10n.addCard,
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final maxNbWithdrawnCards = _gameSettings.getNbWithdrawnCardsByRound(
+      _players.length,
+    );
     return MyDefaultPage(
       appBar: MyPlayerAppBar(
         player: ref.watch(playGameProvider).currentPlayer,
@@ -225,12 +220,14 @@ class _MultipleLooserContractPageState
         mainAxisSize: MainAxisSize.min,
         spacing: 16,
         children: [
-          if ([
-                ContractsInfo.noQueens,
-                ContractsInfo.noHearts,
-              ].contains(widget.contract) &&
-              ref.read(storageProvider).getGameSettings().withdrawRandomCards)
-            _buildWithdrawCards(),
+          if (widget.contract != ContractsInfo.noTricks &&
+              maxNbWithdrawnCards > 0)
+            WithdrawnCards(
+              cardName: _itemName,
+              nbWithdrawnCards: nbWithdrawnCards,
+              removeCard: () => setState(() => nbWithdrawnCards--),
+              addCard: () => _addWithdrawnCard(maxNbWithdrawnCards),
+            ),
           ElevatedButtonFullWidth(
             onPressed: _isValid
                 ? () => widget.saveContract(

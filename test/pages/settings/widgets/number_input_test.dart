@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
+import '../../../utils/utils.dart';
+
 void main() {
   for (var numberValueTest in [1, -1]) {
     patrolWidgetTest("should call on changed when enter $numberValueTest", (
       $,
     ) async {
-      final mockOnChanged = _MockCallbackFunction();
+      final mockOnChanged = MockCallbackFunction();
       await $.pumpWidgetAndSettle(_createApp(mockOnChanged));
 
       await $(NumberInput).enterText("$numberValueTest");
@@ -20,7 +22,7 @@ void main() {
     patrolWidgetTest(
       "should call on changed with 0 when enter is $nanValueTest",
       ($) async {
-        final mockOnChanged = _MockCallbackFunction();
+        final mockOnChanged = MockCallbackFunction();
         await $.pumpWidgetAndSettle(_createApp(mockOnChanged));
 
         await $(NumberInput).enterText("$nanValueTest");
@@ -31,14 +33,10 @@ void main() {
   }
 }
 
-MaterialApp _createApp(_MockCallbackFunction mockOnChanged) {
+MaterialApp _createApp(MockCallbackFunction mockOnChanged) {
   return MaterialApp(
     home: Scaffold(
       body: NumberInput(value: 20, onChanged: mockOnChanged.change),
     ),
   );
-}
-
-class _MockCallbackFunction extends Mock {
-  void change(dynamic e);
 }

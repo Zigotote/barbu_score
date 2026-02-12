@@ -31,14 +31,29 @@ void main() {
     });
   }
   group("deck text", () {
-    patrolWidgetTest("should display text when withdrawRandomCards", ($) async {
-      await $.pumpWidget(
-        _createPage($, gameSettings: GameSettings(withdrawRandomCards: true)),
-      );
+    for (var hasDiscardedCards in [true, false]) {
+      patrolWidgetTest(
+        "should display text when discardRandomCards${hasDiscardedCards ? ' with discarded cards' : ''}",
+        ($) async {
+          await $.pumpWidget(
+            _createPage(
+              $,
+              gameSettings: GameSettings(
+                withdrawRandomCards: true,
+                fixedNbTricks: hasDiscardedCards,
+              ),
+            ),
+          );
 
-      expect($("Mélanger"), findsOneWidget);
-      expect($("1 paquet de $kNbCardsInDeck cartes."), findsOneWidget);
-    });
+          expect($("Mélanger"), findsOneWidget);
+          expect($("1 paquet de $kNbCardsInDeck cartes."), findsOneWidget);
+          expect(
+            $("Défausser 20 cartes."),
+            hasDiscardedCards ? findsOneWidget : findsNothing,
+          );
+        },
+      );
+    }
     for (var testData in [
       (nbPlayers: 3, nbDecks: 1, cardsToKeep: "2♣♦♠ et 3 à As"),
       (nbPlayers: 4, nbDecks: 1, cardsToKeep: "2 à As"),

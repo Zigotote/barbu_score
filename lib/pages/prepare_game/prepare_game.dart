@@ -74,6 +74,9 @@ class PrepareGame extends ConsumerWidget {
     List<Player> players,
   ) {
     if (gameSettings.withdrawRandomCards) {
+      final nbWithdrawnCards = gameSettings.getNbWithdrawnCardsByRound(
+        players.length,
+      );
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: 8,
@@ -87,6 +90,8 @@ class PrepareGame extends ConsumerWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
+          if (nbWithdrawnCards > 0)
+            Text(context.l10n.withdrawNbCards(nbWithdrawnCards)),
         ],
       );
     }

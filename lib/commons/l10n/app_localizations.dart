@@ -493,11 +493,17 @@ abstract class AppLocalizations {
   /// **'Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.'**
   String get errorLaunchGameDetails;
 
-  /// No description provided for @errorNbItems.
+  /// No description provided for @errorAddWithdrawnCard.
   ///
   /// In fr, this message translates to:
-  /// **'Le nombre d\'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.'**
-  String get errorNbItems;
+  /// **'Ajout de carte défaussée impossible'**
+  String get errorAddWithdrawnCard;
+
+  /// No description provided for @errorAddWithdrawnCardDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le nombre de {item} dépasse le nombre de cartes dans la défausse, fixé à {nbItems}.'**
+  String errorAddWithdrawnCardDetails(String item, int nbItems);
 
   /// No description provided for @feature.
   ///
@@ -510,12 +516,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Replier les choix'**
   String get fold;
-
-  /// No description provided for @forbiddenIfBarbuDiscarded.
-  ///
-  /// In fr, this message translates to:
-  /// **'Ce contrat ne peut pas être choisi si le roi de coeur se trouve parmi les cartes défaussées.'**
-  String get forbiddenIfBarbuDiscarded;
 
   /// No description provided for @forGameAt.
   ///
@@ -1165,23 +1165,35 @@ abstract class AppLocalizations {
   /// **'Retirer une carte'**
   String get withdrawCard;
 
-  /// No description provided for @withdrawnCardsRules.
-  ///
-  /// In fr, this message translates to:
-  /// **'A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.'**
-  String withdrawnCardsRules(int nbTricks);
-
   /// No description provided for @withdrawItem.
   ///
   /// In fr, this message translates to:
   /// **'Retirer {item, select, dame{une} other{un}} {item}'**
   String withdrawItem(String item);
 
+  /// No description provided for @withdrawNbCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'Défausser {nbCards} {nbCards, plural, =1{carte} other{cartes}}.'**
+  String withdrawNbCards(num nbCards);
+
+  /// No description provided for @withdrawnCardsRules.
+  ///
+  /// In fr, this message translates to:
+  /// **'A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.'**
+  String withdrawnCardsRules(int nbTricks);
+
   /// No description provided for @withdrawnCards.
   ///
   /// In fr, this message translates to:
   /// **'Cartes retirées'**
   String get withdrawnCards;
+
+  /// No description provided for @withdrawnCardsName.
+  ///
+  /// In fr, this message translates to:
+  /// **'{item}s {item, select, dame{retirées} other{retirés}}'**
+  String withdrawnCardsName(String item);
 
   /// No description provided for @worstEnnemy.
   ///

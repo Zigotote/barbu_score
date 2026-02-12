@@ -476,4 +476,35 @@ void main() {
       );
     });
   });
+  group("#getNbWithdrawnCardsByRound", () {
+    for (var testData in [
+      (nbPlayers: 3, nbWithdrawnCardsByRound: 1),
+      (nbPlayers: 4, nbWithdrawnCardsByRound: 0),
+      (nbPlayers: 5, nbWithdrawnCardsByRound: 2),
+      (nbPlayers: 6, nbWithdrawnCardsByRound: 4),
+      (nbPlayers: 7, nbWithdrawnCardsByRound: 3),
+      (nbPlayers: 8, nbWithdrawnCardsByRound: 4),
+      (nbPlayers: 9, nbWithdrawnCardsByRound: 5),
+      (nbPlayers: 10, nbWithdrawnCardsByRound: 4),
+    ]) {
+      test(
+        "should withdraw ${testData.nbWithdrawnCardsByRound} cards at each round for ${testData.nbPlayers} players",
+        () {
+          expect(
+            GameSettings(
+              withdrawRandomCards: true,
+              fixedNbTricks: false,
+            ).getNbWithdrawnCardsByRound(testData.nbPlayers),
+            testData.nbWithdrawnCardsByRound,
+          );
+        },
+      );
+    }
+    test(
+      "should withdraw 0 cards at each round if no withdraw random cards",
+      () {
+        expect(GameSettings().getNbWithdrawnCardsByRound(3), 0);
+      },
+    );
+  });
 }

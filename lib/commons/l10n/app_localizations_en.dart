@@ -271,18 +271,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'All contracts are deactivated in the settings. At least one contract must be activated to play.';
 
   @override
-  String get errorNbItems =>
-      'The number of items added does not match the expected number. Please try again.';
+  String get errorAddWithdrawnCard => 'Unable to add discarded card';
+
+  @override
+  String errorAddWithdrawnCardDetails(String item, int nbItems) {
+    return 'The number of $item exceeds the number of cards in the discard pile, set at $nbItems.';
+  }
 
   @override
   String get feature => 'A feature';
 
   @override
   String get fold => 'Collapse the choices';
-
-  @override
-  String get forbiddenIfBarbuDiscarded =>
-      'This contract cannot be chosen if the king of hearts is among the discarded cards.';
 
   @override
   String get forGameAt => 'For a game of';
@@ -685,17 +685,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get withdrawCard => 'Withdraw a card';
 
   @override
-  String withdrawnCardsRules(int nbTricks) {
-    return 'Each round, players receive $nbTricks cards each. Extra cards are set aside face up and then reshuffled at the end of the round.';
-  }
-
-  @override
   String withdrawItem(String item) {
     return 'Withdraw one $item';
   }
 
   @override
+  String withdrawNbCards(num nbCards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbCards,
+      locale: localeName,
+      other: 'cards',
+      one: 'card',
+    );
+    return 'Withdraw $nbCards $_temp0.';
+  }
+
+  @override
+  String withdrawnCardsRules(int nbTricks) {
+    return 'Each round, players receive $nbTricks cards each. Extra cards are set aside face up and then reshuffled at the end of the round.';
+  }
+
+  @override
   String get withdrawnCards => 'Withdrawn cards';
+
+  @override
+  String withdrawnCardsName(String item) {
+    return 'Withdrawn ${item}s';
+  }
 
   @override
   String get worstEnnemy => 'Worst ennemy';

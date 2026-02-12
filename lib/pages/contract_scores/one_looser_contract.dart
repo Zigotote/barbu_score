@@ -1,7 +1,10 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/pages/contract_scores/utils/save_contract.dart';
 import 'package:barbu_score/pages/contract_scores/widgets/rules_button.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/withdrawn_cards.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,6 +12,7 @@ import '../../commons/models/contract_models.dart';
 import '../../commons/models/player.dart';
 import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/play_game.dart';
+import '../../commons/providers/storage.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
@@ -34,8 +38,14 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
   /// The selected player
   Player? _selectedPlayer;
 
+  /// The indicator to know if the card has been removed from the deck (only displayed if random cards are withdrawn in game settings)
+  late bool hasWithdrawnCard;
+
   /// The players of the game
   late final List<Player> _players;
+
+  /// The settings for the game
+  late final GameSettings _gameSettings;
 
   /// The model of the contract
   late final ContractWithPointsModel contractModel;
@@ -44,14 +54,16 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
   initState() {
     super.initState();
     _players = ref.read(playGameProvider).players;
+    _gameSettings = ref.read(storageProvider).getGameSettings();
     if (widget.contractModel != null) {
       contractModel = widget.contractModel!;
-      final String playerNameWithItem = contractModel.itemsByPlayer.entries
-          .firstWhere((player) => player.value == 1)
-          .key;
-      _selectedPlayer = _players.firstWhere(
+      final String? playerNameWithItem = contractModel.itemsByPlayer.entries
+          .firstWhereOrNull((player) => player.value == 1)
+          ?.key;
+      _selectedPlayer = _players.firstWhereOrNull(
         (player) => player.name == playerNameWithItem,
       );
+      hasWithdrawnCard = _selectedPlayer == null;
     } else {
       contractModel =
           ref
@@ -59,13 +71,22 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
                   .getContractManager(widget.contract)
                   .model
               as ContractWithPointsModel;
+      hasWithdrawnCard = false;
     }
   }
+
+  Map<String, int> get _itemsByPlayer => {
+    for (var player in _players) player.name: player == _selectedPlayer ? 1 : 0,
+  };
+
+  bool get _isValid =>
+      contractModel.isValid(_itemsByPlayer, hasWithdrawnCard ? 1 : 0);
 
   /// Selects the given player
   void _selectPlayer(Player player) {
     setState(() {
       _selectedPlayer = player;
+      hasWithdrawnCard = false;
     });
   }
 
@@ -86,6 +107,9 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
 
   @override
   Widget build(BuildContext context) {
+    final maxNbWithdrawnCards = _gameSettings.getNbWithdrawnCardsByRound(
+      _players.length,
+    );
     return MyDefaultPage(
       appBar: MyPlayerAppBar(
         player: ref.watch(playGameProvider).currentPlayer,
@@ -102,25 +126,40 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
           _buildFields(),
         ],
       ),
-      bottomWidget: ElevatedButtonFullWidth(
-        onPressed: _selectedPlayer != null
-            ? () => widget.saveContract(
-                context,
-                ref,
-                (ref
-                            .read(contractsManagerProvider)
-                            .getContractManager(widget.contract)
-                            .model
-                        as ContractWithPointsModel)
-                    .copyWith(
-                      itemsByPlayer: {
-                        for (var player in _players)
-                          player.name: player == _selectedPlayer ? 1 : 0,
-                      },
-                    ),
-              )
-            : null,
-        child: Text(context.l10n.validateScores, textAlign: TextAlign.center),
+      bottomWidget: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        spacing: 16,
+        children: [
+          if (widget.contract == ContractsInfo.barbu && maxNbWithdrawnCards > 0)
+            WithdrawnCards(
+              cardName: context.l10n.itemsName(widget.contract),
+              nbWithdrawnCards: hasWithdrawnCard ? 1 : 0,
+              removeCard: () => setState(() => hasWithdrawnCard = false),
+              addCard: () => setState(() {
+                hasWithdrawnCard = true;
+                _selectedPlayer = null;
+              }),
+            ),
+          ElevatedButtonFullWidth(
+            onPressed: _isValid
+                ? () => widget.saveContract(
+                    context,
+                    ref,
+                    (ref
+                                .read(contractsManagerProvider)
+                                .getContractManager(widget.contract)
+                                .model
+                            as ContractWithPointsModel)
+                        .copyWith(itemsByPlayer: _itemsByPlayer),
+                  )
+                : null,
+            child: Text(
+              context.l10n.validateScores,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
       ),
     );
   }

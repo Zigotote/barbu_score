@@ -8,6 +8,7 @@ import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/withdrawn_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -87,38 +88,77 @@ void main() {
 
   group("#withdrawnCards", () {
     patrolWidgetTest(
-      "should create page without withdrawn cards field if no random cards are removed",
+      "should create page without withdrawn cards field if no random cards can be removed",
       ($) async {
         await $.pumpWidget(_createPage());
 
-        expect($(Icons.delete_outlined), findsNothing);
+        expect($(WithdrawnCards), findsNothing);
+      },
+    );
+    patrolWidgetTest(
+      "should create page without withdrawn cards field if no cards are withdrawn from the deck",
+      ($) async {
+        await $.pumpWidget(
+          _createPage(
+            gameSettings: GameSettings(
+              withdrawRandomCards: true,
+              fixedNbTricks: false,
+            ),
+          ),
+        );
+
+        expect($(WithdrawnCards), findsNothing);
       },
     );
     patrolWidgetTest(
       "should create page with withdrawn cards field if random cards can be removed",
       ($) async {
-        await $.pumpWidget(_createPage(withdrawRandomCards: true));
+        await $.pumpWidget(
+          _createPage(gameSettings: GameSettings(withdrawRandomCards: true)),
+        );
 
-        expect($(Icons.delete_outlined), findsOneWidget);
+        expect($(WithdrawnCards), findsOneWidget);
         expect($("0"), findsNWidgets(nbPlayersByDefault + 1));
       },
     );
-    patrolWidgetTest("should not withdraw negative number of items", ($) async {
-      await $.pumpWidget(_createPage(withdrawRandomCards: true));
+    patrolWidgetTest(
+      "should not add more withdrawn items than max number of items",
+      ($) async {
+        await $.pumpWidget(
+          _createPage(gameSettings: GameSettings(withdrawRandomCards: true)),
+        );
 
-      await $(IconButton).containing($(Icons.remove)).last.tap();
-      expect($("0"), findsNWidgets(nbPlayersByDefault + 1));
-    });
-    patrolWidgetTest("should not add more withdrawn items than max", ($) async {
-      await $.pumpWidget(_createPage(withdrawRandomCards: true));
+        for (var i = 0; i < _defaultNbItems + 1; i++) {
+          await $(IconButton).containing($(Icons.add)).last.tap();
+        }
+        await $.pump();
+        expect($("Ajout d'élément impossible"), findsOneWidget);
+        expect($("$_defaultNbItems"), findsOneWidget);
+      },
+    );
+    patrolWidgetTest(
+      "should not add more withdrawn items than max number of discarded cards",
+      ($) async {
+        await $.pumpWidget(
+          _createPage(
+            contract: ContractsInfo.noHearts,
+            nbPlayers: 5,
+            gameSettings: GameSettings(
+              withdrawRandomCards: true,
+              fixedNbTricks: false,
+            ),
+          ),
+        );
+        final nbWithdrawnCards = 2;
 
-      for (var i = 0; i < _defaultNbItems + 1; i++) {
-        await $(IconButton).containing($(Icons.add)).last.tap();
-      }
-      await $.pump();
-      expect($("Ajout d'élément impossible"), findsOneWidget);
-      expect($("$_defaultNbItems"), findsOneWidget);
-    });
+        for (var i = 0; i < nbWithdrawnCards + 1; i++) {
+          await $(IconButton).containing($(Icons.add)).last.tap();
+        }
+        await $.pump();
+        expect($("Ajout de carte défaussée impossible"), findsOneWidget);
+        expect($("$nbWithdrawnCards"), findsOneWidget);
+      },
+    );
   });
 
   group("#isValid", () {
@@ -147,7 +187,9 @@ void main() {
           await $.pumpWidget(
             _createPage(
               contractValues: contract,
-              withdrawRandomCards: withdrawRandomCards,
+              gameSettings: GameSettings(
+                withdrawRandomCards: withdrawRandomCards,
+              ),
             ),
           );
 
@@ -182,7 +224,9 @@ void main() {
           await $.pumpWidget(
             _createPage(
               mockPlayGame: mockPlayGame,
-              withdrawRandomCards: withdrawRandomCards,
+              gameSettings: GameSettings(
+                withdrawRandomCards: withdrawRandomCards,
+              ),
             ),
           );
 
@@ -212,17 +256,19 @@ void main() {
 }
 
 Widget _createPage({
+  ContractsInfo contract = ContractsInfo.noQueens,
   ContractWithPointsModel? contractValues,
   MockPlayGameNotifier? mockPlayGame,
-  bool withdrawRandomCards = false,
+  int nbPlayers = nbPlayersByDefault,
+  GameSettings? gameSettings,
 }) {
   final mockStorage = MockMyStorage();
   when(
     mockStorage.getGameSettings(),
-  ).thenReturn(GameSettings(withdrawRandomCards: withdrawRandomCards));
+  ).thenReturn(gameSettings ?? GameSettings());
   mockActiveContracts(mockStorage);
 
-  mockPlayGame ??= mockPlayGameNotifier();
+  mockPlayGame ??= mockPlayGameNotifier(nbPlayers: nbPlayers);
   final container = ProviderContainer(
     overrides: [
       logProvider.overrideWithValue(MockMyLog()),
@@ -239,7 +285,7 @@ Widget _createPage({
           GoRoute(
             path: Routes.home,
             builder: (_, _) => MultipleLooserContractPage(
-              ContractsInfo.noQueens,
+              contract,
               contractModel: contractValues,
             ),
           ),

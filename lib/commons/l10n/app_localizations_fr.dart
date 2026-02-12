@@ -271,18 +271,18 @@ class AppLocalizationsFr extends AppLocalizations {
       'Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.';
 
   @override
-  String get errorNbItems =>
-      'Le nombre d\'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.';
+  String get errorAddWithdrawnCard => 'Ajout de carte défaussée impossible';
+
+  @override
+  String errorAddWithdrawnCardDetails(String item, int nbItems) {
+    return 'Le nombre de $item dépasse le nombre de cartes dans la défausse, fixé à $nbItems.';
+  }
 
   @override
   String get feature => 'Une suggestion';
 
   @override
   String get fold => 'Replier les choix';
-
-  @override
-  String get forbiddenIfBarbuDiscarded =>
-      'Ce contrat ne peut pas être choisi si le roi de coeur se trouve parmi les cartes défaussées.';
 
   @override
   String get forGameAt => 'Pour une partie à';
@@ -687,18 +687,38 @@ class AppLocalizationsFr extends AppLocalizations {
   String get withdrawCard => 'Retirer une carte';
 
   @override
-  String withdrawnCardsRules(int nbTricks) {
-    return 'A chaque manche, les joueurs reçoivent $nbTricks cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.';
-  }
-
-  @override
   String withdrawItem(String item) {
     String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
     return 'Retirer $_temp0 $item';
   }
 
   @override
+  String withdrawNbCards(num nbCards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbCards,
+      locale: localeName,
+      other: 'cartes',
+      one: 'carte',
+    );
+    return 'Défausser $nbCards $_temp0.';
+  }
+
+  @override
+  String withdrawnCardsRules(int nbTricks) {
+    return 'A chaque manche, les joueurs reçoivent $nbTricks cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.';
+  }
+
+  @override
   String get withdrawnCards => 'Cartes retirées';
+
+  @override
+  String withdrawnCardsName(String item) {
+    String _temp0 = intl.Intl.selectLogic(item, {
+      'dame': 'retirées',
+      'other': 'retirés',
+    });
+    return '${item}s $_temp0';
+  }
 
   @override
   String get worstEnnemy => 'Pire ennemi';
