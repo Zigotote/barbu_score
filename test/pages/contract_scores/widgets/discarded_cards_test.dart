@@ -1,4 +1,3 @@
-import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/pages/contract_scores/widgets/discarded_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,9 +8,6 @@ import '../../../utils/french_material_app.dart';
 import '../../../utils/utils.dart';
 
 void main() {
-  // The state of the singleton is shared during tests so the snackbar cannot be opened multiple times
-  tearDown(() => SnackBarUtils.instance.isSnackBarOpen = false);
-
   group("#remove", () {
     patrolWidgetTest("should discard a card", ($) async {
       final mockUpdateNb = MockCallbackFunction();

@@ -128,7 +128,6 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
       ),
       bottomWidget: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
         spacing: 16,
         children: [
           if (widget.contract == ContractsInfo.barbu && maxNbDiscardedCards > 0)

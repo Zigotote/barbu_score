@@ -88,7 +88,7 @@ void main() {
 
   group("#discardedCards", () {
     patrolWidgetTest(
-      "should create page without discarded cards field if no random cards can be removed",
+      "should create page without discarded cards field if no random cards are removed",
       ($) async {
         await $.pumpWidget(_createPage());
 
