@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/models/player.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,10 +15,12 @@ import '../../utils/utils.dart';
 
 void main() {
   group("#game", () {
-    final game = createGame(
-      4,
-      [defaultBarbu, defaultNoHearts, defaultSalad, defaultDomino],
-    );
+    final game = createGame(4, [
+      defaultBarbu,
+      defaultNoHearts,
+      defaultSalad,
+      defaultDomino,
+    ]);
     test("should return null when getStoredGame if no game", () async {
       await _initializeStorage();
       expect(MyStorage().getStoredGame(), isNull);
@@ -61,8 +64,10 @@ void main() {
     });
   });
   group("#settings", () {
-    final barbuSettings =
-        ContractWithPointsSettings(contract: ContractsInfo.barbu, points: 100);
+    final barbuSettings = ContractWithPointsSettings(
+      contract: ContractsInfo.barbu,
+      points: 100,
+    );
     final noLastTricksSettings = ContractWithPointsSettings(
       contract: ContractsInfo.noLastTrick,
       points: 100,
@@ -86,21 +91,22 @@ void main() {
       isActive: false,
       contracts: {
         for (var contract in SaladContractSettings.availableContracts)
-          contract.name: true
+          contract.name: true,
       },
     );
     final dominoSettings = DominoContractSettings(
       points: {
-        4: [1, 2, 3, 4]
+        4: [1, 2, 3, 4],
       },
     );
     for (var contract in ContractsInfo.values) {
       test(
-          "should return default settings when no saved settings for $contract",
-          () async {
-        await _initializeStorage();
-        expect(MyStorage().getSettings(contract), contract.defaultSettings);
-      });
+        "should return default settings when no saved settings for $contract",
+        () async {
+          await _initializeStorage();
+          expect(MyStorage().getSettings(contract), contract.defaultSettings);
+        },
+      );
       test("should save and get settings for $contract", () async {
         await _initializeStorage();
         final settings = [
@@ -110,7 +116,7 @@ void main() {
           noHeartsSettings,
           noTricksSettings,
           dominoSettings,
-          saladSettings
+          saladSettings,
         ].firstWhere((settings) => settings.name == contract.name);
         final storage = MyStorage();
         storage.saveSettings(contract, settings);
@@ -121,20 +127,45 @@ void main() {
     for (var activeContracts in [
       ContractsInfo.values,
       [ContractsInfo.barbu, ContractsInfo.noHearts],
-      []
+      [],
     ]) {
       test("should get active contracts with $activeContracts", () async {
-        await _initializeStorage(data: {
-          for (ContractsInfo contract in ContractsInfo.values)
-            contract.name: jsonEncode((contract.defaultSettings
-                    .copyWith(isActive: activeContracts.contains(contract)))
-                .toJson())
-        });
+        await _initializeStorage(
+          data: {
+            for (ContractsInfo contract in ContractsInfo.values)
+              contract.name: jsonEncode(
+                (contract.defaultSettings.copyWith(
+                  isActive: activeContracts.contains(contract),
+                )).toJson(),
+              ),
+          },
+        );
 
         final storage = MyStorage();
         expect(storage.getActiveContracts(), activeContracts);
       });
     }
+
+    test(
+      "should return default game settings when no saved settings",
+      () async {
+        await _initializeStorage();
+        expect(MyStorage().getGameSettings(), GameSettings());
+      },
+    );
+    test("should return save and get game settings", () async {
+      final gameSettings = GameSettings(
+        goalIsMinScore: false,
+        fixedNbTricks: false,
+        discardRandomCards: true,
+      );
+      await _initializeStorage();
+      final storage = MyStorage();
+
+      storage.saveGameSettings(gameSettings);
+
+      expect(storage.getGameSettings(), gameSettings);
+    });
   });
   group("#locale", () {
     const locale = Locale("fr");
@@ -156,8 +187,11 @@ void main() {
 List<Map<String, Object>>? _convertToComparablePlayers(List<Player> players) {
   return players
       .map(
-        (player) =>
-            {'name': player.name, 'color': player.color, 'image': player.image},
+        (player) => {
+          'name': player.name,
+          'color': player.color,
+          'image': player.image,
+        },
       )
       .toList();
 }

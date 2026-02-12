@@ -7,6 +7,7 @@
   "accept": "Oui",
   "ace": "as",
   "activateContract": "Activer le contrat",
+  "addCard": "Ajouter une carte",
   "addItem": "Ajouter {item, select, dame{une} other{un}} {item}",
   "@addItem": {
     "placeholders": {
@@ -40,6 +41,8 @@
       }
     }
   },
+  "and": "et",
+  "application": "Application",
   "appName": "Le Barbu",
   "appTheme": "Thème de l'application",
   "appTitle": "Score Barbu",
@@ -72,9 +75,9 @@
       }
     }
   },
-  "cardsOrder": "Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus élevées jusqu'à obtenir le nombre requis.",
+  "cardsOrder": "Les as sont les cartes les plus fortes.",
   "cardsToKeep": "Conserver les cartes",
-  "cardsToKeepForPlayers": "A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes\u00a0: {cards}.",
+  "cardsToKeepForPlayers": "Avant de jouer il faut conserver les cartes les plus élevées {nbDecks, plural, =1{d'un paquet} other{de {nbDecks} paquets}} de {nbCardsInDeck} cartes jusqu'à obtenir le nombre requis. A {nbPlayers} joueurs, il faut donc conserver uniquement les cartes\u00a0: {cards}",
   "@cardsToKeepForPlayers": {
     "placeholders": {
       "nbPlayers": {
@@ -83,10 +86,25 @@
       "nbDecks": {
         "type": "int"
       },
+      "nbCardsInDeck": {
+        "type": "int"
+      },
       "cards": {
         "type": "String",
         "example": "as, roi, dame",
         "description": "List of cards to keep from the deck"
+      }
+    }
+  },
+  "cardToKeepPartially": "{card}{nbCards, select, 1{\u2663} 2{\u2663\u2660} 3{\u2663\u2666\u2660} 4{\u2663\u2660} 5{\u2663\u2660 et un \u2666} 6{\u2663\u2666\u2660} 7{\u2663\u2666\u2660 et un \u2665} other{}}",
+  "@cardToKeepPartially": {
+    "placeholders": {
+      "nbCards": {
+        "type": "String"
+      },
+      "card": {
+        "type": "String",
+        "example": "2"
       }
     }
   },
@@ -130,8 +148,51 @@
   "createPlayers": "Créer les joueurs",
   "deactivate": "Désactiver",
   "deactivatedForGame": "Désactivé pour vos parties.",
+  "decksOfCards": "{nbDecks, plural, =1{1 paquet} other{{nbDecks} paquets}} de {nbCards} cartes.",
+  "@decksOfCards": {
+    "placeholders": {
+      "nbDecks": {
+        "type": "int"
+      },
+      "nbCards": {
+        "type": "int"
+      }
+    }
+  },
+  "deckQuestion": "Type de paquet",
+  "defaultNbTricks": "8 plis",
   "delete": "Supprimer",
   "deletePlayer": "Supprimer le joueur",
+  "discardCard": "Retirer une carte",
+  "discardItem": "Retirer {item, select, dame{une} other{un}} {item}",
+  "@discardItem": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeur"
+      }
+    }
+  },
+  "discardNbCards": "Défausser {nbCards} {nbCards, plural, =1{carte} other{cartes}}.",
+  "discardedCardsRules": "A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.",
+  "@discardedCardsRules": {
+    "placeholders": {
+      "nbTricks": {
+        "type": "int",
+        "example": "coeur"
+      }
+    }
+  },
+  "discardedCards": "Cartes retirées",
+  "discardedCardsName": "{item}s {item, select, dame{retirées} other{retirés}}",
+  "@discardedCardsName": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeur"
+      }
+    }
+  },
   "domino": "Réussite",
   "dominoScoreSubtitle": "Qui a fini {rank}\u00A0?",
   "@dominoScoreSubtitle": {
@@ -144,9 +205,9 @@
   },
   "endGame": "Fin de partie",
   "english": "Anglais",
-  "errorAddPoints": "Ajout de points impossible",
-  "errorAddPointsDetails": "Le nombre de {item} dépasse le nombre d'éléments pouvant être remporté, fixé à {nbItems}.",
-  "@errorAddPointsDetails": {
+  "errorAddItem": "Ajout d'élément impossible",
+  "errorAddItemDetails": "Le nombre de {item} dépasse le nombre d'éléments pouvant être remporté, fixé à {nbItems}.",
+  "@errorAddItemDetails": {
     "placeholders": {
       "item": {
         "type": "String",
@@ -160,7 +221,19 @@
   "errorDomino": "Tous les joueurs n'ont pas été classés.",
   "errorLaunchGame": "Impossible de lancer une partie",
   "errorLaunchGameDetails": "Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.",
-  "errorNbItems": "Le nombre d'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.",
+  "errorAddDiscardedCard": "Ajout de carte défaussée impossible",
+  "errorAddDiscardedCardDetails": "Le nombre de {item} dépasse le nombre de cartes dans la défausse, fixé à {nbItems}.",
+  "@errorAddDiscardedCardDetails": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeurs"
+      },
+      "nbItems": {
+        "type": "int"
+      }
+    }
+  },
   "feature": "Une suggestion",
   "fold": "Replier les choix",
   "forGameAt": "Pour une partie à",
@@ -173,12 +246,14 @@
       }
     }
   },
+  "game": "Partie",
   "gamePrinciple": "Principe du jeu",
-  "gamePrincipleDetails": "Ce jeu de plis est composé de 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats.",
+  "gamePrincipleDetails": "Ce jeu de plis est composé de différents contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l'ensemble des contrats.",
   "gameRound": "Manche de jeu",
-  "gameRoundRules": "Distribuer les cartes entre les joueurs\u00a0: chacun doit en avoir 8.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
+  "gameRoundRules": "Distribuer le même nombre de cartes entre les joueurs.*Le premier joueur choisit le contrat qu'il souhaite jouer et l'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C'est lui qui démarrera le pli suivant.*La manche s'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.",
   "gameSaved": "Partie sauvegardée",
   "go": "C'est parti\u00A0!",
+  "goal": "Objectif",
   "goHome": "Retour à l'accueil",
   "heart": "coeur",
   "hintDarkMode": "mode sombre",
@@ -186,7 +261,8 @@
   "hintForDarkMode": "passer en mode sombre",
   "hintForLightMode": "passer en mode clair",
   "invertScore": "Inversion du score",
-  "invertScoreDetails": "Si un joueur remporte tout, son score devient négatif.",
+  "invertScoreNegativeDetails": "Si un joueur remporte tout, son score devient négatif.",
+  "invertScorePositiveDetails": "Si un joueur remporte tout, son score devient positif.",
   "jack": "valet",
   "keep": "Conserver",
   "king": "roi",
@@ -202,6 +278,10 @@
       }
     }
   },
+  "lowest": "Plus faibles",
+  "maxScore": "Score élevé",
+  "minScore": "Score faible",
+  "mix": "Mélanger",
   "modify": "Modification {contract}",
   "@modify": {
     "placeholders": {
@@ -215,14 +295,34 @@
   "modifyPlayer": "Modifier le joueur",
   "modifySettings": "Modifier les paramètres",
   "moreInfo": "Plus d'informations",
-  "nbCardsRules": "Le jeu se joue avec {nbCards} cartes ({nbPlayers} \u00d7 8).",
+  "nbCards": "{nbCards} cartes",
+  "@nbCards": {
+    "placeholders": {
+      "nbCards": {
+        "type": "int",
+        "description": "Number of cards in the deck"
+      }
+    }
+  },
+  "nbCardsRules": "Le jeu se joue avec {nbCards} cartes ({nbTricks} cartes par joueur).",
   "@nbCardsRules": {
     "placeholders": {
       "nbCards": {
         "type": "int",
-        "description": "Number of cards (equals to nbPlayers*8)"
+        "description": "Number of cards in the deck"
       },
-      "nbPlayers": {
+      "nbTricks": {
+        "type": "int"
+      }
+    }
+  },
+  "nbDecksRules": "Le jeu se joue avec {nbDecks, plural, =1{1 paquet} other{{nbDecks} paquets}} de {nbCardsByDeck} cartes.",
+  "@nbDecksRules": {
+    "placeholders": {
+      "nbDecks": {
+        "type": "int"
+      },
+      "nbCardsByDeck": {
         "type": "int"
       }
     }
@@ -236,6 +336,8 @@
       }
     }
   },
+  "nbTricksTooltip": "Un nombre de plis optimisé revient à distribuer équitablement toutes les cartes du jeu entre les joueurs.",
+  "nbTricksQuestion": "Nombre de plis",
   "next": "Suivant",
   "noGameFound": "Aucune partie trouvée",
   "noGameFoundDetails": "La partie précédente n'a pas été retrouvée. Lancement d'une nouvelle partie.",
@@ -243,6 +345,7 @@
   "noLastTrick": "Dernier",
   "noQueens": "Sans dames",
   "noTricks": "Sans plis",
+  "optimized": "Optimisé",
   "other": "Autre",
   "playerNameHint": "Nom du joueur {nb}",
   "@playerNameHint": {
@@ -276,9 +379,12 @@
   },
   "prepareGame": "Préparer la partie",
   "prepareGameRules": "Préparation du jeu",
-  "presentGame": "Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu'à 10 joueurs, avec 2 paquets de cartes. L'objectif est de remporter le moins de points possible.",
+  "presentGame": "Le barbu est un jeu de cartes pour 3 à 10 joueurs.",
+  "presentGameGoalMaxScore": "L'objectif est de marquer le plus de points possible.",
+  "presentGameGoalMinScore": "L'objectif est de marquer le moins de points possible.",
   "previous": "Précédent",
   "queen": "dame",
+  "randoms": "Aléatoires",
   "ranking": "Classement",
   "rateApp": "Evaluer l'application",
   "refuseLoadGame": "Non, nouvelle partie",
@@ -304,7 +410,7 @@
       }
     }
   },
-  "rulesDomino": "Contrairement aux autres contrats, la réussite n'est pas un contrat à plis. L'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. L'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.",
+  "rulesDomino": "Contrairement aux autres contrats, la réussite n'est pas un contrat à plis. L'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d'ouverture de la réussite (par exemple le valet). S'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d'ouverture, dans une autre couleur. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. L'objectif est de poser toutes ses cartes le plus rapidement possible.",
   "rulesDominoDetailed": "L'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l'ordre croissant.\n{player} détermine la valeur d'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d'ouverture. S'il joue un as, il peut rejouer. S'il ne peut pas poser de carte, il indique qu'il passe.\nLe jeu se poursuit ainsi jusqu'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l'ordre de fin des joueurs, et sont distribués comme suit :\n{points}",
   "@rulesDominoDetailed": {
     "placeholders": {
@@ -441,15 +547,6 @@
       "item": {
         "type": "String",
         "example": "Barbu"
-      }
-    }
-  },
-  "withdrawItem": "Retirer {item, select, dame{une} other{un}} {item}",
-  "@withdrawItem": {
-    "placeholders": {
-      "item": {
-        "type": "String",
-        "example": "coeur"
       }
     }
   },

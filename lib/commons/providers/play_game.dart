@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 import '../../../commons/models/player.dart';
 import '../models/contract_models.dart';
@@ -41,15 +41,17 @@ class PlayGameNotifier with ChangeNotifier {
   bool moveToFirstPlayerWithAvailableContracts() {
     final firstPlayer = game.currentPlayer;
     final activeContracts = storage.getActiveContracts();
-    bool playerHasAvailableContracts =
-        game.currentPlayer.hasAvailableContracts(activeContracts);
+    bool playerHasAvailableContracts = game.currentPlayer.hasAvailableContracts(
+      activeContracts,
+    );
     if (!playerHasAvailableContracts) {
       do {
         game.nextPlayer();
-        playerHasAvailableContracts =
-            game.currentPlayer.hasAvailableContracts(activeContracts);
-      } while (
-          !playerHasAvailableContracts && game.currentPlayer != firstPlayer);
+        playerHasAvailableContracts = game.currentPlayer.hasAvailableContracts(
+          activeContracts,
+        );
+      } while (!playerHasAvailableContracts &&
+          game.currentPlayer != firstPlayer);
     }
     game.isFinished = !playerHasAvailableContracts;
     return !game.isFinished;

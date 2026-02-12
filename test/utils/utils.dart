@@ -175,3 +175,7 @@ MockPlayGameNotifier mockPlayGameNotifier({
 
   return mockPlayGame;
 }
+
+class MockCallbackFunction extends Mock {
+  void change(dynamic e);
+}

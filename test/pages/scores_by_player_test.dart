@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/contracts_manager.dart';
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/providers/play_game.dart';
@@ -25,43 +26,39 @@ void main() {
   for (var activeContractsTest in [
     [ContractsInfo.barbu],
     [ContractsInfo.noTricks, ContractsInfo.barbu, ContractsInfo.salad],
-    ContractsInfo.values
+    ContractsInfo.values,
   ]) {
     patrolWidgetTest(
-        "should display active contracts in table for $activeContractsTest",
-        ($) async {
-      final mockPlayGame = mockPlayGameNotifier();
-      final game = mockPlayGame.game;
-      final mockStorage = MockMyStorage();
-      mockActiveContracts(mockStorage, activeContractsTest);
-      await $.pumpWidget(
-        _createPage(
-          mockStorage: mockStorage,
-          mockPlayGame: mockPlayGame,
-        ),
-      );
-
-      expect($("Contrats de ${game.players[0].name}"), findsOneWidget);
-      for (var contract in ContractsInfo.values) {
-        expect(
-          $(Key(contract.name)),
-          activeContractsTest.contains(contract)
-              ? findsOneWidget
-              : findsNothing,
+      "should display active contracts in table for $activeContractsTest",
+      ($) async {
+        final mockPlayGame = mockPlayGameNotifier();
+        final game = mockPlayGame.game;
+        final mockStorage = MockMyStorage();
+        mockActiveContracts(mockStorage, activeContractsTest);
+        when(mockStorage.getGameSettings()).thenReturn(GameSettings());
+        await $.pumpWidget(
+          _createPage(mockStorage: mockStorage, mockPlayGame: mockPlayGame),
         );
-      }
-      // Contracts scores should be null
-      expect(
-        $("/"),
-        findsNWidgets(game.players.length * activeContractsTest.length),
-      );
-      // Total scores should be 0
-      expect($("Total"), findsOneWidget);
-      expect(
-        $("0"),
-        findsNWidgets(game.players.length),
-      );
-    });
+
+        expect($("Contrats de ${game.players[0].name}"), findsOneWidget);
+        for (var contract in ContractsInfo.values) {
+          expect(
+            $(Key(contract.name)),
+            activeContractsTest.contains(contract)
+                ? findsOneWidget
+                : findsNothing,
+          );
+        }
+        // Contracts scores should be null
+        expect(
+          $("/"),
+          findsNWidgets(game.players.length * activeContractsTest.length),
+        );
+        // Total scores should be 0
+        expect($("Total"), findsOneWidget);
+        expect($("0"), findsNWidgets(game.players.length));
+      },
+    );
   }
   patrolWidgetTest("should display scores with some contracts", ($) async {
     final mockPlayGame = mockPlayGameNotifier();
@@ -70,15 +67,15 @@ void main() {
     when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
       ContractsInfo.barbu: {
         for (var (index, player) in game.players.indexed)
-          player.name: index == 0 ? 50 : 0
+          player.name: index == 0 ? 50 : 0,
       },
       ContractsInfo.noHearts: null,
       ContractsInfo.noQueens: {
-        for (var player in game.players) player.name: 10
+        for (var player in game.players) player.name: 10,
       },
       ContractsInfo.noTricks: {
         for (var (index, player) in game.players.indexed)
-          player.name: index % 2 == 0 ? 20 : 0
+          player.name: index % 2 == 0 ? 20 : 0,
       },
       ContractsInfo.noLastTrick: null,
       ContractsInfo.salad: null,
@@ -99,7 +96,8 @@ void main() {
     expect(
       ($("10")),
       findsNWidgets(
-          nbScoresForNoQueens + 2), // 2 players have a total score of 10
+        nbScoresForNoQueens + 2,
+      ), // 2 players have a total score of 10
     );
     // No tricks
     final nbScoresForNoTricks = (game.players.length / 2).round();
@@ -125,26 +123,26 @@ void main() {
     when(mockContractManager.scoresByContract(game.players[0])).thenReturn({
       ContractsInfo.barbu: {
         for (var (index, player) in game.players.indexed)
-          player.name: index == 0 ? 50 : 0
+          player.name: index == 0 ? 50 : 0,
       },
       ContractsInfo.noHearts: {
-        for (var player in game.players) player.name: 15
+        for (var player in game.players) player.name: 15,
       },
       ContractsInfo.noQueens: {
-        for (var player in game.players) player.name: 20
+        for (var player in game.players) player.name: 20,
       },
       ContractsInfo.noTricks: {
         for (var (index, player) in game.players.indexed)
-          player.name: index % 2 == 0 ? 10 : 0
+          player.name: index % 2 == 0 ? 10 : 0,
       },
       ContractsInfo.noLastTrick: {
         for (var (index, player) in game.players.indexed)
-          player.name: index == 0 ? 40 : 0
+          player.name: index == 0 ? 40 : 0,
       },
       ContractsInfo.salad: {for (var player in game.players) player.name: 0},
       ContractsInfo.domino: {
         for (var (index, player) in game.players.indexed)
-          player.name: -10 * index
+          player.name: -10 * index,
       },
     });
     await $.pumpWidget(
@@ -173,14 +171,17 @@ void main() {
     // Zeros for players who didn't score previously
     expect(
       $("0"),
-      findsNWidgets((game.players.length - 1) * 2 // barbu and no last trick
-              +
-              (game.players.length / 2).round() // no tricks
-              +
-              1 // domino
-              +
-              game.players.length // salad
-          ),
+      findsNWidgets(
+        (game.players.length - 1) *
+                2 // barbu and no last trick
+                +
+            (game.players.length / 2)
+                .round() // no tricks
+                +
+            1 // domino
+            +
+            game.players.length, // salad
+      ),
     );
     // Empty lines
     expect($("/"), findsNothing);
@@ -191,14 +192,16 @@ void main() {
   });
 }
 
-Widget _createPage(
-    {MockPlayGameNotifier? mockPlayGame,
-    MockContractsManager? mockContractsManager,
-    MockMyStorage? mockStorage}) {
+Widget _createPage({
+  MockPlayGameNotifier? mockPlayGame,
+  MockContractsManager? mockContractsManager,
+  MockMyStorage? mockStorage,
+}) {
   mockPlayGame ??= mockPlayGameNotifier();
   if (mockStorage == null) {
     mockStorage = MockMyStorage();
     mockActiveContracts(mockStorage);
+    when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   }
 
   final container = ProviderContainer(

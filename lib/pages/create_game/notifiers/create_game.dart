@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 import '../../../commons/models/player.dart';
 import '../../../commons/utils/constants.dart';
@@ -10,17 +10,17 @@ import '../../../theme/my_theme_colors.dart';
 
 final createGameProvider =
     ChangeNotifierProvider.autoDispose<CreateGameNotifier>(
-  (ref) => CreateGameNotifier(
-    List.generate(
-      4,
-      (index) => Player.create(
-        color: playerColors[index],
-        image: playerImages[index],
+      (ref) => CreateGameNotifier(
+        List.generate(
+          4,
+          (index) => Player.create(
+            color: playerColors[index],
+            image: playerImages[index],
+          ),
+          growable: true,
+        ),
       ),
-      growable: true,
-    ),
-  ),
-);
+    );
 
 class CreateGameNotifier with ChangeNotifier {
   /// The list of players for the game
@@ -32,10 +32,12 @@ class CreateGameNotifier with ChangeNotifier {
 
   /// Adds a player for the game
   void addPlayer() {
-    _players.add(Player.create(
-      color: playerColors[_players.length],
-      image: playerImages[_players.length],
-    ));
+    _players.add(
+      Player.create(
+        color: playerColors[_players.length],
+        image: playerImages[_players.length],
+      ),
+    );
     notifyListeners();
   }
 

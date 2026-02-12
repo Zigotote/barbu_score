@@ -1,4 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/settings/notifiers/change_game_settings_provider.dart';
+import 'package:barbu_score/pages/settings/widgets/game_settings.dart';
+import 'package:barbu_score/pages/settings/widgets/my_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,86 +25,99 @@ import 'widgets/language_choice.dart';
 class MySettings extends ConsumerWidget {
   const MySettings({super.key});
 
+  Semantics _buildTitle(BuildContext context, String title) {
+    return Semantics(
+      header: true,
+      child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appVersion = ref.watch(deviceInfoProvider).value?.appVersion;
-    return MyDefaultPage(
-      appBar: MyAppBar(Text(context.l10n.settings), context: context),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const AppThemeChoice(),
-          const LanguageChoice(),
-          const SizedBox(height: 16),
-          Semantics(
-            header: true,
-            child: Text(
-              context.l10n.contracts,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-          const SizedBox(height: 16),
-          MyGrid(
-            children: ContractsInfo.values.map((contract) {
-              final contractSettings = ref
-                  .watch(storageProvider)
-                  .getSettings(contract);
-              return ElevatedButtonWithIndicator(
-                key: Key(contract.name),
-                text: context.l10n.contractName(contract),
-                onPressed: () {
-                  ref
-                      .read(logProvider)
-                      .info("MySettings: open settings for ${contract.name}");
-                  SnackBarUtils.instance.closeSnackBar(context);
-                  context.push(contract.settingsRoute).then((_) {
-                    final storage = ref.read(storageProvider);
-                    final newSettings = storage.getSettings(contract);
-                    if (contractSettings != newSettings) {
-                      if (storage.getStoredGame()?.isFinished == true) {
-                        storage.deleteGame();
+    return PopScope(
+      onPopInvokedWithResult: (_, _) {
+        final newGameSettings = ref.read(changeGameSettingsProvider);
+        if (newGameSettings != ref.read(storageProvider).getGameSettings()) {
+          ref
+              .read(storageProvider)
+              .saveGameSettings(ref.read(changeGameSettingsProvider));
+          ref
+              .read(logProvider)
+              .info("MySettings: change game settings $newGameSettings");
+          ref.read(logProvider).sendAnalyticEvent("modify_game_settings");
+          if (context.mounted) {
+            SnackBarUtils.instance.openSnackBar(
+              context: context,
+              title: context.l10n.changesSaved,
+              text: context.l10n.changesSavedDetails,
+            );
+          }
+        }
+      },
+      child: MyDefaultPage(
+        appBar: MyAppBar(Text(context.l10n.settings), context: context),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 16,
+          children: [
+            _buildTitle(context, context.l10n.application),
+            MyCard(children: [const AppThemeChoice(), const LanguageChoice()]),
+            _buildTitle(context, context.l10n.game),
+            GameSettingsWidget(),
+            _buildTitle(context, context.l10n.contracts),
+            MyGrid(
+              children: ContractsInfo.values.map((contract) {
+                final contractSettings = ref
+                    .watch(storageProvider)
+                    .getSettings(contract);
+                return ElevatedButtonWithIndicator(
+                  key: Key(contract.name),
+                  text: context.l10n.contractName(contract),
+                  onPressed: () {
+                    ref
+                        .read(logProvider)
+                        .info("MySettings: open settings for ${contract.name}");
+                    SnackBarUtils.instance.closeSnackBar(context);
+                    context.push(contract.settingsRoute).then((_) {
+                      final storage = ref.read(storageProvider);
+                      final newSettings = storage.getSettings(contract);
+                      if (contractSettings != newSettings) {
+                        if (storage.getStoredGame()?.isFinished == true) {
+                          storage.deleteGame();
+                        }
+                        if (context.mounted) {
+                          SnackBarUtils.instance.openSnackBar(
+                            context: context,
+                            title: context.l10n.changesSaved,
+                            text: context.l10n.changesSavedDetails,
+                          );
+                        }
                       }
-                      if (context.mounted) {
-                        SnackBarUtils.instance.openSnackBar(
-                          context: context,
-                          title: context.l10n.changesSaved,
-                          text: context.l10n.changesSavedDetails,
-                        );
-                      }
-                    }
-                  });
-                },
-                indicator: ActiveContractIndicator(
-                  isActive: contractSettings.isActive,
-                ),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 16),
-          Semantics(
-            header: true,
-            child: Text(
-              context.l10n.moreInfo,
-              style: Theme.of(context).textTheme.titleLarge,
+                    });
+                  },
+                  indicator: ActiveContractIndicator(
+                    isActive: contractSettings.isActive,
+                  ),
+                );
+              }).toList(),
             ),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButtonFullWidth(
-            onPressed: () => context.push(Routes.about),
-            child: Text(context.l10n.about),
-          ),
-          const SizedBox(height: 24),
-          ContactButton(),
-          const SizedBox(height: 24),
-          ElevatedButtonFullWidth(
-            onPressed: () => InAppReview.instance.openStoreListing(),
-            child: Text(context.l10n.rateApp),
-          ),
-        ],
+            _buildTitle(context, context.l10n.moreInfo),
+            ElevatedButtonFullWidth(
+              onPressed: () => context.push(Routes.about),
+              child: Text(context.l10n.about),
+            ),
+            ContactButton(),
+            ElevatedButtonFullWidth(
+              onPressed: () => InAppReview.instance.openStoreListing(),
+              child: Text(context.l10n.rateApp),
+            ),
+          ],
+        ),
+        bottomWidget: appVersion != null
+            ? Text(context.l10n.appVersion(appVersion))
+            : null,
       ),
-      bottomWidget: appVersion != null
-          ? Text(context.l10n.appVersion(appVersion))
-          : null,
     );
   }
 }

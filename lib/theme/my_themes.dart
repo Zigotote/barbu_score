@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:flutter/material.dart';
 import 'package:non_uniform_border/non_uniform_border.dart';
 
@@ -33,6 +34,7 @@ class MyThemes {
             : Colors.red.shade900,
         outline: onSurfaceColor,
         primary: onSurfaceColor,
+        secondary: grey,
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: baseTheme.scaffoldBackgroundColor,
@@ -40,10 +42,12 @@ class MyThemes {
       disabledColor: disabledColor,
       dividerColor: onSurfaceColor,
       dropdownMenuTheme: DropdownMenuThemeData(
-        inputDecorationTheme: const InputDecorationTheme(
+        inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
+          filled: true,
+          fillColor: baseTheme.scaffoldBackgroundColor,
         ),
         textStyle: bodyMedium,
       ),
@@ -61,7 +65,6 @@ class MyThemes {
             baseTheme.scaffoldBackgroundColor,
           ),
           foregroundColor: WidgetStatePropertyAll(onSurfaceColor),
-          overlayColor: WidgetStatePropertyAll(grey),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -85,6 +88,24 @@ class MyThemes {
           ),
         },
       ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+            if (states.contains(WidgetState.selected)) {
+              return baseTheme.colorScheme.success.withValues(alpha: 0.25);
+            }
+            return baseTheme.scaffoldBackgroundColor;
+          }),
+          foregroundColor: WidgetStateProperty.resolveWith<Color>((
+            Set<WidgetState> states,
+          ) {
+            if (states.contains(WidgetState.disabled)) {
+              return baseTheme.colorScheme.disabled;
+            }
+            return baseTheme.colorScheme.onSurface;
+          }),
+        ),
+      ),
       switchTheme: SwitchThemeData(
         trackOutlineWidth: const WidgetStatePropertyAll(1),
         trackOutlineColor: WidgetStatePropertyAll(onSurfaceColor),
@@ -96,6 +117,17 @@ class MyThemes {
             return baseTheme.colorScheme.success;
           }
           return Colors.transparent;
+        }),
+        thumbIcon: WidgetStateProperty.resolveWith((states) {
+          if (states.any((element) => (element == WidgetState.selected))) {
+            return Icon(
+              Icons.check,
+              color: states.any((element) => (element == WidgetState.disabled))
+                  ? grey
+                  : baseTheme.colorScheme.success,
+            );
+          }
+          return Icon(Icons.close);
         }),
         thumbColor: WidgetStateProperty.resolveWith((states) {
           if (states.any((element) => (element == WidgetState.selected))) {
@@ -135,7 +167,6 @@ class MyThemes {
         indicatorSize: TabBarIndicatorSize.tab,
         labelColor: onSurfaceColor,
         unselectedLabelColor: disabledColor,
-        overlayColor: WidgetStatePropertyAll(grey),
       ),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
@@ -176,7 +207,6 @@ class MyThemes {
         return colorScheme.onSurface;
       }),
       backgroundColor: WidgetStatePropertyAll(theme.scaffoldBackgroundColor),
-      overlayColor: WidgetStatePropertyAll(colorScheme.grey),
       elevation: hasElevation
           ? WidgetStateProperty.resolveWith((Set<WidgetState> states) {
               if (states.contains(WidgetState.disabled)) {
@@ -211,7 +241,7 @@ class MyThemes {
 }
 
 extension CustomThemeValues on ColorScheme {
-  // The color to use for disabled texts
+  /// The color to use for disabled texts
   Color get disabled => brightness == Brightness.dark
       ? const Color(0xffAFAFAF)
       : const Color(0xff757575);
@@ -219,7 +249,17 @@ extension CustomThemeValues on ColorScheme {
   // The grey color matching theme
   Color get grey => const Color(0xffafafaf);
 
-  // The color to use for sucess texts
+  /// The background grey color, used to display text on top
+  Color get greyBackground => brightness == Brightness.dark
+      ? const Color(0xff222126)
+      : const Color(0xffeee8ef);
+
+  /// The background grey color, used to display text on top
+  Color get onGreyBackground => brightness == Brightness.dark
+      ? const Color(0xffafafaf)
+      : const Color(0xff646464);
+
+  /// The color to use for sucess texts
   Color get success =>
       brightness == Brightness.dark ? Colors.green : Colors.green.shade800;
 

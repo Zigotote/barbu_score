@@ -146,6 +146,12 @@ abstract class AppLocalizations {
   /// **'Activer le contrat'**
   String get activateContract;
 
+  /// No description provided for @addCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une carte'**
+  String get addCard;
+
   /// No description provided for @addItem.
   ///
   /// In fr, this message translates to:
@@ -187,6 +193,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Le contrat a déjà été joué par {players}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.'**
   String alertSaladContractPlayedBy(String players);
+
+  /// No description provided for @and.
+  ///
+  /// In fr, this message translates to:
+  /// **'et'**
+  String get and;
+
+  /// No description provided for @application.
+  ///
+  /// In fr, this message translates to:
+  /// **'Application'**
+  String get application;
 
   /// No description provided for @appName.
   ///
@@ -263,7 +281,7 @@ abstract class AppLocalizations {
   /// No description provided for @cardsOrder.
   ///
   /// In fr, this message translates to:
-  /// **'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.'**
+  /// **'Les as sont les cartes les plus fortes.'**
   String get cardsOrder;
 
   /// No description provided for @cardsToKeep.
@@ -275,8 +293,19 @@ abstract class AppLocalizations {
   /// No description provided for @cardsToKeepForPlayers.
   ///
   /// In fr, this message translates to:
-  /// **'A {nbPlayers} joueurs, il faut donc {nbDecks, plural, =1{} other{prendre {nbDecks} paquets de cartes et }}conserver uniquement les cartes : {cards}.'**
-  String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards);
+  /// **'Avant de jouer il faut conserver les cartes les plus élevées {nbDecks, plural, =1{d\'un paquet} other{de {nbDecks} paquets}} de {nbCardsInDeck} cartes jusqu\'à obtenir le nombre requis. A {nbPlayers} joueurs, il faut donc conserver uniquement les cartes : {cards}'**
+  String cardsToKeepForPlayers(
+    int nbPlayers,
+    int nbDecks,
+    int nbCardsInDeck,
+    String cards,
+  );
+
+  /// No description provided for @cardToKeepPartially.
+  ///
+  /// In fr, this message translates to:
+  /// **'{card}{nbCards, select, 1{♣} 2{♣♠} 3{♣♦♠} 4{♣♠} 5{♣♠ et un ♦} 6{♣♦♠} 7{♣♦♠ et un ♥} other{}}'**
+  String cardToKeepPartially(String nbCards, String card);
 
   /// No description provided for @changesSaved.
   ///
@@ -380,6 +409,24 @@ abstract class AppLocalizations {
   /// **'Désactivé pour vos parties.'**
   String get deactivatedForGame;
 
+  /// No description provided for @decksOfCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'{nbDecks, plural, =1{1 paquet} other{{nbDecks} paquets}} de {nbCards} cartes.'**
+  String decksOfCards(int nbDecks, int nbCards);
+
+  /// No description provided for @deckQuestion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Type de paquet'**
+  String get deckQuestion;
+
+  /// No description provided for @defaultNbTricks.
+  ///
+  /// In fr, this message translates to:
+  /// **'8 plis'**
+  String get defaultNbTricks;
+
   /// No description provided for @delete.
   ///
   /// In fr, this message translates to:
@@ -391,6 +438,42 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Supprimer le joueur'**
   String get deletePlayer;
+
+  /// No description provided for @discardCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer une carte'**
+  String get discardCard;
+
+  /// No description provided for @discardItem.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer {item, select, dame{une} other{un}} {item}'**
+  String discardItem(String item);
+
+  /// No description provided for @discardNbCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'Défausser {nbCards} {nbCards, plural, =1{carte} other{cartes}}.'**
+  String discardNbCards(num nbCards);
+
+  /// No description provided for @discardedCardsRules.
+  ///
+  /// In fr, this message translates to:
+  /// **'A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.'**
+  String discardedCardsRules(int nbTricks);
+
+  /// No description provided for @discardedCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cartes retirées'**
+  String get discardedCards;
+
+  /// No description provided for @discardedCardsName.
+  ///
+  /// In fr, this message translates to:
+  /// **'{item}s {item, select, dame{retirées} other{retirés}}'**
+  String discardedCardsName(String item);
 
   /// No description provided for @domino.
   ///
@@ -416,17 +499,17 @@ abstract class AppLocalizations {
   /// **'Anglais'**
   String get english;
 
-  /// No description provided for @errorAddPoints.
+  /// No description provided for @errorAddItem.
   ///
   /// In fr, this message translates to:
-  /// **'Ajout de points impossible'**
-  String get errorAddPoints;
+  /// **'Ajout d\'élément impossible'**
+  String get errorAddItem;
 
-  /// No description provided for @errorAddPointsDetails.
+  /// No description provided for @errorAddItemDetails.
   ///
   /// In fr, this message translates to:
   /// **'Le nombre de {item} dépasse le nombre d\'éléments pouvant être remporté, fixé à {nbItems}.'**
-  String errorAddPointsDetails(String item, int nbItems);
+  String errorAddItemDetails(String item, int nbItems);
 
   /// No description provided for @errorDomino.
   ///
@@ -446,11 +529,17 @@ abstract class AppLocalizations {
   /// **'Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.'**
   String get errorLaunchGameDetails;
 
-  /// No description provided for @errorNbItems.
+  /// No description provided for @errorAddDiscardedCard.
   ///
   /// In fr, this message translates to:
-  /// **'Le nombre d\'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.'**
-  String get errorNbItems;
+  /// **'Ajout de carte défaussée impossible'**
+  String get errorAddDiscardedCard;
+
+  /// No description provided for @errorAddDiscardedCardDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le nombre de {item} dépasse le nombre de cartes dans la défausse, fixé à {nbItems}.'**
+  String errorAddDiscardedCardDetails(String item, int nbItems);
 
   /// No description provided for @feature.
   ///
@@ -482,6 +571,12 @@ abstract class AppLocalizations {
   /// **'{nbDecks, plural, =1{du paquet} other{de {nbDecks} paquets}}.'**
   String fromTheDeck(int nbDecks);
 
+  /// No description provided for @game.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partie'**
+  String get game;
+
   /// No description provided for @gamePrinciple.
   ///
   /// In fr, this message translates to:
@@ -491,7 +586,7 @@ abstract class AppLocalizations {
   /// No description provided for @gamePrincipleDetails.
   ///
   /// In fr, this message translates to:
-  /// **'Ce jeu de plis est composé de 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.'**
+  /// **'Ce jeu de plis est composé de différents contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.'**
   String get gamePrincipleDetails;
 
   /// No description provided for @gameRound.
@@ -503,7 +598,7 @@ abstract class AppLocalizations {
   /// No description provided for @gameRoundRules.
   ///
   /// In fr, this message translates to:
-  /// **'Distribuer les cartes entre les joueurs : chacun doit en avoir 8.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.'**
+  /// **'Distribuer le même nombre de cartes entre les joueurs.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.'**
   String get gameRoundRules;
 
   /// No description provided for @gameSaved.
@@ -517,6 +612,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'C\'est parti !'**
   String get go;
+
+  /// No description provided for @goal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Objectif'**
+  String get goal;
 
   /// No description provided for @goHome.
   ///
@@ -560,11 +661,17 @@ abstract class AppLocalizations {
   /// **'Inversion du score'**
   String get invertScore;
 
-  /// No description provided for @invertScoreDetails.
+  /// No description provided for @invertScoreNegativeDetails.
   ///
   /// In fr, this message translates to:
   /// **'Si un joueur remporte tout, son score devient négatif.'**
-  String get invertScoreDetails;
+  String get invertScoreNegativeDetails;
+
+  /// No description provided for @invertScorePositiveDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Si un joueur remporte tout, son score devient positif.'**
+  String get invertScorePositiveDetails;
 
   /// No description provided for @jack.
   ///
@@ -608,6 +715,30 @@ abstract class AppLocalizations {
   /// **'Reprendre la partie précédente avec {players} ?'**
   String loadPreviousGame(String players);
 
+  /// No description provided for @lowest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus faibles'**
+  String get lowest;
+
+  /// No description provided for @maxScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Score élevé'**
+  String get maxScore;
+
+  /// No description provided for @minScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Score faible'**
+  String get minScore;
+
+  /// No description provided for @mix.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mélanger'**
+  String get mix;
+
   /// No description provided for @modify.
   ///
   /// In fr, this message translates to:
@@ -638,17 +769,41 @@ abstract class AppLocalizations {
   /// **'Plus d\'informations'**
   String get moreInfo;
 
+  /// No description provided for @nbCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'{nbCards} cartes'**
+  String nbCards(int nbCards);
+
   /// No description provided for @nbCardsRules.
   ///
   /// In fr, this message translates to:
-  /// **'Le jeu se joue avec {nbCards} cartes ({nbPlayers} × 8).'**
-  String nbCardsRules(int nbCards, int nbPlayers);
+  /// **'Le jeu se joue avec {nbCards} cartes ({nbTricks} cartes par joueur).'**
+  String nbCardsRules(int nbCards, int nbTricks);
+
+  /// No description provided for @nbDecksRules.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le jeu se joue avec {nbDecks, plural, =1{1 paquet} other{{nbDecks} paquets}} de {nbCardsByDeck} cartes.'**
+  String nbDecksRules(int nbDecks, int nbCardsByDeck);
 
   /// No description provided for @nbItemsByPlayer.
   ///
   /// In fr, this message translates to:
   /// **'Nombre de {item}s par joueur'**
   String nbItemsByPlayer(String item);
+
+  /// No description provided for @nbTricksTooltip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un nombre de plis optimisé revient à distribuer équitablement toutes les cartes du jeu entre les joueurs.'**
+  String get nbTricksTooltip;
+
+  /// No description provided for @nbTricksQuestion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nombre de plis'**
+  String get nbTricksQuestion;
 
   /// No description provided for @next.
   ///
@@ -691,6 +846,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Sans plis'**
   String get noTricks;
+
+  /// No description provided for @optimized.
+  ///
+  /// In fr, this message translates to:
+  /// **'Optimisé'**
+  String get optimized;
 
   /// No description provided for @other.
   ///
@@ -761,8 +922,20 @@ abstract class AppLocalizations {
   /// No description provided for @presentGame.
   ///
   /// In fr, this message translates to:
-  /// **'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes. L\'objectif est de remporter le moins de points possible.'**
+  /// **'Le barbu est un jeu de cartes pour 3 à 10 joueurs.'**
   String get presentGame;
+
+  /// No description provided for @presentGameGoalMaxScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'objectif est de marquer le plus de points possible.'**
+  String get presentGameGoalMaxScore;
+
+  /// No description provided for @presentGameGoalMinScore.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'objectif est de marquer le moins de points possible.'**
+  String get presentGameGoalMinScore;
 
   /// No description provided for @previous.
   ///
@@ -775,6 +948,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'dame'**
   String get queen;
+
+  /// No description provided for @randoms.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aléatoires'**
+  String get randoms;
 
   /// No description provided for @ranking.
   ///
@@ -845,7 +1024,7 @@ abstract class AppLocalizations {
   /// No description provided for @rulesDomino.
   ///
   /// In fr, this message translates to:
-  /// **'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.'**
+  /// **'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible.'**
   String get rulesDomino;
 
   /// No description provided for @rulesDominoDetailed.
@@ -1015,12 +1194,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Qui a remporté le {item} ?'**
   String whoWonItem(String item);
-
-  /// No description provided for @withdrawItem.
-  ///
-  /// In fr, this message translates to:
-  /// **'Retirer {item, select, dame{une} other{un}} {item}'**
-  String withdrawItem(String item);
 
   /// No description provided for @worstEnnemy.
   ///

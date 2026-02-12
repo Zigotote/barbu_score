@@ -35,6 +35,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get activateContract => 'Activer le contrat';
 
   @override
+  String get addCard => 'Ajouter une carte';
+
+  @override
   String addItem(String item) {
     String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
     return 'Ajouter $_temp0 $item';
@@ -68,6 +71,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String alertSaladContractPlayedBy(String players) {
     return 'Le contrat a déjà été joué par $players. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.';
   }
+
+  @override
+  String get and => 'et';
+
+  @override
+  String get application => 'Application';
 
   @override
   String get appName => 'Le Barbu';
@@ -111,21 +120,40 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get cardsOrder =>
-      'Les as sont les cartes les plus fortes. Avant de jouer il faut conserver les cartes les plus élevées jusqu\'à obtenir le nombre requis.';
+  String get cardsOrder => 'Les as sont les cartes les plus fortes.';
 
   @override
   String get cardsToKeep => 'Conserver les cartes';
 
   @override
-  String cardsToKeepForPlayers(int nbPlayers, int nbDecks, String cards) {
+  String cardsToKeepForPlayers(
+    int nbPlayers,
+    int nbDecks,
+    int nbCardsInDeck,
+    String cards,
+  ) {
     String _temp0 = intl.Intl.pluralLogic(
       nbDecks,
       locale: localeName,
-      other: 'prendre $nbDecks paquets de cartes et ',
-      one: '',
+      other: 'de $nbDecks paquets',
+      one: 'd\'un paquet',
     );
-    return 'A $nbPlayers joueurs, il faut donc ${_temp0}conserver uniquement les cartes : $cards.';
+    return 'Avant de jouer il faut conserver les cartes les plus élevées $_temp0 de $nbCardsInDeck cartes jusqu\'à obtenir le nombre requis. A $nbPlayers joueurs, il faut donc conserver uniquement les cartes : $cards';
+  }
+
+  @override
+  String cardToKeepPartially(String nbCards, String card) {
+    String _temp0 = intl.Intl.selectLogic(nbCards, {
+      '1': '♣',
+      '2': '♣♠',
+      '3': '♣♦♠',
+      '4': '♣♠',
+      '5': '♣♠ et un ♦',
+      '6': '♣♦♠',
+      '7': '♣♦♠ et un ♥',
+      'other': '',
+    });
+    return '$card$_temp0';
   }
 
   @override
@@ -188,10 +216,64 @@ class AppLocalizationsFr extends AppLocalizations {
   String get deactivatedForGame => 'Désactivé pour vos parties.';
 
   @override
+  String decksOfCards(int nbDecks, int nbCards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: '$nbDecks paquets',
+      one: '1 paquet',
+    );
+    return '$_temp0 de $nbCards cartes.';
+  }
+
+  @override
+  String get deckQuestion => 'Type de paquet';
+
+  @override
+  String get defaultNbTricks => '8 plis';
+
+  @override
   String get delete => 'Supprimer';
 
   @override
   String get deletePlayer => 'Supprimer le joueur';
+
+  @override
+  String get discardCard => 'Retirer une carte';
+
+  @override
+  String discardItem(String item) {
+    String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
+    return 'Retirer $_temp0 $item';
+  }
+
+  @override
+  String discardNbCards(num nbCards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbCards,
+      locale: localeName,
+      other: 'cartes',
+      one: 'carte',
+    );
+    return 'Défausser $nbCards $_temp0.';
+  }
+
+  @override
+  String discardedCardsRules(int nbTricks) {
+    return 'A chaque manche, les joueurs reçoivent $nbTricks cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.';
+  }
+
+  @override
+  String get discardedCards => 'Cartes retirées';
+
+  @override
+  String discardedCardsName(String item) {
+    String _temp0 = intl.Intl.selectLogic(item, {
+      'dame': 'retirées',
+      'other': 'retirés',
+    });
+    return '${item}s $_temp0';
+  }
 
   @override
   String get domino => 'Réussite';
@@ -208,10 +290,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get english => 'Anglais';
 
   @override
-  String get errorAddPoints => 'Ajout de points impossible';
+  String get errorAddItem => 'Ajout d\'élément impossible';
 
   @override
-  String errorAddPointsDetails(String item, int nbItems) {
+  String errorAddItemDetails(String item, int nbItems) {
     return 'Le nombre de $item dépasse le nombre d\'éléments pouvant être remporté, fixé à $nbItems.';
   }
 
@@ -226,8 +308,12 @@ class AppLocalizationsFr extends AppLocalizations {
       'Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.';
 
   @override
-  String get errorNbItems =>
-      'Le nombre d\'éléments ajoutés ne correspond pas au nombre attendu. Veuillez réessayer.';
+  String get errorAddDiscardedCard => 'Ajout de carte défaussée impossible';
+
+  @override
+  String errorAddDiscardedCardDetails(String item, int nbItems) {
+    return 'Le nombre de $item dépasse le nombre de cartes dans la défausse, fixé à $nbItems.';
+  }
 
   @override
   String get feature => 'Une suggestion';
@@ -253,24 +339,30 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get game => 'Partie';
+
+  @override
   String get gamePrinciple => 'Principe du jeu';
 
   @override
   String get gamePrincipleDetails =>
-      'Ce jeu de plis est composé de 7 contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.';
+      'Ce jeu de plis est composé de différents contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.';
 
   @override
   String get gameRound => 'Manche de jeu';
 
   @override
   String get gameRoundRules =>
-      'Distribuer les cartes entre les joueurs : chacun doit en avoir 8.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.';
+      'Distribuer le même nombre de cartes entre les joueurs.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.';
 
   @override
   String get gameSaved => 'Partie sauvegardée';
 
   @override
   String get go => 'C\'est parti !';
+
+  @override
+  String get goal => 'Objectif';
 
   @override
   String get goHome => 'Retour à l\'accueil';
@@ -294,8 +386,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get invertScore => 'Inversion du score';
 
   @override
-  String get invertScoreDetails =>
+  String get invertScoreNegativeDetails =>
       'Si un joueur remporte tout, son score devient négatif.';
+
+  @override
+  String get invertScorePositiveDetails =>
+      'Si un joueur remporte tout, son score devient positif.';
 
   @override
   String get jack => 'valet';
@@ -322,6 +418,18 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get lowest => 'Plus faibles';
+
+  @override
+  String get maxScore => 'Score élevé';
+
+  @override
+  String get minScore => 'Score faible';
+
+  @override
+  String get mix => 'Mélanger';
+
+  @override
   String modify(String contract) {
     return 'Modification $contract';
   }
@@ -340,14 +448,37 @@ class AppLocalizationsFr extends AppLocalizations {
   String get moreInfo => 'Plus d\'informations';
 
   @override
-  String nbCardsRules(int nbCards, int nbPlayers) {
-    return 'Le jeu se joue avec $nbCards cartes ($nbPlayers × 8).';
+  String nbCards(int nbCards) {
+    return '$nbCards cartes';
+  }
+
+  @override
+  String nbCardsRules(int nbCards, int nbTricks) {
+    return 'Le jeu se joue avec $nbCards cartes ($nbTricks cartes par joueur).';
+  }
+
+  @override
+  String nbDecksRules(int nbDecks, int nbCardsByDeck) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbDecks,
+      locale: localeName,
+      other: '$nbDecks paquets',
+      one: '1 paquet',
+    );
+    return 'Le jeu se joue avec $_temp0 de $nbCardsByDeck cartes.';
   }
 
   @override
   String nbItemsByPlayer(String item) {
     return 'Nombre de ${item}s par joueur';
   }
+
+  @override
+  String get nbTricksTooltip =>
+      'Un nombre de plis optimisé revient à distribuer équitablement toutes les cartes du jeu entre les joueurs.';
+
+  @override
+  String get nbTricksQuestion => 'Nombre de plis';
 
   @override
   String get next => 'Suivant';
@@ -370,6 +501,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get noTricks => 'Sans plis';
+
+  @override
+  String get optimized => 'Optimisé';
 
   @override
   String get other => 'Autre';
@@ -412,13 +546,24 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get presentGame =>
-      'Le barbu est un jeu pour 3 à 6 joueurs se jouant avec un jeu de cartes. Il peut aussi se jouer jusqu\'à 10 joueurs, avec 2 paquets de cartes. L\'objectif est de remporter le moins de points possible.';
+      'Le barbu est un jeu de cartes pour 3 à 10 joueurs.';
+
+  @override
+  String get presentGameGoalMaxScore =>
+      'L\'objectif est de marquer le plus de points possible.';
+
+  @override
+  String get presentGameGoalMinScore =>
+      'L\'objectif est de marquer le moins de points possible.';
 
   @override
   String get previous => 'Précédent';
 
   @override
   String get queen => 'dame';
+
+  @override
+  String get randoms => 'Aléatoires';
 
   @override
   String get ranking => 'Classement';
@@ -461,7 +606,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rulesDomino =>
-      'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible, pour marquer un minimum de points.';
+      'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible.';
 
   @override
   String rulesDominoDetailed(String player, String points) {
@@ -573,12 +718,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String whoWonItem(String item) {
     return 'Qui a remporté le $item ?';
-  }
-
-  @override
-  String withdrawItem(String item) {
-    String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
-    return 'Retirer $_temp0 $item';
   }
 
   @override

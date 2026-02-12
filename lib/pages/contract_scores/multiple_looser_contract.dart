@@ -1,4 +1,9 @@
+import 'package:barbu_score/commons/models/game_settings.dart';
+import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/contract_scores/utils/save_contract.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/discarded_cards.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/rules_button.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -11,10 +16,14 @@ import '../../commons/providers/contracts_manager.dart';
 import '../../commons/providers/play_game.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/colored_container.dart';
-import 'widgets/sub_contract_page.dart';
+import '../../commons/widgets/custom_buttons.dart';
+import '../../commons/widgets/my_appbar.dart';
+import '../../commons/widgets/my_default_page.dart';
+import '../../commons/widgets/my_subtitle.dart';
 
 /// A page to fill the scores for a contract where each player has a different score
-class MultipleLooserContractPage extends ConsumerStatefulWidget {
+class MultipleLooserContractPage extends ConsumerStatefulWidget
+    with SaveContract {
   /// The contract the player choose
   final ContractsInfo contract;
 
@@ -37,6 +46,12 @@ class _MultipleLooserContractPageState
   /// The map which links each player name to the number of items he has
   late Map<String, int> _itemsByPlayer;
 
+  /// The number of cards with points removed from the deck for this round (only displayed if random cards are discarded in game settings)
+  late int nbDiscardedCards;
+
+  /// The settings for the game
+  late GameSettings _gameSettings;
+
   /// The players of the game
   late List<Player> _players;
 
@@ -47,9 +62,16 @@ class _MultipleLooserContractPageState
   void initState() {
     super.initState();
     _players = ref.read(playGameProvider).players;
+    _gameSettings = ref.read(storageProvider).getGameSettings();
     if (widget.contractModel != null) {
       contractModel = widget.contractModel!;
       _itemsByPlayer = contractModel.itemsByPlayer;
+      nbDiscardedCards =
+          contractModel.nbItems -
+          _itemsByPlayer.values.fold(
+            0,
+            (previousValue, element) => previousValue + element,
+          );
     } else {
       contractModel =
           ref
@@ -58,40 +80,66 @@ class _MultipleLooserContractPageState
                   .model
               as ContractWithPointsModel;
       _itemsByPlayer = {for (var player in _players) player.name: 0};
+      nbDiscardedCards = 0;
     }
   }
 
   ///Returns true if the score is valid, false otherwise
-  bool get _isValid => contractModel.isValid(_itemsByPlayer);
+  bool get _isValid => contractModel.isValid(_itemsByPlayer, nbDiscardedCards);
 
   String get _itemName => context.l10n.itemsName(widget.contract);
 
-  /// Increases the score of the player, only if the total score is less than the contract max score
-  void _increaseScore(Player player) {
+  /// Adds one item to the [player] if item can still be added
+  void _addItem(Player player) {
     if (_isValid) {
       SnackBarUtils.instance.openSnackBar(
         context: context,
-        title: context.l10n.errorAddPoints,
-        text: context.l10n.errorAddPointsDetails(
+        title: context.l10n.errorAddItem,
+        text: context.l10n.errorAddItemDetails(
           _itemName,
           contractModel.nbItems,
         ),
       );
     } else {
-      int playerScore = _itemsByPlayer[player.name]!;
+      int nbItems = _itemsByPlayer[player.name]!;
       setState(() {
-        _itemsByPlayer[player.name] = playerScore + 1;
+        _itemsByPlayer[player.name] = nbItems + 1;
       });
     }
   }
 
-  /// Decreases the score of the player. It can't go behind 0
-  void _decreaseScore(Player player) {
-    int playerScore = _itemsByPlayer[player.name]!;
-    if (playerScore >= 1) {
+  /// Removes one item from the [player]. It can't go behind 0
+  void _removeItem(Player player) {
+    int nbItems = _itemsByPlayer[player.name]!;
+    if (nbItems >= 1) {
       setState(() {
-        _itemsByPlayer[player.name] = playerScore - 1;
+        _itemsByPlayer[player.name] = nbItems - 1;
       });
+    }
+  }
+
+  /// Adds one card to the [nbDiscardedCards] if cards can still be added
+  void _addDiscardedCard(int maxDiscardedCards) {
+    if (nbDiscardedCards + 1 > maxDiscardedCards) {
+      SnackBarUtils.instance.openSnackBar(
+        context: context,
+        title: context.l10n.errorAddDiscardedCard,
+        text: context.l10n.errorAddDiscardedCardDetails(
+          _itemName,
+          maxDiscardedCards,
+        ),
+      );
+    } else if (_isValid) {
+      SnackBarUtils.instance.openSnackBar(
+        context: context,
+        title: context.l10n.errorAddItem,
+        text: context.l10n.errorAddItemDetails(
+          _itemName,
+          contractModel.nbItems,
+        ),
+      );
+    } else {
+      setState(() => nbDiscardedCards++);
     }
   }
 
@@ -121,8 +169,8 @@ class _MultipleLooserContractPageState
                         context,
                       ).colorScheme.convertMyColor(player.color),
                     ),
-                    onPressed: () => _decreaseScore(player),
-                    tooltip: context.l10n.withdrawItem(_itemName),
+                    onPressed: () => _removeItem(player),
+                    tooltip: context.l10n.discardItem(_itemName),
                   ),
                   Container(
                     width: MediaQuery.textScalerOf(context).scale(20),
@@ -136,7 +184,7 @@ class _MultipleLooserContractPageState
                         context,
                       ).colorScheme.convertMyColor(player.color),
                     ),
-                    onPressed: () => _increaseScore(player),
+                    onPressed: () => _addItem(player),
                     tooltip: context.l10n.addItem(_itemName),
                   ),
                 ],
@@ -149,12 +197,57 @@ class _MultipleLooserContractPageState
 
   @override
   Widget build(BuildContext context) {
-    return SubContractPage(
-      contract: widget.contract,
-      subtitle: context.l10n.nbItemsByPlayer(_itemName),
-      isValid: _isValid,
-      itemsByPlayer: _itemsByPlayer,
-      child: _buildFields(),
+    final maxNbDiscardedCards = _gameSettings.getNbDiscardedCardsByRound(
+      _players.length,
+    );
+    return MyDefaultPage(
+      appBar: MyPlayerAppBar(
+        player: ref.watch(playGameProvider).currentPlayer,
+        context: context,
+        trailing: RulesButton(widget.contract),
+      ),
+      content: Column(
+        spacing: 24,
+        children: [
+          MySubtitle(
+            context.l10n.nbItemsByPlayer(_itemName),
+            backgroundColor: widget.contract.color,
+          ),
+          _buildFields(),
+        ],
+      ),
+      bottomWidget: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 16,
+        children: [
+          if (widget.contract != ContractsInfo.noTricks &&
+              maxNbDiscardedCards > 0)
+            DiscardedCards(
+              cardName: _itemName,
+              nbDiscardedCards: nbDiscardedCards,
+              removeCard: () => setState(() => nbDiscardedCards--),
+              addCard: () => _addDiscardedCard(maxNbDiscardedCards),
+            ),
+          ElevatedButtonFullWidth(
+            onPressed: _isValid
+                ? () => widget.saveContract(
+                    context,
+                    ref,
+                    (ref
+                                .read(contractsManagerProvider)
+                                .getContractManager(widget.contract)
+                                .model
+                            as ContractWithPointsModel)
+                        .copyWith(itemsByPlayer: _itemsByPlayer),
+                  )
+                : null,
+            child: Text(
+              context.l10n.validateScores,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

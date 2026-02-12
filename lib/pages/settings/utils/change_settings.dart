@@ -9,23 +9,29 @@ import '../../../commons/providers/storage.dart';
 
 mixin ChangeSettings on Widget {
   /// Saves new settings
-  void saveNewSettings(WidgetRef ref, ContractsInfo contract,
-      AbstractContractSettings settings) {
+  void saveNewSettings(
+    WidgetRef ref,
+    ContractsInfo contract,
+    AbstractContractSettings settings,
+  ) {
     ref.read(storageProvider).saveSettings(contract, settings);
     ref.invalidate(storageProvider);
-    ref.read(logProvider).info(
-          "MySettings: save ${contract.name} settings $settings",
+    ref
+        .read(logProvider)
+        .info("MySettings: save ${contract.name} settings $settings");
+    ref
+        .read(logProvider)
+        .sendAnalyticEvent(
+          "modify_settings",
+          parameters: {"contract": contract.name},
         );
-    ref.read(logProvider).sendAnalyticEvent(
-      "modify_settings",
-      parameters: {"contract": contract.name},
-    );
   }
 
   /// Returns the players who played this contract
   List<String> playersWithContract(ContractsInfo contract, Game? storedGame) {
-    final playersWithContract =
-        storedGame?.getPlayersWithPlayedContract(contract);
+    final playersWithContract = storedGame?.getPlayersWithPlayedContract(
+      contract,
+    );
     if (storedGame?.isFinished == true || playersWithContract == null) {
       return [];
     }

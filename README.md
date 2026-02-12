@@ -41,7 +41,7 @@ commands :
 
 ```
 fvm flutter test --coverage
-lcov -r coverage/lcov.info "lib/commons/l10n/app_localizations_*.dart" -o coverage/lcov_cleaned.info
+lcov -r coverage/lcov.info "lib/commons/l10n/" -o coverage/lcov_cleaned.info
 genhtml coverage/lcov_cleaned.info -o coverage/html
 open coverage/html/index.html
 ```

@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
+import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/router_extension.dart';
 import 'package:barbu_score/main.dart';
@@ -128,6 +129,7 @@ Widget _createPage({
   List<ContractsInfo> activeContracts = ContractsInfo.values,
 }) {
   mockStorage ??= MockMyStorage();
+  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   mockActiveContracts(mockStorage, activeContracts);
 
   final container = ProviderContainer(

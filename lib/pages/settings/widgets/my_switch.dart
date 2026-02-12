@@ -5,11 +5,7 @@ class MySwitch extends StatefulWidget {
   final bool isActive;
   final Function(bool)? onChanged;
 
-  const MySwitch({
-    super.key,
-    required this.isActive,
-    required this.onChanged,
-  });
+  const MySwitch({super.key, required this.isActive, required this.onChanged});
 
   @override
   State<StatefulWidget> createState() => _MySwitch();

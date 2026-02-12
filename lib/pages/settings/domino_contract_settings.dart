@@ -111,7 +111,7 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
       if (playerIndex < settings.points[nbPlayers]!.length) {
         return TableViewCell(
           child: NumberInput(
-            points: settings.points[nbPlayers]![playerIndex],
+            value: settings.points[nbPlayers]![playerIndex],
             onChanged: (value) {
               settings.points[nbPlayers]?[playerIndex] = value;
               saveNewSettings(ref, ContractsInfo.domino, settings);
