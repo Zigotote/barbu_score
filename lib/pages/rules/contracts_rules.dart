@@ -139,27 +139,7 @@ class _TestAnimatedWidgetState extends ConsumerState<TestAnimatedWidget>
             alignment: Alignment.topCenter,
             children: [
               Container(
-                width: double.infinity,
-                height: 35,
-                decoration: BoxDecoration(
-                  border: widget.previousContract != null
-                      ? BoxBorder.symmetric(
-                          vertical: BorderSide(
-                            color: Theme.of(context).colorScheme.convertMyColor(
-                              widget.previousContract!.color,
-                              isBackgroundColor: true,
-                            ),
-                            width: 2,
-                          ),
-                        )
-                      : null,
-                ),
-              ),
-              Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                margin: EdgeInsets.only(
-                  top: widget.previousContract == null ? 0 : 16,
-                ),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(20),
@@ -170,7 +150,6 @@ class _TestAnimatedWidgetState extends ConsumerState<TestAnimatedWidget>
                         widget.contract.color,
                         isBackgroundColor: true,
                       ),
-                      width: 2,
                     ),
                   ),
                   color: Theme.of(context).colorScheme.convertMyColor(
@@ -187,10 +166,11 @@ class _TestAnimatedWidgetState extends ConsumerState<TestAnimatedWidget>
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     IconButton(
-                      onPressed: () =>
-                          setState(() => showSettings = !showSettings),
+                      onPressed: () {},
                       icon: Icon(
-                        showSettings ? Icons.book_outlined : Icons.settings,
+                        isExpanded
+                            ? Icons.keyboard_arrow_down_outlined
+                            : Icons.keyboard_arrow_up_outlined,
                       ),
                       tooltip:
                           "${context.l10n.settings} ${context.l10n.contractName(widget.contract)}",
@@ -220,7 +200,7 @@ class _TestAnimatedWidgetState extends ConsumerState<TestAnimatedWidget>
                 ),
               ),
             ),
-            padding: EdgeInsets.only(top: 8),
+            padding: EdgeInsets.symmetric(vertical: 8),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: showSettings
@@ -261,10 +241,9 @@ class _TestAnimatedWidgetState extends ConsumerState<TestAnimatedWidget>
                           ),
                         SizedBox(height: 8),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 16,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ElevatedButton(
+                            TextButton(
                               onPressed: () =>
                                   setState(() => showSettings = !showSettings),
                               child: Text("Annuler"),
@@ -272,7 +251,7 @@ class _TestAnimatedWidgetState extends ConsumerState<TestAnimatedWidget>
                             ElevatedButton(
                               onPressed: () =>
                                   setState(() => showSettings = !showSettings),
-                              child: Text("Sauvegarder"),
+                              child: Text("Appliquer"),
                             ),
                           ],
                         ),
@@ -294,10 +273,36 @@ class _TestAnimatedWidgetState extends ConsumerState<TestAnimatedWidget>
                             context.l10n.deactivatedForGame,
                             style: const TextStyle(fontStyle: FontStyle.italic),
                           ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: TextButton.icon(
+                            onPressed: () =>
+                                setState(() => showSettings = !showSettings),
+                            icon: Icon(Icons.settings),
+                            label: Text(
+                              "Modifier",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
             ),
           ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            border: BoxBorder.symmetric(
+              vertical: BorderSide(
+                color: Theme.of(context).colorScheme.convertMyColor(
+                  widget.contract.color,
+                  isBackgroundColor: true,
+                ),
+                width: 2,
+              ),
+            ),
+          ),
+          height: 8,
         ),
       ],
     );
