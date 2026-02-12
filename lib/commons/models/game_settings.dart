@@ -12,14 +12,14 @@ class GameSettings {
   /// The number of cards in the deck used to play. Equals to [kNbCardsInDeck] by default
   final int nbCardsInDeck;
 
-  /// Indicates if random cards are withdrawn for each round. If not, the smallest ones are always taken out
-  final bool withdrawRandomCards;
+  /// Indicates if random cards are discarded for each round. If not, the smallest ones are always taken out
+  final bool discardRandomCards;
 
   GameSettings({
     this.goalIsMinScore = true,
     this.fixedNbTricks = true,
     this.nbCardsInDeck = kNbCardsInDeck,
-    this.withdrawRandomCards = false,
+    this.discardRandomCards = false,
   }) : assert(
          fixedNbTricks && nbCardsInDeck == kNbCardsInDeck || !fixedNbTricks,
          "If fixedNbTricks is true, nbCardsInDeck should be kNbCardsInDeck",
@@ -29,14 +29,14 @@ class GameSettings {
     : goalIsMinScore = json["goalIsMinScore"],
       fixedNbTricks = json["fixedNbTricks"],
       nbCardsInDeck = json["nbCardsInDeck"],
-      withdrawRandomCards = json["withdrawRandomCards"];
+      discardRandomCards = json["discardRandomCards"];
 
   Map<String, dynamic> toJson() {
     return {
       "goalIsMinScore": goalIsMinScore,
       "fixedNbTricks": fixedNbTricks,
       "nbCardsInDeck": nbCardsInDeck,
-      "withdrawRandomCards": withdrawRandomCards,
+      "discardRandomCards": discardRandomCards,
     };
   }
 
@@ -45,7 +45,7 @@ class GameSettings {
     goalIsMinScore,
     fixedNbTricks,
     nbCardsInDeck,
-    withdrawRandomCards,
+    discardRandomCards,
   );
 
   @override
@@ -55,19 +55,19 @@ class GameSettings {
             goalIsMinScore == other.goalIsMinScore &&
             fixedNbTricks == other.fixedNbTricks &&
             nbCardsInDeck == other.nbCardsInDeck &&
-            withdrawRandomCards == other.withdrawRandomCards;
+            discardRandomCards == other.discardRandomCards;
   }
 
   @override
   String toString() {
-    return "goalIsMinScore=$goalIsMinScore; fixedNbTricks=$fixedNbTricks; nbCardsInDeck=$nbCardsInDeck; withdrawRandomCards=$withdrawRandomCards";
+    return "goalIsMinScore=$goalIsMinScore; fixedNbTricks=$fixedNbTricks; nbCardsInDeck=$nbCardsInDeck; discardRandomCards=$discardRandomCards";
   }
 
   GameSettings copyWith({
     bool? goalIsMinScore,
     bool? fixedNbTricks,
     int? nbCardsInDeck,
-    bool? withdrawRandomCards,
+    bool? discardRandomCards,
   }) {
     return GameSettings(
       goalIsMinScore: goalIsMinScore ?? this.goalIsMinScore,
@@ -75,7 +75,7 @@ class GameSettings {
       nbCardsInDeck: fixedNbTricks == true
           ? kNbCardsInDeck
           : nbCardsInDeck ?? this.nbCardsInDeck,
-      withdrawRandomCards: withdrawRandomCards ?? this.withdrawRandomCards,
+      discardRandomCards: discardRandomCards ?? this.discardRandomCards,
     );
   }
 
@@ -106,7 +106,7 @@ class GameSettings {
     ).reversed.toList();
     final nbCardsOfEachValue = getNbCardsOfEachValue(nbPlayers);
 
-    if (withdrawRandomCards) {
+    if (discardRandomCards) {
       return Map.fromIterable(cardIndexes, value: (_) => nbCardsOfEachValue);
     }
 
@@ -127,8 +127,8 @@ class GameSettings {
     );
   }
 
-  /// The number of withdrawn cards from the deck used to play
-  int getNbWithdrawnCardsByRound(int nbPlayers) => withdrawRandomCards
+  /// The number of discarded cards from the deck used to play
+  int getNbDiscardedCardsByRound(int nbPlayers) => discardRandomCards
       ? nbCardsInDeck * getNbDecks(nbPlayers) - getNbCards(nbPlayers)
       : 0;
 

@@ -93,12 +93,12 @@ class ContractWithPointsModel extends AbstractContractModel {
   }
 
   /// Verifies if the contract is valid, meaning if the sum of items by player is equal to [nbItems]
-  bool isValid(Map<String, int> itemsByPlayer, [int nbWithdrawnItems = 0]) {
+  bool isValid(Map<String, int> itemsByPlayer, [int nbDiscardedItems = 0]) {
     final int declaredItems = itemsByPlayer.values.fold(
       0,
       (previousValue, element) => previousValue + element,
     );
-    return declaredItems + nbWithdrawnItems == nbItems;
+    return declaredItems + nbDiscardedItems == nbItems;
   }
 
   int maxPoints(ContractWithPointsSettings settings) {

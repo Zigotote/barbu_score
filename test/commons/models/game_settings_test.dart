@@ -16,13 +16,13 @@ void main() {
     test("should change other values", () {
       final newGameSettings = GameSettings(
         goalIsMinScore: true,
-        withdrawRandomCards: true,
-      ).copyWith(goalIsMinScore: false, withdrawRandomCards: false);
+        discardRandomCards: true,
+      ).copyWith(goalIsMinScore: false, discardRandomCards: false);
 
       expect(newGameSettings.fixedNbTricks, true);
       expect(newGameSettings.nbCardsInDeck, kNbCardsInDeck);
       expect(newGameSettings.goalIsMinScore, false);
-      expect(newGameSettings.withdrawRandomCards, false);
+      expect(newGameSettings.discardRandomCards, false);
     });
   });
 
@@ -455,9 +455,9 @@ void main() {
         },
       );
     }
-    test("should keep all cards if withdrawRandomCard", () {
+    test("should keep all cards if discardRandomCard", () {
       expect(
-        GameSettings(withdrawRandomCards: true).getCardsToKeep(3),
+        GameSettings(discardRandomCards: true).getCardsToKeep(3),
         Map.fromIterable([
           14,
           13,
@@ -476,35 +476,32 @@ void main() {
       );
     });
   });
-  group("#getNbWithdrawnCardsByRound", () {
+  group("#getNbDiscardedCardsByRound", () {
     for (var testData in [
-      (nbPlayers: 3, nbWithdrawnCardsByRound: 1),
-      (nbPlayers: 4, nbWithdrawnCardsByRound: 0),
-      (nbPlayers: 5, nbWithdrawnCardsByRound: 2),
-      (nbPlayers: 6, nbWithdrawnCardsByRound: 4),
-      (nbPlayers: 7, nbWithdrawnCardsByRound: 3),
-      (nbPlayers: 8, nbWithdrawnCardsByRound: 4),
-      (nbPlayers: 9, nbWithdrawnCardsByRound: 5),
-      (nbPlayers: 10, nbWithdrawnCardsByRound: 4),
+      (nbPlayers: 3, nbDiscardedCardsByRound: 1),
+      (nbPlayers: 4, nbDiscardedCardsByRound: 0),
+      (nbPlayers: 5, nbDiscardedCardsByRound: 2),
+      (nbPlayers: 6, nbDiscardedCardsByRound: 4),
+      (nbPlayers: 7, nbDiscardedCardsByRound: 3),
+      (nbPlayers: 8, nbDiscardedCardsByRound: 4),
+      (nbPlayers: 9, nbDiscardedCardsByRound: 5),
+      (nbPlayers: 10, nbDiscardedCardsByRound: 4),
     ]) {
       test(
-        "should withdraw ${testData.nbWithdrawnCardsByRound} cards at each round for ${testData.nbPlayers} players",
+        "should discard ${testData.nbDiscardedCardsByRound} cards at each round for ${testData.nbPlayers} players",
         () {
           expect(
             GameSettings(
-              withdrawRandomCards: true,
+              discardRandomCards: true,
               fixedNbTricks: false,
-            ).getNbWithdrawnCardsByRound(testData.nbPlayers),
-            testData.nbWithdrawnCardsByRound,
+            ).getNbDiscardedCardsByRound(testData.nbPlayers),
+            testData.nbDiscardedCardsByRound,
           );
         },
       );
     }
-    test(
-      "should withdraw 0 cards at each round if no withdraw random cards",
-      () {
-        expect(GameSettings().getNbWithdrawnCardsByRound(3), 0);
-      },
-    );
+    test("should discard 0 cards at each round if no discard random cards", () {
+      expect(GameSettings().getNbDiscardedCardsByRound(3), 0);
+    });
   });
 }

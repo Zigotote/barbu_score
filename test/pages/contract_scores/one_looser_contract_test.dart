@@ -8,7 +8,7 @@ import 'package:barbu_score/commons/widgets/custom_buttons.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/one_looser_contract.dart';
-import 'package:barbu_score/pages/contract_scores/widgets/withdrawn_cards.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/discarded_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -41,41 +41,41 @@ void main() {
     expect($(DraggableScrollableSheet), findsNothing);
   });
 
-  group("#withdrawnCards", () {
+  group("#discardedCards", () {
     patrolWidgetTest(
-      "should create page without withdrawn cards field if no random cards can be removed",
+      "should create page without discarded cards field if no random cards can be removed",
       ($) async {
         await $.pumpWidget(_createPage($));
 
         expect($(ElevatedButtonCustomColor), findsNWidgets(nbPlayersByDefault));
-        expect($(WithdrawnCards), findsNothing);
+        expect($(DiscardedCards), findsNothing);
         expect(findValidateScoresButtonWidget($).onPressed, isNull);
       },
     );
     patrolWidgetTest(
-      "should create page without withdrawn cards field if no cards are withdrawn from the deck",
+      "should create page without discarded cards field if no cards are discarded from the deck",
       ($) async {
         await $.pumpWidget(
           _createPage(
             $,
             gameSettings: GameSettings(
-              withdrawRandomCards: true,
+              discardRandomCards: true,
               fixedNbTricks: false,
             ),
           ),
         );
 
-        expect($(WithdrawnCards), findsNothing);
+        expect($(DiscardedCards), findsNothing);
       },
     );
     patrolWidgetTest(
-      "should create page with withdrawn cards field if random cards can be removed",
+      "should create page with discarded cards field if random cards can be removed",
       ($) async {
         await $.pumpWidget(
-          _createPage($, gameSettings: GameSettings(withdrawRandomCards: true)),
+          _createPage($, gameSettings: GameSettings(discardRandomCards: true)),
         );
 
-        expect($(WithdrawnCards).containing("0"), findsOneWidget);
+        expect($(DiscardedCards).containing("0"), findsOneWidget);
       },
     );
   });
@@ -93,7 +93,7 @@ void main() {
   });
 
   group("#isValid", () {
-    patrolWidgetTest("should create page with withdrawn card", ($) async {
+    patrolWidgetTest("should create page with discarded card", ($) async {
       final mockPlayGame = mockPlayGameNotifier();
       final game = mockPlayGame.game;
       final contract = ContractWithPointsModel(
@@ -105,12 +105,12 @@ void main() {
         _createPage(
           $,
           contractValues: contract,
-          gameSettings: GameSettings(withdrawRandomCards: true),
+          gameSettings: GameSettings(discardRandomCards: true),
         ),
       );
 
       expect(findValidateScoresButtonWidget($).onPressed, isNotNull);
-      expect($(WithdrawnCards).containing("1"), findsOneWidget);
+      expect($(DiscardedCards).containing("1"), findsOneWidget);
     });
 
     patrolWidgetTest("should create page with initial selected player", (
@@ -161,13 +161,13 @@ void main() {
         },
       );
     }
-    for (var cardIsWithdrawn in [true, false]) {
+    for (var cardIsDiscarded in [true, false]) {
       patrolWidgetTest(
-        "should validate scores if card is ${cardIsWithdrawn ? 'withdrawn' : 'kept'} and go to next player turn",
+        "should validate scores if card is ${cardIsDiscarded ? 'discarded' : 'kept'} and go to next player turn",
         ($) async {
           final mockPlayGame = mockPlayGameNotifier();
           final game = mockPlayGame.game;
-          final indexSelectedPlayer = cardIsWithdrawn ? -1 : 1;
+          final indexSelectedPlayer = cardIsDiscarded ? -1 : 1;
           final expectedContract = ContractWithPointsModel(
             contract: ContractsInfo.barbu,
             itemsByPlayer: {
@@ -180,11 +180,11 @@ void main() {
             _createPage(
               $,
               mockPlayGame: mockPlayGame,
-              gameSettings: GameSettings(withdrawRandomCards: true),
+              gameSettings: GameSettings(discardRandomCards: true),
             ),
           );
 
-          if (cardIsWithdrawn) {
+          if (cardIsDiscarded) {
             await $(ElevatedButtonCustomColor).at(0).tap();
             await $(Icons.add).tap();
           } else {
@@ -192,7 +192,7 @@ void main() {
             await $(ElevatedButtonCustomColor).at(indexSelectedPlayer).tap();
           }
           expect(
-            $(WithdrawnCards).containing(cardIsWithdrawn ? "1" : "0"),
+            $(DiscardedCards).containing(cardIsDiscarded ? "1" : "0"),
             findsOneWidget,
           );
 

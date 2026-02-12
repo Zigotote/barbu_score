@@ -1,5 +1,5 @@
 import 'package:barbu_score/commons/utils/snackbar.dart';
-import 'package:barbu_score/pages/contract_scores/widgets/withdrawn_cards.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/discarded_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -13,7 +13,7 @@ void main() {
   tearDown(() => SnackBarUtils.instance.isSnackBarOpen = false);
 
   group("#remove", () {
-    patrolWidgetTest("should withdraw a card", ($) async {
+    patrolWidgetTest("should discard a card", ($) async {
       final mockUpdateNb = MockCallbackFunction();
       await $.pumpWidget(
         _createPage(initialNbCards: 1, mockUpdateNb: mockUpdateNb),
@@ -23,7 +23,7 @@ void main() {
       await $(IconButton).containing($(Icons.remove)).last.tap();
       verify(mockUpdateNb.change(0));
     });
-    patrolWidgetTest("should not withdraw negative number of cards", ($) async {
+    patrolWidgetTest("should not discard negative number of cards", ($) async {
       final mockUpdateNb = MockCallbackFunction();
       await $.pumpWidget(_createPage(mockUpdateNb: mockUpdateNb));
 
@@ -50,9 +50,9 @@ Widget _createPage({
 }) {
   return FrenchMaterialApp(
     home: Scaffold(
-      body: WithdrawnCards(
+      body: DiscardedCards(
         cardName: "card",
-        nbWithdrawnCards: initialNbCards,
+        nbDiscardedCards: initialNbCards,
         removeCard: () => mockUpdateNb.change(0),
         addCard: () => mockUpdateNb.change(1),
       ),

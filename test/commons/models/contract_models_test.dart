@@ -26,7 +26,7 @@ void main() {
         },
       );
     }
-    test("should be valid with some withdrawn items", () {
+    test("should be valid with some discarded items", () {
       final model = ContractWithPointsModel(
         contract: contract,
         nbItems: nbItemsForContract,

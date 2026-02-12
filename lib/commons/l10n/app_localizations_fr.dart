@@ -239,6 +239,43 @@ class AppLocalizationsFr extends AppLocalizations {
   String get deletePlayer => 'Supprimer le joueur';
 
   @override
+  String get discardCard => 'Retirer une carte';
+
+  @override
+  String discardItem(String item) {
+    String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
+    return 'Retirer $_temp0 $item';
+  }
+
+  @override
+  String discardNbCards(num nbCards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbCards,
+      locale: localeName,
+      other: 'cartes',
+      one: 'carte',
+    );
+    return 'Défausser $nbCards $_temp0.';
+  }
+
+  @override
+  String discardedCardsRules(int nbTricks) {
+    return 'A chaque manche, les joueurs reçoivent $nbTricks cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.';
+  }
+
+  @override
+  String get discardedCards => 'Cartes retirées';
+
+  @override
+  String discardedCardsName(String item) {
+    String _temp0 = intl.Intl.selectLogic(item, {
+      'dame': 'retirées',
+      'other': 'retirés',
+    });
+    return '${item}s $_temp0';
+  }
+
+  @override
   String get domino => 'Réussite';
 
   @override
@@ -271,10 +308,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.';
 
   @override
-  String get errorAddWithdrawnCard => 'Ajout de carte défaussée impossible';
+  String get errorAddDiscardedCard => 'Ajout de carte défaussée impossible';
 
   @override
-  String errorAddWithdrawnCardDetails(String item, int nbItems) {
+  String errorAddDiscardedCardDetails(String item, int nbItems) {
     return 'Le nombre de $item dépasse le nombre de cartes dans la défausse, fixé à $nbItems.';
   }
 
@@ -681,43 +718,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String whoWonItem(String item) {
     return 'Qui a remporté le $item ?';
-  }
-
-  @override
-  String get withdrawCard => 'Retirer une carte';
-
-  @override
-  String withdrawItem(String item) {
-    String _temp0 = intl.Intl.selectLogic(item, {'dame': 'une', 'other': 'un'});
-    return 'Retirer $_temp0 $item';
-  }
-
-  @override
-  String withdrawNbCards(num nbCards) {
-    String _temp0 = intl.Intl.pluralLogic(
-      nbCards,
-      locale: localeName,
-      other: 'cartes',
-      one: 'carte',
-    );
-    return 'Défausser $nbCards $_temp0.';
-  }
-
-  @override
-  String withdrawnCardsRules(int nbTricks) {
-    return 'A chaque manche, les joueurs reçoivent $nbTricks cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.';
-  }
-
-  @override
-  String get withdrawnCards => 'Cartes retirées';
-
-  @override
-  String withdrawnCardsName(String item) {
-    String _temp0 = intl.Intl.selectLogic(item, {
-      'dame': 'retirées',
-      'other': 'retirés',
-    });
-    return '${item}s $_temp0';
   }
 
   @override

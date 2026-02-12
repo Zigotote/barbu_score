@@ -23,7 +23,7 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
   int nbPlayersExample = 4;
 
   Widget _buildCardsToKeepText(GameSettings gameSettings) {
-    if (gameSettings.withdrawRandomCards) {
+    if (gameSettings.discardRandomCards) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,7 +37,7 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
           Text(context.l10n.cardsOrder),
           const SizedBox(height: 16),
           Text(
-            context.l10n.withdrawnCardsRules(
+            context.l10n.discardedCardsRules(
               gameSettings.getNbTricksByRound(nbPlayersExample),
             ),
           ),

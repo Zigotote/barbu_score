@@ -55,11 +55,9 @@ void main() {
       },
     );
     patrolWidgetTest(
-      "should display game preparation for ${testData.nbPlayers} players with $kNbCardsInDeck cards and withdrawRandomCards",
+      "should display game preparation for ${testData.nbPlayers} players with $kNbCardsInDeck cards and discardRandomCards",
       ($) async {
-        await $.pumpWidget(
-          _createPage(GameSettings(withdrawRandomCards: true)),
-        );
+        await $.pumpWidget(_createPage(GameSettings(discardRandomCards: true)));
 
         await $(Icons.keyboard_arrow_down).tap();
         await $("${testData.nbPlayers}").tap();

@@ -2,8 +2,8 @@ import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/pages/contract_scores/utils/save_contract.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/discarded_cards.dart';
 import 'package:barbu_score/pages/contract_scores/widgets/rules_button.dart';
-import 'package:barbu_score/pages/contract_scores/widgets/withdrawn_cards.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -46,8 +46,8 @@ class _MultipleLooserContractPageState
   /// The map which links each player name to the number of items he has
   late Map<String, int> _itemsByPlayer;
 
-  /// The number of cards with points removed from the deck for this round (only displayed if random cards are withdrawn in game settings)
-  late int nbWithdrawnCards;
+  /// The number of cards with points removed from the deck for this round (only displayed if random cards are discarded in game settings)
+  late int nbDiscardedCards;
 
   /// The settings for the game
   late GameSettings _gameSettings;
@@ -66,7 +66,7 @@ class _MultipleLooserContractPageState
     if (widget.contractModel != null) {
       contractModel = widget.contractModel!;
       _itemsByPlayer = contractModel.itemsByPlayer;
-      nbWithdrawnCards =
+      nbDiscardedCards =
           contractModel.nbItems -
           _itemsByPlayer.values.fold(
             0,
@@ -80,12 +80,12 @@ class _MultipleLooserContractPageState
                   .model
               as ContractWithPointsModel;
       _itemsByPlayer = {for (var player in _players) player.name: 0};
-      nbWithdrawnCards = 0;
+      nbDiscardedCards = 0;
     }
   }
 
   ///Returns true if the score is valid, false otherwise
-  bool get _isValid => contractModel.isValid(_itemsByPlayer, nbWithdrawnCards);
+  bool get _isValid => contractModel.isValid(_itemsByPlayer, nbDiscardedCards);
 
   String get _itemName => context.l10n.itemsName(widget.contract);
 
@@ -118,15 +118,15 @@ class _MultipleLooserContractPageState
     }
   }
 
-  /// Adds one card to the [nbWithdrawnCards] if cards can still be added
-  void _addWithdrawnCard(int maxWithdrawnCards) {
-    if (nbWithdrawnCards + 1 > maxWithdrawnCards) {
+  /// Adds one card to the [nbDiscardedCards] if cards can still be added
+  void _addDiscardedCard(int maxDiscardedCards) {
+    if (nbDiscardedCards + 1 > maxDiscardedCards) {
       SnackBarUtils.instance.openSnackBar(
         context: context,
-        title: context.l10n.errorAddWithdrawnCard,
-        text: context.l10n.errorAddWithdrawnCardDetails(
+        title: context.l10n.errorAddDiscardedCard,
+        text: context.l10n.errorAddDiscardedCardDetails(
           _itemName,
-          maxWithdrawnCards,
+          maxDiscardedCards,
         ),
       );
     } else if (_isValid) {
@@ -139,7 +139,7 @@ class _MultipleLooserContractPageState
         ),
       );
     } else {
-      setState(() => nbWithdrawnCards++);
+      setState(() => nbDiscardedCards++);
     }
   }
 
@@ -170,7 +170,7 @@ class _MultipleLooserContractPageState
                       ).colorScheme.convertMyColor(player.color),
                     ),
                     onPressed: () => _removeItem(player),
-                    tooltip: context.l10n.withdrawItem(_itemName),
+                    tooltip: context.l10n.discardItem(_itemName),
                   ),
                   Container(
                     width: MediaQuery.textScalerOf(context).scale(20),
@@ -197,7 +197,7 @@ class _MultipleLooserContractPageState
 
   @override
   Widget build(BuildContext context) {
-    final maxNbWithdrawnCards = _gameSettings.getNbWithdrawnCardsByRound(
+    final maxNbDiscardedCards = _gameSettings.getNbDiscardedCardsByRound(
       _players.length,
     );
     return MyDefaultPage(
@@ -221,12 +221,12 @@ class _MultipleLooserContractPageState
         spacing: 16,
         children: [
           if (widget.contract != ContractsInfo.noTricks &&
-              maxNbWithdrawnCards > 0)
-            WithdrawnCards(
+              maxNbDiscardedCards > 0)
+            DiscardedCards(
               cardName: _itemName,
-              nbWithdrawnCards: nbWithdrawnCards,
-              removeCard: () => setState(() => nbWithdrawnCards--),
-              addCard: () => _addWithdrawnCard(maxNbWithdrawnCards),
+              nbDiscardedCards: nbDiscardedCards,
+              removeCard: () => setState(() => nbDiscardedCards--),
+              addCard: () => _addDiscardedCard(maxNbDiscardedCards),
             ),
           ElevatedButtonFullWidth(
             onPressed: _isValid

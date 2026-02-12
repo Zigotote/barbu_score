@@ -39,7 +39,7 @@ void main() {
             _createPage(
               $,
               gameSettings: GameSettings(
-                withdrawRandomCards: true,
+                discardRandomCards: true,
                 fixedNbTricks: hasDiscardedCards,
               ),
             ),

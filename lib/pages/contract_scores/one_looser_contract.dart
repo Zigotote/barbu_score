@@ -2,8 +2,8 @@ import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/pages/contract_scores/utils/save_contract.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/discarded_cards.dart';
 import 'package:barbu_score/pages/contract_scores/widgets/rules_button.dart';
-import 'package:barbu_score/pages/contract_scores/widgets/withdrawn_cards.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,8 +38,8 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
   /// The selected player
   Player? _selectedPlayer;
 
-  /// The indicator to know if the card has been removed from the deck (only displayed if random cards are withdrawn in game settings)
-  late bool hasWithdrawnCard;
+  /// The indicator to know if the card has been removed from the deck (only displayed if random cards are discarded in game settings)
+  late bool hasDiscardedCard;
 
   /// The players of the game
   late final List<Player> _players;
@@ -63,7 +63,7 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
       _selectedPlayer = _players.firstWhereOrNull(
         (player) => player.name == playerNameWithItem,
       );
-      hasWithdrawnCard = _selectedPlayer == null;
+      hasDiscardedCard = _selectedPlayer == null;
     } else {
       contractModel =
           ref
@@ -71,7 +71,7 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
                   .getContractManager(widget.contract)
                   .model
               as ContractWithPointsModel;
-      hasWithdrawnCard = false;
+      hasDiscardedCard = false;
     }
   }
 
@@ -80,13 +80,13 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
   };
 
   bool get _isValid =>
-      contractModel.isValid(_itemsByPlayer, hasWithdrawnCard ? 1 : 0);
+      contractModel.isValid(_itemsByPlayer, hasDiscardedCard ? 1 : 0);
 
   /// Selects the given player
   void _selectPlayer(Player player) {
     setState(() {
       _selectedPlayer = player;
-      hasWithdrawnCard = false;
+      hasDiscardedCard = false;
     });
   }
 
@@ -107,7 +107,7 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
 
   @override
   Widget build(BuildContext context) {
-    final maxNbWithdrawnCards = _gameSettings.getNbWithdrawnCardsByRound(
+    final maxNbDiscardedCards = _gameSettings.getNbDiscardedCardsByRound(
       _players.length,
     );
     return MyDefaultPage(
@@ -131,13 +131,13 @@ class _OneLooserContractPageState extends ConsumerState<OneLooserContractPage> {
         crossAxisAlignment: CrossAxisAlignment.end,
         spacing: 16,
         children: [
-          if (widget.contract == ContractsInfo.barbu && maxNbWithdrawnCards > 0)
-            WithdrawnCards(
+          if (widget.contract == ContractsInfo.barbu && maxNbDiscardedCards > 0)
+            DiscardedCards(
               cardName: context.l10n.itemsName(widget.contract),
-              nbWithdrawnCards: hasWithdrawnCard ? 1 : 0,
-              removeCard: () => setState(() => hasWithdrawnCard = false),
+              nbDiscardedCards: hasDiscardedCard ? 1 : 0,
+              removeCard: () => setState(() => hasDiscardedCard = false),
               addCard: () => setState(() {
-                hasWithdrawnCard = true;
+                hasDiscardedCard = true;
                 _selectedPlayer = null;
               }),
             ),

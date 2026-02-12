@@ -8,7 +8,7 @@ import 'package:barbu_score/commons/utils/snackbar.dart';
 import 'package:barbu_score/main.dart';
 import 'package:barbu_score/pages/choose_contract.dart';
 import 'package:barbu_score/pages/contract_scores/multiple_looser_contract.dart';
-import 'package:barbu_score/pages/contract_scores/widgets/withdrawn_cards.dart';
+import 'package:barbu_score/pages/contract_scores/widgets/discarded_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -56,7 +56,7 @@ void main() {
         expect(findValidateScoresButtonWidget($).onPressed, isNull);
       },
     );
-    patrolWidgetTest("should disable validation if items are withdrawn", (
+    patrolWidgetTest("should disable validation if items are discarded", (
       $,
     ) async {
       await $.pumpWidget(_createPage());
@@ -86,46 +86,46 @@ void main() {
     });
   });
 
-  group("#withdrawnCards", () {
+  group("#discardedCards", () {
     patrolWidgetTest(
-      "should create page without withdrawn cards field if no random cards can be removed",
+      "should create page without discarded cards field if no random cards can be removed",
       ($) async {
         await $.pumpWidget(_createPage());
 
-        expect($(WithdrawnCards), findsNothing);
+        expect($(DiscardedCards), findsNothing);
       },
     );
     patrolWidgetTest(
-      "should create page without withdrawn cards field if no cards are withdrawn from the deck",
+      "should create page without discarded cards field if no cards are discarded from the deck",
       ($) async {
         await $.pumpWidget(
           _createPage(
             gameSettings: GameSettings(
-              withdrawRandomCards: true,
+              discardRandomCards: true,
               fixedNbTricks: false,
             ),
           ),
         );
 
-        expect($(WithdrawnCards), findsNothing);
+        expect($(DiscardedCards), findsNothing);
       },
     );
     patrolWidgetTest(
-      "should create page with withdrawn cards field if random cards can be removed",
+      "should create page with discarded cards field if random cards can be removed",
       ($) async {
         await $.pumpWidget(
-          _createPage(gameSettings: GameSettings(withdrawRandomCards: true)),
+          _createPage(gameSettings: GameSettings(discardRandomCards: true)),
         );
 
-        expect($(WithdrawnCards), findsOneWidget);
+        expect($(DiscardedCards), findsOneWidget);
         expect($("0"), findsNWidgets(nbPlayersByDefault + 1));
       },
     );
     patrolWidgetTest(
-      "should not add more withdrawn items than max number of items",
+      "should not add more discarded items than max number of items",
       ($) async {
         await $.pumpWidget(
-          _createPage(gameSettings: GameSettings(withdrawRandomCards: true)),
+          _createPage(gameSettings: GameSettings(discardRandomCards: true)),
         );
 
         for (var i = 0; i < _defaultNbItems + 1; i++) {
@@ -137,37 +137,37 @@ void main() {
       },
     );
     patrolWidgetTest(
-      "should not add more withdrawn items than max number of discarded cards",
+      "should not add more discarded items than max number of discarded cards",
       ($) async {
         await $.pumpWidget(
           _createPage(
             contract: ContractsInfo.noHearts,
             nbPlayers: 5,
             gameSettings: GameSettings(
-              withdrawRandomCards: true,
+              discardRandomCards: true,
               fixedNbTricks: false,
             ),
           ),
         );
-        final nbWithdrawnCards = 2;
+        final nbDiscardedCards = 2;
 
-        for (var i = 0; i < nbWithdrawnCards + 1; i++) {
+        for (var i = 0; i < nbDiscardedCards + 1; i++) {
           await $(IconButton).containing($(Icons.add)).last.tap();
         }
         await $.pump();
         expect($("Ajout de carte défaussée impossible"), findsOneWidget);
-        expect($("$nbWithdrawnCards"), findsOneWidget);
+        expect($("$nbDiscardedCards"), findsOneWidget);
       },
     );
   });
 
   group("#isValid", () {
-    for (var withdrawRandomCards in [true, false]) {
-      final withdrawnCardsText = withdrawRandomCards
-          ? "with withdrawn cards"
+    for (var discardRandomCards in [true, false]) {
+      final discardedCardsText = discardRandomCards
+          ? "with discarded cards"
           : "";
       patrolWidgetTest(
-        "should create page with initial items $withdrawnCardsText",
+        "should create page with initial items $discardedCardsText",
         ($) async {
           final mockPlayGame = mockPlayGameNotifier();
           final game = mockPlayGame.game;
@@ -176,7 +176,7 @@ void main() {
             itemsByPlayer: {
               for (var (index, player) in game.players.indexed)
                 player.name: index % 2 == 0
-                    ? withdrawRandomCards
+                    ? discardRandomCards
                           ? 1
                           : 2
                     : 0,
@@ -188,13 +188,13 @@ void main() {
             _createPage(
               contractValues: contract,
               gameSettings: GameSettings(
-                withdrawRandomCards: withdrawRandomCards,
+                discardRandomCards: discardRandomCards,
               ),
             ),
           );
 
-          expect($("1"), withdrawRandomCards ? findsNWidgets(2) : findsNothing);
-          expect($("2"), findsNWidgets(withdrawRandomCards ? 1 : 2));
+          expect($("1"), discardRandomCards ? findsNWidgets(2) : findsNothing);
+          expect($("2"), findsNWidgets(discardRandomCards ? 1 : 2));
           expect($("0"), findsNWidgets(2));
           final validateButton =
               ($.tester.firstWidget(findValidateScoresButton($))
@@ -203,13 +203,13 @@ void main() {
         },
       );
       patrolWidgetTest(
-        "should validate scores if number of items is correct $withdrawnCardsText",
+        "should validate scores if number of items is correct $discardedCardsText",
         ($) async {
           final mockPlayGame = mockPlayGameNotifier();
           final game = mockPlayGame.game;
           const indexPlayerWithItems = 0;
-          final nbItemsForPlayer = withdrawRandomCards ? 1 : _defaultNbItems;
-          final nbWithdrawnCards = _defaultNbItems - nbItemsForPlayer;
+          final nbItemsForPlayer = discardRandomCards ? 1 : _defaultNbItems;
+          final nbDiscardedCards = _defaultNbItems - nbItemsForPlayer;
           final expectedContract = ContractWithPointsModel(
             contract: ContractsInfo.noQueens,
             nbItems: _defaultNbItems,
@@ -225,7 +225,7 @@ void main() {
             _createPage(
               mockPlayGame: mockPlayGame,
               gameSettings: GameSettings(
-                withdrawRandomCards: withdrawRandomCards,
+                discardRandomCards: discardRandomCards,
               ),
             ),
           );
@@ -235,14 +235,14 @@ void main() {
               IconButton,
             ).containing($(Icons.add)).at(indexPlayerWithItems).tap();
           }
-          for (var i = 0; i < nbWithdrawnCards; i++) {
+          for (var i = 0; i < nbDiscardedCards; i++) {
             await $(IconButton).containing($(Icons.add)).last.tap();
           }
           expect($("Ajout d'éléments impossible"), findsNothing);
           expect($("$nbItemsForPlayer"), findsOneWidget);
           expect($("0"), findsNWidgets(game.players.length - 1));
-          if (withdrawRandomCards) {
-            expect($("$nbWithdrawnCards"), findsOneWidget);
+          if (discardRandomCards) {
+            expect($("$nbDiscardedCards"), findsOneWidget);
           }
           await findValidateScoresButton($).tap();
 

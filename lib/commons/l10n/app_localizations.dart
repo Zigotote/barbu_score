@@ -439,6 +439,42 @@ abstract class AppLocalizations {
   /// **'Supprimer le joueur'**
   String get deletePlayer;
 
+  /// No description provided for @discardCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer une carte'**
+  String get discardCard;
+
+  /// No description provided for @discardItem.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer {item, select, dame{une} other{un}} {item}'**
+  String discardItem(String item);
+
+  /// No description provided for @discardNbCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'Défausser {nbCards} {nbCards, plural, =1{carte} other{cartes}}.'**
+  String discardNbCards(num nbCards);
+
+  /// No description provided for @discardedCardsRules.
+  ///
+  /// In fr, this message translates to:
+  /// **'A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.'**
+  String discardedCardsRules(int nbTricks);
+
+  /// No description provided for @discardedCards.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cartes retirées'**
+  String get discardedCards;
+
+  /// No description provided for @discardedCardsName.
+  ///
+  /// In fr, this message translates to:
+  /// **'{item}s {item, select, dame{retirées} other{retirés}}'**
+  String discardedCardsName(String item);
+
   /// No description provided for @domino.
   ///
   /// In fr, this message translates to:
@@ -493,17 +529,17 @@ abstract class AppLocalizations {
   /// **'Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.'**
   String get errorLaunchGameDetails;
 
-  /// No description provided for @errorAddWithdrawnCard.
+  /// No description provided for @errorAddDiscardedCard.
   ///
   /// In fr, this message translates to:
   /// **'Ajout de carte défaussée impossible'**
-  String get errorAddWithdrawnCard;
+  String get errorAddDiscardedCard;
 
-  /// No description provided for @errorAddWithdrawnCardDetails.
+  /// No description provided for @errorAddDiscardedCardDetails.
   ///
   /// In fr, this message translates to:
   /// **'Le nombre de {item} dépasse le nombre de cartes dans la défausse, fixé à {nbItems}.'**
-  String errorAddWithdrawnCardDetails(String item, int nbItems);
+  String errorAddDiscardedCardDetails(String item, int nbItems);
 
   /// No description provided for @feature.
   ///
@@ -1158,42 +1194,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Qui a remporté le {item} ?'**
   String whoWonItem(String item);
-
-  /// No description provided for @withdrawCard.
-  ///
-  /// In fr, this message translates to:
-  /// **'Retirer une carte'**
-  String get withdrawCard;
-
-  /// No description provided for @withdrawItem.
-  ///
-  /// In fr, this message translates to:
-  /// **'Retirer {item, select, dame{une} other{un}} {item}'**
-  String withdrawItem(String item);
-
-  /// No description provided for @withdrawNbCards.
-  ///
-  /// In fr, this message translates to:
-  /// **'Défausser {nbCards} {nbCards, plural, =1{carte} other{cartes}}.'**
-  String withdrawNbCards(num nbCards);
-
-  /// No description provided for @withdrawnCardsRules.
-  ///
-  /// In fr, this message translates to:
-  /// **'A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.'**
-  String withdrawnCardsRules(int nbTricks);
-
-  /// No description provided for @withdrawnCards.
-  ///
-  /// In fr, this message translates to:
-  /// **'Cartes retirées'**
-  String get withdrawnCards;
-
-  /// No description provided for @withdrawnCardsName.
-  ///
-  /// In fr, this message translates to:
-  /// **'{item}s {item, select, dame{retirées} other{retirés}}'**
-  String withdrawnCardsName(String item);
 
   /// No description provided for @worstEnnemy.
   ///

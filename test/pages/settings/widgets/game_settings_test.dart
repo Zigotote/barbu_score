@@ -17,7 +17,7 @@ import '../../../utils/utils.mocks.dart';
 const _goalKey = "goal";
 const _nbTricksKey = "nbTricks";
 const _deckKey = "deck";
-const _withdrawnCardsKey = "withdrawnCards";
+const _discardedCardsKey = "discardedCards";
 
 void main() {
   patrolWidgetTest("should display page", ($) async {
@@ -36,7 +36,7 @@ void main() {
     expect($("Type de paquet"), findsNothing);
     expect($(Key(_deckKey)), findsNothing);
     expect(
-      _findSegmentedButtonValue(_withdrawnCardsKey, false),
+      _findSegmentedButtonValue(_discardedCardsKey, false),
       findsOneWidget,
     );
   });
@@ -80,14 +80,14 @@ void main() {
     expect(newSettings.nbCardsInDeck, kNbCardsInSmallDeck);
   });
 
-  patrolWidgetTest("should modify withdrawn cards", ($) async {
+  patrolWidgetTest("should modify discarded cards", ($) async {
     final page = _createApp();
     await $.pumpWidgetAndSettle(page);
 
     await $("Aléatoires").tap();
-    _findSegmentedButtonValue(_withdrawnCardsKey, true);
+    _findSegmentedButtonValue(_discardedCardsKey, true);
     expect(
-      page.container.read(changeGameSettingsProvider).withdrawRandomCards,
+      page.container.read(changeGameSettingsProvider).discardRandomCards,
       isTrue,
     );
   });

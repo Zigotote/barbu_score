@@ -239,6 +239,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deletePlayer => 'Delete player';
 
   @override
+  String get discardCard => 'Discard a card';
+
+  @override
+  String discardItem(String item) {
+    return 'Discard one $item';
+  }
+
+  @override
+  String discardNbCards(num nbCards) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nbCards,
+      locale: localeName,
+      other: 'cards',
+      one: 'card',
+    );
+    return 'Discard $nbCards $_temp0.';
+  }
+
+  @override
+  String discardedCardsRules(int nbTricks) {
+    return 'Each round, players receive $nbTricks cards each. Extra cards are set aside face up and then reshuffled at the end of the round.';
+  }
+
+  @override
+  String get discardedCards => 'Discarded cards';
+
+  @override
+  String discardedCardsName(String item) {
+    return 'Discarded ${item}s';
+  }
+
+  @override
   String get domino => 'Domino';
 
   @override
@@ -271,10 +303,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'All contracts are deactivated in the settings. At least one contract must be activated to play.';
 
   @override
-  String get errorAddWithdrawnCard => 'Unable to add discarded card';
+  String get errorAddDiscardedCard => 'Unable to add discarded card';
 
   @override
-  String errorAddWithdrawnCardDetails(String item, int nbItems) {
+  String errorAddDiscardedCardDetails(String item, int nbItems) {
     return 'The number of $item exceeds the number of cards in the discard pile, set at $nbItems.';
   }
 
@@ -679,38 +711,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String whoWonItem(String item) {
     return 'Who won the $item?';
-  }
-
-  @override
-  String get withdrawCard => 'Withdraw a card';
-
-  @override
-  String withdrawItem(String item) {
-    return 'Withdraw one $item';
-  }
-
-  @override
-  String withdrawNbCards(num nbCards) {
-    String _temp0 = intl.Intl.pluralLogic(
-      nbCards,
-      locale: localeName,
-      other: 'cards',
-      one: 'card',
-    );
-    return 'Withdraw $nbCards $_temp0.';
-  }
-
-  @override
-  String withdrawnCardsRules(int nbTricks) {
-    return 'Each round, players receive $nbTricks cards each. Extra cards are set aside face up and then reshuffled at the end of the round.';
-  }
-
-  @override
-  String get withdrawnCards => 'Withdrawn cards';
-
-  @override
-  String withdrawnCardsName(String item) {
-    return 'Withdrawn ${item}s';
   }
 
   @override

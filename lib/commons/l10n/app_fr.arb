@@ -163,6 +163,36 @@
   "defaultNbTricks": "8 plis",
   "delete": "Supprimer",
   "deletePlayer": "Supprimer le joueur",
+  "discardCard": "Retirer une carte",
+  "discardItem": "Retirer {item, select, dame{une} other{un}} {item}",
+  "@discardItem": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeur"
+      }
+    }
+  },
+  "discardNbCards": "Défausser {nbCards} {nbCards, plural, =1{carte} other{cartes}}.",
+  "discardedCardsRules": "A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.",
+  "@discardedCardsRules": {
+    "placeholders": {
+      "nbTricks": {
+        "type": "int",
+        "example": "coeur"
+      }
+    }
+  },
+  "discardedCards": "Cartes retirées",
+  "discardedCardsName": "{item}s {item, select, dame{retirées} other{retirés}}",
+  "@discardedCardsName": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "coeur"
+      }
+    }
+  },
   "domino": "Réussite",
   "dominoScoreSubtitle": "Qui a fini {rank}\u00A0?",
   "@dominoScoreSubtitle": {
@@ -191,9 +221,9 @@
   "errorDomino": "Tous les joueurs n'ont pas été classés.",
   "errorLaunchGame": "Impossible de lancer une partie",
   "errorLaunchGameDetails": "Tous les contrats sont désactivés dans les paramètres. Il faut au moins un contrat activé pour pouvoir jouer.",
-  "errorAddWithdrawnCard": "Ajout de carte défaussée impossible",
-  "errorAddWithdrawnCardDetails": "Le nombre de {item} dépasse le nombre de cartes dans la défausse, fixé à {nbItems}.",
-  "@errorAddWithdrawnCardDetails": {
+  "errorAddDiscardedCard": "Ajout de carte défaussée impossible",
+  "errorAddDiscardedCardDetails": "Le nombre de {item} dépasse le nombre de cartes dans la défausse, fixé à {nbItems}.",
+  "@errorAddDiscardedCardDetails": {
     "placeholders": {
       "item": {
         "type": "String",
@@ -520,27 +550,5 @@
       }
     }
   },
-  "withdrawCard": "Retirer une carte",
-  "withdrawItem": "Retirer {item, select, dame{une} other{un}} {item}",
-  "@withdrawItem": {
-    "placeholders": {
-      "item": {
-        "type": "String",
-        "example": "coeur"
-      }
-    }
-  },
-  "withdrawNbCards": "Défausser {nbCards} {nbCards, plural, =1{carte} other{cartes}}.",
-  "withdrawnCardsRules": "A chaque manche, les joueurs reçoivent {nbTricks} cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.",
-  "@withdrawnCardsRules": {
-    "placeholders": {
-      "nbTricks": {
-        "type": "int",
-        "example": "coeur"
-      }
-    }
-  },
-  "withdrawnCards": "Cartes retirées",
-  "withdrawnCardsName": "{item}s {item, select, dame{retirées} other{retirés}}",
   "worstEnnemy": "Pire ennemi"
 }

@@ -83,17 +83,17 @@ class GameSettingsWidget extends ConsumerWidget {
             onTap: null,
           ),
         SettingQuestion(
-          label: context.l10n.withdrawnCards,
+          label: context.l10n.discardedCards,
           input: SegmentedButton(
-            key: Key("withdrawnCards"),
+            key: Key("discardedCards"),
             segments: [
               ButtonSegment(value: true, label: Text(context.l10n.randoms)),
               ButtonSegment(value: false, label: Text(context.l10n.lowest)),
             ],
-            selected: <bool>{settings.withdrawRandomCards},
+            selected: <bool>{settings.discardRandomCards},
             onSelectionChanged: (newSelection) => _changeGameSettings(
               ref,
-              settings.copyWith(withdrawRandomCards: newSelection.first),
+              settings.copyWith(discardRandomCards: newSelection.first),
             ),
           ),
           onTap: null,

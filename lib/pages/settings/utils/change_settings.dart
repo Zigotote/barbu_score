@@ -25,7 +25,6 @@ mixin ChangeSettings on Widget {
           "modify_settings",
           parameters: {"contract": contract.name},
         );
-    print("storage is invalidated");
   }
 
   /// Returns the players who played this contract

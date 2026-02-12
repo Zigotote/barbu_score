@@ -157,7 +157,7 @@ void main() {
       final gameSettings = GameSettings(
         goalIsMinScore: false,
         fixedNbTricks: false,
-        withdrawRandomCards: true,
+        discardRandomCards: true,
       );
       await _initializeStorage();
       final storage = MyStorage();

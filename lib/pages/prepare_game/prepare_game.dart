@@ -73,8 +73,8 @@ class PrepareGame extends ConsumerWidget {
     GameSettings gameSettings,
     List<Player> players,
   ) {
-    if (gameSettings.withdrawRandomCards) {
-      final nbWithdrawnCards = gameSettings.getNbWithdrawnCardsByRound(
+    if (gameSettings.discardRandomCards) {
+      final nbDiscardedCards = gameSettings.getNbDiscardedCardsByRound(
         players.length,
       );
       return Column(
@@ -90,8 +90,8 @@ class PrepareGame extends ConsumerWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
-          if (nbWithdrawnCards > 0)
-            Text(context.l10n.withdrawNbCards(nbWithdrawnCards)),
+          if (nbDiscardedCards > 0)
+            Text(context.l10n.discardNbCards(nbDiscardedCards)),
         ],
       );
     }
