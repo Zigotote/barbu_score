@@ -29,7 +29,7 @@
   "bestFriend": "Best friend",
   "bug": "A bug",
   "cardInterval": "{firstCard} to {lastCard}",
-  "cardToKeepPartially": "{card}{nbCards, select, 1{\u2663} 2{\u2663\u2666} 3{\u2663\u2666\u2660} 4{\u2663\u2666} 5{\u2663\u2666 and a \u2660} 6{\u2663\u2666\u2660} 7{\u2663\u2666\u2660 and a \u2665} other{}}",
+  "cardToKeepPartially": "{card}{nbCards, select, 1{\u2665} 2{\u2665\u2666} 3{\u2665\u2666\u2663} 4{\u2665\u2666} 5{\u2665\u2666 and a \u2663} 6{\u2665\u2666\u2663} 7{\u2665\u2666\u2663 and a \u2660} other{}}",
   "cardsOrder": "Aces are the highest cards. Before playing, the strongest cards must be kept until the required number is reached.",
   "cardsToKeep": "Keep the cards",
   "cardsToKeepForPlayers": "Before playing, keep the highest cards from {nbDecks, plural, =1{one deck} other{{nbDecks} decks}} of {nbCardsInDeck} cards until you have the required number. With {nbPlayers} players, you should therefore only keep the following cards: {cards}",

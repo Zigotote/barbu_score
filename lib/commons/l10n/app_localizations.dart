@@ -304,7 +304,7 @@ abstract class AppLocalizations {
   /// No description provided for @cardToKeepPartially.
   ///
   /// In fr, this message translates to:
-  /// **'{card}{nbCards, select, 1{♣} 2{♣♠} 3{♣♦♠} 4{♣♠} 5{♣♠ et un ♦} 6{♣♦♠} 7{♣♦♠ et un ♥} other{}}'**
+  /// **'{card}{nbCards, select, 1{♥} 2{♥♦} 3{♥♦♣} 4{♥♦} 5{♥♦ et un ♣} 6{♥♦♣} 7{♥♦♣ et un ♠} other{}}'**
   String cardToKeepPartially(String nbCards, String card);
 
   /// No description provided for @changesSaved.

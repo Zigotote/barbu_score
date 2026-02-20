@@ -55,14 +55,14 @@ void main() {
       );
     }
     for (var testData in [
-      (nbPlayers: 3, nbDecks: 1, cardsToKeep: "2♣♦♠ et 3 à As"),
+      (nbPlayers: 3, nbDecks: 1, cardsToKeep: "2♥♦♣ et 3 à As"),
       (nbPlayers: 4, nbDecks: 1, cardsToKeep: "2 à As"),
-      (nbPlayers: 5, nbDecks: 1, cardsToKeep: "2♣♠ et 3 à As"),
+      (nbPlayers: 5, nbDecks: 1, cardsToKeep: "2♥♦ et 3 à As"),
       (nbPlayers: 6, nbDecks: 1, cardsToKeep: "3 à As"),
-      (nbPlayers: 7, nbDecks: 1, cardsToKeep: "2♣ et 3 à As"),
+      (nbPlayers: 7, nbDecks: 1, cardsToKeep: "2♥ et 3 à As"),
       (nbPlayers: 8, nbDecks: 1, cardsToKeep: "3 à As"),
-      (nbPlayers: 9, nbDecks: 2, cardsToKeep: "2♣♦♠ et 3 à As"),
-      (nbPlayers: 10, nbDecks: 2, cardsToKeep: "2♣♠ et 3 à As"),
+      (nbPlayers: 9, nbDecks: 2, cardsToKeep: "2♥♦♣ et 3 à As"),
+      (nbPlayers: 10, nbDecks: 2, cardsToKeep: "2♥♦ et 3 à As"),
     ]) {
       patrolWidgetTest(
         "should display game preparation for ${testData.nbPlayers} players with $kNbCardsInDeck cards and optimized tricks",
@@ -88,14 +88,14 @@ void main() {
       );
     }
     for (var testData in [
-      (nbPlayers: 3, nbDecks: 1, cardsToKeep: "7♣♠ et 8 à As"),
+      (nbPlayers: 3, nbDecks: 1, cardsToKeep: "7♥♦ et 8 à As"),
       (nbPlayers: 4, nbDecks: 1, cardsToKeep: "7 à As"),
-      (nbPlayers: 5, nbDecks: 1, cardsToKeep: "7♣♠ et 8 à As"),
-      (nbPlayers: 6, nbDecks: 2, cardsToKeep: "7♣♠ et 8 à As"),
-      (nbPlayers: 7, nbDecks: 2, cardsToKeep: "7♣♦♠ et un ♥ et 8 à As"),
+      (nbPlayers: 5, nbDecks: 1, cardsToKeep: "7♥♦ et 8 à As"),
+      (nbPlayers: 6, nbDecks: 2, cardsToKeep: "7♥♦ et 8 à As"),
+      (nbPlayers: 7, nbDecks: 2, cardsToKeep: "7♥♦♣ et un ♠ et 8 à As"),
       (nbPlayers: 8, nbDecks: 2, cardsToKeep: "7 à As"),
-      (nbPlayers: 9, nbDecks: 2, cardsToKeep: "7♣♦♠ et un ♥ et 8 à As"),
-      (nbPlayers: 10, nbDecks: 2, cardsToKeep: "7♣♠ et 8 à As"),
+      (nbPlayers: 9, nbDecks: 2, cardsToKeep: "7♥♦♣ et un ♠ et 8 à As"),
+      (nbPlayers: 10, nbDecks: 2, cardsToKeep: "7♥♦ et 8 à As"),
     ]) {
       patrolWidgetTest(
         "should display game preparation for ${testData.nbPlayers} players with $kNbCardsInSmallDeck cards and optimized tricks",

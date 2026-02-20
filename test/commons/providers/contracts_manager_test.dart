@@ -179,14 +179,14 @@ void main() {
       );
     }
     for (var testData in [
-      (nbPlayers: 3, nbDecks: 1, nbCardsByPlayer: 17, nbHearts: 12),
+      (nbPlayers: 3, nbDecks: 1, nbCardsByPlayer: 17, nbHearts: 13),
       (nbPlayers: 4, nbDecks: 1, nbCardsByPlayer: 13, nbHearts: 13),
-      (nbPlayers: 5, nbDecks: 1, nbCardsByPlayer: 10, nbHearts: 12),
+      (nbPlayers: 5, nbDecks: 1, nbCardsByPlayer: 10, nbHearts: 13),
       (nbPlayers: 6, nbDecks: 1, nbCardsByPlayer: 8, nbHearts: 12),
-      (nbPlayers: 7, nbDecks: 1, nbCardsByPlayer: 7, nbHearts: 12),
+      (nbPlayers: 7, nbDecks: 1, nbCardsByPlayer: 7, nbHearts: 13),
       (nbPlayers: 8, nbDecks: 1, nbCardsByPlayer: 6, nbHearts: 12),
-      (nbPlayers: 9, nbDecks: 2, nbCardsByPlayer: 11, nbHearts: 24),
-      (nbPlayers: 10, nbDecks: 2, nbCardsByPlayer: 10, nbHearts: 24),
+      (nbPlayers: 9, nbDecks: 2, nbCardsByPlayer: 11, nbHearts: 26),
+      (nbPlayers: 10, nbDecks: 2, nbCardsByPlayer: 10, nbHearts: 26),
     ]) {
       test(
         "should create ContractsManager for ${testData.nbPlayers} players with $kNbCardsInDeck cards and optimized tricks",
@@ -227,14 +227,14 @@ void main() {
       );
     }
     for (var testData in [
-      (nbPlayers: 3, nbDecks: 1, nbCardsByPlayer: 10, nbHearts: 7),
+      (nbPlayers: 3, nbDecks: 1, nbCardsByPlayer: 10, nbHearts: 8),
       (nbPlayers: 4, nbDecks: 1, nbCardsByPlayer: 8, nbHearts: 8),
-      (nbPlayers: 5, nbDecks: 1, nbCardsByPlayer: 6, nbHearts: 7),
-      (nbPlayers: 6, nbDecks: 2, nbCardsByPlayer: 10, nbHearts: 14),
-      (nbPlayers: 7, nbDecks: 2, nbCardsByPlayer: 9, nbHearts: 15),
+      (nbPlayers: 5, nbDecks: 1, nbCardsByPlayer: 6, nbHearts: 8),
+      (nbPlayers: 6, nbDecks: 2, nbCardsByPlayer: 10, nbHearts: 16),
+      (nbPlayers: 7, nbDecks: 2, nbCardsByPlayer: 9, nbHearts: 16),
       (nbPlayers: 8, nbDecks: 2, nbCardsByPlayer: 8, nbHearts: 16),
-      (nbPlayers: 9, nbDecks: 2, nbCardsByPlayer: 7, nbHearts: 15),
-      (nbPlayers: 10, nbDecks: 2, nbCardsByPlayer: 6, nbHearts: 14),
+      (nbPlayers: 9, nbDecks: 2, nbCardsByPlayer: 7, nbHearts: 16),
+      (nbPlayers: 10, nbDecks: 2, nbCardsByPlayer: 6, nbHearts: 16),
     ]) {
       test(
         "should create ContractsManager for ${testData.nbPlayers} players with $kNbCardsInSmallDeck cards and optimized tricks",

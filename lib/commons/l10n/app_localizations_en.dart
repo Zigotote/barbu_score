@@ -144,13 +144,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String cardToKeepPartially(String nbCards, String card) {
     String _temp0 = intl.Intl.selectLogic(nbCards, {
-      '1': '♣',
-      '2': '♣♦',
-      '3': '♣♦♠',
-      '4': '♣♦',
-      '5': '♣♦ and a ♠',
-      '6': '♣♦♠',
-      '7': '♣♦♠ and a ♥',
+      '1': '♥',
+      '2': '♥♦',
+      '3': '♥♦♣',
+      '4': '♥♦',
+      '5': '♥♦ and a ♣',
+      '6': '♥♦♣',
+      '7': '♥♦♣ and a ♠',
       'other': '',
     });
     return '$card$_temp0';
