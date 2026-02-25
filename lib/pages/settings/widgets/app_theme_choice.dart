@@ -17,11 +17,15 @@ class AppThemeChoice extends ConsumerStatefulWidget {
 
 class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
     with WidgetsBindingObserver {
-  /// The name of the rive animation
-  final String _riveStateName = "Switch theme";
+  static const darkThemeAnimationName = "idllOn";
+  static const lightThemeAnimationName = "idllOff";
 
   /// The state of the switch (true or false)
-  late final SMIInput<bool>? _switchState;
+  //late final SMIInput<bool>? _switchState;
+  late final riveFileLoader =
+      FileLoader.fromAsset("assets/switch.riv", riveFactory: Factory.flutter);
+
+  bool _isDarkTheme = false;
 
   /// The hint to describe theme state. Initialized to a temporary value because it's required but the state is not ready when the widget is created
   String _switchHint = " ";
@@ -53,36 +57,21 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
         ref.read(isDarkThemeProvider) ??
         WidgetsBinding.instance.platformDispatcher.platformBrightness ==
             Brightness.dark;
-    _switchState?.change(isDarkTheme);
     setState(() {
-      _switchHint = isDarkTheme
-          ? context.l10n.hintDarkMode
-          : context.l10n.hintLightMode;
-      _switchOnTapHint = isDarkTheme
+      _isDarkTheme = isDarkTheme;
+      _switchHint =
+      isDarkTheme ? context.l10n.hintDarkMode : context.l10n.hintLightMode;
+      _switchOnTapHint = _isDarkTheme
           ? context.l10n.hintForLightMode
           : context.l10n.hintForLightMode;
     });
   }
 
-  /// Initializes riverpod animation
-  void _initStateMachine(Artboard artboard) {
-    final StateMachineController? animationController =
-        StateMachineController.fromArtboard(artboard, _riveStateName);
-
-    if (animationController != null) {
-      artboard.addController(animationController);
-      _switchState = animationController.findInput("isDark")!;
-      _updateTheme();
-    }
-  }
-
   /// Inverts the theme of the app
   void _invertTheme() {
-    if (_switchState != null) {
-      ref.read(isDarkThemeProvider.notifier).changeTheme(!_switchState.value);
-      _updateTheme();
-      SemanticsService.announce(_switchHint, TextDirection.ltr);
-    }
+    ref.read(isDarkThemeProvider.notifier).changeTheme(!_isDarkTheme);
+    _updateTheme();
+    SemanticsService.announce(_switchHint, TextDirection.ltr);
   }
 
   @override
@@ -96,11 +85,37 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
         child: Semantics(
           label: _switchHint,
           onTapHint: _switchOnTapHint,
-          child: RiveAnimation.asset(
+          child: RiveWidgetBuilder(
+            fileLoader: riveFileLoader,
+            builder: (context, state) => switch (state) {
+              // TODO Océane mettre des switchs classique au loading + fail
+              RiveLoading() => Center(child: CircularProgressIndicator()),
+              RiveFailed() => ErrorWidget.withDetails(
+                  message: state.error.toString(),
+                  error: FlutterError(state.error.toString()),
+                ),
+              RiveLoaded() => RiveArtboardWidget(
+                  artboard: state.file.defaultArtboard()!,
+                  // TODO Océane ça marche mais c'est saquadé
+                  painter: SingleAnimationPainter(
+                    _isDarkTheme
+                        ? darkThemeAnimationName
+                        : lightThemeAnimationName,
+                  ),
+                  /*
+                StateMachinePainter(
+                      stateMachineName: "Switch theme",
+                      withStateMachine: (s) => print(s)),
+                )
+                 */
+                )
+            },
+          ),
+          /*.asset(
             "assets/switch.riv",
             stateMachines: [_riveStateName],
             onInit: _initStateMachine,
-          ),
+          )*/
         ),
       ),
     );
