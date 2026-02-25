@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,10 +21,8 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   static const darkThemeAnimationName = "idllOn";
   static const lightThemeAnimationName = "idllOff";
 
-  /// The state of the switch (true or false)
-  //late final SMIInput<bool>? _switchState;
-  late final riveFileLoader =
-      FileLoader.fromAsset("assets/switch.riv", riveFactory: Factory.flutter);
+  File? _riveFile;
+  RiveWidgetController? _controller;
 
   bool _isDarkTheme = false;
 
@@ -37,12 +36,37 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _initRiveAnimation();
+  }
+
+  void _initRiveAnimation() async {
+    _riveFile = await File.asset(
+      "assets/switch.riv",
+      riveFactory: Factory.flutter,
+    );
+    if (_riveFile != null) {
+      print("coucou");
+      // TODO Océane faut peut être remanier le switch pour qu'il se sacade pas et que je puisse bien utiliser ses states
+      setState(() => _controller = RiveWidgetController(_riveFile!));
+      print("àààààààààà ${_controller!.stateMachine.inputs}");
+
+      /*final StateMachineController? animationController =
+          StateMachineController.fromArtboard(artboard, _riveStateName);
+
+      if (animationController != null) {
+        artboard.addController(animationController);
+        _switchState = animationController.findInput("isDark")!;
+        _updateTheme();
+      }*/
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
+    _riveFile?.dispose();
+    _controller?.dispose();
   }
 
   @override
@@ -59,8 +83,9 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
             Brightness.dark;
     setState(() {
       _isDarkTheme = isDarkTheme;
-      _switchHint =
-      isDarkTheme ? context.l10n.hintDarkMode : context.l10n.hintLightMode;
+      _switchHint = isDarkTheme
+          ? context.l10n.hintDarkMode
+          : context.l10n.hintLightMode;
       _switchOnTapHint = _isDarkTheme
           ? context.l10n.hintForLightMode
           : context.l10n.hintForLightMode;
@@ -82,41 +107,13 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
       input: SizedBox(
         height: 60,
         width: 60,
-        child: Semantics(
-          label: _switchHint,
-          onTapHint: _switchOnTapHint,
-          child: RiveWidgetBuilder(
-            fileLoader: riveFileLoader,
-            builder: (context, state) => switch (state) {
-              // TODO Océane mettre des switchs classique au loading + fail
-              RiveLoading() => Center(child: CircularProgressIndicator()),
-              RiveFailed() => ErrorWidget.withDetails(
-                  message: state.error.toString(),
-                  error: FlutterError(state.error.toString()),
-                ),
-              RiveLoaded() => RiveArtboardWidget(
-                  artboard: state.file.defaultArtboard()!,
-                  // TODO Océane ça marche mais c'est saquadé
-                  painter: SingleAnimationPainter(
-                    _isDarkTheme
-                        ? darkThemeAnimationName
-                        : lightThemeAnimationName,
-                  ),
-                  /*
-                StateMachinePainter(
-                      stateMachineName: "Switch theme",
-                      withStateMachine: (s) => print(s)),
-                )
-                 */
-                )
-            },
-          ),
-          /*.asset(
-            "assets/switch.riv",
-            stateMachines: [_riveStateName],
-            onInit: _initStateMachine,
-          )*/
-        ),
+        child: _controller == null
+            ? MySwitch(isActive: _isDarkTheme, onChanged: (_) {})
+            : Semantics(
+                label: _switchHint,
+                onTapHint: _switchOnTapHint,
+                child: RiveWidget(controller: _controller!),
+              ),
       ),
     );
   }
