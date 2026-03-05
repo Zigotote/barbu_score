@@ -18,12 +18,13 @@ class AppThemeChoice extends ConsumerStatefulWidget {
 
 class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
     with WidgetsBindingObserver {
-  static const darkThemeAnimationName = "idllOn";
-  static const lightThemeAnimationName = "idllOff";
-
+  /// The rive animation file
   File? _riveFile;
+
+  /// The controller to control animation
   RiveWidgetController? _controller;
 
+  /// The indicator to know if theme is dark or light
   bool _isDarkTheme = false;
 
   /// The hint to describe theme state. Initialized to a temporary value because it's required but the state is not ready when the widget is created
@@ -45,20 +46,9 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
       riveFactory: Factory.flutter,
     );
     if (_riveFile != null) {
-      print("coucou");
-      // TODO Océane faut peut être remanier le switch pour qu'il se sacade pas et que je puisse bien utiliser ses states
       setState(() => _controller = RiveWidgetController(_riveFile!));
-      print("àààààààààà ${_controller!.stateMachine.inputs}");
-
-      /*final StateMachineController? animationController =
-          StateMachineController.fromArtboard(artboard, _riveStateName);
-
-      if (animationController != null) {
-        artboard.addController(animationController);
-        _switchState = animationController.findInput("isDark")!;
-        _updateTheme();
-      }*/
     }
+    _updateTheme();
   }
 
   @override
@@ -81,6 +71,12 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
         ref.read(isDarkThemeProvider) ??
         WidgetsBinding.instance.platformDispatcher.platformBrightness ==
             Brightness.dark;
+
+    if (_controller != null) {
+      (_controller?.stateMachine.inputs.first as BooleanInput).value =
+          isDarkTheme;
+    }
+
     setState(() {
       _isDarkTheme = isDarkTheme;
       _switchHint = isDarkTheme
@@ -104,14 +100,19 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
     return SettingQuestion(
       label: context.l10n.appTheme,
       onTap: _invertTheme,
-      input: SizedBox(
-        height: 60,
-        width: 60,
-        child: _controller == null
-            ? MySwitch(isActive: _isDarkTheme, onChanged: (_) {})
-            : Semantics(
-                label: _switchHint,
-                onTapHint: _switchOnTapHint,
+      input: Semantics(
+        label: _switchHint,
+        onTapHint: _switchOnTapHint,
+        child: _riveFile == null
+            ? MySwitch(
+                isActive: !_isDarkTheme,
+                onChanged: (_) => _invertTheme(),
+                isActiveIcon: Icon(Icons.sunny),
+                isInactiveIcon: Icon(Icons.nightlight_outlined),
+              )
+            : SizedBox(
+                height: 60,
+                width: 60,
                 child: RiveWidget(controller: _controller!),
               ),
       ),
