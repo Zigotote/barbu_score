@@ -5,7 +5,19 @@ class MySwitch extends StatefulWidget {
   final bool isActive;
   final Function(bool)? onChanged;
 
-  const MySwitch({super.key, required this.isActive, required this.onChanged});
+  /// The icon to use if switch is active. If not set, use default switch icon
+  final Icon? isActiveIcon;
+
+  /// The icon to use if switch is inactive. If not set, use default switch icon
+  final Icon? isInactiveIcon;
+
+  const MySwitch({
+    super.key,
+    required this.isActive,
+    required this.onChanged,
+    this.isActiveIcon,
+    this.isInactiveIcon,
+  });
 
   @override
   State<StatefulWidget> createState() => _MySwitch();
@@ -39,6 +51,12 @@ class _MySwitch extends State<MySwitch> {
               }
             }
           : null,
+      thumbIcon: WidgetStateProperty.resolveWith((states) {
+        if (states.any((element) => (element == WidgetState.selected))) {
+          return widget.isActiveIcon;
+        }
+        return widget.isInactiveIcon;
+      }),
     );
   }
 }

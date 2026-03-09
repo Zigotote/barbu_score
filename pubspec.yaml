@@ -28,7 +28,7 @@ dependencies:
   non_uniform_border: ^1.0.0
   package_info_plus: ^9.0.0
   reorderable_grid_view: ^2.2.8
-  rive: 0.13.1
+  rive: 0.14.3
   shared_preferences: ^2.5.3
   timelines_plus: ^1.0.7
   two_dimensional_scrollables: ^0.3.5

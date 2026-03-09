@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rive/rive.dart';
 
 import 'commons/l10n/app_localizations.dart';
 import 'commons/models/contract_models.dart';
@@ -48,7 +49,7 @@ void main() async {
     };
   }
 
-  await MyStorage.init();
+  await Future.wait([RiveNative.init(), MyStorage.init()]);
 
   runApp(
     ProviderScope(

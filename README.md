@@ -16,6 +16,7 @@ To get all dependencies and create generated files run these commands:
 
 ```
 fvm flutter pub get
+fvm dart run rive_native:setup --verbose --clean --platform linux
 fvm dart run build_runner build
 ```
 
