@@ -49,8 +49,7 @@ void main() async {
     };
   }
 
-  await RiveNative.init();
-  await MyStorage.init();
+  await Future.wait([RiveNative.init(), MyStorage.init()]);
 
   runApp(
     ProviderScope(

@@ -73,6 +73,7 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
             Brightness.dark;
 
     if (_controller != null) {
+      // Rive animation doesn't support state machine, so we have to use deprecated api to make animation work
       (_controller?.stateMachine.inputs.first as BooleanInput).value =
           isDarkTheme;
     }
@@ -107,8 +108,8 @@ class _AppThemeChoiceState extends ConsumerState<AppThemeChoice>
             ? MySwitch(
                 isActive: !_isDarkTheme,
                 onChanged: (_) => _invertTheme(),
-                isActiveIcon: Icon(Icons.sunny),
-                isInactiveIcon: Icon(Icons.nightlight_outlined),
+                isActiveIcon: Icon(Icons.light_mode_outlined),
+                isInactiveIcon: Icon(Icons.dark_mode_outlined),
               )
             : SizedBox(
                 height: 60,
