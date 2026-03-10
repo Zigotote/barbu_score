@@ -237,9 +237,18 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
               borderRadius: BorderRadius.vertical(top: borderRadius),
               color: Theme.of(context).scaffoldBackgroundColor,
             ),
-            child: SizeTransition(
-              sizeFactor: _animation,
-              child: _buildRules(settings),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return SizeTransition(sizeFactor: animation, child: child);
+              },
+              child: SizeTransition(
+                key: Key("$_isSettingsView"),
+                sizeFactor: _animation,
+                child: _isSettingsView
+                    ? _buildSettings()
+                    : _buildRules(settings),
+              ),
             ),
           ),
         ),
