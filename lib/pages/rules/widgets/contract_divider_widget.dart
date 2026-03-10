@@ -2,11 +2,13 @@ import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/providers/storage.dart';
+import '../../settings/contract_with_points_settings.dart';
+import '../../settings/domino_contract_settings.dart';
+import '../../settings/salad_contract_settings.dart';
 
 class ContractDividerWidget extends ConsumerStatefulWidget {
   final ContractsInfo contract;
@@ -34,7 +36,7 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
   ).colorScheme.convertMyColor(widget.contract.color, isBackgroundColor: true);
 
   /// Indicates if the widget is in rules view, or settings view
-  bool showSettings = false;
+  bool _isSettingsView = false;
 
   /// Indicates if the content of the widget is displayed
   late bool _isExpanded;
@@ -51,7 +53,7 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
         .isActive;
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150),
+      duration: kTabScrollDuration,
     );
     _animation = CurvedAnimation(
       parent: _controller,
@@ -102,10 +104,27 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
             ),
             border: Border.all(width: borderWidth, color: borderColor),
           ),
-          child: IconButton(
-            onPressed: () => context.push(widget.contract.settingsRoute),
-            icon: Icon(Icons.settings),
-            visualDensity: VisualDensity.compact,
+          child: TextButton(
+            onPressed: () async {
+              setState(() => _isSettingsView = !_isSettingsView);
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                spacing: 4,
+                children: [
+                  Icon(
+                    _isSettingsView
+                        ? Icons.history_edu_outlined
+                        : Icons.settings,
+                  ),
+                  Text(
+                    _isSettingsView ? "Règles" : "Paramètres",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
         Container(
@@ -163,6 +182,7 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
         if (!settings.isActive)
           Text(
             context.l10n.deactivatedForGame,
+            textAlign: TextAlign.justify,
             style: const TextStyle(fontStyle: FontStyle.italic),
           ),
         Text(
@@ -170,9 +190,25 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
             widget.contract,
             ref.read(storageProvider),
           ),
+          textAlign: TextAlign.justify,
         ),
       ],
     );
+  }
+
+  /// Builds the settings widget
+  Widget _buildSettings() {
+    return switch (widget.contract) {
+      ContractsInfo.barbu ||
+      ContractsInfo.noHearts ||
+      ContractsInfo.noQueens ||
+      ContractsInfo.noTricks ||
+      ContractsInfo.noLastTrick => ContractWithPointsSettingsPage(
+        widget.contract,
+      ),
+      ContractsInfo.salad => SaladContractSettingsPage(),
+      ContractsInfo.domino => DominoContractSettingsPage(),
+    };
   }
 
   @override

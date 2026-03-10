@@ -6,10 +6,7 @@ import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
 import '../../commons/providers/storage.dart';
 import '../../commons/widgets/alert_dialog.dart';
-import '../../commons/widgets/my_appbar.dart';
-import '../../commons/widgets/my_default_page.dart';
 import 'utils/change_settings.dart';
-import 'widgets/change_contract_activation.dart';
 import 'widgets/my_switch.dart';
 import 'widgets/setting_question.dart';
 
@@ -71,59 +68,47 @@ class _SaladContractSettingsPageState
   @override
   Widget build(BuildContext context) {
     final gameSettings = ref.read(storageProvider).getGameSettings();
-    return MyDefaultPage(
-      appBar: MyAppBar(
-        Column(
-          children: [
-            Text(context.l10n.settings),
-            Text(context.l10n.contractName(ContractsInfo.salad)),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 16),
+        Semantics(
+          header: true,
+          child: Text(
+            context.l10n.contractsToPlay,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ),
-        context: context,
-      ),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ChangeContractActivation(ContractsInfo.salad, settings),
-          SizedBox(height: 16),
-          Semantics(
-            header: true,
-            child: Text(
-              context.l10n.contractsToPlay,
-              style: Theme.of(context).textTheme.titleMedium,
+        const SizedBox(height: 8),
+        ...SaladContractSettings.availableContracts.map(
+          (contract) => SettingQuestion(
+            key: Key(contract.name),
+            label: context.l10n.contractName(contract),
+            onTap: () => _toggleSubcontractActivation(contract, settings),
+            input: MySwitch(
+              isActive: settings.contracts[contract.name]!,
+              onChanged: (_) =>
+                  _toggleSubcontractActivation(contract, settings),
             ),
           ),
-          const SizedBox(height: 8),
-          ...SaladContractSettings.availableContracts.map(
-            (contract) => SettingQuestion(
-              key: Key(contract.name),
-              label: context.l10n.contractName(contract),
-              onTap: () => _toggleSubcontractActivation(contract, settings),
-              input: MySwitch(
-                isActive: settings.contracts[contract.name]!,
-                onChanged: (_) =>
-                    _toggleSubcontractActivation(contract, settings),
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          SettingQuestion(
-            tooltip: context.l10n.detailedInvertScoreRules(gameSettings),
-            label: context.l10n.invertScore,
-            onTap: () {
-              settings.invertScore = !settings.invertScore;
+        ),
+        const SizedBox(height: 24),
+        SettingQuestion(
+          tooltip: context.l10n.detailedInvertScoreRules(gameSettings),
+          label: context.l10n.invertScore,
+          onTap: () {
+            settings.invertScore = !settings.invertScore;
+            widget.saveNewSettings(ref, ContractsInfo.salad, settings);
+          },
+          input: MySwitch(
+            isActive: settings.invertScore,
+            onChanged: (value) {
+              settings.invertScore = value;
               widget.saveNewSettings(ref, ContractsInfo.salad, settings);
             },
-            input: MySwitch(
-              isActive: settings.invertScore,
-              onChanged: (value) {
-                settings.invertScore = value;
-                widget.saveNewSettings(ref, ContractsInfo.salad, settings);
-              },
-            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
