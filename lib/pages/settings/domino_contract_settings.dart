@@ -8,11 +8,8 @@ import '../../commons/models/contract_settings_models.dart';
 import '../../commons/providers/storage.dart';
 import '../../commons/utils/constants.dart';
 import '../../commons/utils/player_icon_properties.dart';
-import '../../commons/widgets/my_appbar.dart';
-import '../../commons/widgets/my_default_page.dart';
 import '../../commons/widgets/player_icon.dart';
 import 'utils/change_settings.dart';
-import 'widgets/change_contract_activation.dart';
 import 'widgets/number_input.dart';
 
 class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
@@ -128,26 +125,6 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
     final settings =
         ref.read(storageProvider).getSettings(ContractsInfo.domino).copyWith()
             as DominoContractSettings;
-    return Scaffold(
-      appBar: MyAppBar(
-        Column(
-          children: [Text(context.l10n.settings), Text(context.l10n.domino)],
-        ),
-        context: context,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: MyDefaultPage.appPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 16,
-            children: [
-              ChangeContractActivation(ContractsInfo.domino, settings),
-              Flexible(child: _buildDataTable(context, ref, settings)),
-            ],
-          ),
-        ),
-      ),
-    );
+    return Flexible(child: _buildDataTable(context, ref, settings));
   }
 }
