@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/settings/widgets/change_contract_activation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
@@ -22,6 +23,10 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
   ) {
     const spanPadding = TableSpanPadding.all(4);
     return TableView.list(
+      verticalDetails: ScrollableDetails(
+        direction: AxisDirection.down,
+        physics: NeverScrollableScrollPhysics(),
+      ),
       pinnedRowCount: 1,
       pinnedColumnCount: 1,
       columnBuilder: (_) => TableSpan(
@@ -125,6 +130,12 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
     final settings =
         ref.read(storageProvider).getSettings(ContractsInfo.domino).copyWith()
             as DominoContractSettings;
-    return Flexible(child: _buildDataTable(context, ref, settings));
+    return Column(
+      spacing: 8,
+      children: [
+        ChangeContractActivation(ContractsInfo.domino, settings),
+        Flexible(child: _buildDataTable(context, ref, settings)),
+      ],
+    );
   }
 }

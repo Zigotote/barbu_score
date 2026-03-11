@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/settings/widgets/change_contract_activation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -70,7 +71,8 @@ class _SaladContractSettingsPageState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 16),
+        ChangeContractActivation(ContractsInfo.salad, settings),
+        SizedBox(height: 8),
         Semantics(
           header: true,
           child: Text(
@@ -78,7 +80,7 @@ class _SaladContractSettingsPageState
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 4),
         ...SaladContractSettings.availableContracts.map(
           (contract) => SettingQuestion(
             key: Key(contract.name),
@@ -91,7 +93,7 @@ class _SaladContractSettingsPageState
             ),
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 8),
         SettingQuestion(
           tooltip: context.l10n.detailedInvertScoreRules(),
           label: context.l10n.invertScore,
