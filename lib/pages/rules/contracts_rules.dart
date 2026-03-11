@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/models/contract_info.dart';
 import '../../commons/providers/storage.dart';
 import 'widgets/rules_page.dart';
-import 'widgets/settings_card.dart';
 
 class ContractsRules extends ConsumerWidget {
   /// The indicator to know if rules are displayed during a game
@@ -50,8 +49,6 @@ class ContractsRules extends ConsumerWidget {
                       : null,
                 ),
               ),
-          SizedBox(height: 16),
-          const SettingsCard(),
         ],
       ),
     );

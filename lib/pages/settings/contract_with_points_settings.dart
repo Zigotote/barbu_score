@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/settings/widgets/change_contract_activation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,6 +30,7 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
       children: [
+        ChangeContractActivation(contract, settings),
         SettingQuestion(
           label: context.l10n.contractPoints,
           onTap: numberFocusNode.requestFocus,

@@ -7,6 +7,7 @@ import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/providers/storage.dart';
 import '../../settings/contract_with_points_settings.dart';
+import '../../settings/domino_contract_settings.dart';
 import '../../settings/salad_contract_settings.dart';
 
 class ContractDividerWidget extends ConsumerStatefulWidget {
@@ -252,9 +253,10 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
         widget.contract,
       ),
       ContractsInfo.salad => SaladContractSettingsPage(),
-      ContractsInfo.domino => Text(
-        "TODO Océane",
-      ), //  DominoContractSettingsPage(), // TODO Océane cette page s'affiche pas
+      ContractsInfo.domino => SizedBox(
+        height: 680,
+        child: DominoContractSettingsPage(),
+      ),
     };
   }
 
