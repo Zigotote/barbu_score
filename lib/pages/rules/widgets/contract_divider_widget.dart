@@ -7,7 +7,6 @@ import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/providers/storage.dart';
 import '../../settings/contract_with_points_settings.dart';
-import '../../settings/domino_contract_settings.dart';
 import '../../settings/salad_contract_settings.dart';
 
 class ContractDividerWidget extends ConsumerStatefulWidget {
@@ -44,6 +43,9 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
   /// The controller for the open/close animation
   late final AnimationController _controller;
   late final Animation<double> _animation;
+  late final Animation<double> _animationButton;
+  late final AnimationController _controllerBorder;
+  late final Animation<double> _animationBorder;
 
   @override
   void initState() {
@@ -53,16 +55,31 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
         .isActive;
     _controller = AnimationController(
       vsync: this,
-      duration: kTabScrollDuration,
+      duration: const Duration(milliseconds: 200),
     );
+    _controllerBorder = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
     _animation = CurvedAnimation(
       parent: _controller,
       curve: Curves.fastOutSlowIn,
     );
+    _animationButton = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.fastOutSlowIn,
+    );
+    _animationBorder = CurvedAnimation(
+      parent: _controllerBorder,
+      curve: Curves.fastOutSlowIn,
+    );
     if (_isExpanded) {
       _controller.forward();
+      _controllerBorder.reverse();
     } else {
       _controller.reverse();
+      _controllerBorder.forward();
     }
     super.initState();
   }
@@ -78,9 +95,11 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
 
     setState(() => _isExpanded = newIsExpanded);
     if (newIsExpanded) {
-      _controller.forward();
+      Future.delayed(Duration(milliseconds: 200), () => _controller.forward());
+      _controllerBorder.reverse();
     } else {
       _controller.reverse();
+      _controllerBorder.forward();
     }
   }
 
@@ -96,35 +115,54 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
             decoration: BoxDecoration(color: borderColor),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              topLeft: borderRadius,
-              topRight: borderRadius,
-            ),
-            border: Border.all(width: borderWidth, color: borderColor),
-          ),
-          child: TextButton(
-            onPressed: () async {
-              setState(() => _isSettingsView = !_isSettingsView);
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                spacing: 4,
-                children: [
-                  Icon(
-                    _isSettingsView
-                        ? Icons.history_edu_outlined
-                        : Icons.settings,
+        IntrinsicWidth(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              SizeTransition(
+                sizeFactor: _animationButton,
+                axisAlignment: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: borderRadius,
+                      topRight: borderRadius,
+                    ),
+                    border: Border.all(width: borderWidth, color: borderColor),
+                    color: Theme.of(context).scaffoldBackgroundColor,
                   ),
-                  Text(
-                    _isSettingsView ? "Règles" : "Paramètres",
-                    style: TextStyle(fontSize: 16),
+                  child: TextButton(
+                    onPressed: () async {
+                      setState(() => _isSettingsView = !_isSettingsView);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        spacing: 4,
+                        children: [
+                          Icon(
+                            _isSettingsView
+                                ? Icons.history_edu_outlined
+                                : Icons.settings,
+                          ),
+                          Text(
+                            _isSettingsView ? "Règles" : "Paramètres",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ],
+                ),
               ),
-            ),
+              SizeTransition(
+                sizeFactor: _animationBorder,
+                child: Container(
+                  height: 16,
+                  decoration: BoxDecoration(color: borderColor),
+                ),
+              ),
+            ],
           ),
         ),
         Container(
@@ -153,7 +191,16 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
           children: [
             Semantics(
               header: true,
-              child: Text(context.l10n.contractName(widget.contract)),
+              child: Text(
+                context.l10n.contractName(widget.contract),
+                style: TextStyle(
+                  decoration:
+                      widget.contract == ContractsInfo.barbu && !_isExpanded
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+                  decorationThickness: 2,
+                ),
+              ),
             ),
             IconButton(
               onPressed: _toggleExpansion,
@@ -182,7 +229,6 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
         if (!settings.isActive)
           Text(
             context.l10n.deactivatedForGame,
-            textAlign: TextAlign.justify,
             style: const TextStyle(fontStyle: FontStyle.italic),
           ),
         Text(
@@ -190,7 +236,6 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
             widget.contract,
             ref.read(storageProvider),
           ),
-          textAlign: TextAlign.justify,
         ),
       ],
     );
@@ -207,7 +252,9 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
         widget.contract,
       ),
       ContractsInfo.salad => SaladContractSettingsPage(),
-      ContractsInfo.domino => DominoContractSettingsPage(),
+      ContractsInfo.domino => Text(
+        "TODO Océane",
+      ), //  DominoContractSettingsPage(), // TODO Océane cette page s'affiche pas
     };
   }
 
@@ -224,7 +271,7 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
               Container(
                 width: borderWidth,
                 color: widget.previousContractDividerColor,
-                height: MediaQuery.textScalerOf(context).scale(40),
+                height: 40,
               ),
           ],
         ),
@@ -237,17 +284,15 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
               borderRadius: BorderRadius.vertical(top: borderRadius),
               color: Theme.of(context).scaffoldBackgroundColor,
             ),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return SizeTransition(sizeFactor: animation, child: child);
-              },
-              child: SizeTransition(
-                key: Key("$_isSettingsView"),
-                sizeFactor: _animation,
-                child: _isSettingsView
-                    ? _buildSettings()
-                    : _buildRules(settings),
+            child: SizeTransition(
+              sizeFactor: _animation,
+              child: AnimatedCrossFade(
+                duration: const Duration(milliseconds: 400),
+                firstChild: _buildRules(settings),
+                secondChild: _buildSettings(),
+                crossFadeState: _isSettingsView
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
               ),
             ),
           ),
