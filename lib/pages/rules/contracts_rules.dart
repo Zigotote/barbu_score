@@ -49,6 +49,7 @@ class ContractsRules extends ConsumerWidget {
                       : null,
                 ),
               ),
+          Divider(color: Theme.of(context).colorScheme.onSurface),
         ],
       ),
     );
