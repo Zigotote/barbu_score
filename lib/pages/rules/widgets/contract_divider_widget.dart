@@ -105,11 +105,11 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
   }
 
   /// Builds the header of the divider, which contains the contract name, the arrow to expand/collapse the divider and the button to switch between settings and rules display
-  Row _buildHeader() {
+  Row _buildHeader(AbstractContractSettings settings) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        _buildDividerName(),
+        _buildDividerName(settings),
         Expanded(
           child: Container(
             height: 16,
@@ -179,7 +179,7 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
   }
 
   /// Builds the content of divider header, with the name of the contract and the button to toggle expansion
-  GestureDetector _buildDividerName() {
+  GestureDetector _buildDividerName(AbstractContractSettings settings) {
     return GestureDetector(
       onTap: _toggleExpansion,
       child: Container(
@@ -195,8 +195,7 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
               child: Text(
                 context.l10n.contractName(widget.contract),
                 style: TextStyle(
-                  decoration:
-                      widget.contract == ContractsInfo.barbu && !_isExpanded
+                  decoration: !settings.isActive && !_isExpanded
                       ? TextDecoration.lineThrough
                       : TextDecoration.none,
                   decorationThickness: 2,
@@ -268,7 +267,7 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
         Stack(
           alignment: Alignment.topRight,
           children: [
-            _buildHeader(),
+            _buildHeader(settings),
             if (widget.previousContractDividerColor != null)
               Container(
                 width: borderWidth,
