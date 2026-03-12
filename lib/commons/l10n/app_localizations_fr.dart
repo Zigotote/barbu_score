@@ -593,7 +593,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Bonjour,\n\nJe souhaiterais proposer une nouvelle fonctionnalité pour l\'application, afin de...';
 
   @override
-  String get rules => 'Règles du jeu';
+  String get rules => 'Règles et configurations';
 
   @override
   String rulesBarbu(int points) {

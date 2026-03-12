@@ -7,17 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:in_app_review/in_app_review.dart';
 
-import '../../commons/models/contract_info.dart';
 import '../../commons/providers/log.dart';
 import '../../commons/providers/storage.dart';
 import '../../commons/utils/snackbar.dart';
 import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
-import '../../commons/widgets/my_list_layouts.dart';
 import '../../main.dart';
 import 'notifiers/device_info_provider.dart';
-import 'widgets/active_contract_indicator.dart';
 import 'widgets/app_theme_choice.dart';
 import 'widgets/contact_button.dart';
 import 'widgets/language_choice.dart';
@@ -65,43 +62,6 @@ class MySettings extends ConsumerWidget {
             MyCard(children: [const AppThemeChoice(), const LanguageChoice()]),
             _buildTitle(context, context.l10n.game),
             GameSettingsWidget(),
-            _buildTitle(context, context.l10n.contracts),
-            MyGrid(
-              children: ContractsInfo.values.map((contract) {
-                final contractSettings = ref
-                    .watch(storageProvider)
-                    .getSettings(contract);
-                return ElevatedButtonWithIndicator(
-                  key: Key(contract.name),
-                  text: context.l10n.contractName(contract),
-                  onPressed: () {
-                    ref
-                        .read(logProvider)
-                        .info("MySettings: open settings for ${contract.name}");
-                    SnackBarUtils.instance.closeSnackBar(context);
-                    context.push(contract.settingsRoute).then((_) {
-                      final storage = ref.read(storageProvider);
-                      final newSettings = storage.getSettings(contract);
-                      if (contractSettings != newSettings) {
-                        if (storage.getStoredGame()?.isFinished == true) {
-                          storage.deleteGame();
-                        }
-                        if (context.mounted) {
-                          SnackBarUtils.instance.openSnackBar(
-                            context: context,
-                            title: context.l10n.changesSaved,
-                            text: context.l10n.changesSavedDetails,
-                          );
-                        }
-                      }
-                    });
-                  },
-                  indicator: ActiveContractIndicator(
-                    isActive: contractSettings.isActive,
-                  ),
-                );
-              }).toList(),
-            ),
             _buildTitle(context, context.l10n.moreInfo),
             ElevatedButtonFullWidth(
               onPressed: () => context.push(Routes.about),
