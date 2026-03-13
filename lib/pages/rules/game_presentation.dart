@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/my_section_title.dart';
 import 'package:barbu_score/pages/rules/widgets/settings/game_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,10 +30,7 @@ class GamePresentation extends ConsumerWidget {
                 : context.l10n.presentGameGoalMaxScore,
           ),
           const SizedBox(height: 24),
-          Text(
-            context.l10n.gamePrinciple,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          MySectionTitle(context.l10n.gamePrinciple),
           const SizedBox(height: 8),
           Text(context.l10n.gamePrincipleDetails),
           SizedBox(height: 24),

@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/my_section_title.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,7 +39,7 @@ class DialogChangePlayerInfo extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
       children: [
-        Text(text, style: Theme.of(context).textTheme.titleLarge),
+        MySectionTitle(text),
         GridView.extent(
           physics: const NeverScrollableScrollPhysics(),
           crossAxisSpacing: 16,

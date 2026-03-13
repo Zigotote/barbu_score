@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/my_card.dart';
+import 'package:barbu_score/commons/widgets/my_section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,13 +18,6 @@ import 'widgets/language_choice.dart';
 class MySettings extends ConsumerWidget {
   const MySettings({super.key});
 
-  Semantics _buildTitle(BuildContext context, String title) {
-    return Semantics(
-      header: true,
-      child: Text(title, style: Theme.of(context).textTheme.titleLarge),
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appVersion = ref.watch(deviceInfoProvider).value?.appVersion;
@@ -31,16 +25,20 @@ class MySettings extends ConsumerWidget {
       appBar: MyAppBar(Text(context.l10n.settings), context: context),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
         children: [
-          _buildTitle(context, context.l10n.application),
+          MySectionTitle(context.l10n.application),
+          SizedBox(height: 16),
           MyCard(children: [const AppThemeChoice(), const LanguageChoice()]),
-          _buildTitle(context, context.l10n.moreInfo),
+          SizedBox(height: 24),
+          MySectionTitle(context.l10n.moreInfo),
+          SizedBox(height: 16),
           ElevatedButtonFullWidth(
             onPressed: () => context.push(Routes.about),
             child: Text(context.l10n.about),
           ),
+          SizedBox(height: 16),
           ContactButton(),
+          SizedBox(height: 16),
           ElevatedButtonFullWidth(
             onPressed: () => InAppReview.instance.openStoreListing(),
             child: Text(context.l10n.rateApp),

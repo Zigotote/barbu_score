@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/my_card.dart';
+import 'package:barbu_score/commons/widgets/my_section_title.dart';
 import 'package:flutter/material.dart';
 
 class MySettingsCard extends MyCard {
@@ -13,10 +14,7 @@ class MySettingsCard extends MyCard {
           spacing: 8,
           children: [
             Icon(Icons.settings),
-            Text(
-              context.l10n.settings,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            MySectionTitle(context.l10n.settings),
           ],
         ),
         const SizedBox(height: 8),
