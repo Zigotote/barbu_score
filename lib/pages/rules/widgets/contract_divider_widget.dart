@@ -264,46 +264,49 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
   @override
   Widget build(BuildContext context) {
     final settings = ref.watch(storageProvider).getSettings(widget.contract);
-    return Column(
-      children: [
-        Stack(
-          alignment: Alignment.topRight,
-          children: [
-            _buildHeader(settings),
-            if (widget.previousContractDividerColor != null)
-              Container(
-                width: borderWidth,
-                color: widget.previousContractDividerColor,
-                height: 40,
+    return Semantics(
+      expanded: _isExpanded,
+      child: Column(
+        children: [
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              _buildHeader(settings),
+              if (widget.previousContractDividerColor != null)
+                Container(
+                  width: borderWidth,
+                  color: widget.previousContractDividerColor,
+                  height: 40,
+                ),
+            ],
+          ),
+          Container(
+            color: borderColor,
+            child: Container(
+              padding: EdgeInsets.all(12),
+              margin: EdgeInsets.symmetric(horizontal: borderWidth),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: borderRadius),
+                color: Theme.of(context).scaffoldBackgroundColor,
               ),
-          ],
-        ),
-        Container(
-          color: borderColor,
-          child: Container(
-            padding: EdgeInsets.all(12),
-            margin: EdgeInsets.symmetric(horizontal: borderWidth),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: borderRadius),
-              color: Theme.of(context).scaffoldBackgroundColor,
-            ),
-            child: SizeTransition(
-              sizeFactor: _animationContent,
-              child: Container(
-                padding: EdgeInsets.only(bottom: 8),
-                child: AnimatedCrossFade(
-                  duration: const Duration(milliseconds: 400),
-                  firstChild: _buildRules(settings),
-                  secondChild: _buildSettings(),
-                  crossFadeState: _isSettingsView
-                      ? CrossFadeState.showSecond
-                      : CrossFadeState.showFirst,
+              child: SizeTransition(
+                sizeFactor: _animationContent,
+                child: Container(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: AnimatedCrossFade(
+                    duration: const Duration(milliseconds: 400),
+                    firstChild: _buildRules(settings),
+                    secondChild: _buildSettings(),
+                    crossFadeState: _isSettingsView
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
