@@ -111,19 +111,17 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
                   sizeFactor: _animationButton,
                   child: Container(
                     alignment: Alignment.bottomRight,
-                    child: IconButton(
+                    child: TextButton(
                       onPressed: () {
                         setState(() => _isSettingsView = !_isSettingsView);
                       },
-                      icon: AnimatedCrossFade(
-                        duration: Duration(milliseconds: 400),
-                        firstChild: Icon(Icons.close),
-                        secondChild: Icon(Icons.settings),
-                        crossFadeState: _isSettingsView
-                            ? CrossFadeState.showFirst
-                            : CrossFadeState.showSecond,
-                      ),
                       style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                        padding: WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(horizontal: 8),
+                        ),
                         shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
                             borderRadius: const BorderRadius.only(
@@ -136,6 +134,34 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
                             ),
                           ),
                         ),
+                      ),
+                      child: AnimatedCrossFade(
+                        duration: Duration(milliseconds: 400),
+                        firstChild: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          spacing: 8,
+                          children: [
+                            Icon(Icons.history_edu_outlined),
+                            Text(
+                              "Règles",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        secondChild: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          spacing: 8,
+                          children: [
+                            Icon(Icons.settings),
+                            Text(
+                              "Paramètres",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        crossFadeState: _isSettingsView
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
                       ),
                     ),
                   ),
@@ -166,14 +192,17 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
       ),
       child: Row(
         children: [
-          Icon(
-            settings.isActive ? Icons.check_circle : Icons.circle_outlined,
-            size: 20,
-          ),
-          SizedBox(width: 8),
           Semantics(
             header: true,
-            child: Text(context.l10n.contractName(widget.contract)),
+            child: Text(
+              context.l10n.contractName(widget.contract),
+              style: settings.isActive
+                  ? null
+                  : const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+            ),
           ),
           IconButton(
             onPressed: _toggleExpansion,
