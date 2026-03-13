@@ -52,7 +52,7 @@ class _MyRulesState extends ConsumerState<MyRules> {
         };
       },
       useOnTap: false,
-      overleafColorBuilder: (_) => Theme.of(context).colorScheme.grey,
+      overleafColorBuilder: (_) => Theme.of(context).colorScheme.greyBackground,
     );
   }
 }

@@ -245,7 +245,6 @@
       }
     }
   },
-  "game": "Partie",
   "gamePrinciple": "Principe du jeu",
   "gamePrincipleDetails": "Ce jeu de plis est composé de différents contrats devant être réalisés par toutes les personnes. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tout le monde a réalisé l'ensemble des contrats.",
   "gameRound": "Manche de jeu",

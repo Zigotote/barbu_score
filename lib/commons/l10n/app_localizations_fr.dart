@@ -336,9 +336,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get game => 'Partie';
-
-  @override
   String get gamePrinciple => 'Principe du jeu';
 
   @override

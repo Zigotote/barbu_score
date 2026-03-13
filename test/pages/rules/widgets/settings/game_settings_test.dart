@@ -1,8 +1,7 @@
 import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/constants.dart';
-import 'package:barbu_score/pages/settings/notifiers/change_game_settings_provider.dart';
-import 'package:barbu_score/pages/settings/widgets/game_settings.dart';
+import 'package:barbu_score/pages/rules/widgets/settings/game_settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,9 +9,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../../utils/french_material_app.dart';
-import '../../../utils/utils.dart';
-import '../../../utils/utils.mocks.dart';
+import '../../../../utils/french_material_app.dart';
+import '../../../../utils/utils.dart';
+import '../../../../utils/utils.mocks.dart';
 
 const _goalKey = "goal";
 const _nbTricksKey = "nbTricks";
@@ -47,9 +46,10 @@ void main() {
 
     await $("Score élevé").tap();
     _findSegmentedButtonValue(_goalKey, false);
-    expect(
-      page.container.read(changeGameSettingsProvider).goalIsMinScore,
-      isFalse,
+    verify(
+      page.container
+          .read(storageProvider)
+          .saveGameSettings(GameSettings(goalIsMinScore: false)),
     );
   });
 
@@ -59,9 +59,10 @@ void main() {
 
     await $("Optimisé").tap();
     _findSegmentedButtonValue(_nbTricksKey, false);
-    expect(
-      page.container.read(changeGameSettingsProvider).fixedNbTricks,
-      isFalse,
+    verify(
+      page.container
+          .read(storageProvider)
+          .saveGameSettings(GameSettings(fixedNbTricks: false)),
     );
   });
 
@@ -75,9 +76,16 @@ void main() {
 
     await $("$kNbCardsInSmallDeck cartes").tap();
     _findSegmentedButtonValue(_deckKey, kNbCardsInSmallDeck);
-    final newSettings = page.container.read(changeGameSettingsProvider);
-    expect(newSettings.fixedNbTricks, isFalse);
-    expect(newSettings.nbCardsInDeck, kNbCardsInSmallDeck);
+    verify(
+      page.container
+          .read(storageProvider)
+          .saveGameSettings(
+            GameSettings(
+              fixedNbTricks: false,
+              nbCardsInDeck: kNbCardsInSmallDeck,
+            ),
+          ),
+    );
   });
 
   patrolWidgetTest("should modify discarded cards", ($) async {
@@ -86,9 +94,10 @@ void main() {
 
     await $("Aléatoires").tap();
     _findSegmentedButtonValue(_discardedCardsKey, true);
-    expect(
-      page.container.read(changeGameSettingsProvider).discardRandomCards,
-      isTrue,
+    verify(
+      page.container
+          .read(storageProvider)
+          .saveGameSettings(GameSettings(discardRandomCards: true)),
     );
   });
 }
@@ -102,11 +111,9 @@ Finder _findSegmentedButtonValue(String key, Object value) {
   );
 }
 
-UncontrolledProviderScope _createApp({GameSettings? gameSettings}) {
+UncontrolledProviderScope _createApp() {
   final mockStorage = MockMyStorage();
-  when(
-    mockStorage.getGameSettings(),
-  ).thenReturn(gameSettings ?? GameSettings());
+  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
 
   final container = ProviderContainer(
     overrides: [storageProvider.overrideWithValue(mockStorage)],

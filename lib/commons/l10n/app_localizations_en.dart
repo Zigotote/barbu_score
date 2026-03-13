@@ -330,9 +330,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get game => 'Game';
-
-  @override
   String get gamePrinciple => 'Game principle';
 
   @override

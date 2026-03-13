@@ -76,7 +76,6 @@
   "forGameAt": "For a game with",
   "french": "French",
   "fromTheDeck": "{nbDecks, plural, =1{from the deck} other{from {nbDecks} decks}}.",
-  "game": "Game",
   "gamePrinciple": "Game principle",
   "gamePrincipleDetails": "This trick-taking game is made up of different contracts that must be completed by all players. Each contract has its own specific rules, which apply during that round.\nThe game ends when everyone has completed all the contracts.",
   "gameRound": "Round",

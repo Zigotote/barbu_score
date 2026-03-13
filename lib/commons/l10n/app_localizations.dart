@@ -565,12 +565,6 @@ abstract class AppLocalizations {
   /// **'{nbDecks, plural, =1{du paquet} other{de {nbDecks} paquets}}.'**
   String fromTheDeck(int nbDecks);
 
-  /// No description provided for @game.
-  ///
-  /// In fr, this message translates to:
-  /// **'Partie'**
-  String get game;
-
   /// No description provided for @gamePrinciple.
   ///
   /// In fr, this message translates to:

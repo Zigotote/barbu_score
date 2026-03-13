@@ -2,6 +2,7 @@ import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/my_dropdown.dart';
+import 'package:barbu_score/pages/rules/widgets/settings/game_deck_settings.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -112,6 +113,8 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
           ),
           const SizedBox(height: 16),
           _buildCardsToKeepText(gameSettings),
+          SizedBox(height: 24),
+          GameDeckSettings(),
         ],
       ),
     );
