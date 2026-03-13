@@ -111,59 +111,7 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
                   sizeFactor: _animationButton,
                   child: Container(
                     alignment: Alignment.bottomRight,
-                    child: TextButton(
-                      onPressed: () {
-                        setState(() => _isSettingsView = !_isSettingsView);
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(
-                          Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        padding: WidgetStatePropertyAll(
-                          EdgeInsets.symmetric(horizontal: 8),
-                        ),
-                        shape: WidgetStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: borderRadius,
-                              topRight: borderRadius,
-                            ),
-                            side: BorderSide(
-                              width: borderWidth,
-                              color: borderColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                      child: AnimatedCrossFade(
-                        duration: Duration(milliseconds: 400),
-                        firstChild: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          spacing: 8,
-                          children: [
-                            Icon(Icons.history_edu_outlined),
-                            Text(
-                              "Règles",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        secondChild: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          spacing: 8,
-                          children: [
-                            Icon(Icons.settings),
-                            Text(
-                              "Paramètres",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        crossFadeState: _isSettingsView
-                            ? CrossFadeState.showFirst
-                            : CrossFadeState.showSecond,
-                      ),
-                    ),
+                    child: _buildCardButton(),
                   ),
                 ),
               ],
@@ -179,6 +127,60 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
           ),
         ],
       ),
+    );
+  }
+
+  /// Builds the button for the card
+  Widget _buildCardButton() {
+    return TextButton(
+      onPressed: () {
+        setState(() => _isSettingsView = !_isSettingsView);
+      },
+      style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(
+          Theme.of(context).scaffoldBackgroundColor,
+        ),
+        padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 8)),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: const BorderRadius.only(
+              topLeft: borderRadius,
+              topRight: borderRadius,
+            ),
+            side: BorderSide(width: borderWidth, color: borderColor),
+          ),
+        ),
+      ),
+      child: AnimatedCrossFade(
+        duration: Duration(milliseconds: 400),
+        firstChild: _buildButtonText(
+          Icons.history_edu_outlined,
+          context.l10n.rules,
+        ),
+        secondChild: _buildButtonText(Icons.settings, context.l10n.settings),
+        crossFadeState: _isSettingsView
+            ? CrossFadeState.showFirst
+            : CrossFadeState.showSecond,
+      ),
+    );
+  }
+
+  Widget _buildButtonText(IconData icon, String text) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final canDisplayText =
+            constraints.maxWidth >
+            MediaQuery.textScalerOf(context).scale(11) * text.length;
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 8,
+          children: [
+            Icon(icon, semanticLabel: text),
+            if (canDisplayText)
+              Text(text, style: Theme.of(context).textTheme.bodyMedium),
+          ],
+        );
+      },
     );
   }
 

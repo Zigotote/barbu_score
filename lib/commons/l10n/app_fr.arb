@@ -393,7 +393,8 @@
   "reportBugMail": "Bonjour,\n\nJe souhaiterais signaler un bug rencontré sur l’application. Voici les détails\u00A0:\n\n-\u00A0Description du bug (expliquez ce qu'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.)\u00A0:\n\n-\u00A0Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise)\u00A0: \n\n-\u00A0Comportement attendu (ce qui aurait dû se passer)\u00A0:",
   "requestFeature": "Ajouter une amélioration",
   "requestFeatureMail": "Bonjour,\n\nJe souhaiterais proposer une nouvelle fonctionnalité pour l'application, afin de...",
-  "rules": "Règles et configurations",
+  "rules": "Règles",
+  "rulesAndConfig": "Règles et configurations",
   "rulesBarbu": "La personne emportant le roi de coeur (Barbu) marque {points} points.",
   "@rulesBarbu": {
     "placeholders": {

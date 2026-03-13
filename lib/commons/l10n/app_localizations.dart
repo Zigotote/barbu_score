@@ -1006,8 +1006,14 @@ abstract class AppLocalizations {
   /// No description provided for @rules.
   ///
   /// In fr, this message translates to:
-  /// **'Règles et configurations'**
+  /// **'Règles'**
   String get rules;
+
+  /// No description provided for @rulesAndConfig.
+  ///
+  /// In fr, this message translates to:
+  /// **'Règles et configurations'**
+  String get rulesAndConfig;
 
   /// No description provided for @rulesBarbu.
   ///

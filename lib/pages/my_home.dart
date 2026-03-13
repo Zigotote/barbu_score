@@ -207,7 +207,10 @@ class MyHome extends ConsumerWidget {
                 ),
               ),
               ElevatedButton(
-                child: Text(context.l10n.rules, textAlign: TextAlign.center),
+                child: Text(
+                  context.l10n.rulesAndConfig,
+                  textAlign: TextAlign.center,
+                ),
                 onPressed: () {
                   SnackBarUtils.instance.closeSnackBar(context);
                   context.push(Routes.rules);
