@@ -1,12 +1,12 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
+import '../../../commons/widgets/my_switch.dart';
+import '../../../commons/widgets/setting_question.dart';
 import '../../../theme/theme_provider.dart';
-import 'setting_question.dart';
 
 /// A widget to choose app theme
 class AppThemeChoice extends ConsumerStatefulWidget {

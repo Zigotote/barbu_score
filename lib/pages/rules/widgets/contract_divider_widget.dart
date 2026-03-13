@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/providers/storage.dart';
-import '../../settings/contract_with_points_settings.dart';
-import '../../settings/domino_contract_settings.dart';
-import '../../settings/salad_contract_settings.dart';
+import 'settings/contract_with_points_settings.dart';
+import 'settings/domino_contract_settings.dart';
+import 'settings/salad_contract_settings.dart';
 
 class ContractDividerWidget extends ConsumerStatefulWidget {
   final ContractsInfo contract;

@@ -8,9 +8,9 @@ import '../../../commons/models/contract_settings_models.dart';
 import '../../../commons/widgets/alert_dialog.dart';
 import '../../../commons/widgets/my_appbar.dart';
 import '../../../commons/widgets/my_default_page.dart';
+import '../../../commons/widgets/my_switch.dart';
+import '../../../commons/widgets/setting_question.dart';
 import '../notifiers/contract_settings_provider.dart';
-import 'my_switch.dart';
-import 'setting_question.dart';
 
 /// A base widget to edit a contract settings
 class ContractSettingsPage extends ConsumerWidget {

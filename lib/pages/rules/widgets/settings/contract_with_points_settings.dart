@@ -1,15 +1,15 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/pages/settings/widgets/change_contract_activation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../commons/models/contract_info.dart';
-import '../../commons/models/contract_settings_models.dart';
-import '../../commons/providers/storage.dart';
-import 'utils/change_settings.dart';
-import 'widgets/my_switch.dart';
-import 'widgets/number_input.dart';
-import 'widgets/setting_question.dart';
+import '../../../../commons/models/contract_info.dart';
+import '../../../../commons/models/contract_settings_models.dart';
+import '../../../../commons/providers/storage.dart';
+import '../../../../commons/widgets/my_switch.dart';
+import '../../../../commons/widgets/setting_question.dart';
+import '../../utils/change_settings.dart';
+import 'change_contract_activation.dart';
+import 'number_input.dart';
 
 /// A page to edit the settings for a contract where each player has a different score
 class ContractWithPointsSettingsPage extends ConsumerWidget

@@ -1,18 +1,18 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
-import 'package:barbu_score/pages/settings/contract_with_points_settings.dart';
-import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
-import 'package:barbu_score/pages/settings/widgets/number_input.dart';
+import 'package:barbu_score/commons/widgets/my_switch.dart';
+import 'package:barbu_score/pages/rules/widgets/settings/contract_with_points_settings.dart';
+import 'package:barbu_score/pages/rules/widgets/settings/number_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../utils/french_material_app.dart';
-import '../../utils/utils.mocks.dart';
-import 'utils/settings_utils.dart';
+import '../../../../utils/french_material_app.dart';
+import '../../../../utils/utils.mocks.dart';
+import '../../../settings/utils/settings_utils.dart';
 
 const _defaultContract = ContractsInfo.noHearts;
 

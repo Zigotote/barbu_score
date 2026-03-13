@@ -1,9 +1,9 @@
-import 'package:barbu_score/pages/settings/widgets/number_input.dart';
+import 'package:barbu_score/pages/rules/widgets/settings/number_input.dart';
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../../../utils/utils.dart';
+import '../../../../utils/utils.dart';
 
 void main() {
   for (var numberValueTest in [1, -1]) {

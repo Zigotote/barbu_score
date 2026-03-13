@@ -6,7 +6,7 @@ import 'package:barbu_score/pages/settings/widgets/my_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'setting_question.dart';
+import '../../../commons/widgets/setting_question.dart';
 
 /// A page to edit game settings
 class GameSettingsWidget extends ConsumerWidget {
