@@ -355,12 +355,6 @@ abstract class AppLocalizations {
   /// **'Que souhaitez-vous signaler ?'**
   String get contactReason;
 
-  /// No description provided for @contractPoints.
-  ///
-  /// In fr, this message translates to:
-  /// **'Points du contrat'**
-  String get contractPoints;
-
   /// No description provided for @contracts.
   ///
   /// In fr, this message translates to:
@@ -703,6 +697,12 @@ abstract class AppLocalizations {
   /// **'Langue'**
   String get language;
 
+  /// No description provided for @lastTrick.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dernier'**
+  String get lastTrick;
+
   /// No description provided for @loadGame.
   ///
   /// In fr, this message translates to:
@@ -900,6 +900,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Points par {item}'**
   String pointsBy(String item);
+
+  /// No description provided for @pointsOf.
+  ///
+  /// In fr, this message translates to:
+  /// **'Points du {item}'**
+  String pointsOf(String item);
 
   /// No description provided for @pointsForNbPlayers.
   ///

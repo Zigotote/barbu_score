@@ -184,9 +184,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get contactReason => 'Que souhaitez-vous signaler ?';
 
   @override
-  String get contractPoints => 'Points du contrat';
-
-  @override
   String get contracts => 'Contrats';
 
   @override
@@ -410,6 +407,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get language => 'Langue';
 
   @override
+  String get lastTrick => 'Dernier';
+
+  @override
   String get loadGame => 'Charger une partie';
 
   @override
@@ -532,6 +532,11 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String pointsBy(String item) {
     return 'Points par $item';
+  }
+
+  @override
+  String pointsOf(String item) {
+    return 'Points du $item';
   }
 
   @override

@@ -31,7 +31,7 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
       children: [
         ChangeContractActivation(contract, settings),
         SettingQuestion(
-          label: context.l10n.contractPoints,
+          label: context.l10n.contractPoints(contract),
           onTap: numberFocusNode.requestFocus,
           input: NumberInput(
             value: settings.points,

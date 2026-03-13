@@ -124,7 +124,6 @@
   "contact": "Contact",
   "contactByMail": "Contacter par mail",
   "contactReason": "Que souhaitez-vous signaler\u00A0?",
-  "contractPoints": "Points du contrat",
   "contracts": "Contrats",
   "contractsOf": "Contrats de {player}",
   "@contractsOf": {
@@ -268,6 +267,7 @@
   "keep": "Conserver",
   "king": "roi",
   "language": "Langue",
+  "lastTrick": "Dernier",
   "loadGame": "Charger une partie",
   "loadGameIndication": "Sélectionnez \"Charger une partie\" pour la poursuivre.",
   "loadPreviousGame": "Reprendre la partie précédente avec {players}\u00A0?",
@@ -366,6 +366,15 @@
       "item": {
         "type": "String",
         "example": "coeur"
+      }
+    }
+  },
+  "pointsOf": "Points du {item}",
+  "@pointsOf": {
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Barbu"
       }
     }
   },

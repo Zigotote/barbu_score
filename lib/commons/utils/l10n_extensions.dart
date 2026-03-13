@@ -143,6 +143,18 @@ extension MyAppLocalizations on AppLocalizations {
     };
   }
 
+  String contractPoints(ContractsInfo contract) {
+    return switch (contract) {
+      ContractsInfo.barbu ||
+      ContractsInfo.noLastTrick => pointsOf(itemsName(contract)),
+      ContractsInfo.noHearts ||
+      ContractsInfo.noQueens ||
+      ContractsInfo.noTricks ||
+      ContractsInfo.trumps => pointsBy(itemsName(contract)),
+      ContractsInfo.salad || ContractsInfo.domino => "",
+    };
+  }
+
   /// Returns the name of the item won for this contract
   String itemsName(ContractsInfo contract) {
     return switch (contract) {
@@ -150,7 +162,7 @@ extension MyAppLocalizations on AppLocalizations {
       ContractsInfo.noHearts => heart,
       ContractsInfo.noQueens => queen,
       ContractsInfo.noTricks || ContractsInfo.trumps => trick,
-      ContractsInfo.noLastTrick => noLastTrick,
+      ContractsInfo.noLastTrick => lastTrick,
       ContractsInfo.salad => salad,
       ContractsInfo.domino => domino,
     };
