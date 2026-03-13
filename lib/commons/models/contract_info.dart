@@ -1,41 +1,21 @@
 import 'package:barbu_score/theme/my_theme_colors.dart';
 
-import '../../main.dart';
 import 'contract_settings_models.dart';
 
 /// List the names of the contracts for a game
 enum ContractsInfo {
-  barbu(
-    color: MyThemeColors.brown,
-    settingsRoute: "${Routes.contractWithPointsSettings}/barbu",
-  ),
-  noHearts(
-    color: MyThemeColors.red,
-    settingsRoute: "${Routes.contractWithPointsSettings}/noHearts",
-  ),
-  noQueens(
-    color: MyThemeColors.orange,
-    settingsRoute: "${Routes.contractWithPointsSettings}/noQueens",
-  ),
-  noTricks(
-    color: MyThemeColors.blueGreen,
-    settingsRoute: "${Routes.contractWithPointsSettings}/noTricks",
-  ),
-  noLastTrick(
-    color: MyThemeColors.darkBlue,
-    settingsRoute: "${Routes.contractWithPointsSettings}/noLastTrick",
-  ),
-  salad(color: MyThemeColors.green, settingsRoute: Routes.saladSettings),
-  trumps(
-    color: MyThemeColors.yellow,
-    settingsRoute: "${Routes.contractWithPointsSettings}/trumps",
-  ),
-  domino(color: MyThemeColors.purple, settingsRoute: Routes.dominoSettings);
+  barbu(color: MyThemeColors.brown),
+  noHearts(color: MyThemeColors.red),
+  noQueens(color: MyThemeColors.orange),
+  noTricks(color: MyThemeColors.blueGreen),
+  noLastTrick(color: MyThemeColors.darkBlue),
+  salad(color: MyThemeColors.green),
+  trumps(color: MyThemeColors.yellow),
+  domino(color: MyThemeColors.purple);
 
   final MyThemeColors color;
-  final String settingsRoute;
 
-  const ContractsInfo({required this.color, required this.settingsRoute});
+  const ContractsInfo({required this.color});
 
   AbstractContractSettings get defaultSettings {
     switch (this) {
