@@ -1,7 +1,7 @@
 import 'package:barbu_score/commons/models/game_settings.dart';
-import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/my_dropdown.dart';
+import 'package:barbu_score/pages/rules/notifiers/change_game_settings.dart';
 import 'package:barbu_score/pages/rules/widgets/settings/game_deck_settings.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +83,7 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
 
   @override
   Widget build(BuildContext context) {
-    final gameSettings = ref.watch(storageProvider).getGameSettings();
+    final gameSettings = ref.watch(changeGameSettingsProvider);
     return RulesPage(
       pageIndex: widget.pageIndex,
       title: context.l10n.prepareGameRules,

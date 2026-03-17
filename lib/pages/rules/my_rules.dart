@@ -1,13 +1,16 @@
+import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:turn_page_transition/turn_page_transition.dart';
 
 import '../../commons/providers/log.dart';
+import '../../commons/providers/storage.dart';
 import 'contracts_rules.dart';
 import 'game_presentation.dart';
 import 'game_round_rules.dart';
 import 'models/rules_page_name.dart';
+import 'notifiers/change_game_settings.dart';
 import 'notifiers/turn_page.dart';
 import 'prepare_game_rules.dart';
 
@@ -37,22 +40,48 @@ class _MyRulesState extends ConsumerState<MyRules> {
 
   @override
   Widget build(BuildContext context) {
-    return TurnPageView.builder(
-      controller: ref.watch(turnPageProvider),
-      itemCount: RulesPageName.values.length,
-      itemBuilder: (context, index) {
-        return switch (RulesPageName.values[index]) {
-          RulesPageName.gamePresentation => GamePresentation(index),
-          RulesPageName.prepareGame => PrepareGameRules(index),
-          RulesPageName.gameRound => GameRoundRules(index),
-          RulesPageName.contractRules => ContractsRules(
-            index,
-            isInGame: widget.startingPage != null,
-          ),
-        };
+    return PopScope(
+      onPopInvokedWithResult: (_, _) {
+        final storage = ref.read(storageProvider);
+        final log = ref.read(logProvider);
+
+        final newGameSettings = ref.read(changeGameSettingsProvider);
+        if (newGameSettings != storage.getGameSettings()) {
+          storage.saveGameSettings(newGameSettings);
+          log.info("MyRules: save new game settings $newGameSettings");
+          log.sendAnalyticEvent("modify_game_settings");
+        }
+
+        final newContractSettings = ref.read(changeContractsSettingsProvider);
+        for (var contract in newContractSettings.entries) {
+          if (storage.getSettings(contract.key) != contract.value) {
+            storage.saveSettings(contract.key, contract.value);
+            log.info("MyRules: save new contract settings $newGameSettings");
+            log.sendAnalyticEvent(
+              "modify_settings",
+              parameters: {"contract": contract.key.name},
+            );
+          }
+        }
       },
-      useOnTap: false,
-      overleafColorBuilder: (_) => Theme.of(context).colorScheme.greyBackground,
+      child: TurnPageView.builder(
+        controller: ref.watch(turnPageProvider),
+        itemCount: RulesPageName.values.length,
+        itemBuilder: (context, index) {
+          return switch (RulesPageName.values[index]) {
+            RulesPageName.gamePresentation => GamePresentation(index),
+            RulesPageName.prepareGame => PrepareGameRules(index),
+            RulesPageName.gameRound => GameRoundRules(index),
+            RulesPageName.contractRules => ContractsRules(
+              index,
+              isInGame: widget.startingPage != null,
+            ),
+          };
+        },
+        useOnTap: false,
+        overleafColorBuilder: (_) =>
+            Theme.of(context).colorScheme.greyBackground,
+      ),
     );
   }
 }

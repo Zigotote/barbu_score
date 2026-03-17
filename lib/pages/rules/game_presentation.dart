@@ -1,6 +1,6 @@
-import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/my_section_title.dart';
+import 'package:barbu_score/pages/rules/notifiers/change_game_settings.dart';
 import 'package:barbu_score/pages/rules/widgets/settings/game_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +15,6 @@ class GamePresentation extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gameSettings = ref.watch(storageProvider).getGameSettings();
     return RulesPage(
       pageIndex: pageIndex,
       title: context.l10n.rules,
@@ -25,7 +24,7 @@ class GamePresentation extends ConsumerWidget {
         children: [
           Text(context.l10n.presentGame),
           Text(
-            gameSettings.goalIsMinScore
+            ref.watch(changeGameSettingsProvider).goalIsMinScore
                 ? context.l10n.presentGameGoalMinScore
                 : context.l10n.presentGameGoalMaxScore,
           ),

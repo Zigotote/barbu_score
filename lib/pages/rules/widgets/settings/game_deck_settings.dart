@@ -5,26 +5,22 @@ import 'package:barbu_score/pages/rules/widgets/settings/my_settings_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../commons/providers/log.dart';
-import '../../../../commons/providers/storage.dart';
 import '../../../../commons/widgets/setting_question.dart';
+import '../../notifiers/change_game_settings.dart';
 
 /// A page to edit game settings
 class GameDeckSettings extends ConsumerWidget {
   const GameDeckSettings({super.key});
 
   void _changeGameSettings(WidgetRef ref, GameSettings gameSettings) {
-    ref.read(storageProvider).saveGameSettings(gameSettings);
-    ref.invalidate(storageProvider);
     ref
-        .read(logProvider)
-        .info("MySettings: change game settings $gameSettings");
-    ref.read(logProvider).sendAnalyticEvent("modify_game_settings");
+        .read(changeGameSettingsProvider.notifier)
+        .changeGameSettings(gameSettings);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    GameSettings settings = ref.watch(storageProvider).getGameSettings();
+    GameSettings settings = ref.watch(changeGameSettingsProvider);
     return MySettingsCard(
       children: [
         SettingQuestion(
