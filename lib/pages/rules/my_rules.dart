@@ -1,3 +1,4 @@
+import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
@@ -52,14 +53,18 @@ class _MyRulesState extends ConsumerState<MyRules> {
           log.sendAnalyticEvent("modify_game_settings");
         }
 
-        final newContractSettings = ref.read(changeContractsSettingsProvider);
-        for (var contract in newContractSettings.entries) {
-          if (storage.getSettings(contract.key) != contract.value) {
-            storage.saveSettings(contract.key, contract.value);
-            log.info("MyRules: save new contract settings $newGameSettings");
+        for (var contract in ContractsInfo.values) {
+          final newContractSettings = ref.read(
+            changeContractsSettingsProvider(contract),
+          );
+          if (storage.getSettings(contract) != newContractSettings) {
+            storage.saveSettings(contract, newContractSettings);
+            log.info(
+              "MyRules: save new contract settings $newContractSettings",
+            );
             log.sendAnalyticEvent(
               "modify_settings",
-              parameters: {"contract": contract.key.name},
+              parameters: {"contract": contract.name},
             );
           }
         }

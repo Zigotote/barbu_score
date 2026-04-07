@@ -1,10 +1,10 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/models/contract_info.dart';
 import '../../../../commons/models/contract_settings_models.dart';
-import '../../../../commons/providers/storage.dart';
 import '../../../../commons/widgets/my_switch.dart';
 import '../../../../commons/widgets/setting_question.dart';
 import '../../utils/change_settings.dart';
@@ -22,14 +22,14 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings =
-        ref.read(storageProvider).getSettings(contract).copyWith()
+        ref.watch(changeContractsSettingsProvider(contract))
             as ContractWithPointsSettings;
     final numberFocusNode = FocusNode();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
       children: [
-        ChangeContractActivation(contract, settings),
+        ChangeContractActivation(contract),
         SettingQuestion(
           label: context.l10n.contractPoints(contract),
           onTap: numberFocusNode.requestFocus,
@@ -37,8 +37,9 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
             value: settings.points,
             onChanged: (value) {
               if (value != settings.points) {
-                settings.points = value;
-                saveNewSettings(ref, contract, settings);
+                ref
+                    .read(changeContractsSettingsProvider(contract).notifier)
+                    .changeContractSettings(settings.copyWith(points: value));
               }
             },
             focusNode: numberFocusNode,
@@ -48,16 +49,18 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
           SettingQuestion(
             tooltip: context.l10n.detailedInvertScoreRules(settings.points),
             label: context.l10n.invertScore,
-            onTap: () {
-              settings.invertScore = !settings.invertScore;
-              saveNewSettings(ref, contract, settings);
-            },
+            onTap: () => ref
+                .read(changeContractsSettingsProvider(contract).notifier)
+                .changeContractSettings(
+                  settings.copyWith(invertScore: !settings.invertScore),
+                ),
             input: MySwitch(
               isActive: settings.invertScore,
-              onChanged: (value) {
-                settings.invertScore = value;
-                saveNewSettings(ref, contract, settings);
-              },
+              onChanged: (value) => ref
+                  .read(changeContractsSettingsProvider(contract).notifier)
+                  .changeContractSettings(
+                    settings.copyWith(invertScore: value),
+                  ),
             ),
           ),
       ],

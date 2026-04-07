@@ -19,7 +19,7 @@ abstract class AbstractContractSettings {
   final String name;
 
   /// The indicator to know if the user wants to have this contract in its games or not
-  bool isActive;
+  final bool isActive;
 
   AbstractContractSettings({
     this.isActive = true,
@@ -84,10 +84,10 @@ abstract class AbstractContractSettings {
 /// A class to save the settings for a contract where multiple players can have some points
 class ContractWithPointsSettings extends AbstractContractSettings {
   /// The points for one item
-  int points;
+  final int points;
 
   /// The indicator to know if the score should be inverted if one players wins all contract items
-  bool invertScore;
+  final bool invertScore;
 
   ContractWithPointsSettings({
     super.contract,
@@ -156,10 +156,10 @@ class SaladContractSettings extends AbstractContractSettings {
       .toList();
 
   /// A map to know if each contract should be part of salad contract or not
-  Map<String, bool> contracts;
+  final Map<String, bool> contracts;
 
   /// The indicator to know if the score should be inverted if one players wins all tricks
-  bool invertScore;
+  final bool invertScore;
 
   SaladContractSettings({
     super.isActive,

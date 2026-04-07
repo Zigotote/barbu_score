@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
 import 'package:barbu_score/pages/rules/widgets/contract_divider_widget.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:collection/collection.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/models/contract_info.dart';
-import '../../commons/providers/storage.dart';
 import 'widgets/rules_page.dart';
 
 class ContractsRules extends ConsumerWidget {
@@ -32,8 +32,7 @@ class ContractsRules extends ConsumerWidget {
               .where((contract) {
                 if (isInGame) {
                   return ref
-                      .watch(storageProvider)
-                      .getSettings(contract)
+                      .read(changeContractsSettingsProvider(contract))
                       .isActive;
                 }
                 return true;

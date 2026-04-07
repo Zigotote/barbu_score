@@ -1,21 +1,28 @@
+import 'package:barbu_score/commons/models/contract_info.dart';
+import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../commons/models/game_settings.dart';
 import '../../../commons/providers/storage.dart';
 
-final changeGameSettingsProvider =
-    NotifierProvider<ChangeGameSettingsProvider, GameSettings>(
-      ChangeGameSettingsProvider.new,
-      isAutoDispose: true,
-    );
+final changeContractsSettingsProvider =
+    NotifierProvider.family<
+      ChangeContractsSettingsProvider,
+      AbstractContractSettings,
+      ContractsInfo
+    >(ChangeContractsSettingsProvider.new, isAutoDispose: true);
 
-class ChangeGameSettingsProvider extends Notifier<GameSettings> {
+class ChangeContractsSettingsProvider
+    extends Notifier<AbstractContractSettings> {
+  final ContractsInfo contract;
+
+  ChangeContractsSettingsProvider(this.contract);
+
   @override
-  GameSettings build() {
-    return ref.read(storageProvider).getGameSettings();
+  AbstractContractSettings build() {
+    return ref.read(storageProvider).getSettings(contract);
   }
 
-  void changeGameSettings(GameSettings gameSettings) {
-    state = gameSettings;
+  void changeContractSettings(AbstractContractSettings settings) {
+    state = settings;
   }
 }

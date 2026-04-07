@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,7 +30,7 @@ class _SaladContractSettingsPageState
   void initState() {
     super.initState();
     settings =
-        ref.read(storageProvider).getSettings(ContractsInfo.salad).copyWith()
+        ref.read(changeContractsSettingsProvider(ContractsInfo.salad))
             as SaladContractSettings;
     final storedGame = ref.read(storageProvider).getStoredGame();
     final playersWithContract = widget.playersWithContract(
@@ -61,9 +62,12 @@ class _SaladContractSettingsPageState
     settings.contracts[subContract.name] =
         !settings.contracts[subContract.name]!;
     if (!settings.contracts.containsValue(true)) {
-      setState(() => settings.isActive = false);
+      //TODO Océane to reactivate
+      // setState(() => settings.isActive = false);
     }
-    widget.saveNewSettings(ref, ContractsInfo.salad, settings);
+    ref
+        .read(changeContractsSettingsProvider(ContractsInfo.salad).notifier)
+        .changeContractSettings(settings);
   }
 
   @override
@@ -71,7 +75,7 @@ class _SaladContractSettingsPageState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ChangeContractActivation(ContractsInfo.salad, settings),
+        ChangeContractActivation(ContractsInfo.salad),
         SizedBox(height: 8),
         Semantics(
           header: true,
@@ -97,16 +101,22 @@ class _SaladContractSettingsPageState
         SettingQuestion(
           tooltip: context.l10n.detailedInvertScoreRules(),
           label: context.l10n.invertScore,
-          onTap: () {
-            settings.invertScore = !settings.invertScore;
-            widget.saveNewSettings(ref, ContractsInfo.salad, settings);
-          },
+          onTap: () => ref
+              .read(
+                changeContractsSettingsProvider(ContractsInfo.salad).notifier,
+              )
+              .changeContractSettings(
+                settings.copyWith(invertScore: !settings.invertScore),
+              ),
           input: MySwitch(
             isActive: settings.invertScore,
-            onChanged: (value) {
-              settings.invertScore = value;
-              widget.saveNewSettings(ref, ContractsInfo.salad, settings);
-            },
+            onChanged: (value) => ref
+                .read(
+                  changeContractsSettingsProvider(ContractsInfo.salad).notifier,
+                )
+                .changeContractSettings(
+                  settings.copyWith(invertScore: !settings.invertScore),
+                ),
           ),
         ),
       ],

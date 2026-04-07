@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,9 +14,8 @@ import '../../utils/change_settings.dart';
 
 class ChangeContractActivation extends ConsumerWidget with ChangeSettings {
   final ContractsInfo contract;
-  final AbstractContractSettings settings;
 
-  ChangeContractActivation(this.contract, this.settings, {super.key});
+  ChangeContractActivation(this.contract, {super.key});
 
   /// If the contract is deactivated but has been played, shows an alert before to confirm the deactivation.
   /// Otherwise, toggles the contract state
@@ -68,14 +68,14 @@ class ChangeContractActivation extends ConsumerWidget with ChangeSettings {
                 isDestructive: true,
                 onPressed: () {
                   context.pop(true);
-                  _toggleAndSaveIsActive(ref, contract, settings);
+                  _toggleAndSaveIsActive(ref, settings);
                 },
               ),
             ],
           ),
         );
       } else {
-        _toggleAndSaveIsActive(ref, contract, settings);
+        _toggleAndSaveIsActive(ref, settings);
       }
     }
   }
@@ -83,15 +83,18 @@ class ChangeContractActivation extends ConsumerWidget with ChangeSettings {
   /// Toggle contract activation and saves it
   void _toggleAndSaveIsActive(
     WidgetRef ref,
-    ContractsInfo contract,
     AbstractContractSettings settings,
   ) {
-    settings.isActive = !settings.isActive;
-    saveNewSettings(ref, contract, settings);
+    ref
+        .read(changeContractsSettingsProvider(contract).notifier)
+        .changeContractSettings(
+          settings.copyWith(isActive: !settings.isActive),
+        );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(changeContractsSettingsProvider(contract));
     return SettingQuestion(
       label: context.l10n.activateContract,
       onTap: () => toggleIsActiveIfPossible(context, ref, contract, settings),

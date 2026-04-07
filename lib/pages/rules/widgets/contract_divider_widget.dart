@@ -1,11 +1,11 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
-import '../../../commons/providers/storage.dart';
 import 'settings/contract_with_points_settings.dart';
 import 'settings/domino_contract_settings.dart';
 import 'settings/salad_contract_settings.dart';
@@ -49,8 +49,7 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
   @override
   void initState() {
     _isExpanded = ref
-        .read(storageProvider)
-        .getSettings(widget.contract)
+        .read(changeContractsSettingsProvider(widget.contract))
         .isActive;
     _controller = AnimationController(
       vsync: this,
@@ -235,10 +234,8 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
             style: const TextStyle(fontStyle: FontStyle.italic),
           ),
         Text(
-          context.l10n.contractRules(
-            widget.contract,
-            settings
-          ),
+          // TODO Océane c'est cassé là parce que je suis pas branché sur changeContractsSettings
+          context.l10n.contractRules(widget.contract, settings),
         ),
       ],
     );
@@ -263,7 +260,9 @@ class _ContractDividerWidgetState extends ConsumerState<ContractDividerWidget>
 
   @override
   Widget build(BuildContext context) {
-    final settings = ref.watch(storageProvider).getSettings(widget.contract);
+    final settings = ref.watch(
+      changeContractsSettingsProvider(widget.contract),
+    );
     return Semantics(
       expanded: _isExpanded,
       child: Column(

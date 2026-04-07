@@ -1,11 +1,11 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 import '../../../../commons/models/contract_info.dart';
 import '../../../../commons/models/contract_settings_models.dart';
-import '../../../../commons/providers/storage.dart';
 import '../../../../commons/utils/constants.dart';
 import '../../../../commons/utils/player_icon_properties.dart';
 import '../../../../commons/widgets/player_icon.dart';
@@ -116,7 +116,15 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
             value: settings.points[nbPlayers]![playerIndex],
             onChanged: (value) {
               settings.points[nbPlayers]?[playerIndex] = value;
-              saveNewSettings(ref, ContractsInfo.domino, settings);
+              ref
+                  .read(
+                    changeContractsSettingsProvider(
+                      ContractsInfo.domino,
+                    ).notifier,
+                  )
+                  .changeContractSettings(
+                    settings.copyWith(points: settings.points),
+                  );
             },
           ),
         );
@@ -128,12 +136,12 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings =
-        ref.read(storageProvider).getSettings(ContractsInfo.domino).copyWith()
+        ref.watch(changeContractsSettingsProvider(ContractsInfo.domino))
             as DominoContractSettings;
     return Column(
       spacing: 8,
       children: [
-        ChangeContractActivation(ContractsInfo.domino, settings),
+        ChangeContractActivation(ContractsInfo.domino),
         Flexible(child: _buildDataTable(context, ref, settings)),
       ],
     );
