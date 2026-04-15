@@ -14,7 +14,7 @@ class MyThemes {
   static ThemeData _baseTheme(ThemeData baseTheme) {
     final onSurfaceColor = baseTheme.colorScheme.onSurface;
     final grey = baseTheme.colorScheme.grey;
-    final disabledColor = baseTheme.colorScheme.disabled;
+    final disabledColor = baseTheme.colorScheme.onDisabledBackground;
 
     final TextTheme textTheme = baseTheme.textTheme.apply(
       fontFamily: "QuickSand",
@@ -100,7 +100,7 @@ class MyThemes {
             Set<WidgetState> states,
           ) {
             if (states.contains(WidgetState.disabled)) {
-              return baseTheme.colorScheme.disabled;
+              return disabledColor;
             }
             return baseTheme.colorScheme.onSurface;
           }),
@@ -108,11 +108,16 @@ class MyThemes {
       ),
       switchTheme: SwitchThemeData(
         trackOutlineWidth: const WidgetStatePropertyAll(1),
-        trackOutlineColor: WidgetStatePropertyAll(onSurfaceColor),
+        trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+          if (states.any((element) => (element == WidgetState.disabled))) {
+            return baseTheme.colorScheme.onDisabledBackground;
+          }
+          return onSurfaceColor;
+        }),
         trackColor: WidgetStateProperty.resolveWith((states) {
           if (states.any((element) => (element == WidgetState.selected))) {
             if (states.any((element) => (element == WidgetState.disabled))) {
-              return disabledColor;
+              return baseTheme.colorScheme.disabledBackground;
             }
             return baseTheme.colorScheme.success;
           }
@@ -123,18 +128,23 @@ class MyThemes {
             return Icon(
               Icons.check,
               color: states.any((element) => (element == WidgetState.disabled))
-                  ? grey
+                  ? disabledColor
                   : baseTheme.colorScheme.success,
             );
           }
-          return Icon(Icons.close);
+          return Icon(
+            Icons.close,
+            color: states.any((element) => (element == WidgetState.disabled))
+                ? disabledColor
+                : onSurfaceColor,
+          );
         }),
         thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.any((element) => (element == WidgetState.disabled))) {
+            return baseTheme.colorScheme.disabledBackground;
+          }
           if (states.any((element) => (element == WidgetState.selected))) {
             return Colors.white;
-          }
-          if (states.any((element) => (element == WidgetState.disabled))) {
-            return disabledColor;
           }
           return onSurfaceColor;
         }),
@@ -193,7 +203,7 @@ class MyThemes {
         Set<WidgetState> states,
       ) {
         if (states.contains(WidgetState.disabled)) {
-          return colorScheme.disabled;
+          return colorScheme.onDisabledBackground;
         }
         return colorScheme.onSurface;
       }),
@@ -202,11 +212,18 @@ class MyThemes {
         Set<WidgetState> states,
       ) {
         if (states.contains(WidgetState.disabled)) {
-          return colorScheme.disabled;
+          return colorScheme.onDisabledBackground;
         }
         return colorScheme.onSurface;
       }),
-      backgroundColor: WidgetStatePropertyAll(theme.scaffoldBackgroundColor),
+      backgroundColor: WidgetStateProperty.resolveWith((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.disabled)) {
+          return colorScheme.disabledBackground;
+        }
+        return theme.scaffoldBackgroundColor;
+      }),
       elevation: hasElevation
           ? WidgetStateProperty.resolveWith((Set<WidgetState> states) {
               if (states.contains(WidgetState.disabled)) {
@@ -229,7 +246,10 @@ class MyThemes {
           color: colorScheme.onSurface,
         );
         if (states.contains(WidgetState.disabled)) {
-          border = border.copyWith(color: colorScheme.disabled, width: 1);
+          border = border.copyWith(
+            color: colorScheme.onDisabledBackground,
+            width: 1,
+          );
         }
         return border;
       }),
@@ -241,12 +261,17 @@ class MyThemes {
 }
 
 extension CustomThemeValues on ColorScheme {
-  /// The color to use for disabled texts
-  Color get disabled => brightness == Brightness.dark
-      ? const Color(0xffAFAFAF)
-      : const Color(0xff757575);
+  /// The color to use for disabled backgrounds
+  Color get disabledBackground => brightness == Brightness.dark
+      ? const Color(0xff1F1C24)
+      : const Color(0xffF3EDF7);
 
-  // The grey color matching theme
+  /// The color to use for disabled texts
+  Color get onDisabledBackground => brightness == Brightness.dark
+      ? const Color(0xff8A8691)
+      : const Color(0xff69686E);
+
+  /// The grey color matching theme
   Color get grey => const Color(0xffafafaf);
 
   /// The background grey color, used to display text on top
