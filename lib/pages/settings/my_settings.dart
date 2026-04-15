@@ -1,5 +1,4 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/commons/widgets/my_card.dart';
 import 'package:barbu_score/commons/widgets/my_section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +27,19 @@ class MySettings extends ConsumerWidget {
         children: [
           MySectionTitle(context.l10n.application),
           SizedBox(height: 16),
-          MyCard(children: [const AppThemeChoice(), const LanguageChoice()]),
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  const AppThemeChoice(),
+                  Divider(),
+                  const LanguageChoice(),
+                ],
+              ),
+            ),
+          ),
           SizedBox(height: 24),
           MySectionTitle(context.l10n.moreInfo),
           SizedBox(height: 16),

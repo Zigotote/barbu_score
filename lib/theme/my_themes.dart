@@ -27,6 +27,11 @@ class MyThemes {
       appBarTheme: AppBarTheme(
         titleTextStyle: titleLarge?.copyWith(fontSize: 24),
       ),
+      cardTheme: CardThemeData(
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        color: baseTheme.colorScheme.greyBackground,
+      ),
       colorScheme: baseTheme.colorScheme.copyWith(
         surfaceTint: baseTheme.scaffoldBackgroundColor,
         error: baseTheme.brightness == Brightness.dark
