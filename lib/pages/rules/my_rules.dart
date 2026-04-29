@@ -1,5 +1,5 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
-import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
+import 'package:barbu_score/pages/settings/notifiers/change_contracts_settings.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

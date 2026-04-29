@@ -4,7 +4,7 @@ import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
 import 'package:barbu_score/commons/widgets/my_switch.dart';
-import 'package:barbu_score/pages/rules/widgets/settings/salad_contract_settings.dart';
+import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

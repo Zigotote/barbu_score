@@ -3,7 +3,7 @@ import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
 import 'package:barbu_score/commons/widgets/my_switch.dart';
-import 'package:barbu_score/pages/rules/widgets/settings/change_contract_activation.dart';
+import 'package:barbu_score/pages/settings/widgets/change_contract_activation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -151,7 +151,7 @@ UncontrolledProviderScope _createPage({
   return UncontrolledProviderScope(
     container: container,
     child: FrenchMaterialApp(
-      home: Scaffold(body: ChangeContractActivation(contract, settings)),
+      home: Scaffold(body: ChangeContractActivation(contract)),
     ),
   );
 }

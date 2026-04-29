@@ -1,4 +1,7 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/settings/contract_with_points_settings.dart';
+import 'package:barbu_score/pages/settings/domino_contract_settings.dart';
+import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -74,6 +77,20 @@ void main() async {
             GoRoute(
               path: Routes.settings,
               builder: (_, _) => const MySettings(),
+            ),
+            GoRoute(
+              path:
+                  "${Routes.contractWithPointsSettings}/:${MyGoRouterState.contractParameter}",
+              builder: (_, state) =>
+                  ContractWithPointsSettingsPage(state.contract),
+            ),
+            GoRoute(
+              path: Routes.dominoSettings,
+              builder: (_, _) => const DominoContractSettingsPage(),
+            ),
+            GoRoute(
+              path: Routes.saladSettings,
+              builder: (_, _) => const SaladContractSettingsPage(),
             ),
             GoRoute(path: Routes.about, builder: (_, _) => const MyAbout()),
             GoRoute(path: Routes.createGame, builder: (_, _) => CreateGame()),
@@ -176,6 +193,9 @@ class Routes {
   static const home = "/";
   static const rules = "/rules";
   static const settings = "/settings";
+  static const contractWithPointsSettings = "/settings/contracts_with_points";
+  static const dominoSettings = "/settings/domino";
+  static const saladSettings = "/settings/salad";
   static const about = "/about";
   static const createGame = "/create_game";
   static const prepareGame = "/prepare_game";

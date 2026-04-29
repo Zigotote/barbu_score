@@ -1,17 +1,19 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
+import 'package:barbu_score/pages/settings/notifiers/change_contracts_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
-import '../../../../commons/models/contract_info.dart';
-import '../../../../commons/models/contract_settings_models.dart';
-import '../../../../commons/utils/constants.dart';
-import '../../../../commons/utils/player_icon_properties.dart';
-import '../../../../commons/widgets/player_icon.dart';
-import '../../utils/change_settings.dart';
-import 'change_contract_activation.dart';
-import 'number_input.dart';
+import '../../commons/models/contract_info.dart';
+import '../../commons/models/contract_settings_models.dart';
+import '../../commons/utils/constants.dart';
+import '../../commons/utils/player_icon_properties.dart';
+import '../../commons/widgets/my_appbar.dart';
+import '../../commons/widgets/my_default_page.dart';
+import '../../commons/widgets/player_icon.dart';
+import '../rules/utils/change_settings.dart';
+import 'widgets/change_contract_activation.dart';
+import 'widgets/number_input.dart';
 
 class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
   const DominoContractSettingsPage({super.key});
@@ -138,12 +140,25 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
     final settings =
         ref.watch(changeContractsSettingsProvider(ContractsInfo.domino))
             as DominoContractSettings;
-    return Column(
-      spacing: 8,
-      children: [
-        ChangeContractActivation(ContractsInfo.domino),
-        Flexible(child: _buildDataTable(context, ref, settings)),
-      ],
+    return Scaffold(
+      appBar: MyAppBar(
+        Column(
+          children: [Text(context.l10n.settings), Text(context.l10n.domino)],
+        ),
+        context: context,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: MyDefaultPage.appPadding,
+          child: Column(
+            spacing: 8,
+            children: [
+              ChangeContractActivation(ContractsInfo.domino),
+              Flexible(child: _buildDataTable(context, ref, settings)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

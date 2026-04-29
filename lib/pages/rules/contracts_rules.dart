@@ -1,6 +1,6 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
 import 'package:barbu_score/pages/rules/widgets/contract_divider_widget.dart';
+import 'package:barbu_score/pages/settings/notifiers/change_contracts_settings.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';

@@ -1,16 +1,16 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/pages/rules/notifiers/change_contracts_settings.dart';
+import 'package:barbu_score/pages/settings/notifiers/change_contracts_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../commons/models/contract_info.dart';
-import '../../../../commons/models/contract_settings_models.dart';
-import '../../../../commons/providers/storage.dart';
-import '../../../../commons/widgets/alert_dialog.dart';
-import '../../../../commons/widgets/my_switch.dart';
-import '../../../../commons/widgets/setting_question.dart';
-import '../../utils/change_settings.dart';
+import '../../../commons/models/contract_info.dart';
+import '../../../commons/models/contract_settings_models.dart';
+import '../../../commons/providers/storage.dart';
+import '../../../commons/widgets/alert_dialog.dart';
+import '../../../commons/widgets/my_switch.dart';
+import '../../../commons/widgets/setting_question.dart';
+import '../../rules/utils/change_settings.dart';
 
 class ChangeContractActivation extends ConsumerWidget with ChangeSettings {
   final ContractsInfo contract;
