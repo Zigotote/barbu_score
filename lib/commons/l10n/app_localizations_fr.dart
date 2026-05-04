@@ -592,17 +592,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get requestFeatureMail =>
-      'Bonjour,\n\nJe souhaiterais proposer une nouvelle fonctionnalité pour l\'application, afin de...';
+      'Bonjour,\n\nJe souhaiterai proposer une nouvelle fonctionnalité pour l\'application, afin de...';
 
   @override
-  String get rules => 'Règles';
-
-  @override
-  String get rulesAndConfig => 'Règles et configurations';
+  String get rules => 'Règles du jeu';
 
   @override
   String rulesBarbu(int points) {
-    return 'La personne emportant le roi de coeur (Barbu) marque $points points.';
+    return 'Le joueur emportant le roi de coeur (Barbu) marque $points points.';
   }
 
   @override

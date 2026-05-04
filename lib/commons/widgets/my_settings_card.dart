@@ -1,17 +1,36 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:flutter/material.dart';
 
-class MySettingsCard extends StatefulWidget {
+enum ExpandableCardType {
+  settings(Icons.settings),
+  rules(Icons.history_edu_outlined);
+
+  final IconData icon;
+
+  const ExpandableCardType(this.icon);
+
+  String title(BuildContext context) {
+    return switch (this) {
+      ExpandableCardType.settings => context.l10n.settings,
+      ExpandableCardType.rules => context.l10n.rules,
+    };
+  }
+}
+
+class ExpandableCard extends StatefulWidget {
+  /// The type of the card. The header of the card changes depending on its type
+  final ExpandableCardType type;
+
   /// The children to display in the card
   final List<Widget> children;
 
-  const MySettingsCard({super.key, required this.children});
+  const ExpandableCard({super.key, required this.type, required this.children});
 
   @override
-  State<MySettingsCard> createState() => _MySettingsCardState();
+  State<ExpandableCard> createState() => _ExpandableCardState();
 }
 
-class _MySettingsCardState extends State<MySettingsCard>
+class _ExpandableCardState extends State<ExpandableCard>
     with TickerProviderStateMixin {
   /// The indicator to know if card is opened or not
   bool isOpened = false;
@@ -56,33 +75,34 @@ class _MySettingsCardState extends State<MySettingsCard>
           }
         },
         customBorder: Theme.of(context).cardTheme.shape,
-        child: Container(
-          constraints: BoxConstraints(minHeight: 48),
+        child: Padding(
           padding: EdgeInsets.all(8),
-          alignment: Alignment.center,
           child: Column(
             children: [
-              Row(
-                spacing: 8,
-                children: [
-                  Icon(Icons.settings),
-                  Expanded(
-                    child: Text(
-                      context.l10n.settings,
-                      style: Theme.of(context).textTheme.titleMedium,
+              Container(
+                constraints: BoxConstraints(minHeight: 32),
+                child: Row(
+                  spacing: 8,
+                  children: [
+                    Icon(widget.type.icon),
+                    Expanded(
+                      child: Text(
+                        widget.type.title(context),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
-                  ),
-                  Icon(
-                    isOpened
-                        ? Icons.keyboard_arrow_up_outlined
-                        : Icons.keyboard_arrow_down_outlined,
-                  ),
-                ],
+                    Icon(
+                      isOpened
+                          ? Icons.keyboard_arrow_up_outlined
+                          : Icons.keyboard_arrow_down_outlined,
+                    ),
+                  ],
+                ),
               ),
               SizeTransition(
                 sizeFactor: _animation,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.only(top: 8),
                   child: ListView.separated(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),

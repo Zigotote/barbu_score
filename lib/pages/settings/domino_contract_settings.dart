@@ -10,6 +10,7 @@ import '../../commons/utils/constants.dart';
 import '../../commons/utils/player_icon_properties.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
+import '../../commons/widgets/my_settings_card.dart';
 import '../../commons/widgets/player_icon.dart';
 import '../rules/utils/change_settings.dart';
 import 'widgets/change_contract_activation.dart';
@@ -140,24 +141,29 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
     final settings =
         ref.watch(changeContractsSettingsProvider(ContractsInfo.domino))
             as DominoContractSettings;
-    return Scaffold(
+    return MyDefaultPage(
       appBar: MyAppBar(
         Column(
           children: [Text(context.l10n.settings), Text(context.l10n.domino)],
         ),
         context: context,
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: MyDefaultPage.appPadding,
-          child: Column(
-            spacing: 8,
+      content: Column(
+        children: [
+          ChangeContractActivation(ContractsInfo.domino),
+          SizedBox(height: 8),
+          SizedBox(
+            height: 530 + MediaQuery.textScalerOf(context).scale(110),
+            child: _buildDataTable(context, ref, settings),
+          ),
+          SizedBox(height: 16),
+          ExpandableCard(
+            type: ExpandableCardType.rules,
             children: [
-              ChangeContractActivation(ContractsInfo.domino),
-              Flexible(child: _buildDataTable(context, ref, settings)),
+              Text(context.l10n.contractRules(ContractsInfo.domino, settings)),
             ],
           ),
-        ),
+        ],
       ),
     );
   }

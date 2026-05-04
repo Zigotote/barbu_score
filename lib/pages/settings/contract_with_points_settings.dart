@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/my_settings_card.dart';
 import 'package:barbu_score/pages/settings/notifiers/change_contracts_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,7 @@ import 'widgets/number_input.dart';
 /// A page to edit the settings for a contract where each player has a different score
 class ContractWithPointsSettingsPage extends ConsumerWidget
     with ChangeSettings {
-  /// The contract that is beeing edited
+  /// The contract that is being edited
   final ContractsInfo contract;
 
   const ContractWithPointsSettingsPage(this.contract, {super.key});
@@ -39,9 +40,9 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
       ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 8,
         children: [
           ChangeContractActivation(contract),
+          SizedBox(height: 8),
           SettingQuestion(
             label: context.l10n.contractPoints(contract),
             onTap: numberFocusNode.requestFocus,
@@ -58,23 +59,31 @@ class ContractWithPointsSettingsPage extends ConsumerWidget
             ),
           ),
           if (settings.canInvertScore)
-            SettingQuestion(
-              tooltip: context.l10n.detailedInvertScoreRules(settings.points),
-              label: context.l10n.invertScore,
-              onTap: () => ref
-                  .read(changeContractsSettingsProvider(contract).notifier)
-                  .changeContractSettings(
-                    settings.copyWith(invertScore: !settings.invertScore),
-                  ),
-              input: MySwitch(
-                isActive: settings.invertScore,
-                onChanged: (value) => ref
+            Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: SettingQuestion(
+                tooltip: context.l10n.detailedInvertScoreRules(settings.points),
+                label: context.l10n.invertScore,
+                onTap: () => ref
                     .read(changeContractsSettingsProvider(contract).notifier)
                     .changeContractSettings(
-                      settings.copyWith(invertScore: value),
+                      settings.copyWith(invertScore: !settings.invertScore),
                     ),
+                input: MySwitch(
+                  isActive: settings.invertScore,
+                  onChanged: (value) => ref
+                      .read(changeContractsSettingsProvider(contract).notifier)
+                      .changeContractSettings(
+                        settings.copyWith(invertScore: value),
+                      ),
+                ),
               ),
             ),
+          SizedBox(height: 16),
+          ExpandableCard(
+            type: ExpandableCardType.rules,
+            children: [Text(context.l10n.contractRules(contract, settings))],
+          ),
         ],
       ),
     );

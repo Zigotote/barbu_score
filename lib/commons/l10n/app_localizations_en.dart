@@ -590,9 +590,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rules => 'Game rules';
 
   @override
-  String get rulesAndConfig => 'Rules and settings';
-
-  @override
   String rulesBarbu(int points) {
     return 'The player who wins the king of hearts (Barbu) scores $points points.';
   }

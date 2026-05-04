@@ -150,7 +150,6 @@
   "requestFeature": "Suggest a feature",
   "requestFeatureMail": "Hello,\n\nI would like to suggest a new feature for the app, in order to...",
   "rules": "Game rules",
-  "rulesAndConfig": "Rules and settings",
   "rulesBarbu": "The player who wins the king of hearts (Barbu) scores {points} points.",
   "rulesBarbuInSalad": "- the king of hearts (Barbu) is worth {points} points",
   "rulesDomino": "Unlike the other contracts, Domino is not a trick-taking contract. The goal of this contract is to place all the cards in the deck on the table, sorted by suit and in ascending order.\nThe player who chose this contract determines the opening value for the sequence (for example, the jack). If they have a card of that value, they place it on the table; otherwise, they pass.\nThe next player can then place a card of the same suit with a value directly above or below (so the 10 or the queen of the previous suit), or a card of the opening value in another suit. If they play an ace, they can play again. If they can't place a card, they pass.\nThe game continues until everyone has emptied their hand. The goal is to place all your cards as quickly as possible.",

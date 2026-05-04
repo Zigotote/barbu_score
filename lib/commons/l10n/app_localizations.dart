@@ -1000,25 +1000,19 @@ abstract class AppLocalizations {
   /// No description provided for @requestFeatureMail.
   ///
   /// In fr, this message translates to:
-  /// **'Bonjour,\n\nJe souhaiterais proposer une nouvelle fonctionnalité pour l\'application, afin de...'**
+  /// **'Bonjour,\n\nJe souhaiterai proposer une nouvelle fonctionnalité pour l\'application, afin de...'**
   String get requestFeatureMail;
 
   /// No description provided for @rules.
   ///
   /// In fr, this message translates to:
-  /// **'Règles'**
+  /// **'Règles du jeu'**
   String get rules;
-
-  /// No description provided for @rulesAndConfig.
-  ///
-  /// In fr, this message translates to:
-  /// **'Règles et configurations'**
-  String get rulesAndConfig;
 
   /// No description provided for @rulesBarbu.
   ///
   /// In fr, this message translates to:
-  /// **'La personne emportant le roi de coeur (Barbu) marque {points} points.'**
+  /// **'Le joueur emportant le roi de coeur (Barbu) marque {points} points.'**
   String rulesBarbu(int points);
 
   /// No description provided for @rulesBarbuInSalad.

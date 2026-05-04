@@ -9,6 +9,7 @@ import '../../commons/providers/storage.dart';
 import '../../commons/widgets/alert_dialog.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
+import '../../commons/widgets/my_settings_card.dart';
 import '../../commons/widgets/my_switch.dart';
 import '../../commons/widgets/setting_question.dart';
 import '../rules/utils/change_settings.dart';
@@ -133,6 +134,14 @@ class _SaladContractSettingsPageState
                     settings.copyWith(invertScore: !settings.invertScore),
                   ),
             ),
+          ),
+          SizedBox(height: 16),
+          // TODO Océane les règles ne se mettent pas à jour quand on change les paramètres du contrat ici (ça se fait bien dans la page de règle par contre, juste un petit soucis de réactivité
+          ExpandableCard(
+            type: ExpandableCardType.rules,
+            children: [
+              Text(context.l10n.contractRules(ContractsInfo.salad, settings)),
+            ],
           ),
         ],
       ),

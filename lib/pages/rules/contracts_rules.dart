@@ -27,7 +27,7 @@ class ContractsRules extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(context.l10n.contractsRules),
-          SizedBox(height: 16),
+          SizedBox(height: 8),
           ...ContractsInfo.values
               .where((contract) {
                 if (isInGame) {
