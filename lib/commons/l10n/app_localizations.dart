@@ -179,20 +179,14 @@ abstract class AppLocalizations {
   /// No description provided for @alertContractPlayedBy.
   ///
   /// In fr, this message translates to:
-  /// **'Le contrat a déjà été joué par {players}. S\'il est désactivé il sera supprimé de la partie et {nbPlayers, plural, =1{cette personne devra} other{ces personnes devront}} choisir un contrat supplémentaire en fin de partie.'**
-  String alertContractPlayedBy(String players, int nbPlayers);
+  /// **'Le contrat a déjà été joué par {players}. Toute modification dans les paramètres de ce contrat aura des répercussions sur la partie en cours.'**
+  String alertContractPlayedBy(String players);
 
   /// No description provided for @alertExistingGame.
   ///
   /// In fr, this message translates to:
   /// **'Une partie sauvegardée existe'**
   String get alertExistingGame;
-
-  /// No description provided for @alertSaladContractPlayedBy.
-  ///
-  /// In fr, this message translates to:
-  /// **'Le contrat a déjà été joué par {players}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.'**
-  String alertSaladContractPlayedBy(String players);
 
   /// No description provided for @and.
   ///
@@ -564,6 +558,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'{nbDecks, plural, =1{du paquet} other{de {nbDecks} paquets}}.'**
   String fromTheDeck(int nbDecks);
+
+  /// No description provided for @game.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partie'**
+  String get game;
 
   /// No description provided for @gamePrinciple.
   ///

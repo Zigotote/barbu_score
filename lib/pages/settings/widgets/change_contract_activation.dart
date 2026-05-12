@@ -6,16 +6,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../../commons/models/contract_info.dart';
 import '../../../commons/models/contract_settings_models.dart';
-import '../../../commons/providers/storage.dart';
 import '../../../commons/widgets/alert_dialog.dart';
 import '../../../commons/widgets/my_switch.dart';
 import '../../../commons/widgets/setting_question.dart';
-import '../../rules/utils/change_settings.dart';
 
-class ChangeContractActivation extends ConsumerWidget with ChangeSettings {
+class ChangeContractActivation extends ConsumerWidget {
   final ContractsInfo contract;
 
-  ChangeContractActivation(this.contract, {super.key});
+  const ChangeContractActivation(this.contract, {super.key});
 
   /// If the contract is deactivated but has been played, shows an alert before to confirm the deactivation.
   /// Otherwise, toggles the contract state
@@ -43,40 +41,7 @@ class ChangeContractActivation extends ConsumerWidget with ChangeSettings {
         ),
       );
     } else {
-      final players = playersWithContract(
-        contract,
-        ref.read(storageProvider).getStoredGame(),
-      );
-      if (settings.isActive && players.isNotEmpty) {
-        return showDialog(
-          context: context,
-          builder: (_) => MyAlertDialog(
-            context: context,
-            closeOnAction: false,
-            title: context.l10n.alertContractPlayed,
-            content: context.l10n.alertContractPlayedBy(
-              players.join(", "),
-              players.length,
-            ),
-            actions: [
-              AlertDialogActionButton(
-                text: context.l10n.keep,
-                onPressed: () => context.pop(false),
-              ),
-              AlertDialogActionButton(
-                text: context.l10n.deactivate,
-                isDestructive: true,
-                onPressed: () {
-                  context.pop(true);
-                  _toggleAndSaveIsActive(ref, settings);
-                },
-              ),
-            ],
-          ),
-        );
-      } else {
-        _toggleAndSaveIsActive(ref, settings);
-      }
+      _toggleAndSaveIsActive(ref, settings);
     }
   }
 

@@ -54,23 +54,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get alertContractPlayed => 'Le contrat a déjà été joué';
 
   @override
-  String alertContractPlayedBy(String players, int nbPlayers) {
-    String _temp0 = intl.Intl.pluralLogic(
-      nbPlayers,
-      locale: localeName,
-      other: 'ces personnes devront',
-      one: 'cette personne devra',
-    );
-    return 'Le contrat a déjà été joué par $players. S\'il est désactivé il sera supprimé de la partie et $_temp0 choisir un contrat supplémentaire en fin de partie.';
+  String alertContractPlayedBy(String players) {
+    return 'Le contrat a déjà été joué par $players. Toute modification dans les paramètres de ce contrat aura des répercussions sur la partie en cours.';
   }
 
   @override
   String get alertExistingGame => 'Une partie sauvegardée existe';
-
-  @override
-  String alertSaladContractPlayedBy(String players) {
-    return 'Le contrat a déjà été joué par $players. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.';
-  }
 
   @override
   String get and => 'et';
@@ -334,6 +323,9 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0.';
   }
+
+  @override
+  String get game => 'Partie';
 
   @override
   String get gamePrinciple => 'Principe du jeu';

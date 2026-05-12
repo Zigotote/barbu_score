@@ -1,17 +1,15 @@
-import 'package:barbu_score/commons/models/contract_info.dart';
-import 'package:barbu_score/pages/settings/notifiers/change_contracts_settings.dart';
 import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:turn_page_transition/turn_page_transition.dart';
 
+import '../../commons/providers/change_game_settings.dart';
 import '../../commons/providers/log.dart';
 import '../../commons/providers/storage.dart';
 import 'contracts_rules.dart';
 import 'game_presentation.dart';
 import 'game_round_rules.dart';
 import 'models/rules_page_name.dart';
-import 'notifiers/change_game_settings.dart';
 import 'notifiers/turn_page.dart';
 import 'prepare_game_rules.dart';
 
@@ -51,22 +49,6 @@ class _MyRulesState extends ConsumerState<MyRules> {
           storage.saveGameSettings(newGameSettings);
           log.info("MyRules: save new game settings $newGameSettings");
           log.sendAnalyticEvent("modify_game_settings");
-        }
-
-        for (var contract in ContractsInfo.values) {
-          final newContractSettings = ref.read(
-            changeContractsSettingsProvider(contract),
-          );
-          if (storage.getSettings(contract) != newContractSettings) {
-            storage.saveSettings(contract, newContractSettings);
-            log.info(
-              "MyRules: save new contract settings $newContractSettings",
-            );
-            log.sendAnalyticEvent(
-              "modify_settings",
-              parameters: {"contract": contract.name},
-            );
-          }
         }
       },
       child: TurnPageView.builder(

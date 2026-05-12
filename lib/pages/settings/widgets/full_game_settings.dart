@@ -1,16 +1,16 @@
-import 'package:barbu_score/commons/models/game_settings.dart';
-import 'package:barbu_score/commons/utils/constants.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
-import 'package:barbu_score/commons/widgets/expandable_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../commons/providers/change_game_settings.dart';
-import '../../../../commons/widgets/setting_question.dart';
+import '../../../commons/models/game_settings.dart';
+import '../../../commons/providers/change_game_settings.dart';
+import '../../../commons/utils/constants.dart';
+import '../../../commons/widgets/expandable_card.dart';
+import '../../../commons/widgets/setting_question.dart';
 
-/// A page to edit game settings
-class GameDeckSettings extends ConsumerWidget {
-  const GameDeckSettings({super.key});
+/// A widget to edit game settings
+class FullGameSettingsWidget extends ConsumerWidget {
+  const FullGameSettingsWidget({super.key});
 
   void _changeGameSettings(WidgetRef ref, GameSettings gameSettings) {
     ref
@@ -21,9 +21,25 @@ class GameDeckSettings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     GameSettings settings = ref.watch(changeGameSettingsProvider);
-    return ExpandableCard.type(
-      type: ExpandableCardType.settings,
+    return ExpandableCard(
+      title: context.l10n.game,
       children: [
+        SettingQuestion(
+          label: context.l10n.goal,
+          input: SegmentedButton(
+            key: Key("goal"),
+            segments: [
+              ButtonSegment(value: true, label: Text(context.l10n.minScore)),
+              ButtonSegment(value: false, label: Text(context.l10n.maxScore)),
+            ],
+            selected: <bool>{settings.goalIsMinScore},
+            onSelectionChanged: (newSelection) => _changeGameSettings(
+              ref,
+              settings.copyWith(goalIsMinScore: newSelection.first),
+            ),
+          ),
+          onTap: null,
+        ),
         SettingQuestion(
           tooltip: context.l10n.nbTricksTooltip,
           label: context.l10n.nbTricksQuestion,

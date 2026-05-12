@@ -18,13 +18,23 @@ enum ExpandableCardType {
 }
 
 class ExpandableCard extends StatefulWidget {
-  /// The type of the card. The header of the card changes depending on its type
-  final ExpandableCardType type;
+  /// The type of the card. The header of the card changes depending on its type. If no type, title must be set
+  final ExpandableCardType? type;
+
+  /// The title of the card. Used to overload [type.title]
+  final String? title;
 
   /// The children to display in the card
   final List<Widget> children;
 
-  const ExpandableCard({super.key, required this.type, required this.children});
+  const ExpandableCard({super.key, required this.title, required this.children})
+    : type = null;
+
+  const ExpandableCard.type({
+    super.key,
+    required this.type,
+    required this.children,
+  }) : title = null;
 
   @override
   State<ExpandableCard> createState() => _ExpandableCardState();
@@ -84,11 +94,14 @@ class _ExpandableCardState extends State<ExpandableCard>
                 child: Row(
                   spacing: 8,
                   children: [
-                    Icon(widget.type.icon),
+                    if (widget.type != null) Icon(widget.type!.icon),
                     Expanded(
-                      child: Text(
-                        widget.type.title(context),
-                        style: Theme.of(context).textTheme.titleMedium,
+                      child: Semantics(
+                        header: true,
+                        child: Text(
+                          widget.title ?? widget.type!.title(context),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                       ),
                     ),
                     Icon(

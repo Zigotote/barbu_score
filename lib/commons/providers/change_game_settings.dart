@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../commons/models/game_settings.dart';
-import '../../../commons/providers/storage.dart';
+import '../models/game_settings.dart';
+import 'storage.dart';
 
 final changeGameSettingsProvider =
     NotifierProvider<ChangeGameSettingsProvider, GameSettings>(

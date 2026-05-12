@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/pages/settings/notifiers/change_contracts_settings.dart';
+import 'package:barbu_score/pages/settings/widgets/contract_settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
@@ -8,15 +9,10 @@ import '../../commons/models/contract_info.dart';
 import '../../commons/models/contract_settings_models.dart';
 import '../../commons/utils/constants.dart';
 import '../../commons/utils/player_icon_properties.dart';
-import '../../commons/widgets/my_appbar.dart';
-import '../../commons/widgets/my_default_page.dart';
-import '../../commons/widgets/my_settings_card.dart';
 import '../../commons/widgets/player_icon.dart';
-import '../rules/utils/change_settings.dart';
-import 'widgets/change_contract_activation.dart';
 import 'widgets/number_input.dart';
 
-class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
+class DominoContractSettingsPage extends ConsumerWidget {
   const DominoContractSettingsPage({super.key});
 
   Widget _buildDataTable(
@@ -141,30 +137,14 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
     final settings =
         ref.watch(changeContractsSettingsProvider(ContractsInfo.domino))
             as DominoContractSettings;
-    return MyDefaultPage(
-      appBar: MyAppBar(
-        Column(
-          children: [Text(context.l10n.settings), Text(context.l10n.domino)],
+    return ContractSettingsPage(
+      ContractsInfo.domino,
+      settingsChildren: [
+        SizedBox(
+          height: 530 + MediaQuery.textScalerOf(context).scale(110),
+          child: _buildDataTable(context, ref, settings),
         ),
-        context: context,
-      ),
-      content: Column(
-        children: [
-          ChangeContractActivation(ContractsInfo.domino),
-          SizedBox(height: 8),
-          SizedBox(
-            height: 530 + MediaQuery.textScalerOf(context).scale(110),
-            child: _buildDataTable(context, ref, settings),
-          ),
-          SizedBox(height: 16),
-          ExpandableCard(
-            type: ExpandableCardType.rules,
-            children: [
-              Text(context.l10n.contractRules(ContractsInfo.domino, settings)),
-            ],
-          ),
-        ],
-      ),
+      ],
     );
   }
 }

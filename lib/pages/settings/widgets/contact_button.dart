@@ -55,10 +55,17 @@ class ContactButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ElevatedButtonFullWidth(
-      child: Text(
-        context.l10n.contact,
-        semanticsLabel: context.l10n.contactByMail,
+    // TODO Océane attention ce composant est partagé entre plusieurs pages et du coup ça devient moche à certains endroits
+    return TextButton(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            context.l10n.contact,
+            semanticsLabel: context.l10n.contactByMail,
+          ),
+          Icon(Icons.arrow_forward_ios_outlined),
+        ],
       ),
       onPressed: () => showModalBottomSheet(
         showDragHandle: true,

@@ -20,20 +20,8 @@
   "alertCannotActivateSalad": "Activation impossible",
   "alertCannotActivateSaladDetails": "La salade doit posséder au moins un contrat à jouer pour être activée.",
   "alertContractPlayed": "Le contrat a déjà été joué",
-  "alertContractPlayedBy": "Le contrat a déjà été joué par {players}. S'il est désactivé il sera supprimé de la partie et {nbPlayers, plural, =1{cette personne devra} other{ces personnes devront}} choisir un contrat supplémentaire en fin de partie.",
+  "alertContractPlayedBy": "Le contrat a déjà été joué par {players}. Toute modification dans les paramètres de ce contrat aura des répercussions sur la partie en cours.",
   "@alertContractPlayedBy": {
-    "placeholders": {
-      "players": {
-        "type": "String"
-      },
-      "nbPlayers": {
-        "type": "int"
-      }
-    }
-  },
-  "alertExistingGame": "Une partie sauvegardée existe",
-  "alertSaladContractPlayedBy": "Le contrat a déjà été joué par {players}. Toute modification dans les paramètres de ce contrat aura des répercussions sur les contrats sauvegardés.",
-  "@alertSaladContractPlayedBy": {
     "placeholders": {
       "players": {
         "type": "String",
@@ -41,6 +29,7 @@
       }
     }
   },
+  "alertExistingGame": "Une partie sauvegardée existe",
   "and": "et",
   "application": "Application",
   "appName": "Le Barbu",
@@ -245,6 +234,7 @@
       }
     }
   },
+  "game": "Partie",
   "gamePrinciple": "Principe du jeu",
   "gamePrincipleDetails": "Ce jeu de plis est composé de différents contrats devant être réalisés par toutes les personnes. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tout le monde a réalisé l'ensemble des contrats.",
   "gameRound": "Manche de jeu",
