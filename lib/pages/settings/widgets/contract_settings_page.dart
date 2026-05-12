@@ -78,7 +78,9 @@ class _ContractSettingsPageState extends ConsumerState<ContractSettingsPage> {
         );
         if (storage.getSettings(widget.contract) != newContractSettings) {
           storage.saveSettings(widget.contract, newContractSettings);
-          log.info("MyRules: save new contract settings $newContractSettings");
+          log.info(
+            "ContractSettingsPage: save new contract settings $newContractSettings",
+          );
           log.sendAnalyticEvent(
             "modify_settings",
             parameters: {"contract": widget.contract.name},

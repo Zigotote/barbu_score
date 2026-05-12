@@ -80,7 +80,6 @@ class SaladContractSettingsPage extends ConsumerWidget {
                 ),
           ),
         ),
-        // TODO Océane les règles ne se mettent pas à jour quand on change les paramètres du contrat ici (ça se fait bien dans la page de règle par contre, juste un petit soucis de réactivité
       ],
     );
   }
