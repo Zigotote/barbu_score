@@ -1,11 +1,12 @@
 import 'package:barbu_score/commons/providers/log.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/theme/my_theme_colors.dart';
+import 'package:barbu_score/theme/my_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../commons/models/player.dart';
-import '../../../commons/widgets/colored_container.dart';
 import '../../../commons/widgets/player_icon.dart';
 import 'dialog_player_properties.dart';
 
@@ -32,7 +33,7 @@ class CreatePlayer extends ConsumerWidget {
   });
 
   /// Build the text field to change player's name
-  Widget _buildPlayerTextField(BuildContext context) {
+  Widget _buildPlayerTextField(BuildContext context, MyThemeColors color) {
     return TextFormField(
       textAlign: TextAlign.center,
       initialValue: player.name,
@@ -40,11 +41,15 @@ class CreatePlayer extends ConsumerWidget {
       validator: (_) => onValidate(player),
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
-        border: InputBorder.none,
         contentPadding: EdgeInsets.only(bottom: 8),
-        focusedBorder: InputBorder.none,
         hintText: context.l10n.playerNameHint(index + 1),
-        isCollapsed: true,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.convertMyColor(color),
+            width: 2,
+          ),
+        ),
       ),
     );
   }
@@ -89,30 +94,22 @@ class CreatePlayer extends ConsumerWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              bottom: 0,
-              child: ColoredContainer(
-                height: constraint.maxHeight * 0.75,
-                width: constraint.maxWidth,
-                color: player.color,
-                child: Container(),
-              ),
-            ),
-            Positioned(
               top:
-                  constraint.maxHeight * 0.8 -
+                  constraint.maxHeight * 0.65 -
                   MediaQuery.of(context).textScaler.scale(6),
               width: constraint.maxWidth,
-              child: _buildPlayerTextField(context),
+              child: _buildPlayerTextField(context, player.color),
             ),
             Positioned(
               top: 0,
               child: _buildPlayerIcon(context, ref, constraint.maxWidth * 0.55),
             ),
+
             Positioned(
-              top: 24,
               right: 0,
-              width: 32,
-              height: 32,
+              top:
+                  constraint.maxHeight * 0.45 -
+                  MediaQuery.of(context).textScaler.scale(6),
               child: IconButton.outlined(
                 onPressed: onRemove,
                 icon: const Icon(Icons.close),
