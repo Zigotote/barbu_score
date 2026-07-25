@@ -73,6 +73,7 @@ class _ExpandableCardState extends State<ExpandableCard>
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Card(
       child: InkWell(
         onTap: () {
@@ -100,7 +101,9 @@ class _ExpandableCardState extends State<ExpandableCard>
                         header: true,
                         child: Text(
                           widget.title ?? widget.type!.title(context),
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: widget.title != null && !isOpened
+                              ? textTheme.titleLarge
+                              : textTheme.titleMedium,
                         ),
                       ),
                     ),
@@ -115,7 +118,7 @@ class _ExpandableCardState extends State<ExpandableCard>
               SizeTransition(
                 sizeFactor: _animation,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.only(top: 16),
                   child: ListView.separated(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
