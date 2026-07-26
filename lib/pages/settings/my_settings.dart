@@ -32,11 +32,13 @@ class MySettings extends ConsumerWidget {
         spacing: 16,
         children: [
           ExpandableCard(
+            isExpanded: true,
             title: context.l10n.application,
             children: [const AppThemeChoice(), const LanguageChoice()],
           ),
           FullGameSettingsWidget(),
           ExpandableCard(
+            isExpanded: true,
             title: context.l10n.contracts,
             children: ContractsInfo.values.map((contract) {
               AbstractContractSettings settings = ref
@@ -82,6 +84,7 @@ class MySettings extends ConsumerWidget {
             }).toList(),
           ),
           ExpandableCard(
+            isExpanded: true,
             title: context.l10n.moreInfo,
             children: [
               TextButton(

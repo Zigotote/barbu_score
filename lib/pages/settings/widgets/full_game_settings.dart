@@ -22,6 +22,7 @@ class FullGameSettingsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     GameSettings settings = ref.watch(changeGameSettingsProvider);
     return ExpandableCard(
+      isExpanded: true,
       title: context.l10n.game,
       children: [
         SettingQuestion(

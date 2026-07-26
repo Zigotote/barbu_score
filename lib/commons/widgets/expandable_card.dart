@@ -21,19 +21,27 @@ class ExpandableCard extends StatefulWidget {
   /// The type of the card. The header of the card changes depending on its type. If no type, title must be set
   final ExpandableCardType? type;
 
+  /// The indicator to know if the card should be expanded when displayed
+  final bool isExpanded;
+
   /// The title of the card. Used to overload [type.title]
   final String? title;
 
   /// The children to display in the card
   final List<Widget> children;
 
-  const ExpandableCard({super.key, required this.title, required this.children})
-    : type = null;
+  const ExpandableCard({
+    super.key,
+    required this.title,
+    required this.children,
+    this.isExpanded = false,
+  }) : type = null;
 
   const ExpandableCard.type({
     super.key,
     required this.type,
     required this.children,
+    this.isExpanded = false,
   }) : title = null;
 
   @override
@@ -43,7 +51,7 @@ class ExpandableCard extends StatefulWidget {
 class _ExpandableCardState extends State<ExpandableCard>
     with TickerProviderStateMixin {
   /// The indicator to know if card is opened or not
-  bool isOpened = false;
+  late bool isExpanded;
 
   /// The controller for the animation
   late final AnimationController _controller;
@@ -53,6 +61,7 @@ class _ExpandableCardState extends State<ExpandableCard>
 
   @override
   void initState() {
+    isExpanded = widget.isExpanded;
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -62,6 +71,9 @@ class _ExpandableCardState extends State<ExpandableCard>
       parent: _controller,
       curve: Curves.fastOutSlowIn,
     );
+    if (widget.isExpanded) {
+      _controller.forward();
+    }
     super.initState();
   }
 
@@ -77,8 +89,8 @@ class _ExpandableCardState extends State<ExpandableCard>
     return Card(
       child: InkWell(
         onTap: () {
-          final newIsOpened = !isOpened;
-          setState(() => isOpened = newIsOpened);
+          final newIsOpened = !isExpanded;
+          setState(() => isExpanded = newIsOpened);
           if (newIsOpened) {
             _controller.forward();
           } else {
@@ -101,14 +113,14 @@ class _ExpandableCardState extends State<ExpandableCard>
                         header: true,
                         child: Text(
                           widget.title ?? widget.type!.title(context),
-                          style: widget.title != null && !isOpened
+                          style: widget.title != null && !isExpanded
                               ? textTheme.titleLarge
                               : textTheme.titleMedium,
                         ),
                       ),
                     ),
                     Icon(
-                      isOpened
+                      isExpanded
                           ? Icons.keyboard_arrow_up_outlined
                           : Icons.keyboard_arrow_down_outlined,
                     ),
