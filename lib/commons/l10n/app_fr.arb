@@ -101,6 +101,7 @@
   "changesSavedDetails": "Les changements ont été sauvegardés et sont effectifs dès maintenant.",
   "close": "Fermer",
   "color": "Couleur",
+  "confirmResetSettings": "Confirmer la réinitialisation des paramètres\u00A0? Si oui, ils seront restaurés à leur valeur d'origine. Cette action est irréversible.",
   "confirmStartGame": "Confirmer la création d'une nouvelle partie\u00A0? Si oui, la partie précédente avec {players} sera perdue.",
   "@confirmStartGame": {
     "placeholders": {
@@ -385,12 +386,15 @@
   "randoms": "Aléatoires",
   "ranking": "Classement",
   "rateApp": "Evaluer l'application",
+  "refuse": "Non",
   "refuseLoadGame": "Non, nouvelle partie",
   "refuseStartGame": "Non, reprendre la partie",
   "reportBug": "Signaler un bug",
   "reportBugMail": "Bonjour,\n\nJe souhaiterais signaler un bug rencontré sur l’application. Voici les détails\u00A0:\n\n-\u00A0Description du bug (expliquez ce qu'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.)\u00A0:\n\n-\u00A0Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise)\u00A0: \n\n-\u00A0Comportement attendu (ce qui aurait dû se passer)\u00A0:",
   "requestFeature": "Ajouter une amélioration",
   "requestFeatureMail": "Bonjour,\n\nJe souhaiterai proposer une nouvelle fonctionnalité pour l'application, afin de...",
+  "reset": "Réinitialiser",
+  "resetSettings": "Réinitialiser les paramètres",
   "rules": "Règles du jeu",
   "rulesBarbu": "Le joueur emportant le roi de coeur (Barbu) marque {points} points.",
   "@rulesBarbu": {

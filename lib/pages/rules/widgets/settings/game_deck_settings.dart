@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/providers/change_game_settings.dart';
+import '../../../../commons/widgets/reset_button.dart';
 import '../../../../commons/widgets/setting_question.dart';
 
 /// A page to edit game settings
@@ -20,9 +21,20 @@ class GameDeckSettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    GameSettings settings = ref.watch(changeGameSettingsProvider);
+    final settings = ref.watch(changeGameSettingsProvider);
     return ExpandableCard.type(
       type: ExpandableCardType.settings,
+      action: ResetButton(
+        onReset: () => ref
+            .read(changeGameSettingsProvider.notifier)
+            .changeGameSettings(
+              settings.copyWith(
+                fixedNbTricks: GameSettings.defaultFixedNbTricks,
+                nbCardsInDeck: GameSettings.defaultNbCardsInDeck,
+                discardRandomCards: GameSettings.defaultDiscardRandomCards,
+              ),
+            ),
+      ),
       children: [
         SettingQuestion(
           tooltip: context.l10n.nbTricksTooltip,

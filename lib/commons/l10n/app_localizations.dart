@@ -325,6 +325,12 @@ abstract class AppLocalizations {
   /// **'Couleur'**
   String get color;
 
+  /// No description provided for @confirmResetSettings.
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer la réinitialisation des paramètres ? Si oui, ils seront restaurés à leur valeur d\'origine. Cette action est irréversible.'**
+  String get confirmResetSettings;
+
   /// No description provided for @confirmStartGame.
   ///
   /// In fr, this message translates to:
@@ -967,6 +973,12 @@ abstract class AppLocalizations {
   /// **'Evaluer l\'application'**
   String get rateApp;
 
+  /// No description provided for @refuse.
+  ///
+  /// In fr, this message translates to:
+  /// **'Non'**
+  String get refuse;
+
   /// No description provided for @refuseLoadGame.
   ///
   /// In fr, this message translates to:
@@ -1002,6 +1014,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Bonjour,\n\nJe souhaiterai proposer une nouvelle fonctionnalité pour l\'application, afin de...'**
   String get requestFeatureMail;
+
+  /// No description provided for @reset.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réinitialiser'**
+  String get reset;
+
+  /// No description provided for @resetSettings.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réinitialiser les paramètres'**
+  String get resetSettings;
 
   /// No description provided for @rules.
   ///

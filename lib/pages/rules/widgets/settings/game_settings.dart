@@ -2,6 +2,7 @@ import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/change_game_settings.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/expandable_card.dart';
+import 'package:barbu_score/commons/widgets/reset_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,9 +14,18 @@ class GameSettingsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    GameSettings settings = ref.watch(changeGameSettingsProvider);
+    final settings = ref.watch(changeGameSettingsProvider);
     return ExpandableCard.type(
       type: ExpandableCardType.settings,
+      action: ResetButton(
+        onReset: () => ref
+            .read(changeGameSettingsProvider.notifier)
+            .changeGameSettings(
+              settings.copyWith(
+                goalIsMinScore: GameSettings.defaultGoalIsMinScore,
+              ),
+            ),
+      ),
       children: [
         SettingQuestion(
           label: context.l10n.goal,

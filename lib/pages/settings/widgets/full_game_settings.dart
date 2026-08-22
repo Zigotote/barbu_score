@@ -1,4 +1,5 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/commons/widgets/reset_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,6 +25,18 @@ class FullGameSettingsWidget extends ConsumerWidget {
     return ExpandableCard(
       isExpanded: true,
       title: context.l10n.game,
+      action: ResetButton(
+        onReset: () => ref
+            .read(changeGameSettingsProvider.notifier)
+            .changeGameSettings(
+              settings.copyWith(
+                goalIsMinScore: GameSettings.defaultGoalIsMinScore,
+                fixedNbTricks: GameSettings.defaultFixedNbTricks,
+                nbCardsInDeck: GameSettings.defaultNbCardsInDeck,
+                discardRandomCards: GameSettings.defaultDiscardRandomCards,
+              ),
+            ),
+      ),
       children: [
         SettingQuestion(
           label: context.l10n.goal,

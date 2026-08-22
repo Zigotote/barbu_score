@@ -159,6 +159,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get color => 'Couleur';
 
   @override
+  String get confirmResetSettings =>
+      'Confirmer la réinitialisation des paramètres ? Si oui, ils seront restaurés à leur valeur d\'origine. Cette action est irréversible.';
+
+  @override
   String confirmStartGame(String players) {
     return 'Confirmer la création d\'une nouvelle partie ? Si oui, la partie précédente avec $players sera perdue.';
   }
@@ -567,6 +571,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get rateApp => 'Evaluer l\'application';
 
   @override
+  String get refuse => 'Non';
+
+  @override
   String get refuseLoadGame => 'Non, nouvelle partie';
 
   @override
@@ -585,6 +592,12 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get requestFeatureMail =>
       'Bonjour,\n\nJe souhaiterai proposer une nouvelle fonctionnalité pour l\'application, afin de...';
+
+  @override
+  String get reset => 'Réinitialiser';
+
+  @override
+  String get resetSettings => 'Réinitialiser les paramètres';
 
   @override
   String get rules => 'Règles du jeu';

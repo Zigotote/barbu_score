@@ -30,10 +30,14 @@ class ExpandableCard extends StatefulWidget {
   /// The children to display in the card
   final List<Widget> children;
 
+  /// The widget to represent the action that can be done in the card. Displayed at the end of the card.
+  final Widget? action;
+
   const ExpandableCard({
     super.key,
     required this.title,
     required this.children,
+    this.action,
     this.isExpanded = false,
   }) : type = null;
 
@@ -41,6 +45,7 @@ class ExpandableCard extends StatefulWidget {
     super.key,
     required this.type,
     required this.children,
+    this.action,
     this.isExpanded = false,
   }) : title = null;
 
@@ -99,7 +104,7 @@ class _ExpandableCardState extends State<ExpandableCard>
         },
         customBorder: Theme.of(context).cardTheme.shape,
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.all(16),
           child: Column(
             children: [
               Container(
@@ -131,12 +136,22 @@ class _ExpandableCardState extends State<ExpandableCard>
                 sizeFactor: _animation,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: widget.children.length,
-                    separatorBuilder: (_, _) => Divider(),
-                    itemBuilder: (_, index) => widget.children[index],
+                  child: Column(
+                    spacing: 8,
+                    children: [
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: widget.children.length,
+                        separatorBuilder: (_, _) => Divider(),
+                        itemBuilder: (_, index) => widget.children[index],
+                      ),
+                      if (widget.action != null)
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: widget.action!,
+                        ),
+                    ],
                   ),
                 ),
               ),

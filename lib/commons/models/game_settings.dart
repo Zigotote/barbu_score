@@ -3,6 +3,11 @@ import 'package:collection/collection.dart';
 
 /// A class to represent game settings
 class GameSettings {
+  static const bool defaultGoalIsMinScore = true;
+  static const bool defaultFixedNbTricks = true;
+  static const int defaultNbCardsInDeck = kNbCardsInDeck;
+  static const bool defaultDiscardRandomCards = false;
+
   /// Indicates if the best player is the one with the lowest or highest score
   final bool goalIsMinScore;
 
@@ -16,10 +21,10 @@ class GameSettings {
   final bool discardRandomCards;
 
   GameSettings({
-    this.goalIsMinScore = true,
-    this.fixedNbTricks = true,
-    this.nbCardsInDeck = kNbCardsInDeck,
-    this.discardRandomCards = false,
+    this.goalIsMinScore = defaultGoalIsMinScore,
+    this.fixedNbTricks = defaultFixedNbTricks,
+    this.nbCardsInDeck = defaultNbCardsInDeck,
+    this.discardRandomCards = defaultDiscardRandomCards,
   }) : assert(
          fixedNbTricks && nbCardsInDeck == kNbCardsInDeck || !fixedNbTricks,
          "If fixedNbTricks is true, nbCardsInDeck should be kNbCardsInDeck",

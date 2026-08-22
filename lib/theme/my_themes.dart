@@ -258,9 +258,7 @@ class MyThemes {
         }
         return border;
       }),
-      padding: const WidgetStatePropertyAll(
-        EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      ),
+      padding: const WidgetStatePropertyAll(EdgeInsets.all(16)),
     );
   }
 }
