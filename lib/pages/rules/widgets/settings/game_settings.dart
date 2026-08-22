@@ -34,6 +34,16 @@ class GameSettingsWidget extends ConsumerWidget {
           ),
           onTap: null,
         ),
+        SizedBox(
+          // TODO Océane test de taille de SizedBox juste pour voir si dans l'idée ce design pourrait me plaire
+          width: 100,
+          child: OutlinedButton(
+            onPressed: () {},
+            child: Text(
+              context.l10n.saveAndLeave,
+            ), // TODO Océane le style me plait pas, faut voir si j'ai pas une meilleure idée : l'appli de la SNCF a des cartes du genre avec un petit outlinedButton dedans, centré, c'est pas mal
+          ),
+        ),
       ],
     );
   }
