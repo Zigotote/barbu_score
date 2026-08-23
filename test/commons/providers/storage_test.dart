@@ -94,6 +94,10 @@ void main() {
           contract.name: true,
       },
     );
+    final trumpsSettings = ContractWithPointsSettings(
+      contract: ContractsInfo.trumps,
+      points: -10,
+    );
     final dominoSettings = DominoContractSettings(
       points: {
         4: [1, 2, 3, 4],
@@ -117,6 +121,7 @@ void main() {
           noTricksSettings,
           dominoSettings,
           saladSettings,
+          trumpsSettings,
         ].firstWhere((settings) => settings.name == contract.name);
         final storage = MyStorage();
         storage.saveSettings(contract, settings);

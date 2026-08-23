@@ -39,9 +39,19 @@ void main() {
     contract: ContractsInfo.noLastTrick,
     points: 50,
   );
+  final trumpsSettings = ContractWithPointsSettings(
+    contract: ContractsInfo.trumps,
+    points: -10,
+  );
   final dominoSettings = DominoContractSettings(
     points: {
       4: [-10, -5, 5, 10],
+    },
+  );
+  final saladSettings = SaladContractSettings(
+    contracts: {
+      for (var contract in SaladContractSettings.availableContracts)
+        contract.name: true,
     },
   );
 
@@ -76,13 +86,18 @@ void main() {
         player: index == 0 ? 1 : 0,
     },
   );
+  final salad = SaladContractModel(
+    subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
+  );
+  final trumps = ContractWithPointsModel(
+    contract: ContractsInfo.trumps,
+    itemsByPlayer: {for (var player in playerNames) player: 2},
+    nbItems: 8,
+  );
   final domino = DominoContractModel(
     rankOfPlayer: {
       for (var (index, player) in playerNames.indexed) player: index,
     },
-  );
-  final salad = SaladContractModel(
-    subContracts: [barbu, noQueens, noHearts, noLastTrick, noTricks],
   );
 
   // Expected scores
@@ -103,10 +118,6 @@ void main() {
     for (var (index, player) in playerNames.indexed)
       player: index == 0 ? noLastTrickSettings.points : 0,
   };
-  final dominoScores = {
-    for (var (index, player) in playerNames.indexed)
-      player: dominoSettings.points[playerNames.length]![index],
-  };
   final saladScores = {
     for (var (index, player) in playerNames.indexed)
       player: index == 0
@@ -119,6 +130,13 @@ void main() {
                 noQueensSettings.points +
                 noTricksSettings.points * 2,
   };
+  final trumpsScores = {
+    for (var player in playerNames) player: trumpsSettings.points * 2,
+  };
+  final dominoScores = {
+    for (var (index, player) in playerNames.indexed)
+      player: dominoSettings.points[playerNames.length]![index],
+  };
 
   setUp(() {
     for (var contractSettings in [
@@ -127,15 +145,14 @@ void main() {
       noTricksSettings,
       noHeartsSettings,
       noLastTrickSettings,
+      trumpsSettings,
       dominoSettings,
+      saladSettings,
     ]) {
       when(
         mockStorage.getSettings(ContractsInfo.fromName(contractSettings.name)),
       ).thenReturn(contractSettings);
     }
-    when(
-      mockStorage.getSettings(ContractsInfo.salad),
-    ).thenReturn(ContractsInfo.salad.defaultSettings);
     when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   });
 
@@ -171,6 +188,12 @@ void main() {
           );
           expect(
             (contractsManager.getContractManager(ContractsInfo.noTricks).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            kNbTricksByRound,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.trumps).model
                     as ContractWithPointsModel)
                 .nbItems,
             kNbTricksByRound,
@@ -219,6 +242,12 @@ void main() {
           );
           expect(
             (contractsManager.getContractManager(ContractsInfo.noTricks).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbCardsByPlayer,
+          );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.trumps).model
                     as ContractWithPointsModel)
                 .nbItems,
             testData.nbCardsByPlayer,
@@ -274,6 +303,12 @@ void main() {
                 .nbItems,
             testData.nbCardsByPlayer,
           );
+          expect(
+            (contractsManager.getContractManager(ContractsInfo.trumps).model
+                    as ContractWithPointsModel)
+                .nbItems,
+            testData.nbCardsByPlayer,
+          );
         },
       );
     }
@@ -284,22 +319,23 @@ void main() {
       <ContractsInfo>[],
       [ContractsInfo.barbu],
       [ContractsInfo.barbu, ContractsInfo.noQueens, ContractsInfo.domino],
-      [
-        ContractsInfo.barbu,
-        ContractsInfo.noHearts,
-        ContractsInfo.noQueens,
-        ContractsInfo.noTricks,
-        ContractsInfo.noLastTrick,
-        ContractsInfo.domino,
-        ContractsInfo.salad,
-      ],
+      ContractsInfo.values,
     ]) {
       final player = Player(
         name: playerNames[0],
         color: MyThemeColors.values[0],
         image: playerImages[0],
         contracts:
-            [barbu, noQueens, noHearts, noLastTrick, noTricks, domino, salad]
+            [
+                  barbu,
+                  noQueens,
+                  noHearts,
+                  noLastTrick,
+                  noTricks,
+                  trumps,
+                  domino,
+                  salad,
+                ]
                 .where(
                   (contractScores) => contractsTest
                       .map((ContractsInfo? contract) => contract?.name)
@@ -351,14 +387,17 @@ void main() {
                   contractsTest.contains(ContractsInfo.noLastTrick)
                   ? noLastTricksScores
                   : null,
+              ContractsInfo.trumps: contractsTest.contains(ContractsInfo.trumps)
+                  ? trumpsScores
+                  : null,
+              ContractsInfo.salad: contractsTest.contains(ContractsInfo.salad)
+                  ? saladScores
+                  : null,
               if (!hasInactiveContracts)
                 ContractsInfo.domino:
                     contractsTest.contains(ContractsInfo.domino)
                     ? dominoScores
                     : null,
-              ContractsInfo.salad: contractsTest.contains(ContractsInfo.salad)
-                  ? saladScores
-                  : null,
             });
           },
         );
@@ -380,6 +419,7 @@ void main() {
                 noHearts,
                 noLastTrick,
                 noTricks,
+                trumps,
                 domino,
                 salad,
               ],
@@ -406,6 +446,9 @@ void main() {
           (player, score) => MapEntry(player, score * players.length),
         ),
         ContractsInfo.noLastTrick: noLastTricksScores.map(
+          (player, score) => MapEntry(player, score * players.length),
+        ),
+        ContractsInfo.trumps: trumpsScores.map(
           (player, score) => MapEntry(player, score * players.length),
         ),
         ContractsInfo.domino: dominoScores.map(
@@ -440,12 +483,11 @@ void main() {
           name: playerNames[3],
           color: MyThemeColors.values[3],
           image: playerImages[3],
-          contracts: [barbu, noTricks, domino],
+          contracts: [barbu, trumps, domino],
         ),
       ];
       const nbBarbus = 4;
       const nbNoHearts = 3;
-      const nbNoTricks = 2;
 
       final contractsManager = ContractsManager(
         mockStorage,
@@ -461,11 +503,12 @@ void main() {
         ),
         ContractsInfo.noQueens: noQueensScores,
         ContractsInfo.noTricks: noTricksScores.map(
-          (player, score) => MapEntry(player, score * nbNoTricks),
+          (player, score) => MapEntry(player, score),
         ),
         ContractsInfo.noLastTrick: noLastTricksScores,
-        ContractsInfo.domino: dominoScores,
         ContractsInfo.salad: null,
+        ContractsInfo.trumps: trumpsScores,
+        ContractsInfo.domino: dominoScores,
       });
     });
   });

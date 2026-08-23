@@ -38,16 +38,12 @@ void main() {
   for (var contracts in [
     (
       active: ContractsInfo.values,
-      played: [
-        ContractWithPointsModel(contract: ContractsInfo.barbu),
-        SaladContractModel(),
-        DominoContractModel(),
-      ],
+      played: [defaultBarbu, defaultSalad, defaultDomino],
     ),
     (active: [ContractsInfo.barbu], played: <AbstractContractModel>[]),
     (
       active: [ContractsInfo.barbu, ContractsInfo.salad, ContractsInfo.domino],
-      played: [ContractWithPointsModel(contract: ContractsInfo.barbu)],
+      played: [defaultBarbu],
     ),
   ]) {
     final activeContracts = contracts.active;

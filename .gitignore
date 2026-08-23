@@ -31,6 +31,7 @@ doc/api/
 coverage/
 zigotote/
 screenshots/
+missing_translations.txt
 
 # FVM Version Cache
 .fvm/

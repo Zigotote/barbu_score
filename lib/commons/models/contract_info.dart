@@ -25,22 +25,17 @@ enum ContractsInfo {
     color: MyThemeColors.darkBlue,
     settingsRoute: "${Routes.contractWithPointsSettings}/noLastTrick",
   ),
-  salad(
-    color: MyThemeColors.green,
-    settingsRoute: Routes.saladSettings,
+  salad(color: MyThemeColors.green, settingsRoute: Routes.saladSettings),
+  trumps(
+    color: MyThemeColors.yellow,
+    settingsRoute: "${Routes.contractWithPointsSettings}/trumps",
   ),
-  domino(
-    color: MyThemeColors.purple,
-    settingsRoute: Routes.dominoSettings,
-  );
+  domino(color: MyThemeColors.purple, settingsRoute: Routes.dominoSettings);
 
   final MyThemeColors color;
   final String settingsRoute;
 
-  const ContractsInfo({
-    required this.color,
-    required this.settingsRoute,
-  });
+  const ContractsInfo({required this.color, required this.settingsRoute});
 
   AbstractContractSettings get defaultSettings {
     switch (this) {
@@ -70,8 +65,14 @@ enum ContractsInfo {
         return SaladContractSettings(
           contracts: {
             for (var contract in SaladContractSettings.availableContracts)
-              contract.name: true
+              contract.name: true,
           },
+        );
+      case ContractsInfo.trumps:
+        return ContractWithPointsSettings(
+          contract: this,
+          points: -5,
+          isActive: false,
         );
       case ContractsInfo.domino:
         return DominoContractSettings(
@@ -83,10 +84,6 @@ enum ContractsInfo {
 
   /// Returns the ContractsInfo from its name
   static ContractsInfo fromName(String name) {
-    return ContractsInfo.values.firstWhere(
-      (contract) => contract.name == name,
-      // TODO Temporary to migrate trumps settings to salad settings
-      orElse: () => ContractsInfo.salad,
-    );
+    return ContractsInfo.values.firstWhere((contract) => contract.name == name);
   }
 }

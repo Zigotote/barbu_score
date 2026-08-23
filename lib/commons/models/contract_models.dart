@@ -25,10 +25,8 @@ abstract class AbstractContractModel with EquatableMixin {
       ContractsInfo.noLastTrick ||
       ContractsInfo.noHearts ||
       ContractsInfo.noQueens ||
-      ContractsInfo.noTricks => ContractWithPointsModel.fromJson(
-        contract,
-        json,
-      ),
+      ContractsInfo.noTricks ||
+      ContractsInfo.trumps => ContractWithPointsModel.fromJson(contract, json),
       ContractsInfo.salad => SaladContractModel.fromJson(contract, json),
       ContractsInfo.domino => DominoContractModel.fromJson(contract, json),
     };

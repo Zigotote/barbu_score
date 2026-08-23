@@ -112,24 +112,16 @@ void main() {
     for (var replaceSubContract in [true, false]) {
       test("should ${replaceSubContract ? "replace" : "add"} sub contract", () {
         final model = SaladContractModel();
-        final subContract = ContractWithPointsModel(
-          contract: ContractsInfo.noQueens,
-          nbItems: 4,
-          itemsByPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index == 0 ? 1 : 0,
-          },
-        );
-        Map<String, int> expectedItemsByPlayer = subContract.itemsByPlayer;
+        Map<String, int> expectedItemsByPlayer = defaultNoQueens.itemsByPlayer;
 
-        model.addSubContract(subContract);
+        model.addSubContract(defaultNoQueens);
         if (replaceSubContract) {
           expectedItemsByPlayer = {
             for (var (index, player) in defaultPlayerNames.indexed)
               player: index == 1 ? 1 : 0,
           };
           model.addSubContract(
-            subContract.copyWith(itemsByPlayer: expectedItemsByPlayer),
+            defaultNoQueens.copyWith(itemsByPlayer: expectedItemsByPlayer),
           );
         }
 
@@ -330,14 +322,8 @@ void main() {
       test("should return scores of player, depending on their rank", () {
         final settings =
             ContractsInfo.domino.defaultSettings as DominoContractSettings;
-        final model = DominoContractModel(
-          rankOfPlayer: {
-            for (var (index, player) in defaultPlayerNames.indexed)
-              player: index,
-          },
-        );
 
-        expect(model.scores(settings), {
+        expect(defaultDomino.scores(settings), {
           for (var (index, player) in defaultPlayerNames.indexed)
             player: settings.points[defaultPlayerNames.length]?[index],
         });

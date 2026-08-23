@@ -30,6 +30,7 @@ class ContractsManager {
   ContractsManager(MyStorage storage, int nbPlayers) {
     final gameSettings = storage.getGameSettings();
     _nbDecks = gameSettings.getNbDecks(nbPlayers);
+    final nbTricksByRound = gameSettings.getNbTricksByRound(nbPlayers);
     _contracts = {
       ContractsInfo.barbu: (
         model: ContractWithPointsModel(
@@ -55,7 +56,7 @@ class ContractsManager {
       ContractsInfo.noTricks: (
         model: ContractWithPointsModel(
           contract: ContractsInfo.noTricks,
-          nbItems: gameSettings.getNbTricksByRound(nbPlayers),
+          nbItems: nbTricksByRound,
         ),
         settings: storage.getSettings(ContractsInfo.noTricks),
       ),
@@ -69,6 +70,13 @@ class ContractsManager {
       ContractsInfo.salad: (
         model: SaladContractModel(),
         settings: storage.getSettings(ContractsInfo.salad),
+      ),
+      ContractsInfo.trumps: (
+        model: ContractWithPointsModel(
+          contract: ContractsInfo.trumps,
+          nbItems: nbTricksByRound,
+        ),
+        settings: storage.getSettings(ContractsInfo.trumps),
       ),
       ContractsInfo.domino: (
         model: DominoContractModel(),
@@ -98,7 +106,8 @@ class ContractsManager {
             : "${Routes.noSomethingScores}/${contract.name}",
       ContractsInfo.noHearts ||
       ContractsInfo.noQueens ||
-      ContractsInfo.noTricks => "${Routes.noSomethingScores}/${contract.name}",
+      ContractsInfo.noTricks ||
+      ContractsInfo.trumps => "${Routes.noSomethingScores}/${contract.name}",
       ContractsInfo.noLastTrick => "${Routes.oneLooserScores}/${contract.name}",
       ContractsInfo.salad => Routes.saladScores,
       ContractsInfo.domino => Routes.dominoScores,

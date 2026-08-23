@@ -381,6 +381,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invertScore => 'Invert score';
 
   @override
+  String get invertScoreDetails =>
+      'If a player wins everything, their score is reversed.';
+
+  @override
   String get invertScoreNegativeDetails =>
       'If a player wins all, their score becomes negative.';
 
@@ -662,6 +666,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String rulesTrumps(int points) {
+    return 'The first player chooses a suit, which becomes the trump suit. It beats all other suits. If a player does not have a card of the suit led, they must play a trump card if they have one. If other trump cards are played during the trick, they must be of higher rank than the previous ones.\nEach player scores $points points for each trick won.';
+  }
+
+  @override
+  String rulesTrumpsDetailed(String player, int points) {
+    return '$player chooses a suit, which becomes the trump suit. It beats all other suits.\n$player leads the first trick, thereby determining its suit. If a player has no cards in the suit led, they must play a trump card if they have one. If other trumps are played during the trick, they must be of higher rank than the previous ones.\nThe player who played the highest trump —or, if none, the highest card of the suit led— wins the trick. That player leads the next trick.\nEach player scores $points points for each trick won.\n';
+  }
+
+  @override
   String get salad => 'Salad';
 
   @override
@@ -698,6 +712,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trick => 'trick';
+
+  @override
+  String get trumps => 'Trumps';
 
   @override
   String get unfold => 'Expand the choices';

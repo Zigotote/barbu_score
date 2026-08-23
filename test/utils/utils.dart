@@ -84,12 +84,6 @@ final defaultNoLastTrick = ContractWithPointsModel(
   },
 );
 
-final defaultDomino = DominoContractModel(
-  rankOfPlayer: {
-    for (var (index, player) in defaultPlayerNames.indexed) player: index,
-  },
-);
-
 final defaultSalad = SaladContractModel(
   subContracts: [
     defaultBarbu,
@@ -98,6 +92,21 @@ final defaultSalad = SaladContractModel(
     defaultNoLastTrick,
     defaultNoTricks,
   ],
+);
+
+final defaultTrumps = ContractWithPointsModel(
+  contract: ContractsInfo.trumps,
+  itemsByPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed)
+      player: index < 4 ? 2 : 0,
+  },
+  nbItems: 8,
+);
+
+final defaultDomino = DominoContractModel(
+  rankOfPlayer: {
+    for (var (index, player) in defaultPlayerNames.indexed) player: index,
+  },
 );
 
 Future<void> checkAccessibility(WidgetTester tester) async {

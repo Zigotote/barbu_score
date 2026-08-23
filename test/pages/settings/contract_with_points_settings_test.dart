@@ -1,6 +1,5 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
-import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/pages/settings/contract_with_points_settings.dart';
 import 'package:barbu_score/pages/settings/widgets/my_switch.dart';
@@ -33,6 +32,7 @@ void main() {
     ContractsInfo.noQueens,
     ContractsInfo.noTricks,
     ContractsInfo.noLastTrick,
+    ContractsInfo.trumps,
   ]) {
     final shouldHaveInvertScore =
         contract != ContractsInfo.barbu &&
@@ -98,7 +98,6 @@ UncontrolledProviderScope _createPage({
   ContractsInfo contract = _defaultContract,
 }) {
   mockStorage ??= MockMyStorage();
-  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   when(mockStorage.getSettings(contract)).thenReturn(contract.defaultSettings);
 
   final container = ProviderContainer(

@@ -1,7 +1,6 @@
 import 'package:barbu_score/commons/models/contract_info.dart';
 import 'package:barbu_score/commons/models/contract_models.dart';
 import 'package:barbu_score/commons/models/contract_settings_models.dart';
-import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/widgets/alert_dialog.dart';
 import 'package:barbu_score/pages/settings/salad_contract_settings.dart';
@@ -192,7 +191,6 @@ UncontrolledProviderScope _createPage([
   bool isContractActive = true,
 ]) {
   mockStorage ??= MockMyStorage();
-  when(mockStorage.getGameSettings()).thenReturn(GameSettings());
   when(
     mockStorage.getSettings(ContractsInfo.salad),
   ).thenReturn(_defaultSettings.copyWith(isActive: isContractActive));

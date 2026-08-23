@@ -7,6 +7,12 @@ import 'package:flutter/foundation.dart';
 import '../utils/constants.dart';
 import 'contract_info.dart';
 
+/// Lists all contract which scores cannot be inverted
+List<ContractsInfo> contractsWithoutInvertScore = [
+  ContractsInfo.barbu,
+  ContractsInfo.noLastTrick,
+];
+
 /// An abstract class to save the settings of a contract
 abstract class AbstractContractSettings {
   /// The name of the contract
@@ -33,7 +39,8 @@ abstract class AbstractContractSettings {
       ContractsInfo.noLastTrick ||
       ContractsInfo.noHearts ||
       ContractsInfo.noQueens ||
-      ContractsInfo.noTricks => ContractWithPointsSettings.fromJson(
+      ContractsInfo.noTricks ||
+      ContractsInfo.trumps => ContractWithPointsSettings.fromJson(
         json,
         contract: contract,
         isActive: isActive,
@@ -76,12 +83,6 @@ abstract class AbstractContractSettings {
 
 /// A class to save the settings for a contract where multiple players can have some points
 class ContractWithPointsSettings extends AbstractContractSettings {
-  /// Lists all contract which scores cannot be inverted
-  static List<ContractsInfo> contractsWithoutInvertScore = [
-    ContractsInfo.barbu,
-    ContractsInfo.noLastTrick,
-  ];
-
   /// The points for one item
   int points;
 
@@ -146,8 +147,11 @@ class SaladContractSettings extends AbstractContractSettings {
   /// Lists all contract that could be part of a salad contract
   static List<ContractsInfo> availableContracts = ContractsInfo.values
       .where(
-        (contract) =>
-            contract != ContractsInfo.salad && contract != ContractsInfo.domino,
+        (contract) => ![
+          ContractsInfo.salad,
+          ContractsInfo.domino,
+          ContractsInfo.trumps,
+        ].contains(contract),
       )
       .toList();
 

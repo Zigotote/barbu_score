@@ -85,10 +85,7 @@ class ContractsRules extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
-                        context.l10n.contractRules(
-                          contract,
-                          ref.read(storageProvider),
-                        ),
+                        context.l10n.contractRules(contract, settings),
                       ),
                     ),
                     if (!settings.isActive)

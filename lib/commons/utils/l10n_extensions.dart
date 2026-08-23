@@ -1,4 +1,3 @@
-import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/utils/string_extension.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +23,15 @@ extension MyAppLocalizations on AppLocalizations {
       ContractsInfo.noTricks => noTricks,
       ContractsInfo.noLastTrick => noLastTrick,
       ContractsInfo.salad => salad,
+      ContractsInfo.trumps => trumps,
       ContractsInfo.domino => domino,
     };
   }
 
-  String detailedInvertScoreRules(GameSettings gameSettings) {
-    if (gameSettings.goalIsMinScore) {
+  String detailedInvertScoreRules([int? points]) {
+    if (points == null) {
+      return invertScoreDetails;
+    } else if (points > 0) {
       return invertScoreNegativeDetails;
     }
     return invertScorePositiveDetails;
@@ -42,30 +44,38 @@ extension MyAppLocalizations on AppLocalizations {
     MyStorage storage, {
     int? nbPlayers,
   }) {
-    final gameSettings = storage.getGameSettings();
     final contractSettings = storage.getSettings(contract);
+    if (contract == ContractsInfo.trumps) {
+      final points = (contractSettings as ContractWithPointsSettings).points;
+      return rulesTrumpsDetailed(currentPlayer, points) +
+          (contractSettings.invertScore
+              ? " ${detailedInvertScoreRules(points)}"
+              : "");
+    }
     if (contract == ContractsInfo.salad) {
       final activeContracts =
           (contractSettings as SaladContractSettings).activeContracts;
-      final individualContractPoints = activeContracts.map((c) {
+      final invertSaladScores = contractSettings.invertScore;
+      final subContractsRules = activeContracts.map((c) {
         final subContractSettings =
             storage.getSettings(c) as ContractWithPointsSettings;
+        final points = subContractSettings.points;
         return switch (c) {
-          ContractsInfo.barbu => rulesBarbuInSalad(subContractSettings.points),
+          ContractsInfo.barbu => rulesBarbuInSalad(points),
           ContractsInfo.noHearts =>
-            rulesNoHeartsInSalad(subContractSettings.points) +
-                (subContractSettings.invertScore
-                    ? ". ${detailedInvertScoreRules(gameSettings)}"
+            rulesNoHeartsInSalad(points) +
+                (subContractSettings.invertScore && !invertSaladScores
+                    ? ". ${detailedInvertScoreRules(points)}"
                     : ""),
           ContractsInfo.noQueens =>
-            rulesNoQueensInSalad(subContractSettings.points) +
-                (subContractSettings.invertScore
-                    ? ". ${detailedInvertScoreRules(gameSettings)}"
+            rulesNoQueensInSalad(points) +
+                (subContractSettings.invertScore && !invertSaladScores
+                    ? ". ${detailedInvertScoreRules(points)}"
                     : ""),
           ContractsInfo.noTricks =>
-            rulesNoTricksInSalad(subContractSettings.points) +
-                (subContractSettings.invertScore
-                    ? ". ${detailedInvertScoreRules(gameSettings)}"
+            rulesNoTricksInSalad(points) +
+                (subContractSettings.invertScore && !invertSaladScores
+                    ? ". ${detailedInvertScoreRules(points)}"
                     : ""),
           ContractsInfo.noLastTrick => rulesNoLastTrickInSalad(
             subContractSettings.points,
@@ -73,7 +83,7 @@ extension MyAppLocalizations on AppLocalizations {
           _ => "",
         };
       });
-      return "${rulesTrickRound(currentPlayer)}\n\n${rulesSaladDetailed(activeContracts.map((c) => contractName(c).toLowerCase()).join(", "), individualContractPoints.join("\n"))}${contractSettings.invertScore ? "\n${detailedInvertScoreRules(gameSettings)}" : ""}";
+      return "${rulesTrickRound(currentPlayer)}\n\n${rulesSaladDetailed(activeContracts.map((c) => contractName(c).toLowerCase()).join(", "), subContractsRules.join("\n"))}${invertSaladScores ? "\n${detailedInvertScoreRules()}" : ""}";
     }
     if (contract == ContractsInfo.domino) {
       return rulesDominoDetailed(
@@ -86,13 +96,14 @@ extension MyAppLocalizations on AppLocalizations {
             .join("\n"),
       );
     }
-    return "${rulesTrickRound(currentPlayer)}\n\n${contractRules(contract, storage)}";
+    return "${rulesTrickRound(currentPlayer)}\n\n${contractRules(contract, storage.getSettings(contract))}";
   }
 
   /// Returns the rules of the contract, depending on its settings
-  String contractRules(ContractsInfo contract, MyStorage storage) {
-    final gameSettings = storage.getGameSettings();
-    final contractSettings = storage.getSettings(contract);
+  String contractRules(
+    ContractsInfo contract,
+    AbstractContractSettings contractSettings,
+  ) {
     return switch (ContractsInfo.fromName(contractSettings.name)) {
       ContractsInfo.barbu => rulesBarbu(
         (contractSettings as ContractWithPointsSettings).points,
@@ -100,17 +111,17 @@ extension MyAppLocalizations on AppLocalizations {
       ContractsInfo.noHearts =>
         rulesNoHearts((contractSettings as ContractWithPointsSettings).points) +
             (contractSettings.invertScore
-                ? " ${detailedInvertScoreRules(gameSettings)}"
+                ? " ${detailedInvertScoreRules(contractSettings.points)}"
                 : ""),
       ContractsInfo.noQueens =>
         rulesNoQueens((contractSettings as ContractWithPointsSettings).points) +
             (contractSettings.invertScore
-                ? " ${detailedInvertScoreRules(gameSettings)}"
+                ? " ${detailedInvertScoreRules(contractSettings.points)}"
                 : ""),
       ContractsInfo.noTricks =>
         rulesNoTricks((contractSettings as ContractWithPointsSettings).points) +
             (contractSettings.invertScore
-                ? " ${detailedInvertScoreRules(gameSettings)}"
+                ? " ${detailedInvertScoreRules(contractSettings.points)}"
                 : ""),
       ContractsInfo.noLastTrick => rulesNoLastTrick(
         (contractSettings as ContractWithPointsSettings).points,
@@ -122,7 +133,12 @@ extension MyAppLocalizations on AppLocalizations {
                   .join(", "),
             ) +
             (contractSettings.invertScore
-                ? "\n${detailedInvertScoreRules(gameSettings)}"
+                ? "\n${detailedInvertScoreRules()}"
+                : ""),
+      ContractsInfo.trumps =>
+        rulesTrumps((contractSettings as ContractWithPointsSettings).points) +
+            (contractSettings.invertScore
+                ? " ${detailedInvertScoreRules(contractSettings.points)}"
                 : ""),
       ContractsInfo.domino => rulesDomino,
     };
@@ -134,7 +150,7 @@ extension MyAppLocalizations on AppLocalizations {
       ContractsInfo.barbu => barbu,
       ContractsInfo.noHearts => heart,
       ContractsInfo.noQueens => queen,
-      ContractsInfo.noTricks => trick,
+      ContractsInfo.noTricks || ContractsInfo.trumps => trick,
       ContractsInfo.noLastTrick => noLastTrick,
       ContractsInfo.salad => salad,
       ContractsInfo.domino => domino,

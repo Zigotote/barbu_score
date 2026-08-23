@@ -386,6 +386,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get invertScore => 'Inversion du score';
 
   @override
+  String get invertScoreDetails =>
+      'Si un joueur remporte tout, son score est inversé.';
+
+  @override
   String get invertScoreNegativeDetails =>
       'Si un joueur remporte tout, son score devient négatif.';
 
@@ -669,6 +673,16 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String rulesTrumps(int points) {
+    return 'Le premier joueur choisit une couleur, qui devient l\'atout. Elle l\'emporte sur toutes les autres. Si un joueur n\'a pas de carte de la couleur du pli, il doit obligatoirement poser un atout s\'il en a. Si d\'autres atouts sont joués durant le pli, ils doivent être de valeur supérieure aux précédents.\nChaque joueur marque $points points par pli remporté.';
+  }
+
+  @override
+  String rulesTrumpsDetailed(String player, int points) {
+    return '$player choisit une couleur, qui devient l\'atout. Elle l\'emporte sur toutes les autres.\n$player démarre le premier pli, et détermine ainsi sa couleur. Si un joueur n\'a pas de carte de la couleur du pli, il doit obligatoirement poser un atout s\'il en a. Si d\'autres atouts sont joués durant le pli, ils doivent être de valeur supérieure aux précédents.\nLe joueur ayant posé l\'atout le plus élevé, ou à défaut la carte de la couleur demandée la plus élevée, remporte le pli. Il démarre le pli suivant.\nChaque joueur marque $points points par pli remporté.';
+  }
+
+  @override
   String get salad => 'Salade';
 
   @override
@@ -705,6 +719,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get trick => 'pli';
+
+  @override
+  String get trumps => 'Atouts';
 
   @override
   String get unfold => 'Déplier les choix';

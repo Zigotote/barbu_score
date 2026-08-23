@@ -661,6 +661,12 @@ abstract class AppLocalizations {
   /// **'Inversion du score'**
   String get invertScore;
 
+  /// No description provided for @invertScoreDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Si un joueur remporte tout, son score est inversé.'**
+  String get invertScoreDetails;
+
   /// No description provided for @invertScoreNegativeDetails.
   ///
   /// In fr, this message translates to:
@@ -1099,6 +1105,18 @@ abstract class AppLocalizations {
   /// **'{player} démarre le premier pli, et détermine ainsi sa couleur.\nLe joueur ayant posé la carte de cette couleur la plus élevée remporte le pli. Il démarre le pli suivant.'**
   String rulesTrickRound(String player);
 
+  /// No description provided for @rulesTrumps.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le premier joueur choisit une couleur, qui devient l\'atout. Elle l\'emporte sur toutes les autres. Si un joueur n\'a pas de carte de la couleur du pli, il doit obligatoirement poser un atout s\'il en a. Si d\'autres atouts sont joués durant le pli, ils doivent être de valeur supérieure aux précédents.\nChaque joueur marque {points} points par pli remporté.'**
+  String rulesTrumps(int points);
+
+  /// No description provided for @rulesTrumpsDetailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'{player} choisit une couleur, qui devient l\'atout. Elle l\'emporte sur toutes les autres.\n{player} démarre le premier pli, et détermine ainsi sa couleur. Si un joueur n\'a pas de carte de la couleur du pli, il doit obligatoirement poser un atout s\'il en a. Si d\'autres atouts sont joués durant le pli, ils doivent être de valeur supérieure aux précédents.\nLe joueur ayant posé l\'atout le plus élevé, ou à défaut la carte de la couleur demandée la plus élevée, remporte le pli. Il démarre le pli suivant.\nChaque joueur marque {points} points par pli remporté.'**
+  String rulesTrumpsDetailed(String player, int points);
+
   /// No description provided for @salad.
   ///
   /// In fr, this message translates to:
@@ -1170,6 +1188,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'pli'**
   String get trick;
+
+  /// No description provided for @trumps.
+  ///
+  /// In fr, this message translates to:
+  /// **'Atouts'**
+  String get trumps;
 
   /// No description provided for @unfold.
   ///
