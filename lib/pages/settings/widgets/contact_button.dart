@@ -50,7 +50,7 @@ class ContactButton extends ConsumerWidget {
   }
 
   String _mailWithSubAddress(String subAddress) {
-    return "barbu.score+$subAddress@gmail.com";
+    return "barbu.score+$subAddress@proton.me";
   }
 
   @override
