@@ -108,7 +108,6 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
                 onSelected: (nbPlayers) =>
                     setState(() => nbPlayersExample = nbPlayers ?? 4),
               ),
-              Text("${context.l10n.players}."),
             ],
           ),
           const SizedBox(height: 16),

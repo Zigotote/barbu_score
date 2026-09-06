@@ -13,10 +13,10 @@ import '../../utils/utils.dart';
 import '../../utils/utils.mocks.dart';
 
 const invertScoreNegative =
-    "Si un joueur remporte tout, son score devient négatif.";
+    "Si une personne remporte tout, son score devient négatif.";
 const invertScorePositive =
-    "Si un joueur remporte tout, son score devient positif.";
-const invertScore = "Si un joueur remporte tout, son score est inversé.";
+    "Si une personne remporte tout, son score devient positif.";
+const invertScore = "Si une personne remporte tout, son score est inversé.";
 
 void main() {
   group("#contractRules", () {
@@ -245,7 +245,7 @@ void main() {
             findsOneWidget,
           );
           expect(
-            find.textContaining("Si un joueur remporte tout"),
+            find.textContaining("Si une personne remporte tout"),
             invertScore ? findsOneWidget : findsNothing,
           );
         },
@@ -281,9 +281,9 @@ void main() {
             expect(
               find.textContaining(
                 RegExp(
-                  r'- '
+                  r'- '
                   '$playerRankText'
-                  ' joueur : '
+                  ' : '
                   '$playerPoints'
                   ' points',
                 ),

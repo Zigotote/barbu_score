@@ -36,7 +36,7 @@ void main() {
             : "de ${testData.nbDecks} paquets";
         expect(
           $(
-            "Le jeu se joue avec ${testData.nbCards} cartes (8 cartes par joueur).",
+            "Le jeu se joue avec ${testData.nbCards} cartes (8 cartes par personne).",
           ),
           findsOneWidget,
         );
@@ -45,9 +45,9 @@ void main() {
             RegExp(
               r'Avant de jouer.*'
               '$nbDecksText'
-              ' de 52 cartes.*'
+              ' de 52 cartes.*A '
               '${testData.nbPlayers}'
-              r' joueurs.*\d\.',
+              r',.*\d\.',
             ),
           ),
           findsOneWidget,
@@ -71,7 +71,7 @@ void main() {
         );
         expect(
           find.textContaining(
-            RegExp(r'A chaque manche, les joueurs reçoivent 8 cartes chacun'),
+            RegExp(r'A chaque manche, tout le monde reçoit 8 cartes.'),
           ),
           findsOneWidget,
         );
@@ -121,7 +121,7 @@ void main() {
             : "de ${testData.nbDecks} paquets";
         expect(
           $(
-            "Le jeu se joue avec ${testData.nbCardsByPlayer * testData.nbPlayers} cartes (${testData.nbCardsByPlayer} cartes par joueur).",
+            "Le jeu se joue avec ${testData.nbCardsByPlayer * testData.nbPlayers} cartes (${testData.nbCardsByPlayer} cartes par personne).",
           ),
           findsOneWidget,
         );
@@ -130,9 +130,9 @@ void main() {
             RegExp(
               r'Avant de jouer.*'
               '$nbDecksText'
-              ' de 52 cartes.*'
+              ' de 52 cartes.*A '
               '${testData.nbPlayers}'
-              r' joueurs.*'
+              r',.*'
               '${testData.cardsToKeep}'
               '.',
             ),
@@ -202,7 +202,7 @@ void main() {
             : "de ${testData.nbDecks} paquets";
         expect(
           $(
-            "Le jeu se joue avec ${testData.nbCardsByPlayer * testData.nbPlayers} cartes (${testData.nbCardsByPlayer} cartes par joueur).",
+            "Le jeu se joue avec ${testData.nbCardsByPlayer * testData.nbPlayers} cartes (${testData.nbCardsByPlayer} cartes par personne).",
           ),
           findsOneWidget,
         );
@@ -211,9 +211,9 @@ void main() {
             RegExp(
               r'Avant de jouer.*'
               '$nbDecksText'
-              ' de 32 cartes.*'
+              ' de 32 cartes.*A '
               '${testData.nbPlayers}'
-              r' joueurs.*'
+              r',.*'
               '${testData.cardsToKeep}'
               '.',
             ),

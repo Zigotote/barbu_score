@@ -90,8 +90,7 @@ extension MyAppLocalizations on AppLocalizations {
         currentPlayer,
         (contractSettings as DominoContractSettings).points[nbPlayers!]!
             .mapIndexed(
-              (index, p) =>
-                  "- ${ordinalNumber(index + 1)} $player : $p $points",
+              (index, p) => "- ${ordinalNumber(index + 1)} : $p $points",
             )
             .join("\n"),
       );

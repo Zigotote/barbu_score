@@ -49,7 +49,7 @@ class DominoContractSettingsPage extends ConsumerWidget with ChangeSettings {
                 child: Tooltip(
                   message: context.l10n.pointsForNbPlayers(nbPlayers),
                   child: Text(
-                    "$nbPlayers ${context.l10n.players.substring(0, 1)}.",
+                    "$nbPlayers ${context.l10n.player.substring(0, 1)}.",
                   ),
                 ),
               ),

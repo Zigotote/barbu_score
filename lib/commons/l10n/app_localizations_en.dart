@@ -12,18 +12,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get about => 'About';
 
   @override
-  String get aboutLea => 'Léa LOUESDON, creator of graphic elements';
+  String get aboutLea => 'Léa LOUESDON, creator of the graphic design elements';
 
   @override
   String get aboutOceane =>
-      'Océane GILLARD, responsible for application development';
+      'Océane GILLARD, in charge of the app\'s development';
 
   @override
   String get aboutTheApp =>
-      'The Score Barbu app is developed by enthusiasts who are committed to meeting the needs of Barbu players as best they can!';
+      'The Score Barbu app is developed by passionate people who care about meeting Barbu players\' needs as well as possible!';
 
   @override
-  String get aboutTheTeam => 'The team consists of:';
+  String get aboutTheTeam => 'The team is made up of: ';
 
   @override
   String get accept => 'Yes';
@@ -32,7 +32,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ace => 'ace';
 
   @override
-  String get activateContract => 'Activate contract';
+  String get activateContract => 'Activate the contract';
 
   @override
   String get addCard => 'Add a card';
@@ -47,7 +47,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alertCannotActivateSaladDetails =>
-      'The salad must have at least one contract to be played to be activated.';
+      'The salad must have at least one contract to play in order to be activated.';
 
   @override
   String get alertContractPlayed => 'The contract has already been played';
@@ -57,10 +57,10 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       nbPlayers,
       locale: localeName,
-      other: 'these players will',
-      one: 'this player will',
+      other: 'these players will have to',
+      one: 'this player will have to',
     );
-    return 'The contract has already been played by $players. If it is deactivated, it will be removed from the game and $_temp0 have to choose an additional contract at the end of the game.';
+    return 'The contract has already been played by $players. If it is deactivated, it will be removed from the game and $_temp0 choose an additional contract at the end of the game.';
   }
 
   @override
@@ -68,7 +68,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String alertSaladContractPlayedBy(String players) {
-    return 'The contract has already been played by $players. Any changes in the settings of this contract will affect the saved contracts.';
+    return 'The contract has already been played by $players. Any changes to this contract\'s settings will affect the saved contracts.';
   }
 
   @override
@@ -93,7 +93,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get askForFeedback =>
-      'Have you detected a problem or have a suggestion for improvement? You can report it to us by email:';
+      'Did you spot a problem or have a suggestion for improvement? You can let us know by email:';
 
   @override
   String get availableColor => 'Available color';
@@ -119,8 +119,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get cardsOrder =>
-      'Aces are the highest cards. Before playing, the strongest cards must be kept until the required number is reached.';
+  String get cardsOrder => 'Aces are the highest cards.';
 
   @override
   String get cardsToKeep => 'Keep the cards';
@@ -135,10 +134,10 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       nbDecks,
       locale: localeName,
-      other: '$nbDecks decks',
-      one: 'one deck',
+      other: 'from $nbDecks decks',
+      one: 'from a deck',
     );
-    return 'Before playing, keep the highest cards from $_temp0 of $nbCardsInDeck cards until you have the required number. With $nbPlayers players, you should therefore only keep the following cards: $cards';
+    return 'Before playing, you need to keep the highest cards $_temp0 of $nbCardsInDeck cards until you reach the required number. For $nbPlayers, you therefore only need to keep the following cards: $cards';
   }
 
   @override
@@ -161,7 +160,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changesSavedDetails =>
-      'The changes have been saved and are effective immediately.';
+      'The changes have been saved and are now in effect.';
 
   @override
   String get close => 'Close';
@@ -171,14 +170,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String confirmStartGame(String players) {
-    return 'Confirm creation of a new game? If yes, the previous game with $players will be lost.';
+    return 'Confirm the creation of a new game? If so, the previous game with $players will be lost.';
   }
 
   @override
   String get contact => 'Contact';
 
   @override
-  String get contactByMail => 'Contact by mail';
+  String get contactByMail => 'Contact by email';
 
   @override
   String get contactReason => 'What would you like to report?';
@@ -196,7 +195,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contractsRules =>
-      'The Barbu game includes the following contracts:';
+      'The game of Barbu includes the following contracts:';
 
   @override
   String contractRulesTitle(String contract) {
@@ -213,7 +212,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deactivate => 'Deactivate';
 
   @override
-  String get deactivatedForGame => 'Disabled for your games.';
+  String get deactivatedForGame => 'Deactivated for your games.';
 
   @override
   String decksOfCards(int nbDecks, int nbCards) {
@@ -239,11 +238,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deletePlayer => 'Delete player';
 
   @override
-  String get discardCard => 'Discard a card';
+  String get discardCard => 'Remove a card';
 
   @override
   String discardItem(String item) {
-    return 'Discard one $item';
+    return 'Remove one $item';
   }
 
   @override
@@ -259,15 +258,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String discardedCardsRules(int nbTricks) {
-    return 'Each round, players receive $nbTricks cards each. Extra cards are set aside face up and then reshuffled at the end of the round.';
+    return 'Each round, everyone is dealt $nbTricks cards. The extra cards are set aside face up, then reshuffled at the end of the round.';
   }
 
   @override
-  String get discardedCards => 'Discarded cards';
+  String get discardedCards => 'Removed cards';
 
   @override
   String discardedCardsName(String item) {
-    return 'Discarded ${item}s';
+    return 'Removed ${item}s';
   }
 
   @override
@@ -285,25 +284,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get english => 'English';
 
   @override
-  String get errorAddItem => 'Unable to add item';
+  String get errorAddItem => 'Cannot add item';
 
   @override
   String errorAddItemDetails(String item, int nbItems) {
-    return 'The number of $item exceeds the number of items that can be won, fixed at $nbItems.';
+    return 'The number of $item exceeds the number of items that can be won, set at $nbItems.';
   }
 
   @override
   String get errorDomino => 'Not all players have been ranked.';
 
   @override
-  String get errorLaunchGame => 'Cannot start the game';
+  String get errorLaunchGame => 'Cannot start a game';
 
   @override
   String get errorLaunchGameDetails =>
-      'All contracts are deactivated in the settings. At least one contract must be activated to play.';
+      'All contracts are disabled in the settings. At least one contract must be enabled to play.';
 
   @override
-  String get errorAddDiscardedCard => 'Unable to add discarded card';
+  String get errorAddDiscardedCard => 'Cannot add discarded card';
 
   @override
   String errorAddDiscardedCardDetails(String item, int nbItems) {
@@ -311,13 +310,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get feature => 'A feature';
+  String get feature => 'A suggestion';
 
   @override
-  String get fold => 'Collapse the choices';
+  String get fold => 'Collapse choices';
 
   @override
-  String get forGameAt => 'For a game of';
+  String get forGameAt => 'For a game with';
 
   @override
   String get french => 'French';
@@ -341,14 +340,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gamePrincipleDetails =>
-      'This trick-taking game consists of different contracts that must be completed by all players. Each contract has specific rules that will be applied during the round of play.\nThe game ends when all players have completed all the contracts.';
+      'This trick-taking game is made up of different contracts that must be completed by all players. Each contract has its own specific rules, which apply during that round.\nThe game ends when everyone has completed all the contracts.';
 
   @override
-  String get gameRound => 'Round of play';
+  String get gameRound => 'Round';
 
   @override
   String get gameRoundRules =>
-      'Distribute the same number of cards among the players.*The first player chooses the contract he wishes to play and announces it to the other players.*He starts the trick by playing a card, which determines the suit of the trick.*Each player plays a card in clockwise order.*If a player does not have a card of the required suit, they can play any card from their hand. The value of this card will be considered as null.*At the end of the round, the player who played the highest-value card wins the trick. He will start the next trick.*The round ends when all players have played all their cards.*Points are then counted according to the contract chosen by the first player.*The player to the left of the previous first player starts the next round.';
+      'Deal the same number of cards to everyone.*The First Player chooses which contract to play and announces it to the others.*They lead the trick by playing a card, which sets the trick\'s suit.*Each person plays a card clockwise.*If a person doesn\'t have a card of the suit asked for, they may play any card from their hand. That card\'s value is then considered null.*At the end of the round, the person who played the highest card wins the trick. They lead the next trick.*The round ends once all the cards have been played.*Points are then counted according to the contract chosen by the First Player.*The person sitting to their left starts the next round.';
 
   @override
   String get gameSaved => 'Game saved';
@@ -360,7 +359,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goal => 'Goal';
 
   @override
-  String get goHome => 'Go back to home';
+  String get goHome => 'Back to home';
 
   @override
   String get heart => 'heart';
@@ -372,25 +371,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hintLightMode => 'light mode';
 
   @override
-  String get hintForDarkMode => 'set dark mode';
+  String get hintForDarkMode => 'switch to dark mode';
 
   @override
-  String get hintForLightMode => 'set light mode';
+  String get hintForLightMode => 'switch to light mode';
 
   @override
-  String get invertScore => 'Invert score';
+  String get invertScore => 'Score inversion';
 
   @override
   String get invertScoreDetails =>
-      'If a player wins everything, their score is reversed.';
+      'If a player wins everything, their score is inverted.';
 
   @override
   String get invertScoreNegativeDetails =>
-      'If a player wins all, their score becomes negative.';
+      'If a player wins everything, their score becomes negative.';
 
   @override
   String get invertScorePositiveDetails =>
-      'If a player wins all, their score becomes positive.';
+      'If a player wins everything, their score becomes positive.';
 
   @override
   String get jack => 'jack';
@@ -408,7 +407,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadGame => 'Load a game';
 
   @override
-  String get loadGameIndication => 'Select \"Load a game\" to continue.';
+  String get loadGameIndication => 'Select \"Load a game\" to continue it.';
 
   @override
   String loadPreviousGame(String players) {
@@ -419,28 +418,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lowest => 'Lowest';
 
   @override
-  String get maxScore => 'Highest score';
+  String get maxScore => 'High score';
 
   @override
-  String get minScore => 'Lowest score';
+  String get minScore => 'Low score';
 
   @override
-  String get mix => 'Mix';
+  String get mix => 'Shuffle';
 
   @override
   String modify(String contract) {
-    return 'Modify $contract';
+    return 'Edit $contract';
   }
 
   @override
   String get modifyContractsSettings =>
-      'The contracts can be modified on the settings page to customize their points and variations.';
+      'Contracts can be edited on the settings page, to customize their points and variations.';
 
   @override
-  String get modifyPlayer => 'Modify player';
+  String get modifyPlayer => 'Edit player';
 
   @override
-  String get modifySettings => 'Modify settings';
+  String get modifySettings => 'Edit settings';
 
   @override
   String get moreInfo => 'More information';
@@ -473,7 +472,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nbTricksTooltip =>
-      'An optimized number of tricks means distributing all the cards in the deck evenly among the players.';
+      'An optimized number of tricks means dealing all the cards in the deck out evenly.';
 
   @override
   String get nbTricksQuestion => 'Number of tricks';
@@ -486,7 +485,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noGameFoundDetails =>
-      'The previous game was not found. Starting a new game.';
+      'The previous game could not be found. Starting a new game.';
 
   @override
   String get noHearts => 'No hearts';
@@ -507,28 +506,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get other => 'Other';
 
   @override
+  String get player => 'player';
+
+  @override
   String playerNameHint(int nb) {
-    return 'Name of player $nb';
+    return 'Name P$nb';
   }
 
   @override
   String get playerTurn => 'Turn of';
 
   @override
-  String get player => 'player';
-
-  @override
-  String get players => 'players';
-
-  @override
-  String get playersOrder => 'Player\'s order';
+  String get playersOrder => 'Player order';
 
   @override
   String get points => 'points';
 
   @override
   String pointsBy(String item) {
-    return 'Points by $item';
+    return 'Points per $item';
   }
 
   @override
@@ -566,27 +562,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ranking => 'Ranking';
 
   @override
-  String get rateApp => 'Rate app';
+  String get rateApp => 'Rate the app';
 
   @override
   String get refuseLoadGame => 'No, new game';
 
   @override
-  String get refuseStartGame => 'No, resume game';
+  String get refuseStartGame => 'No, resume the game';
 
   @override
   String get reportBug => 'Report a bug';
 
   @override
   String get reportBugMail =>
-      'Hello,\n\nI’d like to report a bug I encountered in the application. Please find the details below:\n\n- Bug description (describe what happened, what you were doing when the issue occurred, etc.): \n\n- Steps to reproduce (list the steps needed to make the issue happen again):\n\n- Expected behavior (describe what should have happened instead)';
+      'Hello,\n\nI would like to report a bug I encountered in the app. Here are the details:\n\n- Bug description (explain what happened, what you were doing before the problem occurred, etc.):\n\n- Steps to reproduce the bug (list the actions needed to make the problem happen again):\n\n- Expected behavior (what should have happened):';
 
   @override
-  String get requestFeature => 'Request a feature';
+  String get requestFeature => 'Suggest a feature';
 
   @override
   String get requestFeatureMail =>
-      'Hello,\n\nI’d like to suggest a new feature for the application to be able to...';
+      'Hello,\n\nI would like to suggest a new feature for the app, in order to...';
 
   @override
   String get rules => 'Game rules';
@@ -598,16 +594,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesBarbuInSalad(int points) {
-    return '- the king of hearts (Barbu) is worth $points points';
+    return '- the king of hearts (Barbu) is worth $points points';
   }
 
   @override
   String get rulesDomino =>
-      'Unlike other contracts, Domino is not a trick-taking contract. The goal of this contract is to lay all the cards on the table, sorted by suit and in ascending order.\nThe player who chooses this contract determines the starting value of the sequence (for example, the jack). If they have a card of that value, they place it on the table; otherwise, they skip their turn.\nThe next player can then play a card of the same suit and of a value directly higher or lower (so the 10 or the queen of the same suit). They can also play another card of the starting value in a different suit. If they play an ace, they may play again. If they cannot play a card, they pass.\nThe game continues in this manner until all players have finished their hands. The objective is to play all your cards as quickly as possible.';
+      'Unlike the other contracts, Domino is not a trick-taking contract. The goal of this contract is to place all the cards in the deck on the table, sorted by suit and in ascending order.\nThe player who chose this contract determines the opening value for the sequence (for example, the jack). If they have a card of that value, they place it on the table; otherwise, they pass.\nThe next player can then place a card of the same suit with a value directly above or below (so the 10 or the queen of the previous suit), or a card of the opening value in another suit. If they play an ace, they can play again. If they can\'t place a card, they pass.\nThe game continues until everyone has emptied their hand. The goal is to place all your cards as quickly as possible.';
 
   @override
   String rulesDominoDetailed(String player, String points) {
-    return 'The goal of Domino is to lay all the cards on the table, sorted by suit and in ascending order.\n$player determines the starting value of the sequence (for example, the jack), and plays a card of that value if they have one.\nThe next player then plays a card of the same suit and of a value directly higher or lower (so the 10 or the queen of the same suit), or a card of the starting value in a different suit. If they play an ace, they may play again. If they cannot play a card, they pass.\nThe game continues in this manner until all players have finished their hands. Points are awarded based on the order in which players finish, distributed as follows:\n$points';
+    return 'Unlike the other contracts, Domino is not a trick-taking contract. The goal of this contract is to place all the cards in the deck on the table, sorted by suit and in ascending order.\n$player determines the opening value for the sequence (for example, the jack), and places a card of that value if they have one in hand.\nThe next player then places a card of the same suit with a value directly above or below (so the 10 or the queen of the previous suit), or a card of the opening value. If they play an ace, they can play again. If they can\'t place a card, they pass.\nThe game continues until everyone has emptied their hand.';
   }
 
   @override
@@ -617,7 +613,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesNoHeartsInSalad(int points) {
-    return '- each heart is worth $points points';
+    return '- each heart is worth $points points';
   }
 
   @override
@@ -627,7 +623,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesNoQueensInSalad(int points) {
-    return '- each queen is worth $points points';
+    return '- each queen is worth $points points';
   }
 
   @override
@@ -637,7 +633,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesNoLastTrickInSalad(int points) {
-    return '- the last trick is worth $points points';
+    return '- the last trick is worth $points points';
   }
 
   @override
@@ -647,42 +643,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rulesNoTricksInSalad(int points) {
-    return '- each trick is worth $points points';
+    return '- each trick is worth $points points';
   }
 
   @override
   String rulesSalad(String contracts) {
-    return 'This contract is a combination of the $contracts contracts.\nIt is the contract that can score the most points since the points of each contract are added together.';
+    return 'This contract is a combination of the $contracts contracts.\nIt\'s the contract that can score the most points, since the points from each contract are added together.';
   }
 
   @override
   String rulesSaladDetailed(String contracts, String itemWithPoints) {
-    return 'This contract is a combination of the contracts $contracts. Points are counted as follows:\n$itemWithPoints';
+    return 'This contract is a combination of the $contracts contracts. Points are counted as follows:\n$itemWithPoints';
   }
 
   @override
   String rulesTrickRound(String player) {
-    return '$player starts the first trick, and thereby determines the leading suit.\nThe player who played the highest card of that suit wins the trick and starts the next one.';
+    return '$player leads the first trick, which sets its suit.\nThe player who played the highest card of that suit wins the trick. They lead the next trick.';
   }
 
   @override
   String rulesTrumps(int points) {
-    return 'The first player chooses a suit, which becomes the trump suit. It beats all other suits. If a player does not have a card of the suit led, they must play a trump card if they have one. If other trump cards are played during the trick, they must be of higher rank than the previous ones.\nEach player scores $points points for each trick won.';
+    return 'The First Player chooses a suit, which becomes trumps. It beats all the others. If a player doesn\'t have a card of the suit led, they must play a trump if they have one. If further trumps are played during the trick, they must be higher in value than the previous ones.\nEach player scores $points points per trick won.';
   }
 
   @override
   String rulesTrumpsDetailed(String player, int points) {
-    return '$player chooses a suit, which becomes the trump suit. It beats all other suits.\n$player leads the first trick, thereby determining its suit. If a player has no cards in the suit led, they must play a trump card if they have one. If other trumps are played during the trick, they must be of higher rank than the previous ones.\nThe player who played the highest trump —or, if none, the highest card of the suit led— wins the trick. That player leads the next trick.\nEach player scores $points points for each trick won.\n';
+    return '$player chooses a suit, which becomes trumps. It beats all the others.\n$player leads the first trick, which sets its suit. If a player doesn\'t have a card of the suit led, they must play a trump if they have one. If further trumps are played during the trick, they must be higher in value than the previous ones.\nThe player who played the highest trump, or otherwise the highest card of the suit asked for, wins the trick. They lead the next trick.\n\nEach player scores $points points per trick won.';
   }
 
   @override
   String get salad => 'Salad';
 
   @override
-  String get saladScoresSubtitle => 'What is the score of each contract?';
+  String get saladScoresSubtitle => 'What\'s the score for each contract?';
 
   @override
-  String get saveAndLeave => 'Save and leave';
+  String get saveAndLeave => 'Save and exit';
 
   @override
   String get scores => 'Scores';
@@ -695,7 +691,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String seePreviousGame(String players) {
-    return 'See the previous game with $players?';
+    return 'Review the previous game with $players?';
   }
 
   @override
@@ -717,7 +713,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trumps => 'Trumps';
 
   @override
-  String get unfold => 'Expand the choices';
+  String get unfold => 'Expand choices';
 
   @override
   String get validate => 'Validate';
@@ -731,5 +727,5 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get worstEnnemy => 'Worst ennemy';
+  String get worstEnnemy => 'Worst opponent';
 }

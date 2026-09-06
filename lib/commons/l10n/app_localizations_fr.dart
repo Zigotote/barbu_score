@@ -20,7 +20,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get aboutTheApp =>
-      'L\'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs de Barbu !';
+      'L\'application Score Barbu est développée par des passionnées qui ont à coeur de répondre au mieux aux besoins des joueurs et joueuses de Barbu !';
 
   @override
   String get aboutTheTeam => 'L\'équipe est composée de : ';
@@ -58,8 +58,8 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       nbPlayers,
       locale: localeName,
-      other: 'ces joueurs devront',
-      one: 'ce joueur devra',
+      other: 'ces personnes devront',
+      one: 'cette personne devra',
     );
     return 'Le contrat a déjà été joué par $players. S\'il est désactivé il sera supprimé de la partie et $_temp0 choisir un contrat supplémentaire en fin de partie.';
   }
@@ -109,7 +109,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get barbu => 'Barbu';
 
   @override
-  String get bestFriend => 'Meilleur ami';
+  String get bestFriend => 'Meilleur·e ami·e';
 
   @override
   String get bug => 'Un bug';
@@ -138,7 +138,7 @@ class AppLocalizationsFr extends AppLocalizations {
       other: 'de $nbDecks paquets',
       one: 'd\'un paquet',
     );
-    return 'Avant de jouer il faut conserver les cartes les plus élevées $_temp0 de $nbCardsInDeck cartes jusqu\'à obtenir le nombre requis. A $nbPlayers joueurs, il faut donc conserver uniquement les cartes : $cards';
+    return 'Avant de jouer il faut conserver les cartes les plus élevées $_temp0 de $nbCardsInDeck cartes jusqu\'à obtenir le nombre requis. A $nbPlayers, il faut donc conserver uniquement les cartes : $cards';
   }
 
   @override
@@ -207,7 +207,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get contractsToPlay => 'Contrats à jouer';
 
   @override
-  String get createPlayers => 'Créer les joueurs';
+  String get createPlayers => 'Créer les joueurs et joueuses';
 
   @override
   String get deactivate => 'Désactiver';
@@ -236,7 +236,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get delete => 'Supprimer';
 
   @override
-  String get deletePlayer => 'Supprimer le joueur';
+  String get deletePlayer => 'Supprimer la·e joueur·se';
 
   @override
   String get discardCard => 'Retirer une carte';
@@ -260,7 +260,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String discardedCardsRules(int nbTricks) {
-    return 'A chaque manche, les joueurs reçoivent $nbTricks cartes chacun. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.';
+    return 'A chaque manche, tout le monde reçoit $nbTricks cartes. Les cartes supplémentaires sont mises de côté face visible puis remélangées à la fin de la manche.';
   }
 
   @override
@@ -298,7 +298,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get errorDomino => 'Tous les joueurs n\'ont pas été classés.';
+  String get errorDomino => 'Tout le monde n\'a pas été classé.';
 
   @override
   String get errorLaunchGame => 'Impossible de lancer une partie';
@@ -346,14 +346,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get gamePrincipleDetails =>
-      'Ce jeu de plis est composé de différents contrats devant être réalisés par tous les joueurs. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tous les joueurs ont réalisé l\'ensemble des contrats.';
+      'Ce jeu de plis est composé de différents contrats devant être réalisés par toutes les personnes. Chaque contrat possède des règles particulières, qui seront appliquées durant la manche de jeu.\nLa partie se termine lorsque tout le monde a réalisé l\'ensemble des contrats.';
 
   @override
   String get gameRound => 'Manche de jeu';
 
   @override
   String get gameRoundRules =>
-      'Distribuer le même nombre de cartes entre les joueurs.*Le premier joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres joueurs.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque joueur pose une carte dans le sens des aiguilles d\'une montre.*Si un joueur ne possède pas de carte de la couleur demandée, il peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, le joueur ayant posé la carte de la plus grande valeur emporte le pli. C\'est lui qui démarrera le pli suivant.*La manche s\'arrête lorsque les joueurs ont joué toutes leurs cartes.*Les points sont ensuite comptés selon le contrat choisi par le premier joueur.*Le joueur à la gauche du premier joueur précédent démarre la manche suivante.';
+      'Distribuer le même nombre de cartes à tout le monde.*Le Premier Joueur choisit le contrat qu\'il souhaite jouer et l\'annonce aux autres.*Il démarre le pli en posant une carte, qui détermine la couleur du pli.*Chaque personne pose une carte dans le sens des aiguilles d\'une montre.*Si une personne ne possède pas de carte de la couleur demandée, elle peut poser n\'importe quelle carte de son paquet. La valeur de cette carte sera alors considérée comme nulle.*A la fin du tour, la personne ayant posé la carte de la plus grande valeur emporte le pli. C\'est elle qui démarrera le pli suivant.*La manche s\'arrête lorsque les cartes ont toutes été jouées.*Les points sont ensuite comptés selon le contrat choisi par Le Premier Joueur.*La personne assise à sa gauche démarre la manche suivante.';
 
   @override
   String get gameSaved => 'Partie sauvegardée';
@@ -387,15 +387,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get invertScoreDetails =>
-      'Si un joueur remporte tout, son score est inversé.';
+      'Si une personne remporte tout, son score est inversé.';
 
   @override
   String get invertScoreNegativeDetails =>
-      'Si un joueur remporte tout, son score devient négatif.';
+      'Si une personne remporte tout, son score devient négatif.';
 
   @override
   String get invertScorePositiveDetails =>
-      'Si un joueur remporte tout, son score devient positif.';
+      'Si une personne remporte tout, son score devient positif.';
 
   @override
   String get jack => 'valet';
@@ -443,7 +443,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Les contrats sont modifiables dans la page de paramètres, pour personnaliser leurs points et variations.';
 
   @override
-  String get modifyPlayer => 'Modifier le joueur';
+  String get modifyPlayer => 'Modifier la·e joueur·se';
 
   @override
   String get modifySettings => 'Modifier les paramètres';
@@ -458,7 +458,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String nbCardsRules(int nbCards, int nbTricks) {
-    return 'Le jeu se joue avec $nbCards cartes ($nbTricks cartes par joueur).';
+    return 'Le jeu se joue avec $nbCards cartes ($nbTricks cartes par personne).';
   }
 
   @override
@@ -474,12 +474,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String nbItemsByPlayer(String item) {
-    return 'Nombre de ${item}s par joueur';
+    return 'Nombre de ${item}s par personne';
   }
 
   @override
   String get nbTricksTooltip =>
-      'Un nombre de plis optimisé revient à distribuer équitablement toutes les cartes du jeu entre les joueurs.';
+      'Un nombre de plis optimisé revient à distribuer équitablement toutes les cartes du jeu.';
 
   @override
   String get nbTricksQuestion => 'Nombre de plis';
@@ -513,21 +513,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get other => 'Autre';
 
   @override
+  String get player => 'joueur·se';
+
+  @override
   String playerNameHint(int nb) {
-    return 'Nom du joueur $nb';
+    return 'Nom J$nb';
   }
 
   @override
   String get playerTurn => 'Tour de';
 
   @override
-  String get player => 'joueur';
-
-  @override
-  String get players => 'joueurs';
-
-  @override
-  String get playersOrder => 'Ordre des joueurs';
+  String get playersOrder => 'Ordre des joueurs et joueuses';
 
   @override
   String get points => 'points';
@@ -539,7 +536,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String pointsForNbPlayers(int nb) {
-    return 'Points à $nb joueurs';
+    return 'Points à $nb joueur·ses';
   }
 
   @override
@@ -550,7 +547,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get presentGame =>
-      'Le barbu est un jeu de cartes pour 3 à 10 joueurs.';
+      'Le barbu est un jeu de cartes pour 3 à 10 joueurs et joueuses.';
 
   @override
   String get presentGameGoalMaxScore =>
@@ -586,21 +583,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get reportBugMail =>
-      'Bonjour,\n\nJe souhaiterai signaler un bug rencontré sur l’application. Voici les détails :\n\n- Description du bug (expliquez ce qu\'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.) :\n\n- Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise) : \n\n- Comportement attendu (ce qui aurait dû se passer) :';
+      'Bonjour,\n\nJe souhaiterais signaler un bug rencontré sur l’application. Voici les détails :\n\n- Description du bug (expliquez ce qu\'il s’est passé, ce que vous faisiez avant que le problème apparaisse, etc.) :\n\n- Étapes pour reproduire le bug (indiquez les actions à suivre pour que le problème se reproduise) : \n\n- Comportement attendu (ce qui aurait dû se passer) :';
 
   @override
   String get requestFeature => 'Ajouter une amélioration';
 
   @override
   String get requestFeatureMail =>
-      'Bonjour,\n\nJe souhaiterai proposer une nouvelle fonctionnalité pour l\'application, afin de...';
+      'Bonjour,\n\nJe souhaiterais proposer une nouvelle fonctionnalité pour l\'application, afin de...';
 
   @override
   String get rules => 'Règles du jeu';
 
   @override
   String rulesBarbu(int points) {
-    return 'Le joueur emportant le roi de coeur (Barbu) marque $points points.';
+    return 'La personne emportant le roi de coeur (Barbu) marque $points points.';
   }
 
   @override
@@ -610,16 +607,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rulesDomino =>
-      'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLe joueur choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). S\'il possède une carte de cette valeur, il la pose sur la table, sinon il passe son tour.\nLe joueur suivant peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Il peut aussi poser une carte de la valeur d\'ouverture, dans une autre couleur. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. L\'objectif est de poser toutes ses cartes le plus rapidement possible.';
+      'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\nLa personne choisissant ce contrat détermine la valeur d\'ouverture de la réussite (par exemple le valet). Si elle possède une carte de cette valeur, elle la pose sur la table, sinon elle passe son tour.\nLa personne suivante peut ensuite poser une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente). Elle peut aussi poser une carte de la valeur d\'ouverture. Si elle joue un as, elle peut rejouer. Si elle ne peut pas poser de carte, elle indique qu\'elle passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tout le monde ait vidé sa main. L\'objectif est de poser toutes ses cartes le plus rapidement possible.';
 
   @override
   String rulesDominoDetailed(String player, String points) {
-    return 'L\'objectif de la réussite est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\n$player détermine la valeur d\'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s\'il y en a dans son jeu.\nLe joueur suivant pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d\'ouverture. S\'il joue un as, il peut rejouer. S\'il ne peut pas poser de carte, il indique qu\'il passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tous les joueurs aient fini leur paquet. Les points marqués dépendent de l\'ordre de fin des joueurs, et sont distribués comme suit :\n$points';
+    return 'Contrairement aux autres contrats, la réussite n\'est pas un contrat à plis. L\'objectif de ce contrat est de poser toutes les cartes du jeu sur la table, triées par couleur et dans l\'ordre croissant.\n$player détermine la valeur d\'ouverture de la réussite (par exemple le valet), et pose une carte de cette valeur s\'il y en a dans son jeu.\nLa personne suivante pose ensuite une carte de même couleur et de valeur directement supérieure ou inférieure (donc le 10 ou la dame de la couleur précédente), ou une carte de la valeur d\'ouverture. Si elle joue un as, elle peut rejouer. Si elle ne peut pas poser de carte, elle indique qu\'elle passe.\nLe jeu se poursuit ainsi jusqu\'à ce que tout le monde ait fini vidé sa main.\n\nLes points marqués dépendent de l\'ordre de fin des joueurs et joueuses, et sont distribués comme suit :\n$points';
   }
 
   @override
   String rulesNoHearts(int points) {
-    return 'Chaque joueur marque $points points par coeur remporté.';
+    return 'Chaque personne marque $points points par coeur remporté.';
   }
 
   @override
@@ -629,7 +626,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesNoQueens(int points) {
-    return 'Chaque joueur marque $points points par dame remportée.';
+    return 'Chaque personne marque $points points par dame remportée.';
   }
 
   @override
@@ -639,7 +636,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesNoLastTrick(int points) {
-    return 'Le joueur emportant le dernier pli marque $points points.';
+    return 'La personne emportant le dernier pli marque $points points.';
   }
 
   @override
@@ -649,7 +646,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesNoTricks(int points) {
-    return 'Chaque joueur marque $points points par pli remporté.';
+    return 'Chaque personne marque $points points par pli remporté.';
   }
 
   @override
@@ -669,17 +666,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rulesTrickRound(String player) {
-    return '$player démarre le premier pli, et détermine ainsi sa couleur.\nLe joueur ayant posé la carte de cette couleur la plus élevée remporte le pli. Il démarre le pli suivant.';
+    return '$player démarre le premier pli, et détermine ainsi sa couleur.\nLa personne ayant posé la carte de cette couleur la plus élevée remporte le pli. Elle démarre le pli suivant.';
   }
 
   @override
   String rulesTrumps(int points) {
-    return 'Le premier joueur choisit une couleur, qui devient l\'atout. Elle l\'emporte sur toutes les autres. Si un joueur n\'a pas de carte de la couleur du pli, il doit obligatoirement poser un atout s\'il en a. Si d\'autres atouts sont joués durant le pli, ils doivent être de valeur supérieure aux précédents.\nChaque joueur marque $points points par pli remporté.';
+    return 'Le Premier Joueur choisit une couleur, qui devient l\'atout. Elle l\'emporte sur toutes les autres. Si une personne n\'a pas de carte de la couleur du pli, elle doit obligatoirement poser un atout si elle en a. Si d\'autres atouts sont joués durant le pli, ils doivent être de valeur supérieure aux précédents.\nChaque personne marque $points points par pli remporté.';
   }
 
   @override
   String rulesTrumpsDetailed(String player, int points) {
-    return '$player choisit une couleur, qui devient l\'atout. Elle l\'emporte sur toutes les autres.\n$player démarre le premier pli, et détermine ainsi sa couleur. Si un joueur n\'a pas de carte de la couleur du pli, il doit obligatoirement poser un atout s\'il en a. Si d\'autres atouts sont joués durant le pli, ils doivent être de valeur supérieure aux précédents.\nLe joueur ayant posé l\'atout le plus élevé, ou à défaut la carte de la couleur demandée la plus élevée, remporte le pli. Il démarre le pli suivant.\nChaque joueur marque $points points par pli remporté.';
+    return '$player choisit une couleur, qui devient l\'atout. Elle l\'emporte sur toutes les autres.\n$player démarre le premier pli, ce qui détermine sa couleur. Si une personne n\'a pas de carte de la couleur du pli, elle doit obligatoirement poser un atout si elle en a. Si d\'autres atouts sont joués durant le pli, ils doivent être de valeur supérieure aux précédents.\nLa personne ayant posé l\'atout le plus élevé, ou à défaut la carte de la couleur demandée la plus élevée, remporte le pli. Elle démarre le pli suivant.\n\nChaque personne marque $points points par pli remporté.';
   }
 
   @override
@@ -738,5 +735,5 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get worstEnnemy => 'Pire ennemi';
+  String get worstEnnemy => 'Pire adversaire';
 }

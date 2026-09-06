@@ -25,7 +25,7 @@ void main() {
     await $.pumpWidget(_createPage($));
 
     expect($.tester.takeException(), isNull);
-    expect($("Créer les joueurs"), findsOneWidget);
+    expect($("Créer les joueurs et joueuses"), findsOneWidget);
     expect($(CreatePlayer), findsNWidgets(nbPlayersByDefault));
     // await checkAccessibility($.tester); not accessible because delete player button is too small. But players can be deleted by clicking on there icon, so it's OK
   });
@@ -65,7 +65,7 @@ void main() {
       }
       expect($(CreatePlayer), findsNWidgets(nbPlayers));
       for (var i = 1; i <= nbPlayers; i++) {
-        expect($("Nom du joueur $i"), findsOneWidget);
+        expect($("Nom J$i"), findsOneWidget);
       }
 
       await _fillPlayerNames($, nbPlayers);

@@ -30,7 +30,7 @@ class CreateGame extends ConsumerWidget {
         onPressed: addPlayer,
         icon: Icon(
           Icons.add,
-          semanticLabel: context.l10n.addItem(context.l10n.players),
+          semanticLabel: context.l10n.addItem(context.l10n.player),
         ),
         iconSize: 40,
       ),
