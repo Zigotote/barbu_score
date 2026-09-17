@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:turn_page_transition/turn_page_transition.dart';
 
+import '../../commons/providers/change_game_settings.dart';
 import '../../commons/providers/log.dart';
 import 'contracts_rules.dart';
 import 'game_presentation.dart';
@@ -37,22 +38,27 @@ class _MyRulesState extends ConsumerState<MyRules> {
 
   @override
   Widget build(BuildContext context) {
-    return TurnPageView.builder(
-      controller: ref.watch(turnPageProvider),
-      itemCount: RulesPageName.values.length,
-      itemBuilder: (context, index) {
-        return switch (RulesPageName.values[index]) {
-          RulesPageName.gamePresentation => GamePresentation(index),
-          RulesPageName.prepareGame => PrepareGameRules(index),
-          RulesPageName.gameRound => GameRoundRules(index),
-          RulesPageName.contractRules => ContractsRules(
-            index,
-            isInGame: widget.startingPage != null,
-          ),
-        };
-      },
-      useOnTap: false,
-      overleafColorBuilder: (_) => Theme.of(context).colorScheme.greyBackground,
+    return PopScope(
+      onPopInvokedWithResult: (_, _) =>
+          ref.read(changeGameSettingsProvider.notifier).saveGameSettings(),
+      child: TurnPageView.builder(
+        controller: ref.watch(turnPageProvider),
+        itemCount: RulesPageName.values.length,
+        itemBuilder: (context, index) {
+          return switch (RulesPageName.values[index]) {
+            RulesPageName.gamePresentation => GamePresentation(index),
+            RulesPageName.prepareGame => PrepareGameRules(index),
+            RulesPageName.gameRound => GameRoundRules(index),
+            RulesPageName.contractRules => ContractsRules(
+              index,
+              isInGame: widget.startingPage != null,
+            ),
+          };
+        },
+        useOnTap: false,
+        overleafColorBuilder: (_) =>
+            Theme.of(context).colorScheme.greyBackground,
+      ),
     );
   }
 }

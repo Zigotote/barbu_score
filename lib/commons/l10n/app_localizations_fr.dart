@@ -146,13 +146,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get changesSaved => 'Modifications sauvegardées';
-
-  @override
-  String get changesSavedDetails =>
-      'Les changements ont été sauvegardés et sont effectifs dès maintenant.';
-
-  @override
   String get close => 'Fermer';
 
   @override

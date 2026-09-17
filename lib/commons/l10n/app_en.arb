@@ -32,8 +32,6 @@
   "cardsOrder": "Aces are the highest cards.",
   "cardsToKeep": "Keep the cards",
   "cardsToKeepForPlayers": "Before playing, you need to keep the highest cards {nbDecks, plural, =1{from a deck} other{from {nbDecks} decks}} of {nbCardsInDeck} cards until you reach the required number. For {nbPlayers}, you therefore only need to keep the following cards: {cards}",
-  "changesSaved": "Changes saved",
-  "changesSavedDetails": "The changes have been saved and are now in effect.",
   "close": "Close",
   "color": "Color",
   "confirmStartGame": "Confirm the creation of a new game? If so, the previous game with {players} will be lost.",

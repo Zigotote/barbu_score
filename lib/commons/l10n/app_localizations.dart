@@ -301,18 +301,6 @@ abstract class AppLocalizations {
   /// **'{card}{nbCards, select, 1{♥} 2{♥♦} 3{♥♦♣} 4{♥♦} 5{♥♦ et un ♣} 6{♥♦♣} 7{♥♦♣ et un ♠} other{}}'**
   String cardToKeepPartially(String nbCards, String card);
 
-  /// No description provided for @changesSaved.
-  ///
-  /// In fr, this message translates to:
-  /// **'Modifications sauvegardées'**
-  String get changesSaved;
-
-  /// No description provided for @changesSavedDetails.
-  ///
-  /// In fr, this message translates to:
-  /// **'Les changements ont été sauvegardés et sont effectifs dès maintenant.'**
-  String get changesSavedDetails;
-
   /// No description provided for @close.
   ///
   /// In fr, this message translates to:

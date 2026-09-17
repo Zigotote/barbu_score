@@ -97,8 +97,6 @@
       }
     }
   },
-  "changesSaved": "Modifications sauvegardées",
-  "changesSavedDetails": "Les changements ont été sauvegardés et sont effectifs dès maintenant.",
   "close": "Fermer",
   "color": "Couleur",
   "confirmResetSettings": "Confirmer la réinitialisation des paramètres\u00A0? Si oui, ils seront restaurés à leur valeur d'origine. Cette action est irréversible.",
