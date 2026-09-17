@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/expandable_card.dart';
+import 'package:barbu_score/commons/widgets/reset_button.dart';
 import 'package:barbu_score/pages/settings/notifiers/change_contracts_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -109,6 +110,17 @@ class _ContractSettingsPageState extends ConsumerState<ContractSettingsPage> {
               children: [
                 Text(context.l10n.contractRules(widget.contract, settings)),
               ],
+            ),
+            SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: ResetButton(
+                onReset: () => ref
+                    .read(
+                      changeContractsSettingsProvider(widget.contract).notifier,
+                    )
+                    .changeContractSettings(widget.contract.defaultSettings),
+              ),
             ),
           ],
         ),
