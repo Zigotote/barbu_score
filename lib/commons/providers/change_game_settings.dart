@@ -26,6 +26,7 @@ class ChangeGameSettingsProvider extends Notifier<GameSettings> {
     if (storage.getGameSettings() != state) {
       final log = ref.read(logProvider);
       ref.read(storageProvider).saveGameSettings(state);
+      ref.invalidate(storageProvider);
       log.info("MyRules: save new game settings $state");
       log.sendAnalyticEvent("modify_game_settings");
     }

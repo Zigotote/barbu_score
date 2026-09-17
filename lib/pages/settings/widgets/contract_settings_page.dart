@@ -79,6 +79,7 @@ class _ContractSettingsPageState extends ConsumerState<ContractSettingsPage> {
         );
         if (storage.getSettings(widget.contract) != newContractSettings) {
           storage.saveSettings(widget.contract, newContractSettings);
+          ref.invalidate(storageProvider);
           log.info(
             "ContractSettingsPage: save new contract settings $newContractSettings",
           );
