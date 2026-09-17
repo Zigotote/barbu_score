@@ -31,9 +31,14 @@ class _NumberInputState extends State<NumberInput> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.value.toString());
-    _controller.addListener(
-      () => widget.onChanged?.call(int.tryParse(_controller.text) ?? 0),
-    );
+  }
+
+  @override
+  void didUpdateWidget(covariant NumberInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_controller.text != widget.value.toString()) {
+      _controller.text = widget.value.toString();
+    }
   }
 
   @override
@@ -49,6 +54,7 @@ class _NumberInputState extends State<NumberInput> {
       child: TextField(
         focusNode: widget.focusNode,
         controller: _controller,
+        onChanged: (value) => widget.onChanged?.call(int.tryParse(value) ?? 0),
         textAlign: TextAlign.end,
         keyboardType: const TextInputType.numberWithOptions(
           signed: true,
