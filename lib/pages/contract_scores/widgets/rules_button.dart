@@ -86,11 +86,17 @@ class RulesButton extends ConsumerWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                          child: Text(
-                            context.l10n.contractRulesTitle(
-                              context.l10n.contractName(contract),
-                            ),
-                            style: Theme.of(context).textTheme.titleLarge,
+                          child: Row(
+                            spacing: 8,
+                            children: [
+                              Icon(Icons.history_edu_outlined),
+                              Text(
+                                context.l10n.contractRulesTitle(
+                                  context.l10n.contractName(contract),
+                                ),
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -98,13 +104,30 @@ class RulesButton extends ConsumerWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      context.l10n.detailedContractRules(
-                        game.currentPlayer.name,
-                        contract,
-                        ref.read(storageProvider),
-                        nbPlayers: game.players.length,
-                      ),
+                    child: Column(
+                      spacing: 16,
+                      children: [
+                        Text(
+                          context.l10n.detailedContractRules(
+                            game.currentPlayer.name,
+                            contract,
+                            ref.read(storageProvider),
+                            nbPlayers: game.players.length,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton.icon(
+                            onPressed: () =>
+                                context.push(contract.settingsRoute),
+                            icon: Icon(Icons.settings),
+                            label: Text(
+                              context.l10n.modifySettings,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
