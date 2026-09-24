@@ -23,7 +23,7 @@ class ActiveContractIndicator extends StatelessWidget {
         color: Theme.of(context).scaffoldBackgroundColor,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         child: isActive
             ? Text("ON", style: TextStyle(color: sucessColor))
             : Text("OFF", style: TextStyle(color: disabledColor)),
