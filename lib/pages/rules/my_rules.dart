@@ -17,6 +17,8 @@ class MyRules extends ConsumerStatefulWidget {
 
   const MyRules({super.key, this.startingPage});
 
+  bool get isInGame => startingPage != null;
+
   @override
   ConsumerState<MyRules> createState() => _MyRulesState();
 }
@@ -46,12 +48,18 @@ class _MyRulesState extends ConsumerState<MyRules> {
         itemCount: RulesPageName.values.length,
         itemBuilder: (context, index) {
           return switch (RulesPageName.values[index]) {
-            RulesPageName.gamePresentation => GamePresentation(index),
-            RulesPageName.prepareGame => PrepareGameRules(index),
+            RulesPageName.gamePresentation => GamePresentation(
+              index,
+              isInGame: widget.isInGame,
+            ),
+            RulesPageName.prepareGame => PrepareGameRules(
+              index,
+              isInGame: widget.isInGame,
+            ),
             RulesPageName.gameRound => GameRoundRules(index),
             RulesPageName.contractRules => ContractsRules(
               index,
-              isInGame: widget.startingPage != null,
+              isInGame: widget.isInGame,
             ),
           };
         },

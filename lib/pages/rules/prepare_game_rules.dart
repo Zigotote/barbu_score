@@ -1,5 +1,6 @@
 import 'package:barbu_score/commons/models/game_settings.dart';
 import 'package:barbu_score/commons/providers/change_game_settings.dart';
+import 'package:barbu_score/commons/providers/play_game.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/my_dropdown.dart';
 import 'package:barbu_score/pages/rules/widgets/settings/game_deck_settings.dart';
@@ -11,10 +12,13 @@ import '../../commons/utils/constants.dart';
 import 'widgets/rules_page.dart';
 
 class PrepareGameRules extends ConsumerStatefulWidget {
+  /// The indicator to know if rules are displayed during a game
+  final bool isInGame;
+
   /// The index of the page in the order of rules pages
   final int pageIndex;
 
-  const PrepareGameRules(this.pageIndex, {super.key});
+  const PrepareGameRules(this.pageIndex, {super.key, this.isInGame = false});
 
   @override
   ConsumerState<PrepareGameRules> createState() => _PrepareGameRulesState();
@@ -22,6 +26,14 @@ class PrepareGameRules extends ConsumerStatefulWidget {
 
 class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
   int nbPlayersExample = 4;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isInGame) {
+      nbPlayersExample = ref.read(playGameProvider).players.length;
+    }
+  }
 
   Widget _buildCardsToKeepText(GameSettings gameSettings) {
     if (gameSettings.discardRandomCards) {
@@ -113,8 +125,7 @@ class _PrepareGameRulesState extends ConsumerState<PrepareGameRules> {
           ),
           const SizedBox(height: 16),
           _buildCardsToKeepText(gameSettings),
-          SizedBox(height: 24),
-          GameDeckSettings(),
+          if (!widget.isInGame) ...[SizedBox(height: 24), GameDeckSettings()],
         ],
       ),
     );

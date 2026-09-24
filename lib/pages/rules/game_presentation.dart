@@ -8,10 +8,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'widgets/rules_page.dart';
 
 class GamePresentation extends ConsumerWidget {
+  /// The indicator to know if rules are displayed during a game
+  final bool isInGame;
+
   /// The index of the page in the order of rules pages
   final int pageIndex;
 
-  const GamePresentation(this.pageIndex, {super.key});
+  const GamePresentation(this.pageIndex, {super.key, this.isInGame = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,8 +35,7 @@ class GamePresentation extends ConsumerWidget {
           MySectionTitle(context.l10n.gamePrinciple),
           const SizedBox(height: 8),
           Text(context.l10n.gamePrincipleDetails),
-          SizedBox(height: 24),
-          GameSettingsWidget(),
+          if (!isInGame) ...[SizedBox(height: 24), GameSettingsWidget()],
         ],
       ),
     );
