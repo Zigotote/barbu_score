@@ -20,6 +20,12 @@ class ContractsRules extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final contracts = ContractsInfo.values.where((contract) {
+      if (isInGame) {
+        return ref.read(changeContractsSettingsProvider(contract)).isActive;
+      }
+      return true;
+    }).toList();
     return RulesPage(
       pageIndex: pageIndex,
       title: context.l10n.contracts,
@@ -28,26 +34,17 @@ class ContractsRules extends ConsumerWidget {
         children: [
           Text(context.l10n.contractsRules),
           SizedBox(height: 8),
-          ...ContractsInfo.values
-              .where((contract) {
-                if (isInGame) {
-                  return ref
-                      .read(changeContractsSettingsProvider(contract))
-                      .isActive;
-                }
-                return true;
-              })
-              .mapIndexed(
-                (index, contract) => ContractDividerWidget(
-                  contract: contract,
-                  previousContractDividerColor: index - 1 >= 0
-                      ? Theme.of(context).colorScheme.convertMyColor(
-                          ContractsInfo.values[index - 1].color,
-                          isBackgroundColor: true,
-                        )
-                      : null,
-                ),
-              ),
+          ...contracts.mapIndexed(
+            (index, contract) => ContractDividerWidget(
+              contract: contract,
+              previousContractDividerColor: index - 1 >= 0
+                  ? Theme.of(context).colorScheme.convertMyColor(
+                      contracts[index - 1].color,
+                      isBackgroundColor: true,
+                    )
+                  : null,
+            ),
+          ),
           Divider(color: Theme.of(context).colorScheme.onSurface),
         ],
       ),
