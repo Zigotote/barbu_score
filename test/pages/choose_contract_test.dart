@@ -102,7 +102,7 @@ void main() {
     patrolWidgetTest("should go to rules page", ($) async {
       await $.pumpWidget(_createPage($));
 
-      await $(Icons.question_mark_outlined).tap();
+      await $(Icons.history_edu_outlined).tap();
       expect($(MyRules), findsOneWidget);
       expect(
         find.textContaining("Le jeu du Barbu comporte les contrats"),

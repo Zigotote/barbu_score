@@ -37,7 +37,7 @@ void main() {
   patrolWidgetTest("should open and close salad rules", ($) async {
     await $.pumpWidget(_createPage($));
 
-    await $.tap($(Icons.question_mark_outlined));
+    await $.tap($(Icons.history_edu_outlined));
     expect($(DraggableScrollableSheet), findsOneWidget);
     expect($("Règles Salade"), findsOneWidget);
 

@@ -113,7 +113,7 @@ class RulesButton extends ConsumerWidget {
           ),
         );
       },
-      icon: Icon(Icons.question_mark_outlined),
+      icon: Icon(Icons.history_edu_outlined),
     );
   }
 }

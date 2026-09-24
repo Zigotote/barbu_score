@@ -35,7 +35,7 @@ class ChooseContract extends ConsumerWidget {
               MyGoRouterState.rulesPage: RulesPageName.contractRules.name,
             },
           ),
-          icon: Icon(Icons.question_mark_outlined),
+          icon: Icon(Icons.history_edu_outlined),
         ),
       ),
       hasBackground: true,
