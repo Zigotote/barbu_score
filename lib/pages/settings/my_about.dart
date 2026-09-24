@@ -1,13 +1,14 @@
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
+import 'package:barbu_score/pages/settings/utils/contact.dart';
 import 'package:barbu_score/theme/my_theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../commons/utils/player_icon_properties.dart';
+import '../../commons/widgets/custom_buttons.dart';
 import '../../commons/widgets/my_appbar.dart';
 import '../../commons/widgets/my_default_page.dart';
 import '../../commons/widgets/player_icon.dart';
-import 'widgets/contact_button.dart';
 
 class MyAbout extends ConsumerWidget {
   const MyAbout({super.key});
@@ -37,7 +38,13 @@ class MyAbout extends ConsumerWidget {
             ],
           ),
           Text(context.l10n.askForFeedback),
-          ContactButton(),
+          ElevatedButtonFullWidth(
+            child: Text(
+              context.l10n.contact,
+              semanticsLabel: context.l10n.contactByMail,
+            ),
+            onPressed: () => chooseContactReason(context, ref),
+          ),
         ],
       ),
     );

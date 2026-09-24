@@ -3,6 +3,7 @@ import 'package:barbu_score/commons/models/contract_settings_models.dart';
 import 'package:barbu_score/commons/providers/storage.dart';
 import 'package:barbu_score/commons/utils/l10n_extensions.dart';
 import 'package:barbu_score/commons/widgets/expandable_card.dart';
+import 'package:barbu_score/pages/settings/utils/contact.dart';
 import 'package:barbu_score/pages/settings/widgets/active_contract_indicator.dart';
 import 'package:barbu_score/pages/settings/widgets/full_game_settings.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,6 @@ import '../../commons/widgets/my_default_page.dart';
 import '../../main.dart';
 import 'notifiers/device_info_provider.dart';
 import 'widgets/app_theme_choice.dart';
-import 'widgets/contact_button.dart';
 import 'widgets/language_choice.dart';
 
 class MySettings extends ConsumerWidget {
@@ -81,7 +81,19 @@ class MySettings extends ConsumerWidget {
                     ],
                   ),
                 ),
-                ContactButton(),
+                TextButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        context.l10n.contact,
+                        semanticsLabel: context.l10n.contactByMail,
+                      ),
+                      Icon(Icons.arrow_forward_ios_outlined),
+                    ],
+                  ),
+                  onPressed: () => chooseContactReason(context, ref),
+                ),
                 TextButton(
                   onPressed: () => InAppReview.instance.openStoreListing(),
                   child: Row(
